@@ -15,8 +15,13 @@
 	</scm>
 
 	<distributionManagement>
+		<repository>
+			<id>jboss-releases</id>
+			<name>JBoss Release Repository</name>
+			<url>scm:svn:https://svn.jboss.org/repos/repository.jboss.org/maven2</url>
+		</repository>
 		<snapshotRepository>
-			<id>snapshots.jboss.org</id>
+			<id>jboss-snapshots</id>
 			<name>JBoss Snapshot Repository</name>
 			<url>dav:https://snapshots.jboss.org/maven2</url>
 		</snapshotRepository>
@@ -24,16 +29,14 @@
 
 	<repositories>
 		<repository>
-			<id>openqa</id>
-			<name>OpenQA Repository</name>
-			<url>http://archiva.openqa.org/repository/releases</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<id>repository.jboss.org</id>
+			<url>http://repository.jboss.org/maven2</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
@@ -57,8 +60,26 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<!-- To allow to deploy releases in SVN -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-scm</artifactId>
+				<version>1.0-beta-6</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-manager-plexus</artifactId>
+				<version>1.0</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.scm</groupId>
+				<artifactId>maven-scm-provider-svnexe</artifactId>
+				<version>1.0</version>
+			</extension>
+		</extensions>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -77,7 +98,7 @@
 			<version>2.4</version>
 		</dependency>
 	</dependencies>
-	
+
 	<profiles>
 		<profile>
 			<id>generate-all-jars</id>
