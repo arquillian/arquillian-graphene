@@ -25,7 +25,7 @@ package org.jboss.test.selenium.waiting;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.jboss.test.selenium.AbstractSeleniumTestCase.format;
+import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 /**
  * <p>

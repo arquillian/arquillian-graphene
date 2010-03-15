@@ -1,5 +1,5 @@
 /*******************************************************************************
- * JBoss, Home of Professional Open Source
+ * JBoss, Home of Professional Open Eventnew Even)( ource
  * Copyright 2009, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
@@ -19,7 +19,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *******************************************************************************/
-
 package org.jboss.test.selenium.dom;
 
 /**
@@ -27,24 +26,40 @@ package org.jboss.test.selenium.dom;
  * @version $Revision$
  */
 public class Event {
-	public static final String ABORT = "abort";
-	public static final String BLUR = "blur";
-	public static final String CHANGE = "change";
-	public static final String CLICK = "click";
-	public static final String ERROR = "error";
-	public static final String FOCUS = "focus";
-	public static final String KEYDOWN = "keydown";
-	public static final String KEYPRESS = "keypress";
-	public static final String KEYUP = "keyup";
-	public static final String LOAD = "load";
-	public static final String MOUSEDOWN = "mousedown";
-	public static final String MOUSEMOVE = "mousemove";
-	public static final String MOUSEOUT = "mouseout";
-	public static final String MOUSEOVER = "mouseover";
-	public static final String MOUSEUP = "mouseup";
-	public static final String RESET = "reset";
-	public static final String RESIZE = "resize";
-	public static final String SELECT = "select";
-	public static final String SUBMIT = "submit";
-	public static final String UNLOAD = "unload";
+
+	private String eventName;
+
+	public Event(String eventName) {
+		this.eventName = eventName;
+	}
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	@Override
+	public String toString() {
+		return eventName;
+	}
+
+	public static final Event ABORT = new Event("abort");
+	public static final Event BLUR = new Event("blur");
+	public static final Event CHANGE = new Event("change");
+	public static final Event CLICK = new Event("click");
+	public static final Event ERROR = new Event("error");
+	public static final Event FOCUS = new Event("focus");
+	public static final Event KEYDOWN = new Event("keydown");
+	public static final Event KEYPRESS = new Event("keypress");
+	public static final Event KEYUP = new Event("keyup");
+	public static final Event LOAD = new Event("load");
+	public static final Event MOUSEDOWN = new Event("mousedown");
+	public static final Event MOUSEMOVE = new Event("mousemove");
+	public static final Event MOUSEOUT = new Event("mouseout");
+	public static final Event MOUSEOVER = new Event("mouseover");
+	public static final Event MOUSEUP = new Event("mouseup");
+	public static final Event RESET = new Event("reset");
+	public static final Event RESIZE = new Event("resize");
+	public static final Event SELECT = new Event("select");
+	public static final Event SUBMIT = new Event("submit");
+	public static final Event UNLOAD = new Event("unload");
 }
