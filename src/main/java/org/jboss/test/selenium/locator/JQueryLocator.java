@@ -25,8 +25,8 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 public class JQueryLocator extends AbstractElementLocator implements IterableLocator, CompoundableLocator<JQueryLocator> {
-	public JQueryLocator(String cssSelector) {
-		super(cssSelector);
+	public JQueryLocator(String jquerySelector) {
+		super(jquerySelector);
 	}
 
 	public LocationStrategy getLocationStrategy() {

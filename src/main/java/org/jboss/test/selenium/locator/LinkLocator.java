@@ -24,8 +24,8 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 public class LinkLocator extends AbstractElementLocator {
-	public LinkLocator(String cssSelector) {
-		super(cssSelector);
+	public LinkLocator(String linkText) {
+		super(linkText);
 	}
 
 	public LocationStrategy getLocationStrategy() {

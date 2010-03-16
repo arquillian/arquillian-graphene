@@ -24,8 +24,8 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 public class IdentifierLocator extends AbstractElementLocator {
-	public IdentifierLocator(String cssSelector) {
-		super(cssSelector);
+	public IdentifierLocator(String idOrName) {
+		super(idOrName);
 	}
 
 	public LocationStrategy getLocationStrategy() {

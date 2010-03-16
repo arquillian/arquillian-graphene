@@ -24,8 +24,8 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 public class DomLocator extends AbstractElementLocator {
-	public DomLocator(String cssSelector) {
-		super(cssSelector);
+	public DomLocator(String javascriptExpression) {
+		super(javascriptExpression);
 	}
 
 	public LocationStrategy getLocationStrategy() {

@@ -25,8 +25,8 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 public class XpathLocator extends AbstractElementLocator implements IterableLocator, CompoundableLocator<XpathLocator> {
-	public XpathLocator(String xpathLocator) {
-		super(xpathLocator);
+	public XpathLocator(String xpath) {
+		super(xpath);
 	}
 
 	public LocationStrategy getLocationStrategy() {

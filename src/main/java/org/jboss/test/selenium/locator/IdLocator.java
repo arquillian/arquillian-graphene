@@ -24,12 +24,11 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 public class IdLocator extends AbstractElementLocator {
-	public IdLocator(String cssSelector) {
-		super(cssSelector);
+	public IdLocator(String id) {
+		super(id);
 	}
 
 	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.CSS;
-		
+		return LocationStrategy.ID;
 	}
 }
