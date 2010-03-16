@@ -25,8 +25,8 @@ import java.net.URL;
 
 
 
-public class ExtendedAjaxAwareTypedSelenium extends ExtendedTypedSelenium {
-	public ExtendedAjaxAwareTypedSelenium(String serverHost, int serverPort, String browserStartCommand, URL browserURL) {
+public class AjaxSelenium extends ExtendedTypedSelenium {
+	public AjaxSelenium(String serverHost, int serverPort, String browserStartCommand, URL browserURL) {
 		selenium = new ExtendedAjaxAwareSelenium(serverHost, serverPort, browserStartCommand, browserURL);
 	}
 
