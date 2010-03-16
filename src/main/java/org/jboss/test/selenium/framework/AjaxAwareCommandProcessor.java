@@ -46,9 +46,10 @@ public class AjaxAwareCommandProcessor extends HttpCommandProcessor {
 	private static String[] PERMISSION_DENIED = new String[] {
 			"ERROR: Threw an exception: Error executing strategy function jquery: Permission denied",
 			"ERROR: Threw an exception: Permission denied",
-			"ERROR: Threw an exception: Object doesn't support this property or method",
-			"ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error details from the log window.  The error message is: Permission denied",
-			"ERROR: Threw an exception: null property value" };
+//			"ERROR: Threw an exception: Object doesn't support this property or method",
+//			"ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error details from the log window.  The error message is: Permission denied",
+//			"ERROR: Threw an exception: null property value",
+			};
 
 	private <T> T doAjax(final AjaxCommand<T> ajaxCommand) {
 		final AssertionError fail = new AssertionError("Fails with Permission denied when trying to execute jQuery");
