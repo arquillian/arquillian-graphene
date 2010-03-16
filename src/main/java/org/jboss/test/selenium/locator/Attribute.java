@@ -21,12 +21,20 @@
  */
 package org.jboss.test.selenium.locator;
 
-public interface Attribute {
-	public String getAttributeName();
+public class Attribute {
+	private String attributeName;
 
-	public Attribute STYLE = new Attribute() {
-		public String getAttributeName() {
-			return "style";
-		}
-	};
+	public Attribute(String attributeName) {
+		super();
+		this.attributeName = attributeName;
+	}
+
+	public String getAttributeName() {
+		return attributeName;
+	}
+
+	public Attribute STYLE = new Attribute("style");
+	public Attribute CLASS = new Attribute("class");
+	public Attribute SRC = new Attribute("src");
+	public Attribute HREF = new Attribute("href");
 }
