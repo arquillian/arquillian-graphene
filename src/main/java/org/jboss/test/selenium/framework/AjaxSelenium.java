@@ -22,17 +22,33 @@
 package org.jboss.test.selenium.framework;
 
 import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.jboss.test.selenium.framework.internal.Contextual;
 
 
 
 public class AjaxSelenium extends ExtendedTypedSelenium {
+	
+	private static AtomicReference<AjaxSelenium> reference = new AtomicReference<AjaxSelenium>(null);
+	
 	public AjaxSelenium(String serverHost, int serverPort, String browserStartCommand, URL browserURL) {
 		selenium = new ExtendedAjaxAwareSelenium(serverHost, serverPort, browserStartCommand, browserURL);
+		setCurrentContext(this);
 	}
 
 	private class ExtendedAjaxAwareSelenium extends ExtendedSelenium {
 		public ExtendedAjaxAwareSelenium(String serverHost, int serverPort, String browserStartCommand, URL browserURL) {
 			super(new AjaxAwareCommandProcessor(serverHost, serverPort, browserStartCommand, browserURL.toString()));
 		}
+	}
+	
+	// TODO not safe for multi-instance environment
+	private static void setCurrentContext(AjaxSelenium selenium) {
+		reference.set(selenium);
+	}
+	
+	public static AjaxSelenium getCurrentContext(Contextual... inContext) {
+		return reference.get();
 	}
 }

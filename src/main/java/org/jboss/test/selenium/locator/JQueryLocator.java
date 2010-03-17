@@ -21,6 +21,8 @@
  */
 package org.jboss.test.selenium.locator;
 
+import org.jboss.test.selenium.locator.iteration.ChildElementList;
+import org.jboss.test.selenium.locator.iteration.ElementOcurrenceList;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
@@ -39,6 +41,14 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
 
 	public JQueryLocator getNthOccurence(int index) {
 		return new JQueryLocator(format("{0}:eq({1})", getLocator(), index));
+	}
+	
+	public Iterable<JQueryLocator> iterateChilds() {
+		return new ChildElementList<JQueryLocator>(this);
+	}
+	
+	public Iterable<JQueryLocator> iterateOccurences() {
+		return new ElementOcurrenceList<JQueryLocator>(this);
 	}
 
 	public JQueryLocator getChild(JQueryLocator elementLocator) {

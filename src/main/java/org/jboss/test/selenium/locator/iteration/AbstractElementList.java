@@ -24,17 +24,16 @@ package org.jboss.test.selenium.locator.iteration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.jboss.test.selenium.framework.TypedSelenium;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.IterableLocator;
 
-public abstract class AbstractElementList<T extends IterableLocator> implements Iterable<T> {
+public abstract class AbstractElementList<T extends IterableLocator> implements Contextual, Iterable<T> {
 	
-	TypedSelenium typedSelenium;
 	IterableLocator iterableLocator;
 	
-	public AbstractElementList(TypedSelenium typedSelenium, T iterableLocator) {
+	public AbstractElementList(T iterableLocator) {
 		super();
-		this.typedSelenium = typedSelenium;
 		this.iterableLocator = iterableLocator;
 	}
 
@@ -53,7 +52,7 @@ public abstract class AbstractElementList<T extends IterableLocator> implements 
 		}
 		
 		private final void recount() {
-			count = typedSelenium.getCount(iterableLocator);
+			count = AjaxSelenium.getCurrentContext(AbstractElementList.this, iterableLocator).getCount(iterableLocator);
 		}
 
 		public boolean hasNext() {

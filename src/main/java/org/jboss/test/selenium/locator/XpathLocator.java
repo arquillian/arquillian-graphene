@@ -21,6 +21,8 @@
  */
 package org.jboss.test.selenium.locator;
 
+import org.jboss.test.selenium.locator.iteration.ChildElementList;
+import org.jboss.test.selenium.locator.iteration.ElementOcurrenceList;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
@@ -40,7 +42,15 @@ public class XpathLocator extends AbstractElementLocator implements IterableLoca
 	public XpathLocator getNthOccurence(int index) {
 		return new XpathLocator(format("getLocator[{0}]", index));
 	}
+	
+	public Iterable<XpathLocator> iterateChilds() {
+		return new ChildElementList<XpathLocator>(this);
+	}
 
+	public Iterable<XpathLocator> iterateOccurences() {
+		return new ElementOcurrenceList<XpathLocator>(this);
+	}
+	
 	public XpathLocator getChild(XpathLocator elementLocator) {
 		return new XpathLocator(format("{0}/{1}", getLocator(), elementLocator.getLocator()));
 	}

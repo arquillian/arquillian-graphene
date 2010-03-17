@@ -21,9 +21,10 @@
  */
 package org.jboss.test.selenium.locator;
 
+import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
-public interface Locator {
+public interface Locator extends Contextual {
 	public LocationStrategy getLocationStrategy();
 	public String getAsString();
 }
