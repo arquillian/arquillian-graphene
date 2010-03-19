@@ -21,10 +21,11 @@
  */ 
 package org.jboss.test.selenium.actions;
 
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.geometry.Point;
+import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Wait;
 import org.jboss.test.selenium.waiting.Wait.Waiting;
-
-import com.thoughtworks.selenium.Selenium;
 
 /**
  * Provides item dragging capability to Selenium tests.
@@ -44,9 +45,9 @@ import com.thoughtworks.selenium.Selenium;
 public class Drag {
     // specifies phase in which is dragging state
     private int phase;
-    private Selenium selenium;
-    private String item;
-    private String target;
+    private AjaxSelenium selenium;
+    private ElementLocator itemToDrag;
+    private ElementLocator dropTarget;
     private int x;
     private int y;
     private final int STEPS = 5;
@@ -56,18 +57,18 @@ public class Drag {
     /**
      * @param selenium
      *            initialized and started Selenium instance
-     * @param item
+     * @param itemToDrag
      *            item to drag
-     * @param target
+     * @param dropTarget
      *            target of item dragging
      */
-    public Drag(Selenium selenium, String item, String target) {
+    public Drag(AjaxSelenium selenium, ElementLocator itemToDrag, ElementLocator dropTarget) {
         this.phase = 0;
         this.selenium = selenium;
-        this.item = item;
-        this.target = target;
-        x = selenium.getElementPositionLeft(target).intValue() - selenium.getElementPositionLeft(item).intValue();
-        y = selenium.getElementPositionTop(target).intValue() - selenium.getElementPositionTop(item).intValue();
+        this.itemToDrag = itemToDrag;
+        this.dropTarget = dropTarget;
+        x = selenium.getElementPositionLeft(dropTarget) - selenium.getElementPositionLeft(itemToDrag);
+        y = selenium.getElementPositionTop(dropTarget) - selenium.getElementPositionTop(itemToDrag);
     }
 
     /**
@@ -136,29 +137,33 @@ public class Drag {
      * phase.
      */
     private void process(int request) {
+        
         if (request < phase) {
             throw new RuntimeException();
         }
 
+        Point point;
+        
         switch (phase) {
         case 0: // START
 
-            selenium.mouseDown(item);
-            String moveCoords = coords((x < 0) ? FIRST_STEP : -FIRST_STEP, (y < 0) ? FIRST_STEP : -FIRST_STEP);
-            selenium.mouseMoveAt(item, moveCoords);
+            selenium.mouseDown(itemToDrag);
+            point = new Point((x < 0) ? FIRST_STEP : -FIRST_STEP, (y < 0) ? FIRST_STEP : -FIRST_STEP);
+            selenium.mouseMoveAt(itemToDrag, point);
 
             if (request < ++phase)
                 break;
         case 1: // MOUSE OUT
 
-            selenium.mouseOut(item);
+            selenium.mouseOut(itemToDrag);
 
             if (request < ++phase)
                 break;
         case 2: // MOVE
 
             for (int i = 0; i < STEPS; i++) {
-                selenium.mouseMoveAt(item, coords(x * i / STEPS, y * i / STEPS));
+                point = new Point(x * i / STEPS, y * i / STEPS);
+                selenium.mouseMoveAt(itemToDrag, point);
                 wait.waitForTimeout();
             }
 
@@ -166,25 +171,18 @@ public class Drag {
                 break;
         case 3: // ENTER
 
-            selenium.mouseMoveAt(item, coords(x, y));
-            selenium.mouseOver(target);
+            point = new Point(x,y);
+            selenium.mouseMoveAt(itemToDrag, point);
+            selenium.mouseOver(dropTarget);
 
             if (request < ++phase)
                 break;
         case 4: // DROP
 
-            selenium.mouseUp(target);
+            selenium.mouseUp(dropTarget);
 
             if (request < ++phase)
                 break;
         }
     }
-
-    /**
-     * Returns string with given coordinates by pattern "x,y" (e.g. "-30,100").
-     */
-    private String coords(int x, int y) {
-        return String.format("%d,%d", x, y);
-    }
-
 }
