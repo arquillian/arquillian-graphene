@@ -29,7 +29,7 @@ package org.jboss.test.selenium.waiting;
  * @version $Revision$
  * @param <T> type of retrieved value
  */
-public interface Retrieve<T> {
+public interface Retriever<T> {
 	/**
 	 * Override with implementation of retrieving value from source.
 	 * 

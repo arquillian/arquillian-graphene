@@ -30,7 +30,7 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
-import org.jboss.test.selenium.waiting.ajax.JavaScriptRetrieve;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
 
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
@@ -244,7 +244,7 @@ public class Wait {
 	 * @param retrieve
 	 *            implementation of retrieving actual value
 	 */
-	public static <T> void waitForChange(T oldValue, Retrieve<T> retrieve) {
+	public static <T> void waitForChange(T oldValue, Retriever<T> retrieve) {
 		getDefault().waitForChangeAndReturn(oldValue, retrieve);
 	}
 	
@@ -260,7 +260,7 @@ public class Wait {
 	 *            implementation of retrieving actual value
 	 * @return new retrieved value
 	 */
-	public static <T> T waitForChangeAndReturn(T oldValue, Retrieve<T> retrieve) {
+	public static <T> T waitForChangeAndReturn(T oldValue, Retriever<T> retrieve) {
 		return getDefault().waitForChangeAndReturn(oldValue, retrieve);
 	}
 
@@ -566,7 +566,7 @@ public class Wait {
 		 * @param retrieve
 		 *            implementation of retrieving actual value
 		 */
-		public <T> void waitForChange(T oldValue, Retrieve<T> retrieve) {
+		public <T> void waitForChange(T oldValue, Retriever<T> retrieve) {
 			waitForChangeAndReturn(oldValue, retrieve);
 		}
 		
@@ -582,7 +582,7 @@ public class Wait {
 		 *            implementation of retrieving actual value
 		 * @return new retrieved value
 		 */
-		public <T> T waitForChangeAndReturn(final T oldValue, final Retrieve<T> retrieve) {
+		public <T> T waitForChangeAndReturn(final T oldValue, final Retriever<T> retrieve) {
 			final Vector<T> vector = new Vector<T>(1);
 
 			this.until(new Condition() {
@@ -598,12 +598,12 @@ public class Wait {
 			return vector.get(0);
 		}
 		
-		public <T> void waitForChange(T oldValue, JavaScriptRetrieve<T> retrieve) {
+		public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve) {
             JavaScript waitCondition = new JavaScript(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve().getJavaScript(), oldValue));
             getSelenium().waitForCondition(waitCondition, timeout);
         }
 
-        public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetrieve<T> retrieve) {
+        public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retrieve) {
             final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
             JavaScript waitingRetriever = new JavaScript(format("selenium.waitForCondition({0} != '{1}'); {0}", retrieve
                 .getJavaScriptRetrieve().getJavaScript(), oldValueString));

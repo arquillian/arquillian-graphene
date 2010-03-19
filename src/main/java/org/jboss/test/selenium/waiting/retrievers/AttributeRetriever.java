@@ -26,13 +26,13 @@ import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.AttributeLocator;
-import org.jboss.test.selenium.waiting.Retrieve;
+import org.jboss.test.selenium.waiting.Retriever;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
 import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
-public class AttributeRetriever implements Retrieve<String>, Contextual {
+public class AttributeRetriever implements Retriever<String>, Contextual {
 	AjaxSelenium selenium;
 	AttributeLocator attributeLocator;
 

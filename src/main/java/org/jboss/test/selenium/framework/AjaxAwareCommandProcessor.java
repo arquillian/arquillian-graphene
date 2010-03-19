@@ -24,7 +24,7 @@ package org.jboss.test.selenium.framework;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.jboss.test.selenium.waiting.Retrieve;
+import org.jboss.test.selenium.waiting.Retriever;
 import org.jboss.test.selenium.waiting.Wait;
 
 import com.thoughtworks.selenium.HttpCommandProcessor;
@@ -56,7 +56,7 @@ public class AjaxAwareCommandProcessor extends HttpCommandProcessor {
 
 		final T start = null;
 		return Wait.noDelay().timeout(Wait.DEFAULT_TIMEOUT).interval(1000).failWith(fail).waitForChangeAndReturn(start,
-				new Retrieve<T>() {
+				new Retriever<T>() {
 					boolean exceptionLogged = false;
 
 					public T retrieve() {

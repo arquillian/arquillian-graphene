@@ -24,7 +24,7 @@ package org.jboss.test.selenium.waiting.ajax;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
 
-public interface JavaScriptRetrieve<T> {
+public interface JavaScriptRetriever<T> {
 
     JavaScript getJavaScriptRetrieve();
     

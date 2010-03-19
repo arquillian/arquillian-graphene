@@ -21,7 +21,7 @@ public interface SeleniumWaiting {
      * @param retrieve
      *            implementation of retrieving actual value
      */
-    public abstract <T> void waitForChange(T oldValue, Retrieve<T> retrieve);
+    public abstract <T> void waitForChange(T oldValue, Retriever<T> retrieve);
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other
@@ -35,6 +35,6 @@ public interface SeleniumWaiting {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    public abstract <T> T waitForChangeAndReturn(final T oldValue, final Retrieve<T> retrieve);
+    public abstract <T> T waitForChangeAndReturn(final T oldValue, final Retriever<T> retrieve);
 
 }

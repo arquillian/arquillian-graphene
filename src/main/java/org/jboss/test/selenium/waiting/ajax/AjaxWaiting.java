@@ -21,7 +21,7 @@ public interface AjaxWaiting {
      * @param retrieve
      *            implementation of retrieving actual value
      */
-    public abstract <T> void waitForChange(T oldValue, JavaScriptRetrieve<T> retrieve);
+    public abstract <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve);
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other
@@ -35,6 +35,6 @@ public interface AjaxWaiting {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    public abstract <T> T waitForChangeAndReturn(final T oldValue, final JavaScriptRetrieve<T> retrieve);
+    public abstract <T> T waitForChangeAndReturn(final T oldValue, final JavaScriptRetriever<T> retrieve);
 
 }
