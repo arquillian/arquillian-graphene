@@ -19,25 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium;
+package org.jboss.test.selenium.samples;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.waiting.SeleniumWaiting;
-import org.jboss.test.selenium.waiting.Wait;
-import org.jboss.test.selenium.waiting.ajax.*;
-import org.jboss.test.selenium.waiting.conditions.*;
-import org.jboss.test.selenium.waiting.retrievers.*;
+import org.jboss.test.selenium.AbstractTestCase;
+import org.jboss.test.selenium.locator.*;
+import org.jboss.test.selenium.waiting.conditions.TextEquals;
 
-public abstract class AbstractTestCase {
-    
-    protected AjaxSelenium selenium;
+public class WaitingSample extends AbstractTestCase {
 
-    protected ElementPresent conditionElementPresent = ElementPresent.getInstance();
-    protected TextEquals conditionTextEquals = TextEquals.getInstance();
+    final ElementLocator BUTTON_INCREMENT = new JQueryLocator(":button");
+    final ElementLocator TEXT_COUNT = new IdLocator("#count");
 
-    protected AttributeRetriever retrieverAttribute = AttributeRetriever.getInstance();
-    protected TextRetriever retrieverText = TextRetriever.getInstance();
+    final TextEquals conditionTextCountEquals = conditionTextEquals.locator(TEXT_COUNT);
 
-    protected SeleniumWaiting waitModelUpdate = Wait.interval(500).timeout(30000);
-    protected AjaxWaiting waitGuiInteraction = Wait.interval(100).timeout(5000);
+    void usage() {
+        assert "0".equals(selenium.getText(TEXT_COUNT));
+
+        selenium.click(BUTTON_INCREMENT);
+
+        waitGuiInteraction.until(conditionTextCountEquals.text("1"));
+
+        selenium.click(BUTTON_INCREMENT);
+
+        waitGuiInteraction.until(conditionTextCountEquals.text("2"));
+    }
 }

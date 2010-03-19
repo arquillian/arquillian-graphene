@@ -19,25 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium;
+package org.jboss.test.selenium.samples;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.waiting.SeleniumWaiting;
-import org.jboss.test.selenium.waiting.Wait;
-import org.jboss.test.selenium.waiting.ajax.*;
-import org.jboss.test.selenium.waiting.conditions.*;
-import org.jboss.test.selenium.waiting.retrievers.*;
+import org.jboss.test.selenium.AbstractTestCase;
+import org.jboss.test.selenium.locator.JQueryLocator;
 
-public abstract class AbstractTestCase {
+public class IterationAndCompositionSample extends AbstractTestCase {
     
-    protected AjaxSelenium selenium;
-
-    protected ElementPresent conditionElementPresent = ElementPresent.getInstance();
-    protected TextEquals conditionTextEquals = TextEquals.getInstance();
-
-    protected AttributeRetriever retrieverAttribute = AttributeRetriever.getInstance();
-    protected TextRetriever retrieverText = TextRetriever.getInstance();
-
-    protected SeleniumWaiting waitModelUpdate = Wait.interval(500).timeout(30000);
-    protected AjaxWaiting waitGuiInteraction = Wait.interval(100).timeout(5000);
+    final JQueryLocator LOC_TABLE = new JQueryLocator("#mytable");
+    final JQueryLocator LOC_TABLE_ROW = new JQueryLocator("tr");
+    final JQueryLocator LOC_COLUMN_2 = new JQueryLocator("td:nth-child(2)"); 
+    final JQueryLocator LOC_LINK = LOC_COLUMN_2.getChild(new JQueryLocator("span a"));
+    
+    
+    void usage() {
+        final JQueryLocator rows = LOC_TABLE.getChild(LOC_TABLE_ROW);
+        
+        for (JQueryLocator row : rows.iterateChilds()) {
+            final JQueryLocator column2 = row.getDescendant(LOC_LINK);
+            
+            String text = selenium.getText(column2);
+            
+            System.out.println(text);
+        }
+    }
 }
