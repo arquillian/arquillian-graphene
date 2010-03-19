@@ -22,32 +22,34 @@
 package org.jboss.test.selenium.waiting.retrievers;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Retrieve;
 
-import com.thoughtworks.selenium.Selenium;
-
 public class TextRetriever implements Retrieve<String> {
-	Selenium selenium;
-	String locator;
+	AjaxSelenium selenium;
+	ElementLocator elementLocator;
 	String text;
 
 	public String retrieve() {
-		Validate.notNull(locator);
+		Validate.notNull(elementLocator);
 		Validate.notNull(text);
 		
-		return selenium.getText(locator);
+		return selenium.getText(elementLocator);
 	}
 	
-	protected TextRetriever(Selenium selenium) {
-		Validate.notNull(selenium);
-		this.selenium = selenium;
+	protected TextRetriever() {
+	}
+	
+	public static TextRetriever getInstance() {
+	    return new TextRetriever();
 	}
 
-	public TextRetriever locator(String locator) {
-		Validate.notNull(locator);
+	public TextRetriever locator(ElementLocator elementLocator) {
+		Validate.notNull(elementLocator);
 
 		TextRetriever copy = copy();
-		copy.locator = locator;
+		copy.elementLocator = elementLocator;
 
 		return copy;
 	}
@@ -62,8 +64,8 @@ public class TextRetriever implements Retrieve<String> {
 	}
 
 	private TextRetriever copy() {
-		TextRetriever copy = new TextRetriever(this.selenium);
-		copy.locator = locator;
+		TextRetriever copy = new TextRetriever();
+		copy.elementLocator = elementLocator;
 		copy.text = text;
 		return copy;
 	}

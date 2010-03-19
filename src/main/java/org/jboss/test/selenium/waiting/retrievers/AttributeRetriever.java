@@ -22,13 +22,14 @@
 package org.jboss.test.selenium.waiting.retrievers;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.internal.Contextual;
+import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.waiting.Retrieve;
 
-import com.thoughtworks.selenium.Selenium;
-
-public class AttributeRetriever implements Retrieve<String> {
-	Selenium selenium;
-	String attributeLocator;
+public class AttributeRetriever implements Retrieve<String>, Contextual {
+	AjaxSelenium selenium;
+	AttributeLocator attributeLocator;
 	String text;
 
 	public String retrieve() {
@@ -38,12 +39,14 @@ public class AttributeRetriever implements Retrieve<String> {
 		return selenium.getAttribute(attributeLocator);
 	}
 	
-	protected AttributeRetriever(Selenium selenium) {
-		Validate.notNull(selenium);
-		this.selenium = selenium;
+	protected AttributeRetriever() {
 	}
+	
+	public static AttributeRetriever getInstance() {
+        return new AttributeRetriever();
+    }
 
-	public AttributeRetriever attributeLocator(String attributeLocator) {
+	public AttributeRetriever attributeLocator(AttributeLocator attributeLocator) {
 		Validate.notNull(attributeLocator);
 
 		AttributeRetriever copy = copy();
@@ -62,7 +65,7 @@ public class AttributeRetriever implements Retrieve<String> {
 	}
 
 	private AttributeRetriever copy() {
-		AttributeRetriever copy = new AttributeRetriever(this.selenium);
+		AttributeRetriever copy = new AttributeRetriever();
 		copy.attributeLocator = attributeLocator;
 		copy.text = text;
 		return copy;
