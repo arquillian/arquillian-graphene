@@ -22,32 +22,35 @@
 package org.jboss.test.selenium.waiting.conditions;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.internal.Contextual;
+import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Condition;
 
-import com.thoughtworks.selenium.Selenium;
-
-public class TextEquals implements Condition {
-	Selenium selenium;
-	String locator;
+public class TextEquals implements Condition, Contextual {
+	AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
+	ElementLocator elementLocator;
 	String text;
 
 	public boolean isTrue() {
-		Validate.notNull(locator);
+		Validate.notNull(elementLocator);
 		Validate.notNull(text);
 		
-		return selenium.getText(locator).equals(text);
+		return selenium.getText(elementLocator).equals(text);
 	}
 
-	protected TextEquals(Selenium selenium) {
-		Validate.notNull(selenium);
-		this.selenium = selenium;
+	protected TextEquals() {
 	}
+	
+	public static IsElementPresent getInstance() {
+        return new IsElementPresent();
+    }
 
-	public TextEquals locator(String locator) {
-		Validate.notNull(locator);
+	public TextEquals locator(ElementLocator elementLocator) {
+		Validate.notNull(elementLocator);
 
 		TextEquals copy = copy();
-		copy.locator = locator;
+		copy.elementLocator = elementLocator;
 
 		return copy;
 	}
@@ -62,8 +65,8 @@ public class TextEquals implements Condition {
 	}
 
 	private TextEquals copy() {
-		TextEquals copy = new TextEquals(this.selenium);
-		copy.locator = locator;
+		TextEquals copy = new TextEquals();
+		copy.elementLocator = elementLocator;
 		copy.text = text;
 		return copy;
 	}
