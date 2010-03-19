@@ -50,8 +50,8 @@ public class TextEquals implements Condition, JavaScriptCondition, Contextual {
 	protected TextEquals() {
 	}
 	
-	public static IsElementPresent getInstance() {
-        return new IsElementPresent();
+	public static TextEquals getInstance() {
+        return new TextEquals();
     }
 
 	public TextEquals locator(ElementLocator elementLocator) {
