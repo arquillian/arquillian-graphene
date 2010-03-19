@@ -24,6 +24,7 @@ package org.jboss.test.selenium.waiting.retrievers;
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Retriever;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
@@ -32,8 +33,8 @@ import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
-public class TextRetriever implements Retriever<String>, JavaScriptRetriever<String> {
-	AjaxSelenium selenium;
+public class TextRetriever implements Retriever<String>, JavaScriptRetriever<String>, Contextual {
+	AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
 	ElementLocator elementLocator;
 
 	public String retrieve() {

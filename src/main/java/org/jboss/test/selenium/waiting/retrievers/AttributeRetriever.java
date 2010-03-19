@@ -33,7 +33,7 @@ import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 public class AttributeRetriever implements Retriever<String>, Contextual {
-	AjaxSelenium selenium;
+	AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
 	AttributeLocator attributeLocator;
 
 	public String retrieve() {
