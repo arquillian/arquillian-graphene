@@ -22,22 +22,29 @@
 package org.jboss.test.selenium.waiting.retrievers;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.waiting.Retrieve;
+import org.jboss.test.selenium.waiting.conversion.Convertor;
+import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
+
+import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 public class AttributeRetriever implements Retrieve<String>, Contextual {
 	AjaxSelenium selenium;
 	AttributeLocator attributeLocator;
-	String text;
 
 	public String retrieve() {
 		Validate.notNull(attributeLocator);
-		Validate.notNull(text);
 		
 		return selenium.getAttribute(attributeLocator);
 	}
+	
+    public JavaScript getJavaScriptRetrieve() {
+        return new JavaScript(format("selenium.getAttribute('{0}')", attributeLocator.getAsString()));
+    }
 	
 	protected AttributeRetriever() {
 	}
@@ -59,7 +66,6 @@ public class AttributeRetriever implements Retrieve<String>, Contextual {
 		Validate.notNull(text);
 
 		AttributeRetriever copy = copy();
-		copy.text = text;
 
 		return copy;
 	}
@@ -67,7 +73,10 @@ public class AttributeRetriever implements Retrieve<String>, Contextual {
 	private AttributeRetriever copy() {
 		AttributeRetriever copy = new AttributeRetriever();
 		copy.attributeLocator = attributeLocator;
-		copy.text = text;
 		return copy;
 	}
+	
+	public Convertor<String, String> getConvertor() {
+        return new PassOnConvertor<String>();
+    }
 }

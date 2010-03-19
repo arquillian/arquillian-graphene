@@ -27,7 +27,8 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Condition;
-import org.jboss.test.selenium.waiting.JavaScriptCondition;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
+
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 public class IsElementPresent implements Condition, JavaScriptCondition, Contextual {

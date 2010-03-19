@@ -22,21 +22,37 @@
 package org.jboss.test.selenium.waiting.retrievers;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Retrieve;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptRetrieve;
+import org.jboss.test.selenium.waiting.conversion.Convertor;
+import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 
-public class TextRetriever implements Retrieve<String> {
+import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+
+public class TextRetriever implements Retrieve<String>, JavaScriptRetrieve<String> {
 	AjaxSelenium selenium;
 	ElementLocator elementLocator;
-	String text;
 
 	public String retrieve() {
 		Validate.notNull(elementLocator);
-		Validate.notNull(text);
 		
 		return selenium.getText(elementLocator);
 	}
+	
+	public String convertToJavaScript(String oldValue) {
+	    return oldValue;
+    }
+
+    public String convertToResult(String retrieved) {
+        return retrieved;
+    }
+
+    public JavaScript getJavaScriptRetrieve() {
+        return new JavaScript(format("selenium.getText('{0}')", elementLocator.getAsString()));
+    }
 	
 	protected TextRetriever() {
 	}
@@ -54,19 +70,13 @@ public class TextRetriever implements Retrieve<String> {
 		return copy;
 	}
 
-	public TextRetriever text(String text) {
-		Validate.notNull(text);
-
-		TextRetriever copy = copy();
-		copy.text = text;
-
-		return copy;
-	}
-
 	private TextRetriever copy() {
 		TextRetriever copy = new TextRetriever();
 		copy.elementLocator = elementLocator;
-		copy.text = text;
 		return copy;
 	}
+
+    public Convertor<String, String> getConvertor() {
+        return new PassOnConvertor<String>();
+    }
 }

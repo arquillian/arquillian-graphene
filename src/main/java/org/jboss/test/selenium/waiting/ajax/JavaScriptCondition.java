@@ -1,4 +1,4 @@
-package org.jboss.test.selenium.waiting;
+package org.jboss.test.selenium.waiting.ajax;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
 

@@ -25,6 +25,13 @@ package org.jboss.test.selenium.waiting;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.internal.Contextual;
+import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptRetrieve;
+
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
 /**
@@ -285,7 +292,7 @@ public class Wait {
 	 * 
 	 * Implementation of waiting for satisfaction of condition.
 	 */
-	public static class Waiting {
+	public static class Waiting implements SeleniumWaiting, AjaxWaiting, Contextual {
 		/**
 		 * Interval between tries to test condition for satisfaction
 		 */
@@ -532,6 +539,10 @@ public class Wait {
 			}
 			fail();
 		}
+		
+		public void until(JavaScriptCondition condition) {
+            getSelenium().waitForCondition(condition.getJavaScriptCondition(), timeout);
+        }
 
 		/**
 		 * Waits for predefined amount of time.
@@ -586,6 +597,19 @@ public class Wait {
 
 			return vector.get(0);
 		}
+		
+		public <T> void waitForChange(T oldValue, JavaScriptRetrieve<T> retrieve) {
+            JavaScript waitCondition = new JavaScript(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve().getJavaScript(), oldValue));
+            getSelenium().waitForCondition(waitCondition, timeout);
+        }
+
+        public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetrieve<T> retrieve) {
+            final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
+            JavaScript waitingRetriever = new JavaScript(format("selenium.waitForCondition({0} != '{1}'); {0}", retrieve
+                .getJavaScriptRetrieve().getJavaScript(), oldValueString));
+            String retrieved = getSelenium().getEval(waitingRetriever);
+            return retrieve.getConvertor().backwardConversion(retrieved);
+        }
 
 		/**
 		 * Tries to fail by throwing 'failure' throwable.
@@ -615,5 +639,9 @@ public class Wait {
 			copy.isDelayed = this.isDelayed;
 			return copy;
 		}
+        
+        private AjaxSelenium getSelenium() {
+            return AjaxSelenium.getCurrentContext(this);
+        }
 	}
 }
