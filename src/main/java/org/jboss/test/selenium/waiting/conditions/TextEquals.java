@@ -22,12 +22,15 @@
 package org.jboss.test.selenium.waiting.conditions;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Condition;
+import org.jboss.test.selenium.waiting.JavaScriptCondition;
+import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
-public class TextEquals implements Condition, Contextual {
+public class TextEquals implements Condition, JavaScriptCondition, Contextual {
 	AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
 	ElementLocator elementLocator;
 	String text;
@@ -38,6 +41,10 @@ public class TextEquals implements Condition, Contextual {
 		
 		return selenium.getText(elementLocator).equals(text);
 	}
+	
+	public JavaScript getJavaScriptCondition() {
+        return new JavaScript(format("selenium.getText('{0}') == '{1}'", elementLocator.getAsString(), text));
+    }
 
 	protected TextEquals() {
 	}
