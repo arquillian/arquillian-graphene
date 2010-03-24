@@ -28,9 +28,9 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.IterableLocator;
 
-public abstract class AbstractElementList<T extends IterableLocator> implements Contextual, Iterable<T> {
+public abstract class AbstractElementList<T extends IterableLocator<T>> implements Contextual, Iterable<T> {
 	
-	IterableLocator iterableLocator;
+	T iterableLocator;
 	
 	public AbstractElementList(T iterableLocator) {
 		super();

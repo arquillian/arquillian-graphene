@@ -26,36 +26,43 @@ import org.jboss.test.selenium.locator.iteration.ElementOcurrenceList;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
-public class JQueryLocator extends AbstractElementLocator implements IterableLocator, CompoundableLocator<JQueryLocator> {
-	public JQueryLocator(String jquerySelector) {
-		super(jquerySelector);
-	}
+public class JQueryLocator extends AbstractElementLocator implements IterableLocator<JQueryLocator>,
+    CompoundableLocator<JQueryLocator> {
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.JQUERY;
-	}
+    public JQueryLocator(String jquerySelector) {
+        super(jquerySelector);
+    }
 
-	public JQueryLocator getNthChildElement(int index) {
-		return new JQueryLocator(format("{0}:nth-child({1})", getLocator(), index + 1));
-	}
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.JQUERY;
+    }
 
-	public JQueryLocator getNthOccurence(int index) {
-		return new JQueryLocator(format("{0}:eq({1})", getLocator(), index));
-	}
-	
-	public Iterable<JQueryLocator> iterateChilds() {
-		return new ChildElementList<JQueryLocator>(this);
-	}
-	
-	public Iterable<JQueryLocator> iterateOccurences() {
-		return new ElementOcurrenceList<JQueryLocator>(this);
-	}
+    public JQueryLocator getNthChildElement(int index) {
+        return new JQueryLocator(format("{0}:nth-child({1})", getLocator(), index + 1));
+    }
 
-	public JQueryLocator getChild(JQueryLocator elementLocator) {
-		return new JQueryLocator(format("{0} > {1}", getLocator(), elementLocator.getLocator()));
-	}
+    public JQueryLocator getNthOccurence(int index) {
+        return new JQueryLocator(format("{0}:eq({1})", getLocator(), index));
+    }
 
-	public JQueryLocator getDescendant(JQueryLocator elementLocator) {
-		return new JQueryLocator(format("{0} {1}", getLocator(), elementLocator.getLocator()));
-	}
+    public Iterable<JQueryLocator> getAllChildren() {
+        return new ChildElementList<JQueryLocator>(this.getChild(LocatorFactory.jq("*")));
+    }
+
+    public Iterable<JQueryLocator> getChildren(JQueryLocator elementLocator) {
+        return new ChildElementList<JQueryLocator>(this.getChild(elementLocator));
+    }
+
+    public Iterable<JQueryLocator> getDescendants(JQueryLocator elementLocator) {
+        return new ElementOcurrenceList<JQueryLocator>(this.getDescendant(elementLocator));
+    }
+
+    public JQueryLocator getChild(JQueryLocator elementLocator) {
+        return new JQueryLocator(format("{0} > {1}", getLocator(), elementLocator.getLocator()));
+    }
+
+    public JQueryLocator getDescendant(JQueryLocator elementLocator) {
+        return new JQueryLocator(format("{0} {1}", getLocator(), elementLocator.getLocator()));
+    }
+
 }

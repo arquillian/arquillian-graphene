@@ -23,19 +23,20 @@ package org.jboss.test.selenium.samples;
 
 import org.jboss.test.selenium.AbstractTestCase;
 import org.jboss.test.selenium.locator.JQueryLocator;
+import static org.jboss.test.selenium.locator.LocatorFactory.*;
 
 public class IterationAndCompositionSample extends AbstractTestCase {
     
-    final JQueryLocator LOC_TABLE = new JQueryLocator("#mytable");
-    final JQueryLocator LOC_TABLE_ROW = new JQueryLocator("tr");
-    final JQueryLocator LOC_COLUMN_2 = new JQueryLocator("td:nth-child(2)"); 
-    final JQueryLocator LOC_LINK = LOC_COLUMN_2.getChild(new JQueryLocator("span a"));
-    
+    final JQueryLocator LOC_TABLE = jq("#mytable");
+    final JQueryLocator LOC_COLUMN_2 = jq("td:nth-child(2)"); 
+    final JQueryLocator LOC_LINK = LOC_COLUMN_2.getChild(jq("span a"));
     
     void usage() {
-        final JQueryLocator rows = LOC_TABLE.getChild(LOC_TABLE_ROW);
+        Iterable<JQueryLocator> rows;
         
-        for (JQueryLocator row : rows.iterateChilds()) {
+        rows = LOC_TABLE.getChildren(jq("tr"));
+        
+        for (JQueryLocator row : rows) {
             final JQueryLocator column2 = row.getDescendant(LOC_LINK);
             
             String text = selenium.getText(column2);

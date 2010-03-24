@@ -21,13 +21,15 @@
  */
 package org.jboss.test.selenium.locator;
 
-public interface IterableLocator extends Locator {
+public interface IterableLocator<T extends IterableLocator<T>> extends Locator {
 
-	public IterableLocator getNthChildElement(int index);
+    public T getNthChildElement(int index);
 
-	public IterableLocator getNthOccurence(int index);
+    public T getNthOccurence(int index);
 
-	public Iterable<? extends IterableLocator> iterateChilds();
+    public Iterable<T> getAllChildren();
 
-	public Iterable<? extends IterableLocator> iterateOccurences();
+    public Iterable<T> getChildren(T elementLocator);
+
+    public Iterable<T> getDescendants(T elementLocator);
 }

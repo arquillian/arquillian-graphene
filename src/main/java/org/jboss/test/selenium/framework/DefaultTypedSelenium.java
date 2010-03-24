@@ -244,7 +244,8 @@ public class DefaultTypedSelenium implements TypedSelenium {
 		throw new UnsupportedOperationException();
 	}
 
-	public int getCount(IterableLocator locator) {
+	public int getCount(IterableLocator<?> locator) {
+	    // FIXME needs to be defined for other languages (iterables)
 		return selenium.getXpathCount(locator.getAsString()).intValue();
 	}
 

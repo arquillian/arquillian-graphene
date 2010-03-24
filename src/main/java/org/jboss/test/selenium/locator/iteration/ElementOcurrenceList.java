@@ -23,14 +23,13 @@ package org.jboss.test.selenium.locator.iteration;
 
 import org.jboss.test.selenium.locator.IterableLocator;
 
-public class ElementOcurrenceList<T extends IterableLocator> extends AbstractElementList<T> {
+public class ElementOcurrenceList<T extends IterableLocator<T>> extends AbstractElementList<T> {
 
 	public ElementOcurrenceList(T iterableLocator) {
 		super(iterableLocator);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	T abstractNthElement(int index) {
 		return (T) iterableLocator.getNthOccurence(index);
 	}

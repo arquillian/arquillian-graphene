@@ -1416,7 +1416,7 @@ public interface TypedSelenium {
 	 *            in a 'count()' function; we will do that for you.
 	 * @return the number of nodes that match the specified xpath
 	 */
-	int getCount(IterableLocator locator);
+	int getCount(IterableLocator<?> locator);
 
 	/**
 	 * Temporarily sets the "id" attribute of the specified element, so you can

@@ -22,25 +22,37 @@
 package org.jboss.test.selenium.samples;
 
 import org.jboss.test.selenium.AbstractTestCase;
+import static org.jboss.test.selenium.locator.LocatorFactory.*;
 import org.jboss.test.selenium.locator.*;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
+import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
 
 public class WaitingSample extends AbstractTestCase {
 
-    final ElementLocator BUTTON_INCREMENT = new JQueryLocator(":button");
-    final ElementLocator TEXT_COUNT = new IdLocator("#count");
+    final ElementLocator BUTTON_START = jq("#start");
+    final ElementLocator BUTTON_INCREMENT = jq(":button");
+    final ElementLocator TEXT_COUNT = id("#count");
 
-    final TextEquals conditionTextCountEquals = conditionTextEquals.locator(TEXT_COUNT);
+    final TextEquals countEquals = textEquals.locator(TEXT_COUNT);
+    final TextRetriever retrieveCount = retrieveText.locator(TEXT_COUNT);
 
     void usage() {
+        selenium.click(BUTTON_START);
+        // selenium-polling waiting
+        waitModel.until(elementPresent.locator(TEXT_COUNT));
         assert "0".equals(selenium.getText(TEXT_COUNT));
 
         selenium.click(BUTTON_INCREMENT);
-
-        waitGuiInteraction.until(conditionTextCountEquals.text("1"));
+        // javascript waiting
+        waitGui.until(countEquals.text("1"));
 
         selenium.click(BUTTON_INCREMENT);
+        // javascript waiting
+        waitGui.until(countEquals.text("2"));
 
-        waitGuiInteraction.until(conditionTextCountEquals.text("2"));
+        selenium.click(BUTTON_INCREMENT);
+        // selenium-polling retriever usage sample
+        String result = waitModel.waitForChangeAndReturn("2", retrieveCount);
+        assert "3".equals(result);
     }
 }

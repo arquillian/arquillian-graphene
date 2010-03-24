@@ -32,12 +32,12 @@ public abstract class AbstractTestCase {
     
     protected AjaxSelenium selenium;
 
-    protected ElementPresent conditionElementPresent = ElementPresent.getInstance();
-    protected TextEquals conditionTextEquals = TextEquals.getInstance();
+    protected SeleniumWaiting waitModel = Wait.interval(500).timeout(30000);
+    protected AjaxWaiting waitGui = Wait.interval(100).timeout(5000);
+    
+    protected ElementPresent elementPresent = ElementPresent.getInstance();
+    protected TextEquals textEquals = TextEquals.getInstance();
 
-    protected AttributeRetriever retrieverAttribute = AttributeRetriever.getInstance();
-    protected TextRetriever retrieverText = TextRetriever.getInstance();
-
-    protected SeleniumWaiting waitModelUpdate = Wait.interval(500).timeout(30000);
-    protected AjaxWaiting waitGuiInteraction = Wait.interval(100).timeout(5000);
+    protected TextRetriever retrieveText = TextRetriever.getInstance();
+    protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
 }

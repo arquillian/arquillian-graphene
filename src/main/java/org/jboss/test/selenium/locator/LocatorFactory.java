@@ -19,18 +19,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.iteration;
+package org.jboss.test.selenium.locator;
 
-import org.jboss.test.selenium.locator.IterableLocator;
+public class LocatorFactory {
 
-public class ChildElementList<T extends IterableLocator<T>> extends AbstractElementList<T> {
+    public static CssLocator css(String cssSelector) {
+        return new CssLocator(cssSelector);
+    }
 
-	public ChildElementList(T iterableLocator) {
-		super(iterableLocator);
-	}
+    public static DomLocator dom(String javascriptExpression) {
+        return new DomLocator(javascriptExpression);
+    }
 
-	@Override
-	T abstractNthElement(int index) {
-		return (T) iterableLocator.getNthChildElement(index);
-	}
+    public static IdLocator id(String id) {
+        return new IdLocator(id);
+    }
+
+    public static LinkLocator link(String linkText) {
+        return new LinkLocator(linkText);
+    }
+
+    public static JQueryLocator jq(String jquerySelector) {
+        return new JQueryLocator(jquerySelector);
+    }
+
+    public static NameLocator name(String name) {
+        return new NameLocator(name);
+    }
+
+    public static XpathLocator xp(String xpath) {
+        return new XpathLocator(xpath);
+    }
 }
