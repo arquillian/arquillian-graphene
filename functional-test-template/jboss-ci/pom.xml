@@ -7,7 +7,7 @@
 		<version>1.5.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.test.richfaces-selenium</groupId>
-	<artifactId>functional-test-jboss-ci</artifactId>
+	<artifactId>functional-test-jboss-ci-template</artifactId>
 	<packaging>pom</packaging>
 	<name>RichFaces-Selenium: Functional Test Template for JBoss Continuous Integration Environment</name>
 
