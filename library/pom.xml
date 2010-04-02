@@ -1,83 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.jboss.test.richfaces-selenium</groupId>
+		<artifactId>root</artifactId>
+		<version>1.5.0-SNAPSHOT</version>
+	</parent>
 	<groupId>org.jboss.test</groupId>
 	<artifactId>richfaces-selenium</artifactId>
 	<packaging>jar</packaging>
-	<version>2.0.0-SNAPSHOT</version>
-	<name>richfaces-selenium</name>
-	<url>http://maven.apache.org</url>
-
-	<scm>
-		<developerConnection>
-           scm:svn:https://svn.jboss.org/repos/qa/richfaces-selenium/trunk
-        </developerConnection>
-	</scm>
-
-	<distributionManagement>
-		<repository>
-			<id>jboss-releases</id>
-			<name>JBoss Release Repository</name>
-			<url>scm:svn:https://svn.jboss.org/repos/repository.jboss.org/maven2</url>
-		</repository>
-		<snapshotRepository>
-			<id>jboss-snapshots</id>
-			<name>JBoss Snapshot Repository</name>
-			<url>dav:https://snapshots.jboss.org/maven2</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<repositories>
-		<repository>
-			<id>repository.jboss.org</id>
-			<url>http://repository.jboss.org/maven2</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://svn.jboss.org/repos/qa/richfaces-selenium/tags</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
-		<!-- To allow to deploy releases in SVN -->
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-scm</artifactId>
-				<version>1.0-beta-6</version>
-			</extension>
-			<extension>
-				<groupId>org.apache.maven.scm</groupId>
-				<artifactId>maven-scm-manager-plexus</artifactId>
-				<version>1.0</version>
-			</extension>
-			<extension>
-				<groupId>org.apache.maven.scm</groupId>
-				<artifactId>maven-scm-provider-svnexe</artifactId>
-				<version>1.0</version>
-			</extension>
-		</extensions>
-	</build>
+	<name>RichFaces-Selenium Library</name>
 
 	<dependencies>
 		<dependency>
@@ -97,75 +29,4 @@
 			<version>2.4</version>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>generate-all-jars</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>source-jar</id>
-								<phase>install</phase>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>javadoc-jar</id>
-								<phase>install</phase>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-install-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>install-sources</id>
-								<phase>install</phase>
-								<goals>
-									<goal>install-file</goal>
-								</goals>
-								<configuration>
-									<groupId>${groupId}</groupId>
-									<artifactId>${artifactId}</artifactId>
-									<version>${version}</version>
-									<packaging>jar</packaging>
-									<file>${project.build.directory}/${artifactId}-${version}-sources.jar</file>
-									<classifier>sources</classifier>
-								</configuration>
-							</execution>
-							<execution>
-								<id>install-javadoc</id>
-								<phase>install</phase>
-								<goals>
-									<goal>install-file</goal>
-								</goals>
-								<configuration>
-									<groupId>${groupId}</groupId>
-									<artifactId>${artifactId}</artifactId>
-									<version>${version}</version>
-									<packaging>jar</packaging>
-									<file>${project.build.directory}/${artifactId}-${version}-javadoc.jar</file>
-									<classifier>javadoc</classifier>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
