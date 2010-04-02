@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>functional-test-template</artifactId>
 	<packaging>pom</packaging>
-	<name>RichFaces-Selenium: Template for Functional Test</name>
+	<name>RichFaces-Selenium: Functional Test Template</name>
 
 	<properties>
 		<deployable.location></deployable.location>
@@ -25,6 +25,10 @@
 		<selenium.maximize>false</selenium.maximize>
 		<suite.descriptor>src/test/resources/testng.xml</suite.descriptor>
 	</properties>
+	
+	<modules>
+		<module>jboss-ci</module>
+	</modules>
 
 	<build>
 		<plugins>
@@ -41,7 +45,7 @@
 	<profiles>
 		<!-- Functional Test -->
 		<profile>
-			<id>functional-test</id>
+			<id>selenium-functional-test</id>
 			<activation>
 				<property>
 					<name>!maven.test.skip</name>
