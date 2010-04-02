@@ -9,7 +9,7 @@
 	<groupId>org.jboss.test</groupId>
 	<artifactId>richfaces-selenium</artifactId>
 	<packaging>jar</packaging>
-	<name>RichFaces-Selenium Library</name>
+	<name>RichFaces-Selenium: Library</name>
 
 	<dependencies>
 		<dependency>

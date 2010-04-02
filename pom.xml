@@ -5,10 +5,11 @@
 	<artifactId>root</artifactId>
 	<version>1.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>RichFaces-Selenium Root</name>
+	<name>RichFaces-Selenium: Root</name>
 
 	<modules>
 		<module>library</module>
+		<module>functional-test-template</module>
 	</modules>
 
 	<scm>
@@ -29,6 +30,8 @@
 			<url>dav:https://snapshots.jboss.org/maven2</url>
 		</snapshotRepository>
 	</distributionManagement>
+
+
 
 	<repositories>
 		<repository>
@@ -81,5 +84,25 @@
 				<version>1.0</version>
 			</extension>
 		</extensions>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.cargo</groupId>
+					<artifactId>cargo-maven2-plugin</artifactId>
+					<version>1.0-beta-2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.4.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>selenium-maven-plugin</artifactId>
+					<version>1.0</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
