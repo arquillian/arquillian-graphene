@@ -19,17 +19,6 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var RichFacesSelenium = {};
-
-RichFacesSelenium.extend = function(child, parent) {
-    var F = function() {};
-    F.prototype = parent.prototype;
-    child.prototype = new F();
-    child._superClass = parent.prototype;
-    child.prototype.constructor = child;
-};
-	
-	
 RichFacesSelenium.XHRWrapper = function() {
 	this.xhr;
 	this.responseText= "";
@@ -38,7 +27,6 @@ RichFacesSelenium.XHRWrapper = function() {
 	this.status= 0;
 	this.statusText= 0;
 	this.onreadystatechange= null;
-	this.fake = "faken";
 };
 	
 RichFacesSelenium.XHRWrapper.prototype.abort = function() {
@@ -66,6 +54,9 @@ RichFacesSelenium.XHRWrapper.prototype.setRequestHeader = function(name, value) 
 	return this.xhr.setRequestHeader(name, value);
 };
 
+RichFacesSelenium.XHRWrapper.prototype.onreadystatechangeCallback = function() {
+}
+
 if (window.ActiveXObject) {
 
 	RichFacesSelenium.ActiveXObject = window.ActiveXObject;
@@ -82,6 +73,7 @@ if (window.ActiveXObject) {
 				proxy.status       = proxy.xhr.status;
 				proxy.statusText   = proxy.xhr.statusText;
 			}
+			proxy.onreadystatechangeCallback();
 		 if (proxy.onreadystatechange) proxy.onreadystatechange();
 	      };
 	};
@@ -123,6 +115,7 @@ if (window.ActiveXObject) {
 				self.status       = this.status;
 				self.statusText   = this.statusText;
 			}
+			self.onreadystatechangeCallback();
 			if (self.onreadystatechange) self.onreadystatechange(event);
 		};
 	};

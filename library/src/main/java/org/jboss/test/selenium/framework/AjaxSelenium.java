@@ -26,30 +26,66 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.jboss.test.selenium.encapsulated.Browser;
 import org.jboss.test.selenium.framework.internal.Contextual;
+import org.jboss.test.selenium.guard.Guard;
+import org.jboss.test.selenium.guard.Guarded;
 
+public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
 
+    private static AtomicReference<AjaxSelenium> reference = new AtomicReference<AjaxSelenium>(null);
 
-public class AjaxSelenium extends ExtendedTypedSelenium {
-	
-	private static AtomicReference<AjaxSelenium> reference = new AtomicReference<AjaxSelenium>(null);
-	
-	public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-		selenium = new ExtendedAjaxAwareSelenium(serverHost, serverPort, browser, contextPathURL);
-		setCurrentContext(this);
-	}
+    public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
+        selenium = new ExtendedAjaxAwareSelenium(serverHost, serverPort, browser, contextPathURL);
+        setCurrentContext(this);
+    }
+    
+    private AjaxSelenium() {
+    }
+    
+    private ExtendedAjaxAwareSelenium getExtendedAjaxAwareSelenium() {
+        return (ExtendedAjaxAwareSelenium) selenium;
+    }
 
-	private class ExtendedAjaxAwareSelenium extends ExtendedSelenium {
-		public ExtendedAjaxAwareSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-			super(new AjaxAwareCommandProcessor(serverHost, serverPort, browser.toString(), contextPathURL.toString()));
-		}
-	}
-	
-	// TODO not safe for multi-instance environment
-	private static void setCurrentContext(AjaxSelenium selenium) {
-		reference.set(selenium);
-	}
-	
-	public static AjaxSelenium getCurrentContext(Contextual... inContext) {
-		return reference.get();
-	}
+    private class ExtendedAjaxAwareSelenium extends ExtendedSelenium {
+
+        public AjaxAwareCommandProcessor ajaxAwareCommandProcessor;
+        public GuardedCommandProcessor guardedCommandProcessor;
+
+        public ExtendedAjaxAwareSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
+            super(null);
+            ajaxAwareCommandProcessor = new AjaxAwareCommandProcessor(serverHost, serverPort, browser.toString(),
+                contextPathURL.toString());
+            guardedCommandProcessor = new GuardedCommandProcessor(ajaxAwareCommandProcessor);
+            this.commandProcessor = guardedCommandProcessor;
+        }
+    }
+    
+    
+
+    // TODO not safe for multi-instance environment
+    private static void setCurrentContext(AjaxSelenium selenium) {
+        reference.set(selenium);
+    }
+
+    public static AjaxSelenium getCurrentContext(Contextual... inContext) {
+        return reference.get();
+    }
+
+    public <T extends Guard> void guardOnce(Guard guard) {
+        GuardedCommandProcessor copy = ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.immutableCopy();
+    }
+
+    public void registerGuard(Guard guard) {
+        ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.registerGuard(guard);
+    }
+
+    public void unregisterGuard(Guard guard) {
+        ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.unregisterGuard(guard);
+    }
+    
+    public AjaxSelenium immutableCopy() {
+        AjaxSelenium copy = new AjaxSelenium();
+        copy.selenium = this.selenium;
+        ((ExtendedAjaxAwareSelenium) copy.selenium).guardedCommandProcessor = ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.immutableCopy();
+        return copy;
+    }
 }
