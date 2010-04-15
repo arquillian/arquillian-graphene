@@ -10,7 +10,7 @@
 	<artifactId>richfaces-selenium</artifactId>
 	<packaging>jar</packaging>
 	<name>RichFaces-Selenium: Library</name>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -30,12 +30,47 @@
 		</dependency>
 	</dependencies>
 	
+	<properties>
+		<source.javascript>${basedir}/src/main/javascript</source.javascript>
+	</properties>
+
 	<build>
 		<resources>
 			<resource>
-				<directory>${basedir}/src/main/js</directory>
+				<directory>${source.javascript}</directory>
 				<filtering>false</filtering>
+				<targetPath>${project.build.directory}/javascript</targetPath>
 			</resource>
 		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>concatenate-extensions</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo>Compiling JavaScript: user-extensions.js</echo>
+								<concat destfile="${project.build.outputDirectory}/user-extensions.js"
+									fixlastline="yes">
+									<filelist dir="${source.javascript}/selenium-extensions"
+										files="jquery.js jquery-selector-extensions.js extended-selenium.js" />
+								</concat>
+								<echo>Compiling JavaScript: richfaces-selenium-core.js</echo>
+								<concat destfile="${project.build.outputDirectory}/richfaces-selenium-core.js"
+									fixlastline="yes">
+									<filelist dir="${source.javascript}/core"
+										files="RichFacesSelenium.js XMLHttpRequest-proxy.js XMLHttpRequest-injection.js" />
+								</concat>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 </project>
