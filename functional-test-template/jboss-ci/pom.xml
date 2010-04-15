@@ -126,6 +126,11 @@
 		<!-- CONTAINER INSTALLATION -->
 		<profile>
 			<id>container-installation</id>
+			<activation>
+				<property>
+					<name>containerId</name>
+				</property>
+			</activation>
 			<properties>
 				<jboss5x.version>5.1.0.GA</jboss5x.version>
 				<jboss5x.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jboss5x.version}.zip</jboss5x.installer.url.unix>

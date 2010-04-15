@@ -14,7 +14,6 @@
 		<deployable.location></deployable.location>
 		<deployable.type>war</deployable.type>
 		<resources.dir>${project.build.directory}/test-classes</resources.dir>
-		<extensions.dir>${project.build.directory}/user-extensions</extensions.dir>
 		<context.host>localhost</context.host>
 		<context.root>http://${context.host}:8080/</context.root>
 		<context.path>/</context.path>
@@ -23,7 +22,6 @@
 		<selenium.port>8444</selenium.port>
 		<selenium.debug>false</selenium.debug>
 		<selenium.maximize>false</selenium.maximize>
-		<suite.descriptor>src/test/resources/testng.xml</suite.descriptor>
 	</properties>
 	
 	<modules>
@@ -65,19 +63,7 @@
 								</goals>
 								<configuration>
 									<skip>false</skip>
-									<suiteXmlFiles>
-										<suiteXmlFile>${suite.descriptor}</suiteXmlFile>
-									</suiteXmlFiles>
-									<argLine>-Dbrowser='${browser}'
-										-Dcontext.host='${context.host}'
-										-Dcontext.root='${context.root}'
-										-Dcontext.path='${context.path}'
-										-Dselenium.host='${selenium.host}'
-										-Dselenium.port='${selenium.port}'
-										-Dselenium.debug='${selenium.debug}'
-										-Dselenium.maximize='${selenium.maximize}'
-										-Dmaven.resources.dir='${resources.dir}'
-										-Dmaven.project.build.directory='${project.build.directory}'</argLine>
+									<argLine>-Dbrowser='${browser}' -Dcontext.root='${context.root}' -Dcontext.path='${context.path}' -Dselenium.host='${selenium.host}' -Dselenium.port='${selenium.port}' -Dselenium.debug='${selenium.debug}' -Dselenium.maximize='${selenium.maximize}' -Dmaven.resources.dir='${resources.dir}' -Dmaven.project.build.directory='${project.build.directory}'</argLine>
 								</configuration>
 							</execution>
 						</executions>
@@ -108,30 +94,10 @@
 								<configuration>
 									<includeGroupIds>org.jboss.test</includeGroupIds>
 									<includeArtifactIds>richfaces-selenium</includeArtifactIds>
-									<includes>*.js</includes>
-									<outputDirectory>${extensions.dir}</outputDirectory>
+									<includes>**/*.js</includes>
+									<outputDirectory>${project.build.directory}</outputDirectory>
 									<overWriteReleases>true</overWriteReleases>
 									<overWriteSnapshots>true</overWriteSnapshots>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>concatenate-extensions</id>
-								<phase>process-test-resources</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<tasks>
-										<concat destfile="${project.build.directory}/user-extensions.js"
-											fixlastline="yes">
-											<filelist dir="${extensions.dir}" files="jquery.js jquery-selector-extensions.js selenium-extensions.js" />
-										</concat>
-									</tasks>
 								</configuration>
 							</execution>
 						</executions>
@@ -216,11 +182,7 @@
 							<configuration>
 								<properties>
 									<cargo.hostname>${context.host}</cargo.hostname>
-									<cargo.jvmargs>-Xms256m -Xmx512m -XX:PermSize=256m
-										-XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC
-										-XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled
-										-Dsun.rmi.dgc.client.gcInterval=3600000
-										-Dsun.rmi.dgc.server.gcInterval=3600000</cargo.jvmargs>
+									<cargo.jvmargs>-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000</cargo.jvmargs>
 								</properties>
 							</configuration>
 						</configuration>
