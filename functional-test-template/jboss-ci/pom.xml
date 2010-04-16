@@ -105,8 +105,7 @@
 			</activation>
 			<properties>
 				<firefoxes.home>/qa/tools/opt</firefoxes.home>
-				<browser.firefox>*firefox
-					${firefoxes.home}/firefox-${browser.version}/firefox-bin</browser.firefox>
+				<browser.firefox>*firefox ${firefoxes.home}/firefox-${browser.version}/firefox-bin</browser.firefox>
 			</properties>
 		</profile>
 		<profile>
@@ -118,8 +117,7 @@
 			</activation>
 			<properties>
 				<firefoxes.home>T:\opt\windows</firefoxes.home>
-				<browser.firefox>*firefox
-					${firefoxes.home}\firefox-${browser.version}\firefox.exe</browser.firefox>
+				<browser.firefox>*firefox ${firefoxes.home}\firefox-${browser.version}\firefox.exe</browser.firefox>
 			</properties>
 		</profile>
 		

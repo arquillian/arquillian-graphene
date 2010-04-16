@@ -83,7 +83,7 @@ public abstract class AbstractTestCase {
     public void initializeParameters(String contextRoot, String contextPath, String browser, String seleniumDebug,
             String mavenResourcesDir, String mavenProjectBuildDirectory) throws MalformedURLException {
         this.contextRoot = new URL(contextRoot);
-        this.contextPath = new URL(contextPath);
+        this.contextPath = new URL(this.contextRoot, contextPath);
         this.mavenResourcesDir = new File(mavenResourcesDir);
         this.mavenProjectBuildDirectory = new File(mavenProjectBuildDirectory);
         this.seleniumDebug = Boolean.valueOf(seleniumDebug);

@@ -9,7 +9,14 @@
 	<artifactId>functional-test-template</artifactId>
 	<packaging>pom</packaging>
 	<name>RichFaces-Selenium: Functional Test Template</name>
-
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>twmdata</id>
+			<url>http://twdata-m2-repository.googlecode.com/svn</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
 	<properties>
 		<deployable.location></deployable.location>
 		<deployable.type>war</deployable.type>
@@ -17,7 +24,6 @@
 		<context.host>localhost</context.host>
 		<context.root>http://${context.host}:8080/</context.root>
 		<context.path>/</context.path>
-		<browser></browser>
 		<selenium.host>localhost</selenium.host>
 		<selenium.port>8444</selenium.port>
 		<selenium.debug>false</selenium.debug>
@@ -35,6 +41,26 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.twdata.maven</groupId>
+				<artifactId>maven-cli-plugin</artifactId>
+				<version>1.0.3</version>
+				<configuration>
+					<userAliases>
+						<selenium-only>install -Dselenium.test.skip=true -Pwait-for-key</selenium-only>
+						<tomcat6>install -Dmaven.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</tomcat6>
+						<jboss5>install -Dmaven.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</jboss5>
+						<jboss6>install -Dmaven.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</jboss6>
+						<selenium-tomcat6>install -Dselenium.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</selenium-tomcat6>
+						<selenium-jboss5>install -Dselenium.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</selenium-jboss5>
+						<selenium-jboss6>install -Dselenium.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</selenium-jboss6>
+						<firefox>install -Dbrowser=*firefox -Dselenium.server.skip=true</firefox>
+						<iexplore>install -Dbrowser=*piiexplore -Dselenium.server.skip=true</iexplore>
+						<firefox-debug>install -Dbrowser=*firefox -Dselenium.server.skip=true -Pdebug-tests</firefox-debug>
+						<iexplore-debug>install -Dbrowser=*piiexplore -Dselenium.server.skip=true -Pdebug-tests</iexplore-debug>
+					</userAliases>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -62,7 +88,7 @@
 									<goal>test</goal>
 								</goals>
 								<configuration>
-									<skip>false</skip>
+									<skip>${selenium.test.skip}</skip>
 									<argLine>-Dbrowser='${browser}' -Dcontext.root='${context.root}' -Dcontext.path='${context.path}' -Dselenium.host='${selenium.host}' -Dselenium.port='${selenium.port}' -Dselenium.debug='${selenium.debug}' -Dselenium.maximize='${selenium.maximize}' -Dmaven.resources.dir='${resources.dir}' -Dmaven.project.build.directory='${project.build.directory}'</argLine>
 								</configuration>
 							</execution>
@@ -120,6 +146,7 @@
 									<logFile>${project.build.directory}/selenium/selenium-server.log</logFile>
 									<browserSideLog>${selenium.debug}</browserSideLog>
 									<debug>${selenium.debug}</debug>
+									<skip>${selenium.server.skip}</skip>
 								</configuration>
 							</execution>
 							<execution>
@@ -375,6 +402,26 @@
 				<container.version>6.0.24</container.version>
 				<container.installer.url>http://www.apache.org/dist/tomcat/tomcat-6/v${container.version}/bin/apache-tomcat-${container.version}.zip</container.installer.url>
 			</properties>
+		</profile>
+		
+		<profile>
+			<id>debug-tests</id>
+			<activation>
+				<property>
+					<name>maven.test.debug</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<debugForkedProcess>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000 -Xnoagent -Djava.compiler=NONE</debugForkedProcess>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		
 		<!--  -->

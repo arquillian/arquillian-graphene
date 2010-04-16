@@ -74,6 +74,9 @@ public enum BrowserMode {
             }
             modes.add(parseMode(mode));
         }
+        if (modes.isEmpty()) {
+            return EnumSet.noneOf(BrowserMode.class);
+        }
         return EnumSet.copyOf(modes);
     }
     

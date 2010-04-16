@@ -48,6 +48,9 @@ public enum BrowserType {
             }
             types.add(parseType(type));
         }
+        if (types.isEmpty()) {
+            return EnumSet.noneOf(BrowserType.class);
+        }
         return EnumSet.copyOf(types);
     }
 }
