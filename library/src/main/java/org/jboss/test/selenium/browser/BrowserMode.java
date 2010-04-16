@@ -29,43 +29,141 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * <p>
+ * Encapsulates execution mode of browser runned by Selenium.
+ * </p>
+ * 
+ * <p>
+ * Enumerates all the browsers supported by Selenium.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public enum BrowserMode {
-    FIREFOX_PROXY(BrowserType.FIREFOX, "firefoxproxy"),
-    FIREFOX(BrowserType.FIREFOX, "firefox"),
-    CHROME(BrowserType.FIREFOX, "chrome"),
-    FIREFOX_CHROME(BrowserType.FIREFOX, "firefoxchrome"),
-    FIREFOX2(BrowserType.FIREFOX, "firefox2"),
-    FIREFOX3(BrowserType.FIREFOX, "firefox3"),
-    IEXPLORE_PROXY(BrowserType.IEXPLORE, "iexploreproxy"),
-    SAFARI(BrowserType.SAFARI, "safari"),
-    SAFARI_PROXY(BrowserType.SAFARI, "safariproxy"),
-    IEXPLORE_HTA(BrowserType.IEXPLORE, "iehta"),
-    IEXPLORE(BrowserType.IEXPLORE, "iexplore"),
-    OPERA(BrowserType.OPERA, "opera"),
-    IEXPLORE_PROXY_INJECTION(BrowserType.IEXPLORE, "piiexplore"),
-    FIREFOX_PROXY_INJECTION(BrowserType.FIREFOX, "pifirefox"),
-    SAFARI_PROXY_INJECTION(BrowserType.SAFARI, "pisafari"),
-    KONQUEROR(BrowserType.KONQUEROR, "konqueror"),
-    MOCK(BrowserType.MOCK, "mock"),
-    GOOGLE_CHROME(BrowserType.GOOGLE_CHROME, "googlechrome");
 
+    /** FirefoxCustomProfileLauncher */
+    FIREFOX_PROXY(BrowserType.FIREFOX, "firefoxproxy"),
+
+    /** FirefoxLauncher */
+    FIREFOX(BrowserType.FIREFOX, "firefox"),
+
+    /** FirefoxChromeLauncher */
+    CHROME(BrowserType.FIREFOX, "chrome"),
+
+    /** FirefoxChromeLauncher */
+    FIREFOX_CHROME(BrowserType.FIREFOX, "firefoxchrome"),
+
+    /** Firefox2Launcher */
+    FIREFOX2(BrowserType.FIREFOX, "firefox2"),
+
+    /** Firefox3Launcher */
+    FIREFOX3(BrowserType.FIREFOX, "firefox3"),
+
+    /** InternetExplorerCustomProxyLauncher */
+    IEXPLORE_PROXY(BrowserType.IEXPLORE, "iexploreproxy"),
+
+    /** SafariLauncher */
+    SAFARI(BrowserType.SAFARI, "safari"),
+
+    /** SafariCustomProfileLauncher */
+    SAFARI_PROXY(BrowserType.SAFARI, "safariproxy"),
+
+    /** HTABrowserLauncher */
+    IEXPLORE_HTA(BrowserType.IEXPLORE, "iehta"),
+
+    /** InternetExplorerLauncher */
+    IEXPLORE(BrowserType.IEXPLORE, "iexplore"),
+
+    /** OperaCustomProfileLauncher */
+    OPERA(BrowserType.OPERA, "opera"),
+
+    /** ProxyInjectionInternetExplorerCustomProxyLauncher */
+    IEXPLORE_PROXY_INJECTION(BrowserType.IEXPLORE, "piiexplore"),
+
+    /** ProxyInjectionFirefoxCustomProfileLauncher */
+    FIREFOX_PROXY_INJECTION(BrowserType.FIREFOX, "pifirefox"),
+
+    /** KonquerorLauncher */
+    KONQUEROR(BrowserType.KONQUEROR, "konqueror"),
+
+    /** MockBrowserLauncher */
+    MOCK(BrowserType.MOCK, "mock"),
+
+    /** GoogleChromeLauncher */
+    GOOGLE_CHROME(BrowserType.GOOGLE_CHROME, "googlechrome"),
+
+    /**
+     * <p>
+     * ProxyInjectionSafariCustomProfileLauncher
+     * </p>
+     * <p>
+     * <b>Deprecated</b> - isn't working yet
+     * </p>
+     */
+    @Deprecated
+    SAFARI_PROXY_INJECTION(BrowserType.SAFARI, "pisafari");
+
+    /** The mode. */
     private String mode;
+
+    /** The browser type. */
     private BrowserType browserType;
 
+    /**
+     * Instantiates a new browser mode.
+     * 
+     * @param browserType
+     *            the browser type
+     * @param mode
+     *            the mode
+     */
     private BrowserMode(BrowserType browserType, String mode) {
         this.mode = mode;
         this.browserType = browserType;
     }
 
+    /**
+     * <p>
+     * Parses the mode from given string representation.
+     * </p>
+     * 
+     * <p>
+     * String representation is derived from string representing mode in Selenium.
+     * </p>
+     * 
+     * <p>
+     * E.g.: for "*pifirefox" string you get FIREFOX_PROXY_INJECTION mode
+     * </p>
+     * 
+     * @param browserMode
+     *            the browser mode string representation
+     * @return the browser mode
+     * @throws IllegalArgumentException
+     *             if the given browserMode isn't supported
+     */
     public static BrowserMode parseMode(String browserMode) {
         for (BrowserMode value : values()) {
             if (value.mode.equals(browserMode)) {
                 return value;
             }
         }
-        throw new IllegalArgumentException(format("The browser defined by mode '{0}' wasn't found", browserMode));
+        throw new IllegalArgumentException(format("The browser defined by mode '{0}' isn't supported", browserMode));
     }
 
+    /**
+     * <p>
+     * Returns set of browser modes derived from string enumeration of comma- and/or space-separated representation of
+     * browser modes ({@link BrowserMode#parseMode(String)}).
+     * </p>
+     * 
+     * @param browserModesEnumeration
+     *            comma and/or spaces separated string enumeration of string representation of browser modes
+     * @return the set of browser modes
+     * @throws IllegalArgumentException
+     *             if one of the given browser modes isn't supported
+     */
     public static EnumSet<BrowserMode> parseModes(String browserModesEnumeration) {
         Set<BrowserMode> modes = new HashSet<BrowserMode>();
         for (String mode : StringUtils.split(browserModesEnumeration, ", ")) {
@@ -79,7 +177,14 @@ public enum BrowserMode {
         }
         return EnumSet.copyOf(modes);
     }
-    
+
+    /**
+     * Gets the set of browser modes, which are associated with browsers given by types (see {@link BrowserType}).
+     * 
+     * @param types
+     *            the set of browser types
+     * @return the browsers associated with browser by given set of types
+     */
     public static EnumSet<BrowserMode> getModesFromTypes(EnumSet<BrowserType> types) {
         Set<BrowserMode> list = new HashSet<BrowserMode>();
         for (BrowserMode mode : values()) {
@@ -90,16 +195,21 @@ public enum BrowserMode {
         return EnumSet.copyOf(list);
     }
 
+    /**
+     * Gets string representations of mode.
+     * 
+     * @return the mode
+     */
     public String getMode() {
-        return mode;
+        return "*" + mode;
     }
 
+    /**
+     * Gets the browser type.
+     * 
+     * @return the browser type
+     */
     public BrowserType getBrowserType() {
         return browserType;
-    }
-    
-    @Override
-    public String toString() {
-        return "*" + mode;
     }
 }

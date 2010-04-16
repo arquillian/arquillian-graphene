@@ -26,11 +26,51 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
 
+/**
+ * <p>
+ * Encapsulates execution properties of selected browser.
+ * </p>
+ * 
+ * <p>
+ * Consists from browser mode (incl. it's brand type) and associated executable file
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ * @see {@link #Browser(String)}
+ */
 public class Browser {
+
+    /** The group in {@link #pattern} for associated executable. */
+    private static final int GROUP_EXECUTABLE = 2;
+
+    /** The group in {@link #pattern} for browser's mode. */
+    private static final int GROUP_MODE = 1;
+
+    /** The browser mode. */
     BrowserMode browserMode;
+
+    /** The associated executable for given browser instance. */
     File executable;
+
+    /**
+     * Pattern for parsing browserMode and executable file from 
+     * @see #Browser(String)
+     */
     Pattern pattern = Pattern.compile("^\\*([^\\s]+)(?:$|\\s+(.*))$");
 
+    /**
+     * <p>
+     * Instantiates a new browser from string representation defined by Selenium framework
+     * </p>
+     * 
+     * <p>
+     * e.g. "*pifirefox /some/path/firefox-bin"
+     * </p>
+     * 
+     * @param stringRepresentation
+     *            the string representation
+     */
     public Browser(String stringRepresentation) {
         Matcher matcher = pattern.matcher(stringRepresentation);
         if (!matcher.find()) {
@@ -38,32 +78,60 @@ public class Browser {
                 "given browser's stringRepresentation '{0}' doesn't match pattern", stringRepresentation));
         }
 
-        browserMode = BrowserMode.parseMode(matcher.group(1));
+        browserMode = BrowserMode.parseMode(matcher.group(GROUP_MODE));
 
-        if (matcher.group(2) != null) {
-            executable = new File(matcher.group(2));
+        if (matcher.group(GROUP_EXECUTABLE) != null) {
+            executable = new File(matcher.group(GROUP_EXECUTABLE));
         }
     }
 
+    /**
+     * Instantiates a new browser by given browserMode
+     *
+     * @param browserMode the browser mode
+     */
     public Browser(BrowserMode browserMode) {
         this.browserMode = browserMode;
     }
 
+    /**
+     * Instantiates a new browser by given browserMode and executableFile.
+     *
+     * @param browserMode the browser mode
+     * @param executableFile the executable file
+     */
     public Browser(BrowserMode browserMode, File executableFile) {
         this.browserMode = browserMode;
         this.executable = executableFile;
     }
     
+    /**
+     * Gets the browser's mode (see {@link Browser}).
+     *
+     * @return the mode
+     */
     public BrowserMode getMode() {
         return this.browserMode;
     }
     
+    /**
+     * <p>Gets the type of browser.</p>
+     * 
+     * <p>Shortcut for {@link BrowserMode#getBrowserType()}.</p>
+     *
+     * @return the type
+     */
     public BrowserType getType() {
         return this.browserMode.getBrowserType();
     }
     
-    @Override
-    public String toString() {
+    /**
+     * <p>Gets a string representation of browser.</p>
+     * 
+     * @see Browser#Browser(String)
+     * @return the string representation of browser
+     */
+    public String getAsString() {
         StringBuilder builder = new StringBuilder(browserMode.toString());
         if (executable != null) {
             builder.append("").append(executable.toString());

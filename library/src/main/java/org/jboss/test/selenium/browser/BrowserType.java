@@ -27,19 +27,63 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * <p>Enumeration of supported browsers.</p>
+ * 
+ * <p>This enum has direct association to browser modes, see {@link BrowserMode}.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public enum BrowserType {
-    FIREFOX,
-    IEXPLORE,
-    SAFARI,
-    OPERA,
-    GOOGLE_CHROME,
-    KONQUEROR, MOCK;
 
-    public static BrowserType parseType(String type) {
-        type = type.toUpperCase();
-        return BrowserType.valueOf(type);
+    /** The Mozilla Firefox browser */
+    FIREFOX,
+
+    /** The Internet Explorer browser */
+    IEXPLORE,
+
+    /** The Safari browser */
+    SAFARI,
+
+    /** The Opera browser */
+    OPERA,
+
+    /** The Google Chrome browser */
+    GOOGLE_CHROME,
+
+    /** The Konqueror browser */
+    KONQUEROR,
+
+    /** Mock browser */
+    MOCK;
+
+    /**
+     * Parses the type in case-insensitive manner.
+     * 
+     * @param browserType
+     *            the browser type
+     * @return the browser type
+     * @throws IllegalArgumentException
+     *             if the given browserMode isn't supported
+     */
+    public static BrowserType parseType(String browserType) {
+        String upperCased = browserType.toUpperCase();
+        return BrowserType.valueOf(upperCased);
     }
 
+    /**
+     * <p>
+     * Returns set of browser types derived from string enumeration of comma- and/or space-separated representation of
+     * browser types ({@link BrowserType#parseType(String)}).
+     * </p>
+     * 
+     * @param browserTypesEnumeration
+     *            comma and/or spaces separated string enumeration of string representation of browser types
+     * @return the set of browser modes
+     * @throws IllegalArgumentException
+     *             if one of the given browser modes isn't supported
+     */
     public static EnumSet<BrowserType> parseTypes(String browserTypesEnumeration) {
         Set<BrowserType> types = new HashSet<BrowserType>();
         for (String type : StringUtils.split(browserTypesEnumeration, ", ")) {
