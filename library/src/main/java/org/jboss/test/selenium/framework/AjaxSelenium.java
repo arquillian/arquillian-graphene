@@ -24,7 +24,7 @@ package org.jboss.test.selenium.framework;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.jboss.test.selenium.encapsulated.Browser;
+import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.guard.Guard;
 import org.jboss.test.selenium.guard.Guarded;
@@ -37,12 +37,8 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
         selenium = new ExtendedAjaxAwareSelenium(serverHost, serverPort, browser, contextPathURL);
         setCurrentContext(this);
     }
-    
+
     private AjaxSelenium() {
-    }
-    
-    private ExtendedAjaxAwareSelenium getExtendedAjaxAwareSelenium() {
-        return (ExtendedAjaxAwareSelenium) selenium;
     }
 
     private class ExtendedAjaxAwareSelenium extends ExtendedSelenium {
@@ -58,8 +54,6 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
             this.commandProcessor = guardedCommandProcessor;
         }
     }
-    
-    
 
     // TODO not safe for multi-instance environment
     private static void setCurrentContext(AjaxSelenium selenium) {
@@ -81,11 +75,12 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
     public void unregisterGuard(Guard guard) {
         ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.unregisterGuard(guard);
     }
-    
+
     public AjaxSelenium immutableCopy() {
         AjaxSelenium copy = new AjaxSelenium();
         copy.selenium = this.selenium;
-        ((ExtendedAjaxAwareSelenium) copy.selenium).guardedCommandProcessor = ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.immutableCopy();
+        ((ExtendedAjaxAwareSelenium) copy.selenium).guardedCommandProcessor = ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor
+            .immutableCopy();
         return copy;
     }
 }

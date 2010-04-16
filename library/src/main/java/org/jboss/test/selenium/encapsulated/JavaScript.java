@@ -21,6 +21,15 @@
  */
 package org.jboss.test.selenium.encapsulated;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
+import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+
 public class JavaScript {
 	String javaScript;
 
@@ -36,4 +45,31 @@ public class JavaScript {
 	public String toString() {
 		return getJavaScript();
 	}
+
+    public static JavaScript fromFile(File sourceFile) {
+        String sourceCode;
+        try {
+            sourceCode = IOUtils.toString(new FileReader(sourceFile));
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException(format("Unable to find JavaScript source file '{0}'", sourceFile), e);
+        } catch (IOException e) {
+            throw new RuntimeException(format("Unable to load JavaScript from file '{0}'", sourceFile), e);
+        }
+        return new JavaScript(sourceCode);
+    }
+
+    public static JavaScript fromResource(String resourceName) {
+        InputStream inputStream;
+        inputStream = ClassLoader.getSystemResourceAsStream(resourceName);
+
+        String sourceCode;
+
+        try {
+            sourceCode = IOUtils.toString(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(format("Unable to load JavaScript from resource with name '{0}'", resourceName), e);
+        }
+
+        return new JavaScript(sourceCode);
+    }
 }

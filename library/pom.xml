@@ -39,7 +39,7 @@
 			<resource>
 				<directory>${source.javascript}</directory>
 				<filtering>false</filtering>
-				<targetPath>${project.build.directory}/javascript</targetPath>
+				<targetPath>${project.build.outputDirectory}/javascript</targetPath>
 			</resource>
 		</resources>
 		<plugins>
