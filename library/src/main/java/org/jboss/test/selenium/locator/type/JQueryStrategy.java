@@ -21,10 +21,21 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+/**
+ * Strategy for locating elements using JQuery Selector syntax.
+ * 
+ * @see org.jboss.test.selenium.locator.JQueryLocator
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class JQueryStrategy implements LocationStrategy {
 
-	public String getStrategyName() {
-		return "jquery";
-	}
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+     */
+    public String getStrategyName() {
+        return "jquery";
+    }
 
 }

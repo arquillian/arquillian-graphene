@@ -21,20 +21,47 @@
  */
 package org.jboss.test.selenium.locator;
 
+/**
+ * Attribute of page element.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class Attribute {
-	private String attributeName;
 
-	public Attribute(String attributeName) {
-		super();
-		this.attributeName = attributeName;
-	}
+    /** The STYLE attribute. */
+    public static final Attribute STYLE = new Attribute("style");
 
-	public String getAttributeName() {
-		return attributeName;
-	}
+    /** The CLASS attribute. */
+    public static final Attribute CLASS = new Attribute("class");
 
-	public Attribute STYLE = new Attribute("style");
-	public Attribute CLASS = new Attribute("class");
-	public Attribute SRC = new Attribute("src");
-	public Attribute HREF = new Attribute("href");
+    /** The SRC attribute. */
+    public static final Attribute SRC = new Attribute("src");
+
+    /** The HREF attribute. */
+    public static final Attribute HREF = new Attribute("href");
+
+    /** The attribute name. */
+    private String attributeName;
+
+    /**
+     * Instantiates a new attribute from it's name.
+     * 
+     * @param attributeName
+     *            the attribute name
+     */
+    public Attribute(String attributeName) {
+        super();
+        this.attributeName = attributeName;
+    }
+
+    /**
+     * Gets the attribute name.
+     * 
+     * @return the attribute name
+     */
+    public String getAttributeName() {
+        return attributeName;
+    }
+
 }

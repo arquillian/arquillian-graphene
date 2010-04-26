@@ -23,20 +23,55 @@ package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * <p>
+ * A element locator using CSS selectors.
+ * </p>
+ * 
+ * <p>
+ * Can be used to compose new locators.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class CssLocator extends AbstractElementLocator implements CompoundableLocator<CssLocator> {
-	public CssLocator(String cssSelector) {
-		super(cssSelector);
-	}
+    /**
+     * Initiates element locator by using CSS selectors.
+     * 
+     * @param cssSelector
+     *            <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
+     */
+    public CssLocator(String cssSelector) {
+        super(cssSelector);
+    }
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.CSS;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.locator.Locator#getLocationStrategy()
+     */
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.CSS;
+    }
 
-	public CssLocator getChild(CssLocator elementLocator) {
-		throw new UnsupportedOperationException("not implemented yet");
-	} 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.jboss.test.selenium.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator)
+     */
+    public CssLocator getChild(CssLocator elementLocator) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 
-	public CssLocator getDescendant(CssLocator elementLocator) {
-		throw new UnsupportedOperationException("not implemented yet");
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.locator.CompoundableLocator#getDescendant
+     * (org.jboss.test.selenium.locator.CompoundableLocator)
+     */
+    public CssLocator getDescendant(CssLocator elementLocator) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 }

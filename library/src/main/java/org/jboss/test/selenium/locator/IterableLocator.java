@@ -21,15 +21,57 @@
  */
 package org.jboss.test.selenium.locator;
 
+/**
+ * Locator which can iterate over it's descendant.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ * @param <T>
+ *            type what we want to iterate over - this type will be returned by method provided by this interface
+ */
 public interface IterableLocator<T extends IterableLocator<T>> extends Locator {
 
-    public T getNthChildElement(int index);
+    /**
+     * Gets the <i>N</i>-th child element of this locator.
+     * 
+     * @param index
+     *            the index of the child subsequent to this locator
+     * @return the <i>N</i>-th child element of this locator
+     */
+    T getNthChildElement(int index);
 
-    public T getNthOccurence(int index);
+    /**
+     * Gets the <i>N</i>-th occurence of descendant for this locator's element
+     * 
+     * @param index
+     *            the index of the descendant of this locator
+     * @return the <i>N</i>-th occurence of descendant
+     */
+    T getNthOccurence(int index);
 
-    public Iterable<T> getAllChildren();
+    /**
+     * Gets the all children of element given by this locator
+     * 
+     * @return the all children of element given by this locator
+     */
+    Iterable<T> getAllChildren();
 
-    public Iterable<T> getChildren(T elementLocator);
+    /**
+     * Gets the children given by locator composed from this locator and given elementLocator.
+     * 
+     * @param elementLocator
+     *            the locator for element for composition with this locator
+     * @return the children given by locator composed from this locator and elementLocator
+     */
+    Iterable<T> getChildren(T elementLocator);
 
-    public Iterable<T> getDescendants(T elementLocator);
+    /**
+     * Gets all the descendants for this locator specified by composed locator from this locator and given
+     * elementLocator.
+     * 
+     * @param elementLocator
+     *            the element locator, which should be added to this locator to specify this element's descendants
+     * @return the descendants of element given by composition of this locator and elementLocator
+     */
+    Iterable<T> getDescendants(T elementLocator);
 }

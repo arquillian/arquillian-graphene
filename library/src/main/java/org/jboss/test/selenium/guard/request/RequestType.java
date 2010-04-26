@@ -21,6 +21,18 @@
  */
 package org.jboss.test.selenium.guard.request;
 
+/**
+ * Types of request, which browser executes.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public enum RequestType {
-    XHR, HTTP, NONE;
+
+    /** The XMLHttpRequest type */
+    XHR,
+    /** The regular HTTP request type. */
+    HTTP,
+    /** The type for no request. */
+    NONE;
 }

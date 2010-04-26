@@ -24,7 +24,7 @@ package org.jboss.test.selenium.browser;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
  * <p>

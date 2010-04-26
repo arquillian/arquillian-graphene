@@ -28,49 +28,124 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.IterableLocator;
 
+/**
+ * <p>
+ * Abstract class able to iterate over <tt>IterableLocator&lt;T&gt;</tt>.
+ * </p>
+ * 
+ * <p>
+ * Encapsulates the functionality around the iterating over <tt>IterableLocator</tt>s.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ * @param <T>
+ *            the IterableLocator implementation
+ * @see ChildElementList
+ * @see ElementOcurrenceList
+ */
 public abstract class AbstractElementList<T extends IterableLocator<T>> implements Contextual, Iterable<T> {
-	
-	T iterableLocator;
-	
-	public AbstractElementList(T iterableLocator) {
-		super();
-		this.iterableLocator = iterableLocator;
-	}
 
-	public Iterator<T> iterator() {
-		return new ElementIterator();
-	}
-	
-	public class ElementIterator implements Iterator<T> {
-		
-		private int index;
-		private int count;
-		
-		public ElementIterator() {
-			index = 0;
-			recount();
-		}
-		
-		private final void recount() {
-			count = AjaxSelenium.getCurrentContext(AbstractElementList.this, iterableLocator).getCount(iterableLocator);
-		}
+    /** The iterable locator. */
+    T iterableLocator;
 
-		public boolean hasNext() {
-			return index <= count;
-		}
+    /**
+     * Instantiates a new abstract element list for given iterableLocator.
+     * 
+     * @param iterableLocator
+     *            the iterable locator
+     */
+    public AbstractElementList(T iterableLocator) {
+        super();
+        this.iterableLocator = iterableLocator;
+    }
 
-		public T next() {
-			if (hasNext()) {
-				return abstractNthElement(index++);
-			} else {
-				throw new NoSuchElementException();
-			}
-		}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Iterable#iterator()
+     */
+    public Iterator<T> iterator() {
+        return new ElementIterator();
+    }
 
-		public void remove() {
-			throw new UnsupportedOperationException(this.getClass().getCanonicalName() + " doesn't support remove");
-		}
-	}
-	
-	abstract T abstractNthElement(int index);
+    /**
+     * The iterator over elements given by IterableLocator.
+     */
+    public class ElementIterator implements Iterator<T> {
+
+        /** The index of current element in iteration. */
+        private int index;
+
+        /** The cache for the count of elements found by given elementLocator. */
+        private int count;
+
+        /**
+         * <p>
+         * Instantiates a new element iterator.
+         * </p>
+         * 
+         * <p>
+         * Set iteration index to first element and then try to found actual count for given elements.
+         * </p>
+         */
+        public ElementIterator() {
+            index = 0;
+            recount();
+        }
+
+        /**
+         * Recounts the actual count of elements by given elementLocator.
+         */
+        private final void recount() {
+            count = AjaxSelenium.getCurrentContext(AbstractElementList.this, iterableLocator).getCount(iterableLocator);
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#hasNext()
+         */
+        public boolean hasNext() {
+            return index <= count;
+        }
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.util.Iterator#next()
+         */
+        public T next() {
+            if (hasNext()) {
+                return abstractNthElement(index++);
+            } else {
+                throw new NoSuchElementException();
+            }
+        }
+
+        /**
+         * <b>Unsupported</b> for this Iterator.
+         * 
+         * @throws UnsupportedOperationException
+         *             in every call
+         * 
+         */
+        public void remove() {
+            throw new UnsupportedOperationException(this.getClass().getCanonicalName() + " doesn't support remove()");
+        }
+    }
+
+    /**
+     * <p>
+     * The point of extension.
+     * </p>
+     * 
+     * <p>
+     * Returns the <i>N</i>-th element (= on given index) in element list given by iterableLocator.
+     * 
+     * @param index
+     *            the index of element to get
+     * @return the IterableLocator instance on given index in element list
+     */
+    abstract T abstractNthElement(int index);
 }

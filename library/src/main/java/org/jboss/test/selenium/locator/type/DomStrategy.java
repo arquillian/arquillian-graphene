@@ -21,10 +21,21 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+// TDO: Auto-generated Javadoc
+/**
+ * Strategy for locating by given JavaScript expression.
+ * 
+ * @see org.jboss.test.selenium.locator.DomLocator
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class DomStrategy implements LocationStrategy {
 
-	public String getStrategyName() {
-		return "dom";
-	}
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+     */
+    public String getStrategyName() {
+        return "dom";
+    }
 
 }

@@ -23,12 +23,19 @@ package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * 
+ * Locates the link (anchor) element which contains text matching the specified pattern.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class LinkLocator extends AbstractElementLocator {
-	public LinkLocator(String linkText) {
-		super(linkText);
-	}
+    public LinkLocator(String linkText) {
+        super(linkText);
+    }
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.LINK;
-	}
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.LINK;
+    }
 }

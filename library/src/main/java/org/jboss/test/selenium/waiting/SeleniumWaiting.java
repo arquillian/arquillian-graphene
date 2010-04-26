@@ -1,5 +1,12 @@
 package org.jboss.test.selenium.waiting;
 
+/**
+ * Interface for waiting for satisfaction of conditions on page
+ * using Selenium objects.
+ *  
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public interface SeleniumWaiting {
 
     /**
@@ -8,7 +15,7 @@ public interface SeleniumWaiting {
      * @param condition
      *            what wait for to be satisfied
      */
-    public abstract void until(Condition condition);
+    void until(Condition condition);
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other
@@ -21,7 +28,7 @@ public interface SeleniumWaiting {
      * @param retrieve
      *            implementation of retrieving actual value
      */
-    public abstract <T> void waitForChange(T oldValue, Retriever<T> retrieve);
+    <T> void waitForChange(T oldValue, Retriever<T> retrieve);
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other
@@ -35,6 +42,5 @@ public interface SeleniumWaiting {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    public abstract <T> T waitForChangeAndReturn(final T oldValue, final Retriever<T> retrieve);
-
+    <T> T waitForChangeAndReturn(final T oldValue, final Retriever<T> retrieve);
 }

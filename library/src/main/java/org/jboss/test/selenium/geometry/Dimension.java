@@ -21,20 +21,27 @@
  */
 package org.jboss.test.selenium.geometry;
 
+/**
+ * Dimensions of object rendered by browser.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class Dimension {
-	int width, height;
+    int width;
+    int height;
 
-	public Dimension(int width, int height) {
-		super();
-		this.width = width;
-		this.height = height;
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
+    public Dimension(int width, int height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

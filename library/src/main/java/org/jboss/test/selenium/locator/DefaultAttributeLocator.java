@@ -23,29 +23,49 @@ package org.jboss.test.selenium.locator;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
+/**
+ * Default implementation of locator for element's attributes.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class DefaultAttributeLocator extends AbstractLocator implements AttributeLocator {
-	
-	Attribute attribute;
-	LocationStrategy locationStrategy;
-	
-	public DefaultAttributeLocator(AbstractElementLocator elementLocator, Attribute attribute) {
-		super(elementLocator.getLocator());
-		
-		Validate.notNull(attribute);
-		locationStrategy = elementLocator.getLocationStrategy();
-	}
-	
-	@Override
-	public String getAsString() {
-		return format("{0}@{1}", getAsString(), attribute.getAttributeName());
-	}
 
-	/* (non-Javadoc)
-	 * @see org.jboss.test.selenium.locator.AttributeLocator#getLocationStrategy()
-	 */
-	public LocationStrategy getLocationStrategy() {
-		return locationStrategy;
-	}
+    /** The attribute. */
+    Attribute attribute;
+    
+    /** The location strategy. */
+    LocationStrategy locationStrategy;
+
+    /**
+     * Instantiates a attribute locator using given elementLocator and the specific attribute.
+     *
+     * @param elementLocator the element locator
+     * @param attribute the attribute
+     */
+    public DefaultAttributeLocator(AbstractElementLocator elementLocator, Attribute attribute) {
+        super(elementLocator.getLocator());
+
+        Validate.notNull(attribute);
+        locationStrategy = elementLocator.getLocationStrategy();
+    }
+
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.AbstractLocator#getAsString()
+     */
+    @Override
+    public String getAsString() {
+        return format("{0}@{1}", getAsString(), attribute.getAttributeName());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.locator.AttributeLocator#getLocationStrategy()
+     */
+    public LocationStrategy getLocationStrategy() {
+        return locationStrategy;
+    }
 }

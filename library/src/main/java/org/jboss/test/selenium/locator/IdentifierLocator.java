@@ -23,12 +23,19 @@ package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * Locates the element with the specified &#64;id attribute. If no match is found, select the first element whose
+ * &#64;name attribute is id.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class IdentifierLocator extends AbstractElementLocator {
-	public IdentifierLocator(String idOrName) {
-		super(idOrName);
-	}
+    public IdentifierLocator(String idOrName) {
+        super(idOrName);
+    }
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.IDENTIFIER;
-	}
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.IDENTIFIER;
+    }
 }

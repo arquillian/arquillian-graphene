@@ -21,6 +21,10 @@
  */
 package org.jboss.test.selenium.guard.request;
 
+/**
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class XMLHttpRequestGuard extends RequestTypeGuard {
 
     public void doAfterCommand() {

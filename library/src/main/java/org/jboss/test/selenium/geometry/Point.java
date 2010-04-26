@@ -21,17 +21,28 @@
  */
 package org.jboss.test.selenium.geometry;
 
+/**
+ * Point as position rendered on browser canvas.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class Point {
-	int x, y;
+    int x;
+    int y;
 
-	public Point(int x, int y) {
-		super();
-		this.x = x;
-		this.y = y;
-	}
+    public Point(int x, int y) {
+        super();
+        this.x = x;
+        this.y = y;
+    }
 
-	public String getCoords() {
-		return x + "," + y;
-	}
+    /**
+     * Gets coordinations of this point as string used in Selenium.
+     * @return
+     */
+    public String getCoords() {
+        return x + "," + y;
+    }
 
 }

@@ -27,13 +27,14 @@ package org.jboss.test.selenium.waiting;
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
- * @param <T> type of retrieved value
+ * @param <T>
+ *            type of retrieved value
  */
 public interface Retriever<T> {
-	/**
-	 * Override with implementation of retrieving value from source.
-	 * 
-	 * @return retrieved value
-	 */
-	T retrieve();
+    /**
+     * Override with implementation of retrieving value from source.
+     * 
+     * @return retrieved value
+     */
+    T retrieve();
 }

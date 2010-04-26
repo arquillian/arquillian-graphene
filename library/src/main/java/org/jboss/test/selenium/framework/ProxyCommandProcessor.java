@@ -23,6 +23,22 @@ package org.jboss.test.selenium.framework;
 
 import com.thoughtworks.selenium.CommandProcessor;
 
+/**
+ * <p>
+ * Abstract proxy for implementing command processor proxy.
+ * </p>
+ * 
+ * <p>
+ * For implementation it is enough to overwrite {@link ProxyCommandProcessor#doCommand(String, String[])}
+ * </p>
+ * 
+ * <p>
+ * Takes a CommandProcessor as target for proxied commands.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public abstract class ProxyCommandProcessor implements CommandProcessor {
 
     CommandProcessor commandProcessor;

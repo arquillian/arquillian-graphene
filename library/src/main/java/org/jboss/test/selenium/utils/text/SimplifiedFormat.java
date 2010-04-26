@@ -23,10 +23,21 @@ package org.jboss.test.selenium.utils.text;
 
 import java.text.MessageFormat;
 
-public class LocatorFormat {
-	/**
-     * Uses a MessageFormat.format() to prepare given format string and use it
-     * to format result with given arguments.
+/**
+ * <p>Formats using simplified MessageFormat syntax:</p>
+ * 
+ * <p>In opposite to MessageFormat, it isn't necessary doubling single quotes (').</p>
+ *
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
+public final class SimplifiedFormat {
+    private SimplifiedFormat() {
+    }
+
+    /**
+     * Uses a MessageFormat.format() to prepare given format string and use it to format result with given arguments.
      * 
      * @param format
      *            string used in MessageFormat.format()

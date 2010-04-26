@@ -21,10 +21,19 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+/**
+ * Strategy for locating elements by given id or by name as a fallback.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class IdentifierStrategy implements LocationStrategy {
 
-	public String getStrategyName() {
-		return "identifier";
-	}
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+     */
+    public String getStrategyName() {
+        return "identifier";
+    }
 
 }

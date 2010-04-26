@@ -27,33 +27,40 @@ import org.jboss.test.selenium.AbstractTestCase;
 import static org.jboss.test.selenium.locator.LocatorFactory.*;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.locator.*;
+import org.jboss.test.selenium.locator.IdLocator;
+import org.jboss.test.selenium.locator.JQueryLocator;
+
 import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.*;
 
+/**
+ * Sample of guarding request to specific request type.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class RequestGuardSample extends AbstractTestCase {
 
+    static final JQueryLocator BUTTON_START = jq("#start");
+    static final JQueryLocator BUTTON_INCREMENT = jq(":button");
+    static final IdLocator TEXT_COUNT = id("#count");
+
     final URL initialUrl = null;
-    final ElementLocator BUTTON_START = jq("#start");
-    final ElementLocator BUTTON_INCREMENT = jq(":button");
-    final ElementLocator TEXT_COUNT = id("#count");
 
     void usage() {
-        
+
         // no guards defined
         selenium.open(initialUrl);
-        
-        
+
         // explicitly define what request guard to use for current interaction
         guardHttp(selenium).click(null);
-        
-        
+
         // continue to use XHR as defined for selenium object
         selenium.controlKeyDown();
         guardXhr(selenium).click(BUTTON_START);
         selenium.controlKeyUp();
-        
+
         guardNoRequest(selenium).click(null);
-        
+
         // this action will not fire any request by default
         selenium.addScript(new JavaScript("..."), null);
     }

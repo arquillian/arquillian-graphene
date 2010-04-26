@@ -21,10 +21,19 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+/**
+ * Strategy for locating elements by given id attribute.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class IdStrategy implements LocationStrategy {
 
-	public String getStrategyName() {
-		return "id";
-	}
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+     */
+    public String getStrategyName() {
+        return "id";
+    }
 
 }

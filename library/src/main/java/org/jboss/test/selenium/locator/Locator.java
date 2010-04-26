@@ -24,7 +24,14 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * Locates the object by given strategy and parameters.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public interface Locator extends Contextual {
-	public LocationStrategy getLocationStrategy();
-	public String getAsString();
+    LocationStrategy getLocationStrategy();
+
+    String getAsString();
 }

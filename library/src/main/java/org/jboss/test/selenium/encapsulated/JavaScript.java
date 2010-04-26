@@ -28,24 +28,63 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
+/**
+ * <p>
+ * Encapsulates JavaScript definitions.
+ * </p>
+ * 
+ * <p>
+ * Able to load JavaScript code from file or from classpath resource.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class JavaScript {
-	String javaScript;
 
-	public JavaScript(String javaScript) {
-		this.javaScript = javaScript;
-	}
-	
-	public String getJavaScript() {
-		return javaScript;
-	}
-	
-	@Override
-	public String toString() {
-		return getJavaScript();
-	}
+    /** The java script. */
+    String javaScript;
 
+    /**
+     * Instantiates a new java script.
+     * 
+     * @param javaScript
+     *            the java script code
+     */
+    public JavaScript(String javaScript) {
+        this.javaScript = javaScript;
+    }
+
+    /**
+     * Gets the JavaScript as string
+     * 
+     * @return the JavaScript as string
+     */
+    public String getAsString() {
+        return javaScript;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return getAsString();
+    }
+
+    /**
+     * Loads the JavaScript from file.
+     * 
+     * @param sourceFile
+     *            the source file
+     * @return the JavaScript object loaded from file
+     * @throws RuntimeException
+     *             when failed to load a script
+     */
     public static JavaScript fromFile(File sourceFile) {
         String sourceCode;
         try {
@@ -58,6 +97,15 @@ public class JavaScript {
         return new JavaScript(sourceCode);
     }
 
+    /**
+     * Loads the JavaScript from classpath resource.
+     * 
+     * @param resourceName
+     *            the resource name, e.g. "org/jboss/test/..."
+     * @return the JavaScript object loaded from classpath resource
+     * @throws RuntimeException
+     *             when failed to load a script
+     */
     public static JavaScript fromResource(String resourceName) {
         InputStream inputStream;
         inputStream = ClassLoader.getSystemResourceAsStream(resourceName);
@@ -67,7 +115,8 @@ public class JavaScript {
         try {
             sourceCode = IOUtils.toString(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(format("Unable to load JavaScript from resource with name '{0}'", resourceName), e);
+            throw new RuntimeException(format("Unable to load JavaScript from resource with name '{0}'", resourceName),
+                e);
         }
 
         return new JavaScript(sourceCode);

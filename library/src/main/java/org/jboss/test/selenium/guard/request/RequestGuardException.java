@@ -23,6 +23,12 @@ package org.jboss.test.selenium.guard.request;
 
 import org.jboss.test.selenium.guard.GuardException;
 
+/**
+ * This exception determines that when interacting with browser using Selenium, the wrong request type was executed.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class RequestGuardException extends GuardException {
     private static final long serialVersionUID = 5753594116726657947L;
 

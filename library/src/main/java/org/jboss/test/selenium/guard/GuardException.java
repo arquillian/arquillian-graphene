@@ -21,6 +21,18 @@
  */
 package org.jboss.test.selenium.guard;
 
+/**
+ * <p>
+ * Exception thrown which guard fail to guard the command.
+ * </p>
+ * 
+ * <p>
+ * It means the pre- or post-conditions fails.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class GuardException extends RuntimeException {
 
     private static final long serialVersionUID = 7396776115592706309L;

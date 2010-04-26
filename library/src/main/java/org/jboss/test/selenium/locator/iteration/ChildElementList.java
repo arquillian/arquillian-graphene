@@ -23,14 +23,38 @@ package org.jboss.test.selenium.locator.iteration;
 
 import org.jboss.test.selenium.locator.IterableLocator;
 
+/**
+ * <p>
+ * Able to iterate over direct childs of given locator.
+ * </p>
+ * 
+ * <p>
+ * In opposite to {@link ElementOcurrenceList}, it returns only direct descendants of given expression.
+ * </p>
+ * 
+ * @param <T>
+ *            the IterableLocator implementation
+ * @see AbstractElementList
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class ChildElementList<T extends IterableLocator<T>> extends AbstractElementList<T> {
 
-	public ChildElementList(T iterableLocator) {
-		super(iterableLocator);
-	}
+    /**
+     * Instantiates a new child element list.
+     *
+     * @param iterableLocator the iterable locator
+     */
+    public ChildElementList(T iterableLocator) {
+        super(iterableLocator);
+    }
 
-	@Override
-	T abstractNthElement(int index) {
-		return (T) iterableLocator.getNthChildElement(index);
-	}
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.iteration.AbstractElementList#abstractNthElement(int)
+     */
+    @Override
+    T abstractNthElement(int index) {
+        return (T) iterableLocator.getNthChildElement(index);
+    }
 }

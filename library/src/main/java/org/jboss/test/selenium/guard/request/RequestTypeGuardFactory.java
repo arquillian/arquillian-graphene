@@ -23,19 +23,50 @@ package org.jboss.test.selenium.guard.request;
 
 import org.jboss.test.selenium.framework.AjaxSelenium;
 
-public class RequestTypeGuardFactory {
+/**
+ * The factory for shortening use of {@link RequestTypeGuard}s in code.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
+public final class RequestTypeGuardFactory {
+
+    private RequestTypeGuardFactory() {
+    }
+
+    /**
+     * Shortcut for registering a XMLHttpRequest on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered XMLHttpRequest guard
+     * @return the selenium guarded to use XMLHttpRequest
+     */
     public static AjaxSelenium guardXhr(AjaxSelenium selenium) {
         AjaxSelenium copy = selenium.immutableCopy();
         copy.registerGuard(new XMLHttpRequestGuard());
         return copy;
     }
 
+    /**
+     * Shortcut for registering a regular HTTP request on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered regular HTTP request guard
+     * @return the selenium guarded to use regular HTTP requests
+     */
     public static AjaxSelenium guardHttp(AjaxSelenium selenium) {
         AjaxSelenium copy = selenium.immutableCopy();
         copy.registerGuard(new RegularHttpRequestGuard());
         return copy;
     }
 
+    /**
+     * Shortcut for registering a guard for no request on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered no request guard
+     * @return the selenium guarded to use no request during interaction
+     */
     public static AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
         AjaxSelenium copy = selenium.immutableCopy();
         copy.registerGuard(new NoRequestGuard());

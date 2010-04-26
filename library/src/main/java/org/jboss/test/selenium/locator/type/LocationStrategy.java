@@ -21,15 +21,48 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+/**
+ * Strategy for locating element on the page.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public interface LocationStrategy {
-	public String getStrategyName();
-	
-	public static final LocationStrategy CSS = new CssStrategy();
-	public static final LocationStrategy DOM = new DomStrategy();
-	public static final LocationStrategy IDENTIFIER = new IdentifierStrategy();
-	public static final LocationStrategy ID = new IdStrategy();
-	public static final LocationStrategy JQUERY = new JQueryStrategy();
-	public static final LocationStrategy LINK = new LinkStrategy();
-	public static final LocationStrategy NAME = new NameStrategy();
-	public static final LocationStrategy XPATH = new XpathStrategy();
+
+    /** Strategy for locating by CSS selectors. */
+    LocationStrategy CSS = new CssStrategy();
+
+    /** Strategy for locating by given JavaScript expression. */
+    LocationStrategy DOM = new DomStrategy();
+
+    /** Strategy for locating elements by given id or by name as a fallback */
+    LocationStrategy IDENTIFIER = new IdentifierStrategy();
+
+    /** Strategy for locating elements by given id attribute. */
+    LocationStrategy ID = new IdStrategy();
+
+    /** Strategy for locating elements using JQuery Selector syntax. */
+    LocationStrategy JQUERY = new JQueryStrategy();
+
+    /** Strategy for locating elements by text of the link (anchor) */
+    LocationStrategy LINK = new LinkStrategy();
+
+    /** Strategy for locating elements by given name attribute. */
+    LocationStrategy NAME = new NameStrategy();
+
+    /** Strategy for locating elements by given xpath xpression. */
+    LocationStrategy XPATH = new XpathStrategy();
+
+    /**
+     * <p>
+     * Gets the strategy name used to express location strategy in Selenium API.
+     * </p>
+     * 
+     * <p>
+     * E.g. <tt>&lt;strategyName&gt;=&lt;elementLocator&gt;</tt>
+     * </p>
+     * 
+     * @return the strategy name
+     */
+    String getStrategyName();
 }

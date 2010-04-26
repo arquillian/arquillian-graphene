@@ -21,10 +21,21 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+/**
+ * Strategy for locating elements by given name attribute.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class NameStrategy implements LocationStrategy {
 
-	public String getStrategyName() {
-		return "name";
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+     */
+    public String getStrategyName() {
+        return "name";
+    }
 
 }

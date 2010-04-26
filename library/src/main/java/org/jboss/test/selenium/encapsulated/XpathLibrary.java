@@ -21,23 +21,53 @@
  */
 package org.jboss.test.selenium.encapsulated;
 
+/**
+ * Encapsulates the current implementations of XPath libraries supported by Selenium.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class XpathLibrary {
-	String xpathLibraryName;
 
-	public XpathLibrary(String xpathLibraryName) {
-		this.xpathLibraryName = xpathLibraryName;
-	}
+    /** Default library, currently Google's library, see {@link #AJAXSLT} */
+    public static final XpathLibrary DEFAULT = new XpathLibrary("default");
 
-	public String getXpathLibraryName() {
-		return xpathLibraryName;
-	}
+    /** Google's library */
+    public static final XpathLibrary AJAXSLT = new XpathLibrary("ajaxslt");
 
-	@Override
-	public String toString() {
-		return getXpathLibraryName();
-	}
+    /** Cybozu Labs' faster library */
+    public static final XpathLibrary JAVASCRIPT_XPATH = new XpathLibrary("javascript-xpath");
 
-	public static final XpathLibrary DEFAULT = new XpathLibrary("default");
-	public static final XpathLibrary AJAXSLT = new XpathLibrary("ajaxslt");
-	public static final XpathLibrary JAVASCRIPT_XPATH = new XpathLibrary("javascript-xpath");
+    /** The xpath library name. */
+    String xpathLibraryName;
+
+    /**
+     * Instantiates a new xpath library.
+     * 
+     * @param xpathLibraryName
+     *            the xpath library name
+     */
+    public XpathLibrary(String xpathLibraryName) {
+        this.xpathLibraryName = xpathLibraryName;
+    }
+
+    /**
+     * Gets the xpath library name.
+     * 
+     * @return the xpath library name
+     */
+    public String getXpathLibraryName() {
+        return xpathLibraryName;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return getXpathLibraryName();
+    }
+
 }

@@ -21,6 +21,10 @@
  */
 package org.jboss.test.selenium.encapsulated;
 
+/**
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class Frame {
-	// TODO
+    // TODO
 }

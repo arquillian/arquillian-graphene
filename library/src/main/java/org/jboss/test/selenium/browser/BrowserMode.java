@@ -21,7 +21,7 @@
  */
 package org.jboss.test.selenium.browser;
 
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 import java.util.EnumSet;
 import java.util.HashSet;

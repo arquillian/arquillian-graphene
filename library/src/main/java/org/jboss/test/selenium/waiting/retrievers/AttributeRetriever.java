@@ -27,56 +27,90 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.waiting.Retriever;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
 import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
-public class AttributeRetriever implements Retriever<String>, Contextual {
-	AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
-	AttributeLocator attributeLocator;
+/**
+ * Retrieves the attribute with given attributeLocator.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
+public class AttributeRetriever implements Retriever<String>, JavaScriptRetriever<String>, Contextual {
 
-	public String retrieve() {
-		Validate.notNull(attributeLocator);
-		
-		return selenium.getAttribute(attributeLocator);
-	}
-	
+    /** The selenium. */
+    AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
+
+    /** The attribute locator. */
+    AttributeLocator attributeLocator;
+
+    /**
+     * Instantiates a new attribute retriever.
+     */
+    protected AttributeRetriever() {
+    }
+
+    /**
+     * Retrieves the attribute value from element given by attributeLocator
+     */
+    public String retrieve() {
+        Validate.notNull(attributeLocator);
+
+        return selenium.getAttribute(attributeLocator);
+    }
+
+    /**
+     * JavaScript expression to retrieve attribute value from element given by attributeLocator
+     */
     public JavaScript getJavaScriptRetrieve() {
         return new JavaScript(format("selenium.getAttribute('{0}')", attributeLocator.getAsString()));
     }
-	
-	protected AttributeRetriever() {
-	}
-	
-	public static AttributeRetriever getInstance() {
+
+    /**
+     * Factory method.
+     * 
+     * @return single instance of AttributeRetriever
+     */
+    public static AttributeRetriever getInstance() {
         return new AttributeRetriever();
     }
 
-	public AttributeRetriever attributeLocator(AttributeLocator attributeLocator) {
-		Validate.notNull(attributeLocator);
+    /**
+     * Gets a AttributeRetriever object preset with attributeLocator to given value.
+     * 
+     * @param attributeLocator
+     *            the attribute locator to preset
+     * @return the AttributeRetriever preset with attributeLocator of given value
+     */
+    public AttributeRetriever attributeLocator(AttributeLocator attributeLocator) {
+        Validate.notNull(attributeLocator);
 
-		AttributeRetriever copy = copy();
-		copy.attributeLocator = attributeLocator;
+        AttributeRetriever copy = copy();
+        copy.attributeLocator = attributeLocator;
 
-		return copy;
-	}
+        return copy;
+    }
 
-	public AttributeRetriever text(String text) {
-		Validate.notNull(text);
+    /**
+     * Returns a copy of this attributeRetriever with exactly same settings.
+     * 
+     * Keeps the immutability of this class.
+     * 
+     * @return the exact copy of this attributeRetriever
+     */
+    private AttributeRetriever copy() {
+        AttributeRetriever copy = new AttributeRetriever();
+        copy.attributeLocator = attributeLocator;
+        return copy;
+    }
 
-		AttributeRetriever copy = copy();
-
-		return copy;
-	}
-
-	private AttributeRetriever copy() {
-		AttributeRetriever copy = new AttributeRetriever();
-		copy.attributeLocator = attributeLocator;
-		return copy;
-	}
-	
-	public Convertor<String, String> getConvertor() {
+    /**
+     * Uses {@link PassOnConvertor} to pass the JavaScript result to result value.
+     */
+    public Convertor<String, String> getConvertor() {
         return new PassOnConvertor<String>();
     }
 }

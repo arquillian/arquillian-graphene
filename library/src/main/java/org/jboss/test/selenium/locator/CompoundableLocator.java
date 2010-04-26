@@ -21,9 +21,33 @@
  */
 package org.jboss.test.selenium.locator;
 
+/**
+ * Defines element locators which can be used to derive child and generally descendant elements by given locator by
+ * composition by composition.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ * 
+ * @param <T>
+ *            type what will be used as result of composition
+ */
 public interface CompoundableLocator<T extends CompoundableLocator<T>> extends Locator {
-    
-	public T getChild(T elementLocator);
 
-	public T getDescendant(T elementLocator);
+    /**
+     * Gets a child of this locator by composing this locator with given elementLocator.
+     * 
+     * @param elementLocator
+     *            are added to this locator to compose new compount locator
+     * @return the composed locator for this locator with added elementLocator
+     */
+    T getChild(T elementLocator);
+
+    /**
+     * Gets a descendant of this locator by composing this locator with given elementLocator.
+     * 
+     * @param elementLocator
+     *            are added to this locator to compose new compound locator
+     * @return the composed locator for this locator with added elementLocator
+     */
+    T getDescendant(T elementLocator);
 }

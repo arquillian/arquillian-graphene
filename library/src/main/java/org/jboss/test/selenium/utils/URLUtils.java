@@ -37,56 +37,63 @@ import java.security.NoSuchAlgorithmException;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class URLUtils {
-	
+public final class URLUtils {
+    
+    private static final int MD5_BUFFER_SIZE = 8192;
+    private static final int HEX_RADIX = 16;
+
+    private URLUtils() {
+    }
+
     /**
-	 * Use URL context and one or more relocations to build end URL.
-	 * 
-	 * @param context
-	 *            first URL used like a context root for all relocation changes
-	 * @param relocations
-	 *            array of relocation URLs
-	 * @return end url after all changes made on context with relocations
-	 * @throws MalformedURLException
-	 *             when context or some of relocations are malformed
-	 */
-	public static String buildUrl(String context, String... relocations) throws MalformedURLException {
-		URL url = new URL(context);
+     * Use URL context and one or more relocations to build end URL.
+     * 
+     * @param context
+     *            first URL used like a context root for all relocation changes
+     * @param relocations
+     *            array of relocation URLs
+     * @return end url after all changes made on context with relocations
+     * @throws MalformedURLException
+     *             when context or some of relocations are malformed
+     */
+    public static String buildUrl(String context, String... relocations) throws MalformedURLException {
+        URL url = new URL(context);
 
-		for (String move : relocations) {
-			url = new URL(url, move);
-		}
+        for (String move : relocations) {
+            url = new URL(url, move);
+        }
 
-		return url.toString();
-	}
+        return url.toString();
+    }
 
-	/**
-	 * Gets a MD5 digest of some resource obtains as input stream from
-	 * connection to URL given by URL string.
-	 * 
-	 * @param url of the resource
-	 * @return MD5 message digest of resource
-	 * @throws IOException when connection to URL fails
-	 */
-	public static String resourceMd5Digest(String url) throws IOException {
-		URLConnection connection = new URL(url).openConnection();
+    /**
+     * Gets a MD5 digest of some resource obtains as input stream from connection to URL given by URL string.
+     * 
+     * @param url
+     *            of the resource
+     * @return MD5 message digest of resource
+     * @throws IOException
+     *             when connection to URL fails
+     */
+    public static String resourceMd5Digest(String url) throws IOException {
+        URLConnection connection = new URL(url).openConnection();
 
-		InputStream in = connection.getInputStream();
-		MessageDigest digest;
-		try {
-			digest = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException ex) {
-			throw new IllegalStateException("MD5 hashing is unsupported", ex);
-		}
-		byte[] buffer = new byte[8192];
-		int read = 0;
+        InputStream in = connection.getInputStream();
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex) {
+            throw new IllegalStateException("MD5 hashing is unsupported", ex);
+        }
+        byte[] buffer = new byte[MD5_BUFFER_SIZE];
+        int read = 0;
 
-		while ((read = in.read(buffer)) > 0) {
-			digest.update(buffer, 0, read);
-		}
+        while ((read = in.read(buffer)) > 0) {
+            digest.update(buffer, 0, read);
+        }
 
-		byte[] md5sum = digest.digest();
-		BigInteger bigInt = new BigInteger(1, md5sum);
-		return bigInt.toString(16);
-	}
+        byte[] md5sum = digest.digest();
+        BigInteger bigInt = new BigInteger(1, md5sum);
+        return bigInt.toString(HEX_RADIX);
+    }
 }

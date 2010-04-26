@@ -31,68 +31,125 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
 import com.thoughtworks.selenium.SeleniumException;
 
 /**
+ * Class to use to extend HttpCommandProcessor functionality to catch Selenium's JavaScript exceptions and repeat the
+ * command for specific issue types (like Permission denied in Internet Explorer).
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public class AjaxAwareCommandProcessor extends HttpCommandProcessor {
-	public AjaxAwareCommandProcessor(String serverHost, int serverPort, String browserStartCommand, String browserURL) {
-		super(serverHost, serverPort, browserStartCommand, browserURL);
-	}
 
-	private abstract class AjaxCommand<T> {
-		public abstract T command();
-	}
+    /** The Constant PERMISSION_DENIED. */
+    private static final String[] PERMISSION_DENIED = new String[] {
+        "ERROR: Threw an exception: Permission denied",
+        "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error details"
+            + " from the log window.  The error message is: Permission denied",
+        "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
 
-	private static String[] PERMISSION_DENIED = new String[] {
-			"ERROR: Threw an exception: Error executing strategy function jquery: Permission denied",
-			"ERROR: Threw an exception: Permission denied",
-//			"ERROR: Threw an exception: Object doesn't support this property or method",
-//			"ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error details from the log window.  The error message is: Permission denied",
-//			"ERROR: Threw an exception: null property value",
-			};
+    /** The Constant DEFAULT_WAITING_INTERVAL. */
+    private static final int DEFAULT_WAITING_INTERVAL = 1000;
 
-	private <T> T doAjax(final AjaxCommand<T> ajaxCommand) {
-		final AssertionError fail = new AssertionError("Fails with Permission denied when trying to execute jQuery");
+    /**
+     * Instantiates a new ajax aware command processor.
+     * 
+     * @param serverHost
+     *            the selenium server host
+     * @param serverPort
+     *            the selenium server port
+     * @param browserStartCommand
+     *            the browser start command
+     * @param browserURL
+     *            the browser url
+     */
+    public AjaxAwareCommandProcessor(String serverHost, int serverPort, String browserStartCommand, String browserURL) {
+        super(serverHost, serverPort, browserStartCommand, browserURL);
+    }
 
-		final T start = null;
-		return Wait.noDelay().timeout(Wait.DEFAULT_TIMEOUT).interval(1000).failWith(fail).waitForChangeAndReturn(start,
-				new Retriever<T>() {
-					boolean exceptionLogged = false;
+    /**
+     * Exception handler wrapper used in AjaxAwarecommandProcessor
+     * 
+     * @param <T>
+     *            the return type for given command
+     */
+    private abstract class AjaxCommand<T> {
 
-					public T retrieve() {
-						try {
-							return ajaxCommand.command();
-						} catch (SeleniumException e) {
-							final String message = StringUtils.defaultString(e.getMessage());
-							if (ArrayUtils.contains(PERMISSION_DENIED, message)) {
-								System.err.println(message);
-								if (!exceptionLogged) {
-									exceptionLogged = true;
-									System.err.println(ajaxCommand);
-									e.printStackTrace();
-								} else {
-								}
-								return null;
-							}
+        /**
+         * Command which should be executed wrapped by exception handler
+         * 
+         * @return the t
+         */
+        public abstract T command();
+    }
 
-							throw e;
-						}
-					}
-				});
-	}
+    /**
+     * <p>
+     * Executes the command wrapped in exception handler.
+     * </p>
+     * 
+     * <p>
+     * Reacts to exceptions with 'Permission denied' type and try to reexecute the command in this situation.
+     * </p>
+     * 
+     * <p>
+     * Prints the exception stack trace to help identify the problematic commands.
+     * </p>
+     * 
+     * <p>
+     * Internally uses the {@link Wait} class to implement waiting repeated command.
+     * </p>
+     * 
+     * @param <T>
+     *            return type of the selenium command
+     * @param ajaxCommand
+     *            the command to be executed by selenium
+     * @return the result of selenium command
+     */
+    private <T> T doAjax(final AjaxCommand<T> ajaxCommand) {
+        final AssertionError fail = new AssertionError("Fails with Permission denied when trying to execute jQuery");
 
-	@Override
-	public String doCommand(final String commandName, final String[] args) {
-		return doAjax(new AjaxCommand<String>() {
-			@Override
-			public String command() {
-				return AjaxAwareCommandProcessor.super.doCommand(commandName, args);
-			}
+        final T start = null;
+        return Wait.noDelay().timeout(Wait.DEFAULT_TIMEOUT).interval(DEFAULT_WAITING_INTERVAL).failWith(fail)
+            .waitForChangeAndReturn(start, new Retriever<T>() {
+                boolean exceptionLogged = false;
 
-			@Override
-			public String toString() {
-				return new ToStringBuilder(this).append("commandName", commandName).append("args", args).toString();
-			}
-		});
-	}
+                public T retrieve() {
+                    try {
+                        return ajaxCommand.command();
+                    } catch (SeleniumException e) {
+                        final String message = StringUtils.defaultString(e.getMessage());
+                        if (ArrayUtils.contains(PERMISSION_DENIED, message)) {
+                            System.err.println(message);
+                            if (!exceptionLogged) {
+                                exceptionLogged = true;
+                                System.err.println(ajaxCommand);
+                                e.printStackTrace();
+                            }
+                            return null;
+                        }
+
+                        throw e;
+                    }
+                }
+            });
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.thoughtworks.selenium.HttpCommandProcessor#doCommand(java.lang.String, java.lang.String[])
+     */
+    @Override
+    public String doCommand(final String commandName, final String[] args) {
+        return doAjax(new AjaxCommand<String>() {
+            @Override
+            public String command() {
+                return AjaxAwareCommandProcessor.super.doCommand(commandName, args);
+            }
+
+            @Override
+            public String toString() {
+                return new ToStringBuilder(this).append("commandName", commandName).append("args", args).toString();
+            }
+        });
+    }
 }

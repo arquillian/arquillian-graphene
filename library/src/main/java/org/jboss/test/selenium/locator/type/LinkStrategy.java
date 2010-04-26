@@ -21,10 +21,19 @@
  */
 package org.jboss.test.selenium.locator.type;
 
+/**
+ * Strategy for locating elements by text of the link (anchor)
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class LinkStrategy implements LocationStrategy {
 
-	public String getStrategyName() {
-		return "link";
-	}
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+     */
+    public String getStrategyName() {
+        return "link";
+    }
 
 }

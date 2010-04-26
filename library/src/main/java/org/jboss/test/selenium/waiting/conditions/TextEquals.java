@@ -29,53 +29,121 @@ import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Condition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
 
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
+/**
+ * 
+ * <p>
+ * Implementation of Condition for waiting if element given by elementLocator has text equal to given text.
+ * </p>
+ * 
+ * <p>
+ * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class TextEquals implements Condition, JavaScriptCondition, Contextual {
-	AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
-	ElementLocator elementLocator;
-	String text;
 
-	public boolean isTrue() {
-		Validate.notNull(elementLocator);
-		Validate.notNull(text);
-		
-		return selenium.getText(elementLocator).equals(text);
-	}
-	
-	public JavaScript getJavaScriptCondition() {
+    /** The selenium. */
+    AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
+
+    /** The element locator. */
+    ElementLocator elementLocator;
+
+    /** The text. */
+    String text;
+
+    /**
+     * Instantiates a new text equals.
+     */
+    protected TextEquals() {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.waiting.Condition#isTrue()
+     */
+    public boolean isTrue() {
+        Validate.notNull(elementLocator);
+        Validate.notNull(text);
+
+        return selenium.getText(elementLocator).equals(text);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
+     */
+    public JavaScript getJavaScriptCondition() {
         return new JavaScript(format("selenium.getText('{0}') == '{1}'", elementLocator.getAsString(), text));
     }
 
-	protected TextEquals() {
-	}
-	
-	public static TextEquals getInstance() {
+    /**
+     * Factory method.
+     * 
+     * @return single instance of TextEquals
+     */
+    public static TextEquals getInstance() {
         return new TextEquals();
     }
 
-	public TextEquals locator(ElementLocator elementLocator) {
-		Validate.notNull(elementLocator);
+    /**
+     * <p>
+     * Returns the TextEquals instance with given elementLocator set.
+     * </p>
+     * 
+     * <p>
+     * From this locator will be obtained the text.
+     * </p>
+     * 
+     * @param elementLocator
+     *            the element locator
+     * @return the TextEquals object with preset locator
+     */
+    public TextEquals locator(ElementLocator elementLocator) {
+        Validate.notNull(elementLocator);
 
-		TextEquals copy = copy();
-		copy.elementLocator = elementLocator;
+        TextEquals copy = copy();
+        copy.elementLocator = elementLocator;
 
-		return copy;
-	}
+        return copy;
+    }
 
-	public TextEquals text(String text) {
-		Validate.notNull(text);
+    /**
+     * <p>
+     * Returns the TextEquals instance with text set.
+     * </p>
+     * 
+     * <p>
+     * For equality with this text the condition will wait.
+     * </p>
+     * 
+     * @param text
+     *            it should wait for equality
+     * @return the TextEquals object with preset text
+     */
+    public TextEquals text(String text) {
+        Validate.notNull(text);
 
-		TextEquals copy = copy();
-		copy.text = text;
+        TextEquals copy = copy();
+        copy.text = text;
 
-		return copy;
-	}
+        return copy;
+    }
 
-	private TextEquals copy() {
-		TextEquals copy = new TextEquals();
-		copy.elementLocator = elementLocator;
-		copy.text = text;
-		return copy;
-	}
+    /**
+     * Returns the exact copy of this ElementPresent object.
+     * 
+     * @return the copy of this TextEquals object
+     */
+    private TextEquals copy() {
+        TextEquals copy = new TextEquals();
+        copy.elementLocator = elementLocator;
+        copy.text = text;
+        return copy;
+    }
 }

@@ -19,28 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.geometry;
+package org.jboss.test.selenium.samples;
+
+import org.jboss.test.selenium.AbstractTestCase;
+import org.jboss.test.selenium.locator.AttributeLocator;
+import org.jboss.test.selenium.locator.JQueryLocator;
+import static org.jboss.test.selenium.locator.LocatorFactory.*;
+import static org.jboss.test.selenium.locator.Attribute.*;
 
 /**
- * Offset for movement on browser-rendered canvas.
+ * Sample for using attributes
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Offset {
-    int x;
-    int y;
+public class AttributeSample extends AbstractTestCase {
 
-    public Offset(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    JQueryLocator buttonStart = jq("#start");
+    AttributeLocator buttonStartClass = buttonStart.getAttribute(CLASS);
 
-    /**
-     * Returns the movement as it is used in Selenium.
-     * @return
-     */
-    public String getMovement() {
-        return x + "," + y;
+    void usage() {
+        String styleClass = selenium.getAttribute(buttonStartClass);
+        
+        assert "myButton".equals(styleClass);
     }
 }

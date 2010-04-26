@@ -29,10 +29,10 @@ package org.jboss.test.selenium.waiting;
  * @version $Revision$
  */
 public interface Condition {
-	/**
-	 * Returns true if condition is satisfied, false if it isn't.
-	 * 
-	 * @return true if desired condition is satisfied, false if it isn't
-	 */
-	public boolean isTrue();
+    /**
+     * Returns true if condition is satisfied, false if it isn't.
+     * 
+     * @return true if desired condition is satisfied, false if it isn't
+     */
+    boolean isTrue();
 }

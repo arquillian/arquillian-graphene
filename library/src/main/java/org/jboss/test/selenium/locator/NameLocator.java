@@ -23,12 +23,18 @@ package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * Locates the first element with the specified &#64;name attribute.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class NameLocator extends AbstractElementLocator {
-	public NameLocator(String name) {
-		super(name);
-	}
+    public NameLocator(String name) {
+        super(name);
+    }
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.NAME;
-	}
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.NAME;
+    }
 }

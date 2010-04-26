@@ -23,21 +23,30 @@ package org.jboss.test.selenium.samples;
 
 import org.jboss.test.selenium.AbstractTestCase;
 import static org.jboss.test.selenium.locator.LocatorFactory.*;
-import org.jboss.test.selenium.locator.*;
+
+import org.jboss.test.selenium.locator.IdLocator;
+import org.jboss.test.selenium.locator.JQueryLocator;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
 
+/**
+ * Sample of usage Wait object to implement waiting to satisfy condition.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class WaitingSample extends AbstractTestCase {
 
-    final ElementLocator BUTTON_START = jq("#start");
-    final ElementLocator BUTTON_INCREMENT = jq(":button");
-    final ElementLocator TEXT_COUNT = id("#count");
+    static final JQueryLocator BUTTON_START = jq("#start");
+    static final JQueryLocator BUTTON_INCREMENT = jq(":button");
+    static final IdLocator TEXT_COUNT = id("#count");
 
     final TextEquals countEquals = textEquals.locator(TEXT_COUNT);
     final TextRetriever retrieveCount = retrieveText.locator(TEXT_COUNT);
 
     void usage() {
         selenium.click(BUTTON_START);
+
         // selenium-polling waiting
         waitModel.until(elementPresent.locator(TEXT_COUNT));
         assert "0".equals(selenium.getText(TEXT_COUNT));

@@ -86,7 +86,3 @@ jQuery.expr.filters['textEndsWith'] = function(elem, i, match, array) {
 	return jQuery.trim(elem.textContent || elem.innerText || "").endsWith(
 			match[3]);
 }
-
-var jqFind = function(selector) {
-	return $(selenium.browserbot.getCurrentWindow().document).find(selector);
-}

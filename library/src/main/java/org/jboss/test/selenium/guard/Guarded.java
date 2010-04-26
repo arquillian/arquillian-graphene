@@ -21,11 +21,66 @@
  */
 package org.jboss.test.selenium.guard;
 
+/**
+ * Class implementing {@link Guarded} specified, that executes commands, which can be guarded by some {@link Guard}
+ * implementation.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public interface Guarded {
 
-    public void registerGuard(Guard guard);
+    /**
+     * <p>
+     * Registers guard, which should guard execution of command executed by this object.
+     * </p>
+     * 
+     * <p>
+     * Overwrites a guard, which was specified before, and has same sub-interface as given guard.
+     * </p>
+     * 
+     * <p>
+     * For example:
+     * </p>
+     * 
+     * <pre>
+     * <tt><b>interface ExtendedGuard</b> extends {@link Guard}</tt>
+     * 
+     * <tt><b>MyGuard</b> implements ExtendedGuard</tt>
+     * 
+     * <tt><b>MyOtherGuard</b> implements ExtendedGuard</tt>
+     * 
+     * <tt>Guard guard1 = new MyGuard();</tt>
+     * 
+     * <tt>Guard guard2 = new MyOtherGuard();</tt>
+     * </pre>
+     * 
+     * <p>
+     * <b><tt>guard2</tt></b> will then overwrite already registered <b><tt>guard1</tt></b>.
+     * </p>
+     * 
+     * <p>
+     * This will satisfy, that guards of same type will be overriden.
+     * </p>
+     * 
+     * @param guard
+     *            to register
+     */
+    void registerGuard(Guard guard);
 
-    public void unregisterGuard(Guard guard);
+    /**
+     * Unregisters guard, which should guard execution of command executed by this object.
+     * 
+     * @param guard
+     *            to unregister
+     */
+    void unregisterGuard(Guard guard);
 
-    public <T extends Guard> void guardOnce(Guard guard);
+    /**
+     * Unregisters all the guards of given type.
+     * 
+     * @param type
+     *            type of guards to unregister
+     */
+    void unregisterGuards(Class<? extends Guard> type);
 }

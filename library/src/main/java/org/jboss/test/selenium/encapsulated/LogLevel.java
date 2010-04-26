@@ -21,25 +21,60 @@
  */
 package org.jboss.test.selenium.encapsulated;
 
+/**
+ * Logging level of Selenium command processor.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class LogLevel {
-	String logLevelName;
+    
+    /** DEBUG log level */
+    public static final LogLevel DEBUG = new LogLevel("debug");
 
-	public LogLevel(String logLevelName) {
-		this.logLevelName = logLevelName;
-	}
+    /** INFO log level */
+    public static final LogLevel INFO = new LogLevel("info");
 
-	public String getLogLevelName() {
-		return logLevelName;
-	}
+    /** WARN log level */
+    public static final LogLevel WARN = new LogLevel("warn");
 
-	@Override
-	public String toString() {
-		return getLogLevelName();
-	}
+    /** ERROR log level */
+    public static final LogLevel ERROR = new LogLevel("error");
 
-	public static final LogLevel DEBUG = new LogLevel("debug");
-	public static final LogLevel INFO = new LogLevel("info");
-	public static final LogLevel WARN = new LogLevel("warn");
-	public static final LogLevel ERROR = new LogLevel("error");
-	public static final LogLevel OFF = new LogLevel("off");
+    /** Logging OFF */
+    public static final LogLevel OFF = new LogLevel("off");
+
+    /** The log level name. */
+    String logLevelName;
+
+    /**
+     * Instantiates a new log level.
+     * 
+     * @param logLevelName
+     *            the log level name
+     */
+    public LogLevel(String logLevelName) {
+        this.logLevelName = logLevelName;
+    }
+
+    /**
+     * Gets the log level name.
+     * 
+     * @return the log level name
+     */
+    public String getLogLevelName() {
+        return logLevelName;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return getLogLevelName();
+    }
+
+    
 }

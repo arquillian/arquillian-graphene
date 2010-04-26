@@ -22,10 +22,14 @@
 package org.jboss.test.selenium.guard.request;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import static org.jboss.test.selenium.utils.text.LocatorFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.guard.Guard;
 
+/**
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public abstract class RequestTypeGuard implements Guard {
 
     private JavaScript clearRequestDone = new JavaScript("RichFacesSelenium.clearRequestDone()");

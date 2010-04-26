@@ -21,8 +21,19 @@
  */
 package org.jboss.test.selenium.locator;
 
-
-
+/**
+ * Locator for locating elements on page.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public interface ElementLocator extends Locator {
-	public AttributeLocator getAttribute(Attribute attribute);
+    /**
+     * Returns the locator for attribute for given locator.
+     * 
+     * @param attribute
+     *            type for obtaining from this locator
+     * @return the attribute for this locator
+     */
+    AttributeLocator getAttribute(Attribute attribute);
 }

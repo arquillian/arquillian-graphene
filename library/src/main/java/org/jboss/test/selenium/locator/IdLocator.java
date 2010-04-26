@@ -23,12 +23,18 @@ package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * Locates the element with specified &#64;id attribute.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class IdLocator extends AbstractElementLocator {
-	public IdLocator(String id) {
-		super(id);
-	}
+    public IdLocator(String id) {
+        super(id);
+    }
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.ID;
-	}
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.ID;
+    }
 }

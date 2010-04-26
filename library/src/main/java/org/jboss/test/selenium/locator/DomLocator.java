@@ -21,14 +21,31 @@
  */
 package org.jboss.test.selenium.locator;
 
+import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 
+/**
+ * <p>
+ * Find an element by evaluating the specified JavaScript expression.
+ * </p>
+ * 
+ * <p>
+ * This allows you to traverse the HTML Document Object Model using JavaScript.
+ * </p>
+ * 
+ * <p>
+ * Note that you must not return a value in this expression; simply make it the last expression in the block.
+ * </p>
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class DomLocator extends AbstractElementLocator {
-	public DomLocator(String javascriptExpression) {
-		super(javascriptExpression);
-	}
+    public DomLocator(JavaScript javascriptExpression) {
+        super(javascriptExpression.getAsString());
+    }
 
-	public LocationStrategy getLocationStrategy() {
-		return LocationStrategy.DOM;
-	}
+    public LocationStrategy getLocationStrategy() {
+        return LocationStrategy.DOM;
+    }
 }
