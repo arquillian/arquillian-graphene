@@ -79,7 +79,7 @@ public class TextEquals implements Condition, JavaScriptCondition, Contextual {
      * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        return new JavaScript(format("selenium.getText('{0}') == '{1}'", elementLocator.getAsString(), text));
+        return new JavaScript(format("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')", elementLocator.getAsString(), text));
     }
 
     /**
