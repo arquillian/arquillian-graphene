@@ -49,6 +49,7 @@ public class DefaultAttributeLocator extends AbstractLocator implements Attribut
         super(elementLocator.getLocator());
 
         Validate.notNull(attribute);
+        this.attribute = attribute;
         locationStrategy = elementLocator.getLocationStrategy();
     }
 
@@ -57,7 +58,7 @@ public class DefaultAttributeLocator extends AbstractLocator implements Attribut
      */
     @Override
     public String getAsString() {
-        return format("{0}@{1}", getAsString(), attribute.getAttributeName());
+        return format("{0}@{1}", super.getAsString(), attribute.getAttributeName());
     }
 
     /*
