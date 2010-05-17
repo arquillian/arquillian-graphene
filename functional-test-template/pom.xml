@@ -56,8 +56,10 @@
 						<selenium-tomcat6>install -Dselenium.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</selenium-tomcat6>
 						<selenium-jboss5>install -Dselenium.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</selenium-jboss5>
 						<selenium-jboss6>install -Dselenium.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</selenium-jboss6>
+						<browser>install -Dselenium.server.skip=true</browser>
 						<firefox>install -Dbrowser=*firefox -Dselenium.server.skip=true</firefox>
 						<iexplore>install -Dbrowser=*piiexplore -Dselenium.server.skip=true</iexplore>
+						<browser-debug>install -Dselenium.server.skip=true -Pdebug-tests</browser-debug>
 						<firefox-debug>install -Dbrowser=*firefox -Dselenium.server.skip=true -Pdebug-tests</firefox-debug>
 						<iexplore-debug>install -Dbrowser=*piiexplore -Dselenium.server.skip=true -Pdebug-tests</iexplore-debug>
 					</userAliases>
@@ -158,6 +160,7 @@
 								<configuration>
 									<background>true</background>
 									<port>${selenium.port}</port>
+									<skip>${selenium.server.skip}</skip>
 								</configuration>
 							</execution>
 						</executions>
@@ -462,13 +465,13 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 			<artifactId>selenium-java-client-driver</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium.server</groupId>
 			<artifactId>selenium-server-coreless</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.3</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>

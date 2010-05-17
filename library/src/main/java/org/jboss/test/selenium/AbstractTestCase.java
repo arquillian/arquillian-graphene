@@ -93,8 +93,8 @@ public abstract class AbstractTestCase {
     protected Browser browser;
 
     @BeforeClass
-    @Parameters({"context.root", "context.path", "browser", "selenium.host", "selenium.port", "selenium.debug",
-        "selenium.maximize", "maven.resources.dir", "maven.project.build.directory" })
+    @Parameters({"context.root", "context.path", "browser", "selenium.debug", "maven.resources.dir",
+        "maven.project.build.directory"})
     public void initializeParameters(String contextRoot, String contextPath, String browser, String seleniumDebug,
         String mavenResourcesDir, String mavenProjectBuildDirectory) throws MalformedURLException {
         this.contextRoot = new URL(contextRoot);
@@ -168,8 +168,8 @@ public abstract class AbstractTestCase {
         enabledBrowserModes.addAll(BrowserMode.getModesFromTypes(enabledBrowserTypes));
         enabledBrowserModes.removeAll(disabledBrowserModes);
 
-        if (enabledBrowserModes.contains(browser.getMode())) {
-            throw new SkipException(format("This test isn't supported in browser '{0}'", browser));
+        if (!enabledBrowserModes.contains(browser.getMode())) {
+            throw new SkipException(format("This test isn't supported in {0}", browser));
         }
     }
 }

@@ -24,6 +24,10 @@ package org.jboss.test.selenium.browser;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
@@ -132,10 +136,21 @@ public class Browser {
      * @return the string representation of browser
      */
     public String getAsString() {
-        StringBuilder builder = new StringBuilder(browserMode.toString());
+        StringBuilder builder = new StringBuilder(browserMode.getMode());
         if (executable != null) {
-            builder.append("").append(executable.toString());
+            builder.append(" ").append(executable.toString());
         }
         return builder.toString();
+    }
+
+    /**
+     * Returns a string representation of the object in human-readable format.
+     * 
+     * @return the human-readable string representation of this object
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("mode", browserMode).append("type",
+            browserMode.getBrowserType()).toString();
     }
 }
