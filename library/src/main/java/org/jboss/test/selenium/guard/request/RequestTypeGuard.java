@@ -21,21 +21,34 @@
  */
 package org.jboss.test.selenium.guard.request;
 
+import java.util.Set;
+
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.guard.Guard;
+import org.jboss.test.selenium.guard.AbstractGuard;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class RequestTypeGuard implements Guard {
+public abstract class RequestTypeGuard extends AbstractGuard {
 
-    private JavaScript clearRequestDone = new JavaScript("RichFacesSelenium.clearRequestDone()");
-    private JavaScript getRequestDone = new JavaScript("RichFacesSelenium.getRequestDone()");
+    /**
+     * Commands, which should be guarded - it means commands that do some interaction on client side and can call the
+     * request
+     */
+    
+    private JavaScript clearRequestDone = new JavaScript("getRFS().clearRequestDone()");
+    private JavaScript getRequestDone = new JavaScript("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
 
+    @Override
+    protected Set<String> getGuardedCommands() {
+        return INTERACTIVE_COMMANDS;
+    }
+    
     public void doBeforeCommand() {
+        getSelenium().getJavaScriptPageExtension().install();
         getSelenium().getEval(clearRequestDone);
     }
 
