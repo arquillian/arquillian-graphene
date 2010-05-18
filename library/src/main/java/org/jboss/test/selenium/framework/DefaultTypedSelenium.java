@@ -570,7 +570,7 @@ public class DefaultTypedSelenium implements TypedSelenium {
     }
 
     public void runScript(JavaScript script) {
-        throw new UnsupportedOperationException("not implemented yet");
+        selenium.runScript(script.getAsString());
     }
 
     public void select(ElementLocator selectLocator, ElementLocator optionLocator) {

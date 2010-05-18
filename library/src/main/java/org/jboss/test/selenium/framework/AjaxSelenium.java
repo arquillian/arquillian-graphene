@@ -42,19 +42,15 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
     /** The reference. */
     private static AtomicReference<AjaxSelenium> reference = new AtomicReference<AjaxSelenium>(null);
 
-    /**
-     * Instantiates a new ajax selenium.
-     *
-     * @param serverHost the server host
-     * @param serverPort the server port
-     * @param browser the browser
-     * @param contextPathURL the context path url
-     */
-    public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-        selenium = new ExtendedAjaxAwareSelenium(serverHost, serverPort, browser, contextPathURL);
-        setCurrentContext(this);
-    }
-
+    /** The ajax aware command processor. */
+    AjaxAwareCommandProcessor ajaxAwareCommandProcessor;
+    
+    /** The guarded command processor. */
+    GuardedCommandProcessor guardedCommandProcessor;
+    
+    /** The JavaScript Core */
+    JavaScriptPageExtension javaScriptPageExtension;
+    
     /**
      * Instantiates a new ajax selenium.
      */
@@ -62,33 +58,26 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
     }
     
     /**
-     * SeleniumAPI wrapper using AjaxAwareCommandProcessor with GuardedCommandProcessor proxy.
+     * Instantiates a new ajax selenium.
+     * 
+     * @param serverHost
+     *            the server host
+     * @param serverPort
+     *            the server port
+     * @param browser
+     *            the browser
+     * @param contextPathURL
+     *            the context path url
      */
-    private class ExtendedAjaxAwareSelenium extends ExtendedSelenium {
-
-        /** The ajax aware command processor. */
-        AjaxAwareCommandProcessor ajaxAwareCommandProcessor;
-        
-        /** The guarded command processor. */
-        GuardedCommandProcessor guardedCommandProcessor;
-
-        /**
-         * Instantiates a new extended ajax aware selenium.
-         *
-         * @param serverHost the server host
-         * @param serverPort the server port
-         * @param browser the browser
-         * @param contextPathURL the context path url
-         */
-        public ExtendedAjaxAwareSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-            super(null);
-            ajaxAwareCommandProcessor = new AjaxAwareCommandProcessor(serverHost, serverPort, browser.getAsString(),
-                contextPathURL.toString());
-            guardedCommandProcessor = new GuardedCommandProcessor(ajaxAwareCommandProcessor);
-            this.commandProcessor = guardedCommandProcessor;
-        }
+    public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
+        ajaxAwareCommandProcessor = new AjaxAwareCommandProcessor(serverHost, serverPort, browser.getAsString(),
+            contextPathURL.toString());
+        guardedCommandProcessor = new GuardedCommandProcessor(ajaxAwareCommandProcessor);
+        selenium = new ExtendedSelenium(guardedCommandProcessor);
+        javaScriptPageExtension = new JavaScriptPageExtension(this);
+        setCurrentContext(this);
     }
-
+    
     /**
      * <p>Sets the current context.</p>
      * 
@@ -109,26 +98,30 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
     public static AjaxSelenium getCurrentContext(Contextual... inContext) {
         return reference.get();
     }
-
+    
+    public JavaScriptPageExtension getJavaScriptPageExtension() {
+        return javaScriptPageExtension;
+    }
+    
     /* (non-Javadoc)
      * @see org.jboss.test.selenium.guard.Guarded#registerGuard(org.jboss.test.selenium.guard.Guard)
      */
     public void registerGuard(Guard guard) {
-        ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.registerGuard(guard);
+        this.guardedCommandProcessor.registerGuard(guard);
     }
 
     /* (non-Javadoc)
      * @see org.jboss.test.selenium.guard.Guarded#unregisterGuard(org.jboss.test.selenium.guard.Guard)
      */
     public void unregisterGuard(Guard guard) {
-        ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.unregisterGuard(guard);
+        this.guardedCommandProcessor.unregisterGuard(guard);
     }
     
     /* (non-Javadoc)
      * @see org.jboss.test.selenium.guard.Guarded#unregisterGuards(java.lang.Class)
      */
     public void unregisterGuards(Class<? extends Guard> type) {
-        ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.unregisterGuards(type);
+        this.guardedCommandProcessor.unregisterGuards(type);
     }
 
     /**
@@ -138,10 +131,12 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      */
     public AjaxSelenium immutableCopy() {
         AjaxSelenium copy = new AjaxSelenium();
-        copy.selenium = this.selenium;
-        ((ExtendedAjaxAwareSelenium) copy.selenium).guardedCommandProcessor =
-            ((ExtendedAjaxAwareSelenium) selenium).guardedCommandProcessor.immutableCopy();
+        
+        copy.ajaxAwareCommandProcessor = this.ajaxAwareCommandProcessor;
+        copy.guardedCommandProcessor = this.guardedCommandProcessor.immutableCopy();
+        copy.selenium = new ExtendedSelenium(copy.guardedCommandProcessor);
+        copy.javaScriptPageExtension = new JavaScriptPageExtension(copy);
+        
         return copy;
     }
-    
 }
