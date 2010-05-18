@@ -148,7 +148,8 @@ public abstract class AbstractTestCase {
      */
     @AfterClass
     public void finalizeBrowser() {
-        selenium.close();
+        // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
+        // selenium.close();
         selenium.stop();
         selenium = null;
     }

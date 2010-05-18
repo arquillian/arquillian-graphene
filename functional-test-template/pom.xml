@@ -149,6 +149,7 @@
 									<browserSideLog>${selenium.debug}</browserSideLog>
 									<debug>${selenium.debug}</debug>
 									<skip>${selenium.server.skip}</skip>
+									<browserSessionReuse>true</browserSessionReuse>
 								</configuration>
 							</execution>
 							<execution>
