@@ -24,9 +24,13 @@ package org.jboss.test.selenium.guard;
 import org.jboss.test.selenium.framework.internal.Contextual;
 
 /**
- * <p>Guard encapsulates for commands which should be executed before (resp. after) the command.</p>
+ * <p>
+ * Guard encapsulates commands which should be executed before (resp. after) the command.
+ * </p>
  * 
- * <p>By this functionality guards pre- and post-conditions.</p>
+ * <p>
+ * By this functionality guards pre- and post-conditions.
+ * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -36,9 +40,18 @@ public interface Guard extends Contextual {
      * This will be executed before the guarded command are executed.
      */
     void doBeforeCommand();
-    
+
     /**
      * This will be executed after the guarded command are executed.
      */
     void doAfterCommand();
+
+    /**
+     * Defines that the given command should be guarded by this guard.
+     * 
+     * @param command
+     *            what should be to be guarded (resp. not to be guarded)
+     * @return true if the command should be guarded by this guard; false otherwise
+     */
+    boolean isGuarding(String command);
 }

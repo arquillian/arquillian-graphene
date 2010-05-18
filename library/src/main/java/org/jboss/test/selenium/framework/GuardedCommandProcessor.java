@@ -21,8 +21,7 @@
  */
 package org.jboss.test.selenium.framework;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -45,12 +44,6 @@ import com.thoughtworks.selenium.CommandProcessor;
  */
 public class GuardedCommandProcessor extends ProxyCommandProcessor implements Guarded {
 
-    /**
-     * Commands, which should be guarded - it means commands that do some interaction on client side and can call the
-     * request
-     */
-    private static final String[] GUARDED_COMMANDS = initGuardedCommands();
-
     /** The block which will be executed before command will have turn */
     private GuardBlock beforeCommand = new GuardBlock() {
         public void executeGuard(Guard guard) {
@@ -65,33 +58,32 @@ public class GuardedCommandProcessor extends ProxyCommandProcessor implements Gu
         }
     };
 
-    /** The registered guards. */
-    private Map<Class<? extends Guard>, Guard> registeredGuards;
-    
+    /** The registered guards. LinkedHashMap satisfies, that the guards will 
+     * be triggered in order in what was registered */
+    private LinkedHashMap<Class<? extends Guard>, Guard> registeredGuards;
+
     /**
      * Instantiates a new guarded command processor as the proxy for given commandProcessor
-     *
-     * @param commandProcessor the command processor to be used to proxying
+     * 
+     * @param commandProcessor
+     *            the command processor to be used to proxying
      */
     public GuardedCommandProcessor(CommandProcessor commandProcessor) {
         super(commandProcessor);
 
-        registeredGuards = new HashMap<Class<? extends Guard>, Guard>();
+        registeredGuards = new LinkedHashMap<Class<? extends Guard>, Guard>();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.framework.ProxyCommandProcessor#doCommand(java.lang.String, java.lang.String[])
      */
     @Override
     public String doCommand(String command, String[] args) {
-
-        if (Arrays.binarySearch(GUARDED_COMMANDS, command) < 0) {
-            return commandProcessor.doCommand(command, args);
-        }
-
-        executeGuard(beforeCommand);
+        executeGuards(beforeCommand, command);
         String result = commandProcessor.doCommand(command, args);
-        executeGuard(afterCommand);
+        executeGuards(afterCommand, command);
 
         return result;
     }
@@ -100,23 +92,31 @@ public class GuardedCommandProcessor extends ProxyCommandProcessor implements Gu
      * Executes the guard block with each registered guard.
      * 
      * This will cause run of {@link Guard#doBeforeCommand()} and {@link Guard#doAfterCommand()}.
-     *
-     * @param guardBlock the specific guard block, to execute before or after command execution
+     * 
+     * @param guardBlock
+     *            the specific guard block, to execute before or after command execution
      */
-    private void executeGuard(GuardBlock guardBlock) {
+    private void executeGuards(GuardBlock guardBlock, String command) {
         for (Guard guard : registeredGuards.values()) {
+            if (!guard.isGuarding(command)) {
+                continue;
+            }
             guardBlock.executeGuard(guard);
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.guard.Guarded#registerGuard(org.jboss.test.selenium.guard.Guard)
      */
     public void registerGuard(Guard guard) {
         registeredGuards.put(resolveInterface(guard), guard);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.guard.Guarded#unregisterGuard(org.jboss.test.selenium.guard.Guard)
      */
     public void unregisterGuard(Guard guard) {
@@ -135,7 +135,9 @@ public class GuardedCommandProcessor extends ProxyCommandProcessor implements Gu
         registeredGuards.remove(classToRemove);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.guard.Guarded#unregisterGuards(java.lang.Class)
      */
     public void unregisterGuards(Class<? extends Guard> type) {
@@ -146,19 +148,21 @@ public class GuardedCommandProcessor extends ProxyCommandProcessor implements Gu
      * Interface for executing the specific command on the guard.
      */
     private interface GuardBlock {
-        
+
         /**
          * Execute guard.
-         *
-         * @param guard the guard
+         * 
+         * @param guard
+         *            the guard
          */
         void executeGuard(Guard guard);
     }
 
     /**
      * Utility method for resolving the nearest type to Guard for given guard type.
-     *
-     * @param guard the guard
+     * 
+     * @param guard
+     *            the guard
      * @return the the nearest type to Guard for given guard type
      */
     private Class<? extends Guard> resolveInterface(Guard guard) {
@@ -167,7 +171,7 @@ public class GuardedCommandProcessor extends ProxyCommandProcessor implements Gu
 
     /**
      * Creates immutable copy of this command processor
-     *
+     * 
      * @return the guarded command processor
      */
     protected GuardedCommandProcessor immutableCopy() {
@@ -175,22 +179,4 @@ public class GuardedCommandProcessor extends ProxyCommandProcessor implements Gu
         copy.registeredGuards.putAll(this.registeredGuards);
         return copy;
     }
-
-    /**
-     * Inits the guarded commands.
-     *
-     * @return the string[] of the guarded commands
-     */
-    public static String[] initGuardedCommands() {
-        String[] guardedCommands = new String[] {"click", "doubleClick", "contextMenu", "clickAt", "doubleClickAt",
-            "contextMenuAt", "fireEvent", "focus", "keyPress", "shiftKeyDown", "shiftKeyUp", "metaKeyDown",
-            "metaKeyUp", "altKeyDown", "altKeyUp", "controlKeyDown", "controlKeyUp", "keyDown", "keyUp", "mouseOver",
-            "mouseOut", "mouseDown", "mouseDownRight", "mouseDownRightAt", "mouseUp", "mouseUpRight", "mouseUpAt",
-            "mouseUpRightAt", "mouseMove", "mouseMoveAt", "typeKeys", "check", "uncheck", "select", "addSelection",
-            "removeSelection", "removeAllSelections", "submit", "getEval", "dragdrop", "dragAndDrop",
-            "dragAndDropToObject", "keyDownNative", "keyUpNative", "keyPressNative"};
-        Arrays.sort(guardedCommands);
-        return guardedCommands;
-    }
-
 }
