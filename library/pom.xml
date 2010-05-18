@@ -67,9 +67,9 @@
 								</concat>
 								<echo>Compiling JavaScript: richfaces-selenium-core.js</echo>
 								<concat
-									destfile="${project.build.outputDirectory}/richfaces-selenium-core.js"
+									destfile="${project.build.outputDirectory}/page-extensions.js"
 									fixlastline="yes">
-									<filelist dir="${source.javascript}/core"
+									<filelist dir="${source.javascript}/page-extensions"
 										files="RichFacesSelenium.js XMLHttpRequest-proxy.js XMLHttpRequest-injection.js" />
 								</concat>
 							</tasks>
