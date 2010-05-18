@@ -23,11 +23,11 @@ var RichFacesSelenium = {
 	
 	requestDone : "HTTP",
 	
-	getRequestDone() : function() {
+	getRequestDone : function() {
 		return this.requestDone;
 	},
 	
-	setRequestDone(requestType) {
+	setRequestDone : function(requestType) {
 		this.requestDone = requestType;
 	},
 	
@@ -35,7 +35,7 @@ var RichFacesSelenium = {
 		this.requestDone = "NONE";
 	},
 	
-	extend = function(child, parent) {
+	extend : function(child, parent) {
 	    var F = function() {};
 	    F.prototype = parent.prototype;
 	    child.prototype = new F();
