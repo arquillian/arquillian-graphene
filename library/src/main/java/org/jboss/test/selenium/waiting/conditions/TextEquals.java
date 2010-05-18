@@ -30,6 +30,7 @@ import org.jboss.test.selenium.waiting.Condition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
 /**
  * 
@@ -79,7 +80,10 @@ public class TextEquals implements Condition, JavaScriptCondition, Contextual {
      * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        return new JavaScript(format("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')", elementLocator.getAsString(), text));
+        String escapedLocator = escapeJavaScript(this.elementLocator.getAsString());
+        String escapedText = escapeJavaScript(this.text);
+        return new JavaScript(format("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')",
+            escapedLocator, escapedText));
     }
 
     /**

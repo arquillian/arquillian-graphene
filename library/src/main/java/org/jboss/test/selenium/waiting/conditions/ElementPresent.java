@@ -30,6 +30,7 @@ import org.jboss.test.selenium.waiting.Condition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
 /**
  * <p>
@@ -66,11 +67,14 @@ public class ElementPresent implements Condition, JavaScriptCondition, Contextua
         return selenium.isElementPresent(elementLocator);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        return new JavaScript(format("selenium.isElementPresent('{0}')", elementLocator.getAsString()));
+        String escapedLocator = escapeJavaScript(this.elementLocator.getAsString());
+        return new JavaScript(format("selenium.isElementPresent('{0}')", escapedLocator));
     }
 
     /**
