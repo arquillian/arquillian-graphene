@@ -26,7 +26,7 @@ import org.apache.commons.lang.Validate;
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.DefaultSelenium;
 
-import static java.text.MessageFormat.format;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
  * Selenium API extended by useful commands.
