@@ -32,6 +32,7 @@ import org.jboss.test.selenium.browser.BrowserType;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
+import org.jboss.test.selenium.pagespeed.EventRecorder;
 import org.jboss.test.selenium.waiting.SeleniumWaiting;
 import org.jboss.test.selenium.waiting.Wait;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
@@ -73,6 +74,11 @@ public abstract class AbstractTestCase {
     protected TextRetriever retrieveText = TextRetriever.getInstance();
     protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
 
+    /**
+     * the event recorder controller
+     */
+    protected EventRecorder eventRecorder;
+    
     /**
      * context root can be used to obtaining full URL paths, is set to actual tested application's context root
      */
@@ -133,6 +139,14 @@ public abstract class AbstractTestCase {
         }
     }
 
+    /**
+     * initializes event recorder controller
+     */
+    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled" })
+    public void initializeEventRecorder() {
+        eventRecorder = new EventRecorder(new File(mavenProjectBuildDirectory, "eventrecorder"));
+    }
+    
     /**
      * Uses selenium.addLocationStrategy to implement own strategies to locate items in the tested page
      */

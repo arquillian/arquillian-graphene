@@ -121,4 +121,16 @@ public class JavaScript {
 
         return new JavaScript(sourceCode);
     }
+
+    /**
+     * Fills the parameters to placeholders in {@link SimplifiedFormat} format to this JavaScript code and returns the
+     * result.
+     * 
+     * @param parameters
+     *            to parametrize this JavaScript code
+     * @return this JavaScript with parameters filled in place of placeholders in {@link SimplifiedFormat} format
+     */
+    public JavaScript parametrize(Object... parameters) {
+        return new JavaScript(format(javaScript, parameters));
+    }
 }
