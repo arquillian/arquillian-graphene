@@ -28,4 +28,10 @@ package org.jboss.test.selenium.locator;
  * @version $Revision$
  */
 public interface AttributeLocator extends Locator {
+    /**
+     * Returns the underlying element what associates attribute given by this locator to
+     * 
+     * @return the underlying element what associates attribute given by this locator to
+     */
+    ElementLocator getAssociatedElement();
 }

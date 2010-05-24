@@ -46,9 +46,6 @@ public abstract class AbstractLocator implements Locator {
         this.locator = locator;
     }
 
-    /**
-     * Gets a string representing this locator for use in Selenium.
-     */
     public String getAsString() {
         final LocationStrategy locationStrategy = getLocationStrategy();
 

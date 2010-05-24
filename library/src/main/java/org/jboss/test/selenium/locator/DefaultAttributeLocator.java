@@ -31,34 +31,31 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class DefaultAttributeLocator extends AbstractLocator implements AttributeLocator {
+public class DefaultAttributeLocator implements AttributeLocator {
 
+    /** The underlying elementLocator. */
+    ElementLocator elementLocator;
+    
     /** The attribute. */
     Attribute attribute;
     
-    /** The location strategy. */
-    LocationStrategy locationStrategy;
-
     /**
      * Instantiates a attribute locator using given elementLocator and the specific attribute.
      *
      * @param elementLocator the element locator
      * @param attribute the attribute
      */
-    public DefaultAttributeLocator(AbstractElementLocator elementLocator, Attribute attribute) {
-        super(elementLocator.getLocator());
-
+    public DefaultAttributeLocator(ElementLocator elementLocator, Attribute attribute) {
         Validate.notNull(attribute);
+        this.elementLocator = elementLocator;
         this.attribute = attribute;
-        locationStrategy = elementLocator.getLocationStrategy();
     }
 
     /* (non-Javadoc)
      * @see org.jboss.test.selenium.locator.AbstractLocator#getAsString()
      */
-    @Override
     public String getAsString() {
-        return format("{0}@{1}", super.getAsString(), attribute.getAttributeName());
+        return format("{0}@{1}", elementLocator.getAsString(), attribute.getAttributeName());
     }
 
     /*
@@ -67,6 +64,14 @@ public class DefaultAttributeLocator extends AbstractLocator implements Attribut
      * @see org.jboss.test.selenium.locator.AttributeLocator#getLocationStrategy()
      */
     public LocationStrategy getLocationStrategy() {
-        return locationStrategy;
+        return elementLocator.getLocationStrategy();
+    }
+
+    
+    /* (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.AttributeLocator#getAssociatedElement()
+     */
+    public ElementLocator getAssociatedElement() {
+        return elementLocator;
     }
 }

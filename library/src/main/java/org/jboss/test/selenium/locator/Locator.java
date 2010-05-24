@@ -31,7 +31,15 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
  * @version $Revision$
  */
 public interface Locator extends Contextual {
+    /**
+     * Returns the location strategy for this element
+     * @return the location strategy for this element
+     */
     LocationStrategy getLocationStrategy();
 
+    /**
+     * Returns the locator represented as string used in Selenium to locate elements.
+     * @return the locator represented as string used in Selenium to locate elements.
+     */
     String getAsString();
 }
