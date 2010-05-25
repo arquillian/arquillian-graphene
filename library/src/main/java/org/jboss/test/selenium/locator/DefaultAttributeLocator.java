@@ -74,4 +74,8 @@ public class DefaultAttributeLocator implements AttributeLocator {
     public ElementLocator getAssociatedElement() {
         return elementLocator;
     }
+
+    public Attribute getAttribute() {
+        return attribute;
+    }
 }

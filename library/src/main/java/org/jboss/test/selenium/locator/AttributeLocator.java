@@ -34,4 +34,11 @@ public interface AttributeLocator extends Locator {
      * @return the underlying element what associates attribute given by this locator to
      */
     ElementLocator getAssociatedElement();
+    
+    /**
+     * Returns the type of attribute which this locator points to.
+     * 
+     * @return the type of attribute which this locator points to.
+     */
+    Attribute getAttribute();
 }
