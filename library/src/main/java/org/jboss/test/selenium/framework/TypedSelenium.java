@@ -30,6 +30,7 @@ import org.jboss.test.selenium.dom.Event;
 import org.jboss.test.selenium.encapsulated.Cookie;
 import org.jboss.test.selenium.encapsulated.CookieParameters;
 import org.jboss.test.selenium.encapsulated.Frame;
+import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.encapsulated.Kwargs;
 import org.jboss.test.selenium.encapsulated.LogLevel;
@@ -612,20 +613,23 @@ public interface TypedSelenium {
     void deselectPopUp();
 
     /**
+     * <p>
      * Selects a frame within the current window. (You may invoke this command multiple times to select nested frames.)
-     * To select the parent frame, use "relative=parent" as a locator; to select the top frame, use "relative=top". You
-     * can also select a frame by its 0-based index number; select the first frame with "index=0", or the third frame
-     * with "index=2".
+     * To select the parent frame, use {@link FrameLocator#PARENT}; to select the top frame, use
+     * {@link FrameLocator#TOP}. You can also select a frame by its 0-based index number (construct own
+     * {@link FrameLocator} using notation described in {@link com.thoughtworks.selenium.Selenium#selectFrame(String)}).
+     * </p>
      * 
      * <p>
      * You may also use a DOM expression to identify the frame you want directly, like this:
-     * <code>dom=frames["main"].frames["subframe"]</code>
+     * <code>dom=frames["main"].frames["subframe"]</code> (construct own {@link FrameLocator} using notation described
+     * in {@link com.thoughtworks.selenium.Selenium#selectFrame(String)}).
      * </p>
      * 
-     * @param locator
-     *            an element locator identifying a frame or iframe
+     * @param frameLocator
+     *            an frame locator identifying a frame or iframe
      */
-    void selectFrame(ElementLocator locator);
+    void selectFrame(FrameLocator frameLocator);
 
     /**
      * Determine whether current/locator identify the frame containing this running code.

@@ -32,6 +32,7 @@ import org.jboss.test.selenium.dom.Event;
 import org.jboss.test.selenium.encapsulated.Cookie;
 import org.jboss.test.selenium.encapsulated.CookieParameters;
 import org.jboss.test.selenium.encapsulated.Frame;
+import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.encapsulated.Kwargs;
 import org.jboss.test.selenium.encapsulated.LogLevel;
@@ -577,8 +578,8 @@ public class DefaultTypedSelenium implements TypedSelenium {
         selenium.select(selectLocator.getAsString(), optionLocator.getAsString());
     }
 
-    public void selectFrame(ElementLocator elementLocator) {
-        selenium.selectFrame(elementLocator.getAsString());
+    public void selectFrame(FrameLocator frameLocator) {
+        selenium.selectFrame(frameLocator.getAsString());
     }
 
     public void selectPopUp(WindowId windowID) {
