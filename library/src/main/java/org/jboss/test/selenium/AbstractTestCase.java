@@ -36,6 +36,8 @@ import org.jboss.test.selenium.pagespeed.EventRecorder;
 import org.jboss.test.selenium.waiting.SeleniumWaiting;
 import org.jboss.test.selenium.waiting.Wait;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
+import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
+import org.jboss.test.selenium.waiting.conditions.AttributePresent;
 import org.jboss.test.selenium.waiting.conditions.ElementPresent;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
@@ -70,6 +72,8 @@ public abstract class AbstractTestCase {
 
     protected ElementPresent elementPresent = ElementPresent.getInstance();
     protected TextEquals textEquals = TextEquals.getInstance();
+    protected AttributePresent attributePresent = AttributePresent.getInstance();
+    protected AttributeEquals attributeEquals = AttributeEquals.getInstance();
 
     protected TextRetriever retrieveText = TextRetriever.getInstance();
     protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
