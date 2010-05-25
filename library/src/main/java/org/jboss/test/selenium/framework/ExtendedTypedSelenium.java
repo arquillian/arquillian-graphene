@@ -22,6 +22,7 @@
 package org.jboss.test.selenium.framework;
 
 import org.jboss.test.selenium.geometry.Point;
+import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocator;
 
 /**
@@ -109,6 +110,21 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      */
     public boolean belongsClass(ElementLocator elementLocator, String className) {
         return getExtendedSelenium().belongsClass(elementLocator.getAsString(), className);
+    }
+
+    /**
+     * Verifies that the specified attribute is defined for the element.
+     * 
+     * @param attributeLocator
+     *            an attribute locator
+     * @return true if the element's attribute is present, false otherwise
+     * @throws SeleniumException
+     *             when element isn't present
+     */
+    public boolean isAttributePresent(AttributeLocator attributeLocator) {
+        final String elementLocator = attributeLocator.getAssociatedElement().getAsString();
+        final String attributeName = attributeLocator.getAttribute().getAttributeName();
+        return getExtendedSelenium().isAttributePresent(elementLocator, attributeName);
     }
 
 }

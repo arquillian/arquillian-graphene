@@ -39,7 +39,7 @@ Selenium.prototype.getStyle = function(locator, property) {
  * @param locator of element which should be screen aligned to
  * @param alignToTop should be top border of screen aligned to top border of element
  */
-Selenium.prototype.scrollIntoView = function(locator, alignToTop) {
+Selenium.prototype.doScrollIntoView = function(locator, alignToTop) {
 	var elem = this.browserbot.findElementOrNull(locator);
 	
 	if (elem == null) {
@@ -85,22 +85,23 @@ Selenium.prototype.getJQueryCount = function(selector) {
 }
 
 /**
- * Gets the text of an element. This works for any element that contains
- * text. This command uses either the textContent (Mozilla-like browsers) or
- * the innerText (IE-like browsers) of the element, which is the rendered
- * text shown to the user.
+ * Verifies that the specified attribute is defined for the element.
  * 
- * If no element with given locator is found, returns null.
- *
- * @param locator an element locator
- * @return string the text of the element or null if element's wasn't found
+ * @param elementLocator
+ *            an element locator
+ * @param attributeName
+ *            a name of an attribute
+ * @return true if the element's attribute is present, false otherwise
+ * @throws SeleniumException
+ *             when element isn't present
  */
-Selenium.prototype.getTextOrNull = function(locator) {
-	var element = this.browserbot.findElementOrNull(locator);
+Selenium.prototype.isAttributePresent = function(elementLocator, attributeName) {
+	var element = this.browserbot.findElementOrNull(elementLocator);
 	if (element == null) {
 		throw new SeleniumError("element is not found");
 	}
-	return getText(element).trim();
+	var attribute = element.getAttribute(attributeName);
+	return (!! attribute);
 };
 
 /**

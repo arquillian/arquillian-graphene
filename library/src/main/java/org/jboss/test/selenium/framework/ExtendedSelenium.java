@@ -70,7 +70,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            should be top border of screen aligned to top border of element
      */
     public void scrollIntoView(String locator, String alignToTop) {
-        commandProcessor.doCommand("scrollIntoView", new String[] {locator, alignToTop});
+        commandProcessor.doCommand("doScrollIntoView", new String[] {locator, alignToTop});
     }
 
     /**
@@ -120,5 +120,20 @@ public class ExtendedSelenium extends DefaultSelenium {
 
         String regex = format("(?:^|.*\\s){0}(?:$|\\s.*)", className);
         return classNames.matches(regex);
+    }
+
+    /**
+     * Verifies that the specified attribute is defined for the element.
+     * 
+     * @param elementLocator
+     *            an element locator
+     * @param attributeName
+     *            a name of an attribute
+     * @return true if the element's attribute is present, false otherwise
+     * @throws SeleniumException
+     *             when element isn't present
+     */
+    public boolean isAttributePresent(String elementLocator, String attributeName) {
+        return commandProcessor.getBoolean("isAttributePresent", new String[] {elementLocator, attributeName});
     }
 }
