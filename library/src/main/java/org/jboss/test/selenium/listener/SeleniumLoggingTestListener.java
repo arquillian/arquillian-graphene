@@ -44,7 +44,7 @@ import org.testng.TestListenerAdapter;
  * 
  */
 public class SeleniumLoggingTestListener extends TestListenerAdapter implements Contextual {
-    
+
     /**
      * Mapping of the status ids to string equivalents
      */
@@ -59,7 +59,7 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter implements 
             put(ITestResult.SUCCESS_PERCENTAGE_FAILURE, "FailurePercentage");
         }
     };
-    
+
     /**
      * Must be specified to allow the logging facility
      */
@@ -113,7 +113,7 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter implements 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } 
+        }
     }
 
     /**

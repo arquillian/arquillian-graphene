@@ -26,11 +26,8 @@ import static org.jboss.test.selenium.listener.SeleniumLoggingTestListener.getMe
 
 import java.util.Date;
 
-import org.testng.IObjectFactory;
-import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
-import org.testng.internal.ObjectFactoryImpl;
 
 /**
  * This class is used as ITestListener in testNG tests to put test's status to the console output
@@ -41,12 +38,12 @@ import org.testng.internal.ObjectFactoryImpl;
  * 
  */
 public class ConsoleStatusTestListener extends TestListenerAdapter {
-    
+
     @Override
     public void onTestStart(ITestResult result) {
         logStatus(result);
     }
-    
+
     @Override
     public void onTestFailure(ITestResult result) {
         logStatus(result);
@@ -86,7 +83,7 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
             parameters.append("\"");
         }
         parameters.append(")");
-        
+
         String message = String.format("[%tT] %s: %s%s", new Date(), status.toUpperCase(), methodName, parameters
             .toString());
         System.out.println(message);
