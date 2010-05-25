@@ -44,6 +44,7 @@ import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -103,8 +104,8 @@ public abstract class AbstractTestCase {
     protected Browser browser;
 
     @BeforeClass
-    @Parameters({"context.root", "context.path", "browser", "selenium.debug", "maven.resources.dir",
-        "maven.project.build.directory"})
+    @Parameters( { "context.root", "context.path", "browser", "selenium.debug", "maven.resources.dir",
+        "maven.project.build.directory" })
     public void initializeParameters(String contextRoot, String contextPath, String browser, String seleniumDebug,
         String mavenResourcesDir, String mavenProjectBuildDirectory) throws MalformedURLException {
         this.contextRoot = new URL(contextRoot);
@@ -129,8 +130,8 @@ public abstract class AbstractTestCase {
      * @param seleniumPort
      *            specifies on which port should selenium server run
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"})
-    @Parameters({"selenium.host", "selenium.port", "selenium.maximize"})
+    @BeforeClass(dependsOnMethods = { "initializeParameters", "isTestBrowserEnabled" })
+    @Parameters( { "selenium.host", "selenium.port", "selenium.maximize" })
     public void initializeBrowser(String seleniumHost, String seleniumPort, String seleniumMaximize) {
         selenium = new AjaxSelenium(seleniumHost, Integer.valueOf(seleniumPort), browser, contextPath);
         selenium.start();
@@ -147,7 +148,7 @@ public abstract class AbstractTestCase {
     /**
      * initializes event recorder controller
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"})
+    @BeforeClass(dependsOnMethods = { "initializeParameters", "isTestBrowserEnabled" })
     public void initializeEventRecorder() {
         eventRecorder = new EventRecorder(new File(mavenProjectBuildDirectory, "eventrecorder"));
     }
@@ -178,17 +179,17 @@ public abstract class AbstractTestCase {
     @AfterClass
     public void finalizeBrowser() {
         // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
-        // selenium.close();
-        selenium.stop();
+         selenium.close();
+        // selenium.stop();
         selenium = null;
     }
-
+    
     /**
      * Check whenever the current test is enabled for selected browser (evaluated from testng.xml).
      * 
      * If it is not enabled, skip the particular test.
      */
-    @Parameters({"enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes"})
+    @Parameters( { "enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes" })
     @BeforeClass(dependsOnMethods = "initializeParameters")
     public void isTestBrowserEnabled(@Optional("*") String enabledBrowsersParam,
         @Optional("") String disabledBrowsersParam, @Optional("*") String enabledModesParam,
