@@ -78,7 +78,7 @@ public abstract class AbstractTestCase {
      * the event recorder controller
      */
     protected EventRecorder eventRecorder;
-    
+
     /**
      * context root can be used to obtaining full URL paths, is set to actual tested application's context root
      */
@@ -125,12 +125,13 @@ public abstract class AbstractTestCase {
      * @param seleniumPort
      *            specifies on which port should selenium server run
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled" })
-    @Parameters({"selenium.host", "selenium.port", "selenium.maximize" })
+    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"})
+    @Parameters({"selenium.host", "selenium.port", "selenium.maximize"})
     public void initializeBrowser(String seleniumHost, String seleniumPort, String seleniumMaximize) {
         selenium = new AjaxSelenium(seleniumHost, Integer.valueOf(seleniumPort), browser, contextPath);
         selenium.start();
         loadCustomLocationStrategies();
+        registerCustomHandlers();
 
         if (Boolean.valueOf(seleniumMaximize)) {
             // focus and maximaze tested window
@@ -142,11 +143,11 @@ public abstract class AbstractTestCase {
     /**
      * initializes event recorder controller
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled" })
+    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"})
     public void initializeEventRecorder() {
         eventRecorder = new EventRecorder(new File(mavenProjectBuildDirectory, "eventrecorder"));
     }
-    
+
     /**
      * Uses selenium.addLocationStrategy to implement own strategies to locate items in the tested page
      */
@@ -155,6 +156,16 @@ public abstract class AbstractTestCase {
         JavaScript strategySource = JavaScript
             .fromResource("javascript/selenium-location-strategies/jquery-location-strategy.js");
         selenium.addLocationStrategy(LocationStrategy.JQUERY, strategySource);
+    }
+
+    /**
+     * The extended-selenium.js specified new custom handlers, but the registration in commandFactory are triggered
+     * before the loading of extensions. That is reason why we must explicitly register it before the test after each
+     * start of selenium.
+     */
+    private void registerCustomHandlers() {
+        final JavaScript registerCustomHandlers = new JavaScript("currentTest.commandFactory.registerAll(selenium)");
+        selenium.getEval(registerCustomHandlers);
     }
 
     /**
@@ -168,7 +179,12 @@ public abstract class AbstractTestCase {
         selenium = null;
     }
 
-    @Parameters({"enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes" })
+    /**
+     * Check whenever the current test is enabled for selected browser (evaluated from testng.xml).
+     * 
+     * If it is not enabled, skip the particular test.
+     */
+    @Parameters({"enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes"})
     @BeforeClass(dependsOnMethods = "initializeParameters")
     public void isTestBrowserEnabled(@Optional("*") String enabledBrowsersParam,
         @Optional("") String disabledBrowsersParam, @Optional("*") String enabledModesParam,
