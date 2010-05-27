@@ -27,7 +27,7 @@
 		<snapshotRepository>
 			<id>jboss-snapshots</id>
 			<name>JBoss Snapshot Repository</name>
-			<url>dav:https://snapshots.jboss.org/maven2</url>
+			<url>dav:https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
