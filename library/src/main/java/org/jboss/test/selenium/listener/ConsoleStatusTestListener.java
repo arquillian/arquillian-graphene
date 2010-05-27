@@ -21,8 +21,8 @@
  *******************************************************************************/
 package org.jboss.test.selenium.listener;
 
-import static org.jboss.test.selenium.listener.SeleniumLoggingTestListener.STATUSES;
-import static org.jboss.test.selenium.listener.SeleniumLoggingTestListener.getMethodName;
+import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
+import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
 
 import java.util.Date;
 

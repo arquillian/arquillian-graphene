@@ -21,9 +21,8 @@
  *******************************************************************************/
 package org.jboss.test.selenium.listener;
 
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
+import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
@@ -45,20 +44,7 @@ import org.testng.TestListenerAdapter;
  */
 public class SeleniumLoggingTestListener extends TestListenerAdapter implements Contextual {
 
-    /**
-     * Mapping of the status ids to string equivalents
-     */
-    protected static final TreeMap<Integer, String> STATUSES = new TreeMap<Integer, String>() {
-        private static final long serialVersionUID = 1L;
-
-        {
-            put(ITestResult.FAILURE, "Failure");
-            put(ITestResult.SKIP, "Skip");
-            put(ITestResult.STARTED, "Started");
-            put(ITestResult.SUCCESS, "Success");
-            put(ITestResult.SUCCESS_PERCENTAGE_FAILURE, "FailurePercentage");
-        }
-    };
+    
 
     /**
      * Must be specified to allow the logging facility
@@ -114,22 +100,5 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter implements 
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * Get method name from ITestResult
-     * 
-     * @param result
-     *            from the fine-grained listener's method such as onTestFailure(ITestResult)
-     * @return the method name in current context
-     */
-    protected static String getMethodName(ITestResult result) {
-        String methodName = result.getMethod().toString();
-
-        Matcher matcher = Pattern.compile(".*\\.(.*\\..*)\\(.*\\)").matcher(methodName);
-        if (matcher.lookingAt()) {
-            methodName = matcher.group(1);
-        }
-        return methodName;
     }
 }
