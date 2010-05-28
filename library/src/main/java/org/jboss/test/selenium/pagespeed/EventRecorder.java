@@ -45,10 +45,12 @@ public class EventRecorder implements Contextual {
     static final long DATA_TIMEOUT = 5000L;
 
     final JavaScript openFirebug = JavaScript.fromResource("javascript/eventrecorder-control/open-firebug.js");
+    final JavaScript closeFirebug = JavaScript.fromResource("javascript/eventrecorder-control/close-firebug.js");
     final JavaScript markEvent = JavaScript.fromResource("javascript/eventrecorder-control/mark-event.js");
     final JavaScript flushEvents = JavaScript.fromResource("javascript/eventrecorder-control/flush-events.js");
     final JavaScript waitForData = JavaScript.fromResource("javascript/eventrecorder-control/wait-for-data.js");
     final JavaScript getData = JavaScript.fromResource("javascript/eventrecorder-control/get-data.js");
+    final JavaScript stopProfiler = JavaScript.fromResource("javascript/eventrecorder-control/stop-profiler.js");
 
     File outputDir;
 
@@ -73,6 +75,28 @@ public class EventRecorder implements Contextual {
      */
     public void open() {
         getSelenium().getEval(openFirebug);
+    }
+
+    /**
+     * <p>
+     * Closes the EventRecorder.
+     * </p>
+     * 
+     * <p>
+     * Actually closes Firebug panel.
+     * </p>
+     */
+    public void close() {
+        getSelenium().getEval(closeFirebug);
+    }
+    
+    /**
+     * <p>
+     * Stops the PageSpeed's profiler.
+     * </p>
+     */
+    public void stopProfiler() {
+        getSelenium().getEval(stopProfiler);
     }
 
     /**
