@@ -1,1 +1,0 @@
-selenium.browserbot.getCurrentWindow().document.getElementsByTagName("ActivityEventRecorder")[0].getAttribute("data") != ""

@@ -62,7 +62,7 @@
 								<concat destfile="${project.build.outputDirectory}/user-extensions.js"
 									fixlastline="yes">
 									<filelist dir="${source.javascript}/selenium-extensions"
-										files="jquery.js jquery-selector-extensions.js extended-selenium.js" />
+										files="goog/base.js jquery/jquery.js jquery/jquery-selector-extensions.js event-recorder/event-recorder.js event-recorder/event-recorder-selenium-binding.js extended-selenium.js" />
 								</concat>
 								<echo>Compiling JavaScript: richfaces-selenium-core.js</echo>
 								<concat

@@ -44,13 +44,15 @@ public class EventRecorder implements Contextual {
 
     static final long DATA_TIMEOUT = 5000L;
 
-    final JavaScript openFirebug = JavaScript.fromResource("javascript/eventrecorder-control/open-firebug.js");
-    final JavaScript closeFirebug = JavaScript.fromResource("javascript/eventrecorder-control/close-firebug.js");
-    final JavaScript markEvent = JavaScript.fromResource("javascript/eventrecorder-control/mark-event.js");
-    final JavaScript flushEvents = JavaScript.fromResource("javascript/eventrecorder-control/flush-events.js");
-    final JavaScript waitForData = JavaScript.fromResource("javascript/eventrecorder-control/wait-for-data.js");
-    final JavaScript getData = JavaScript.fromResource("javascript/eventrecorder-control/get-data.js");
-    final JavaScript stopProfiler = JavaScript.fromResource("javascript/eventrecorder-control/stop-profiler.js");
+    boolean enabled;
+    final JavaScript isExtensionsInstalled = new JavaScript("eventRecorder.isExtensionInstalled()");
+    final JavaScript openFirebug = new JavaScript("eventRecorder.open()");
+    final JavaScript closeFirebug = new JavaScript("eventRecorder.close()");
+    final JavaScript stopProfiler = new JavaScript("eventRecorder.stopProfiler()");
+    final JavaScript markEvent = new JavaScript("eventRecorder.markEvent('{0}')");
+    final JavaScript flushEvents = new JavaScript("eventRecorder.flushEvents()");
+    final JavaScript isDataAvailable = new JavaScript("eventRecorder.isDataAvailable()");
+    final JavaScript getData = new JavaScript("eventRecorder.getData()");
 
     File outputDir;
 
@@ -62,6 +64,22 @@ public class EventRecorder implements Contextual {
      */
     public EventRecorder(File outputDir) {
         this.outputDir = outputDir;
+    }
+    
+    /**
+     * Returns true if EventRecorder is enabled and it's browser extensions is installed
+     * @return true if EventRecorder is enabled and it's browser extensions is installed
+     */
+    public boolean isEnabled() {
+        return enabled && isExtensionInstalled();
+    }
+    
+    /**
+     * Checks that EventRecorder PageSpeed's extension is installed in the page.
+     * @return true if extensions is installed; false otherwise
+     */
+    protected boolean isExtensionInstalled() {
+        return Boolean.valueOf(getSelenium().getEval(isExtensionsInstalled));
     }
 
     /**
@@ -123,7 +141,7 @@ public class EventRecorder implements Contextual {
      */
     public void flushEvents(String descriptor) {
         getSelenium().getEval(flushEvents);
-        getSelenium().waitForCondition(waitForData, DATA_TIMEOUT);
+        getSelenium().waitForCondition(isDataAvailable, DATA_TIMEOUT);
         String jsonData = getSelenium().getEval(getData);
 
         if (!outputDir.exists()) {
