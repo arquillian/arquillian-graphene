@@ -36,7 +36,6 @@ import org.jboss.test.selenium.encapsulated.Kwargs;
 import org.jboss.test.selenium.encapsulated.LogLevel;
 import org.jboss.test.selenium.encapsulated.NetworkTraffic;
 import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
-import org.jboss.test.selenium.encapsulated.ScriptTag;
 import org.jboss.test.selenium.encapsulated.Window;
 import org.jboss.test.selenium.encapsulated.WindowId;
 import org.jboss.test.selenium.encapsulated.XpathLibrary;
@@ -112,8 +111,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param coordString
-     *            specifies the point (x,y position)  of the mouse event relative to the element returned by the
-     *            locator.
+     *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void doubleClickAt(ElementLocator locator, Point coords);
 
@@ -124,8 +122,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param coordString
-     *            specifies the point (x,y position) of the mouse event relative to the element returned by the
-     *            locator.
+     *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void contextMenuAt(ElementLocator locator, Point coords);
 
@@ -154,9 +151,8 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param keySequence
-     *            Either be a string("\" followed by the numeric keycode  of the key to be pressed, normally the ASCII
-     *            value of that key), or a single  character. For example: "
-     *            w", "\119".
+     *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
+     *            value of that key), or a single character. For example: " w", "\119".
      */
     void keyPress(ElementLocator locator, String keySequence);
 
@@ -206,9 +202,8 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param keySequence
-     *            Either be a string("\" followed by the numeric keycode  of the key to be pressed,
-     *            normally the ASCII value of that key), or a single  character. For example: "
-     *            w", "\119".
+     *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
+     *            value of that key), or a single character. For example: " w", "\119".
      */
     void keyDown(ElementLocator locator, String keySequence);
 
@@ -218,9 +213,8 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param keySequence
-     *            Either be a string("\" followed by the numeric keycode  of the key to be pressed,
-     *            normally the ASCII value of that key), or a single  character. For example: "
-     *            w", "\119".
+     *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
+     *            value of that key), or a single character. For example: " w", "\119".
      */
     void keyUp(ElementLocator locator, String keySequence);
 
@@ -273,8 +267,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param coordString
-     *            specifies the point (x,y position) of the mouse event relative to the element returned by the
-     *            locator.
+     *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseDownRightAt(ElementLocator locator, Point coords);
 
@@ -303,8 +296,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param coordString
-     *            specifies the point (x,y position) of the mouse event relative to the element returned by the
-     *            locator.
+     *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseUpAt(ElementLocator locator, Point coords);
 
@@ -315,8 +307,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param coordString
-     *            specifies the point (x,y position) of the mouse event relative to the element returned by the
-     *            locator.
+     *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseUpRightAt(ElementLocator locator, Point coords);
 
@@ -334,8 +325,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      * @param coordString
-     *            specifies the point (x,y position) of the mouse event relative to the element returned by the
-     *            locator.
+     *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseMoveAt(ElementLocator locator, Point coords);
 
@@ -1237,6 +1227,7 @@ public interface TypedSelenium {
 
     /**
      * Retrieves the position of an element
+     * 
      * @param locator
      * @return the position in the current frame
      */
@@ -1305,7 +1296,7 @@ public interface TypedSelenium {
      * Returns the number of elements that match the specified locator.
      * 
      * @param locator
-     *            
+     * 
      * @return the number of nodes that match the specified locator
      */
     int getCount(IterableLocator<?> locator);
@@ -1553,22 +1544,30 @@ public interface TypedSelenium {
      * 
      * The corresponding remove command is removeScript.
      * 
-     * @param scriptContent
-     *            the Javascript content of the script to add
-     * @param scriptTagId
-     *            (optional) the id of the new script tag. If specified, and an element with this id already exists,
-     *            this operation will fail.
+     * @param javaScript
+     *            the JavaScript script to add
      */
-    void addScript(JavaScript scriptContent, ScriptTag scriptTagId);
+    void addScript(JavaScript javaScript);
 
     /**
-     * Removes a script tag from the Selenium document identified by the given id. Does nothing if the referenced tag
-     * doesn't exist.
+     * Checks whenever the script is already added.
      * 
-     * @param scriptTagId
-     *            the id of the script element to remove.
+     * Check is based on JavaScript's id (see {@link JavaScript#getIdentification()}.
+     * 
+     * @param javaScript
+     *            JavaScript we want to check if it is added
+     * @return true if the javaScript is already added; false otherwise
      */
-    void removeScript(ScriptTag scriptTagId);
+    boolean containsScript(JavaScript javaScript);
+
+    /**
+     * Removes a script tag from the Selenium document identified by the JavaScript's id (see
+     * {@link JavaScript#getIdentification()}. Does nothing if the referenced tag doesn't exist.
+     * 
+     * @param javaScript
+     *            JavaScript we want to remove
+     */
+    void removeScript(JavaScript javaScript);
 
     /**
      * Allows choice of one of the available libraries.

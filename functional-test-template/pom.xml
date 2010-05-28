@@ -111,26 +111,6 @@
 			<build>
 				<plugins>
 					<plugin>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack-user-extensions</id>
-								<phase>generate-test-resources</phase>
-								<goals>
-									<goal>unpack-dependencies</goal>
-								</goals>
-								<configuration>
-									<includeGroupIds>org.jboss.test</includeGroupIds>
-									<includeArtifactIds>richfaces-selenium</includeArtifactIds>
-									<includes>**/*.js</includes>
-									<outputDirectory>${project.build.directory}</outputDirectory>
-									<overWriteReleases>true</overWriteReleases>
-									<overWriteSnapshots>true</overWriteSnapshots>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>selenium-maven-plugin</artifactId>
 						<executions>
@@ -143,7 +123,6 @@
 								<configuration>
 									<background>true</background>
 									<port>${selenium.port}</port>
-									<userExtensions>${project.build.directory}/user-extensions.js</userExtensions>
 									<logOutput>true</logOutput>
 									<logFile>${project.build.directory}/selenium/selenium-server.log</logFile>
 									<browserSideLog>${selenium.debug}</browserSideLog>

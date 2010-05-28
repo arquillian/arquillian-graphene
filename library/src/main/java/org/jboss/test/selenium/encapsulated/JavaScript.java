@@ -75,6 +75,31 @@ public class JavaScript {
     public String toString() {
         return getAsString();
     }
+    
+    /**
+     * Joins this JavaScript object with another JavaScript object to single JavaScript.
+     * 
+     * @param javaScriptToJoin the JavaScript object we want to join with
+     * @return the joined JavaScript object
+     */
+    public JavaScript join(JavaScript javaScriptToJoin) {
+        return new JavaScript(this.javaScript + '\n' + javaScriptToJoin.javaScript);
+    }
+
+    /**
+     * <p>
+     * Gets a identification for this script based on script's hashcode.
+     * </p>
+     * 
+     * <p>
+     * It can be used to uniquely distinguish the script on the page.
+     * </p>
+     * 
+     * @return the unique identification for this script based on script's hashcode.
+     */
+    public String getIdentification() {
+        return "richfaces-selenium-script-id" + this.javaScript.hashCode();
+    }
 
     /**
      * Loads the JavaScript from file.

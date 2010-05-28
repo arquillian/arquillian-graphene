@@ -62,6 +62,6 @@ public class RequestGuardSample extends AbstractTestCase {
         guardNoRequest(selenium).click(null);
 
         // this action will not fire any request by default
-        selenium.addScript(new JavaScript("..."), null);
+        selenium.addScript(new JavaScript("..."));
     }
 }

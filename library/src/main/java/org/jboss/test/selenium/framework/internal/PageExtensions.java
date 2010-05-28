@@ -19,9 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.framework;
+package org.jboss.test.selenium.framework.internal;
+
+import java.util.List;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.waiting.Wait;
 
 /**
@@ -30,10 +33,10 @@ import org.jboss.test.selenium.waiting.Wait;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class JavaScriptPageExtension {
+public class PageExtensions {
 
     /** The JavaScript for extending of the page. */
-    final JavaScript pageExtension = JavaScript.fromResource("page-extensions.js");
+    JavaScript pageExtensions;
 
     /** Evaluates if the body is loaded */
     final JavaScript isBodyLoaded = new JavaScript("(selenium.browserbot.getCurrentWindow() != null) "
@@ -52,7 +55,7 @@ public class JavaScriptPageExtension {
      * @param selenium
      *            the selenium object what we want to associate extension to
      */
-    public JavaScriptPageExtension(AjaxSelenium selenium) {
+    public PageExtensions(AjaxSelenium selenium) {
         this.selenium = selenium;
     }
 
@@ -79,7 +82,7 @@ public class JavaScriptPageExtension {
      * Install the page extensions
      */
     void installPageExtension() {
-        selenium.runScript(pageExtension);
+        selenium.runScript(pageExtensions);
     }
 
     /**
@@ -87,5 +90,19 @@ public class JavaScriptPageExtension {
      */
     void waitForBodyLoaded() {
         selenium.waitForCondition(isBodyLoaded, Wait.DEFAULT_TIMEOUT);
+    }
+
+    /**
+     * Loads the page JS extensions from resources defined by list of resource names.
+     *  
+     * @param resourceNames the list of full paths to resources
+     */
+    public void loadFromResources(List<String> resourceNames) {
+        JavaScript extensions = null;
+        for (String resourceName : resourceNames) {
+            JavaScript partial = JavaScript.fromResource(resourceName);
+            extensions = (extensions == null) ? partial : extensions.join(partial);
+        }
+        this.pageExtensions = extensions;
     }
 }

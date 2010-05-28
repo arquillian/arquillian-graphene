@@ -38,7 +38,6 @@ import org.jboss.test.selenium.encapsulated.Kwargs;
 import org.jboss.test.selenium.encapsulated.LogLevel;
 import org.jboss.test.selenium.encapsulated.NetworkTraffic;
 import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
-import org.jboss.test.selenium.encapsulated.ScriptTag;
 import org.jboss.test.selenium.encapsulated.Window;
 import org.jboss.test.selenium.encapsulated.WindowId;
 import org.jboss.test.selenium.encapsulated.XpathLibrary;
@@ -55,6 +54,8 @@ import org.jboss.test.selenium.utils.array.ArrayTransform;
 
 import com.thoughtworks.selenium.Selenium;
 
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+
 /**
  * Wrapper implementation for Selenium object's API to make it type-safe.
  * 
@@ -64,14 +65,14 @@ import com.thoughtworks.selenium.Selenium;
 public class DefaultTypedSelenium implements TypedSelenium {
 
     Selenium selenium;
-    
+
     private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
         Integer.class) {
         public Integer transformation(String source) {
             return Integer.valueOf(source);
         }
     };
-    
+
     public void addCustomRequestHeader(String key, String value) {
         throw new UnsupportedOperationException();
     }
@@ -80,8 +81,8 @@ public class DefaultTypedSelenium implements TypedSelenium {
         selenium.addLocationStrategy(locationStrategy.getStrategyName(), strategyDefinition.toString());
     }
 
-    public void addScript(JavaScript scriptContent, ScriptTag scriptTagId) {
-        throw new UnsupportedOperationException();
+    public void addScript(JavaScript javaScript) {
+        selenium.addScript(javaScript.getAsString(), javaScript.getIdentification());
     }
 
     public void addSelection(ElementLocator elementLocator, ElementLocator optionLocator) {
@@ -159,6 +160,12 @@ public class DefaultTypedSelenium implements TypedSelenium {
 
     public void close() {
         selenium.close();
+    }
+
+    public boolean containsScript(JavaScript javaScript) {
+        final String identification = javaScript.getIdentification();
+        String evaluated = selenium.getEval(format("document.getElementById('{0}') ? true : false", identification));
+        return Boolean.valueOf(evaluated);
     }
 
     public void contextMenu(ElementLocator elementLocator) {
@@ -558,8 +565,8 @@ public class DefaultTypedSelenium implements TypedSelenium {
         selenium.removeAllSelections(elementLocator.getAsString());
     }
 
-    public void removeScript(ScriptTag scriptTagId) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public void removeScript(JavaScript javaScript) {
+        selenium.removeScript(javaScript.getIdentification());
     }
 
     public void removeSelection(ElementLocator elementLocator, ElementLocator optionLocator) {

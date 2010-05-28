@@ -22,10 +22,13 @@
 package org.jboss.test.selenium;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.EnumSet;
+import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.browser.BrowserMode;
 import org.jboss.test.selenium.browser.BrowserType;
@@ -135,13 +138,33 @@ public abstract class AbstractTestCase {
         selenium = new AjaxSelenium(seleniumHost, Integer.valueOf(seleniumPort), browser, contextPath);
         selenium.start();
         loadCustomLocationStrategies();
-        registerCustomHandlers();
 
         if (Boolean.valueOf(seleniumMaximize)) {
             // focus and maximaze tested window
             selenium.windowFocus();
             selenium.windowMaximize();
         }
+    }
+
+    /**
+     * Initializes page and Selenium's extensions to correctly install before test run.
+     */
+    @SuppressWarnings("unchecked")
+    @BeforeClass(dependsOnMethods = {"initializeBrowser"})
+    public void initializeExtensions() throws IOException {
+
+        List<String> seleniumExtensions = IOUtils.readLines(ClassLoader
+            .getSystemResourceAsStream("javascript/selenium-extensions-order.txt"));
+        List<String> pageExtensions = IOUtils.readLines(ClassLoader
+            .getSystemResourceAsStream("javascript/page-extensions-order.txt"));
+
+        // loads the extensions to the selenium
+        selenium.getSeleniumExtensions().requireResources(seleniumExtensions);
+        // prepares the resources to load into page
+        selenium.getPageExtensions().loadFromResources(pageExtensions);
+
+        // register the handlers for newly loaded extensions
+        registerCustomHandlers();
     }
 
     /**
@@ -163,7 +186,7 @@ public abstract class AbstractTestCase {
     }
 
     /**
-     * The extended-selenium.js specified new custom handlers, but the registration in commandFactory are triggered
+     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered
      * before the loading of extensions. That is reason why we must explicitly register it before the test after each
      * start of selenium.
      */
@@ -178,7 +201,7 @@ public abstract class AbstractTestCase {
     @AfterClass
     public void finalizeBrowser() {
         // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
-        //selenium.close();
+        // selenium.close();
         selenium.stop();
         selenium = null;
     }

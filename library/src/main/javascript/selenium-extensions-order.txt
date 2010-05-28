@@ -1,0 +1,5 @@
+javascript/selenium-extensions/jquery/jquery.js
+javascript/selenium-extensions/jquery/jquery-selector-extensions.js
+javascript/selenium-extensions/event-recorder/event-recorder.js
+javascript/selenium-extensions/event-recorder/event-recorder-selenium-binding.js
+javascript/selenium-extensions/extended-selenium.js

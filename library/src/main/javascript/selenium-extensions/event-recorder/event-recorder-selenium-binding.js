@@ -22,7 +22,16 @@
 var EventRecorderSeleniumBinding = function() {
 	EventRecorder.call(this);
 }
-goog.inherits(EventRecorderSeleniumBinding, EventRecorder);
+
+EventRecorderSeleniumBinding.extend = function(child, parent) {
+    var F = function() {};
+    F.prototype = parent.prototype;
+    child.prototype = new F();
+    child._superClass = parent.prototype;
+    child.prototype.constructor = child;
+}
+
+EventRecorderSeleniumBinding.extend(EventRecorderSeleniumBinding, EventRecorder);
 
 EventRecorderSeleniumBinding.prototype.getDocument_ = function() {
 	return selenium.browserbot.getCurrentWindow().document;

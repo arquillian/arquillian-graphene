@@ -1,0 +1,3 @@
+javascript/page-extensions/RichFacesSelenium.js
+javascript/page-extensions/XMLHttpRequest-proxy.js
+javascript/page-extensions/XMLHttpRequest-injection.js

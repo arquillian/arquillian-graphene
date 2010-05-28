@@ -48,7 +48,7 @@ public abstract class RequestTypeGuard extends AbstractGuard {
     }
     
     public void doBeforeCommand() {
-        getSelenium().getJavaScriptPageExtension().install();
+        getSelenium().getPageExtensions().install();
         getSelenium().getEval(clearRequestDone);
     }
 
