@@ -105,4 +105,40 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>5.12.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
+				<artifactId>selenium-java-client-driver</artifactId>
+				<version>1.0.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium.server</groupId>
+				<artifactId>selenium-server-coreless</artifactId>
+				<version>1.0.3</version>
+				<exclusions>
+					<exclusion>
+						<groupId>jetty</groupId>
+						<artifactId>org.mortbay.jetty</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.5</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>1.4</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
