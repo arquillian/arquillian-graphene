@@ -44,7 +44,8 @@ public class EventRecorder implements Contextual {
 
     static final long DATA_TIMEOUT = 5000L;
 
-    boolean enabled;
+    boolean enabled = true;
+    Boolean extensionsInstalled = null;
     final JavaScript isExtensionsInstalled = new JavaScript("eventRecorder.isExtensionInstalled()");
     final JavaScript openFirebug = new JavaScript("eventRecorder.open()");
     final JavaScript closeFirebug = new JavaScript("eventRecorder.close()");
@@ -65,21 +66,36 @@ public class EventRecorder implements Contextual {
     public EventRecorder(File outputDir) {
         this.outputDir = outputDir;
     }
-    
+
     /**
      * Returns true if EventRecorder is enabled and it's browser extensions is installed
+     * 
      * @return true if EventRecorder is enabled and it's browser extensions is installed
      */
     public boolean isEnabled() {
         return enabled && isExtensionInstalled();
     }
-    
+
+    /**
+     * By setting the enabled flag to boolean value, it can enable/disable event recoding.
+     * 
+     * @param enabled
+     *            if true, the event recorder will be enabled; otherwise will be the event recorder disabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     /**
      * Checks that EventRecorder PageSpeed's extension is installed in the page.
+     * 
      * @return true if extensions is installed; false otherwise
      */
-    protected boolean isExtensionInstalled() {
-        return Boolean.valueOf(getSelenium().getEval(isExtensionsInstalled));
+    public boolean isExtensionInstalled() {
+        if (extensionsInstalled == null) {
+            extensionsInstalled = Boolean.valueOf(getSelenium().getEval(isExtensionsInstalled));
+        }
+        return extensionsInstalled;
     }
 
     /**
@@ -92,6 +108,9 @@ public class EventRecorder implements Contextual {
      * </p>
      */
     public void open() {
+        if (!isEnabled()) {
+            return;
+        }
         getSelenium().getEval(openFirebug);
     }
 
@@ -105,15 +124,21 @@ public class EventRecorder implements Contextual {
      * </p>
      */
     public void close() {
+        if (!isEnabled()) {
+            return;
+        }
         getSelenium().getEval(closeFirebug);
     }
-    
+
     /**
      * <p>
      * Stops the PageSpeed's profiler.
      * </p>
      */
     public void stopProfiler() {
+        if (!isEnabled()) {
+            return;
+        }
         getSelenium().getEval(stopProfiler);
     }
 
@@ -124,6 +149,9 @@ public class EventRecorder implements Contextual {
      *            the title for marked time frame
      */
     public void markEvent(String title) {
+        if (!isEnabled()) {
+            return;
+        }
         getSelenium().getEval(markEvent.parametrize(title));
     }
 
@@ -140,6 +168,10 @@ public class EventRecorder implements Contextual {
      *            the filename pattern for output file (without .json extensions)
      */
     public void flushEvents(String descriptor) {
+        if (!isEnabled()) {
+            return;
+        }
+
         getSelenium().getEval(flushEvents);
         getSelenium().waitForCondition(isDataAvailable, DATA_TIMEOUT);
         String jsonData = getSelenium().getEval(getData);
