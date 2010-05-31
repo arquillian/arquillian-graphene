@@ -1,3 +1,6 @@
+javascript/selenium-extensions/goog/init.js
+javascript/selenium-extensions/goog/base.js
+javascript/selenium-extensions/goog/disposable/disposable.js
 javascript/selenium-extensions/jquery/jquery.js
 javascript/selenium-extensions/jquery/jquery-selector-extensions.js
 javascript/selenium-extensions/event-recorder/event-recorder.js
