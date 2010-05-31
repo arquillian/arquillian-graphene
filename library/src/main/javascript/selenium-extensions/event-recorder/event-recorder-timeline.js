@@ -51,7 +51,6 @@ Timeline.prototype.initialize = function(events) {
 
 Timeline.prototype.initializeByJson = function(jsonData) {
 	var events = JSON.parse(jsonData);
-//	var events = eval(jsonData);
 	this.initialize(events);
 }
 
@@ -449,7 +448,7 @@ Statistics.prototype.toString = function() {
 	result.push("{");
 	
 	for (var key in this.typeStats_) {
-		if (key instanceof TimelineEventType) {
+		if (this.typeStats_[key] instanceof TypeStats) {
 			result.push(indent(key.toString().substring(0, 13) + " =\t" + this.typeStats_[key].toString()));
 		}
 	}
