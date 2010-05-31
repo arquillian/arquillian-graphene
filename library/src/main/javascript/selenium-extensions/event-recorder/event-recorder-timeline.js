@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-String.prototype.startsWith = function(str) 
+String.prototype.startsWith = function(str)
 {return (this.match("^"+str)==str)}
 
 
@@ -32,8 +32,8 @@ Timeline.prototype.initialize = function(events) {
 	var self = this;
 	
 	var sortedEvents = new Array();
-	for (var key in events) {
-		var event = new TimelineEvent(events[key]);
+	for (var i = 0; i < events.length; i++) {
+		var event = new TimelineEvent(events[i]);
 		if (!event.getIdentifier().startsWith("http://localhost:8444/selenium-server/")) {
 			sortedEvents.push(event);
 		}
@@ -42,16 +42,16 @@ Timeline.prototype.initialize = function(events) {
 	
 	sortedEvents.sort(this.sortEvents);
 	
-	for (var key in sortedEvents) {
-		self.processEvent_(sortedEvents[key]);
+	for (var i = 0; i < sortedEvents.length; i++) {
+		self.processEvent_(sortedEvents[i]);
 	}
 	
 	this.countStats();
 };
 
 Timeline.prototype.initializeByJson = function(jsonData) {
-	//var events = JSON.parse(jsonData);
-	var events = eval(jsonData);
+	var events = JSON.parse(jsonData);
+//	var events = eval(jsonData);
 	this.initialize(events);
 }
 
@@ -99,16 +99,21 @@ TimelineRowList.prototype.getRow = function(event) {
 };
 
 TimelineRowList.prototype.countStats = function(timelineStats) {
-	for (var i in this.list_) {
-		var row = this.list_[i];
-		row.countStats(timelineStats);
+	for (var key in this.list_) {
+		var row = this.list_[key];
+		if (typeof row !== 'function') {
+			row.countStats(timelineStats);
+		}
 	}
 }
 
 TimelineRowList.prototype.toString = function() {
 	var result = [ ];
-	for (var row in this.list_) {
-		result.push("Row [ identifier=" + row.toString() + "\n" + indent(this.list_[row].toString()) + "\n]");
+	for (var key in this.list_) {
+		var row = this.list_[key];
+		if (typeof row !== 'function') {
+			result.push("Row [ identifier=" + key.toString() + "\n" + indent(row.toString()) + "\n]");
+		}
 	}
 	return result.join(",\n");
 }
@@ -143,7 +148,7 @@ TimelineRow.prototype.getLastBucket = function() {
 }
 
 TimelineRow.prototype.countStats = function(timelineStats) {
-	for (var i in this.buckets_) {
+	for (var i = 0; i < this.buckets_.length; i++) {
 		var bucket = this.buckets_[i];
 		bucket.countStats(timelineStats, this.rowStats_);
 	}
@@ -152,7 +157,7 @@ TimelineRow.prototype.countStats = function(timelineStats) {
 TimelineRow.prototype.toString = function() {
 	var result = [];
 	result.push(this.rowStats_.toString());
-	for (var i in this.buckets_) {
+	for (var i = 0; i < this.buckets_.length; i++) {
 		result.push("Bucket [ \n" + indent(this.buckets_[i].toString()) + "\n]");
 	}
 	return result.join(",\n");
@@ -201,7 +206,7 @@ TimelineBucket.prototype.shouldAdd = function(event) {
 
 TimelineBucket.prototype.getLastTime = function() {
 	var lastTime = 0;
-	for (var i in this.events_) {
+	for (var i = 0; i < this.events_.length; i++) {
 		var event = this.events_[i];
 		lastTime = Math.max(lastTime, event.getEndTime());
 	}
@@ -221,7 +226,7 @@ TimelineBucket.prototype.getLastEvent = function() {
 }
 
 TimelineBucket.prototype.countStats = function(timelineStats, rowStats) {
-	for (var i in this.events_) {
+	for (var i = 0; i < this.events_.length; i++) {
 		var event = this.events_[i];
 		timelineStats.pushEvent(event);
 		rowStats.pushEvent(event);
@@ -232,7 +237,7 @@ TimelineBucket.prototype.countStats = function(timelineStats, rowStats) {
 TimelineBucket.prototype.toString = function() {
 	var result = [];
 	result.push(this.bucketStats_.toString());
-	for (var i in this.events_) {
+	for (var i = 0; i < this.events_.length; i++) {
 		result.push(this.events_[i].toString());
 	}
 	return result.join(",\n");
@@ -372,8 +377,10 @@ TimelineEventType.prototype.isStackable = function() {
 
 TimelineEventType.prototype.toString = function() {
 	for (var key in TimelineEventType) {
-		if (TimelineEventType[key] == this) {
-			return key;
+		if (TimelineEventType[key] instanceof TimelineEventType) {
+			if (TimelineEventType[key] == this) {
+				return key;
+			}
 		}
 	}
 }
@@ -385,7 +392,7 @@ TimelineEventType.stackables = [
 	TimelineEventType.JS_PARSE
 ];
 
-for (var i in TimelineEventType.stackables) {
+for (var i = 0; i < TimelineEventType.stackables.length; i++) {
 	var stackable = TimelineEventType.stackables[i];
 	stackable.isStackable_ = true;
 }
@@ -442,7 +449,9 @@ Statistics.prototype.toString = function() {
 	result.push("{");
 	
 	for (var key in this.typeStats_) {
-		result.push(indent(key.toString().substring(0, 13) + " =\t" + this.typeStats_[key].toString()));
+		if (key instanceof TimelineEventType) {
+			result.push(indent(key.toString().substring(0, 13) + " =\t" + this.typeStats_[key].toString()));
+		}
 	}
 	result.push("}");
 	return result.join("\n");
