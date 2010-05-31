@@ -194,6 +194,11 @@ public abstract class AbstractTestCase {
 
     @BeforeClass(dependsOnMethods = {"initializeEventRecorder"})
     public void startEventRecording() {
+        /*
+         * FIXME - for proper loading of EventRecorder extension needs to have some initial page opened before opening
+         * EventRecorder, satysfing by opening contextPath first
+         */
+        selenium.open(contextPath);
         eventRecorder.open();
     }
 
