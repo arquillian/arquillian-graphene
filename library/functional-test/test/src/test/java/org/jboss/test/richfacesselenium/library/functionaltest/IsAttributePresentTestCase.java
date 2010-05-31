@@ -1,4 +1,7 @@
 package org.jboss.test.richfacesselenium.library.functionaltest;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.jboss.test.selenium.AbstractTestCase;
 
 import org.jboss.test.selenium.locator.Attribute;
@@ -25,8 +28,8 @@ public class IsAttributePresentTestCase extends AbstractTestCase {
     final String expectedMessage = "ERROR: element is not found";
         
     @BeforeMethod
-    public void openContext() {
-        selenium.open(contextPath);
+    public void openContext() throws MalformedURLException {
+        selenium.open(new URL(contextPath, "./reguest-type-guards.jsf"));
     }
     
     @Test

@@ -42,5 +42,6 @@ public class EventRecorderTestCase extends AbstractTestCase {
             return;
         }
         Assert.assertNotNull(eventRecorder.getRecorderData());
+        Assert.assertNotNull(eventRecorder.getRecordedDataHumanReadable());
     }
 }
