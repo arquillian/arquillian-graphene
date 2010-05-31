@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.internal.Contextual;
@@ -56,6 +57,8 @@ public class EventRecorder implements Contextual {
     final JavaScript flushEvents = new JavaScript("eventRecorder.flushEvents()");
     final JavaScript isDataAvailable = new JavaScript("eventRecorder.isDataAvailable()");
     final JavaScript getData = new JavaScript("eventRecorder.getData()");
+    final JavaScript timelineToHumanReadable = new JavaScript(
+        "var timeline = new Timeline(); timeline.initializeByJson('{0}'); timeline.toString()");
 
     File outputDir;
 
@@ -94,9 +97,7 @@ public class EventRecorder implements Contextual {
      * @return true if extensions is installed; false otherwise
      */
     public boolean isExtensionInstalled() {
-        if (extensionsInstalled == null) {
-            extensionsInstalled = Boolean.valueOf(getSelenium().getEval(isExtensionsInstalled));
-        }
+        extensionsInstalled = Boolean.valueOf(getSelenium().getEval(isExtensionsInstalled));
         return extensionsInstalled;
     }
 
@@ -107,6 +108,17 @@ public class EventRecorder implements Contextual {
      */
     public String getRecorderData() {
         return recordedData;
+    }
+
+    /**
+     * Returns the human readable representation of data recorded before last call to {@link #flushEvents(String)}
+     * 
+     * @return the human readable recorded data
+     */
+    public String getRecordedDataHumanReadable() {
+        final String escapedJSON = StringEscapeUtils.escapeJavaScript(recordedData);
+        String result = getSelenium().getEval(timelineToHumanReadable.parametrize(escapedJSON));
+        return result;
     }
 
     /**
