@@ -45,12 +45,15 @@ import org.jboss.test.selenium.waiting.conditions.ElementPresent;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
+import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
+import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
@@ -170,9 +173,28 @@ public abstract class AbstractTestCase {
     /**
      * initializes event recorder controller
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"})
+    @BeforeClass(dependsOnMethods = {"initializeParameters", "initializeExtensions", "isTestBrowserEnabled"})
     public void initializeEventRecorder() {
         eventRecorder = new EventRecorder(new File(mavenProjectBuildDirectory, "eventrecorder"));
+        setupEventRecorder();
+    }
+
+    /**
+     * <p>
+     * Setup individiually the EventRecorder in implementations.
+     * </p>
+     * 
+     * <p>
+     * Override for setup desired behaviour
+     * </p>
+     */
+    public void setupEventRecorder() {
+        eventRecorder.setEnabled(false);
+    }
+
+    @BeforeClass(dependsOnMethods = {"initializeEventRecorder"})
+    public void startEventRecording() {
+        eventRecorder.open();
     }
 
     /**
@@ -186,9 +208,9 @@ public abstract class AbstractTestCase {
     }
 
     /**
-     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered
-     * before the loading of extensions. That is reason why we must explicitly register it before the test after each
-     * start of selenium.
+     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered before
+     * the loading of extensions. That is reason why we must explicitly register it before the test after each start of
+     * selenium.
      */
     private void registerCustomHandlers() {
         final JavaScript registerCustomHandlers = new JavaScript("currentTest.commandFactory.registerAll(selenium)");
@@ -196,9 +218,27 @@ public abstract class AbstractTestCase {
     }
 
     /**
-     * Finalize context after each class run.
+     * Stops the profiler and flush the recorded data to file.
+     */
+    @AfterMethod
+    public void flushRecordedData(ITestResult result) {
+        String methodName = getMethodName(result);
+        eventRecorder.stopProfiler();
+        eventRecorder.flushEvents(methodName);
+    }
+
+    /**
+     * Stop the EventRecorded after each class.
      */
     @AfterClass
+    public void finishEventRecording() {
+        eventRecorder.close();
+    }
+
+    /**
+     * Finalize context after each class run.
+     */
+    @AfterClass(dependsOnMethods = "finishEventRecording")
     public void finalizeBrowser() {
         // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
         // selenium.close();

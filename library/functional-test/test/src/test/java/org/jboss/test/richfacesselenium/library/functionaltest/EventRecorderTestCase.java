@@ -1,27 +1,26 @@
 package org.jboss.test.richfacesselenium.library.functionaltest;
 
-import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
-
 import java.net.MalformedURLException;
 
 import org.jboss.test.selenium.AbstractTestCase;
 import org.jboss.test.selenium.waiting.Wait;
-import org.testng.ITestResult;
+import org.testng.Assert;
 import org.testng.SkipException;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+/**
+ * Tests the capability of event recoding using PageSpeed automation extension called EventRecorder.
+ * 
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ */
 public class EventRecorderTestCase extends AbstractTestCase {
 
-    @BeforeClass(dependsOnMethods = {"initializeEventRecorder", "initializeExtensions"})
-    public void startEventRecording() {
-        if (!eventRecorder.isExtensionInstalled()) {
-            throw new SkipException("EventRecorder extension isn't installed");
-        }
-        eventRecorder.open();
+    @Override
+    public void setupEventRecorder() {
+        eventRecorder.setEnabled(true);
     }
 
     @BeforeMethod
@@ -32,17 +31,16 @@ public class EventRecorderTestCase extends AbstractTestCase {
 
     @Test
     public void test() {
+        if (!eventRecorder.isExtensionInstalled()) {
+            throw new SkipException("EventRecorder extension isn't installed");
+        }
     }
 
-    @AfterMethod
-    public void flushRecordedData(ITestResult result) {
-        String methodName = getMethodName(result);
-        eventRecorder.stopProfiler();
-        eventRecorder.flushEvents(methodName);
-    }
-
-    @AfterClass
-    public void finishEventRecording() {
-        eventRecorder.close();
+    @AfterMethod(dependsOnMethods = "flushRecordedData")
+    public void verifyRecordedData() {
+        if (!eventRecorder.isExtensionInstalled()) {
+            return;
+        }
+        Assert.assertNotNull(eventRecorder.getRecorderData());
     }
 }

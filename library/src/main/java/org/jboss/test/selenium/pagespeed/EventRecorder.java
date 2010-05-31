@@ -44,8 +44,10 @@ public class EventRecorder implements Contextual {
 
     static final long DATA_TIMEOUT = 5000L;
 
-    boolean enabled = true;
+    boolean enabled = false;
     Boolean extensionsInstalled = null;
+    String recordedData;
+
     final JavaScript isExtensionsInstalled = new JavaScript("eventRecorder.isExtensionInstalled()");
     final JavaScript openFirebug = new JavaScript("eventRecorder.open()");
     final JavaScript closeFirebug = new JavaScript("eventRecorder.close()");
@@ -96,6 +98,15 @@ public class EventRecorder implements Contextual {
             extensionsInstalled = Boolean.valueOf(getSelenium().getEval(isExtensionsInstalled));
         }
         return extensionsInstalled;
+    }
+
+    /**
+     * Returns the data recorded before last call to {@link #flushEvents(String)}
+     * 
+     * @return the JSON data as String
+     */
+    public String getRecorderData() {
+        return recordedData;
     }
 
     /**
@@ -174,7 +185,7 @@ public class EventRecorder implements Contextual {
 
         getSelenium().getEval(flushEvents);
         getSelenium().waitForCondition(isDataAvailable, DATA_TIMEOUT);
-        String jsonData = getSelenium().getEval(getData);
+        recordedData = getSelenium().getEval(getData);
 
         if (!outputDir.exists()) {
             outputDir.mkdir();
@@ -185,7 +196,7 @@ public class EventRecorder implements Contextual {
         FileWriter output = null;
         try {
             output = new FileWriter(outputFile);
-            IOUtils.write(jsonData, output);
+            IOUtils.write(recordedData, output);
         } catch (IOException e) {
             throw new IllegalStateException(format("EventRecorder was unable to write data to '{0}'", outputFile
                 .getAbsolutePath()), e);
