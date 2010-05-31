@@ -1,0 +1,18 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>functional-test-jboss-ci-template</artifactId>
+		<groupId>org.jboss.test.richfaces-selenium</groupId>
+		<version>1.5.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.test.richfaces-selenium</groupId>
+	<artifactId>test</artifactId>
+
+	<name>functional-test for RichFaces-Selenium project (test)</name>
+	<properties>
+		<context.path>/war/</context.path>
+		<deployable.location>../war/target/war-tomcat6.war</deployable.location>
+	</properties>
+
+</project>
