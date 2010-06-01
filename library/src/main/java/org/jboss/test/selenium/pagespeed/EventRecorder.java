@@ -46,13 +46,16 @@ public class EventRecorder implements Contextual {
     static final long DATA_TIMEOUT = 5000L;
 
     boolean enabled = false;
+    boolean saveHumanReadable = false;
     Boolean extensionsInstalled = null;
+
     String recordedData;
 
     final JavaScript isExtensionsInstalled = new JavaScript("eventRecorder.isExtensionInstalled()");
     final JavaScript openFirebug = new JavaScript("eventRecorder.open()");
     final JavaScript closeFirebug = new JavaScript("eventRecorder.close()");
     final JavaScript stopProfiler = new JavaScript("eventRecorder.stopProfiler()");
+    final JavaScript clearBrowserCache = new JavaScript("eventRecorder.clearBrowserCache()");
     final JavaScript markEvent = new JavaScript("eventRecorder.markEvent('{0}')");
     final JavaScript flushEvents = new JavaScript("eventRecorder.flushEvents()");
     final JavaScript isDataAvailable = new JavaScript("eventRecorder.isDataAvailable()");
@@ -89,6 +92,17 @@ public class EventRecorder implements Contextual {
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    /**
+     * Enables automatical saving of recorded data in human-readable format.
+     * 
+     * @param saveHumanReadable
+     *            if true, the event recorder will automatically save recorded-data in human-readable format; otherwise
+     *            it will not
+     */
+    public void setSaveHumanReadable(boolean saveHumanReadable) {
+        this.saveHumanReadable = saveHumanReadable;
     }
 
     /**
@@ -166,6 +180,16 @@ public class EventRecorder implements Contextual {
     }
 
     /**
+     * Clears the browser cache.
+     */
+    public void clearBrowserCache() {
+        if (!isEnabled()) {
+            return;
+        }
+        getSelenium().getEval(clearBrowserCache);
+    }
+
+    /**
      * Mark the event with given title on timeline
      * 
      * @param title
@@ -203,14 +227,31 @@ public class EventRecorder implements Contextual {
             outputDir.mkdir();
         }
 
-        File outputFile = new File(outputDir, descriptor + ".json");
+        File outputRecordedData = new File(outputDir, descriptor + ".json");
+        writeData(recordedData, outputRecordedData);
 
+        if (saveHumanReadable) {
+            String humanReadableRecordedData = getRecordedDataHumanReadable();
+            File outputHumanReadable = new File(outputDir, descriptor + ".txt");
+            writeData(humanReadableRecordedData, outputHumanReadable);
+        }
+    }
+
+    /**
+     * Writes the string data to the file.
+     * 
+     * @param data
+     *            the data to write
+     * @param file
+     *            destination file
+     */
+    private void writeData(String data, File file) {
         FileWriter output = null;
         try {
-            output = new FileWriter(outputFile);
-            IOUtils.write(recordedData, output);
+            output = new FileWriter(file);
+            IOUtils.write(data, output);
         } catch (IOException e) {
-            throw new IllegalStateException(format("EventRecorder was unable to write data to '{0}'", outputFile
+            throw new IllegalStateException(format("EventRecorder was unable to write data to '{0}'", file
                 .getAbsolutePath()), e);
         } finally {
             IOUtils.closeQuietly(output);

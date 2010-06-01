@@ -65,6 +65,11 @@ EventRecorder.prototype.stopProfiler = function() {
 	this.dispatch_();
 }
 
+EventRecorder.prototype.clearBrowserCache = function() {
+	this.initiliaze_("ActivityEventRecorderClearBrowserCacheEvent");
+	this.dispatch_();
+}
+
 EventRecorder.prototype.markEvent = function(mark) {
 	this.initiliaze_("ActivityEventRecorderMarkEvent");
 	this.element_.setAttribute("mark", mark);
