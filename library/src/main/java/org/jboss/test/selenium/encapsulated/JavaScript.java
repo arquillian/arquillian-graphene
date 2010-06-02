@@ -75,15 +75,27 @@ public class JavaScript {
     public String toString() {
         return getAsString();
     }
-    
+
     /**
      * Joins this JavaScript object with another JavaScript object to single JavaScript.
      * 
-     * @param javaScriptToJoin the JavaScript object we want to join with
+     * @param javaScriptToJoin
+     *            the JavaScript object we want to join with
      * @return the joined JavaScript object
      */
     public JavaScript join(JavaScript javaScriptToJoin) {
         return new JavaScript(this.javaScript + '\n' + javaScriptToJoin.javaScript);
+    }
+
+    /**
+     * Append the JavaScript part to end of the this JavaScript
+     * 
+     * @param javaScriptPartToAppend
+     *            javaScript to append on the end of this JavaScript
+     * @return this JavaScript with javaScriptPartToAppend appended
+     */
+    public JavaScript append(String javaScriptPartToAppend) {
+        return new JavaScript(javaScript + javaScriptPartToAppend);
     }
 
     /**

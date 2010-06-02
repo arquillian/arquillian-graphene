@@ -235,7 +235,7 @@ public abstract class AbstractTestCase {
     /**
      * Stop the EventRecorded after each class.
      */
-    @AfterClass
+    @AfterClass(alwaysRun=true)
     public void finishEventRecording() {
         eventRecorder.close();
     }
@@ -243,7 +243,7 @@ public abstract class AbstractTestCase {
     /**
      * Finalize context after each class run.
      */
-    @AfterClass(dependsOnMethods = "finishEventRecording")
+    @AfterClass(dependsOnMethods = "finishEventRecording", alwaysRun=true)
     public void finalizeBrowser() {
         // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
         // selenium.close();

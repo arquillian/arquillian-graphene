@@ -22,6 +22,7 @@
 package org.jboss.test.selenium.framework.internal;
 
 import java.util.List;
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
@@ -39,6 +40,16 @@ public class SeleniumExtensions {
      */
     AjaxSelenium selenium;
 
+    /*
+     * JavaScript definitions for this object
+     */
+    final JavaScript getScriptWithResourceName = JavaScript.fromResource("javascript/get-script-with-resourcename.js");
+    final JavaScript containsScriptWithResourceName = getScriptWithResourceName.append(" != null");
+    final JavaScript getIdForScriptWithResourceName = getScriptWithResourceName.append(".getAttribute('id')");
+    final JavaScript setResourceNameForId = new JavaScript(
+        "document.getElementById('{0}').setAttribute('resourceName', '{1}')");
+    final JavaScript removeScript = new JavaScript("selenium.doRemoveScript('{0}')");
+
     /**
      * Construct the {@link SeleniumExtensions} object with associated selenium object.
      * 
@@ -50,15 +61,53 @@ public class SeleniumExtensions {
     }
 
     /**
-     * Adds the JavaScript extension by it's resourceName
+     * <p>
+     * Loads the JavaScript extension by it's resourceName.
+     * </p>
+     * 
+     * <p>
+     * If the JavaScript with given resourceName are already loaded, it will not be loaded again.
+     * </p>
+     * 
+     * <p>
+     * If the JavaScript is already loaded but it's source has another checksum, it will be reloaded.
+     * </p>
      * 
      * @param resourceName
      *            the full path to resource
      */
     public void requireResource(String resourceName) {
+        if (!containsScript(resourceName)) {
+            loadScript(resourceName);
+        } else {
+            refreshScript(resourceName);
+        }
+    }
+
+    private boolean containsScript(String resourceName) {
+        return Boolean.valueOf(selenium.getEval(containsScriptWithResourceName
+            .parametrize(escapeJavaScript(resourceName))));
+    }
+
+    private void loadScript(String resourceName) {
         JavaScript extension = JavaScript.fromResource(resourceName);
-        if (!selenium.containsScript(extension)) {
-            selenium.addScript(extension);
+        String identification = extension.getIdentification();
+        String escapedResourceName = escapeJavaScript(resourceName);
+        selenium.addScript(extension);
+        selenium.getEval(setResourceNameForId.parametrize(identification, escapedResourceName));
+    }
+
+    private void refreshScript(String resourceName) {
+        JavaScript extension = JavaScript.fromResource(resourceName);
+        String identification = extension.getIdentification();
+        String escapedResourceName = escapeJavaScript(resourceName);
+
+        String scriptId = selenium.getEval(getIdForScriptWithResourceName.parametrize(escapedResourceName));
+
+        if (!scriptId.equals(identification)) {
+            System.out.println("# Reloading extension: " + resourceName);
+            selenium.getEval(removeScript.parametrize(scriptId));
+            loadScript(resourceName);
         }
     }
 

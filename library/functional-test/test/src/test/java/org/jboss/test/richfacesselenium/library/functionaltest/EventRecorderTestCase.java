@@ -58,7 +58,10 @@ public class EventRecorderTestCase extends AbstractTestCase {
 
     @AfterMethod(dependsOnMethods = "flushRecordedData")
     public void verifyRecordedData() {
-
+        if (!eventRecorder.isExtensionInstalled()) {
+            return;
+        }
+        
         Assert.assertNotNull(eventRecorder.getRecorderData());
         Assert.assertNotNull(eventRecorder.getRecordedDataHumanReadable());
 

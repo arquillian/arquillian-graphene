@@ -21,7 +21,7 @@
  */
 package org.jboss.test.selenium.utils.text;
 
-import java.text.MessageFormat;
+import static org.apache.commons.lang.StringEscapeUtils.*;
 
 /**
  * <p>Formats using simplified MessageFormat syntax:</p>
@@ -45,19 +45,14 @@ public final class SimplifiedFormat {
      *            used to formatting given format string
      * @return string formatted using given arguments
      */
-    public static String format(String format, Object... args) {
-        String message = preformat(format);
-        return MessageFormat.format(message, args);
-    }
-
-    /**
-     * Prepares a message to use in Message.format()
-     * 
-     * @param message
-     *            prepared to use in Message.format()
-     * @return message prepared to use in Message.format()
-     */
-    private static String preformat(String message) {
-        return message.replace("'", "''").replace("\\''", "'");
+    public static String format(String message, Object... args) {
+        String result = message;
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i].toString();
+            arg = escapeJava(arg);
+            result = result.replaceFirst("\\{\\}", arg);
+            result = result.replaceAll("\\{" + i + "\\}", arg);
+        }
+        return result;
     }
 }

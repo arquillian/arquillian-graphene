@@ -19,9 +19,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-String.prototype.startsWith = function(str)
-{return (this.match("^"+str)==str)}
+String.prototype.startsWith = function(str) {
+	return (this.match("^"+str)==str);
+}
 
+String.prototype.leftpad = function(length, character) {
+	var result = '' + this;
+	character = character == undefined ? ' ' : character;
+	while (result.length < length) {
+		result = character + result;
+	}
+	return result;
+}
+
+String.prototype.rightpad = function(length, character) {
+	var result = '' + this;
+	character = character == undefined ? ' ' : character;
+	while (result.length < length) {
+		result = result + character;
+	}
+	return result;
+}
 
 var Timeline = function() {
 	this.rowList_ = new TimelineRowList();
@@ -447,9 +465,21 @@ Statistics.prototype.toString = function() {
 	result.push(this.NAME + " [ " + TimelineEvent.formatTime_(this.startTime_) + " ~ " + TimelineEvent.formatTime_(this.endTime_) + " (" + TimelineEvent.formatTime_(this.duration_) + ")")
 	result.push("{");
 	
+	var maxLengthKey = 0;
+	var maxLengthCount = 0;
+	var maxLengthDuration = 0;
 	for (var key in this.typeStats_) {
+		var typeStat = this.typeStats_[key];
+		if (typeStat instanceof TypeStats) {
+			maxLengthKey = Math.max(maxLengthKey, key.length);
+			maxLengthCount = Math.max(maxLengthCount, ('' + typeStat.getCount()).length);
+			maxLengthDuration = Math.max(maxLengthDuration, ('' + typeStat.getDurationAsString()).length);
+		}
+	}
+	for (var key in this.typeStats_) {
+		var typeStat = this.typeStats_[key];
 		if (this.typeStats_[key] instanceof TypeStats) {
-			result.push(indent(key.toString().substring(0, 13) + " =\t" + this.typeStats_[key].toString()));
+			result.push(indent(key.rightpad(maxLengthKey) + " = " + typeStat.getDurationAsString().leftpad(maxLengthDuration) + " [" + new String(typeStat.getCount()).leftpad(maxLengthCount) + "]"));
 		}
 	}
 	result.push("}");
@@ -507,14 +537,16 @@ Stats.prototype.getDuration = function() {
 	return this.duration_;
 }
 
+Stats.prototype.getDurationAsString = function() {
+	return TimelineEvent.formatTime_(this.duration_);
+}
+
 Stats.prototype.addEvent = function(event) {
 	this.count_ += 1;
 	this.duration_ += event.getDuration();
 }
 
-Stats.prototype.toString = function() {
-	return TimelineEvent.formatTime_(this.duration_) + "\t[" + this.count_ + "]";
-}
+
 
 /*
  * TypeStats
