@@ -12,7 +12,36 @@
 	<name>functional-test for RichFaces-Selenium project (test)</name>
 	<properties>
 		<context.path>/war/</context.path>
-		<deployable.location>../war/target/war-tomcat6.war</deployable.location>
+		<deployable.location>../war/target/war.war</deployable.location>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>functional-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<suiteXmlFiles>
+								<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+							</suiteXmlFiles>
+							<properties>
+								<property>
+									<name>listener</name>
+									<value>org.jboss.test.selenium.listener.ConsoleStatusTestListener</value>
+								</property>
+							</properties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>
