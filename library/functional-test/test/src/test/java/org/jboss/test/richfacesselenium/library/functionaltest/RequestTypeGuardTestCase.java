@@ -5,6 +5,7 @@ import java.net.URL;
 
 import org.jboss.test.selenium.AbstractTestCase;
 import org.jboss.test.selenium.guard.request.RequestGuardException;
+import org.jboss.test.selenium.guard.request.RequestType;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -35,14 +36,14 @@ public class RequestTypeGuardTestCase extends AbstractTestCase {
             guardNoRequest(selenium).click(linkHttpRequest);
             Assert.fail("The NO request was observed, however HTTP request was expected");
         } catch (RequestGuardException e) {
-            // should catch exception
+            Assert.assertTrue(e.getRequestDone() == RequestType.HTTP);
         }
 
         try {
             guardNoRequest(selenium).click(linkAjaxRequest);
             Assert.fail("The NO request was observed, however XHR request was expected");
         } catch (RequestGuardException e) {
-            // should catch exception
+            Assert.assertTrue(e.getRequestDone() == RequestType.XHR);
         }
     }
 
@@ -55,15 +56,16 @@ public class RequestTypeGuardTestCase extends AbstractTestCase {
     public void testHttpRequestWrong() {
         try {
             guardHttp(selenium).click(linkNoRequest);
-            Assert.fail("The HTTP request was observed, however NO request was expected");
+            Assert.fail("The HTTP request was observed, however NONE request was expected");
         } catch (RequestGuardException e) {
-            // should catch exception
+            Assert.assertTrue(e.getRequestDone() == RequestType.NONE);
         }
 
         try {
             guardHttp(selenium).click(linkAjaxRequest);
             Assert.fail("The HTTP request was observed, however XHR request was expected");
         } catch (RequestGuardException e) {
+            Assert.assertTrue(e.getRequestDone() == RequestType.XHR);
             // should catch exception
         }
     }
@@ -77,16 +79,16 @@ public class RequestTypeGuardTestCase extends AbstractTestCase {
     public void testXhrRequestWrong() {
         try {
             guardXhr(selenium).click(linkNoRequest);
-            Assert.fail("The XHR request was observed, however NO request was expected");
+            Assert.fail("The XHR request was observed, however NONE request was expected");
         } catch (RequestGuardException e) {
-            // should catch exception
+            Assert.assertTrue(e.getRequestDone() == RequestType.NONE);
         }
 
         try {
             guardXhr(selenium).click(linkHttpRequest);
             Assert.fail("The XHR request was observed, however HTTP request was expected");
         } catch (RequestGuardException e) {
-            // should catch exception
+            Assert.assertTrue(e.getRequestDone() == RequestType.HTTP);
         }
     }
 }

@@ -34,6 +34,12 @@ public final class RequestTypeGuardFactory {
     private RequestTypeGuardFactory() {
     }
 
+    private static AjaxSelenium guard(AjaxSelenium selenium, RequestType requestExpected) {
+        AjaxSelenium copy = selenium.immutableCopy();
+        copy.registerGuard(new RequestTypeGuard(requestExpected));
+        return copy;
+    }
+
     /**
      * Shortcut for registering a XMLHttpRequest on given selenium object.
      * 
@@ -42,9 +48,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static AjaxSelenium guardXhr(AjaxSelenium selenium) {
-        AjaxSelenium copy = selenium.immutableCopy();
-        copy.registerGuard(new XMLHttpRequestGuard());
-        return copy;
+        return guard(selenium, RequestType.XHR);
     }
 
     /**
@@ -55,9 +59,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use regular HTTP requests
      */
     public static AjaxSelenium guardHttp(AjaxSelenium selenium) {
-        AjaxSelenium copy = selenium.immutableCopy();
-        copy.registerGuard(new RegularHttpRequestGuard());
-        return copy;
+        return guard(selenium, RequestType.HTTP);
     }
 
     /**
@@ -68,8 +70,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use no request during interaction
      */
     public static AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
-        AjaxSelenium copy = selenium.immutableCopy();
-        copy.registerGuard(new NoRequestGuard());
-        return copy;
+        return guard(selenium, RequestType.NONE);
     }
+
 }

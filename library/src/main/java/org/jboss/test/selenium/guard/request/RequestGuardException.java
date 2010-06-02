@@ -21,6 +21,7 @@
  */
 package org.jboss.test.selenium.guard.request;
 
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import org.jboss.test.selenium.guard.GuardException;
 
 /**
@@ -32,7 +33,45 @@ import org.jboss.test.selenium.guard.GuardException;
 public class RequestGuardException extends GuardException {
     private static final long serialVersionUID = 5753594116726657947L;
 
-    public RequestGuardException(String message) {
-        super(message);
+    /**
+     * The RequestType which was expected to be done
+     */
+    private RequestType requestExpected;
+    /**
+     * The RequestType which was actually done
+     */
+    private RequestType requestDone;
+
+    public RequestGuardException(RequestType requestExpected, RequestType requestDone) {
+        this.requestExpected = requestExpected;
+        this.requestDone = requestDone;
+    }
+
+    /**
+     * Returns the RequestType which was expected to be done
+     * 
+     * @return the requestExpected RequestType which was expected to be done
+     */
+    public RequestType getRequestExpected() {
+        return requestExpected;
+    }
+
+    /**
+     * Returns the RequestType which was actually done
+     * 
+     * @return the requestDone RequestType which was actually done
+     */
+    public RequestType getRequestDone() {
+        return requestDone;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Throwable#getMessage()
+     */
+    @Override
+    public String getMessage() {
+        return format("Request type '{0}' was expected, but type '{1}' was done instead", requestExpected, requestDone);
     }
 }
