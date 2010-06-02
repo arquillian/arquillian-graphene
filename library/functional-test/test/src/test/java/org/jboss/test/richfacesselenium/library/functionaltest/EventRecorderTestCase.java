@@ -26,6 +26,7 @@ public class EventRecorderTestCase extends AbstractTestCase {
     public void openPage() {
         selenium.open(contextPath);
         selenium.waitForPageToLoad(Wait.DEFAULT_TIMEOUT);
+        isCacheEnabled = null;
     }
 
     @Test
@@ -62,8 +63,9 @@ public class EventRecorderTestCase extends AbstractTestCase {
         Assert.assertNotNull(eventRecorder.getRecordedDataHumanReadable());
 
         if (isCacheEnabled != null) {
-            Assert.assertEquals((boolean) isCacheEnabled, eventRecorder.getRecordedDataHumanReadable().contains(
-                "CACHE_HIT"));
+            if (!isCacheEnabled) {
+                Assert.assertFalse(eventRecorder.getRecordedDataHumanReadable().contains("CACHE_HIT"));
+            }
         }
 
     }
