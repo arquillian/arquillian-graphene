@@ -3,12 +3,9 @@ package org.jboss.test.richfacesselenium.library.functionaltest;
 import org.jboss.test.selenium.AbstractTestCase;
 import org.jboss.test.selenium.waiting.Wait;
 import org.testng.Assert;
-import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
-import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
 
 /**
  * Tests the capability of event recoding using PageSpeed automation extension called EventRecorder.
@@ -17,6 +14,8 @@ import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
  * @version $Revision$ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  */
 public class EventRecorderTestCase extends AbstractTestCase {
+
+    Boolean isCacheEnabled = null;
 
     @Override
     public void setupEventRecorder() {
@@ -44,6 +43,7 @@ public class EventRecorderTestCase extends AbstractTestCase {
         }
         eventRecorder.clearBrowserCache();
         openPage();
+        isCacheEnabled = false;
     }
 
     @Test(dependsOnMethods = "testClearBrowserCache")
@@ -52,17 +52,19 @@ public class EventRecorderTestCase extends AbstractTestCase {
             throw new SkipException("EventRecorder extension isn't installed");
         }
         openPage();
+        isCacheEnabled = true;
     }
 
     @AfterMethod(dependsOnMethods = "flushRecordedData")
-    public void verifyRecordedData(ITestResult result) {
-        final String methodName = getMethodName(result);
-        final boolean isCacheEnabled = !"EventRecorderTestCase.testClearBrowserCache".equals(methodName);
+    public void verifyRecordedData() {
 
         Assert.assertNotNull(eventRecorder.getRecorderData());
         Assert.assertNotNull(eventRecorder.getRecordedDataHumanReadable());
 
-        Assert.assertEquals(isCacheEnabled, eventRecorder.getRecordedDataHumanReadable().contains("CACHE_HIT"));
+        if (isCacheEnabled != null) {
+            Assert.assertEquals((boolean) isCacheEnabled, eventRecorder.getRecordedDataHumanReadable().contains(
+                "CACHE_HIT"));
+        }
 
     }
 }
