@@ -22,7 +22,6 @@
 package org.jboss.test.selenium.framework;
 
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.framework.internal.Contextual;
@@ -46,7 +45,7 @@ import org.jboss.test.selenium.guard.Guarded;
 public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
 
     /** The reference. */
-    private static AtomicReference<AjaxSelenium> reference = new AtomicReference<AjaxSelenium>(null);
+    private static final ThreadLocal<AjaxSelenium> REFERENCE = new ThreadLocal<AjaxSelenium>();
 
     /** The ajax aware command processor. */
     AjaxAwareCommandProcessor ajaxAwareCommandProcessor;
@@ -100,8 +99,8 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      * @param selenium
      *            the new current context
      */
-    private static void setCurrentContext(AjaxSelenium selenium) {
-        reference.set(selenium);
+    public static void setCurrentContext(AjaxSelenium selenium) {
+        REFERENCE.set(selenium);
     }
 
     /**
@@ -111,8 +110,8 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      *            the in context
      * @return the current context
      */
-    public static AjaxSelenium getCurrentContext(Contextual... inContext) {
-        return reference.get();
+    public static AjaxSelenium getCurrentContext(Contextual... contextual) {
+        return REFERENCE.get();
     }
 
     /**

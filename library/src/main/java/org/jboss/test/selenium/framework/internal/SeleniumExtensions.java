@@ -122,4 +122,14 @@ public class SeleniumExtensions {
             requireResource(resourceName);
         }
     }
+    
+    /**
+     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered before
+     * the loading of extensions. That is reason why we must explicitly register it before the test after each start of
+     * selenium.
+     */
+    public void registerCustomHandlers() {
+        final JavaScript registerCustomHandlers = new JavaScript("currentTest.commandFactory.registerAll(selenium)");
+        selenium.getEval(registerCustomHandlers);
+    }
 }

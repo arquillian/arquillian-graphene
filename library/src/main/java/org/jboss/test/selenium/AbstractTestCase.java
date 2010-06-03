@@ -35,7 +35,6 @@ import org.jboss.test.selenium.browser.BrowserType;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import org.jboss.test.selenium.pagespeed.EventRecorder;
 import org.jboss.test.selenium.waiting.SeleniumWaiting;
 import org.jboss.test.selenium.waiting.Wait;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
@@ -45,15 +44,11 @@ import org.jboss.test.selenium.waiting.conditions.ElementPresent;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
-import org.testng.ITestResult;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-
-import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
@@ -85,11 +80,6 @@ public abstract class AbstractTestCase {
     protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
 
     /**
-     * the event recorder controller
-     */
-    protected EventRecorder eventRecorder;
-
-    /**
      * context root can be used to obtaining full URL paths, is set to actual tested application's context root
      */
     protected URL contextRoot;
@@ -108,7 +98,7 @@ public abstract class AbstractTestCase {
     protected boolean seleniumDebug; // if used specified debug mode of selenium testing
     protected Browser browser;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     @Parameters({"context.root", "context.path", "browser", "selenium.debug", "maven.resources.dir",
         "maven.project.build.directory"})
     public void initializeParameters(String contextRoot, String contextPath, String browser, String seleniumDebug,
@@ -135,7 +125,7 @@ public abstract class AbstractTestCase {
      * @param seleniumPort
      *            specifies on which port should selenium server run
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"})
+    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"}, alwaysRun = true)
     @Parameters({"selenium.host", "selenium.port", "selenium.maximize"})
     public void initializeBrowser(String seleniumHost, String seleniumPort, String seleniumMaximize) {
         selenium = new AjaxSelenium(seleniumHost, Integer.valueOf(seleniumPort), browser, contextPath);
@@ -153,7 +143,7 @@ public abstract class AbstractTestCase {
      * Initializes page and Selenium's extensions to correctly install before test run.
      */
     @SuppressWarnings("unchecked")
-    @BeforeClass(dependsOnMethods = {"initializeBrowser"})
+    @BeforeClass(dependsOnMethods = {"initializeBrowser"}, alwaysRun = true)
     public void initializeExtensions() throws IOException {
 
         List<String> seleniumExtensions = IOUtils.readLines(ClassLoader
@@ -163,43 +153,10 @@ public abstract class AbstractTestCase {
 
         // loads the extensions to the selenium
         selenium.getSeleniumExtensions().requireResources(seleniumExtensions);
+        // register the handlers for newly loaded extensions
+        selenium.getSeleniumExtensions().registerCustomHandlers();
         // prepares the resources to load into page
         selenium.getPageExtensions().loadFromResources(pageExtensions);
-
-        // register the handlers for newly loaded extensions
-        registerCustomHandlers();
-    }
-
-    /**
-     * initializes event recorder controller
-     */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "initializeExtensions", "isTestBrowserEnabled"})
-    public void initializeEventRecorder() {
-        eventRecorder = new EventRecorder(new File(mavenProjectBuildDirectory, "eventrecorder"));
-        setupEventRecorder();
-    }
-
-    /**
-     * <p>
-     * Setup individiually the EventRecorder in implementations.
-     * </p>
-     * 
-     * <p>
-     * Override for setup desired behaviour
-     * </p>
-     */
-    public void setupEventRecorder() {
-        eventRecorder.setEnabled(false);
-    }
-
-    @BeforeClass(dependsOnMethods = {"initializeEventRecorder"})
-    public void startEventRecording() {
-        /*
-         * FIXME - for proper loading of EventRecorder extension needs to have some initial page opened before opening
-         * EventRecorder, satysfing by opening contextPath first
-         */
-        selenium.open(contextPath);
-        eventRecorder.open();
     }
 
     /**
@@ -213,42 +170,16 @@ public abstract class AbstractTestCase {
     }
 
     /**
-     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered before
-     * the loading of extensions. That is reason why we must explicitly register it before the test after each start of
-     * selenium.
-     */
-    private void registerCustomHandlers() {
-        final JavaScript registerCustomHandlers = new JavaScript("currentTest.commandFactory.registerAll(selenium)");
-        selenium.getEval(registerCustomHandlers);
-    }
-
-    /**
-     * Stops the profiler and flush the recorded data to file.
-     */
-    @AfterMethod
-    public void flushRecordedData(ITestResult result) {
-        String methodName = getMethodName(result);
-        eventRecorder.stopProfiler();
-        eventRecorder.flushEvents(methodName);
-    }
-
-    /**
-     * Stop the EventRecorded after each class.
-     */
-    @AfterClass(alwaysRun=true)
-    public void finishEventRecording() {
-        eventRecorder.close();
-    }
-
-    /**
      * Finalize context after each class run.
      */
-    @AfterClass(dependsOnMethods = "finishEventRecording", alwaysRun=true)
+    @AfterClass(alwaysRun = true)
     public void finalizeBrowser() {
-        // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
-        // selenium.close();
-        selenium.stop();
-        selenium = null;
+        if (selenium != null) {
+            // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
+            // selenium.close();
+            selenium.stop();
+            selenium = null;
+        }
     }
 
     /**
@@ -257,7 +188,7 @@ public abstract class AbstractTestCase {
      * If it is not enabled, skip the particular test.
      */
     @Parameters({"enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes"})
-    @BeforeClass(dependsOnMethods = "initializeParameters")
+    @BeforeClass(dependsOnMethods = "initializeParameters", alwaysRun = true)
     public void isTestBrowserEnabled(@Optional("*") String enabledBrowsersParam,
         @Optional("") String disabledBrowsersParam, @Optional("*") String enabledModesParam,
         @Optional("") String disabledModesParam) {
