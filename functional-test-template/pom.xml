@@ -29,6 +29,7 @@
 		<selenium.port>8444</selenium.port>
 		<selenium.debug>false</selenium.debug>
 		<selenium.maximize>false</selenium.maximize>
+		<cargo.jvmargs.additional></cargo.jvmargs.additional>
 	</properties>
 	
 	<modules>
@@ -193,7 +194,7 @@
 							<configuration>
 								<properties>
 									<cargo.hostname>${context.host}</cargo.hostname>
-									<cargo.jvmargs>-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000</cargo.jvmargs>
+									<cargo.jvmargs>-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 ${cargo.jvmargs.additional}</cargo.jvmargs>
 								</properties>
 							</configuration>
 						</configuration>
