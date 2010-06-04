@@ -24,6 +24,7 @@
 		<context.host>localhost</context.host>
 		<context.root>http://${context.host}:8080/</context.root>
 		<context.path>/</context.path>
+		<context.deploy.path>${context.path}</context.deploy.path>
 		<selenium.host>localhost</selenium.host>
 		<selenium.port>8444</selenium.port>
 		<selenium.debug>false</selenium.debug>
@@ -222,7 +223,7 @@
 										<type>${deployable.type}</type>
 										<location>${deployable.location}</location>
 										<properties>
-											<context>${context.path}</context>
+											<context>${context.deploy.path}</context>
 										</properties>
 									</deployable>
 								</deployables>
