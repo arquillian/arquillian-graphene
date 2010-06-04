@@ -159,6 +159,12 @@
 					<name>containerId</name>
 				</property>
 			</activation>
+			<properties>
+				<container.dir><!-- change in custom container profiles --></container.dir>
+				<container.dir.deflatted>${container.dir}</container.dir.deflatted>
+				<container.dir.unflatted>${container.dir}</container.dir.unflatted>
+				<container.home>${project.build.directory}/installs/${container.dir.deflatted}/${container.dir.unflatted}</container.home>
+			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -245,8 +251,9 @@
 				</property>
 			</activation>
 			<properties>
-				<container.home>${project.build.directory}/installs/jboss-${container.version}/${container.unflatted.dir}</container.home>
+				<container.dir>jboss-${container.version}</container.dir>
 				<container.configuration>default</container.configuration>
+				<container.configuration.home>${container.home}/server/${container.configuration}</container.configuration.home>
 			</properties>
 			<build>
 				<plugins>
@@ -288,7 +295,7 @@
 			</activation>
 			<properties>
 				<container.version>6.0.0.M2</container.version>
-				<container.unflatted.dir>jboss-6.0.0.20100216-M2</container.unflatted.dir>
+				<container.dir.unflatted>jboss-6.0.0.20100216-M2</container.dir.unflatted>
 				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.version}/jboss-${container.version}.zip</container.installer.url>
 			</properties>
 		</profile>
@@ -303,8 +310,9 @@
 				</property>
 			</activation>
 			<properties>
-				<container.home>${project.build.directory}/installs/jboss-${container.version}/jboss-${container.version}</container.home>
+				<container.dir>jboss-${container.version}</container.dir>
 				<container.configuration>default</container.configuration>
+				<container.configuration.home>${container.home}/server/${container.configuration}</container.configuration.home>
 			</properties>
 			<build>
 				<plugins>
@@ -358,7 +366,7 @@
 				</property>
 			</activation>
 			<properties>
-				<container.home>${project.build.directory}/installs/apache-tomcat-${container.version}/apache-tomcat-${container.version}</container.home>
+				<container.dir>apache-tomcat-${container.version}</container.dir>
 			</properties>
 			<build>
 				<plugins>

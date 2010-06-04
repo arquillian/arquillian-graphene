@@ -134,7 +134,7 @@
 				<jboss5x.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jboss5x.version}.zip</jboss5x.installer.url.unix>
 				<jboss5x.installer.url.windows>file:t:\src\jboss\jboss-${jboss5x.version}.GA.zip</jboss5x.installer.url.windows>
 				<jboss6x.version>6.0.0.M2</jboss6x.version>
-				<jboss6x.unflatted.dir>jboss-${jboss6x.version}</jboss6x.unflatted.dir>
+				<jboss6x.dir.unflatted>jboss-${jboss6x.version}</jboss6x.dir.unflatted>
 				<jboss6x.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jboss6x.version}.zip</jboss6x.installer.url.unix>
 				<jboss6x.installer.url.windows>file:t:\src\jboss\jboss-${jboss6x.version}.zip</jboss6x.installer.url.windows>
 				<tomcat6x.version>6.0.24</tomcat6x.version>
