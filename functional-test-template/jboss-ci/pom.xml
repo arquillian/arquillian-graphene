@@ -90,7 +90,20 @@
 				</property>
 			</activation>
 			<properties>
-				<browser.version>3.5.3</browser.version>
+				<browser.version>3.5.9</browser.version>
+				<browser>${browser.firefox}</browser>
+			</properties>
+		</profile>
+		<profile>
+			<id>browser-firefox-3.6.3</id>
+			<activation>
+				<property>
+					<name>profile.browser</name>
+					<value>firefox-3.6</value>
+				</property>
+			</activation>
+			<properties>
+				<browser.version>3.6.3</browser.version>
 				<browser>${browser.firefox}</browser>
 			</properties>
 		</profile>
