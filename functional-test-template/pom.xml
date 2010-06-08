@@ -172,10 +172,23 @@
 						<artifactId>cargo-maven2-plugin</artifactId>
 						<executions>
 							<execution>
+								<id>install-container</id>
+								<phase>generate-test-resources</phase>
+								<goals>
+									<goal>install</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>deploy-to-container</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+							<execution>
 								<id>start-container</id>
 								<phase>pre-integration-test</phase>
 								<goals>
-									<goal>deploy</goal>
 									<goal>start</goal>
 								</goals>
 							</execution>
@@ -390,7 +403,7 @@
 				</property>
 			</activation>
 			<properties>
-				<container.version>6.0.24</container.version>
+				<container.version>6.0.26</container.version>
 				<container.installer.url>http://www.apache.org/dist/tomcat/tomcat-6/v${container.version}/bin/apache-tomcat-${container.version}.zip</container.installer.url>
 			</properties>
 		</profile>

@@ -137,7 +137,7 @@
 				<jboss6x.dir.unflatted>jboss-${jboss6x.version}</jboss6x.dir.unflatted>
 				<jboss6x.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jboss6x.version}.zip</jboss6x.installer.url.unix>
 				<jboss6x.installer.url.windows>file:t:\src\jboss\jboss-${jboss6x.version}.zip</jboss6x.installer.url.windows>
-				<tomcat6x.version>6.0.24</tomcat6x.version>
+				<tomcat6x.version>6.0.26</tomcat6x.version>
 				<tomcat6x.installer.url.unix>file:/qa/tools/src/apache/apache-tomcat-${tomcat6x.version}.zip</tomcat6x.installer.url.unix>
 				<tomcat6x.installer.url.windows>file:t:\src\apache\apache-tomcat-${tomcat6x.version}.zip</tomcat6x.installer.url.windows>
 			</properties>
