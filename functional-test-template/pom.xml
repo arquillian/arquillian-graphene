@@ -260,8 +260,6 @@
 					<plugin>
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
-						<!--  force cargo version -->
-						<version>1.0.1-alpha-2</version>
 						<executions>
 							<execution>
 								<id>undeploy-container</id>
