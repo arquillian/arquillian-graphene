@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.test.richfaces-selenium</groupId>
 	<artifactId>root</artifactId>
@@ -7,44 +8,62 @@
 	<packaging>pom</packaging>
 	<name>RichFaces-Selenium: Root</name>
 
+	<parent>
+		<artifactId>jboss-parent</artifactId>
+		<groupId>org.jboss</groupId>
+		<version>5</version>
+	</parent>
+
 	<modules>
 		<module>library</module>
 		<module>functional-test-template</module>
 	</modules>
 
 	<scm>
-		<developerConnection>
-           scm:svn:https://svn.jboss.org/repos/qa/richfaces-selenium/trunk
-        </developerConnection>
+		<connection>scm:svn:http://anonsvn.jboss.org/repos/qa/richfaces-selenium/trunk</connection>
+		<developerConnection>scm:svn:https://svn.jboss.org/repos/qa/richfaces-selenium/trunk</developerConnection>
+		<url>http://anonsvn.jboss.org/repos/qa/richfaces-selenium/trunk</url>
 	</scm>
 
-	<distributionManagement>
-		<repository>
-			<id>jboss-releases</id>
-			<name>JBoss Release Repository</name>
-			<url>scm:svn:https://svn.jboss.org/repos/repository.jboss.org/maven2</url>
-		</repository>
-		<snapshotRepository>
-			<id>jboss-snapshots</id>
-			<name>JBoss Snapshot Repository</name>
-			<url>dav:https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-
+	<developers>
+		<developer>
+			<name>Lukas Fryc</name>
+			<email>lfryc@redhat.com</email>
+		</developer>
+	</developers>
 
 	<repositories>
 		<repository>
-			<id>repository.jboss.org</id>
-			<url>http://repository.jboss.org/maven2</url>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
 			</releases>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
 			</snapshots>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
