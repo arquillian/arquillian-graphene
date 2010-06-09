@@ -50,6 +50,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import static org.jboss.test.selenium.utils.URLUtils.buildUrl;
 
 /**
  * <p>
@@ -103,8 +104,8 @@ public abstract class AbstractTestCase {
         "maven.project.build.directory"})
     public void initializeParameters(String contextRoot, String contextPath, String browser, String seleniumDebug,
         String mavenResourcesDir, String mavenProjectBuildDirectory) throws MalformedURLException {
-        this.contextRoot = new URL(contextRoot);
-        this.contextPath = new URL(this.contextRoot, contextPath);
+        this.contextRoot = buildUrl(contextRoot);
+        this.contextPath = buildUrl(this.contextRoot, contextPath);
         this.mavenResourcesDir = new File(mavenResourcesDir);
         this.mavenProjectBuildDirectory = new File(mavenProjectBuildDirectory);
         this.seleniumDebug = Boolean.valueOf(seleniumDebug);

@@ -30,6 +30,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
  * Provides URL manipulations and functionality.
@@ -53,17 +54,40 @@ public final class URLUtils {
      * @param relocations
      *            array of relocation URLs
      * @return end url after all changes made on context with relocations
-     * @throws MalformedURLException
-     *             when context or some of relocations are malformed
+     * @throws AssertionError
+     *             when context or some of relocations are malformed URLs
      */
-    public static String buildUrl(String context, String... relocations) throws MalformedURLException {
-        URL url = new URL(context);
+    public static URL buildUrl(String context, String... relocations) {
+        try {
+            return buildUrl(new URL(context), relocations);
+        } catch (MalformedURLException e) {
+            throw new AssertionError(format("URL('{0}') isn't valid URL", context));
+        }
+    }
+
+    /**
+     * Use URL context and one or more relocations to build end URL.
+     * 
+     * @param context
+     *            first URL used like a context root for all relocation changes
+     * @param relocations
+     *            array of relocation URLs
+     * @return end url after all changes made on context with relocations
+     * @throws AssertionError
+     *             when context or some of relocations are malformed URLs
+     */
+    public static URL buildUrl(URL context, String... relocations) {
+        URL url = context;
 
         for (String move : relocations) {
-            url = new URL(url, move);
+            try {
+                url = new URL(url, move);
+            } catch (MalformedURLException e) {
+                throw new AssertionError(format("URL('{0}', '{1}') isn't valid URL", url, move));
+            }
         }
 
-        return url.toString();
+        return url;
     }
 
     /**
