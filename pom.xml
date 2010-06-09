@@ -129,6 +129,11 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>org.jboss.test</groupId>
+				<artifactId>richfaces-selenium</artifactId>
+				<version>${version.richfaces-selenium}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
 				<version>5.12.1</version>
