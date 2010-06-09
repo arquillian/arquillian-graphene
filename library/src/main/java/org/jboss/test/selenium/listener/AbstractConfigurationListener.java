@@ -147,10 +147,12 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     private void tryInvoke(Method method, Set<Annotation> annotations, Class<? extends Annotation>[] typesToInvoke) {
         Set<Annotation> invokedAnnotations = new LinkedHashSet<Annotation>();
         for (Annotation annotation : annotations) {
+            Class<? extends Annotation> type = annotation.annotationType();
             if (!ArrayUtils.contains(typesToInvoke, annotation.annotationType())) {
                 break;
             }
             boolean invoke = true;
+            // verify dependencies of current method
             for (String methodName : getMethodDependencies(annotation)) {
                 if (getMethodAlwaysRun(annotation)) {
                     invoke &= configurationsSucceded.contains(methodName) || configurationsSkipped.contains(methodName)
@@ -159,9 +161,12 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
                     invoke &= configurationsSucceded.contains(methodName);
                 }
             }
+            // verify the success of the method
+            invoke &= (AfterMethod.class == type) && (!testResult.isSuccess()) && (!getMethodAlwaysRun(annotation));
+            // should test pass regarding to previous verifications?
             if (invoke) {
                 invokeMethod(method);
-                if (BeforeClass.class == annotation.annotationType() || AfterClass.class == annotation.annotationType()) {
+                if (BeforeClass.class == type || AfterClass.class == type) {
                     invokedAnnotations.add(annotation);
                 }
             }
