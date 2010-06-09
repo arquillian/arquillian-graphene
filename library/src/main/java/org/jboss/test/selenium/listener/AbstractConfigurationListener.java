@@ -162,7 +162,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
                 }
             }
             // verify the success of the method
-            invoke &= (AfterMethod.class == type) && (!testResult.isSuccess()) && (!getMethodAlwaysRun(annotation));
+            invoke &= !((AfterMethod.class == type) && (!testResult.isSuccess()) && (!getMethodAlwaysRun(annotation)));
             // should test pass regarding to previous verifications?
             if (invoke) {
                 invokeMethod(method);
