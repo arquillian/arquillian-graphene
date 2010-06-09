@@ -51,19 +51,19 @@
 				<version>1.0.3</version>
 				<configuration>
 					<userAliases>
-						<selenium-only>install -Dselenium.test.skip=true -Pwait-for-key</selenium-only>
-						<tomcat6>install -Dmaven.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</tomcat6>
-						<jboss5>install -Dmaven.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</jboss5>
-						<jboss6>install -Dmaven.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</jboss6>
-						<selenium-tomcat6>install -Dselenium.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</selenium-tomcat6>
-						<selenium-jboss5>install -Dselenium.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</selenium-jboss5>
-						<selenium-jboss6>install -Dselenium.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</selenium-jboss6>
-						<browser>install -Dselenium.server.skip=true</browser>
-						<firefox>install -Dbrowser=*firefox -Dselenium.server.skip=true</firefox>
-						<iexplore>install -Dbrowser=*piiexplore -Dselenium.server.skip=true</iexplore>
-						<browser-debug>install -Dselenium.server.skip=true -Pdebug-tests</browser-debug>
-						<firefox-debug>install -Dbrowser=*firefox -Dselenium.server.skip=true -Pdebug-tests</firefox-debug>
-						<iexplore-debug>install -Dbrowser=*piiexplore -Dselenium.server.skip=true -Pdebug-tests</iexplore-debug>
+						<selenium-only>verify -Dselenium.test.skip=true -Pwait-for-key</selenium-only>
+						<tomcat6>verify -Dmaven.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</tomcat6>
+						<jboss5>verify -Dmaven.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</jboss5>
+						<jboss6>verify -Dmaven.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</jboss6>
+						<selenium-tomcat6>verify -Dselenium.test.skip=true -DcontainerId=tomcat6x -Pdeploy-from-location -Pwait-for-key</selenium-tomcat6>
+						<selenium-jboss5>verify -Dselenium.test.skip=true -DcontainerId=jboss5x -Pdeploy-from-location -Pwait-for-key</selenium-jboss5>
+						<selenium-jboss6>verify -Dselenium.test.skip=true -DcontainerId=jboss6x -Pdeploy-from-location -Pwait-for-key</selenium-jboss6>
+						<browser>verify -Dselenium.server.skip=true</browser>
+						<firefox>verify -Dbrowser=*firefox -Dselenium.server.skip=true</firefox>
+						<iexplore>verify -Dbrowser=*piiexplore -Dselenium.server.skip=true</iexplore>
+						<browser-debug>verify -Dselenium.server.skip=true -Pdebug-tests</browser-debug>
+						<firefox-debug>verify -Dbrowser=*firefox -Dselenium.server.skip=true -Pdebug-tests</firefox-debug>
+						<iexplore-debug>verify -Dbrowser=*piiexplore -Dselenium.server.skip=true -Pdebug-tests</iexplore-debug>
 					</userAliases>
 				</configuration>
 			</plugin>
@@ -480,7 +480,6 @@
 		<dependency>
 			<groupId>org.jboss.test</groupId>
 			<artifactId>richfaces-selenium</artifactId>
-			<version>${version.richfaces-selenium}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
