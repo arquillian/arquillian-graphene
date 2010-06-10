@@ -21,11 +21,10 @@
  */
 package org.jboss.test.selenium.locator.iteration;
 
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.IterableLocator;
 
 /**
@@ -44,7 +43,7 @@ import org.jboss.test.selenium.locator.IterableLocator;
  * @see ChildElementList
  * @see ElementOcurrenceList
  */
-public abstract class AbstractElementList<T extends IterableLocator<T>> implements Contextual, Iterable<T> {
+public abstract class AbstractElementList<T extends IterableLocator<T>> implements Iterable<T> {
 
     /** The iterable locator. */
     T iterableLocator;
@@ -97,8 +96,8 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
         /**
          * Recounts the actual count of elements by given elementLocator.
          */
-        private final void recount() {
-            count = AjaxSelenium.getCurrentContext(AbstractElementList.this, iterableLocator).getCount(iterableLocator);
+        private void recount() {
+            count = getCurrentSelenium().getCount(iterableLocator);
         }
 
         /*

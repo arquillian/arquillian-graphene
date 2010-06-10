@@ -24,7 +24,6 @@ package org.jboss.test.selenium.framework;
 import java.net.URL;
 
 import org.jboss.test.selenium.browser.Browser;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.framework.internal.PageExtensions;
 import org.jboss.test.selenium.framework.internal.SeleniumExtensions;
 import org.jboss.test.selenium.guard.Guard;
@@ -84,7 +83,7 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
         selenium = new ExtendedSelenium(guardedCommandProcessor);
         pageExtensions = new PageExtensions(this);
         seleniumExtensions = new SeleniumExtensions(this);
-        setCurrentContext(this);
+        setCurrentSelenium(this);
     }
 
     /**
@@ -99,7 +98,7 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      * @param selenium
      *            the new current context
      */
-    public static void setCurrentContext(AjaxSelenium selenium) {
+    public static void setCurrentSelenium(AjaxSelenium selenium) {
         REFERENCE.set(selenium);
     }
 
@@ -110,7 +109,7 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      *            the in context
      * @return the current context
      */
-    public static AjaxSelenium getCurrentContext(Contextual... contextual) {
+    public static AjaxSelenium getCurrentSelenium() {
         return REFERENCE.get();
     }
 

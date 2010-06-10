@@ -32,7 +32,6 @@ import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import static org.apache.commons.lang.ArrayUtils.contains;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -46,7 +45,7 @@ import org.testng.annotations.BeforeMethod;
  * @version $Revision$
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractConfigurationListener extends TestListenerAdapter implements Contextual {
+public abstract class AbstractConfigurationListener extends TestListenerAdapter {
 
     private static final boolean DEBUG = true;
 

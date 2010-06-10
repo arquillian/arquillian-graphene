@@ -21,8 +21,6 @@
  */
 package org.jboss.test.selenium.guard;
 
-import org.jboss.test.selenium.framework.internal.Contextual;
-
 /**
  * <p>
  * Guard encapsulates commands which should be executed before (resp. after) the command.
@@ -35,7 +33,7 @@ import org.jboss.test.selenium.framework.internal.Contextual;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface Guard extends Contextual {
+public interface Guard {
     /**
      * This will be executed before the guarded command are executed.
      */

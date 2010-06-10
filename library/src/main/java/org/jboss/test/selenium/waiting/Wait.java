@@ -22,16 +22,12 @@
 
 package org.jboss.test.selenium.waiting;
 
-/**
- * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
- * @version $Revision$
- */
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
@@ -291,7 +287,7 @@ public final class Wait {
      * 
      * Implementation of waiting for satisfaction of condition.
      */
-    public static final class Waiting implements SeleniumWaiting, AjaxWaiting, Contextual {
+    public static final class Waiting implements SeleniumWaiting, AjaxWaiting {
 
         /**
          * Singleton
@@ -535,7 +531,7 @@ public final class Wait {
         }
 
         public void until(JavaScriptCondition condition) {
-            getSelenium().waitForCondition(condition.getJavaScriptCondition(), timeout);
+            getCurrentSelenium().waitForCondition(condition.getJavaScriptCondition(), timeout);
         }
 
         /**
@@ -593,14 +589,14 @@ public final class Wait {
         public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve) {
             JavaScript waitCondition = new JavaScript(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve()
                 .getAsString(), oldValue));
-            getSelenium().waitForCondition(waitCondition, timeout);
+            getCurrentSelenium().waitForCondition(waitCondition, timeout);
         }
 
         public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retrieve) {
             final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
             JavaScript waitingRetriever = new JavaScript(format("selenium.waitForCondition({0} != '{1}'); {0}",
                 retrieve.getJavaScriptRetrieve().getAsString(), oldValueString));
-            String retrieved = getSelenium().getEval(waitingRetriever);
+            String retrieved = getCurrentSelenium().getEval(waitingRetriever);
             return retrieve.getConvertor().backwardConversion(retrieved);
         }
 
@@ -631,10 +627,6 @@ public final class Wait {
             copy.failureArgs = this.failureArgs;
             copy.isDelayed = this.isDelayed;
             return copy;
-        }
-
-        private AjaxSelenium getSelenium() {
-            return AjaxSelenium.getCurrentContext(this);
         }
     }
 }

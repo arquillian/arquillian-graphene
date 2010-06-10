@@ -23,14 +23,13 @@ package org.jboss.test.selenium.waiting.conditions;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.waiting.Condition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 
 /**
  * 
@@ -46,10 +45,7 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AttributeEquals implements Condition, JavaScriptCondition, Contextual {
-
-    /** The selenium. */
-    AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
+public class AttributeEquals implements Condition, JavaScriptCondition {
 
     /** The element locator. */
     AttributeLocator attributeLocator;
@@ -72,7 +68,7 @@ public class AttributeEquals implements Condition, JavaScriptCondition, Contextu
         Validate.notNull(attributeLocator);
         Validate.notNull(value);
 
-        return selenium.getAttribute(attributeLocator).equals(value);
+        return getCurrentSelenium().getAttribute(attributeLocator).equals(value);
     }
 
     /*

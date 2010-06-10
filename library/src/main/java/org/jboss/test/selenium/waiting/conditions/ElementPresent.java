@@ -23,14 +23,13 @@ package org.jboss.test.selenium.waiting.conditions;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Condition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 
 /**
  * <p>
@@ -44,11 +43,8 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class ElementPresent implements Condition, JavaScriptCondition, Contextual {
-    
-    /** The selenium. */
-    AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
-    
+public class ElementPresent implements Condition, JavaScriptCondition {
+
     /** The element locator. */
     ElementLocator elementLocator;
 
@@ -58,13 +54,15 @@ public class ElementPresent implements Condition, JavaScriptCondition, Contextua
     protected ElementPresent() {
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.waiting.Condition#isTrue()
      */
     public boolean isTrue() {
         Validate.notNull(elementLocator);
 
-        return selenium.isElementPresent(elementLocator);
+        return getCurrentSelenium().isElementPresent(elementLocator);
     }
 
     /*
@@ -79,7 +77,7 @@ public class ElementPresent implements Condition, JavaScriptCondition, Contextua
 
     /**
      * Factory method.
-     *
+     * 
      * @return single instance of ElementPresent
      */
     public static ElementPresent getInstance() {
@@ -88,8 +86,9 @@ public class ElementPresent implements Condition, JavaScriptCondition, Contextua
 
     /**
      * Returns the ElementPresent instance with given elementLocator set.
-     *
-     * @param elementLocator the element locator
+     * 
+     * @param elementLocator
+     *            the element locator
      * @return the element present
      */
     public ElementPresent locator(ElementLocator elementLocator) {
@@ -103,7 +102,7 @@ public class ElementPresent implements Condition, JavaScriptCondition, Contextua
 
     /**
      * Returns the exact copy of this ElementPresent object.
-     *
+     * 
      * @return the element present
      */
     private ElementPresent copy() {

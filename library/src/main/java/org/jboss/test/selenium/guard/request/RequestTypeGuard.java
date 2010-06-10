@@ -24,12 +24,13 @@ package org.jboss.test.selenium.guard.request;
 import java.util.Set;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.guard.AbstractGuard;
 import org.jboss.test.selenium.waiting.Wait;
 
 import com.thoughtworks.selenium.SeleniumException;
+
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 
 /**
  * The Guard which guards that request what was expected to be done will be actually done.
@@ -66,8 +67,8 @@ public class RequestTypeGuard extends AbstractGuard {
      * request type to NONE state.
      */
     public void doBeforeCommand() {
-        getSelenium().getPageExtensions().install();
-        getSelenium().getEval(clearRequestDone);
+        getCurrentSelenium().getPageExtensions().install();
+        getCurrentSelenium().getEval(clearRequestDone);
     }
 
     /**
@@ -85,7 +86,7 @@ public class RequestTypeGuard extends AbstractGuard {
     public void doAfterCommand() {
         try {
             // FIXME replace with Wait implementation
-            getSelenium().waitForCondition(waitRequestChange, Wait.DEFAULT_TIMEOUT);
+            getCurrentSelenium().waitForCondition(waitRequestChange, Wait.DEFAULT_TIMEOUT);
         } catch (SeleniumException e) {
             // ignore the timeout exception
         }
@@ -104,7 +105,7 @@ public class RequestTypeGuard extends AbstractGuard {
      *             when the unknown type was obtained
      */
     private RequestType getRequestDone() {
-        String requestDone = getSelenium().getEval(getRequestDone);
+        String requestDone = getCurrentSelenium().getEval(getRequestDone);
         try {
             return RequestType.valueOf(requestDone);
         } catch (IllegalArgumentException e) {
@@ -115,9 +116,5 @@ public class RequestTypeGuard extends AbstractGuard {
     @Override
     protected Set<String> getGuardedCommands() {
         return INTERACTIVE_COMMANDS;
-    }
-
-    private AjaxSelenium getSelenium() {
-        return AjaxSelenium.getCurrentContext(this);
     }
 }

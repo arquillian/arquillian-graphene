@@ -23,8 +23,6 @@ package org.jboss.test.selenium.waiting.retrievers;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.framework.AjaxSelenium;
-import org.jboss.test.selenium.framework.internal.Contextual;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.waiting.Retriever;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
@@ -32,6 +30,7 @@ import org.jboss.test.selenium.waiting.conversion.Convertor;
 import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 
 /**
  * Retrieves the attribute with given attributeLocator.
@@ -39,10 +38,7 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AttributeRetriever implements Retriever<String>, JavaScriptRetriever<String>, Contextual {
-
-    /** The selenium. */
-    AjaxSelenium selenium = AjaxSelenium.getCurrentContext(this);
+public class AttributeRetriever implements Retriever<String>, JavaScriptRetriever<String> {
 
     /** The attribute locator. */
     AttributeLocator attributeLocator;
@@ -59,7 +55,7 @@ public class AttributeRetriever implements Retriever<String>, JavaScriptRetrieve
     public String retrieve() {
         Validate.notNull(attributeLocator);
 
-        return selenium.getAttribute(attributeLocator);
+        return getCurrentSelenium().getAttribute(attributeLocator);
     }
 
     /**
