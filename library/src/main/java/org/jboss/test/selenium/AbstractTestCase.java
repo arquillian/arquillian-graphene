@@ -63,14 +63,22 @@ import static org.jboss.test.selenium.utils.URLUtils.buildUrl;
 public abstract class AbstractTestCase {
 
     private static final int WAIT_MODEL_INTERVAL = 500;
-    private static final int WAIT_MODEL_TIMEOUT = 30000;
     private static final int WAIT_GUI_INTERVAL = 100;
-    private static final int WAIT_GUI_TIMEOUT = 5000;
 
     protected AjaxSelenium selenium;
 
-    protected SeleniumWaiting waitModel = Wait.interval(WAIT_MODEL_INTERVAL).timeout(WAIT_MODEL_TIMEOUT);
-    protected AjaxWaiting waitGui = Wait.interval(WAIT_GUI_INTERVAL).timeout(WAIT_GUI_TIMEOUT);
+    /**
+     * Waits for GUI interaction, such as rendering
+     */
+    protected AjaxWaiting waitGui;
+    /**
+     * Waits for AJAX interaction with server - not computationally difficult
+     */
+    protected AjaxWaiting waitAjax;
+    /**
+     * Waits for computationally difficult requests
+     */
+    protected SeleniumWaiting waitModel;
 
     protected ElementPresent elementPresent = ElementPresent.getInstance();
     protected TextEquals textEquals = TextEquals.getInstance();
@@ -138,6 +146,29 @@ public abstract class AbstractTestCase {
             selenium.windowFocus();
             selenium.windowMaximize();
         }
+    }
+
+    /**
+     * Initializes the timeouts for waiting on interaction
+     * 
+     * @param seleniumTimeoutDefault
+     *            the timeout set in Selenium API
+     * @param seleniumTimeoutGui
+     *            initial timeout set for waiting GUI interaction
+     * @param seleniumTimeoutAjax
+     *            initial timeout set for waiting server AJAX interaction
+     * @param seleniumTimeoutModel
+     *            initial timeout set for waiting server computationally difficult interaction
+     */
+    @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeBrowser")
+    @Parameters({"selenium.timeout.default", "selenium.timeout.gui", "selenium.timeout.ajax", "selenium.timeout.model"})
+    public void initializeWaitTimeouts(String seleniumTimeoutDefault, String seleniumTimeoutGui,
+        String seleniumTimeoutAjax, String seleniumTimeoutModel) {
+
+        selenium.setTimeout(Long.valueOf(seleniumTimeoutDefault));
+        waitGui = Wait.interval(WAIT_GUI_INTERVAL).timeout(Long.valueOf(seleniumTimeoutGui));
+        waitAjax = Wait.interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutAjax));
+        waitModel = Wait.interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutModel));
     }
 
     /**
