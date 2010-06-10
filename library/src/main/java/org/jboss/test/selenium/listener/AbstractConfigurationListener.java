@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.ArrayUtils;
+import static org.apache.commons.lang.ArrayUtils.contains;
 import org.jboss.test.selenium.framework.internal.Contextual;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -53,9 +53,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     Set<String> configurationsSucceded = new TreeSet<String>();
     Set<String> configurationsFailed = new TreeSet<String>();
     Set<String> configurationsSkipped = new TreeSet<String>();
+    Set<String> methodsRunned = new TreeSet<String>();
 
     Map<Method, Set<Annotation>> methods = new LinkedHashMap<Method, Set<Annotation>>();
-    int methodRunned = 0;
     Integer methodTotal = null;
 
     ITestResult testResult;
@@ -77,14 +77,12 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     }
 
     public void setupContext(Object... contextParams) {
+        testContext = null;
         testResult = null;
 
         for (Object contextParam : contextParams) {
             if (contextParam instanceof ITestResult) {
                 testResult = (ITestResult) contextParam;
-                // if (DEBUG) {
-                // System.out.println("#" + testResult.getMethod().getMethodName());
-                // }
             } else if (contextParam instanceof ITestContext) {
                 testContext = (ITestContext) contextParam;
             }
@@ -94,7 +92,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestStart(ITestResult result) {
         setupContext(result);
-        if (methodRunned == 0) {
+        if (methodsRunned.size() == 0) {
             invokeMethods(BeforeClass.class);
         }
         invokeMethods(BeforeMethod.class);
@@ -103,28 +101,28 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         setupContext(result);
-        methodRunned += 1;
+        methodsRunned.add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         setupContext(result);
-        methodRunned += 1;
+        methodsRunned.add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         setupContext(result);
-        methodRunned += 1;
+        methodsRunned.add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         setupContext(result);
-        methodRunned += 1;
+        methodsRunned.add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -139,8 +137,11 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         for (Method method : methodsToRemove) {
             methods.remove(method);
         }
-        if (methodRunned == methodTotal && ArrayUtils.contains(typesToInvoke, AfterMethod.class)) {
-            invokeMethods(AfterClass.class);
+        if (contains(typesToInvoke, AfterMethod.class) && methodsRunned.size() == methodTotal) {
+            if (testResult != null
+                && testResult.getMethod().getCurrentInvocationCount() == testResult.getMethod().getInvocationCount()) {
+                invokeMethods(AfterClass.class);
+            }
         }
     }
 
@@ -148,7 +149,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         Set<Annotation> invokedAnnotations = new LinkedHashSet<Annotation>();
         for (Annotation annotation : annotations) {
             Class<? extends Annotation> type = annotation.annotationType();
-            if (!ArrayUtils.contains(typesToInvoke, annotation.annotationType())) {
+            if (!contains(typesToInvoke, annotation.annotationType())) {
                 break;
             }
             boolean invoke = true;
