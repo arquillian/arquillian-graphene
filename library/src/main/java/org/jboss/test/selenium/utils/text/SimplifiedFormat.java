@@ -21,8 +21,6 @@
  */
 package org.jboss.test.selenium.utils.text;
 
-import static org.apache.commons.lang.StringEscapeUtils.*;
-
 import org.apache.commons.lang.StringUtils;
 
 /**
