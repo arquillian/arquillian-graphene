@@ -21,16 +21,17 @@
  */
 package org.jboss.test.selenium.guard.request;
 
-import java.util.Set;
-
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.guard.AbstractGuard;
+import org.jboss.test.selenium.interception.CommandContext;
+import org.jboss.test.selenium.interception.CommandInterceptionException;
+import org.jboss.test.selenium.interception.CommandInterceptor;
 import org.jboss.test.selenium.waiting.Wait;
 
 import com.thoughtworks.selenium.SeleniumException;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS;
 
 /**
  * The Guard which guards that request what was expected to be done will be actually done.
@@ -38,13 +39,13 @@ import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class RequestTypeGuard extends AbstractGuard {
+public class RequestTypeGuard implements CommandInterceptor {
 
     private final JavaScript clearRequestDone = new JavaScript("getRFS().clearRequestDone()");
-    private final JavaScript getRequestDone = new JavaScript(
-        "(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
-    private final JavaScript waitRequestChange = new JavaScript(
-        "((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE'");
+    private final JavaScript getRequestDone =
+        new JavaScript("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
+    private final JavaScript waitRequestChange =
+        new JavaScript("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE'");
 
     /**
      * The request what is expected to be done
@@ -60,6 +61,19 @@ public class RequestTypeGuard extends AbstractGuard {
     public RequestTypeGuard(RequestType requestExpected) {
         super();
         this.requestExpected = requestExpected;
+    }
+
+    /**
+     * Enfolds the command with guarding code to detect request type
+     */
+    public void intercept(CommandContext ctx, String command) throws CommandInterceptionException {
+        if (INTERACTIVE_COMMANDS.contains(command)) {
+            doBeforeCommand();
+        }
+        ctx.doCommand();
+        if (INTERACTIVE_COMMANDS.contains(command)) {
+            doAfterCommand();
+        }
     }
 
     /**
@@ -113,8 +127,4 @@ public class RequestTypeGuard extends AbstractGuard {
         }
     }
 
-    @Override
-    protected Set<String> getGuardedCommands() {
-        return INTERACTIVE_COMMANDS;
-    }
 }

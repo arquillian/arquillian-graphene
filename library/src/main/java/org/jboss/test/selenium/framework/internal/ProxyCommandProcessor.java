@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.framework;
+package org.jboss.test.selenium.framework.internal;
 
 import com.thoughtworks.selenium.CommandProcessor;
 
@@ -41,7 +41,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  */
 public abstract class ProxyCommandProcessor implements CommandProcessor {
 
-    CommandProcessor commandProcessor;
+    protected CommandProcessor commandProcessor;
 
     public ProxyCommandProcessor(CommandProcessor commandProcessor) {
         this.commandProcessor = commandProcessor;

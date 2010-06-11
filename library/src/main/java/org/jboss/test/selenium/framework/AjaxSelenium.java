@@ -26,8 +26,9 @@ import java.net.URL;
 import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.framework.internal.PageExtensions;
 import org.jboss.test.selenium.framework.internal.SeleniumExtensions;
-import org.jboss.test.selenium.guard.Guard;
-import org.jboss.test.selenium.guard.Guarded;
+import org.jboss.test.selenium.interception.InterceptedCommandProcessor;
+
+import com.thoughtworks.selenium.CommandProcessor;
 
 /**
  * <p>
@@ -41,22 +42,21 @@ import org.jboss.test.selenium.guard.Guarded;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
+public class AjaxSelenium extends ExtendedTypedSelenium {
 
     /** The reference. */
     private static final ThreadLocal<AjaxSelenium> REFERENCE = new ThreadLocal<AjaxSelenium>();
-
-    /** The ajax aware command processor. */
-    AjaxAwareCommandProcessor ajaxAwareCommandProcessor;
-
-    /** The guarded command processor. */
-    GuardedCommandProcessor guardedCommandProcessor;
 
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;
 
     /** The JavaScript Extension to Selenium */
     SeleniumExtensions seleniumExtensions;
+
+    /**
+     * The intercepted command processor
+     */
+    InterceptedCommandProcessor interceptedCommandProcessor;
 
     /**
      * Instantiates a new ajax selenium.
@@ -77,10 +77,10 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      *            the context path url
      */
     public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-        ajaxAwareCommandProcessor = new AjaxAwareCommandProcessor(serverHost, serverPort, browser.getAsString(),
-            contextPathURL.toString());
-        guardedCommandProcessor = new GuardedCommandProcessor(ajaxAwareCommandProcessor);
-        selenium = new ExtendedSelenium(guardedCommandProcessor);
+        CommandProcessor commandProcessor =
+            new AjaxAwareCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
+        interceptedCommandProcessor = new InterceptedCommandProcessor(commandProcessor);
+        selenium = new ExtendedSelenium(interceptedCommandProcessor);
         pageExtensions = new PageExtensions(this);
         seleniumExtensions = new SeleniumExtensions(this);
         setCurrentSelenium(this);
@@ -143,31 +143,12 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
         return seleniumExtensions;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.selenium.guard.Guarded#registerGuard(org.jboss.test.selenium.guard.Guard)
+    /**
+     * Returns associated intercepted command processor
+     * @return associated intercepted command processor
      */
-    public void registerGuard(Guard guard) {
-        this.guardedCommandProcessor.registerGuard(guard);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.selenium.guard.Guarded#unregisterGuard(org.jboss.test.selenium.guard.Guard)
-     */
-    public void unregisterGuard(Guard guard) {
-        this.guardedCommandProcessor.unregisterGuard(guard);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.selenium.guard.Guarded#unregisterGuards(java.lang.Class)
-     */
-    public void unregisterGuards(Class<? extends Guard> type) {
-        this.guardedCommandProcessor.unregisterGuards(type);
+    public InterceptedCommandProcessor getInterceptedCommandProcessor() {
+        return interceptedCommandProcessor;
     }
 
     /**
@@ -177,12 +158,10 @@ public class AjaxSelenium extends ExtendedTypedSelenium implements Guarded {
      */
     public AjaxSelenium immutableCopy() {
         AjaxSelenium copy = new AjaxSelenium();
-
-        copy.ajaxAwareCommandProcessor = this.ajaxAwareCommandProcessor;
-        copy.guardedCommandProcessor = this.guardedCommandProcessor.immutableCopy();
-        copy.selenium = new ExtendedSelenium(copy.guardedCommandProcessor);
         copy.pageExtensions = new PageExtensions(copy);
         copy.seleniumExtensions = new SeleniumExtensions(copy);
+        copy.interceptedCommandProcessor = this.interceptedCommandProcessor.immutableCopy();
+        copy.selenium = new ExtendedSelenium(copy.interceptedCommandProcessor);
 
         return copy;
     }

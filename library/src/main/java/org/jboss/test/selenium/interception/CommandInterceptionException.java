@@ -19,37 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.guard;
+package org.jboss.test.selenium.interception;
 
 /**
- * <p>
- * Guard encapsulates commands which should be executed before (resp. after) the command.
- * </p>
- * 
- * <p>
- * By this functionality guards pre- and post-conditions.
- * </p>
+ * Thrown when at least one interceptor didn't call {@link CommandContext#doCommand()} in it's
+ * {@link CommandInterceptor#intercept(CommandContext)} method body
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface Guard {
-    /**
-     * This will be executed before the guarded command are executed.
-     */
-    void doBeforeCommand();
+public class CommandInterceptionException extends Exception {
 
-    /**
-     * This will be executed after the guarded command are executed.
-     */
-    void doAfterCommand();
-
-    /**
-     * Defines that the given command should be guarded by this guard.
-     * 
-     * @param command
-     *            what should be to be guarded (resp. not to be guarded)
-     * @return true if the command should be guarded by this guard; false otherwise
-     */
-    boolean isGuarding(String command);
+    private static final long serialVersionUID = 7802363137415880152L;
 }
