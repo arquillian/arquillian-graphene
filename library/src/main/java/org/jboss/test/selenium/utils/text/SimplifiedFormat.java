@@ -51,7 +51,6 @@ public final class SimplifiedFormat {
         String result = message;
         for (int i = 0; i < args.length; i++) {
             String arg = args[i].toString();
-            arg = escapeJava(arg);
             result = StringUtils.replaceOnce(result, "{}", arg);
             result = StringUtils.replace(result, "{" + i + "}", arg);
         }
