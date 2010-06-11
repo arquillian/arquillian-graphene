@@ -23,11 +23,13 @@ package org.jboss.test.selenium.utils.text;
 
 import static org.apache.commons.lang.StringEscapeUtils.*;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
- * <p>Formats using simplified MessageFormat syntax:</p>
- * 
- * <p>In opposite to MessageFormat, it isn't necessary doubling single quotes (').</p>
- *
+ * <p>
+ * Formats using simplified MessageFormat syntax: {} are used as placeholders in order of arguments; {number} are
+ * placeholders with given argument number
+ * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -37,10 +39,10 @@ public final class SimplifiedFormat {
     }
 
     /**
-     * Uses a MessageFormat.format() to prepare given format string and use it to format result with given arguments.
+     * Parametrize given string with arguments, using {} or {number} (e.g. {0}, {1}, ...) as placeholders.
      * 
      * @param format
-     *            string used in MessageFormat.format()
+     *            string to format
      * @param args
      *            used to formatting given format string
      * @return string formatted using given arguments
@@ -50,8 +52,8 @@ public final class SimplifiedFormat {
         for (int i = 0; i < args.length; i++) {
             String arg = args[i].toString();
             arg = escapeJava(arg);
-            result = result.replaceFirst("\\{\\}", arg);
-            result = result.replaceAll("\\{" + i + "\\}", arg);
+            result = StringUtils.replaceOnce(result, "{}", arg);
+            result = StringUtils.replace(result, "{" + i + "}", arg);
         }
         return result;
     }
