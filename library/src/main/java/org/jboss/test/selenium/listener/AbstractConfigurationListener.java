@@ -33,6 +33,8 @@ import java.util.Map.Entry;
 
 import static org.apache.commons.lang.ArrayUtils.contains;
 
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -46,7 +48,7 @@ import org.testng.annotations.BeforeMethod;
  * @version $Revision$
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractConfigurationListener extends TestListenerAdapter {
+public abstract class AbstractConfigurationListener extends TestListenerAdapter implements IInvokedMethodListener {
 
     static ThreadLocal<Set<String>> configurationsSucceded = new StringSetLocal();
     static ThreadLocal<Set<String>> configurationsFailed = new StringSetLocal();
@@ -125,6 +127,19 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         methodsRunned.get().add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
+    
+    public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (method.isConfigurationMethod()) {
+            AfterClass afterClass = method.getTestMethod().getMethod().getAnnotation(AfterClass.class);
+            if (afterClass != null) {
+                setupContext(testResult);
+                invokeMethods(AfterClass.class);
+            }
+        }
+    }
+    
+    public void after(IInvokedMethod method, ITestResult testResult) {
+    }
 
     private void invokeMethods(Class<? extends Annotation>... typesToInvoke) {
         Set<Method> methodsToRemove = new LinkedHashSet<Method>();
@@ -136,12 +151,6 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         }
         for (Method method : methodsToRemove) {
             methods.remove(method);
-        }
-        if (contains(typesToInvoke, AfterMethod.class) && methodsRunned.get().size() == methodTotal) {
-            if (testResult != null
-                && testResult.getMethod().getCurrentInvocationCount() == testResult.getMethod().getInvocationCount()) {
-                invokeMethods(AfterClass.class);
-            }
         }
     }
 
