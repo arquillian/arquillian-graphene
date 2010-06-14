@@ -32,6 +32,9 @@ import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import static org.apache.commons.lang.ArrayUtils.contains;
+
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -47,12 +50,12 @@ import org.testng.annotations.BeforeMethod;
 @SuppressWarnings("unchecked")
 public abstract class AbstractConfigurationListener extends TestListenerAdapter {
 
-    private static final boolean DEBUG = true;
+    static ThreadLocal<Set<String>> configurationsSucceded = new StringSetLocal();
+    static ThreadLocal<Set<String>> configurationsFailed = new StringSetLocal();
+    static ThreadLocal<Set<String>> configurationsSkipped = new StringSetLocal();
+    static ThreadLocal<Set<String>> methodsRunned = new StringSetLocal();
 
-    Set<String> configurationsSucceded = new TreeSet<String>();
-    Set<String> configurationsFailed = new TreeSet<String>();
-    Set<String> configurationsSkipped = new TreeSet<String>();
-    Set<String> methodsRunned = new TreeSet<String>();
+    private static final boolean DEBUG = true;
 
     Map<Method, Set<Annotation>> methods = new LinkedHashMap<Method, Set<Annotation>>();
     Integer methodTotal = null;
@@ -91,7 +94,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestStart(ITestResult result) {
         setupContext(result);
-        if (methodsRunned.size() == 0) {
+        if (methodsRunned.get().size() == 0) {
             invokeMethods(BeforeClass.class);
         }
         invokeMethods(BeforeMethod.class);
@@ -100,21 +103,21 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         setupContext(result);
-        methodsRunned.add(result.getMethod().getMethodName());
+        methodsRunned.get().add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         setupContext(result);
-        methodsRunned.add(result.getMethod().getMethodName());
+        methodsRunned.get().add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         setupContext(result);
-        methodsRunned.add(result.getMethod().getMethodName());
+        methodsRunned.get().add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -153,12 +156,14 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             }
             boolean invoke = true;
             // verify dependencies of current method
-            for (String methodName : getMethodDependencies(annotation)) {
+            for (String dependency : getMethodDependencies(annotation)) {
                 if (getMethodAlwaysRun(annotation)) {
-                    invoke &= configurationsSucceded.contains(methodName) || configurationsSkipped.contains(methodName)
-                        || configurationsFailed.contains(methodName);
+                    invoke &=
+                        configurationsSucceded.get().contains(dependency)
+                            || configurationsSkipped.get().contains(dependency)
+                            || configurationsFailed.get().contains(dependency);
                 } else {
-                    invoke &= configurationsSucceded.contains(methodName);
+                    invoke &= configurationsSucceded.get().contains(dependency);
                 }
             }
             // verify the success of the method
@@ -181,7 +186,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (DEBUG) {
             System.out.println("#" + itr.getMethod().getMethodName());
         }
-        configurationsSucceded.add(itr.getMethod().getMethodName());
+        configurationsSucceded.get().add(itr.getMethod().getMethodName());
     }
 
     @Override
@@ -189,7 +194,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (DEBUG) {
             System.out.println("#" + itr.getMethod().getMethodName());
         }
-        configurationsFailed.add(itr.getMethod().getMethodName());
+        configurationsFailed.get().add(itr.getMethod().getMethodName());
     }
 
     @Override
@@ -197,13 +202,13 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (DEBUG) {
             System.out.println("#" + itr.getMethod().getMethodName());
         }
-        configurationsSkipped.add(itr.getMethod().getMethodName());
+        configurationsSkipped.get().add(itr.getMethod().getMethodName());
     }
 
     private void clearConfigurations() {
-        configurationsSucceded.clear();
-        configurationsFailed.clear();
-        configurationsSkipped.clear();
+        configurationsSucceded.get().clear();
+        configurationsFailed.get().clear();
+        configurationsSkipped.get().clear();
         methods.clear();
     }
 
@@ -274,13 +279,21 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
                 System.out.println("%" + method.getName());
             }
             method.invoke(this, parameters);
-            configurationsSucceded.add(method.getName());
+            configurationsSucceded.get().add(method.getName());
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+            configurationsFailed.get().add(method.getName());
+        }
+    }
+
+    static class StringSetLocal extends ThreadLocal<Set<String>> {
+        @Override
+        protected Set<String> initialValue() {
+            return new TreeSet<String>();
         }
     }
 }
