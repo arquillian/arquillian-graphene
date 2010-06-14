@@ -33,8 +33,6 @@ import java.util.Map.Entry;
 
 import static org.apache.commons.lang.ArrayUtils.contains;
 
-import org.testng.IInvokedMethod;
-import org.testng.IInvokedMethodListener;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -124,7 +122,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestSuccess(ITestResult result) {
         setupContext(result);
-        methodsRunned.add(result.getMethod().getMethodName());
+        methodsRunned.get().add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -139,7 +137,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         for (Method method : methodsToRemove) {
             methods.remove(method);
         }
-        if (contains(typesToInvoke, AfterMethod.class) && methodsRunned.size() == methodTotal) {
+        if (contains(typesToInvoke, AfterMethod.class) && methodsRunned.get().size() == methodTotal) {
             if (testResult != null
                 && testResult.getMethod().getCurrentInvocationCount() == testResult.getMethod().getInvocationCount()) {
                 invokeMethods(AfterClass.class);
