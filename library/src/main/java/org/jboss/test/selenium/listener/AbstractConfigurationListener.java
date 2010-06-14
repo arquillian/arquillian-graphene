@@ -138,7 +138,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         }
     }
     
-    public void after(IInvokedMethod method, ITestResult testResult) {
+    public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
     }
 
     private void invokeMethods(Class<? extends Annotation>... typesToInvoke) {
