@@ -30,6 +30,8 @@ import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.Wait;
 import org.jboss.test.selenium.waiting.Wait.Waiting;
 
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+
 /**
  * <p>
  * Provides item dragging capability to Selenium tests.
@@ -66,9 +68,6 @@ public class Drag {
     /** The current phase. */
     private Phase currentPhase;
 
-    /** The selenium. */
-    private AjaxSelenium selenium;
-
     /** The item to drag. */
     private ElementLocator itemToDrag;
 
@@ -94,11 +93,11 @@ public class Drag {
      * @param dropTarget
      *            target of item dragging
      */
-    public Drag(AjaxSelenium selenium, ElementLocator itemToDrag, ElementLocator dropTarget) {
+    public Drag(ElementLocator itemToDrag, ElementLocator dropTarget) {
         this.currentPhase = Phase.START;
-        this.selenium = selenium;
         this.itemToDrag = itemToDrag;
         this.dropTarget = dropTarget;
+        AjaxSelenium selenium = getCurrentSelenium();
         x = selenium.getElementPositionLeft(dropTarget) - selenium.getElementPositionLeft(itemToDrag);
         y = selenium.getElementPositionTop(dropTarget) - selenium.getElementPositionTop(itemToDrag);
     }
@@ -181,6 +180,7 @@ public class Drag {
      *            the phase what should be executed
      */
     private void executePhase(Phase phase) {
+        AjaxSelenium selenium = getCurrentSelenium();
         switch (phase) {
             case START:
                 selenium.mouseDown(itemToDrag);
