@@ -51,6 +51,7 @@ import org.testng.annotations.Parameters;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.utils.URLUtils.buildUrl;
 import static org.jboss.test.selenium.waiting.Wait.*;
+import static org.jboss.test.selenium.encapsulated.JavaScript.fromResource;
 
 /**
  * <p>
@@ -179,10 +180,10 @@ public abstract class AbstractTestCase {
     @BeforeClass(dependsOnMethods = {"initializeBrowser"}, alwaysRun = true)
     public void initializeExtensions() throws IOException {
 
-        List<String> seleniumExtensions = IOUtils.readLines(ClassLoader
-            .getSystemResourceAsStream("javascript/selenium-extensions-order.txt"));
-        List<String> pageExtensions = IOUtils.readLines(ClassLoader
-            .getSystemResourceAsStream("javascript/page-extensions-order.txt"));
+        List<String> seleniumExtensions =
+            IOUtils.readLines(ClassLoader.getSystemResourceAsStream("javascript/selenium-extensions-order.txt"));
+        List<String> pageExtensions =
+            IOUtils.readLines(ClassLoader.getSystemResourceAsStream("javascript/page-extensions-order.txt"));
 
         // loads the extensions to the selenium
         selenium.getSeleniumExtensions().requireResources(seleniumExtensions);
@@ -197,8 +198,7 @@ public abstract class AbstractTestCase {
      */
     private void loadCustomLocationStrategies() {
         // jQuery location strategy
-        JavaScript strategySource = JavaScript
-            .fromResource("javascript/selenium-location-strategies/jquery-location-strategy.js");
+        JavaScript strategySource = fromResource("javascript/selenium-location-strategies/jquery-location-strategy.js");
         selenium.addLocationStrategy(LocationStrategy.JQUERY, strategySource);
     }
 
