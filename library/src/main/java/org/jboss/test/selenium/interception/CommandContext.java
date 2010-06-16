@@ -37,7 +37,9 @@ import com.thoughtworks.selenium.CommandProcessor;
  */
 public class CommandContext {
     private String command;
+
     private String[] args;
+
     private CommandProcessor commandProcessor;
     private Iterator<CommandInterceptor> interceptors;
     private String result;
@@ -85,7 +87,7 @@ public class CommandContext {
         final int currentInvocations = invocations;
         if (interceptors.hasNext()) {
             CommandInterceptor interceptor = interceptors.next();
-            interceptor.intercept(this, command);
+            interceptor.intercept(this);
             if (currentInvocations == invocations) {
                 throw new CommandInterceptionException();
             }
@@ -94,5 +96,23 @@ public class CommandContext {
             result = commandProcessor.doCommand(command, args);
             return result;
         }
+    }
+
+    /**
+     * Returns the command.
+     * 
+     * @return the command
+     */
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * Returns the arguments of the command.
+     * 
+     * @return the arguments of the command
+     */
+    public String[] getArguments() {
+        return args.clone();
     }
 }

@@ -66,7 +66,9 @@ public class RequestTypeGuard implements CommandInterceptor {
     /**
      * Enfolds the command with guarding code to detect request type
      */
-    public void intercept(CommandContext ctx, String command) throws CommandInterceptionException {
+    public void intercept(CommandContext ctx) throws CommandInterceptionException {
+        final String command = ctx.getCommand();
+        
         if (INTERACTIVE_COMMANDS.contains(command)) {
             doBeforeCommand();
         }
