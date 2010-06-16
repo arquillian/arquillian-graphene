@@ -65,7 +65,7 @@ public class JavaScript {
      * @return the new JavaScript object with predefined JavaScript code
      */
     public static JavaScript js(String javaScript) {
-        return js(javaScript);
+        return new JavaScript(javaScript);
     }
 
     /**
