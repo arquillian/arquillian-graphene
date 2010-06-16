@@ -24,8 +24,8 @@ package org.jboss.test.selenium.framework;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.jboss.test.selenium.waiting.Retriever;
-import org.jboss.test.selenium.waiting.Wait;
+import static org.jboss.test.selenium.waiting.Wait.waitSelenium;
+import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
 
 import com.thoughtworks.selenium.HttpCommandProcessor;
 import com.thoughtworks.selenium.SeleniumException;
@@ -40,11 +40,12 @@ import com.thoughtworks.selenium.SeleniumException;
 public class AjaxAwareCommandProcessor extends HttpCommandProcessor {
 
     /** The Constant PERMISSION_DENIED. */
-    private static final String[] PERMISSION_DENIED = new String[] {
-        "ERROR: Threw an exception: Permission denied",
-        "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error details"
-            + " from the log window.  The error message is: Permission denied",
-        "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
+    private static final String[] PERMISSION_DENIED =
+        new String[]{
+            "ERROR: Threw an exception: Permission denied",
+            "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error"
+                + " details from the log window.  The error message is: Permission denied",
+            "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied",};
 
     /** The Constant DEFAULT_WAITING_INTERVAL. */
     private static final int DEFAULT_WAITING_INTERVAL = 1000;
@@ -105,11 +106,12 @@ public class AjaxAwareCommandProcessor extends HttpCommandProcessor {
      * @return the result of selenium command
      */
     private <T> T doAjax(final AjaxCommand<T> ajaxCommand) {
-        final AssertionError fail = new AssertionError("Fails with Permission denied when trying to execute jQuery");
+        final PermissionDeniedException fail =
+            new PermissionDeniedException("Fails with 'Permission denied' errors when trying to execute jQuery");
 
         final T start = null;
-        return Wait.noDelay().timeout(Wait.DEFAULT_TIMEOUT).interval(DEFAULT_WAITING_INTERVAL).failWith(fail)
-            .waitForChangeAndReturn(start, new Retriever<T>() {
+        return waitSelenium().noDelay().interval(DEFAULT_WAITING_INTERVAL).failWith(fail).waitForChangeAndReturn(start,
+            new SeleniumRetriever<T>() {
                 boolean exceptionLogged = false;
 
                 public T retrieve() {
@@ -151,5 +153,17 @@ public class AjaxAwareCommandProcessor extends HttpCommandProcessor {
                 return new ToStringBuilder(this).append("commandName", commandName).append("args", args).toString();
             }
         });
+    }
+
+    /**
+     * Thrown when the Selenium wasn't able in given interval to call the given command with no SeleniumException
+     * catched, with type of Permission Denied.
+     */
+    public static class PermissionDeniedException extends RuntimeException {
+        private static final long serialVersionUID = 501755400552888059L;
+
+        public PermissionDeniedException(String message) {
+            super(message);
+        }
     }
 }

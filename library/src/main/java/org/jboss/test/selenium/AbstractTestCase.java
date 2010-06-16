@@ -35,8 +35,6 @@ import org.jboss.test.selenium.browser.BrowserType;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import org.jboss.test.selenium.waiting.SeleniumWaiting;
-import org.jboss.test.selenium.waiting.Wait;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
 import org.jboss.test.selenium.waiting.conditions.AttributePresent;
@@ -44,6 +42,7 @@ import org.jboss.test.selenium.waiting.conditions.ElementPresent;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
+import org.jboss.test.selenium.waiting.selenium.SeleniumWaiting;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -51,6 +50,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.utils.URLUtils.buildUrl;
+import static org.jboss.test.selenium.waiting.Wait.*;
 
 /**
  * <p>
@@ -166,9 +166,9 @@ public abstract class AbstractTestCase {
         String seleniumTimeoutAjax, String seleniumTimeoutModel) {
 
         selenium.setTimeout(Long.valueOf(seleniumTimeoutDefault));
-        waitGui = Wait.interval(WAIT_GUI_INTERVAL).timeout(Long.valueOf(seleniumTimeoutGui));
-        waitAjax = Wait.interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutAjax));
-        waitModel = Wait.interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutModel));
+        waitGui = waitAjax().interval(WAIT_GUI_INTERVAL).timeout(Long.valueOf(seleniumTimeoutGui));
+        waitAjax = waitAjax().interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutAjax));
+        waitModel = waitSelenium().interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutModel));
     }
 
     /**

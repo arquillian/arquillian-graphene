@@ -27,10 +27,10 @@ import org.apache.commons.lang.enums.EnumUtils;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.ElementLocator;
-import org.jboss.test.selenium.waiting.Wait;
-import org.jboss.test.selenium.waiting.Wait.Waiting;
+import org.jboss.test.selenium.waiting.selenium.SeleniumWaiting;
 
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.waiting.Wait.waitSelenium;
 
 /**
  * <p>
@@ -81,7 +81,7 @@ public class Drag {
     private int y;
 
     /** The wait. */
-    private final Waiting wait = Wait.timeout(10);
+    private final SeleniumWaiting wait = waitSelenium().timeout(10);
 
     /**
      * Initiates Drag object, handled by given Selenium instance, instructing drag of itemToDrag to dropTarget object.

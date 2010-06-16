@@ -24,8 +24,8 @@ package org.jboss.test.selenium.waiting.conditions;
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.locator.ElementLocator;
-import org.jboss.test.selenium.waiting.Condition;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
+import org.jboss.test.selenium.waiting.selenium.SeleniumCondition;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
@@ -44,7 +44,7 @@ import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TextEquals implements Condition, JavaScriptCondition {
+public class TextEquals implements SeleniumCondition, JavaScriptCondition {
 
     /** The element locator. */
     ElementLocator elementLocator;

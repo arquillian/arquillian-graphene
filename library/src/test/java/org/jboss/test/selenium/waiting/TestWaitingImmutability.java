@@ -22,48 +22,25 @@
 package org.jboss.test.selenium.waiting;
 
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
-import org.jboss.test.selenium.waiting.selenium.SeleniumWaiting;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 /**
- * <p>
- * Factory class with static methods to create new instances of {@link AjaxWaiting} and {@link SeleniumWaiting}.
- * </p>
- * 
- * <p>
- * Keeps the default timeouts and intervals used by implementations of {@link DefaultWaiting}.
- * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class Wait {
+public class TestWaitingImmutability {
+    @Test
+    public void testTimeout() {
+        final long timeout = Wait.DEFAULT_TIMEOUT + 1;
 
-    /**
-     * Default waiting interval
-     */
-    public static final long DEFAULT_INTERVAL = com.thoughtworks.selenium.Wait.DEFAULT_INTERVAL;
-    /**
-     * Default waiting timeout
-     */
-    public static final long DEFAULT_TIMEOUT = com.thoughtworks.selenium.Wait.DEFAULT_TIMEOUT;
+        AjaxWaiting waitAjax = Wait.waitAjax();
+        assertTrue(waitAjax.getTimeout() != timeout);
+        assertNotSame(waitAjax, waitAjax.timeout(timeout));
 
-    private Wait() {
-    }
-
-    /**
-     * Returns new instance of {@link AjaxWaiting}
-     * 
-     * @return new instance of {@link AjaxWaiting}
-     */
-    public static AjaxWaiting waitAjax() {
-        return new AjaxWaiting();
-    }
-
-    /**
-     * Returns new instance of {@link SeleniumWaiting}
-     * 
-     * @return new instance of {@link SeleniumWaiting}
-     */
-    public static SeleniumWaiting waitSelenium() {
-        return new SeleniumWaiting();
+        waitAjax = waitAjax.timeout(timeout);
+        assertEquals(waitAjax.getTimeout(), timeout);
+        assertSame(waitAjax, waitAjax.timeout(timeout));
     }
 }

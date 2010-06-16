@@ -20,19 +20,21 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.test.selenium.waiting;
+package org.jboss.test.selenium.waiting.selenium;
 
 /**
- * Specifies when condition will be true.
+ * Implementing this method you get implementation of retrieving typed values from some source.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
+ * @param <T>
+ *            type of retrieved value
  */
-public interface Condition {
+public interface SeleniumRetriever<T> {
     /**
-     * Returns true if condition is satisfied, false if it isn't.
+     * Override with implementation of retrieving value from source.
      * 
-     * @return true if desired condition is satisfied, false if it isn't
+     * @return retrieved value
      */
-    boolean isTrue();
+    T retrieve();
 }

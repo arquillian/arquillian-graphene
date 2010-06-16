@@ -21,25 +21,17 @@
  */
 package org.jboss.test.selenium.waiting;
 
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-
-import java.util.Vector;
-
-import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
-import org.jboss.test.selenium.waiting.ajax.JavaScriptCondition;
-import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
-
 /**
- * Class intented to construct by factories in Wait class.
- * 
- * Implementation of waiting for satisfaction of condition.
+ * Abstract implementation of immutable class with purpose of waiting with customizable timeout, interval, and failure
+ * behaviour and delay on start of waiting.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
+ * @param <T>
+ *            the end implementation of DefaultWaiting as the return type for setter methods
  */
-public final class DefaultWaiting implements SeleniumWaiting, AjaxWaiting {
+@SuppressWarnings("unchecked")
+public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Waiting<T>, Cloneable {
 
     /**
      * Indicates when the first test for the condition should be delayed after waiting starts.
@@ -50,298 +42,149 @@ public final class DefaultWaiting implements SeleniumWaiting, AjaxWaiting {
      * Interval between tries to test condition for satisfaction
      */
     private long interval = Wait.DEFAULT_INTERVAL;
+
     /**
      * Timeout of whole waiting procedure
      */
     private long timeout = Wait.DEFAULT_TIMEOUT;
 
     /**
-     * Failure indicates waiting timeout.
+     * Failure indicates that waiting timeouted.
      * 
      * If is set to null, no failure will be thrown after timeout.
      */
-    private Object failure = new AssertionError();
+    private Object failure = new WaitTimeoutException("Waiting timed out");
 
     /**
-     * Arguments to format failure if it is string value and should be formatted
+     * Arguments to format failure message if it is string value and should be formatted
      */
     private Object[] failureArgs;
 
     /**
-     * This class cannot be constructed directly
+     * Returns the interval set for this object.
+     * 
+     * @return the set interval
      */
-    private DefaultWaiting() {
+    protected final long getInterval() {
+        return interval;
     }
 
     /**
-     * Factory method
+     * Returns the timeout set for this object.
      * 
-     * @return singleton
+     * @return the timeout set for this object
      */
-    static DefaultWaiting getInstance() {
-        return new DefaultWaiting();
+    protected final long getTimeout() {
+        return timeout;
     }
 
     /**
-     * Sets condition testing interval to this instance and return it.
+     * Returns if this waiting's start is delayed.
      * 
-     * @param interval
-     *            in miliseconds that will be preset to Waiting
-     * @return Waiting instance initialized with given interval
+     * @return if this waiting's start is delayed
      */
-    public DefaultWaiting interval(long interval) {
+    protected final boolean isDelayed() {
+        return isDelayed;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.waiting.Waiting#interval(long)
+     */
+    public final T interval(long interval) {
         if (interval == this.interval) {
-            return this;
+            return (T) this;
         }
-        DefaultWaiting copy = this.copy();
+        T copy = this.copy();
         copy.interval = interval;
         return copy;
     }
 
-    /**
-     * Sets waiting timeout to this instance and return it.
+    /*
+     * (non-Javadoc)
      * 
-     * @param timeout
-     *            in miliseconds that will be preset to Waiting
-     * @return Waiting instance configured with given timeout
+     * @see org.jboss.test.selenium.waiting.Waiting#timeout(long)
      */
-    public DefaultWaiting timeout(long timeout) {
+    public final T timeout(long timeout) {
         if (timeout == this.timeout) {
-            return this;
+            return (T) this;
         }
-        DefaultWaiting copy = this.copy();
+        T copy = this.copy();
         copy.timeout = timeout;
         return copy;
     }
 
-    /**
-     * Returns Waiting object initialized with given subject of failure. It can be a Throwable (in that case it will be
-     * used as cause) or it can be any other object (it will be converted to String and used as exception message).
+    /*
+     * (non-Javadoc)
      * 
-     * @param failureSubject
-     *            Throwable (used in cause) or any other object (will be converted to expection message by its string
-     *            value)
-     * @return Waiting instance initialized with given failure subject
+     * @see org.jboss.test.selenium.waiting.Waiting#failWith(java.lang.Exception)
      */
-    public DefaultWaiting failWith(Object failureSubject) {
-        if (failureSubject == null) {
-            if (this.failure == null) {
-                return this;
-            }
+    public final T failWith(Exception exception) {
+        if (exception == null && this.failure == null) {
+            return (T) this;
         }
-        DefaultWaiting copy = this.copy();
-        copy.failure = failureSubject;
+        T copy = this.copy();
+        copy.failure = exception;
         copy.failureArgs = null;
         return copy;
     }
 
-    /**
-     * Returns preset instance of waiting (@see Waiting) with given failure message parametrized by given objects
+    /*
+     * (non-Javadoc)
      * 
-     * If failure is set to null, timeout will not result to failure!
-     * 
-     * @param failureMessage
-     *            character sequence that will be used as message of exception thrown in case of waiting timeout or null
-     *            if waiting timeout shouldn't result to failure
-     * @param args
-     *            arguments to failureMessage which will be use to parametrization of failureMessage
-     * @return Waiting instance initialized with given failureMessage and arguments
+     * @see org.jboss.test.selenium.waiting.Waiting#failWith(java.lang.CharSequence, java.lang.Object[])
      */
-    public DefaultWaiting failWith(CharSequence failureMessage, Object... args) {
-        DefaultWaiting copy = this.copy();
+    public final T failWith(CharSequence failureMessage, Object... arguments) {
+        T copy = this.copy();
         copy.failure = failureMessage;
-        copy.failureArgs = args;
+        copy.failureArgs = arguments;
         return copy;
     }
 
-    /**
-     * Prepares a exception for failing the waiting
+    /*
+     * (non-Javadoc)
      * 
-     * @return runtime exception
+     * @see org.jboss.test.selenium.waiting.Waiting#dontFail()
      */
-    protected RuntimeException processFailure() {
-        if (failure instanceof RuntimeException) {
-            return (RuntimeException) failure;
-        }
-
-        if (failure instanceof CharSequence) {
-            return new WaitTimeoutException((CharSequence) failure, failureArgs);
-        }
-
-        return new WaitTimeoutException(failure);
-    }
-
-    /**
-     * Indicates timeout of waiting.
-     */
-    protected static class WaitTimeoutException extends RuntimeException {
-        private static final long serialVersionUID = 6056785264760499779L;
-
-        // failure subject - cannot be null
-        private Object failure = "Waiting timed out";
-
-        public WaitTimeoutException(Object failure) {
-            if (failure != null) {
-                this.failure = failure;
-            }
-        }
-
-        public WaitTimeoutException(CharSequence message, Object... args) {
-            this.failure = format(message.toString(), args);
-        }
-
-        @Override
-        public Throwable getCause() {
-            if (failure instanceof Throwable) {
-                return ((Throwable) failure);
-            }
-
-            return super.getCause();
-        }
-
-        @Override
-        public String getMessage() {
-            if (failure instanceof Throwable) {
-                return ((Throwable) failure).getMessage();
-            }
-            return failure.toString();
-        }
-    }
-
-    /**
-     * Sets no failure after waiting timeout.
-     * 
-     * Waiting timeout with this preset dont result to failure!
-     * 
-     * @return Waiting instance initialized with no failure
-     */
-    public DefaultWaiting dontFail() {
+    public final T dontFail() {
         return failWith(null);
     }
 
-    /**
-     * Sets no delay by interval between start waiting and first test for conditions.
+    /*
+     * (non-Javadoc)
      * 
-     * @return Waiting instance initialized with no delay
+     * @see org.jboss.test.selenium.waiting.Waiting#noDelay()
      */
-    public DefaultWaiting noDelay() {
+    public final T noDelay() {
         return withDelay(false);
     }
 
-    /**
-     * Set if testing condition should be delayed of one interval after the start of waiting.
+    /*
+     * (non-Javadoc)
      * 
-     * @param isDelayed
-     *            true if condition testing should be delayed; false otherwise
-     * @return Waiting instance initialized with delay if isDelayed is set to true; with no delay otherwise
+     * @see org.jboss.test.selenium.waiting.Waiting#withDelay(boolean)
      */
-    public DefaultWaiting withDelay(boolean isDelayed) {
+    public final T withDelay(boolean isDelayed) {
         if (isDelayed == this.isDelayed) {
-            return this;
+            return (T) this;
         }
-        DefaultWaiting copy = this.copy();
+        T copy = this.copy();
         copy.isDelayed = isDelayed;
         return copy;
     }
 
-    /**
-     * Stars loop waiting to satisfy condition.
+    /*
+     * (non-Javadoc)
      * 
-     * @param condition
-     *            what wait for to be satisfied
+     * @see org.jboss.test.selenium.waiting.Waiting#waitForTimeout()
      */
-    public void until(Condition condition) {
-        long start = System.currentTimeMillis();
-        long end = start + this.timeout;
-        boolean delay = this.isDelayed;
-        while (System.currentTimeMillis() < end) {
-            if (!delay && condition.isTrue()) {
-                return;
-            }
-            delay = false;
-            try {
-                Thread.sleep(this.interval);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            if (System.currentTimeMillis() >= end) {
-                if (condition.isTrue()) {
-                    return;
-                }
-            }
-        }
-        fail();
-    }
-
-    public void until(JavaScriptCondition condition) {
-        getCurrentSelenium().waitForCondition(condition.getJavaScriptCondition(), timeout);
-    }
-
-    /**
-     * Waits for predefined amount of time.
-     */
-    public void waitForTimeout() {
+    public final void waitForTimeout() {
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
-     * 
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param oldValue
-     *            value that we are waiting for change
-     * @param retrieve
-     *            implementation of retrieving actual value
-     */
-    public <T> void waitForChange(T oldValue, Retriever<T> retrieve) {
-        waitForChangeAndReturn(oldValue, retrieve);
-    }
-
-    /**
-     * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
-     * 
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param oldValue
-     *            value that we are waiting for change
-     * @param retrieve
-     *            implementation of retrieving actual value
-     * @return new retrieved value
-     */
-    public <T> T waitForChangeAndReturn(final T oldValue, final Retriever<T> retrieve) {
-        final Vector<T> vector = new Vector<T>(1);
-
-        this.until(new Condition() {
-            public boolean isTrue() {
-                vector.add(0, retrieve.retrieve());
-                if (oldValue == null) {
-                    return vector.get(0) != null;
-                }
-                return !oldValue.equals(vector.get(0));
-            }
-        });
-
-        return vector.get(0);
-    }
-
-    public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve) {
-        JavaScript waitCondition =
-            new JavaScript(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve().getAsString(), oldValue));
-        getCurrentSelenium().waitForCondition(waitCondition, timeout);
-    }
-
-    public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retrieve) {
-        final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
-        JavaScript waitingRetriever =
-            new JavaScript(format("selenium.waitForCondition({0} != '{1}'); {0}", retrieve.getJavaScriptRetrieve()
-                .getAsString(), oldValueString));
-        String retrieved = getCurrentSelenium().getEval(waitingRetriever);
-        return retrieve.getConvertor().backwardConversion(retrieved);
     }
 
     /**
@@ -352,10 +195,27 @@ public final class DefaultWaiting implements SeleniumWaiting, AjaxWaiting {
      * 
      * If failure is null, method wont fail.
      */
-    private void fail() {
+    protected final void fail() {
         if (failure != null) {
-            throw processFailure();
+            throw prepareFailure();
         }
+    }
+
+    /**
+     * Prepares a exception for failing the waiting
+     * 
+     * @return runtime exception
+     */
+    private RuntimeException prepareFailure() {
+        if (failure instanceof RuntimeException) {
+            return (RuntimeException) failure;
+        }
+
+        if (failure instanceof CharSequence) {
+            return new WaitTimeoutException((CharSequence) failure, failureArgs);
+        }
+
+        return new WaitTimeoutException((Exception) failure);
     }
 
     /**
@@ -363,13 +223,11 @@ public final class DefaultWaiting implements SeleniumWaiting, AjaxWaiting {
      * 
      * @return copy of current instance
      */
-    private DefaultWaiting copy() {
-        DefaultWaiting copy = new DefaultWaiting();
-        copy.interval = this.interval;
-        copy.timeout = this.timeout;
-        copy.failure = this.failure;
-        copy.failureArgs = this.failureArgs;
-        copy.isDelayed = this.isDelayed;
-        return copy;
+    private T copy() {
+        try {
+            return (T) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

@@ -24,10 +24,10 @@ package org.jboss.test.selenium.waiting.retrievers;
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.locator.AttributeLocator;
-import org.jboss.test.selenium.waiting.Retriever;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
 import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
+import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
@@ -38,7 +38,7 @@ import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AttributeRetriever implements Retriever<String>, JavaScriptRetriever<String> {
+public class AttributeRetriever implements SeleniumRetriever<String>, JavaScriptRetriever<String> {
 
     /** The attribute locator. */
     AttributeLocator attributeLocator;

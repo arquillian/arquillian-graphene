@@ -1,19 +1,25 @@
 package org.jboss.test.selenium.waiting.ajax;
 
+import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+
+import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.waiting.DefaultWaiting;
+
 /**
  * <p>
- * Interface for waiting for satisfaction of conditions on page after the Ajax request.
+ * Implementation of waiting for satisfaction of conditions on page after the Ajax request.
  * </p>
  * 
  * <p>
  * It uses custom JavaScript and {@link com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String)} to
- * wait for satysfing given condition.
+ * wait for satisfying given condition.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface AjaxWaiting {
+public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
 
     /**
      * Stars loop waiting to satisfy condition.
@@ -21,7 +27,9 @@ public interface AjaxWaiting {
      * @param condition
      *            what wait for to be satisfied
      */
-    void until(JavaScriptCondition condition);
+    public void until(JavaScriptCondition condition) {
+        getCurrentSelenium().waitForCondition(condition.getJavaScriptCondition(), this.getTimeout());
+    }
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
@@ -33,7 +41,11 @@ public interface AjaxWaiting {
      * @param retrieve
      *            implementation of retrieving actual value
      */
-    <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve);
+    public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve) {
+        JavaScript waitCondition =
+            new JavaScript(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve().getAsString(), oldValue));
+        getCurrentSelenium().waitForCondition(waitCondition, this.getTimeout());
+    }
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
@@ -46,5 +58,12 @@ public interface AjaxWaiting {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    <T> T waitForChangeAndReturn(final T oldValue, final JavaScriptRetriever<T> retrieve);
+    public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retrieve) {
+        final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
+        JavaScript waitingRetriever =
+            new JavaScript(format("selenium.waitForCondition({0} != '{1}'); {0}", retrieve.getJavaScriptRetrieve()
+                .getAsString(), oldValueString));
+        String retrieved = getCurrentSelenium().getEval(waitingRetriever);
+        return retrieve.getConvertor().backwardConversion(retrieved);
+    }
 }
