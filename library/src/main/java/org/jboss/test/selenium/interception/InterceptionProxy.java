@@ -21,26 +21,29 @@
  */
 package org.jboss.test.selenium.interception;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.jboss.test.selenium.framework.internal.ProxyCommandProcessor;
-
 import com.thoughtworks.selenium.CommandProcessor;
 
 /**
  * <p>
- * The command procesor which instead of direct executing of given command triggers logic of all associated
+ * The proxy for command processor which instead of direct executing of given command triggers logic of all associated
  * interceptors.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class InterceptedCommandProcessor extends ProxyCommandProcessor {
+public final class InterceptionProxy implements java.lang.reflect.InvocationHandler {
+
+    CommandProcessor commandProcessor;
 
     /**
      * The map of associated interceptors with keys of it's class
@@ -49,33 +52,59 @@ public class InterceptedCommandProcessor extends ProxyCommandProcessor {
         new LinkedHashMap<Class<? extends CommandInterceptor>, CommandInterceptor>();
 
     /**
-     * Constructs new InterCeptedCommandProcessor with associated commandProcessor as executor for the commands.
+     * Constructs new proxy with associated command processor
      * 
      * @param commandProcessor
+     *            to associate with this proxy
      */
-    public InterceptedCommandProcessor(CommandProcessor commandProcessor) {
-        super(commandProcessor);
+    public InterceptionProxy(CommandProcessor commandProcessor) {
+        this.commandProcessor = commandProcessor;
+    }
+
+    /**
+     * Returns the command processor proxied with functionality of all associated interceptors.
+     * 
+     * @return the command processor proxied with functionality of all associated interceptors
+     */
+    public CommandProcessor getCommandProcessorProxy() {
+        return (CommandProcessor) Proxy.newProxyInstance(commandProcessor.getClass().getClassLoader(), commandProcessor
+            .getClass().getInterfaces(), this);
     }
 
     /**
      * <p>
-     * Overrides the doCommand of common {@link CommandProcessor}, which is end point for execution of command in known
-     * implementations such as {@link com.thoughtworks.selenium.HttpCommandProcessor}.
+     * Proxies all the request on associated command processor.
      * </p>
      * 
      * <p>
-     * Instead of direct execution of command all associated interceptors will be triggered around the call giving it
-     * possibility to catch the exceptions, process the command name and it's result.
+     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated
+     * interceptors before performing the actual doCommand method.
      * </p>
      */
-    @Override
-    public String doCommand(String command, String[] args) {
-        CommandContext context = new CommandContext(command, args, commandProcessor, interceptors.values());
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        Object result;
         try {
-            return context.doCommand();
-        } catch (CommandInterceptionException e) {
-            throw new IllegalStateException("There was at least one interceptor which didn't call doCommand");
+            if ("doCommand".equals(method.getName())) {
+                String commandName = (String) args[0];
+                String[] arguments = (String[]) args[1];
+                CommandContext context =
+                    new CommandContext(commandName, arguments, commandProcessor, interceptors.values());
+                try {
+                    result = context.doCommand();
+                } catch (CommandInterceptionException e) {
+                    throw new IllegalStateException("There was at least one interceptor which didn't call doCommand");
+                } catch (Exception e) {
+                    throw new InvocationTargetException(e);
+                }
+            } else {
+                result = method.invoke(commandProcessor, args);
+            }
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
+        } catch (Exception e) {
+            throw new RuntimeException("unexpected invocation exception: " + e.getMessage());
         }
+        return result;
     }
 
     /**
@@ -133,8 +162,8 @@ public class InterceptedCommandProcessor extends ProxyCommandProcessor {
      * 
      * @return the immutable copy of this command processor
      */
-    public InterceptedCommandProcessor immutableCopy() {
-        InterceptedCommandProcessor copy = new InterceptedCommandProcessor(this.commandProcessor);
+    public InterceptionProxy immutableCopy() {
+        InterceptionProxy copy = new InterceptionProxy(commandProcessor);
         copy.interceptors.putAll(this.interceptors);
         return copy;
     }

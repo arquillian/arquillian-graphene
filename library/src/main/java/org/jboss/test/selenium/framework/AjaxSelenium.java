@@ -26,9 +26,10 @@ import java.net.URL;
 import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.framework.internal.PageExtensions;
 import org.jboss.test.selenium.framework.internal.SeleniumExtensions;
-import org.jboss.test.selenium.interception.InterceptedCommandProcessor;
+import org.jboss.test.selenium.interception.InterceptionProxy;
 
 import com.thoughtworks.selenium.CommandProcessor;
+import com.thoughtworks.selenium.HttpCommandProcessor;
 
 /**
  * <p>
@@ -36,7 +37,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * </p>
  * 
  * <p>
- * Internally using {@link AjaxAwareCommandProcessor} and {@link GuardedCommandProcessor}.
+ * Internally using {@link AjaxAwareInterceptor} and {@link InterceptionProxy}.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -54,9 +55,9 @@ public class AjaxSelenium extends ExtendedTypedSelenium {
     SeleniumExtensions seleniumExtensions;
 
     /**
-     * The intercepted command processor
+     * The command interception proxy
      */
-    InterceptedCommandProcessor interceptedCommandProcessor;
+    InterceptionProxy interceptionProxy;
 
     /**
      * Instantiates a new ajax selenium.
@@ -78,9 +79,9 @@ public class AjaxSelenium extends ExtendedTypedSelenium {
      */
     public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
         CommandProcessor commandProcessor =
-            new AjaxAwareCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
-        interceptedCommandProcessor = new InterceptedCommandProcessor(commandProcessor);
-        selenium = new ExtendedSelenium(interceptedCommandProcessor);
+            new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
+        interceptionProxy = new InterceptionProxy(commandProcessor);
+        selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensions(this);
         seleniumExtensions = new SeleniumExtensions(this);
         setCurrentSelenium(this);
@@ -144,11 +145,12 @@ public class AjaxSelenium extends ExtendedTypedSelenium {
     }
 
     /**
-     * Returns associated intercepted command processor
-     * @return associated intercepted command processor
+     * Returns associated command interception proxy
+     * 
+     * @return associated command interception proxy
      */
-    public InterceptedCommandProcessor getInterceptedCommandProcessor() {
-        return interceptedCommandProcessor;
+    public InterceptionProxy getInterceptionProxy() {
+        return interceptionProxy;
     }
 
     /**
@@ -160,9 +162,8 @@ public class AjaxSelenium extends ExtendedTypedSelenium {
         AjaxSelenium copy = new AjaxSelenium();
         copy.pageExtensions = new PageExtensions(copy);
         copy.seleniumExtensions = new SeleniumExtensions(copy);
-        copy.interceptedCommandProcessor = this.interceptedCommandProcessor.immutableCopy();
-        copy.selenium = new ExtendedSelenium(copy.interceptedCommandProcessor);
-
+        copy.interceptionProxy = this.interceptionProxy.immutableCopy();
+        copy.selenium = new ExtendedSelenium(copy.interceptionProxy.getCommandProcessorProxy());
         return copy;
     }
 }

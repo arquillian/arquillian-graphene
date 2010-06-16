@@ -24,6 +24,8 @@ package org.jboss.test.selenium.interception;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.thoughtworks.selenium.CommandProcessor;
 
 /**
@@ -114,5 +116,15 @@ public class CommandContext {
      */
     public String[] getArguments() {
         return args.clone();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("commandName", command).append("args", args).toString();
     }
 }

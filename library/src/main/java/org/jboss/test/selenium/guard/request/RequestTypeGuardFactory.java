@@ -36,8 +36,8 @@ public final class RequestTypeGuardFactory {
 
     private static AjaxSelenium guard(AjaxSelenium selenium, RequestType requestExpected) {
         AjaxSelenium copy = selenium.immutableCopy();
-        copy.getInterceptedCommandProcessor().unregisterInterceptorType(RequestTypeGuard.class);
-        copy.getInterceptedCommandProcessor().registerInterceptor(new RequestTypeGuard(requestExpected));
+        copy.getInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
+        copy.getInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected));
         return copy;
     }
 
