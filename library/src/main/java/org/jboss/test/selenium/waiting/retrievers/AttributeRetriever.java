@@ -31,6 +31,7 @@ import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * Retrieves the attribute with given attributeLocator.
@@ -62,7 +63,7 @@ public class AttributeRetriever implements SeleniumRetriever<String>, JavaScript
      * JavaScript expression to retrieve attribute value from element given by attributeLocator
      */
     public JavaScript getJavaScriptRetrieve() {
-        return new JavaScript(format("selenium.getAttribute('{0}')", attributeLocator.getAsString()));
+        return js(format("selenium.getAttribute('{0}')", attributeLocator.getAsString()));
     }
 
     /**

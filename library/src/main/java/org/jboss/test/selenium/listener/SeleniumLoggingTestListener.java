@@ -24,6 +24,7 @@ package org.jboss.test.selenium.listener;
 import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
 import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
@@ -84,7 +85,7 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
         String line = StringUtils.repeat("#", message.length());
 
         if (getCurrentSelenium() != null) {
-            JavaScript eval = new JavaScript(String.format("/*\n%s\n%s\n%s\n*/", line, message, line));
+            JavaScript eval = js(String.format("/*\n%s\n%s\n%s\n*/", line, message, line));
             try {
                 getCurrentSelenium().selectFrame(new FrameLocator("relative=top"));
                 getCurrentSelenium().getEval(eval);

@@ -30,6 +30,7 @@ import org.jboss.test.selenium.waiting.selenium.SeleniumCondition;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * <p>
@@ -73,7 +74,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
     public JavaScript getJavaScriptCondition() {
         String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().getAsString());
         String escapedAttributeName = escapeJavaScript(this.attributeLocator.getAttribute().getAttributeName());
-        return new JavaScript(format("selenium.isAttributePresent('{0}', '{1}')", escapedElementLocator,
+        return js(format("selenium.isAttributePresent('{0}', '{1}')", escapedElementLocator,
             escapedAttributeName));
     }
 

@@ -27,6 +27,8 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 
+import static org.jboss.test.selenium.encapsulated.JavaScript.*;
+
 /**
  * Defines the methods for loading the Selenium JS extensions to the Selenium Test Runner window.
  * 
@@ -43,12 +45,11 @@ public class SeleniumExtensions {
     /*
      * JavaScript definitions for this object
      */
-    final JavaScript getScriptWithResourceName = JavaScript.fromResource("javascript/get-script-with-resourcename.js");
+    final JavaScript getScriptWithResourceName = fromResource("javascript/get-script-with-resourcename.js");
     final JavaScript containsScriptWithResourceName = getScriptWithResourceName.append(" != null");
     final JavaScript getIdForScriptWithResourceName = getScriptWithResourceName.append(".getAttribute('id')");
-    final JavaScript setResourceNameForId = new JavaScript(
-        "document.getElementById('{0}').setAttribute('resourceName', '{1}')");
-    final JavaScript removeScript = new JavaScript("selenium.doRemoveScript('{0}')");
+    final JavaScript setResourceNameForId = js("document.getElementById('{0}').setAttribute('resourceName', '{1}')");
+    final JavaScript removeScript = js("selenium.doRemoveScript('{0}')");
 
     /**
      * Construct the {@link SeleniumExtensions} object with associated selenium object.
@@ -90,7 +91,7 @@ public class SeleniumExtensions {
     }
 
     private void loadScript(String resourceName) {
-        JavaScript extension = JavaScript.fromResource(resourceName);
+        JavaScript extension = fromResource(resourceName);
         String identification = extension.getIdentification();
         String escapedResourceName = escapeJavaScript(resourceName);
         selenium.addScript(extension);
@@ -98,7 +99,7 @@ public class SeleniumExtensions {
     }
 
     private void refreshScript(String resourceName) {
-        JavaScript extension = JavaScript.fromResource(resourceName);
+        JavaScript extension = fromResource(resourceName);
         String identification = extension.getIdentification();
         String escapedResourceName = escapeJavaScript(resourceName);
 
@@ -122,14 +123,14 @@ public class SeleniumExtensions {
             requireResource(resourceName);
         }
     }
-    
+
     /**
      * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered before
      * the loading of extensions. That is reason why we must explicitly register it before the test after each start of
      * selenium.
      */
     public void registerCustomHandlers() {
-        final JavaScript registerCustomHandlers = new JavaScript("currentTest.commandFactory.registerAll(selenium)");
+        final JavaScript registerCustomHandlers = js("currentTest.commandFactory.registerAll(selenium)");
         selenium.getEval(registerCustomHandlers);
     }
 }

@@ -62,8 +62,9 @@ import static org.jboss.test.selenium.waiting.Wait.*;
  */
 public abstract class AbstractTestCase {
 
-    private static final int WAIT_MODEL_INTERVAL = 500;
     private static final int WAIT_GUI_INTERVAL = 100;
+    private static final int WAIT_AJAX_INTERVAL = 500;
+    private static final int WAIT_MODEL_INTERVAL = 1500;
 
     protected AjaxSelenium selenium;
 
@@ -167,7 +168,7 @@ public abstract class AbstractTestCase {
 
         selenium.setTimeout(Long.valueOf(seleniumTimeoutDefault));
         waitGui = waitAjax().interval(WAIT_GUI_INTERVAL).timeout(Long.valueOf(seleniumTimeoutGui));
-        waitAjax = waitAjax().interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutAjax));
+        waitAjax = waitAjax().interval(WAIT_AJAX_INTERVAL).timeout(Long.valueOf(seleniumTimeoutAjax));
         waitModel = waitSelenium().interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutModel));
     }
 

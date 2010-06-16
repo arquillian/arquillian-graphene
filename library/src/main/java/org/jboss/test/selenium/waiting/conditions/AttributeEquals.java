@@ -30,6 +30,7 @@ import org.jboss.test.selenium.waiting.selenium.SeleniumCondition;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * 
@@ -80,7 +81,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
         String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().getAsString());
         String escapedAttributeLocator = escapeJavaScript(this.attributeLocator.getAsString());
         String escapedValue = escapeJavaScript(this.value);
-        return new JavaScript(format("selenium.isElementPresent('{0}') && (selenium.getAttribute('{1}') == '{2}')",
+        return js(format("selenium.isElementPresent('{0}') && (selenium.getAttribute('{1}') == '{2}')",
             escapedElementLocator, escapedAttributeLocator, escapedValue));
     }
 

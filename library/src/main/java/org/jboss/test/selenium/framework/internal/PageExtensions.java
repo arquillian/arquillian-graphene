@@ -27,6 +27,8 @@ import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.waiting.Wait;
 
+import static org.jboss.test.selenium.encapsulated.JavaScript.*;
+
 /**
  * Defines methods for installing JavaScript page extension to the target page.
  * 
@@ -39,12 +41,13 @@ public class PageExtensions {
     JavaScript pageExtensions;
 
     /** Evaluates if the body is loaded */
-    final JavaScript isBodyLoaded = new JavaScript("(selenium.browserbot.getCurrentWindow() != null) "
-        + " && (selenium.browserbot.getCurrentWindow().document != null) "
-        + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
+    final JavaScript isBodyLoaded =
+        js("(selenium.browserbot.getCurrentWindow() != null) "
+            + " && (selenium.browserbot.getCurrentWindow().document != null) "
+            + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
 
     /** Evalutes if the RichFacesSelenium object is undefined on the page */
-    final JavaScript isRFSUndefined = new JavaScript("getRFS() === undefined");
+    final JavaScript isRFSUndefined = js("getRFS() === undefined");
 
     /** The associated selenium object. */
     AjaxSelenium selenium;
@@ -94,13 +97,14 @@ public class PageExtensions {
 
     /**
      * Loads the page JS extensions from resources defined by list of resource names.
-     *  
-     * @param resourceNames the list of full paths to resources
+     * 
+     * @param resourceNames
+     *            the list of full paths to resources
      */
     public void loadFromResources(List<String> resourceNames) {
         JavaScript extensions = null;
         for (String resourceName : resourceNames) {
-            JavaScript partial = JavaScript.fromResource(resourceName);
+            JavaScript partial = fromResource(resourceName);
             extensions = (extensions == null) ? partial : extensions.join(partial);
         }
         this.pageExtensions = extensions;

@@ -58,6 +58,17 @@ public class JavaScript {
     }
 
     /**
+     * The factory method for JavaScript object
+     * 
+     * @param javaScript
+     *            code
+     * @return the new JavaScript object with predefined JavaScript code
+     */
+    public static JavaScript js(String javaScript) {
+        return js(javaScript);
+    }
+
+    /**
      * Gets the JavaScript as string
      * 
      * @return the JavaScript as string
@@ -84,7 +95,7 @@ public class JavaScript {
      * @return the joined JavaScript object
      */
     public JavaScript join(JavaScript javaScriptToJoin) {
-        return new JavaScript(this.javaScript + '\n' + javaScriptToJoin.javaScript);
+        return js(this.javaScript + '\n' + javaScriptToJoin.javaScript);
     }
 
     /**
@@ -95,7 +106,7 @@ public class JavaScript {
      * @return this JavaScript with javaScriptPartToAppend appended
      */
     public JavaScript append(String javaScriptPartToAppend) {
-        return new JavaScript(javaScript + javaScriptPartToAppend);
+        return js(javaScript + javaScriptPartToAppend);
     }
 
     /**
@@ -131,7 +142,7 @@ public class JavaScript {
         } catch (IOException e) {
             throw new RuntimeException(format("Unable to load JavaScript from file '{0}'", sourceFile), e);
         }
-        return new JavaScript(sourceCode);
+        return js(sourceCode);
     }
 
     /**
@@ -156,7 +167,7 @@ public class JavaScript {
                 e);
         }
 
-        return new JavaScript(sourceCode);
+        return js(sourceCode);
     }
 
     /**
@@ -168,6 +179,6 @@ public class JavaScript {
      * @return this JavaScript with parameters filled in place of placeholders in {@link SimplifiedFormat} format
      */
     public JavaScript parametrize(Object... parameters) {
-        return new JavaScript(format(javaScript, parameters));
+        return js(format(javaScript, parameters));
     }
 }

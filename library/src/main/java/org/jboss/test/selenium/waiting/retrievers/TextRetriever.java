@@ -31,6 +31,7 @@ import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * Retrieves the text for given elementLocator
@@ -62,7 +63,7 @@ public class TextRetriever implements SeleniumRetriever<String>, JavaScriptRetri
      * JavaScript expression to retrieve text value from element given by elementLocator
      */
     public JavaScript getJavaScriptRetrieve() {
-        return new JavaScript(format("selenium.getText('{0}')", elementLocator.getAsString()));
+        return js(format("selenium.getText('{0}')", elementLocator.getAsString()));
     }
 
     /**

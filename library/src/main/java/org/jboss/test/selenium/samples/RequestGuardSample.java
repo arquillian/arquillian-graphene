@@ -26,11 +26,11 @@ import java.net.URL;
 import org.jboss.test.selenium.AbstractTestCase;
 import static org.jboss.test.selenium.locator.LocatorFactory.*;
 
-import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.locator.IdLocator;
 import org.jboss.test.selenium.locator.JQueryLocator;
 
 import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.*;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * Sample of guarding request to specific request type.
@@ -62,6 +62,6 @@ public class RequestGuardSample extends AbstractTestCase {
         guardNoRequest(selenium).click(null);
 
         // this action will not fire any request by default
-        selenium.addScript(new JavaScript("..."));
+        selenium.addScript(js("..."));
     }
 }

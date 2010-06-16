@@ -32,6 +32,7 @@ import com.thoughtworks.selenium.SeleniumException;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS;
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * The Guard which guards that request what was expected to be done will be actually done.
@@ -41,11 +42,10 @@ import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS
  */
 public class RequestTypeGuard implements CommandInterceptor {
 
-    private final JavaScript clearRequestDone = new JavaScript("getRFS().clearRequestDone()");
-    private final JavaScript getRequestDone =
-        new JavaScript("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
+    private final JavaScript clearRequestDone = js("getRFS().clearRequestDone()");
+    private final JavaScript getRequestDone = js("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
     private final JavaScript waitRequestChange =
-        new JavaScript("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE'");
+        js("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE'");
 
     /**
      * The request what is expected to be done
