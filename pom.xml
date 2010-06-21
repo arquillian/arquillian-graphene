@@ -44,7 +44,7 @@
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
+				<updatePolicy>interval:60</updatePolicy>
 			</snapshots>
 		</repository>
 	</repositories>
@@ -60,7 +60,7 @@
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
+				<updatePolicy>interval:60</updatePolicy>
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
