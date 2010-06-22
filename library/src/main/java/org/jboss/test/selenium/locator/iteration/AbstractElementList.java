@@ -106,7 +106,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
          * @see java.util.Iterator#hasNext()
          */
         public boolean hasNext() {
-            return index <= count;
+            return index < count;
         }
 
         /*
