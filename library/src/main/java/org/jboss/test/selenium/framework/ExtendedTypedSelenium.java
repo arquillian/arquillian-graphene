@@ -24,6 +24,9 @@ package org.jboss.test.selenium.framework;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocator;
+import org.jboss.test.selenium.locator.IterableLocator;
+import org.jboss.test.selenium.locator.JQueryLocator;
+import org.jboss.test.selenium.locator.LocatorUtils;
 
 /**
  * Type-safe selenium wrapper for Selenium API with extension of some useful commands defined in
@@ -127,4 +130,23 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
         return getExtendedSelenium().isAttributePresent(elementLocator, attributeName);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.jboss.test.selenium.framework.DefaultTypedSelenium#getCount(org.jboss.test.selenium.locator.IterableLocator)
+     */
+    @Override
+    public int getCount(IterableLocator<?> locator) {
+        Object reference = (Object) locator;
+        if (reference instanceof JQueryLocator) {
+            return getExtendedSelenium().getJQueryCount(LocatorUtils.getRawLocator((JQueryLocator) reference))
+                .intValue();
+        }
+        try {
+            return super.getCount(locator);
+        } catch (UnsupportedOperationException e) {
+            throw new UnsupportedOperationException("Only JQuery and XPath locators are supported for counting");
+        }
+    }
 }

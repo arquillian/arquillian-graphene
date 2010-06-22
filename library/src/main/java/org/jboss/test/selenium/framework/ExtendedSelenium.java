@@ -19,6 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+
 package org.jboss.test.selenium.framework;
 
 import org.apache.commons.lang.Validate;
@@ -31,7 +32,7 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 /**
  * Selenium API extended by useful commands.
  * 
- * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>, <a href="mailto:ppitonak@redhat.com">Pavol Pitonak</a>
  * @version $Revision$
  */
 public class ExtendedSelenium extends DefaultSelenium {
@@ -58,7 +59,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *             if is caught unrecognized throwable
      */
     public String getStyle(String locator, String property) {
-        return commandProcessor.doCommand("getStyle", new String[] {locator, property});
+        return commandProcessor.doCommand("getStyle", new String[]{locator, property});
     }
 
     /**
@@ -70,7 +71,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            should be top border of screen aligned to top border of element
      */
     public void scrollIntoView(String locator, String alignToTop) {
-        commandProcessor.doCommand("doScrollIntoView", new String[] {locator, alignToTop});
+        commandProcessor.doCommand("doScrollIntoView", new String[]{locator, alignToTop});
     }
 
     /**
@@ -83,7 +84,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            locator.
      */
     public void mouseOverAt(String locator, String coordString) {
-        commandProcessor.doCommand("doMouseOverAt", new String[] {locator, coordString});
+        commandProcessor.doCommand("doMouseOverAt", new String[]{locator, coordString});
     }
 
     /**
@@ -134,6 +135,17 @@ public class ExtendedSelenium extends DefaultSelenium {
      *             when element isn't present
      */
     public boolean isAttributePresent(String elementLocator, String attributeName) {
-        return commandProcessor.getBoolean("isAttributePresent", new String[] {elementLocator, attributeName});
+        return commandProcessor.getBoolean("isAttributePresent", new String[]{elementLocator, attributeName});
+    }
+
+    /**
+     * Returns the number of elements with given jQuery locator.
+     * 
+     * @param jqueryLocator
+     *            jQuery locator of an element
+     * @return number of found elements
+     */
+    public Number getJQueryCount(String jqueryLocator) {
+        return commandProcessor.getNumber("getJQueryCount", new String[]{jqueryLocator});
     }
 }

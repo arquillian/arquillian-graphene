@@ -49,6 +49,8 @@ import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.locator.IdLocator;
 import org.jboss.test.selenium.locator.IterableLocator;
+import org.jboss.test.selenium.locator.LocatorUtils;
+import org.jboss.test.selenium.locator.XpathLocator;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.utils.array.ArrayTransform;
 
@@ -66,12 +68,12 @@ public class DefaultTypedSelenium implements TypedSelenium {
 
     Selenium selenium;
 
-    private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
-        Integer.class) {
-        public Integer transformation(String source) {
-            return Integer.valueOf(source);
-        }
-    };
+    private ArrayTransform<String, Integer> transformArrayOfStringToInteger =
+        new ArrayTransform<String, Integer>(Integer.class) {
+            public Integer transformation(String source) {
+                return Integer.valueOf(source);
+            }
+        };
 
     public void addCustomRequestHeader(String key, String value) {
         throw new UnsupportedOperationException();
@@ -283,8 +285,11 @@ public class DefaultTypedSelenium implements TypedSelenium {
     }
 
     public int getCount(IterableLocator<?> locator) {
-        // FIXME needs to be defined for other languages (iterables)
-        return selenium.getXpathCount(locator.getAsString()).intValue();
+        Object reference = (Object) locator;
+        if (reference instanceof XpathLocator) {
+            return selenium.getXpathCount(LocatorUtils.getRawLocator((XpathLocator) reference)).intValue();
+        }
+        throw new UnsupportedOperationException("Only XPath locator is supported for counting");
     }
 
     public int getCursorPosition(ElementLocator elementLocator) {
