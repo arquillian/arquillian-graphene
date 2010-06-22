@@ -21,17 +21,14 @@
  */
 package org.jboss.test.selenium.listener;
 
+import static org.apache.commons.lang.ArrayUtils.contains;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.Map.Entry;
-
-import static org.apache.commons.lang.ArrayUtils.contains;
 
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
@@ -57,7 +54,12 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
 
     private static final boolean DEBUG = true;
 
-    Map<Method, Set<Annotation>> methods = new LinkedHashMap<Method, Set<Annotation>>();
+    SortedSet<Configuration> configurations = new TreeSet<Configuration>();
+    SortedSet<Configuration> methodConfigurations = new TreeSet<Configuration>();
+    boolean methodConfigurationsAdded = false;
+
+    
+
     Integer methodTotal = null;
 
     ITestResult testResult;
@@ -97,6 +99,10 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (methodsRunned.get().size() == 0) {
             invokeMethods(BeforeClass.class);
         }
+        if (!methodConfigurationsAdded) {
+            configurations.addAll(methodConfigurations);
+            methodConfigurationsAdded = true;
+        }
         invokeMethods(BeforeMethod.class);
     }
 
@@ -127,65 +133,98 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         methodsRunned.get().add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
-    
+
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-        if (method.isConfigurationMethod()) {
-            AfterClass afterClass = method.getTestMethod().getMethod().getAnnotation(AfterClass.class);
-            if (afterClass != null) {
-                setupContext(testResult);
-                invokeMethods(AfterClass.class);
+        BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);
+        if (beforeClass != null) {
+            setupContext(testResult);
+            invokeMethods(BeforeClass.class);
+        }
+        AfterClass afterClass = method.getTestMethod().getMethod().getAnnotation(AfterClass.class);
+        if (afterClass != null) {
+            setupContext(testResult);
+            invokeMethods(AfterClass.class);
+        }
+        BeforeMethod beforeMethod = method.getTestMethod().getMethod().getAnnotation(BeforeMethod.class);
+        if (beforeMethod != null) {
+            setupContext(testResult);
+            if (!methodConfigurationsAdded) {
+                configurations.addAll(methodConfigurations);
+                methodConfigurationsAdded = true;
             }
+            invokeMethods(BeforeMethod.class);
+        }
+        AfterMethod afterMethod = method.getTestMethod().getMethod().getAnnotation(AfterMethod.class);
+        if (afterMethod != null) {
+            setupContext(testResult);
+            invokeMethods(AfterMethod.class);
         }
     }
-    
+
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (method.isTestMethod()) {
+            methodConfigurationsAdded = false;
+        }
+        BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);
+        if (beforeClass != null) {
+            setupContext(testResult);
+            invokeMethods(BeforeClass.class);
+        }
+        AfterClass afterClass = method.getTestMethod().getMethod().getAnnotation(AfterClass.class);
+        if (afterClass != null) {
+            setupContext(testResult);
+            invokeMethods(AfterClass.class);
+        }
+        BeforeMethod beforeMethod = method.getTestMethod().getMethod().getAnnotation(BeforeMethod.class);
+        if (beforeMethod != null) {
+            setupContext(testResult);
+            invokeMethods(BeforeMethod.class);
+        }
+        AfterMethod afterMethod = method.getTestMethod().getMethod().getAnnotation(AfterMethod.class);
+        if (afterMethod != null) {
+            setupContext(testResult);
+            invokeMethods(AfterMethod.class);
+        }
     }
 
-    private void invokeMethods(Class<? extends Annotation>... typesToInvoke) {
-        Set<Method> methodsToRemove = new LinkedHashSet<Method>();
-        for (Entry<Method, Set<Annotation>> entry : methods.entrySet()) {
-            tryInvoke(entry.getKey(), entry.getValue(), typesToInvoke);
-            if (entry.getValue().isEmpty()) {
-                methodsToRemove.add(entry.getKey());
+    protected void invokeMethods(Class<? extends Annotation>... typesToInvoke) {
+        SortedSet<Configuration> configurationsToRemove = new TreeSet<Configuration>();
+        for (Configuration configuration : configurations) {
+            if (tryInvoke(configuration.method, configuration.annotation, typesToInvoke)) {
+                configurationsToRemove.add(configuration);
             }
         }
-        for (Method method : methodsToRemove) {
-            methods.remove(method);
+        for (Configuration configuration : configurationsToRemove) {
+            configurations.remove(configuration);
         }
     }
 
-    private void tryInvoke(Method method, Set<Annotation> annotations, Class<? extends Annotation>[] typesToInvoke) {
-        Set<Annotation> invokedAnnotations = new LinkedHashSet<Annotation>();
-        for (Annotation annotation : annotations) {
-            Class<? extends Annotation> type = annotation.annotationType();
-            if (!contains(typesToInvoke, annotation.annotationType())) {
-                break;
-            }
-            boolean invoke = true;
-            // verify dependencies of current method
-            for (String dependency : getMethodDependencies(annotation)) {
-                if (getMethodAlwaysRun(annotation)) {
-                    invoke &=
-                        configurationsSucceded.get().contains(dependency)
-                            || configurationsSkipped.get().contains(dependency)
-                            || configurationsFailed.get().contains(dependency);
-                } else {
-                    invoke &= configurationsSucceded.get().contains(dependency);
-                }
-            }
-            // verify the success of the method
-            invoke &= !((AfterMethod.class == type) && (!testResult.isSuccess()) && (!getMethodAlwaysRun(annotation)));
-            // should test pass regarding to previous verifications?
-            if (invoke) {
-                invokeMethod(method);
-                if (BeforeClass.class == type || AfterClass.class == type) {
-                    invokedAnnotations.add(annotation);
-                }
+    protected boolean tryInvoke(Method method, Annotation annotation, Class<? extends Annotation>[] typesToInvoke) {
+        Class<? extends Annotation> type = annotation.annotationType();
+        if (!contains(typesToInvoke, annotation.annotationType())) {
+            return false;
+        }
+        boolean invoke = true;
+        // verify dependencies of current method
+        for (String dependency : getMethodDependencies(annotation)) {
+            if (getMethodAlwaysRun(annotation)) {
+                invoke &=
+                    configurationsSucceded.get().contains(dependency)
+                        || configurationsSkipped.get().contains(dependency)
+                        || configurationsFailed.get().contains(dependency);
+            } else {
+                invoke &= configurationsSucceded.get().contains(dependency);
             }
         }
-        for (Annotation annotation : invokedAnnotations) {
-            annotations.remove(annotation);
+        // verify the success of the method
+        invoke &= !((AfterMethod.class == type) && (!testResult.isSuccess()) && (!getMethodAlwaysRun(annotation)));
+        // should test pass regarding to previous verifications?
+        if (invoke) {
+            invokeMethod(method);
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -194,6 +233,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             System.out.println("#" + itr.getMethod().getMethodName());
         }
         configurationsSucceded.get().add(itr.getMethod().getMethodName());
+        invokeAfterConfiguration(itr);
     }
 
     @Override
@@ -202,6 +242,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             System.out.println("#" + itr.getMethod().getMethodName());
         }
         configurationsFailed.get().add(itr.getMethod().getMethodName());
+        invokeAfterConfiguration(itr);
     }
 
     @Override
@@ -210,13 +251,22 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             System.out.println("#" + itr.getMethod().getMethodName());
         }
         configurationsSkipped.get().add(itr.getMethod().getMethodName());
+        invokeAfterConfiguration(itr);
+    }
+
+    private void invokeAfterConfiguration(ITestResult itr) {
+        for (Class annotation : new Class[]{BeforeClass.class, BeforeMethod.class, AfterMethod.class, AfterClass.class}) {
+            if (itr.getMethod().getMethod().getAnnotation(annotation) != null) {
+                invokeMethods(annotation);
+            }
+        }
     }
 
     private void clearConfigurations() {
         configurationsSucceded.get().clear();
         configurationsFailed.get().clear();
         configurationsSkipped.get().clear();
-        methods.clear();
+        configurations.clear();
     }
 
     private void introduceMethods() {
@@ -234,11 +284,12 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
 
     private void introduceAnnotatedMethod(Method method, Annotation annotation) {
         if (annotation != null) {
-            if (!methods.containsKey(method)) {
-                methods.put(method, new LinkedHashSet<Annotation>());
+            Configuration configuration = new Configuration(method, annotation);
+            configurations.add(configuration);
+            if (annotation.annotationType() == AfterMethod.class || annotation.annotationType() == BeforeMethod.class) {
+                methodConfigurations.add(configuration);
             }
-            Set<Annotation> annotations = methods.get(method);
-            annotations.add(annotation);
+            methodConfigurationsAdded = true;
         }
     }
 
@@ -292,7 +343,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            e.getCause().printStackTrace();
             configurationsFailed.get().add(method.getName());
         }
     }
@@ -301,6 +352,46 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         @Override
         protected Set<String> initialValue() {
             return new TreeSet<String>();
+        }
+    }
+    
+    class Configuration implements Comparable<Configuration> {
+        private Method method;
+        private Annotation annotation;
+
+        public Configuration(Method method, Annotation annotation) {
+            super();
+            this.method = method;
+            this.annotation = annotation;
+        }
+
+        public int compareTo(Configuration o) {
+            int result = 0;
+            if (contains(getMethodDependencies(annotation), o.method.getName())) {
+                // this depends on o
+                result = +1;
+            }
+            if (contains(getMethodDependencies(o.annotation), method.getName())) {
+                // o depends on this
+                if (result != 0) {
+                    throw new IllegalStateException("Cyclic dependency found");
+                }
+                result = -1;
+            }
+            if (result == 0) {
+                result = method.getName().compareTo(o.method.getName());
+            }
+            if (result == 0) {
+                result =
+                    annotation.annotationType().getCanonicalName().compareTo(
+                        o.annotation.annotationType().getCanonicalName());
+            }
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return method.getName() + " (" + annotation.annotationType().getSimpleName() + ")";
         }
     }
 }
