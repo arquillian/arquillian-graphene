@@ -42,6 +42,8 @@ public class Event {
     public static final Event CHANGE = new Event("change");
     /** The event definition for 'click' */
     public static final Event CLICK = new Event("click");
+    /** The event definition for 'dblclick' */
+    public static final Event DBLCLICK = new Event("dblclick");
     /** The event definition for 'error' */
     public static final Event ERROR = new Event("error");
     /** The event definition for 'focus' */
