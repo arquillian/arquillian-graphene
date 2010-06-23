@@ -18,6 +18,7 @@
 	</pluginRepositories>
 	
 	<properties>
+		<method>*</method>
 		<deployable.location></deployable.location>
 		<deployable.type>war</deployable.type>
 		<resources.dir>${project.build.directory}/test-classes</resources.dir>
@@ -53,7 +54,7 @@
 			<plugin>
 				<groupId>org.twdata.maven</groupId>
 				<artifactId>maven-cli-plugin</artifactId>
-				<version>1.0.3</version>
+				<version>1.0.4</version>
 				<configuration>
 					<userAliases>
 						<selenium-only>verify -Dselenium.test.skip=true -Pwait-for-key</selenium-only>
@@ -99,6 +100,12 @@
 								<configuration>
 									<skip>${selenium.test.skip}</skip>
 									<argLine>${surefire.argline}</argLine>
+									<systemProperties>
+										<property>
+											<name>method</name>
+											<value>${method}</value>
+										</property>
+									</systemProperties>
 								</configuration>
 							</execution>
 						</executions>
