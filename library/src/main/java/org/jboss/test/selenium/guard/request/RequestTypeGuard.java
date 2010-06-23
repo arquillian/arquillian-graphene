@@ -45,7 +45,8 @@ public class RequestTypeGuard implements CommandInterceptor {
     private final JavaScript clearRequestDone = js("getRFS().clearRequestDone()");
     private final JavaScript getRequestDone = js("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
     private final JavaScript waitRequestChange =
-        js("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE'");
+        js("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE' && "
+            + "selenium.browserbot.getCurrentWindow().document.body");
 
     /**
      * The request what is expected to be done
@@ -68,7 +69,7 @@ public class RequestTypeGuard implements CommandInterceptor {
      */
     public void intercept(CommandContext ctx) throws CommandInterceptionException {
         final String command = ctx.getCommand();
-        
+
         if (INTERACTIVE_COMMANDS.contains(command)) {
             doBeforeCommand();
         }
