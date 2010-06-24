@@ -37,8 +37,10 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -66,6 +68,8 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public final void onStart(ITestContext context) {
         setupContext(context);
+        introduceMethods();
+        invokeMethods(BeforeSuite.class);
     }
 
     @Override
@@ -74,7 +78,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (lastRunnedClass != null) {
             onClassFinish();
         }
-
+        invokeMethods(AfterSuite.class);
     }
 
     public void onClassStart() {
@@ -288,6 +292,10 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
 
     private void introduceMethods() {
         for (Method method : this.getClass().getMethods()) {
+            BeforeSuite beforeSuite = method.getAnnotation(BeforeSuite.class);
+            introduceAnnotatedMethod(method, beforeSuite);
+            AfterSuite afterSuite = method.getAnnotation(AfterSuite.class);
+            introduceAnnotatedMethod(method, afterSuite);
             BeforeClass beforeClass = method.getAnnotation(BeforeClass.class);
             introduceAnnotatedMethod(method, beforeClass);
             AfterClass afterClass = method.getAnnotation(AfterClass.class);
