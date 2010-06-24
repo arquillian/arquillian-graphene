@@ -58,9 +58,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     SortedSet<Configuration> methodConfigurations = new TreeSet<Configuration>();
     boolean methodConfigurationsAdded = false;
 
-    
-
-    Integer methodTotal = null;
+    Class lastRunnedClass = null;
 
     ITestResult testResult;
     ITestContext testContext;
@@ -68,20 +66,28 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public final void onStart(ITestContext context) {
         setupContext(context);
-        introduceMethods();
-        methodTotal = context.getAllTestMethods().length;
-        invokeMethods(BeforeClass.class);
     }
 
     @Override
     public final void onFinish(ITestContext context) {
         setupContext(context);
+        if (lastRunnedClass != null) {
+            onClassFinish();
+        }
+
+    }
+
+    public void onClassStart() {
+        introduceMethods();
+        invokeMethods(BeforeClass.class);
+    }
+
+    public void onClassFinish() {
         invokeMethods(AfterClass.class);
         clearConfigurations();
     }
 
     public void setupContext(Object... contextParams) {
-        testContext = null;
         testResult = null;
 
         for (Object contextParam : contextParams) {
@@ -135,6 +141,14 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     }
 
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (testResult.getTestClass().getRealClass() != lastRunnedClass) {
+            if (lastRunnedClass != null) {
+                onClassFinish();
+            }
+            onClassStart();
+            lastRunnedClass = testResult.getTestClass().getRealClass();
+        }
+
         BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);
         if (beforeClass != null) {
             setupContext(testResult);
@@ -266,7 +280,10 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         configurationsSucceded.get().clear();
         configurationsFailed.get().clear();
         configurationsSkipped.get().clear();
+        methodsRunned.get().clear();
         configurations.clear();
+        methodConfigurations.clear();
+        methodConfigurationsAdded = false;
     }
 
     private void introduceMethods() {
@@ -354,7 +371,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             return new TreeSet<String>();
         }
     }
-    
+
     class Configuration implements Comparable<Configuration> {
         private Method method;
         private Annotation annotation;
