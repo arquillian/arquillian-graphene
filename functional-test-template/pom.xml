@@ -35,7 +35,6 @@
 		<selenium.timeout.ajax>15000</selenium.timeout.ajax>
 		<selenium.timeout.model>30000</selenium.timeout.model>
 		<cargo.jvmargs.additional></cargo.jvmargs.additional>
-        <surefire.argline>-Dbrowser='${browser}' -Dcontext.root='${context.root}' -Dcontext.path='${context.path}' -Dselenium.host='${selenium.host}' -Dselenium.port='${selenium.port}' -Dselenium.debug='${selenium.debug}' -Dselenium.maximize='${selenium.maximize}' -Dmaven.resources.dir='${resources.dir}' -Dmaven.project.build.directory='${project.build.directory}' -Dselenium.timeout.default='${selenium.timeout.default}' -Dselenium.timeout.gui='${selenium.timeout.gui}' -Dselenium.timeout.ajax='${selenium.timeout.ajax}' -Dselenium.timeout.model='${selenium.timeout.model}'</surefire.argline>
 	</properties>
 	
 	<modules>
@@ -99,11 +98,62 @@
 								</goals>
 								<configuration>
 									<skip>${selenium.test.skip}</skip>
-									<argLine>${surefire.argline}</argLine>
 									<systemProperties>
 										<property>
 											<name>method</name>
 											<value>${method}</value>
+										</property>
+										<property>
+											<name>browser</name>
+											<value>${browser}</value>
+										</property>
+										<property>
+											<name>context.root</name>
+											<value>${context.root}</value>
+										</property>
+										<property>
+											<name>context.path</name>
+											<value>${context.path}</value>
+										</property>
+										<property>
+											<name>selenium.host</name>
+											<value>${selenium.host}</value>
+										</property>
+										<property>
+											<name>selenium.port</name>
+											<value>${selenium.port}</value>
+										</property>
+										<property>
+											<name>selenium.debug</name>
+											<value>${selenium.debug}</value>
+										</property>
+										<property>
+											<name>selenium.maximize</name>
+											<value>${selenium.maximize}</value>
+										</property>
+										<property>
+											<name>maven.resources.dir</name>
+											<value>${resources.dir}</value>
+										</property>
+										<property>
+											<name>maven.project.build.directory</name>
+											<value>${project.build.directory}</value>
+										</property>
+										<property>
+											<name>selenium.timeout.default</name>
+											<value>${selenium.timeout.default}</value>
+										</property>
+										<property>
+											<name>selenium.timeout.gui</name>
+											<value>${selenium.timeout.gui}</value>
+										</property>
+										<property>
+											<name>selenium.timeout.ajax</name>
+											<value>${selenium.timeout.ajax}</value>
+										</property>
+										<property>
+											<name>selenium.timeout.model</name>
+											<value>${selenium.timeout.model}</value>
 										</property>
 									</systemProperties>
 								</configuration>

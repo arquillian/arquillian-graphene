@@ -49,9 +49,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import static org.jboss.test.selenium.utils.URLUtils.buildUrl;
 import static org.jboss.test.selenium.waiting.Wait.*;
 import static org.jboss.test.selenium.encapsulated.JavaScript.fromResource;
+import static org.jboss.test.selenium.SystemProperties.*;
 
 /**
  * <p>
@@ -110,16 +110,13 @@ public abstract class AbstractTestCase {
     protected Browser browser;
 
     @BeforeClass(alwaysRun = true)
-    @Parameters({"context.root", "context.path", "browser", "selenium.debug", "maven.resources.dir",
-        "maven.project.build.directory"})
-    public void initializeParameters(String contextRoot, String contextPath, String browser, String seleniumDebug,
-        String mavenResourcesDir, String mavenProjectBuildDirectory) throws MalformedURLException {
-        this.contextRoot = buildUrl(contextRoot);
-        this.contextPath = buildUrl(this.contextRoot, contextPath);
-        this.mavenResourcesDir = new File(mavenResourcesDir);
-        this.mavenProjectBuildDirectory = new File(mavenProjectBuildDirectory);
-        this.seleniumDebug = Boolean.valueOf(seleniumDebug);
-        this.browser = new Browser(browser);
+    public void initializeParameters() throws MalformedURLException {
+        this.seleniumDebug = isSeleniumDebug();
+        this.contextRoot = getContextRoot();
+        this.contextPath = getContextPath();
+        this.mavenResourcesDir = getMavenResourcesDir();
+        this.mavenProjectBuildDirectory = getMavenProjectBuildDirectory();
+        this.browser = getBrowser();
     }
 
     /**
@@ -137,13 +134,12 @@ public abstract class AbstractTestCase {
      *            specifies on which port should selenium server run
      */
     @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"}, alwaysRun = true)
-    @Parameters({"selenium.host", "selenium.port", "selenium.maximize"})
-    public void initializeBrowser(String seleniumHost, String seleniumPort, String seleniumMaximize) {
-        selenium = new AjaxSelenium(seleniumHost, Integer.valueOf(seleniumPort), browser, contextPath);
+    public void initializeBrowser() {
+        selenium = new AjaxSelenium(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
         selenium.start();
         loadCustomLocationStrategies();
 
-        if (Boolean.valueOf(seleniumMaximize)) {
+        if (isSeleniumMaximize()) {
             // focus and maximaze tested window
             selenium.windowFocus();
             selenium.windowMaximize();
@@ -163,14 +159,11 @@ public abstract class AbstractTestCase {
      *            initial timeout set for waiting server computationally difficult interaction
      */
     @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeBrowser")
-    @Parameters({"selenium.timeout.default", "selenium.timeout.gui", "selenium.timeout.ajax", "selenium.timeout.model"})
-    public void initializeWaitTimeouts(String seleniumTimeoutDefault, String seleniumTimeoutGui,
-        String seleniumTimeoutAjax, String seleniumTimeoutModel) {
-
-        selenium.setTimeout(Long.valueOf(seleniumTimeoutDefault));
-        waitGui = waitAjax().interval(WAIT_GUI_INTERVAL).timeout(Long.valueOf(seleniumTimeoutGui));
-        waitAjax = waitAjax().interval(WAIT_AJAX_INTERVAL).timeout(Long.valueOf(seleniumTimeoutAjax));
-        waitModel = waitSelenium().interval(WAIT_MODEL_INTERVAL).timeout(Long.valueOf(seleniumTimeoutModel));
+    public void initializeWaitTimeouts() {
+        selenium.setTimeout(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        waitGui = waitAjax().interval(WAIT_GUI_INTERVAL).timeout(getSeleniumTimeout(SeleniumTimeoutType.GUI));
+        waitAjax = waitAjax().interval(WAIT_AJAX_INTERVAL).timeout(getSeleniumTimeout(SeleniumTimeoutType.AJAX));
+        waitModel = waitSelenium().interval(WAIT_MODEL_INTERVAL).timeout(getSeleniumTimeout(SeleniumTimeoutType.MODEL));
     }
 
     /**
