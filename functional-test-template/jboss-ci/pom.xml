@@ -36,7 +36,7 @@
 				<deployable.version>${profile.deployable.version}</deployable.version>
 			</properties>
 		</profile>
-		
+
 		<!-- INTERNET EXPLORER PROFILE -->
 		<profile>
 			<id>browser-internet-explorer</id>
@@ -53,7 +53,7 @@
 				<browser>*piiexplore</browser>
 			</properties>
 		</profile>
-		
+
 		<!--  FIREFOX VERSION MATRIX -->
 		<profile>
 			<id>browser-firefox-2</id>
@@ -107,7 +107,7 @@
 				<browser>${browser.firefox}</browser>
 			</properties>
 		</profile>
-		
+
 		<!-- FIREFOX OS DENPENDENT -->
 		<profile>
 			<id>firefoxes-home-linux</id>
@@ -118,7 +118,8 @@
 			</activation>
 			<properties>
 				<firefoxes.home>/qa/tools/opt</firefoxes.home>
-				<browser.firefox>*firefox ${firefoxes.home}/firefox-${browser.version}/firefox-bin</browser.firefox>
+				<browser.firefox>*firefox
+					${firefoxes.home}/firefox-${browser.version}/firefox-bin</browser.firefox>
 			</properties>
 		</profile>
 		<profile>
@@ -130,33 +131,14 @@
 			</activation>
 			<properties>
 				<firefoxes.home>T:\opt\windows</firefoxes.home>
-				<browser.firefox>*firefox ${firefoxes.home}\firefox-${browser.version}\firefox.exe</browser.firefox>
+				<browser.firefox>*firefox
+					${firefoxes.home}\firefox-${browser.version}\firefox.exe</browser.firefox>
 			</properties>
 		</profile>
-		
+
 		<!-- CONTAINER INSTALLATION -->
 		<profile>
-			<id>container-installation</id>
-			<activation>
-				<property>
-					<name>containerId</name>
-				</property>
-			</activation>
-			<properties>
-				<jboss5x.version>5.1.0.GA</jboss5x.version>
-				<jboss5x.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jboss5x.version}.zip</jboss5x.installer.url.unix>
-				<jboss5x.installer.url.windows>file:t:\src\jboss\jboss-${jboss5x.version}.GA.zip</jboss5x.installer.url.windows>
-				<jboss6x.version>6.0.0.M2</jboss6x.version>
-				<jboss6x.dir.unflatted>jboss-${jboss6x.version}</jboss6x.dir.unflatted>
-				<jboss6x.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jboss6x.version}.zip</jboss6x.installer.url.unix>
-				<jboss6x.installer.url.windows>file:t:\src\jboss\jboss-${jboss6x.version}.zip</jboss6x.installer.url.windows>
-				<tomcat6x.version>6.0.26</tomcat6x.version>
-				<tomcat6x.installer.url.unix>file:/qa/tools/src/apache/apache-tomcat-${tomcat6x.version}.zip</tomcat6x.installer.url.unix>
-				<tomcat6x.installer.url.windows>file:t:\src\apache\apache-tomcat-${tomcat6x.version}.zip</tomcat6x.installer.url.windows>
-			</properties>
-		</profile>
-		<profile>
-			<id>container-tomcat6x-installation</id>
+			<id>container-tomcat6x-installation-jboss-ci</id>
 			<activation>
 				<property>
 					<name>containerId</name>
@@ -164,13 +146,16 @@
 				</property>
 			</activation>
 			<properties>
-				<container.version>${tomcat6x.version}</container.version>
-				<container.installer.url.unix>${tomcat6x.installer.url.unix}</container.installer.url.unix>
-				<container.installer.url.windows>${tomcat6x.installer.url.windows}</container.installer.url.windows>
+				<jbci.container.version>6.0.26</jbci.container.version>
+				<jbci.container.installer.url.unix>file:/qa/tools/src/apache/apache-tomcat-${jbci.container.version}.zip</jbci.container.installer.url.unix>
+				<jbci.container.installer.url.windows>file:t:\src\apache\apache-tomcat-${jbci.container.version}.zip</jbci.container.installer.url.windows>
+				<jbci.container.dir>apache-tomcat-${jbci.container.version}</jbci.container.dir>
+				<jbci.container.dir.deflatted>${jbci.container.dir}</jbci.container.dir.deflatted>
+				<jbci.container.dir.unflatted>${jbci.container.dir}</jbci.container.dir.unflatted>
 			</properties>
 		</profile>
 		<profile>
-			<id>container-jboss5x-installation</id>
+			<id>container-jboss5x-installation-jboss-ci</id>
 			<activation>
 				<property>
 					<name>containerId</name>
@@ -178,13 +163,17 @@
 				</property>
 			</activation>
 			<properties>
-				<container.version>${jboss5x.version}</container.version>
-				<container.installer.url.unix>${jboss5x.installer.url.unix}</container.installer.url.unix>
-				<container.installer.url.windows>${jboss5x.installer.url.windows}</container.installer.url.windows>
+				<jbci.container.version>5.1.0.GA</jbci.container.version>
+				<jbci.container.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jbci.container.version}.zip</jbci.container.installer.url.unix>
+				<jbci.container.installer.url.windows>file:t:\src\jboss\jboss-${jbci.container.version}.zip</jbci.container.installer.url.windows>
+				<jbci.container.dir>jboss-${jbci.container.version}</jbci.container.dir>
+				<jbci.container.dir.deflatted>${jbci.container.dir}</jbci.container.dir.deflatted>
+				<jbci.container.dir.unflatted>${jbci.container.dir}</jbci.container.dir.unflatted>
+				<jbci.container.configuration>default</jbci.container.configuration>
 			</properties>
 		</profile>
 		<profile>
-			<id>container-jboss6x-installation</id>
+			<id>container-container-installation-jboss-ci</id>
 			<activation>
 				<property>
 					<name>containerId</name>
@@ -192,32 +181,45 @@
 				</property>
 			</activation>
 			<properties>
-				<container.version>${jboss6x.version}</container.version>
-				<container.unflatted.dir>${jboss6x.unflatted.dir}</container.unflatted.dir>
-				<container.installer.url.unix>${jboss6x.installer.url.unix}</container.installer.url.unix>
-				<container.installer.url.windows>${jboss6x.installer.url.windows}</container.installer.url.windows>
+				<jbci.container.version>6.0.0.M2</jbci.container.version>
+				<jbci.container.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jbci.container.version}.zip</jbci.container.installer.url.unix>
+				<jbci.container.installer.url.windows>file:t:\src\jboss\jboss-${jbci.container.version}.zip</jbci.container.installer.url.windows>
+				<jbci.container.dir>jboss-${jbci.container.version}</jbci.container.dir>
+				<jbci.container.dir.deflatted>${jbci.container.dir}</jbci.container.dir.deflatted>
+				<jbci.container.dir.unflatted>${jbci.container.dir}</jbci.container.dir.unflatted>
+				<jbci.container.configuration>default</jbci.container.configuration>
 			</properties>
 		</profile>
 		<profile>
-			<id>container-installation-unix</id>
+			<id>container-installation-unix-jboss-ci</id>
 			<activation>
-				<os>
-					<family>unix</family>
-				</os>
+				<property>
+					<name>JBOSSCI_UNIX</name>
+				</property>
 			</activation>
 			<properties>
-				<container.installer.url>${container.installer.url.unix}</container.installer.url>
+				<container.version>${jbci.container.version}</container.version>
+				<container.installer.url>${jbci.container.installer.url.unix}</container.installer.url>
+				<container.dir>${jbci.container.dir}</container.dir>
+				<container.dir.deflatted>${jbci.container.dir.deflatted}</container.dir.deflatted>
+				<container.dir.unflatted>${jbci.container.dir.unflatted}</container.dir.unflatted>
+				<container.configuration>${jbci.container.configuration}</container.configuration>
 			</properties>
 		</profile>
 		<profile>
-			<id>container-installation-windows</id>
+			<id>container-installation-windows-jboss-ci</id>
 			<activation>
-				<os>
-					<family>windows</family>
-				</os>
+				<property>
+					<name>JBOSSCI_WINDOWS</name>
+				</property>
 			</activation>
 			<properties>
-				<container.installer.url>${container.installer.url.windows}</container.installer.url>
+				<container.version>${jbci.container.version}</container.version>
+				<container.installer.url>${jbci.container.installer.url.windows}</container.installer.url>
+				<container.dir>${jbci.container.dir}</container.dir>
+				<container.dir.deflatted>${jbci.container.dir.deflatted}</container.dir.deflatted>
+				<container.dir.unflatted>${jbci.container.dir.unflatted}</container.dir.unflatted>
+				<container.configuration>${jbci.container.configuration}</container.configuration>
 			</properties>
 		</profile>
 	</profiles>

@@ -326,6 +326,9 @@
 				</property>
 			</activation>
 			<properties>
+				<container.version>6.0.0.M2</container.version>
+				<container.dir.unflatted>jboss-6.0.0.20100216-M2</container.dir.unflatted>
+				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.version}/jboss-${container.version}.zip</container.installer.url>
 				<container.dir>jboss-${container.version}</container.dir>
 				<container.configuration>default</container.configuration>
 				<container.configuration.home>${container.home}/server/${container.configuration}</container.configuration.home>
@@ -357,20 +360,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>container-jboss6x-installation</id>
-			<activation>
-				<property>
-					<name>containerId</name>
-					<value>jboss6x</value>
-				</property>
-			</activation>
-			<properties>
-				<container.version>6.0.0.M2</container.version>
-				<container.dir.unflatted>jboss-6.0.0.20100216-M2</container.dir.unflatted>
-				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.version}/jboss-${container.version}.zip</container.installer.url>
-			</properties>
 		</profile>
 		
 		<!-- Container: JBoss AS 5.x -->
@@ -383,6 +372,8 @@
 				</property>
 			</activation>
 			<properties>
+				<container.version>5.1.0.GA</container.version>
+				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.version}/jboss-${container.version}.zip</container.installer.url>
 				<container.dir>jboss-${container.version}</container.dir>
 				<container.configuration>default</container.configuration>
 				<container.configuration.home>${container.home}/server/${container.configuration}</container.configuration.home>
@@ -415,19 +406,6 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>container-jboss5x-installation</id>
-			<activation>
-				<property>
-					<name>containerId</name>
-					<value>jboss5x</value>
-				</property>
-			</activation>
-			<properties>
-				<container.version>5.1.0.GA</container.version>
-				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.version}/jboss-${container.version}.zip</container.installer.url>
-			</properties>
-		</profile>
 		
 		<!--  Container: Tomcat 6.X -->
 		<profile>
@@ -439,6 +417,8 @@
 				</property>
 			</activation>
 			<properties>
+				<container.version>6.0.26</container.version>
+				<container.installer.url>http://www.apache.org/dist/tomcat/tomcat-6/v${container.version}/bin/apache-tomcat-${container.version}.zip</container.installer.url>
 				<container.dir>apache-tomcat-${container.version}</container.dir>
 			</properties>
 			<build>
@@ -455,19 +435,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>container-tomcat6x-installation</id>
-			<activation>
-				<property>
-					<name>containerId</name>
-					<value>tomcat6x</value>
-				</property>
-			</activation>
-			<properties>
-				<container.version>6.0.26</container.version>
-				<container.installer.url>http://www.apache.org/dist/tomcat/tomcat-6/v${container.version}/bin/apache-tomcat-${container.version}.zip</container.installer.url>
-			</properties>
 		</profile>
 		
 		<profile>
