@@ -98,6 +98,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>https://svn.jboss.org/repos/qa/richfaces-selenium/tags</tagBase>
+					<branchBase>https://svn.jboss.org/repos/qa/richfaces-selenium/branches</branchBase>
 				</configuration>
 			</plugin>
 		</plugins>
