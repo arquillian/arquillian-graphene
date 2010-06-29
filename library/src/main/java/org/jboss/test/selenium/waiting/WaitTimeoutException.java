@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package org.jboss.test.selenium.waiting;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;

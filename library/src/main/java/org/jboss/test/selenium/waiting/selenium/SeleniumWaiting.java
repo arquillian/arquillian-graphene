@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package org.jboss.test.selenium.waiting.selenium;
 
 import java.util.Vector;
