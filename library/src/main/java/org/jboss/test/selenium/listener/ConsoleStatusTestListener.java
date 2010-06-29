@@ -76,6 +76,7 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
         final String methodName = getMethodName(result);
         final String status = STATUSES.get(result.getStatus());
 
+        // parameters
         StringBuilder parameters = new StringBuilder("(");
         if (result.getParameters() != null && result.getParameters().length != 0) {
             parameters.append("\"");
@@ -83,9 +84,18 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
             parameters.append("\"");
         }
         parameters.append(")");
+        
+        // invocation count
+        String invocationCount = "";
+        if (result.getMethod().getInvocationCount() > 1) {
+            int count = result.getMethod().getCurrentInvocationCount();
+            count += result.isSuccess() ? 0 : 1;
+            invocationCount = String.format(" [%d]", count);
+        }
 
-        String message = String.format("[%tT] %s: %s%s", new Date(), status.toUpperCase(), methodName, parameters
-            .toString());
+        // result
+        String message = String.format("[%tT] %s: %s%s%s", new Date(), status.toUpperCase(), methodName, parameters
+            .toString(), invocationCount);
         System.out.println(message);
     }
 }
