@@ -33,6 +33,7 @@
 		<selenium.timeout.gui>5000</selenium.timeout.gui>
 		<selenium.timeout.ajax>15000</selenium.timeout.ajax>
 		<selenium.timeout.model>30000</selenium.timeout.model>
+		<cargo.timeout.deploy>120000</cargo.timeout.deploy>
 		<cargo.jvmargs.additional />
 	</properties>
 	
@@ -266,6 +267,7 @@
 							<container>
 								<containerId>${containerId}</containerId>
 								<append>false</append>
+								<timeout>${cargo.timeout.deploy}</timeout>
 								<zipUrlInstaller>
 									<url>${container.installer.url}</url>
 									<installDir>${project.build.directory}/installs</installDir>
