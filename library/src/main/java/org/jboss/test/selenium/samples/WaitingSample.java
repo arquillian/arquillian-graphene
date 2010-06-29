@@ -29,8 +29,6 @@ import org.jboss.test.selenium.locator.JQueryLocator;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
 
-import static org.jboss.test.selenium.waiting.Wait.*;
-
 /**
  * Sample of usage Wait object to implement waiting to satisfy condition.
  * 

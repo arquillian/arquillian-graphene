@@ -22,9 +22,10 @@
 package org.jboss.test.selenium.encapsulated;
 
 /**
+ * TODO not implemented yet
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public class Frame {
-    // TODO
 }
