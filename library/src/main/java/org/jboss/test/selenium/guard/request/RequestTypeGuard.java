@@ -22,6 +22,8 @@
 package org.jboss.test.selenium.guard.request;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.interception.CommandContext;
 import org.jboss.test.selenium.interception.CommandInterceptionException;
 import org.jboss.test.selenium.interception.CommandInterceptor;
@@ -30,7 +32,6 @@ import org.jboss.test.selenium.waiting.Wait;
 import com.thoughtworks.selenium.SeleniumException;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS;
 import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
@@ -47,7 +48,12 @@ public class RequestTypeGuard implements CommandInterceptor {
     private final JavaScript waitRequestChange =
         js("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE' && "
             + "selenium.browserbot.getCurrentWindow().document.body");
-
+    
+    /**
+     * Proxy to local selenium instance
+     */
+    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
     /**
      * The request what is expected to be done
      */
@@ -84,8 +90,8 @@ public class RequestTypeGuard implements CommandInterceptor {
      * request type to NONE state.
      */
     public void doBeforeCommand() {
-        getCurrentSelenium().getPageExtensions().install();
-        getCurrentSelenium().getEval(clearRequestDone);
+        selenium.getPageExtensions().install();
+        selenium.getEval(clearRequestDone);
     }
 
     /**
@@ -103,7 +109,7 @@ public class RequestTypeGuard implements CommandInterceptor {
     public void doAfterCommand() {
         try {
             // FIXME replace with Wait implementation
-            getCurrentSelenium().waitForCondition(waitRequestChange, Wait.DEFAULT_TIMEOUT);
+            selenium.waitForCondition(waitRequestChange, Wait.DEFAULT_TIMEOUT);
         } catch (SeleniumException e) {
             // ignore the timeout exception
         }
@@ -122,7 +128,7 @@ public class RequestTypeGuard implements CommandInterceptor {
      *             when the unknown type was obtained
      */
     private RequestType getRequestDone() {
-        String requestDone = getCurrentSelenium().getEval(getRequestDone);
+        String requestDone = selenium.getEval(getRequestDone);
         try {
             return RequestType.valueOf(requestDone);
         } catch (IllegalArgumentException e) {

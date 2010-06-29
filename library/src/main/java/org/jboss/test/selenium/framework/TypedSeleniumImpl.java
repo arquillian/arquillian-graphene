@@ -41,6 +41,7 @@ import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
 import org.jboss.test.selenium.encapsulated.Window;
 import org.jboss.test.selenium.encapsulated.WindowId;
 import org.jboss.test.selenium.encapsulated.XpathLibrary;
+import org.jboss.test.selenium.framework.internal.UnsupportedTypedSelenium;
 import org.jboss.test.selenium.geometry.Dimension;
 import org.jboss.test.selenium.geometry.Offset;
 import org.jboss.test.selenium.geometry.Point;
@@ -64,7 +65,7 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class DefaultTypedSelenium implements TypedSelenium {
+public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSelenium {
 
     Selenium selenium;
 
@@ -455,7 +456,7 @@ public class DefaultTypedSelenium implements TypedSelenium {
     }
 
     public boolean isPromptPresent() {
-        return isPromptPresent();
+        return selenium.isPromptPresent();
     }
 
     public boolean isSomethingSelected(ElementLocator selectLocator) {

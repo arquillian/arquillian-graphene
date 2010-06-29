@@ -1,10 +1,11 @@
 package org.jboss.test.selenium.waiting.ajax;
 
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.waiting.DefaultWaiting;
 
 /**
@@ -23,13 +24,18 @@ import org.jboss.test.selenium.waiting.DefaultWaiting;
 public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
 
     /**
+     * Proxy to local selenium instance
+     */
+    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
+    /**
      * Stars loop waiting to satisfy condition.
      * 
      * @param condition
      *            what wait for to be satisfied
      */
     public void until(JavaScriptCondition condition) {
-        getCurrentSelenium().waitForCondition(condition.getJavaScriptCondition(), this.getTimeout());
+        selenium.waitForCondition(condition.getJavaScriptCondition(), this.getTimeout());
     }
 
     /**
@@ -44,7 +50,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      */
     public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve) {
         JavaScript waitCondition = js(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve().getAsString(), oldValue));
-        getCurrentSelenium().waitForCondition(waitCondition, this.getTimeout());
+        selenium.waitForCondition(waitCondition, this.getTimeout());
     }
 
     /**
@@ -63,7 +69,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
         JavaScript waitingRetriever =
             js(format("selenium.waitForCondition({0} != '{1}'); {0}", retrieve.getJavaScriptRetrieve().getAsString(),
                 oldValueString));
-        String retrieved = getCurrentSelenium().getEval(waitingRetriever);
+        String retrieved = selenium.getEval(waitingRetriever);
         return retrieve.getConvertor().backwardConversion(retrieved);
     }
 }

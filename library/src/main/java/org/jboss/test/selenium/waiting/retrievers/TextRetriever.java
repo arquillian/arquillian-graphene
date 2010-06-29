@@ -23,6 +23,8 @@ package org.jboss.test.selenium.waiting.retrievers;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
@@ -30,7 +32,6 @@ import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
 import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
@@ -41,8 +42,13 @@ import static org.jboss.test.selenium.encapsulated.JavaScript.js;
  */
 public class TextRetriever implements SeleniumRetriever<String>, JavaScriptRetriever<String> {
 
+    /**
+     * Proxy to local selenium instance
+     */
+    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
     /** The element locator. */
-    ElementLocator elementLocator;
+    private ElementLocator elementLocator;
 
     /**
      * Instantiates a new text retriever.
@@ -56,7 +62,7 @@ public class TextRetriever implements SeleniumRetriever<String>, JavaScriptRetri
     public String retrieve() {
         Validate.notNull(elementLocator);
 
-        return getCurrentSelenium().getText(elementLocator);
+        return selenium.getText(elementLocator);
     }
 
     /**

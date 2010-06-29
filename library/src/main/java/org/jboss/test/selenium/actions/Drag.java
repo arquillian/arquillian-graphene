@@ -25,11 +25,11 @@ import java.util.Iterator;
 
 import org.apache.commons.lang.enums.EnumUtils;
 import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.waiting.selenium.SeleniumWaiting;
 
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import static org.jboss.test.selenium.waiting.Wait.waitSelenium;
 
 /**
@@ -61,8 +61,13 @@ public class Drag {
     /** The Constant FIRST_STEP. */
     private static final int FIRST_STEP = 2;
 
+    /**
+     * Proxy to local selenium instance
+     */
+    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+
     /** The point. */
-    Point point;
+    private Point point;
 
     // specifies phase in which is dragging state
     /** The current phase. */
@@ -97,7 +102,6 @@ public class Drag {
         this.currentPhase = Phase.START;
         this.itemToDrag = itemToDrag;
         this.dropTarget = dropTarget;
-        AjaxSelenium selenium = getCurrentSelenium();
         x = selenium.getElementPositionLeft(dropTarget) - selenium.getElementPositionLeft(itemToDrag);
         y = selenium.getElementPositionTop(dropTarget) - selenium.getElementPositionTop(itemToDrag);
     }
@@ -180,7 +184,6 @@ public class Drag {
      *            the phase what should be executed
      */
     private void executePhase(Phase phase) {
-        AjaxSelenium selenium = getCurrentSelenium();
         switch (phase) {
             case START:
                 selenium.mouseDown(itemToDrag);

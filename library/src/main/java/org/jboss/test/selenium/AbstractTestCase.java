@@ -34,6 +34,7 @@ import org.jboss.test.selenium.browser.BrowserMode;
 import org.jboss.test.selenium.browser.BrowserType;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumImpl;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
@@ -135,7 +136,7 @@ public abstract class AbstractTestCase {
      */
     @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"}, alwaysRun = true)
     public void initializeBrowser() {
-        selenium = new AjaxSelenium(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
+        selenium = new AjaxSeleniumImpl(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
         selenium.start();
         loadCustomLocationStrategies();
 

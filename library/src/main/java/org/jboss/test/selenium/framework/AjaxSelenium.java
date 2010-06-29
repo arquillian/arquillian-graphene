@@ -21,19 +21,13 @@
  */
 package org.jboss.test.selenium.framework;
 
-import java.net.URL;
-
-import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.framework.internal.PageExtensions;
 import org.jboss.test.selenium.framework.internal.SeleniumExtensions;
 import org.jboss.test.selenium.interception.InterceptionProxy;
 
-import com.thoughtworks.selenium.CommandProcessor;
-import com.thoughtworks.selenium.HttpCommandProcessor;
-
 /**
  * <p>
- * Implementation of {@link TypedSelenium} extended by methods in {@link ExtendedTypedSelenium}.
+ * Implementation of {@link TypedSelenium} extended by methods in {@link ExtendedTypedSeleniumImpl}.
  * </p>
  * 
  * <p>
@@ -43,76 +37,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AjaxSelenium extends ExtendedTypedSelenium {
-
-    /** The reference. */
-    private static final ThreadLocal<AjaxSelenium> REFERENCE = new ThreadLocal<AjaxSelenium>();
-
-    /** The JavaScript Extensions to tested page */
-    PageExtensions pageExtensions;
-
-    /** The JavaScript Extension to Selenium */
-    SeleniumExtensions seleniumExtensions;
-
-    /**
-     * The command interception proxy
-     */
-    InterceptionProxy interceptionProxy;
-
-    /**
-     * Instantiates a new ajax selenium.
-     */
-    private AjaxSelenium() {
-    }
-
-    /**
-     * Instantiates a new ajax selenium.
-     * 
-     * @param serverHost
-     *            the server host
-     * @param serverPort
-     *            the server port
-     * @param browser
-     *            the browser
-     * @param contextPathURL
-     *            the context path url
-     */
-    public AjaxSelenium(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-        CommandProcessor commandProcessor =
-            new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
-        interceptionProxy = new InterceptionProxy(commandProcessor);
-        selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
-        pageExtensions = new PageExtensions(this);
-        seleniumExtensions = new SeleniumExtensions(this);
-        setCurrentSelenium(this);
-    }
-
-    /**
-     * <p>
-     * Sets the current context.
-     * </p>
-     * 
-     * <p>
-     * <b>FIXME</b> not safe for multi-instance environment
-     * </p>
-     * 
-     * @param selenium
-     *            the new current context
-     */
-    public static void setCurrentSelenium(AjaxSelenium selenium) {
-        REFERENCE.set(selenium);
-    }
-
-    /**
-     * Gets the current context from Contextual objects.
-     * 
-     * @param inContext
-     *            the in context
-     * @return the current context
-     */
-    public static AjaxSelenium getCurrentSelenium() {
-        return REFERENCE.get();
-    }
+public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
 
     /**
      * <p>
@@ -125,9 +50,7 @@ public class AjaxSelenium extends ExtendedTypedSelenium {
      * 
      * @return the PageExtensions associated with this AjaxSelenium object.
      */
-    public PageExtensions getPageExtensions() {
-        return pageExtensions;
-    }
+    PageExtensions getPageExtensions();
 
     /**
      * <p>
@@ -140,30 +63,19 @@ public class AjaxSelenium extends ExtendedTypedSelenium {
      * 
      * @return the SeleniumExtensions associated with this AjaxSelenium object.
      */
-    public SeleniumExtensions getSeleniumExtensions() {
-        return seleniumExtensions;
-    }
+    SeleniumExtensions getSeleniumExtensions();
 
     /**
      * Returns associated command interception proxy
      * 
      * @return associated command interception proxy
      */
-    public InterceptionProxy getInterceptionProxy() {
-        return interceptionProxy;
-    }
+    InterceptionProxy getInterceptionProxy();
 
     /**
-     * Immutable copy for copying this object.
+     * Immutable clone of this object.
      * 
-     * @return the AjaxSelenium copy
+     * @return immutable clone of this object
      */
-    public AjaxSelenium immutableCopy() {
-        AjaxSelenium copy = new AjaxSelenium();
-        copy.pageExtensions = new PageExtensions(copy);
-        copy.seleniumExtensions = new SeleniumExtensions(copy);
-        copy.interceptionProxy = this.interceptionProxy.immutableCopy();
-        copy.selenium = new ExtendedSelenium(copy.interceptionProxy.getCommandProcessorProxy());
-        return copy;
-    }
+    AjaxSelenium clone() throws CloneNotSupportedException;
 }

@@ -25,25 +25,16 @@ import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.locator.IterableLocator;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.locator.LocatorUtils;
 
 /**
- * Type-safe selenium wrapper for Selenium API with extension of some useful commands defined in
- * {@link ExtendedSelenium}
+ * <p>
+ * Extends the common Selenium API by other useful functions wrapped from {@link ExtendedSelenium}.
+ * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class ExtendedTypedSelenium extends DefaultTypedSelenium {
-
-    ExtendedSelenium getExtendedSelenium() {
-        if (selenium instanceof ExtendedSelenium) {
-            return (ExtendedSelenium) selenium;
-        } else {
-            throw new UnsupportedOperationException("Assigned Selenium isn't instance of ExtendedSelenium");
-        }
-    }
+public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Get current style value of element given by locator.
@@ -62,9 +53,7 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      * @throws IllegalStateException
      *             if is caught unrecognized throwable
      */
-    public String getStyle(ElementLocator elementLocator, String property) {
-        return getExtendedSelenium().getStyle(elementLocator.getAsString(), property);
-    }
+    String getStyle(ElementLocator elementLocator, String property);
 
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
@@ -74,9 +63,7 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      * @param alignToTop
      *            should be top border of screen aligned to top border of element
      */
-    public void scrollIntoView(ElementLocator elementLocator, boolean alignToTop) {
-        getExtendedSelenium().scrollIntoView(elementLocator.getAsString(), String.valueOf(alignToTop));
-    }
+    void scrollIntoView(ElementLocator elementLocator, boolean alignToTop);
 
     /**
      * Simulates a user hovering a mouse over the specified element at specific coordinates relative to element.
@@ -87,9 +74,7 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
      *            locator.
      */
-    public void mouseOverAt(ElementLocator elementLocator, Point point) {
-        getExtendedSelenium().mouseOverAt(elementLocator.getAsString(), point.getCoords());
-    }
+    void mouseOverAt(ElementLocator elementLocator, Point point);
 
     /**
      * Returns whether the element is displayed on the page.
@@ -98,9 +83,7 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      *            element locator
      * @return if style contains "display: none;" returns false, else returns true
      */
-    public boolean isDisplayed(ElementLocator elementLocator) {
-        return getExtendedSelenium().isDisplayed(elementLocator.getAsString());
-    }
+    boolean isDisplayed(ElementLocator elementLocator);
 
     /**
      * Checks if element given by locator is member of CSS class given by className.
@@ -111,9 +94,7 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      *            element's locator
      * @return true if element given by locator is member of CSS class given by className
      */
-    public boolean belongsClass(ElementLocator elementLocator, String className) {
-        return getExtendedSelenium().belongsClass(elementLocator.getAsString(), className);
-    }
+    boolean belongsClass(ElementLocator elementLocator, String className);
 
     /**
      * Verifies that the specified attribute is defined for the element.
@@ -124,11 +105,7 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      * @throws SeleniumException
      *             when element isn't present
      */
-    public boolean isAttributePresent(AttributeLocator attributeLocator) {
-        final String elementLocator = attributeLocator.getAssociatedElement().getAsString();
-        final String attributeName = attributeLocator.getAttribute().getAttributeName();
-        return getExtendedSelenium().isAttributePresent(elementLocator, attributeName);
-    }
+    boolean isAttributePresent(AttributeLocator attributeLocator);
 
     /*
      * (non-Javadoc)
@@ -136,17 +113,5 @@ public class ExtendedTypedSelenium extends DefaultTypedSelenium {
      * @see
      * org.jboss.test.selenium.framework.DefaultTypedSelenium#getCount(org.jboss.test.selenium.locator.IterableLocator)
      */
-    @Override
-    public int getCount(IterableLocator<?> locator) {
-        Object reference = (Object) locator;
-        if (reference instanceof JQueryLocator) {
-            return getExtendedSelenium().getJQueryCount(LocatorUtils.getRawLocator((JQueryLocator) reference))
-                .intValue();
-        }
-        try {
-            return super.getCount(locator);
-        } catch (UnsupportedOperationException e) {
-            throw new UnsupportedOperationException("Only JQuery and XPath locators are supported for counting");
-        }
-    }
+    int getCount(IterableLocator<?> locator);
 }

@@ -21,10 +21,11 @@
  */
 package org.jboss.test.selenium.locator.iteration;
 
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.locator.IterableLocator;
 
 /**
@@ -45,6 +46,11 @@ import org.jboss.test.selenium.locator.IterableLocator;
  */
 public abstract class AbstractElementList<T extends IterableLocator<T>> implements Iterable<T> {
 
+    /**
+     * Proxy to local selenium instance
+     */
+    protected AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
     /** The iterable locator. */
     T iterableLocator;
 
@@ -97,7 +103,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
          * Recounts the actual count of elements by given elementLocator.
          */
         private void recount() {
-            count = getCurrentSelenium().getCount(iterableLocator);
+            count = selenium.getCount(iterableLocator);
         }
 
         /*

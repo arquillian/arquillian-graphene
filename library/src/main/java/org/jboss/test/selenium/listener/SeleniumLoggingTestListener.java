@@ -23,12 +23,13 @@ package org.jboss.test.selenium.listener;
 
 import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
 import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
-import static org.jboss.test.selenium.framework.AjaxSelenium.getCurrentSelenium;
 import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 import org.apache.commons.lang.StringUtils;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
+import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
@@ -44,6 +45,11 @@ import org.testng.TestListenerAdapter;
  */
 public class SeleniumLoggingTestListener extends TestListenerAdapter {
 
+    /**
+     * Proxy to local selenium instance
+     */
+    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
     @Override
     public void onTestStart(ITestResult result) {
         logStatus(result);
@@ -84,11 +90,11 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
         String message = String.format("%s %s: %s %s", hashes, status.toUpperCase(), methodName, hashes);
         String line = StringUtils.repeat("#", message.length());
 
-        if (getCurrentSelenium() != null) {
+        if (selenium != null) {
             JavaScript eval = js(String.format("/*\n%s\n%s\n%s\n*/", line, message, line));
             try {
-                getCurrentSelenium().selectFrame(new FrameLocator("relative=top"));
-                getCurrentSelenium().getEval(eval);
+                selenium.selectFrame(new FrameLocator("relative=top"));
+                selenium.getEval(eval);
             } catch (Exception e) {
                 e.printStackTrace();
             }
