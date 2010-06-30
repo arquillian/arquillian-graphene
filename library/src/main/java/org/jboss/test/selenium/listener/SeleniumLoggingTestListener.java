@@ -21,15 +21,10 @@
  *******************************************************************************/
 package org.jboss.test.selenium.listener;
 
-import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
-import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
-import static org.jboss.test.selenium.encapsulated.JavaScript.js;
-
 import org.apache.commons.lang.StringUtils;
-import org.jboss.test.selenium.encapsulated.FrameLocator;
-import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
+import org.jboss.test.selenium.utils.testng.TestLoggingUtils;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
@@ -49,30 +44,30 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
-    
+
     @Override
     public void onTestStart(ITestResult result) {
-        logStatus(result);
+        logStatus(result, true);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     /**
@@ -82,22 +77,16 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
      * @param result
      *            from the fine-grained listener's method such as onTestFailure(ITestResult)
      */
-    private void logStatus(ITestResult result) {
+    private void logStatus(ITestResult result, boolean isTestStart) {
         final String hashes = "##########";
-        final String methodName = getMethodName(result);
-        final String status = STATUSES.get(result.getStatus());
+        final String testDescription = TestLoggingUtils.getTestDescription(result, isTestStart);
 
-        String message = String.format("%s %s: %s %s", hashes, status.toUpperCase(), methodName, hashes);
+        String message = String.format("%s %s %s", hashes, testDescription, hashes);
         String line = StringUtils.repeat("#", message.length());
 
         if (selenium != null) {
-            JavaScript eval = js(String.format("/*\n%s\n%s\n%s\n*/", line, message, line));
-            try {
-                selenium.selectFrame(new FrameLocator("relative=top"));
-                selenium.getEval(eval);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String output = String.format("\n%s\n%s\n%s\n", line, message, line);
+            selenium.logToBrowser(output);
         }
     }
 }

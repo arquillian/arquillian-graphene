@@ -21,11 +21,7 @@
  *******************************************************************************/
 package org.jboss.test.selenium.listener;
 
-import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
-import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
-
-import java.util.Date;
-
+import org.jboss.test.selenium.utils.testng.TestLoggingUtils;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
@@ -47,25 +43,21 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
     @Override
     public void onTestFailure(ITestResult result) {
         logStatus(result, false);
-        System.out.println();
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         logStatus(result, false);
-        System.out.println();
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         logStatus(result, false);
-        System.out.println();
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         logStatus(result, false);
-        System.out.println();
     }
 
     /**
@@ -73,35 +65,12 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
      * 
      * @param result
      *            from the fine-grained listener's method such as onTestFailure(ITestResult)
-     * @param ctx
-     *            test context
      */
     private void logStatus(ITestResult result, boolean isTestStart) {
-        final String methodName = getMethodName(result);
-        final String status = STATUSES.get(result.getStatus());
-
-        // parameters
-        StringBuilder parameters = new StringBuilder("(");
-        if (result.getParameters() != null && result.getParameters().length != 0) {
-            for (int i = 0; i < result.getParameters().length; i++) {
-                parameters.append("\"");
-                parameters.append(result.getParameters()[i]);
-                parameters.append(i == result.getParameters().length - 1 ? "\"" : "\", ");
-            }
-        }
-        parameters.append(")");
-        
-        // invocation count
-        String invocationCount = "";
-        if (result.getMethod().getInvocationCount() > 1) {
-            int count = result.getMethod().getCurrentInvocationCount();
-            count += isTestStart ? 1 : 0;
-            invocationCount = String.format(" [%d]", count);
-        }
-
-        // result
-        String message = String.format("[%tT] %s: %s%s%s", new Date(), status.toUpperCase(), methodName, parameters
-            .toString(), invocationCount);
+        String message = TestLoggingUtils.getTestDescription(result, isTestStart);
         System.out.println(message);
+        if (!isTestStart) {
+            System.out.println();
+        }
     }
 }

@@ -94,7 +94,7 @@ public final class SystemProperties {
      * @return the port for Selenium Server
      */
     public static int getSeleniumPort() {
-        return asInt(getProperty("selenium.port"));
+        return asInteger(getProperty("selenium.port"));
     }
 
     /**

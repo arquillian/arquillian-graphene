@@ -46,7 +46,7 @@
 							<properties>
 								<property>
 									<name>listener</name>
-									<value>org.jboss.test.selenium.listener.ConsoleStatusTestListener,org.jboss.test.selenium.listener.TestMethodSelector</value>
+									<value>org.jboss.test.selenium.listener.ConsoleStatusTestListener,org.jboss.test.selenium.listener.SeleniumLoggingTestListener,org.jboss.test.selenium.listener.TestMethodSelector</value>
 								</property>
 							</properties>
 						</configuration>
