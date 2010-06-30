@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.jboss.test.richfaces-selenium</groupId>
 		<artifactId>root</artifactId>
-		<version>1.5.1-SNAPSHOT</version>
+		<version>1.5.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.test</groupId>
 	<artifactId>richfaces-selenium</artifactId>
