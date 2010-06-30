@@ -47,21 +47,25 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
     @Override
     public void onTestFailure(ITestResult result) {
         logStatus(result, false);
+        System.out.println();
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
         logStatus(result, false);
+        System.out.println();
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         logStatus(result, false);
+        System.out.println();
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         logStatus(result, false);
+        System.out.println();
     }
 
     /**
