@@ -28,11 +28,11 @@ import java.lang.reflect.Proxy;
 
 /**
  * <p>
- * Proxy to implementation of AjaxSelenium.
+ * Proxy for retrieving thread local context of AjaxSelenium.
  * </p>
  * 
  * <p>
- * Obtains AjaxSelenium from thread local context.
+ * All methods on returned proxy will be invoked on AjaxSelenium instance associated with current thread.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -40,22 +40,54 @@ import java.lang.reflect.Proxy;
  */
 public final class AjaxSeleniumProxy implements InvocationHandler {
 
+    /**
+     * The thread local context of AjaxSelenium
+     */
+    private static final ThreadLocal<AjaxSelenium> REFERENCE = new ThreadLocal<AjaxSelenium>();
+
     private AjaxSeleniumProxy() {
     }
 
+    /**
+     * Sets the AjaxSelenium context for current thread
+     * 
+     * @param selenium
+     *            the AjaxSelenium instance
+     */
+    public static void setCurrentContext(AjaxSelenium selenium) {
+        REFERENCE.set(selenium);
+    }
+
+    /**
+     * Returns the context of AjaxSelenium for current thread
+     * 
+     * @return the context of AjaxSelenium for current thread
+     */
+    private static AjaxSelenium getCurrentContext() {
+        return REFERENCE.get();
+    }
+
+    /**
+     * Returns the instance of proxy to thread local context of AjaxSelenium
+     * 
+     * @return the instance of proxy to thread local context of AjaxSelenium
+     */
     public static AjaxSelenium getInstance() {
-        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSeleniumImpl.class.getClassLoader(), AjaxSeleniumImpl.class
+        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(), AjaxSelenium.class
             .getInterfaces(), new AjaxSeleniumProxy());
     }
 
+    /**
+     * End point for handling invocations on proxy
+     */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         try {
-            result = method.invoke(AjaxSeleniumImpl.getCurrentSelenium(), args);
+            result = method.invoke(getCurrentContext(), args);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         } catch (Exception e) {
-            throw new RuntimeException("unexpected invocation exception: " + e.getMessage());
+            throw new RuntimeException("unexpected invocation exception: " + e.getMessage(), e);
         }
         return result;
     }

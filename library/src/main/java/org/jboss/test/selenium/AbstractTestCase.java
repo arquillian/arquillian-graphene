@@ -35,6 +35,7 @@ import org.jboss.test.selenium.browser.BrowserType;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumImpl;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
@@ -137,6 +138,7 @@ public abstract class AbstractTestCase {
     @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"}, alwaysRun = true)
     public void initializeBrowser() {
         selenium = new AjaxSeleniumImpl(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
+        AjaxSeleniumProxy.setCurrentContext(selenium);
         selenium.start();
         loadCustomLocationStrategies();
 
@@ -202,8 +204,7 @@ public abstract class AbstractTestCase {
     @AfterClass(alwaysRun = true)
     public void finalizeBrowser() {
         if (selenium != null) {
-            // for browser session reuse needs to be not closed (it will be handled by selenium.stop() automatically)
-            // selenium.close();
+            AjaxSeleniumProxy.setCurrentContext(null);
             selenium.stop();
             selenium = null;
         }

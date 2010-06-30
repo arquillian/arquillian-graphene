@@ -45,9 +45,6 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  */
 public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxSelenium {
 
-    /** The reference. */
-    private static final ThreadLocal<AjaxSeleniumImpl> REFERENCE = new ThreadLocal<AjaxSeleniumImpl>();
-
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;
 
@@ -84,34 +81,6 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensions(this);
         seleniumExtensions = new SeleniumExtensions(this);
-        setCurrentSelenium(this);
-    }
-
-    /**
-     * <p>
-     * Sets the current context.
-     * </p>
-     * 
-     * <p>
-     * <b>FIXME</b> not safe for multi-instance environment
-     * </p>
-     * 
-     * @param selenium
-     *            the new current context
-     */
-    public static void setCurrentSelenium(AjaxSeleniumImpl selenium) {
-        REFERENCE.set(selenium);
-    }
-
-    /**
-     * Gets the current context from Contextual objects.
-     * 
-     * @param inContext
-     *            the in context
-     * @return the current context
-     */
-    static AjaxSeleniumImpl getCurrentSelenium() {
-        return REFERENCE.get();
     }
 
     /*
@@ -143,6 +112,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
+     * 
      * @see java.lang.Object#clone()
      */
     @Override
