@@ -97,6 +97,7 @@
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
+					<arguments>-Dselenium.test.skip=true -Dselenium.server.skip=true</arguments>
 					<tagBase>https://svn.jboss.org/repos/qa/richfaces-selenium/tags</tagBase>
 					<branchBase>https://svn.jboss.org/repos/qa/richfaces-selenium/branches</branchBase>
 				</configuration>
