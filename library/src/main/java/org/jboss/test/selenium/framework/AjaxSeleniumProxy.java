@@ -73,8 +73,8 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      * @return the instance of proxy to thread local context of AjaxSelenium
      */
     public static AjaxSelenium getInstance() {
-        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(), AjaxSelenium.class
-            .getInterfaces(), new AjaxSeleniumProxy());
+        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(),
+            new Class[]{AjaxSelenium.class}, new AjaxSeleniumProxy());
     }
 
     /**
