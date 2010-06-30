@@ -39,8 +39,8 @@ public final class PrimitiveUtils {
      *            to convert
      * @return the boolean value of string
      */
-    public static boolean asBoolean(String string) {
-        return Boolean.valueOf(string);
+    public static Boolean asBoolean(String string) {
+        return (string == null) ? null : Boolean.valueOf(string);
     }
 
     /**
@@ -50,8 +50,8 @@ public final class PrimitiveUtils {
      *            to convert
      * @return the long value of string
      */
-    public static long asLong(String string) {
-        return Long.valueOf(string);
+    public static Long asLong(String string) {
+        return (string == null) ? null : Long.valueOf(string);
     }
 
     /**
@@ -61,8 +61,8 @@ public final class PrimitiveUtils {
      *            to convert
      * @return the integer value of string
      */
-    public static int asInt(String string) {
-        return Integer.valueOf(string);
+    public static Integer asInteger(String string) {
+        return (string == null) ? null : Integer.valueOf(string);
     }
 
     /**
@@ -72,8 +72,8 @@ public final class PrimitiveUtils {
      *            to convert
      * @return the double value of string
      */
-    public static double asDouble(String string) {
-        return Double.valueOf(string);
+    public static Double asDouble(String string) {
+        return (string == null) ? null : Double.valueOf(string);
     }
 
     /**
@@ -83,7 +83,7 @@ public final class PrimitiveUtils {
      *            to convert
      * @return the float value of string
      */
-    public static float asFloat(String string) {
-        return Float.valueOf(string);
+    public static Float asFloat(String string) {
+        return (string == null) ? null : Float.valueOf(string);
     }
 }
