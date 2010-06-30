@@ -41,27 +41,27 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
 
     @Override
     public void onTestStart(ITestResult result) {
-        logStatus(result);
+        logStatus(result, true);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        logStatus(result);
+        logStatus(result, false);
     }
 
     /**
@@ -72,7 +72,7 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
      * @param ctx
      *            test context
      */
-    private void logStatus(ITestResult result) {
+    private void logStatus(ITestResult result, boolean isTestStart) {
         final String methodName = getMethodName(result);
         final String status = STATUSES.get(result.getStatus());
 
@@ -89,7 +89,7 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
         String invocationCount = "";
         if (result.getMethod().getInvocationCount() > 1) {
             int count = result.getMethod().getCurrentInvocationCount();
-            count += result.isSuccess() ? 0 : 1;
+            count += isTestStart ? 1 : 0;
             invocationCount = String.format(" [%d]", count);
         }
 
