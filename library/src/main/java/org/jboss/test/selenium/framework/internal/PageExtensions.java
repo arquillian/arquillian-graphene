@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.waiting.Wait;
 
 import static org.jboss.test.selenium.encapsulated.JavaScript.*;
@@ -50,16 +51,12 @@ public class PageExtensions {
     final JavaScript isRFSUndefined = js("getRFS() === undefined");
 
     /** The associated selenium object. */
-    AjaxSelenium selenium;
+    AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
 
     /**
-     * Instantiates a new page extensions and associate it with given selenium object.
-     * 
-     * @param selenium
-     *            the selenium object what we want to associate extension to
+     * Instantiates a new page extensions.
      */
-    public PageExtensions(AjaxSelenium selenium) {
-        this.selenium = selenium;
+    public PageExtensions() {
     }
 
     /**

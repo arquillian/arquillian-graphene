@@ -26,6 +26,7 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
+import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 
 import static org.jboss.test.selenium.encapsulated.JavaScript.*;
 
@@ -40,7 +41,7 @@ public class SeleniumExtensions {
     /**
      * The associated AjaxSelenium object
      */
-    AjaxSelenium selenium;
+    AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
 
     /*
      * JavaScript definitions for this object
@@ -52,13 +53,10 @@ public class SeleniumExtensions {
     final JavaScript removeScript = js("selenium.doRemoveScript('{0}')");
 
     /**
-     * Construct the {@link SeleniumExtensions} object with associated selenium object.
+     * Construct the {@link SeleniumExtensions} object.
      * 
-     * @param selenium
-     *            the associated selenium object
      */
-    public SeleniumExtensions(AjaxSelenium selenium) {
-        this.selenium = selenium;
+    public SeleniumExtensions() {
     }
 
     /**

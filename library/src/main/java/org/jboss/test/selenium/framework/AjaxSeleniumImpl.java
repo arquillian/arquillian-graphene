@@ -79,8 +79,8 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
             new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
         interceptionProxy = new InterceptionProxy(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
-        pageExtensions = new PageExtensions(this);
-        seleniumExtensions = new SeleniumExtensions(this);
+        pageExtensions = new PageExtensions();
+        seleniumExtensions = new SeleniumExtensions();
     }
 
     /*
@@ -118,8 +118,8 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     @Override
     public AjaxSelenium clone() throws CloneNotSupportedException {
         AjaxSeleniumImpl copy = new AjaxSeleniumImpl();
-        copy.pageExtensions = new PageExtensions(copy);
-        copy.seleniumExtensions = new SeleniumExtensions(copy);
+        copy.pageExtensions = new PageExtensions();
+        copy.seleniumExtensions = new SeleniumExtensions();
         copy.interceptionProxy = this.interceptionProxy.immutableCopy();
         copy.selenium = new ExtendedSelenium(copy.interceptionProxy.getCommandProcessorProxy());
         return copy;
