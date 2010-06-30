@@ -35,6 +35,7 @@
 		<selenium.timeout.model>30000</selenium.timeout.model>
 		<cargo.timeout.deploy>120000</cargo.timeout.deploy>
 		<cargo.jvmargs.additional />
+		<browserSessionReuse>true</browserSessionReuse>
 	</properties>
 	
 	<modules>
@@ -192,7 +193,6 @@
 									<browserSideLog>${selenium.debug}</browserSideLog>
 									<debug>${selenium.debug}</debug>
 									<skip>${selenium.server.skip}</skip>
-									<browserSessionReuse>true</browserSessionReuse>
 								</configuration>
 							</execution>
 							<execution>
