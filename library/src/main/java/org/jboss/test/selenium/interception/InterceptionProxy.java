@@ -24,6 +24,8 @@ package org.jboss.test.selenium.interception;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -43,7 +45,23 @@ import com.thoughtworks.selenium.CommandProcessor;
  */
 public final class InterceptionProxy implements java.lang.reflect.InvocationHandler {
 
-    CommandProcessor commandProcessor;
+    /**
+     * The list of intercepted method names
+     */
+    @SuppressWarnings("serial")
+    private Set<String> interceptedMethods = Collections.unmodifiableSet(new HashSet<String>() {
+        {
+            add("doCommand");
+            add("getString");
+            add("getBoolean");
+            add("getNumber");
+            add("getStringArray");
+            add("getBooleanArray");
+            add("getNumberArray");
+        }
+    });
+
+    private CommandProcessor commandProcessor;
 
     /**
      * The map of associated interceptors with keys of it's class
@@ -77,22 +95,22 @@ public final class InterceptionProxy implements java.lang.reflect.InvocationHand
      * </p>
      * 
      * <p>
-     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated
-     * interceptors before performing the actual doCommand method.
+     * In case of {@link CommandProcessor#invoke(String, String[])} method, it also executes all associated interceptors
+     * before performing the actual invocation of method.
      * </p>
      */
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         try {
-            if ("doCommand".equals(method.getName())) {
+            if (interceptedMethods.contains(method.getName())) {
                 String commandName = (String) args[0];
                 String[] arguments = (String[]) args[1];
                 CommandContext context =
-                    new CommandContext(commandName, arguments, commandProcessor, interceptors.values());
+                    new CommandContext(commandName, arguments, commandProcessor, method, interceptors.values());
                 try {
-                    result = context.doCommand();
+                    result = context.invoke();
                 } catch (CommandInterceptionException e) {
-                    throw new IllegalStateException("There was at least one interceptor which didn't call doCommand");
+                    throw new IllegalStateException("There was at least one interceptor which didn't call invoke()");
                 } catch (Exception e) {
                     throw new InvocationTargetException(e);
                 }

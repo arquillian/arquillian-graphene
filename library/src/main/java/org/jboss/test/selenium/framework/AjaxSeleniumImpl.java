@@ -27,6 +27,7 @@ import org.jboss.test.selenium.browser.Browser;
 import org.jboss.test.selenium.framework.internal.PageExtensions;
 import org.jboss.test.selenium.framework.internal.SeleniumExtensions;
 import org.jboss.test.selenium.interception.InterceptionProxy;
+import org.jboss.test.selenium.request.RequestInterceptor;
 
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.HttpCommandProcessor;
@@ -50,6 +51,9 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /** The JavaScript Extension to Selenium */
     SeleniumExtensions seleniumExtensions;
+    
+    /** The RequestInterceptor */
+    RequestInterceptor requestInterceptor;
 
     /**
      * The command interception proxy
@@ -81,6 +85,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensions();
         seleniumExtensions = new SeleniumExtensions();
+        requestInterceptor = new RequestInterceptor();
     }
 
     /*
@@ -99,6 +104,15 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      */
     public SeleniumExtensions getSeleniumExtensions() {
         return seleniumExtensions;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.test.selenium.framework.AjaxSelenium#getRequestInterceptor()
+     */
+    @Override
+    public RequestInterceptor getRequestInterceptor() {
+        return requestInterceptor;
     }
 
     /*

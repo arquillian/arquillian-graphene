@@ -21,6 +21,8 @@
  */
 package org.jboss.test.selenium.interception;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -43,8 +45,9 @@ public class CommandContext {
     private String[] args;
 
     private CommandProcessor commandProcessor;
+    private Method method;
     private Iterator<CommandInterceptor> interceptors;
-    private String result;
+    private Object result;
     private int invocations = 0;
 
     /**
@@ -60,9 +63,10 @@ public class CommandContext {
      * @param interceptors
      *            enfolds the execution of command
      */
-    CommandContext(String command, String[] args, CommandProcessor commandProcessor,
+    CommandContext(String command, String[] args, CommandProcessor commandProcessor, Method method,
         Collection<CommandInterceptor> interceptors) {
         this.command = command;
+        this.method = method;
         this.args = args;
         this.commandProcessor = commandProcessor;
         this.interceptors = interceptors.iterator();
@@ -75,16 +79,16 @@ public class CommandContext {
      * 
      * <p>
      * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method
-     * body method {@link CommandContext#doCommand()} at least once. If not, this interceptor will raise
+     * body method {@link CommandContext#invoke()} at least once. If not, this interceptor will raise
      * {@link CommandInterceptionException}.
      * </p>
      * 
      * @return the return value of executing the command on given commandProcessor
      * @throws CommandInterceptionException
-     *             if the subsequent interceptor doesn't call {@link CommandContext#doCommand()} in it's
+     *             if the subsequent interceptor doesn't call {@link CommandContext#invoke()} in it's
      *             {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
-    public String doCommand() throws CommandInterceptionException {
+    public Object invoke() throws CommandInterceptionException {
         invocations += 1;
         final int currentInvocations = invocations;
         if (interceptors.hasNext()) {
@@ -95,7 +99,19 @@ public class CommandContext {
             }
             return result;
         } else {
-            result = commandProcessor.doCommand(command, args);
+            try {
+                result = method.invoke(commandProcessor, new Object[]{command, args});
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException(e.getMessage(), e);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e.getMessage(), e);
+            } catch (InvocationTargetException e) {
+                if (e.getCause() instanceof RuntimeException) {
+                    throw (RuntimeException) e.getCause();
+                } else {
+                    throw new RuntimeException(e.getCause());
+                }
+            }
             return result;
         }
     }

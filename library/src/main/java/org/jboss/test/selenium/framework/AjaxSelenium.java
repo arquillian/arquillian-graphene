@@ -24,6 +24,7 @@ package org.jboss.test.selenium.framework;
 import org.jboss.test.selenium.framework.internal.PageExtensions;
 import org.jboss.test.selenium.framework.internal.SeleniumExtensions;
 import org.jboss.test.selenium.interception.InterceptionProxy;
+import org.jboss.test.selenium.request.RequestInterceptor;
 
 /**
  * <p>
@@ -41,30 +42,41 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
 
     /**
      * <p>
-     * Gets a PageExtensions associated with this AjaxSelenium object.
+     * Gets a PageExtensions object.
      * </p>
      * 
      * <p>
-     * PageExtensions represents the JavaScript extensions on the testes page.
+     * PageExtensions represents the JavaScript extensions on the tested page.
      * </p>
      * 
-     * @return the PageExtensions associated with this AjaxSelenium object.
+     * @return the PageExtensions object
      */
     PageExtensions getPageExtensions();
 
     /**
      * <p>
-     * Gets a SeleniumExtensions associated with this AjaxSelenium object.
+     * Returns a SeleniumExtensions object.
      * </p>
      * 
      * <p>
-     * Selenium extensions can be used in Selenium Test Runner to extend functionality.
+     * SeleniumExtensions can be used in Selenium Test Runner to extend Selenium functionality.
      * </p>
      * 
-     * @return the SeleniumExtensions associated with this AjaxSelenium object.
+     * @return the SeleniumExtensions object
      */
     SeleniumExtensions getSeleniumExtensions();
 
+    /**
+     * <p>
+     * Returns the RequestInterceptor object
+     * </p>
+     * 
+     * <p>
+     * RequestInterceptor 
+     * @return the RequestInterceptor object
+     */
+    RequestInterceptor getRequestInterceptor();
+    
     /**
      * Returns associated command interception proxy
      * 

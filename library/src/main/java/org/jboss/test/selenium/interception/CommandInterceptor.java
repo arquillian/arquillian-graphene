@@ -28,7 +28,7 @@ package org.jboss.test.selenium.interception;
  * 
  * <p>
  * Each implementor must satisfy, that in the {@link #intercept(CommandContext, String)} method body will be called at
- * least once method from current context {@link CommandContext#doCommand()}. This method also returns the return value
+ * least once method from current context {@link CommandContext#invoke()}. This method also returns the return value
  * of executing given command on associated commandProcessor.
  * </p>
  * 
@@ -39,14 +39,14 @@ public interface CommandInterceptor {
 
     /**
      * When processing custom logic must satisfy, that at least once will be called method
-     * {@link CommandContext#doCommand()}. It's entry point for passing the logic to next interceptor until the
+     * {@link CommandContext#invoke()}. It's entry point for passing the logic to next interceptor until the
      * associated interceptors aren't all triggered, then commandProcess will execute given command and it's return
-     * value will bubble back to each interceptor as return value of {@link CommandContext#doCommand()} method.
+     * value will bubble back to each interceptor as return value of {@link CommandContext#invoke()} method.
      * 
      * @param ctx
      *            the current command context
      * @throws CommandInterceptionException
-     *             if the subsequent interceptor doesn't call {@link CommandContext#doCommand()} in it's
+     *             if the subsequent interceptor doesn't call {@link CommandContext#invoke()} in it's
      *             {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
     void intercept(CommandContext ctx) throws CommandInterceptionException;

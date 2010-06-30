@@ -22,7 +22,7 @@
 package org.jboss.test.selenium.interception;
 
 /**
- * Thrown when at least one interceptor didn't call {@link CommandContext#doCommand()} in it's
+ * Thrown when at least one interceptor didn't call {@link CommandContext#invoke()} in it's
  * {@link CommandInterceptor#intercept(CommandContext)} method body
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

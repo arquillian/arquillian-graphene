@@ -67,7 +67,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
         boolean exceptionLogged = false;
         while (System.currentTimeMillis() < end) {
             try {
-                ctx.doCommand();
+                ctx.invoke();
                 return;
             } catch (SeleniumException e) {
                 final String message = StringUtils.defaultString(e.getMessage());

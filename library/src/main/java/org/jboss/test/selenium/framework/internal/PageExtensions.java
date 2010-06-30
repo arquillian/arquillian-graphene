@@ -54,12 +54,6 @@ public class PageExtensions {
     AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
 
     /**
-     * Instantiates a new page extensions.
-     */
-    public PageExtensions() {
-    }
-
-    /**
      * Install.
      */
     public void install() {

@@ -21,19 +21,18 @@
  */
 package org.jboss.test.selenium.guard.request;
 
-import org.jboss.test.selenium.encapsulated.JavaScript;
+import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS;
+
+import org.jboss.test.selenium.SystemProperties;
+import org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.interception.CommandContext;
 import org.jboss.test.selenium.interception.CommandInterceptionException;
 import org.jboss.test.selenium.interception.CommandInterceptor;
-import org.jboss.test.selenium.waiting.Wait;
+import org.jboss.test.selenium.request.RequestType;
 
 import com.thoughtworks.selenium.SeleniumException;
-
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS;
-import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * The Guard which guards that request what was expected to be done will be actually done.
@@ -43,31 +42,33 @@ import static org.jboss.test.selenium.encapsulated.JavaScript.js;
  */
 public class RequestTypeGuard implements CommandInterceptor {
 
-    private final JavaScript clearRequestDone = js("getRFS().clearRequestDone()");
-    private final JavaScript getRequestDone = js("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
-    private final JavaScript waitRequestChange =
-        js("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE' && "
-            + "selenium.browserbot.getCurrentWindow().document.body");
-    
     /**
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
-    
+
     /**
      * The request what is expected to be done
      */
     private RequestType requestExpected;
 
     /**
+     * Denotes that request can be interlayed by any other type of request
+     */
+    private boolean interlayed;
+
+    /**
      * Constructs the guard with predefined expected RequestType
      * 
      * @param requestExpected
      *            the RequestType which is expected to be done
+     * @param interlayed
+     *            indicates whenever the request can be interlayed by another request
      */
-    public RequestTypeGuard(RequestType requestExpected) {
+    public RequestTypeGuard(RequestType requestExpected, boolean interlayed) {
         super();
         this.requestExpected = requestExpected;
+        this.interlayed = interlayed;
     }
 
     /**
@@ -76,11 +77,11 @@ public class RequestTypeGuard implements CommandInterceptor {
     public void intercept(CommandContext ctx) throws CommandInterceptionException {
         final String command = ctx.getCommand();
 
-        if (INTERACTIVE_COMMANDS.contains(command)) {
+        if (INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
             doBeforeCommand();
         }
-        ctx.doCommand();
-        if (INTERACTIVE_COMMANDS.contains(command)) {
+        ctx.invoke();
+        if (INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
             doAfterCommand();
         }
     }
@@ -91,7 +92,7 @@ public class RequestTypeGuard implements CommandInterceptor {
      */
     public void doBeforeCommand() {
         selenium.getPageExtensions().install();
-        selenium.getEval(clearRequestDone);
+        selenium.getRequestInterceptor().clearRequestTypeDone();
     }
 
     /**
@@ -103,37 +104,45 @@ public class RequestTypeGuard implements CommandInterceptor {
      * Then figure out what requestType was actually done and compare to expected one.
      * </p>
      * 
-     * @throws RequestGuardException
+     * @throws RequestTypeGuardException
      *             when done requestType doesn't equal to expected one
      */
     public void doAfterCommand() {
-        try {
-            // FIXME replace with Wait implementation
-            selenium.waitForCondition(waitRequestChange, Wait.DEFAULT_TIMEOUT);
-        } catch (SeleniumException e) {
-            // ignore the timeout exception
-        }
-        RequestType requestDone = getRequestDone();
+        final long end = System.currentTimeMillis() + SystemProperties.getSeleniumTimeout(SeleniumTimeoutType.AJAX);
+        
+        RequestType lastRequestDone = RequestType.NONE;
+        
+        while (System.currentTimeMillis() <= end) {
+            try {
+                selenium.getRequestInterceptor().waitForRequestTypeChange();
+            } catch (SeleniumException e) {
+                // ignore the timeout exception
+            }
 
-        if (requestDone != requestExpected) {
-            throw new RequestGuardException(requestExpected, requestDone);
+            RequestType requestDone = selenium.getRequestInterceptor().clearRequestTypeDone();
+
+            if (requestDone == requestExpected) {
+                lastRequestDone = requestDone;
+                break;
+            } else {
+                if (interlayed) {
+                    if (requestDone == RequestType.HTTP) {
+                        selenium.getPageExtensions().install();
+                        selenium.getRequestInterceptor().clearRequestTypeDone();
+                    }
+                    if (requestDone != RequestType.NONE) {
+                        lastRequestDone = requestDone;
+                    }
+                    continue;
+                } else {
+                    lastRequestDone = requestDone;
+                    break;
+                }
+            }
+        }
+        
+        if (lastRequestDone != requestExpected) {
+            throw new RequestTypeGuardException(requestExpected, lastRequestDone);
         }
     }
-
-    /**
-     * Obtains the done requestType from page.
-     * 
-     * @return the RequestType what was done
-     * @throws IllegalStateException
-     *             when the unknown type was obtained
-     */
-    private RequestType getRequestDone() {
-        String requestDone = selenium.getEval(getRequestDone);
-        try {
-            return RequestType.valueOf(requestDone);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException(format("Request was evaluated to unknown type", requestDone));
-        }
-    }
-
 }

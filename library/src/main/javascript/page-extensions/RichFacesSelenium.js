@@ -32,7 +32,9 @@ var RichFacesSelenium = {
 	},
 	
 	clearRequestDone : function() {
+		var result = this.requestDone
 		this.requestDone = "NONE";
+		return result;
 	},
 	
 	extend : function(child, parent) {

@@ -53,13 +53,6 @@ public class SeleniumExtensions {
     final JavaScript removeScript = js("selenium.doRemoveScript('{0}')");
 
     /**
-     * Construct the {@link SeleniumExtensions} object.
-     * 
-     */
-    public SeleniumExtensions() {
-    }
-
-    /**
      * <p>
      * Loads the JavaScript extension by it's resourceName.
      * </p>

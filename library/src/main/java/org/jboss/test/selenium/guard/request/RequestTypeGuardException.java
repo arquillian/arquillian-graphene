@@ -23,13 +23,15 @@ package org.jboss.test.selenium.guard.request;
 
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
+import org.jboss.test.selenium.request.RequestType;
+
 /**
  * This exception determines that when interacting with browser using Selenium, the wrong request type was executed.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class RequestGuardException extends RuntimeException {
+public class RequestTypeGuardException extends RuntimeException {
 
     private static final long serialVersionUID = -1945770825192733128L;
 
@@ -42,7 +44,7 @@ public class RequestGuardException extends RuntimeException {
      */
     private RequestType requestDone;
 
-    public RequestGuardException(RequestType requestExpected, RequestType requestDone) {
+    public RequestTypeGuardException(RequestType requestExpected, RequestType requestDone) {
         this.requestExpected = requestExpected;
         this.requestDone = requestDone;
     }
