@@ -79,9 +79,11 @@ public class ConsoleStatusTestListener extends TestListenerAdapter {
         // parameters
         StringBuilder parameters = new StringBuilder("(");
         if (result.getParameters() != null && result.getParameters().length != 0) {
-            parameters.append("\"");
-            parameters.append(result.getParameters()[0]);
-            parameters.append("\"");
+            for (int i = 0; i < result.getParameters().length; i++) {
+                parameters.append("\"");
+                parameters.append(result.getParameters()[i]);
+                parameters.append(i == result.getParameters().length - 1 ? "\"" : "\", ");
+            }
         }
         parameters.append(")");
         
