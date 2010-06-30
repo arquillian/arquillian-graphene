@@ -716,8 +716,8 @@ public interface TypedSelenium {
      * 
      * <p>
      * Note that, by default, the snippet will run in the context of the "selenium" object itself, so <code>this</code>
-     * will refer to the Selenium object. Use <code>window</code> to refer to the window of your application,
-     * e.g. <code>window.document.getElementById('foo')</code>
+     * will refer to the Selenium object. Use <code>window</code> to refer to the window of your application, e.g.
+     * <code>window.document.getElementById('foo')</code>
      * </p>
      * <p>
      * If you need to use a locator to refer to a single element in your application page, you can use
@@ -1112,6 +1112,28 @@ public interface TypedSelenium {
      * <code>selenium.browserbot.getCurrentWindow()</code>, and then run your JavaScript in there
      * </p>
      * 
+     * <p>
+     * Wait default timeout specified in
+     * {@link org.jboss.test.selenium.SystemProperties#getSeleniumTimeout
+     * (org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType)}
+     * of type {@link SystemProperties.SeleniumTimeoutType#DEFAULT}.
+     * </p>
+     * 
+     * @param script
+     *            the JavaScript snippet to run
+     */
+    void waitForCondition(JavaScript script);
+
+    /**
+     * Runs the specified JavaScript snippet repeatedly until it evaluates to "true". The snippet may have multiple
+     * lines, but only the result of the last line will be considered.
+     * 
+     * <p>
+     * Note that, by default, the snippet will be run in the runner's test window, not in the window of your
+     * application. To get the window of your application, you can use the JavaScript snippet
+     * <code>selenium.browserbot.getCurrentWindow()</code>, and then run your JavaScript in there
+     * </p>
+     * 
      * @param script
      *            the JavaScript snippet to run
      * @param timeout
@@ -1144,12 +1166,57 @@ public interface TypedSelenium {
      * page load. Running any other Selenium command after turns the flag to false. Hence, if you want to wait for a
      * page to load, you must wait immediately after a Selenium command that caused a page-load.
      * </p>
+     * <p>
+     * Wait default timeout specified in
+     * {@link org.jboss.test.selenium.SystemProperties#getSeleniumTimeout
+     * (org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType)}
+     * of type {@link org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType#DEFAULT}.
+     * </p>
+     */
+    void waitForPageToLoad();
+
+    /**
+     * Waits for a new page to load.
+     * 
+     * <p>
+     * You can use this command instead of the "AndWait" suffixes, "clickAndWait", "selectAndWait", "typeAndWait" etc.
+     * (which are only available in the JS API).
+     * </p>
+     * <p>
+     * Selenium constantly keeps track of new pages loading, and sets a "newPageLoaded" flag when it first notices a
+     * page load. Running any other Selenium command after turns the flag to false. Hence, if you want to wait for a
+     * page to load, you must wait immediately after a Selenium command that caused a page-load.
+     * </p>
      * 
      * @param timeout
      *            a timeout in milliseconds, after which this command will return with an error
      */
     void waitForPageToLoad(long timeout);
 
+    /**
+     * Waits for a new frame to load.
+     * 
+     * <p>
+     * Selenium constantly keeps track of new pages and frames loading, and sets a "newPageLoaded" flag when it first
+     * notices a page load.
+     * </p>
+     * 
+     * <p>
+     * See waitForPageToLoad for more information.
+     * </p>
+     * 
+     * <p>
+     * Wait default timeout specified in
+     * {@link org.jboss.test.selenium.SystemProperties#getSeleniumTimeout
+     * (org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType)}
+     * of type {@link org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType#DEFAULT}.
+     * </p>
+     * 
+     * @param frameAddress
+     *            FrameAddress from the server side
+     */
+    void waitForFrameToLoad(URL frameAddress);
+    
     /**
      * Waits for a new frame to load.
      * 

@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
 import org.jboss.test.selenium.dom.Event;
 import org.jboss.test.selenium.encapsulated.Cookie;
 import org.jboss.test.selenium.encapsulated.CookieParameters;
@@ -57,6 +58,7 @@ import org.jboss.test.selenium.utils.array.ArrayTransform;
 
 import com.thoughtworks.selenium.Selenium;
 
+import static org.jboss.test.selenium.SystemProperties.getSeleniumTimeout;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
 
 /**
@@ -667,12 +669,27 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.useXpathLibrary(xpathLibrary.getXpathLibraryName());
     }
 
-    public void waitForCondition(JavaScript script, long timeoutInMilis) {
-        selenium.waitForCondition(script.getAsString(), String.valueOf(timeoutInMilis));
+    public void waitForCondition(JavaScript script) {
+        String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        selenium.waitForCondition(script.getAsString(), timeout);
+    }
+    
+    public void waitForCondition(JavaScript script, long timeout) {
+        selenium.waitForCondition(script.getAsString(), String.valueOf(timeout));
+    }
+    
+    public void waitForFrameToLoad(URL frameURL) {
+        String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        selenium.waitForFrameToLoad(frameURL.toString(), timeout);
     }
 
     public void waitForFrameToLoad(URL frameURL, long timeout) {
         selenium.waitForFrameToLoad(frameURL.toString(), String.valueOf(timeout));
+    }
+    
+    public void waitForPageToLoad() {
+        String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        selenium.waitForPageToLoad(timeout);
     }
 
     public void waitForPageToLoad(long timeout) {
