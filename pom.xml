@@ -18,6 +18,7 @@
 	<modules>
 		<module>library</module>
 		<module>functional-test-template</module>
+		<module>library/functional-test</module>
 	</modules>
 	
 	<licenses>
@@ -122,6 +123,11 @@
 
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-help-plugin</artifactId>
+					<version>2.1.1</version>
+				</plugin>
 				<plugin>
 					<groupId>org.codehaus.cargo</groupId>
 					<artifactId>cargo-maven2-plugin</artifactId>
