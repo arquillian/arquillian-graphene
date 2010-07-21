@@ -51,8 +51,6 @@ import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.locator.IdLocator;
 import org.jboss.test.selenium.locator.IterableLocator;
-import org.jboss.test.selenium.locator.LocatorUtils;
-import org.jboss.test.selenium.locator.XpathLocator;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.utils.array.ArrayTransform;
 
@@ -287,13 +285,13 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-    public int getCount(IterableLocator<?> locator) {
-        Object reference = (Object) locator;
-        if (reference instanceof XpathLocator) {
-            return selenium.getXpathCount(LocatorUtils.getRawLocator((XpathLocator) reference)).intValue();
-        }
-        throw new UnsupportedOperationException("Only XPath locator is supported for counting");
-    }
+	public int getCount(IterableLocator<?> locator) {
+		if (locator.getLocationStrategy() != LocationStrategy.XPATH) {
+			throw new UnsupportedOperationException(
+					"Only XPath locators are supported for counting");
+		}
+		return selenium.getXpathCount(locator.getRawLocator()).intValue();
+	}
 
     public int getCursorPosition(ElementLocator elementLocator) {
         return selenium.getCursorPosition(elementLocator.getAsString()).intValue();
