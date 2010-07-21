@@ -49,10 +49,10 @@ public abstract class AbstractLocator implements Locator {
     public String getAsString() {
         final LocationStrategy locationStrategy = getLocationStrategy();
 
-        return format("{0}={1}", locationStrategy.getStrategyName(), locator);
+        return format("{0}={1}", locationStrategy.getStrategyName(), getRawLocator());
     }
 
-    protected String getLocator() {
+    public String getRawLocator() {
         return locator;
     }
 

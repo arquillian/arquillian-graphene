@@ -35,15 +35,22 @@ public final class LocatorUtils {
     private LocatorUtils() {
     }
 
-    /**
-     * Returns the raw form of a locator, i.e. without its type. For instance, it makes "div input" from
-     * "jquery=div input".
-     * 
-     * @param locator
-     *            locator of an element
-     * @return raw form of a locator without locator type prefix
-     */
-    public static String getRawLocator(AbstractLocator locator) {
-        return locator.getLocator();
-    }
+	/**
+	 * <p>
+	 * <b>Deprecated</b>. Might be removed in next versions of API, use
+	 * {@link Locator#getRawLocator()} instead.
+	 * </p>
+	 * <p>
+	 * Returns the raw form of a locator, i.e. without its type. For instance,
+	 * it makes "div input" from "jquery=div input".
+	 * </p>
+	 * 
+	 * @param locator
+	 *            locator of an element
+	 * @return raw form of a locator without locator type prefix
+	 */
+	@Deprecated
+	public static String getRawLocator(AbstractLocator locator) {
+		return locator.getRawLocator();
+	}
 }

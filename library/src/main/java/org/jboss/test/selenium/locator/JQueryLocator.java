@@ -74,7 +74,7 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthChildElement(int)
      */
     public JQueryLocator getNthChildElement(int index) {
-        return new JQueryLocator(format("{0}:nth-child({1})", getLocator(), index + 1));
+        return new JQueryLocator(format("{0}:nth-child({1})", getRawLocator(), index + 1));
     }
 
     /*
@@ -83,7 +83,7 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthOccurence(int)
      */
     public JQueryLocator getNthOccurence(int index) {
-        return new JQueryLocator(format("{0}:eq({1})", getLocator(), index));
+        return new JQueryLocator(format("{0}:eq({1})", getRawLocator(), index));
     }
 
     /*
@@ -121,7 +121,7 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * org.jboss.test.selenium.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator)
      */
     public JQueryLocator getChild(JQueryLocator elementLocator) {
-        return new JQueryLocator(format("{0} > {1}", getLocator(), elementLocator.getLocator()));
+        return new JQueryLocator(format("{0} > {1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
     /*
@@ -133,7 +133,7 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * )
      */
     public JQueryLocator getDescendant(JQueryLocator elementLocator) {
-        return new JQueryLocator(format("{0} {1}", getLocator(), elementLocator.getLocator()));
+        return new JQueryLocator(format("{0} {1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
 }

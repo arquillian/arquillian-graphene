@@ -43,4 +43,11 @@ public interface Locator {
      * @return the locator represented as string used in Selenium to locate elements.
      */
     String getAsString();
+    
+    /**
+     * Returns the raw locator (without the prefix defining location strategy) representation.
+     * 
+     * @return the raw locator (without the prefix defining location strategy) representation.
+     */
+    String getRawLocator();
 }

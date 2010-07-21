@@ -31,7 +31,7 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class DefaultAttributeLocator implements AttributeLocator {
+public class DefaultAttributeLocator extends AbstractLocator implements AttributeLocator {
 
     /** The underlying elementLocator. */
     ElementLocator elementLocator;
@@ -46,16 +46,18 @@ public class DefaultAttributeLocator implements AttributeLocator {
      * @param attribute the attribute
      */
     public DefaultAttributeLocator(ElementLocator elementLocator, Attribute attribute) {
+    	super("not-used");
         Validate.notNull(attribute);
         this.elementLocator = elementLocator;
         this.attribute = attribute;
     }
-
-    /* (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.AbstractLocator#getAsString()
+    
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.Locator#getRawLocator()
      */
-    public String getAsString() {
-        return format("{0}@{1}", elementLocator.getAsString(), attribute.getAttributeName());
+    public String getRawLocator() {
+    	return format("{0}@{1}", elementLocator.getRawLocator(), attribute.getAttributeName());
     }
 
     /*

@@ -92,7 +92,7 @@ public class XpathLocator extends AbstractElementLocator implements IterableLoca
      * (org.jboss.test.selenium.locator.CompoundableLocator)
      */
     public XpathLocator getChild(XpathLocator elementLocator) {
-        return new XpathLocator(format("{0}/{1}", getLocator(), elementLocator.getLocator()));
+        return new XpathLocator(format("{0}/{1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
     /* (non-Javadoc)
@@ -100,7 +100,7 @@ public class XpathLocator extends AbstractElementLocator implements IterableLoca
      * (org.jboss.test.selenium.locator.CompoundableLocator)
      */
     public XpathLocator getDescendant(XpathLocator elementLocator) {
-        return new XpathLocator(format("{0}//{1}", getLocator(), elementLocator.getLocator()));
+        return new XpathLocator(format("{0}//{1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
 }
