@@ -69,12 +69,12 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     Selenium selenium;
 
-    private ArrayTransform<String, Integer> transformArrayOfStringToInteger =
-        new ArrayTransform<String, Integer>(Integer.class) {
-            public Integer transformation(String source) {
-                return Integer.valueOf(source);
-            }
-        };
+    private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
+        Integer.class) {
+        public Integer transformation(String source) {
+            return Integer.valueOf(source);
+        }
+    };
 
     public void addCustomRequestHeader(String key, String value) {
         throw new UnsupportedOperationException();
@@ -285,13 +285,12 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-	public int getCount(IterableLocator<?> locator) {
-		if (locator.getLocationStrategy() != LocationStrategy.XPATH) {
-			throw new UnsupportedOperationException(
-					"Only XPath locators are supported for counting");
-		}
-		return selenium.getXpathCount(locator.getRawLocator()).intValue();
-	}
+    public int getCount(IterableLocator<?> locator) {
+        if (locator.getLocationStrategy() != LocationStrategy.XPATH) {
+            throw new UnsupportedOperationException("Only XPath locators are supported for counting");
+        }
+        return selenium.getXpathCount(locator.getRawLocator()).intValue();
+    }
 
     public int getCursorPosition(ElementLocator elementLocator) {
         return selenium.getCursorPosition(elementLocator.getAsString()).intValue();
@@ -671,11 +670,11 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
         selenium.waitForCondition(script.getAsString(), timeout);
     }
-    
+
     public void waitForCondition(JavaScript script, long timeout) {
         selenium.waitForCondition(script.getAsString(), String.valueOf(timeout));
     }
-    
+
     public void waitForFrameToLoad(URL frameURL) {
         String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
         selenium.waitForFrameToLoad(frameURL.toString(), timeout);
@@ -684,7 +683,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void waitForFrameToLoad(URL frameURL, long timeout) {
         selenium.waitForFrameToLoad(frameURL.toString(), String.valueOf(timeout));
     }
-    
+
     public void waitForPageToLoad() {
         String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
         selenium.waitForPageToLoad(timeout);

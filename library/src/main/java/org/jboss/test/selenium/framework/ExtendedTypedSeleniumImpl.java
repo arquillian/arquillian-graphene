@@ -110,10 +110,10 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      */
     @Override
     public int getCount(IterableLocator<?> locator) {
-    	if (locator.getLocationStrategy() == LocationStrategy.JQUERY) {
-    		return getExtendedSelenium().getJQueryCount(locator.getRawLocator()).intValue();
-		}
-    	
+        if (locator.getLocationStrategy() == LocationStrategy.JQUERY) {
+            return getExtendedSelenium().getJQueryCount(locator.getRawLocator()).intValue();
+        }
+
         try {
             return super.getCount(locator);
         } catch (UnsupportedOperationException e) {

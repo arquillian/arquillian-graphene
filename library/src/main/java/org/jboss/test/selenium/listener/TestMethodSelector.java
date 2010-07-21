@@ -51,7 +51,7 @@ public class TestMethodSelector implements IAnnotationTransformer {
      * Disables the test methods which doesn't match the given method name.
      */
     @SuppressWarnings("rawtypes")
-	public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
+    public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
         String selectedMethod = System.getProperty("method", "*");
 
         selectedMethod = StringUtils.replace(selectedMethod, "*", ".*");
