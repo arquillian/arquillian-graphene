@@ -24,10 +24,14 @@ package org.jboss.test.selenium.locator;
 /**
  * Abstract implementation of element locator able to derive attributes for itself.
  * 
+ * @param <T>
+ *            the type of locator which can be derived from this locator
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class AbstractElementLocator extends AbstractLocator implements ElementLocator {
+public abstract class AbstractElementLocator<T extends ElementLocator<T>> extends AbstractLocator<T> implements
+    ElementLocator<T> {
     public AbstractElementLocator(String locator) {
         super(locator);
     }
@@ -35,7 +39,7 @@ public abstract class AbstractElementLocator extends AbstractLocator implements 
     /**
      * Returns the default locator for attribute belongs to this locator.
      */
-    public AttributeLocator getAttribute(Attribute attribute) {
-        return new DefaultAttributeLocator(this, attribute);
+    public AttributeLocator<T> getAttribute(Attribute attribute) {
+        return new DefaultAttributeLocator<T>(this, attribute);
     }
 }

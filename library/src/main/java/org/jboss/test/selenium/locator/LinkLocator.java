@@ -30,7 +30,7 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class LinkLocator extends AbstractElementLocator {
+public class LinkLocator extends AbstractElementLocator<LinkLocator> {
     public LinkLocator(String linkText) {
         super(linkText);
     }

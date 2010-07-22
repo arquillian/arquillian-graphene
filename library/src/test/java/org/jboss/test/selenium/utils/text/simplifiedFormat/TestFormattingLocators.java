@@ -21,9 +21,13 @@
  */
 package org.jboss.test.selenium.utils.text.simplifiedFormat;
 
+import org.jboss.test.selenium.locator.Attribute;
+import org.jboss.test.selenium.locator.AttributeLocator;
+import org.jboss.test.selenium.locator.JQueryLocator;
 import org.testng.annotations.Test;
 
 import static org.jboss.test.selenium.locator.LocatorFactory.*;
+import static org.testng.Assert.*;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -33,6 +37,40 @@ public class TestFormattingLocators {
 
     @Test
     public void testBackReference() {
-        "input[id$=myId]".equals(jq("input[id$=myId]").getAsString());
+        assertEquals(jq("input[id$=myId]").getAsString(), "jquery=input[id$=myId]");
+    }
+    
+    @Test
+    public void testSimpleFormatting() {
+        JQueryLocator locator = jq("x{0}z");
+        locator = locator.format("y");
+        assertEquals(locator.getAsString(), "jquery=xyz");
+    }
+    
+    @Test
+    public void testDoubleFormatting() {
+        JQueryLocator locator = jq("a{0}c{1}e");
+        locator = locator.format("b");
+        locator = locator.format("d");
+        assertEquals(locator.getAsString(), "jquery=abcde");
+    }
+    
+    @Test
+    public void testComplexFormatting() {
+        JQueryLocator locator = jq("a{1}b{3}c{}{4}d{}e{}f");
+        locator = locator.format(0, 1);
+        locator = locator.format(2, 3);
+        locator = locator.format(4);
+        assertEquals(locator.getAsString(), "jquery=a1b3c04d1e2f");
+    }
+    
+    @Test
+    public void testAttributeFormatting() {
+        JQueryLocator locator = jq("x{0}z");
+        AttributeLocator<?> attributeLocator = locator.getAttribute(Attribute.CLASS);
+        attributeLocator = attributeLocator.format("y");
+        assertEquals(attributeLocator.getAttribute(), Attribute.CLASS);
+        assertEquals(attributeLocator.getAssociatedElement().getAsString(), "jquery=xyz");
+        assertEquals(attributeLocator.getAsString(), "jquery=xyz@class");
     }
 }

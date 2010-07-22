@@ -63,5 +63,7 @@ public class RequestGuardSample extends AbstractTestCase {
 
         // this action will not fire any request by default
         selenium.addScript(js("..."));
+        
+        BUTTON_START.format("test");
     }
 }

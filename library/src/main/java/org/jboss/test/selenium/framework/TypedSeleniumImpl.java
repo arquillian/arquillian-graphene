@@ -88,7 +88,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.addScript(javaScript.getAsString(), javaScript.getIdentification());
     }
 
-    public void addSelection(ElementLocator elementLocator, ElementLocator optionLocator) {
+    public void addSelection(ElementLocator<?> elementLocator, ElementLocator<?> optionLocator) {
         selenium.addSelection(elementLocator.getAsString(), optionLocator.getAsString());
     }
 
@@ -108,16 +108,16 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.answerOnNextPrompt(answer);
     }
 
-    public IdLocator assignId(ElementLocator elementLocator, String identifier) {
+    public IdLocator assignId(ElementLocator<?> elementLocator, String identifier) {
         selenium.assignId(elementLocator.getAsString(), identifier);
         return new IdLocator(identifier);
     }
 
-    public void attachFile(ElementLocator fieldLocator, File fileLocator) {
+    public void attachFile(ElementLocator<?> fieldLocator, File fileLocator) {
         throw new UnsupportedOperationException();
     }
 
-    public void attachFile(ElementLocator fieldLocator, URL fileLocator) {
+    public void attachFile(ElementLocator<?> fieldLocator, URL fileLocator) {
         throw new UnsupportedOperationException();
     }
 
@@ -141,7 +141,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-    public void check(ElementLocator elementLocator) {
+    public void check(ElementLocator<?> elementLocator) {
         selenium.check(elementLocator.getAsString());
     }
 
@@ -153,11 +153,11 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.chooseOkOnNextConfirmation();
     }
 
-    public void click(ElementLocator elementLocator) {
+    public void click(ElementLocator<?> elementLocator) {
         selenium.click(elementLocator.getAsString());
     }
 
-    public void clickAt(ElementLocator elementLocator, Point point) {
+    public void clickAt(ElementLocator<?> elementLocator, Point point) {
         selenium.clickAt(elementLocator.getAsString(), point.getCoords());
     }
 
@@ -171,11 +171,11 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return Boolean.valueOf(evaluated);
     }
 
-    public void contextMenu(ElementLocator elementLocator) {
+    public void contextMenu(ElementLocator<?> elementLocator) {
         selenium.contextMenu(elementLocator.getAsString());
     }
 
-    public void contextMenuAt(ElementLocator elementLocator, Point point) {
+    public void contextMenuAt(ElementLocator<?> elementLocator, Point point) {
         selenium.contextMenuAt(elementLocator.getAsString(), point.getCoords());
     }
 
@@ -203,33 +203,33 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.deselectPopUp();
     }
 
-    public void doubleClick(ElementLocator elementLocator) {
+    public void doubleClick(ElementLocator<?> elementLocator) {
         selenium.doubleClick(elementLocator.getAsString());
     }
 
-    public void doubleClickAt(ElementLocator elementLocator, Point point) {
+    public void doubleClickAt(ElementLocator<?> elementLocator, Point point) {
         selenium.doubleClickAt(elementLocator.getAsString(), point.getCoords());
     }
 
-    public void dragAndDrop(ElementLocator elementLocator, Offset offset) {
+    public void dragAndDrop(ElementLocator<?> elementLocator, Offset offset) {
         selenium.dragAndDrop(elementLocator.getAsString(), offset.getMovement());
     }
 
-    public void dragAndDropToObject(ElementLocator elementLocatorOfObjectToBeDragged,
-        ElementLocator elementLocatorOfDragDestinationObject) {
+    public void dragAndDropToObject(ElementLocator<?> elementLocatorOfObjectToBeDragged,
+        ElementLocator<?> elementLocatorOfDragDestinationObject) {
         selenium.dragAndDropToObject(elementLocatorOfDragDestinationObject.getAsString(),
             elementLocatorOfObjectToBeDragged.getAsString());
     }
 
-    public void dragdrop(ElementLocator elementLocator, Offset offset) {
+    public void dragdrop(ElementLocator<?> elementLocator, Offset offset) {
         selenium.dragdrop(elementLocator.getAsString(), offset.getMovement());
     }
 
-    public void fireEvent(ElementLocator elementLocator, Event event) {
+    public void fireEvent(ElementLocator<?> elementLocator, Event event) {
         selenium.fireEvent(elementLocator.getAsString(), event.getEventName());
     }
 
-    public void focus(ElementLocator elementLocator) {
+    public void focus(ElementLocator<?> elementLocator) {
         selenium.focus(elementLocator.getAsString());
     }
 
@@ -237,15 +237,15 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.getAlert();
     }
 
-    public List<ElementLocator> getAllButtons() {
+    public List<ElementLocator<?>> getAllButtons() {
         throw new UnsupportedOperationException();
     }
 
-    public List<ElementLocator> getAllFields() {
+    public List<ElementLocator<?>> getAllFields() {
         throw new UnsupportedOperationException();
     }
 
-    public List<ElementLocator> getAllLinks() {
+    public List<ElementLocator<?>> getAllLinks() {
         throw new UnsupportedOperationException();
     }
 
@@ -261,7 +261,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-    public String getAttribute(AttributeLocator attributeLocator) {
+    public String getAttribute(AttributeLocator<?> attributeLocator) {
         return selenium.getAttribute(attributeLocator.getAsString());
     }
 
@@ -292,35 +292,35 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.getXpathCount(locator.getRawLocator()).intValue();
     }
 
-    public int getCursorPosition(ElementLocator elementLocator) {
+    public int getCursorPosition(ElementLocator<?> elementLocator) {
         return selenium.getCursorPosition(elementLocator.getAsString()).intValue();
     }
 
-    public Dimension getElementDimension(ElementLocator elementLocator) {
+    public Dimension getElementDimension(ElementLocator<?> elementLocator) {
         return new Dimension(getElementHeight(elementLocator), getElementWidth(elementLocator));
     }
 
-    public int getElementHeight(ElementLocator elementLocator) {
+    public int getElementHeight(ElementLocator<?> elementLocator) {
         return selenium.getElementHeight(elementLocator.getAsString()).intValue();
     }
 
-    public int getElementIndex(ElementLocator elementLocator) {
+    public int getElementIndex(ElementLocator<?> elementLocator) {
         return selenium.getElementIndex(elementLocator.getAsString()).intValue();
     }
 
-    public Point getElementPosition(ElementLocator elementLocator) {
+    public Point getElementPosition(ElementLocator<?> elementLocator) {
         return new Point(getElementPositionLeft(elementLocator), getElementPositionTop(elementLocator));
     }
 
-    public int getElementPositionLeft(ElementLocator elementLocator) {
+    public int getElementPositionLeft(ElementLocator<?> elementLocator) {
         return selenium.getElementPositionLeft(elementLocator.getAsString()).intValue();
     }
 
-    public int getElementPositionTop(ElementLocator elementLocator) {
+    public int getElementPositionTop(ElementLocator<?> elementLocator) {
         return selenium.getElementPositionTop(elementLocator.getAsString()).intValue();
     }
 
-    public int getElementWidth(ElementLocator elementLocator) {
+    public int getElementWidth(ElementLocator<?> elementLocator) {
         return selenium.getElementWidth(elementLocator.getAsString()).intValue();
 
     }
@@ -353,40 +353,40 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.getPrompt();
     }
 
-    public List<String> getSelectOptions(ElementLocator selectLocator) {
+    public List<String> getSelectOptions(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectOptions(selectLocator.getAsString()));
     }
 
-    public String getSelectedId(ElementLocator selectLocator) {
+    public String getSelectedId(ElementLocator<?> selectLocator) {
         return selenium.getSelectedId(selectLocator.getAsString());
     }
 
-    public List<String> getSelectedIds(ElementLocator selectLocator) {
+    public List<String> getSelectedIds(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectedIds(selectLocator.getAsString()));
     }
 
-    public int getSelectedIndex(ElementLocator selectLocator) {
+    public int getSelectedIndex(ElementLocator<?> selectLocator) {
         return Integer.valueOf(selenium.getSelectedIndex(selectLocator.getAsString()));
     }
 
-    public List<Integer> getSelectedIndexes(ElementLocator selectLocator) {
+    public List<Integer> getSelectedIndexes(ElementLocator<?> selectLocator) {
         return Arrays.asList(transformArrayOfStringToInteger.transform(selenium.getSelectedIndexes(selectLocator
             .getAsString())));
     }
 
-    public String getSelectedLabel(ElementLocator selectLocator) {
+    public String getSelectedLabel(ElementLocator<?> selectLocator) {
         return selenium.getSelectedLabel(selectLocator.getAsString());
     }
 
-    public List<String> getSelectedLabels(ElementLocator selectLocator) {
+    public List<String> getSelectedLabels(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectedLabels(selectLocator.getAsString()));
     }
 
-    public String getSelectedValue(ElementLocator selectLocator) {
+    public String getSelectedValue(ElementLocator<?> selectLocator) {
         return selenium.getSelectedValue(selenium.getSelectedValue(selectLocator.getAsString()));
     }
 
-    public List<String> getSelectedValues(ElementLocator selectLocator) {
+    public List<String> getSelectedValues(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectedValues(selectLocator.getAsString()));
     }
 
@@ -394,7 +394,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return Long.valueOf(selenium.getSpeed());
     }
 
-    public String getText(ElementLocator elementLocator) {
+    public String getText(ElementLocator<?> elementLocator) {
         return selenium.getText(elementLocator.getAsString());
     }
 
@@ -402,7 +402,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.getTitle();
     }
 
-    public String getValue(ElementLocator elementLocator) {
+    public String getValue(ElementLocator<?> elementLocator) {
         return selenium.getValue(elementLocator.getAsString());
     }
 
@@ -418,7 +418,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.goBack();
     }
 
-    public void highlight(ElementLocator elementLocator) {
+    public void highlight(ElementLocator<?> elementLocator) {
         selenium.highlight(elementLocator.getAsString());
     }
 
@@ -430,7 +430,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return Boolean.valueOf(selenium.isAlertPresent());
     }
 
-    public boolean isChecked(ElementLocator elementLocator) {
+    public boolean isChecked(ElementLocator<?> elementLocator) {
         return Boolean.valueOf(selenium.isChecked(elementLocator.getAsString()));
     }
 
@@ -442,15 +442,15 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException("not implemented yet");
     }
 
-    public boolean isEditable(ElementLocator elementLocator) {
+    public boolean isEditable(ElementLocator<?> elementLocator) {
         return Boolean.valueOf(selenium.isEditable(elementLocator.getAsString()));
     }
 
-    public boolean isElementPresent(ElementLocator elementLocator) {
+    public boolean isElementPresent(ElementLocator<?> elementLocator) {
         return selenium.isElementPresent(elementLocator.getAsString());
     }
 
-    public boolean isOrdered(ElementLocator elementLocator1, ElementLocator elementLocator2) {
+    public boolean isOrdered(ElementLocator<?> elementLocator1, ElementLocator<?> elementLocator2) {
         return selenium.isOrdered(elementLocator1.getAsString(), elementLocator2.getAsString());
     }
 
@@ -458,7 +458,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.isPromptPresent();
     }
 
-    public boolean isSomethingSelected(ElementLocator selectLocator) {
+    public boolean isSomethingSelected(ElementLocator<?> selectLocator) {
         return selenium.isSomethingSelected(selectLocator.getAsString());
     }
 
@@ -466,11 +466,11 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.isTextPresent(text);
     }
 
-    public boolean isVisible(ElementLocator elementLocator) {
+    public boolean isVisible(ElementLocator<?> elementLocator) {
         return selenium.isVisible(elementLocator.getAsString());
     }
 
-    public void keyDown(ElementLocator elementLocator, String keySequence) {
+    public void keyDown(ElementLocator<?> elementLocator, String keySequence) {
         selenium.keyDown(elementLocator.getAsString(), keySequence);
     }
 
@@ -478,7 +478,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyDownNative(keycode);
     }
 
-    public void keyPress(ElementLocator elementLocator, String keySequence) {
+    public void keyPress(ElementLocator<?> elementLocator, String keySequence) {
         selenium.keyPress(elementLocator.getAsString(), keySequence);
     }
 
@@ -486,7 +486,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPressNative(keycode);
     }
 
-    public void keyUp(ElementLocator elementLocator, String keySequence) {
+    public void keyUp(ElementLocator<?> elementLocator, String keySequence) {
         selenium.keyUp(elementLocator.getAsString(), keySequence);
     }
 
@@ -506,51 +506,51 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.metaKeyUp();
     }
 
-    public void mouseDown(ElementLocator elementLocator) {
+    public void mouseDown(ElementLocator<?> elementLocator) {
         selenium.mouseDown(elementLocator.getAsString());
     }
 
-    public void mouseDownAt(ElementLocator elementLocator, Point point) {
+    public void mouseDownAt(ElementLocator<?> elementLocator, Point point) {
         selenium.mouseDownAt(elementLocator.getAsString(), point.getCoords());
     }
 
-    public void mouseDownRight(ElementLocator elementLocator) {
+    public void mouseDownRight(ElementLocator<?> elementLocator) {
         selenium.mouseDownRight(elementLocator.getAsString());
     }
 
-    public void mouseDownRightAt(ElementLocator elementLocator, Point point) {
+    public void mouseDownRightAt(ElementLocator<?> elementLocator, Point point) {
         selenium.mouseDownRightAt(elementLocator.getAsString(), point.getCoords());
     }
 
-    public void mouseMove(ElementLocator elementLocator) {
+    public void mouseMove(ElementLocator<?> elementLocator) {
         selenium.mouseMove(elementLocator.getAsString());
     }
 
-    public void mouseMoveAt(ElementLocator elementLocator, Point point) {
+    public void mouseMoveAt(ElementLocator<?> elementLocator, Point point) {
         selenium.mouseMoveAt(elementLocator.getAsString(), point.getCoords());
     }
 
-    public void mouseOut(ElementLocator elementLocator) {
+    public void mouseOut(ElementLocator<?> elementLocator) {
         selenium.mouseOut(elementLocator.getAsString());
     }
 
-    public void mouseOver(ElementLocator elementLocator) {
+    public void mouseOver(ElementLocator<?> elementLocator) {
         selenium.mouseOver(elementLocator.getAsString());
     }
 
-    public void mouseUp(ElementLocator elementLocator) {
+    public void mouseUp(ElementLocator<?> elementLocator) {
         selenium.mouseUp(elementLocator.getAsString());
     }
 
-    public void mouseUpAt(ElementLocator elementLocator, Point point) {
+    public void mouseUpAt(ElementLocator<?> elementLocator, Point point) {
         selenium.mouseUpAt(elementLocator.getAsString(), point.getCoords());
     }
 
-    public void mouseUpRight(ElementLocator elementLocator) {
+    public void mouseUpRight(ElementLocator<?> elementLocator) {
         selenium.mouseUpRight(elementLocator.getAsString());
     }
 
-    public void mouseUpRightAt(ElementLocator elementLocator, Point point) {
+    public void mouseUpRightAt(ElementLocator<?> elementLocator, Point point) {
         selenium.mouseUpRightAt(elementLocator.getAsString(), point.getCoords());
     }
 
@@ -566,7 +566,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.refresh();
     }
 
-    public void removeAllSelections(ElementLocator elementLocator) {
+    public void removeAllSelections(ElementLocator<?> elementLocator) {
         selenium.removeAllSelections(elementLocator.getAsString());
     }
 
@@ -574,7 +574,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.removeScript(javaScript.getIdentification());
     }
 
-    public void removeSelection(ElementLocator elementLocator, ElementLocator optionLocator) {
+    public void removeSelection(ElementLocator<?> elementLocator, ElementLocator<?> optionLocator) {
         selenium.removeSelection(elementLocator.getAsString(), optionLocator.getAsString());
     }
 
@@ -586,7 +586,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.runScript(script.getAsString());
     }
 
-    public void select(ElementLocator selectLocator, ElementLocator optionLocator) {
+    public void select(ElementLocator<?> selectLocator, ElementLocator<?> optionLocator) {
         selenium.select(selectLocator.getAsString(), optionLocator.getAsString());
     }
 
@@ -606,7 +606,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.setBrowserLogLevel(logLevel.getLogLevelName());
     }
 
-    public void setCursorPosition(ElementLocator elementLocator, int position) {
+    public void setCursorPosition(ElementLocator<?> elementLocator, int position) {
         selenium.setCursorPosition(elementLocator.getAsString(), String.valueOf(position));
     }
 
@@ -646,19 +646,19 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.stop();
     }
 
-    public void submit(ElementLocator formLocator) {
+    public void submit(ElementLocator<?> formLocator) {
         selenium.submit(formLocator.getAsString());
     }
 
-    public void type(ElementLocator elementLocator, String value) {
+    public void type(ElementLocator<?> elementLocator, String value) {
         selenium.type(elementLocator.getAsString(), value);
     }
 
-    public void typeKeys(ElementLocator elementLocator, String value) {
+    public void typeKeys(ElementLocator<?> elementLocator, String value) {
         selenium.type(elementLocator.getAsString(), value);
     }
 
-    public void uncheck(ElementLocator elementLocator) {
+    public void uncheck(ElementLocator<?> elementLocator) {
         selenium.uncheck(elementLocator.getAsString());
     }
 

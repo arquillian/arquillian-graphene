@@ -53,7 +53,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
     
     /** The element locator. */
-    private AttributeLocator attributeLocator;
+    private AttributeLocator<?> attributeLocator;
 
     /**
      * Instantiates a new element present.
@@ -100,7 +100,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      *            the attribute locator
      * @return the attribute present
      */
-    public AttributePresent locator(AttributeLocator attributeLocator) {
+    public AttributePresent locator(AttributeLocator<?> attributeLocator) {
         Validate.notNull(attributeLocator);
 
         AttributePresent copy = copy();

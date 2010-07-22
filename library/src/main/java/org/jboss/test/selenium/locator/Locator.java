@@ -26,10 +26,13 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
 /**
  * Locates the object by given strategy and parameters.
  * 
+ * @param <T>
+ *            the type of locator which can be derived from this locator
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface Locator {
+public interface Locator<T extends Locator<T>> {
     /**
      * Returns the location strategy for this element
      * 
@@ -43,11 +46,13 @@ public interface Locator {
      * @return the locator represented as string used in Selenium to locate elements.
      */
     String getAsString();
-    
+
     /**
      * Returns the raw locator (without the prefix defining location strategy) representation.
      * 
      * @return the raw locator (without the prefix defining location strategy) representation.
      */
     String getRawLocator();
+
+    T format(Object... args);
 }

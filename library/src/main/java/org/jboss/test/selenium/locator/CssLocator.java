@@ -35,7 +35,7 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class CssLocator extends AbstractElementLocator implements CompoundableLocator<CssLocator> {
+public class CssLocator extends AbstractElementLocator<CssLocator> implements CompoundableLocator<CssLocator> {
     /**
      * Initiates element locator by using CSS selectors.
      * 

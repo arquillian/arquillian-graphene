@@ -24,10 +24,13 @@ package org.jboss.test.selenium.locator;
 /**
  * Locator for locating elements on page.
  * 
+ * @param <T>
+ *            the type of locator which can be derived from this locator
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface ElementLocator extends Locator {
+public interface ElementLocator<T extends ElementLocator<T>> extends Locator<T> {
     /**
      * Returns the locator for attribute for given locator.
      * 
@@ -35,5 +38,5 @@ public interface ElementLocator extends Locator {
      *            type for obtaining from this locator
      * @return the attribute for this locator
      */
-    AttributeLocator getAttribute(Attribute attribute);
+    AttributeLocator<T> getAttribute(Attribute attribute);
 }

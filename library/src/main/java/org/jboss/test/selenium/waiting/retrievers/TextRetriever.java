@@ -48,7 +48,7 @@ public class TextRetriever implements SeleniumRetriever<String>, JavaScriptRetri
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
     
     /** The element locator. */
-    private ElementLocator elementLocator;
+    private ElementLocator<?> elementLocator;
 
     /**
      * Instantiates a new text retriever.
@@ -88,7 +88,7 @@ public class TextRetriever implements SeleniumRetriever<String>, JavaScriptRetri
      *            the element locator to preset
      * @return the TextRetriever preset with elementLocator of given value
      */
-    public TextRetriever locator(ElementLocator elementLocator) {
+    public TextRetriever locator(ElementLocator<?> elementLocator) {
         Validate.notNull(elementLocator);
 
         TextRetriever copy = copy();

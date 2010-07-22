@@ -21,6 +21,11 @@
  */
 package org.jboss.test.selenium.utils.text;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -33,6 +38,9 @@ import org.apache.commons.lang.StringUtils;
  * @version $Revision$
  */
 public final class SimplifiedFormat {
+
+    private static final Pattern PATTERN = Pattern.compile("\\{([0-9]+)\\}");
+
     private SimplifiedFormat() {
     }
 
@@ -52,6 +60,20 @@ public final class SimplifiedFormat {
             result = StringUtils.replaceOnce(result, "{}", arg);
             result = StringUtils.replace(result, "{" + i + "}", arg);
         }
+
+        Matcher matcher = PATTERN.matcher(result);
+        int delta = args.length;
+        List<Integer> found = new LinkedList<Integer>();
+        while (matcher.find()) {
+            int value = Integer.valueOf(matcher.group(1));
+            found.add(value);
+        }
+
+        for (int value : found) {
+            int replacement = value - delta;
+            result = StringUtils.replaceOnce(result, "{" + value + "}", "{" + replacement + "}");
+        }
+
         return result;
     }
 }

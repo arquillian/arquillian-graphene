@@ -36,7 +36,7 @@ import static org.jboss.test.selenium.locator.Attribute.*;
 public class AttributeSample extends AbstractTestCase {
 
     JQueryLocator buttonStart = jq("#start");
-    AttributeLocator buttonStartClass = buttonStart.getAttribute(CLASS);
+    AttributeLocator<JQueryLocator> buttonStartClass = buttonStart.getAttribute(CLASS);
 
     void usage() {
         String styleClass = selenium.getAttribute(buttonStartClass);

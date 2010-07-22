@@ -51,7 +51,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * org.jboss.test.selenium.framework.ExtendedTypedSelenium#getStyle(org.jboss.test.selenium.locator.ElementLocator,
      * java.lang.String)
      */
-    public String getStyle(ElementLocator elementLocator, String property) {
+    public String getStyle(ElementLocator<?> elementLocator, String property) {
         return getExtendedSelenium().getStyle(elementLocator.getAsString(), property);
     }
 
@@ -60,7 +60,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#scrollIntoView(org.jboss.test.selenium.locator.ElementLocator , boolean)
      */
-    public void scrollIntoView(ElementLocator elementLocator, boolean alignToTop) {
+    public void scrollIntoView(ElementLocator<?> elementLocator, boolean alignToTop) {
         getExtendedSelenium().scrollIntoView(elementLocator.getAsString(), String.valueOf(alignToTop));
     }
 
@@ -70,7 +70,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * @see ExtendedTypedSelenium#mouseOverAt(org.jboss.test.selenium.locator.ElementLocator ,
      * org.jboss.test.selenium.geometry.Point)
      */
-    public void mouseOverAt(ElementLocator elementLocator, Point point) {
+    public void mouseOverAt(ElementLocator<?> elementLocator, Point point) {
         getExtendedSelenium().mouseOverAt(elementLocator.getAsString(), point.getCoords());
     }
 
@@ -79,7 +79,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#isDisplayed(org.jboss.test.selenium.locator.ElementLocator )
      */
-    public boolean isDisplayed(ElementLocator elementLocator) {
+    public boolean isDisplayed(ElementLocator<?> elementLocator) {
         return getExtendedSelenium().isDisplayed(elementLocator.getAsString());
     }
 
@@ -88,7 +88,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#belongsClass(org.jboss.test.selenium.locator.ElementLocator , java.lang.String)
      */
-    public boolean belongsClass(ElementLocator elementLocator, String className) {
+    public boolean belongsClass(ElementLocator<?> elementLocator, String className) {
         return getExtendedSelenium().belongsClass(elementLocator.getAsString(), className);
     }
 
@@ -97,7 +97,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#isAttributePresent(org.jboss.test.selenium.locator. AttributeLocator)
      */
-    public boolean isAttributePresent(AttributeLocator attributeLocator) {
+    public boolean isAttributePresent(AttributeLocator<?> attributeLocator) {
         final String elementLocator = attributeLocator.getAssociatedElement().getAsString();
         final String attributeName = attributeLocator.getAttribute().getAttributeName();
         return getExtendedSelenium().isAttributePresent(elementLocator, attributeName);

@@ -24,7 +24,7 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.locator.iteration.ChildElementList;
 import org.jboss.test.selenium.locator.iteration.ElementOcurrenceList;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
  * Locates the element using <a href="http://www.w3.org/TR/xpath/">XPath expression</a>.
@@ -32,54 +32,67 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class XpathLocator extends AbstractElementLocator implements IterableLocator<XpathLocator>,
+public class XpathLocator extends AbstractElementLocator<XpathLocator> implements IterableLocator<XpathLocator>,
     CompoundableLocator<XpathLocator> {
 
     /**
      * Instantiates a new xpath locator.
-     *
-     * @param xpath the xpath
+     * 
+     * @param xpath
+     *            the xpath
      */
     public XpathLocator(String xpath) {
         super(xpath);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.Locator#getLocationStrategy()
      */
     public LocationStrategy getLocationStrategy() {
         return LocationStrategy.XPATH;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthChildElement(int)
      */
     public XpathLocator getNthChildElement(int index) {
         throw new UnsupportedOperationException("not implemented yet");
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthOccurence(int)
      */
     public XpathLocator getNthOccurence(int index) {
-        return new XpathLocator(format("getLocator[{0}]", index));
+        return new XpathLocator(SimplifiedFormat.format("getLocator[{0}]", index));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.IterableLocator#getAllChildren()
      */
     public Iterable<XpathLocator> getAllChildren() {
         return new ChildElementList<XpathLocator>(this.getChild(LocatorFactory.xp("*")));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.IterableLocator#getChildren(org.jboss.test.selenium.locator.IterableLocator)
      */
     public Iterable<XpathLocator> getChildren(XpathLocator elementLocator) {
         return new ChildElementList<XpathLocator>(this.getChild(elementLocator));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.IterableLocator#getDescendants
      * (org.jboss.test.selenium.locator.IterableLocator)
      */
@@ -87,20 +100,24 @@ public class XpathLocator extends AbstractElementLocator implements IterableLoca
         return new ElementOcurrenceList<XpathLocator>(this);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.CompoundableLocator#getChild
      * (org.jboss.test.selenium.locator.CompoundableLocator)
      */
     public XpathLocator getChild(XpathLocator elementLocator) {
-        return new XpathLocator(format("{0}/{1}", getRawLocator(), elementLocator.getRawLocator()));
+        return new XpathLocator(SimplifiedFormat.format("{0}/{1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.CompoundableLocator#getDescendant
      * (org.jboss.test.selenium.locator.CompoundableLocator)
      */
     public XpathLocator getDescendant(XpathLocator elementLocator) {
-        return new XpathLocator(format("{0}//{1}", getRawLocator(), elementLocator.getRawLocator()));
+        return new XpathLocator(SimplifiedFormat.format("{0}//{1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
 }

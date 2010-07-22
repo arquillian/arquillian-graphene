@@ -31,7 +31,7 @@ package org.jboss.test.selenium.locator;
  * @param <T>
  *            type what will be used as result of composition
  */
-public interface CompoundableLocator<T extends CompoundableLocator<T>> extends Locator {
+public interface CompoundableLocator<T extends CompoundableLocator<T>> extends ElementLocator<T> {
 
     /**
      * Gets a child of this locator by composing this locator with given elementLocator.

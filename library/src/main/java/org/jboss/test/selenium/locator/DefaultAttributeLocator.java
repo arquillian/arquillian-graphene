@@ -23,41 +23,48 @@ package org.jboss.test.selenium.locator;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
  * Default implementation of locator for element's attributes.
  * 
+ * @param <E>
+ *            the type of associated element locator, which can be obtained from this attribute locator
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class DefaultAttributeLocator extends AbstractLocator implements AttributeLocator {
+public class DefaultAttributeLocator<E extends ElementLocator<E>> extends AbstractLocator<AttributeLocator<E>>
+    implements AttributeLocator<E> {
 
     /** The underlying elementLocator. */
-    ElementLocator elementLocator;
-    
+    ElementLocator<E> elementLocator;
+
     /** The attribute. */
     Attribute attribute;
-    
+
     /**
      * Instantiates a attribute locator using given elementLocator and the specific attribute.
-     *
-     * @param elementLocator the element locator
-     * @param attribute the attribute
+     * 
+     * @param elementLocator
+     *            the element locator
+     * @param attribute
+     *            the attribute
      */
-    public DefaultAttributeLocator(ElementLocator elementLocator, Attribute attribute) {
-    	super("not-used");
+    public DefaultAttributeLocator(ElementLocator<E> elementLocator, Attribute attribute) {
+        super("not-used");
         Validate.notNull(attribute);
         this.elementLocator = elementLocator;
         this.attribute = attribute;
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.Locator#getRawLocator()
      */
     public String getRawLocator() {
-    	return format("{0}@{1}", elementLocator.getRawLocator(), attribute.getAttributeName());
+        return SimplifiedFormat.format("{0}@{1}", elementLocator.getRawLocator(), attribute.getAttributeName());
     }
 
     /*
@@ -69,15 +76,22 @@ public class DefaultAttributeLocator extends AbstractLocator implements Attribut
         return elementLocator.getLocationStrategy();
     }
 
-    
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.AttributeLocator#getAssociatedElement()
      */
-    public ElementLocator getAssociatedElement() {
+    public ElementLocator<E> getAssociatedElement() {
         return elementLocator;
     }
 
     public Attribute getAttribute() {
         return attribute;
+    }
+    
+    @Override
+    public AttributeLocator<E> format(Object... args) {
+        E derivedElementLocator = elementLocator.format(args);
+        return new DefaultAttributeLocator<E>(derivedElementLocator, attribute);
     }
 }

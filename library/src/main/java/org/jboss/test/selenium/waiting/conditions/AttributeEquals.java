@@ -55,7 +55,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
     
     /** The element locator. */
-    private AttributeLocator attributeLocator;
+    private AttributeLocator<?> attributeLocator;
 
     /** The value. */
     private String value;
@@ -113,7 +113,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      *            the attribute locator
      * @return the AttributeEquals object with preset locator
      */
-    public AttributeEquals locator(AttributeLocator attributeLocator) {
+    public AttributeEquals locator(AttributeLocator<?> attributeLocator) {
         Validate.notNull(attributeLocator);
 
         AttributeEquals copy = copy();

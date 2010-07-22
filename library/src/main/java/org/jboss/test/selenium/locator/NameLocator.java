@@ -29,7 +29,7 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class NameLocator extends AbstractElementLocator {
+public class NameLocator extends AbstractElementLocator<NameLocator> {
     public NameLocator(String name) {
         super(name);
     }

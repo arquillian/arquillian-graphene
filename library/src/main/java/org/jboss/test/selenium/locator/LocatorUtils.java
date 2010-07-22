@@ -49,7 +49,7 @@ public final class LocatorUtils {
      * @return raw form of a locator without locator type prefix
      */
     @Deprecated
-    public static String getRawLocator(AbstractLocator locator) {
+    public static String getRawLocator(AbstractLocator<?> locator) {
         return locator.getRawLocator();
     }
 }

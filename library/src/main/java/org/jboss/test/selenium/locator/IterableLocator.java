@@ -29,7 +29,7 @@ package org.jboss.test.selenium.locator;
  * @param <T>
  *            type what we want to iterate over - this type will be returned by method provided by this interface
  */
-public interface IterableLocator<T extends IterableLocator<T>> extends Locator {
+public interface IterableLocator<T extends IterableLocator<T>> extends ElementLocator<T> {
 
     /**
      * Gets the <i>N</i>-th child element of this locator.

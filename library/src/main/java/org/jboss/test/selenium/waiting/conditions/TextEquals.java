@@ -54,7 +54,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
     
     /** The element locator. */
-    private ElementLocator elementLocator;
+    private ElementLocator<?> elementLocator;
 
     /** The text. */
     private String text;
@@ -111,7 +111,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      *            the element locator
      * @return the TextEquals object with preset locator
      */
-    public TextEquals locator(ElementLocator elementLocator) {
+    public TextEquals locator(ElementLocator<?> elementLocator) {
         Validate.notNull(elementLocator);
 
         TextEquals copy = copy();

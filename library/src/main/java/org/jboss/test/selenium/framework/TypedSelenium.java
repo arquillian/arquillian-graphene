@@ -59,7 +59,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void click(ElementLocator locator);
+    void click(ElementLocator<?> locator);
 
     /**
      * Double clicks on a link, button, checkbox or radio button. If the double click action causes a new page to load
@@ -68,7 +68,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void doubleClick(ElementLocator locator);
+    void doubleClick(ElementLocator<?> locator);
 
     /**
      * Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the
@@ -77,7 +77,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void contextMenu(ElementLocator locator);
+    void contextMenu(ElementLocator<?> locator);
 
     /**
      * Clicks on a link, button, checkbox or radio button. If the click action causes a new page to load (like a link
@@ -88,7 +88,7 @@ public interface TypedSelenium {
      * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void clickAt(ElementLocator locator, Point coords);
+    void clickAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Doubleclicks on a link, button, checkbox or radio button. If the action causes a new page to load (like a link
@@ -99,7 +99,7 @@ public interface TypedSelenium {
      * @param coordString
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void doubleClickAt(ElementLocator locator, Point coords);
+    void doubleClickAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the
@@ -110,7 +110,7 @@ public interface TypedSelenium {
      * @param coordString
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void contextMenuAt(ElementLocator locator, Point coords);
+    void contextMenuAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Explicitly simulate an event, to trigger the corresponding handler.
@@ -120,7 +120,7 @@ public interface TypedSelenium {
      * @param eventName
      *            the event name, e.g. "focus" or "blur"
      */
-    void fireEvent(ElementLocator locator, Event event);
+    void fireEvent(ElementLocator<?> locator, Event event);
 
     /**
      * Move the focus to the specified element; for example, if the element is an input field, move the cursor to that
@@ -129,7 +129,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void focus(ElementLocator locator);
+    void focus(ElementLocator<?> locator);
 
     /**
      * Simulates a user pressing and releasing a key.
@@ -140,7 +140,7 @@ public interface TypedSelenium {
      *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
      *            value of that key), or a single character. For example: " w", "\119".
      */
-    void keyPress(ElementLocator locator, String keySequence);
+    void keyPress(ElementLocator<?> locator, String keySequence);
 
     /**
      * Press the shift key and hold it down until doShiftUp() is called or a new page is loaded.
@@ -191,7 +191,7 @@ public interface TypedSelenium {
      *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
      *            value of that key), or a single character. For example: " w", "\119".
      */
-    void keyDown(ElementLocator locator, String keySequence);
+    void keyDown(ElementLocator<?> locator, String keySequence);
 
     /**
      * Simulates a user releasing a key.
@@ -202,7 +202,7 @@ public interface TypedSelenium {
      *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
      *            value of that key), or a single character. For example: " w", "\119".
      */
-    void keyUp(ElementLocator locator, String keySequence);
+    void keyUp(ElementLocator<?> locator, String keySequence);
 
     /**
      * Simulates a user hovering a mouse over the specified element.
@@ -210,7 +210,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseOver(ElementLocator locator);
+    void mouseOver(ElementLocator<?> locator);
 
     /**
      * Simulates a user moving the mouse pointer away from the specified element.
@@ -218,7 +218,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseOut(ElementLocator locator);
+    void mouseOut(ElementLocator<?> locator);
 
     /**
      * Simulates a user pressing the left mouse button (without releasing it yet) on the specified element.
@@ -226,7 +226,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseDown(ElementLocator locator);
+    void mouseDown(ElementLocator<?> locator);
 
     /**
      * Simulates a user pressing the right mouse button (without releasing it yet) on the specified element.
@@ -234,7 +234,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseDownRight(ElementLocator locator);
+    void mouseDownRight(ElementLocator<?> locator);
 
     /**
      * Simulates a user pressing the left mouse button (without releasing it yet) at the specified location.
@@ -245,7 +245,7 @@ public interface TypedSelenium {
      *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
      *            locator.
      */
-    void mouseDownAt(ElementLocator locator, Point coords);
+    void mouseDownAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Simulates a user pressing the right mouse button (without releasing it yet) at the specified location.
@@ -255,7 +255,7 @@ public interface TypedSelenium {
      * @param coordString
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void mouseDownRightAt(ElementLocator locator, Point coords);
+    void mouseDownRightAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Simulates the event that occurs when the user releases the mouse button (i.e., stops holding the button down) on
@@ -264,7 +264,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseUp(ElementLocator locator);
+    void mouseUp(ElementLocator<?> locator);
 
     /**
      * Simulates the event that occurs when the user releases the right mouse button (i.e., stops holding the button
@@ -273,7 +273,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseUpRight(ElementLocator locator);
+    void mouseUpRight(ElementLocator<?> locator);
 
     /**
      * Simulates the event that occurs when the user releases the mouse button (i.e., stops holding the button down) at
@@ -284,7 +284,7 @@ public interface TypedSelenium {
      * @param coordString
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void mouseUpAt(ElementLocator locator, Point coords);
+    void mouseUpAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Simulates the event that occurs when the user releases the right mouse button (i.e., stops holding the button
@@ -295,7 +295,7 @@ public interface TypedSelenium {
      * @param coordString
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void mouseUpRightAt(ElementLocator locator, Point coords);
+    void mouseUpRightAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Simulates a user pressing the mouse button (without releasing it yet) on the specified element.
@@ -303,7 +303,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void mouseMove(ElementLocator locator);
+    void mouseMove(ElementLocator<?> locator);
 
     /**
      * Simulates a user pressing the mouse button (without releasing it yet) on the specified element.
@@ -313,7 +313,7 @@ public interface TypedSelenium {
      * @param coordString
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
-    void mouseMoveAt(ElementLocator locator, Point coords);
+    void mouseMoveAt(ElementLocator<?> locator, Point coords);
 
     /**
      * Sets the value of an input field, as though you typed it in.
@@ -328,7 +328,7 @@ public interface TypedSelenium {
      * @param value
      *            the value to type
      */
-    void type(ElementLocator locator, String value);
+    void type(ElementLocator<?> locator, String value);
 
     /**
      * Simulates keystroke events on the specified element, as though you typed the value key-by-key.
@@ -353,7 +353,7 @@ public interface TypedSelenium {
      * @param value
      *            the value to type
      */
-    void typeKeys(ElementLocator locator, String value);
+    void typeKeys(ElementLocator<?> locator, String value);
 
     /**
      * Set execution speed (i.e., set the millisecond length of a delay which will follow each selenium operation). By
@@ -380,7 +380,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void check(ElementLocator locator);
+    void check(ElementLocator<?> locator);
 
     /**
      * Uncheck a toggle-button (checkbox/radio)
@@ -388,7 +388,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void uncheck(ElementLocator locator);
+    void uncheck(ElementLocator<?> locator);
 
     /**
      * Select an option from a drop-down using an option locator.
@@ -432,7 +432,7 @@ public interface TypedSelenium {
      * @param optionLocator
      *            an option locator (a label by default)
      */
-    void select(ElementLocator selectLocator, ElementLocator optionLocator);
+    void select(ElementLocator<?> selectLocator, ElementLocator<?> optionLocator);
 
     /**
      * Add a selection to the set of selected options in a multi-select element using an option locator.
@@ -443,7 +443,7 @@ public interface TypedSelenium {
      * @param optionLocator
      *            an option locator (a label by default)
      */
-    void addSelection(ElementLocator locator, ElementLocator optionLocator);
+    void addSelection(ElementLocator<?> locator, ElementLocator<?> optionLocator);
 
     /**
      * Remove a selection from the set of selected options in a multi-select element using an option locator.
@@ -454,7 +454,7 @@ public interface TypedSelenium {
      * @param optionLocator
      *            an option locator (a label by default)
      */
-    void removeSelection(ElementLocator locator, ElementLocator optionLocator);
+    void removeSelection(ElementLocator<?> locator, ElementLocator<?> optionLocator);
 
     /**
      * Unselects all of the selected options in a multi-select element.
@@ -462,7 +462,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator identifying a multi-select box
      */
-    void removeAllSelections(ElementLocator locator);
+    void removeAllSelections(ElementLocator<?> locator);
 
     /**
      * Submit the specified form. This is particularly useful for forms without submit buttons, e.g. single-input
@@ -471,7 +471,7 @@ public interface TypedSelenium {
      * @param formLocator
      *            an element locator for the form you want to submit
      */
-    void submit(ElementLocator formLocator);
+    void submit(ElementLocator<?> formLocator);
 
     /**
      * Opens an URL in the test frame. This accepts both relative and absolute URLs.
@@ -689,7 +689,7 @@ public interface TypedSelenium {
      *            an element locator
      * @return the element value, or "on/off" for checkbox/radio elements
      */
-    String getValue(ElementLocator locator);
+    String getValue(ElementLocator<?> locator);
 
     /**
      * Gets the text of an element. This works for any element that contains text. This command uses either the
@@ -700,7 +700,7 @@ public interface TypedSelenium {
      *            an element locator
      * @return the text of the element
      */
-    String getText(ElementLocator locator);
+    String getText(ElementLocator<?> locator);
 
     /**
      * Briefly changes the backgroundColor of the specified element yellow. Useful for debugging.
@@ -708,7 +708,7 @@ public interface TypedSelenium {
      * @param locator
      *            an element locator
      */
-    void highlight(ElementLocator locator);
+    void highlight(ElementLocator<?> locator);
 
     /**
      * Gets the result of evaluating the specified JavaScript snippet. The snippet may have multiple lines, but only the
@@ -738,7 +738,7 @@ public interface TypedSelenium {
      *            an element locator pointing to a checkbox or radio button
      * @return true if the checkbox is checked, false otherwise
      */
-    boolean isChecked(ElementLocator locator);
+    boolean isChecked(ElementLocator<?> locator);
 
     /**
      * Gets all option labels (visible text) for selected options in the specified select or multi-select element.
@@ -747,7 +747,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option labels in the specified select drop-down
      */
-    List<String> getSelectedLabels(ElementLocator selectLocator);
+    List<String> getSelectedLabels(ElementLocator<?> selectLocator);
 
     /**
      * Gets option label (visible text) for selected option in the specified select element.
@@ -756,7 +756,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return the selected option label in the specified select drop-down
      */
-    String getSelectedLabel(ElementLocator selectLocator);
+    String getSelectedLabel(ElementLocator<?> selectLocator);
 
     /**
      * Gets all option values (value attributes) for selected options in the specified select or multi-select element.
@@ -765,7 +765,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option values in the specified select drop-down
      */
-    List<String> getSelectedValues(ElementLocator selectLocator);
+    List<String> getSelectedValues(ElementLocator<?> selectLocator);
 
     /**
      * Gets option value (value attribute) for selected option in the specified select element.
@@ -774,7 +774,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return the selected option value in the specified select drop-down
      */
-    String getSelectedValue(ElementLocator selectLocator);
+    String getSelectedValue(ElementLocator<?> selectLocator);
 
     /**
      * Gets all option indexes (option number, starting at 0) for selected options in the specified select or
@@ -784,7 +784,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option indexes in the specified select drop-down
      */
-    List<Integer> getSelectedIndexes(ElementLocator selectLocator);
+    List<Integer> getSelectedIndexes(ElementLocator<?> selectLocator);
 
     /**
      * Gets option index (option number, starting at 0) for selected option in the specified select element.
@@ -793,7 +793,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return the selected option index in the specified select drop-down
      */
-    int getSelectedIndex(ElementLocator selectLocator);
+    int getSelectedIndex(ElementLocator<?> selectLocator);
 
     /**
      * Gets all option element IDs for selected options in the specified select or multi-select element.
@@ -802,7 +802,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option IDs in the specified select drop-down
      */
-    List<String> getSelectedIds(ElementLocator selectLocator);
+    List<String> getSelectedIds(ElementLocator<?> selectLocator);
 
     /**
      * Gets option element ID for selected option in the specified select element.
@@ -811,7 +811,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return the selected option ID in the specified select drop-down
      */
-    String getSelectedId(ElementLocator selectLocator);
+    String getSelectedId(ElementLocator<?> selectLocator);
 
     /**
      * Determines whether some option in a drop-down menu is selected.
@@ -820,7 +820,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return true if some option has been selected, false otherwise
      */
-    boolean isSomethingSelected(ElementLocator selectLocator);
+    boolean isSomethingSelected(ElementLocator<?> selectLocator);
 
     /**
      * Gets all option labels in the specified select drop-down.
@@ -829,7 +829,7 @@ public interface TypedSelenium {
      *            an element locator identifying a drop-down menu
      * @return an array of all option labels in the specified select drop-down
      */
-    List<String> getSelectOptions(ElementLocator selectLocator);
+    List<String> getSelectOptions(ElementLocator<?> selectLocator);
 
     /**
      * Gets the value of an element attribute. The value of the attribute may differ across browsers (this is the case
@@ -839,7 +839,7 @@ public interface TypedSelenium {
      *            attribute locator
      * @return the value of the specified attribute
      */
-    String getAttribute(AttributeLocator attributeLocator);
+    String getAttribute(AttributeLocator<?> attributeLocator);
 
     /**
      * Verifies that the specified text pattern appears somewhere on the rendered page shown to the user.
@@ -857,7 +857,7 @@ public interface TypedSelenium {
      *            an element locator
      * @return true if the element is present, false otherwise
      */
-    boolean isElementPresent(ElementLocator locator);
+    boolean isElementPresent(ElementLocator<?> locator);
 
     /**
      * Determines if the specified element is visible. An element can be rendered invisible by setting the CSS
@@ -868,7 +868,7 @@ public interface TypedSelenium {
      *            an element locator
      * @return true if the specified element is visible, false otherwise
      */
-    boolean isVisible(ElementLocator locator);
+    boolean isVisible(ElementLocator<?> locator);
 
     /**
      * Determines whether the specified input element is editable, ie hasn't been disabled. This method will fail if the
@@ -878,7 +878,7 @@ public interface TypedSelenium {
      *            an element locator
      * @return true if the input element is editable, false otherwise
      */
-    boolean isEditable(ElementLocator locator);
+    boolean isEditable(ElementLocator<?> locator);
 
     /**
      * deprecated - use dragAndDrop instead
@@ -888,7 +888,7 @@ public interface TypedSelenium {
      * @param movementsString
      *            offset in pixels from the current location to which the element should be moved
      */
-    void dragdrop(ElementLocator locator, Offset movementsString);
+    void dragdrop(ElementLocator<?> locator, Offset movementsString);
 
     /**
      * Configure the number of pixels between "mousemove" events during dragAndDrop commands (default=10).
@@ -922,7 +922,7 @@ public interface TypedSelenium {
      * @param movementsString
      *            offset in pixels from the current location to which the element should be moved, e.g., "+70,-300"
      */
-    void dragAndDrop(ElementLocator locator, Offset movementsString);
+    void dragAndDrop(ElementLocator<?> locator, Offset movementsString);
 
     /**
      * Drags an element and drops it on another element
@@ -933,7 +933,8 @@ public interface TypedSelenium {
      *            an element whose location (i.e., whose center-most pixel) will be the point where
      *            locatorOfObjectToBeDragged is dropped
      */
-    void dragAndDropToObject(ElementLocator locatorOfObjectToBeDragged, ElementLocator locatorOfDragDestinationObject);
+    void dragAndDropToObject(ElementLocator<?> locatorOfObjectToBeDragged,
+        ElementLocator<?> locatorOfDragDestinationObject);
 
     /**
      * Gives focus to the currently selected window
@@ -962,7 +963,7 @@ public interface TypedSelenium {
      *            the numerical position of the cursor in the field; position should be 0 to move the position to the
      *            beginning of the field. You can also set the cursor to -1 to move it to the end of the field.
      */
-    void setCursorPosition(ElementLocator locator, int position);
+    void setCursorPosition(ElementLocator<?> locator, int position);
 
     /**
      * Get the relative index of an element to its parent (starting from 0). The comment node and empty text node will
@@ -972,7 +973,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @return of relative index of the element to its parent (starting from 0)
      */
-    int getElementIndex(ElementLocator locator);
+    int getElementIndex(ElementLocator<?> locator);
 
     /**
      * Check if these two elements have same parent and are ordered siblings in the DOM. Two same elements will not be
@@ -984,7 +985,7 @@ public interface TypedSelenium {
      *            an element locator pointing to the second element
      * @return true if element1 is the previous sibling of element2, false otherwise
      */
-    boolean isOrdered(ElementLocator locator1, ElementLocator locator2);
+    boolean isOrdered(ElementLocator<?> locator1, ElementLocator<?> locator2);
 
     /**
      * Retrieves the horizontal position of an element
@@ -993,7 +994,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @return of pixels from the edge of the frame.
      */
-    int getElementPositionLeft(ElementLocator locator);
+    int getElementPositionLeft(ElementLocator<?> locator);
 
     /**
      * Retrieves the vertical position of an element
@@ -1002,7 +1003,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @return of pixels from the edge of the frame.
      */
-    int getElementPositionTop(ElementLocator locator);
+    int getElementPositionTop(ElementLocator<?> locator);
 
     /**
      * Retrieves the position of an element
@@ -1010,7 +1011,7 @@ public interface TypedSelenium {
      * @param locator
      * @return the position in the current frame
      */
-    Point getElementPosition(ElementLocator locator);
+    Point getElementPosition(ElementLocator<?> locator);
 
     /**
      * Retrieves the width of an element
@@ -1019,7 +1020,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @return width of an element in pixels
      */
-    int getElementWidth(ElementLocator locator);
+    int getElementWidth(ElementLocator<?> locator);
 
     /**
      * Retrieves the height of an element
@@ -1028,7 +1029,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @return height of an element in pixels
      */
-    int getElementHeight(ElementLocator locator);
+    int getElementHeight(ElementLocator<?> locator);
 
     /**
      * Retrievers the element dimensions (width, height)
@@ -1037,7 +1038,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @return dimensions of an element in pixels
      */
-    Dimension getElementDimension(ElementLocator locator);
+    Dimension getElementDimension(ElementLocator<?> locator);
 
     /**
      * Retrieves the text cursor position in the given input element or textarea; beware, this may not work perfectly on
@@ -1055,7 +1056,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an input element or textarea
      * @return the numerical position of the cursor in the field
      */
-    int getCursorPosition(ElementLocator locator);
+    int getCursorPosition(ElementLocator<?> locator);
 
     /**
      * Returns the number of elements that match the specified locator.
@@ -1075,7 +1076,7 @@ public interface TypedSelenium {
      * @param identifier
      *            a string to be used as the ID of the specified element
      */
-    IdLocator assignId(ElementLocator locator, String identifier);
+    IdLocator assignId(ElementLocator<?> locator, String identifier);
 
     /**
      * Specifies whether Selenium should use the native in-browser implementation of XPath (if any native version is

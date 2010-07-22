@@ -74,10 +74,10 @@ public class Drag {
     private Phase currentPhase;
 
     /** The item to drag. */
-    private ElementLocator itemToDrag;
+    private ElementLocator<?> itemToDrag;
 
     /** The drop target. */
-    private ElementLocator dropTarget;
+    private ElementLocator<?> dropTarget;
 
     /** The x. */
     private int x;
@@ -98,7 +98,7 @@ public class Drag {
      * @param dropTarget
      *            target of item dragging
      */
-    public Drag(ElementLocator itemToDrag, ElementLocator dropTarget) {
+    public Drag(ElementLocator<?> itemToDrag, ElementLocator<?> dropTarget) {
         this.currentPhase = Phase.START;
         this.itemToDrag = itemToDrag;
         this.dropTarget = dropTarget;

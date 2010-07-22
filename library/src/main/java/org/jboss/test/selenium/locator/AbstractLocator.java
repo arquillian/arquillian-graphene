@@ -23,7 +23,7 @@ package org.jboss.test.selenium.locator;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
  * <p>
@@ -34,10 +34,13 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * Able to return the locator as string for use in Selenium {@link #getAsString()}
  * </p>
  * 
+ * @param <T>
+ *            the type of locator which can be derived from this locator
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class AbstractLocator implements Locator {
+public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T> {
 
     private String locator;
 
@@ -49,11 +52,21 @@ public abstract class AbstractLocator implements Locator {
     public String getAsString() {
         final LocationStrategy locationStrategy = getLocationStrategy();
 
-        return format("{0}={1}", locationStrategy.getStrategyName(), getRawLocator());
+        return SimplifiedFormat.format("{0}={1}", locationStrategy.getStrategyName(), getRawLocator());
     }
 
     public String getRawLocator() {
         return locator;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T format(Object... args) {
+        String newLocator = SimplifiedFormat.format(locator, args);
+        try {
+            return (T) this.getClass().getConstructor(String.class).newInstance(newLocator);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override

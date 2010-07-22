@@ -67,7 +67,7 @@ public interface UnsupportedTypedSelenium {
      *            form. This is common in selenium grid configurations where the RC server driving the browser is not
      *            the same machine that started the test. Supported Browsers: Firefox ("*chrome") only.
      */
-    void attachFile(ElementLocator fieldLocator, File fileLocator);
+    void attachFile(ElementLocator<?> fieldLocator, File fileLocator);
 
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
@@ -81,7 +81,7 @@ public interface UnsupportedTypedSelenium {
      *            the same machine that started the test. Supported Browsers: Firefox ("*chrome") only.
      */
     @Deprecated
-    void attachFile(ElementLocator fieldLocator, URL fileLocator);
+    void attachFile(ElementLocator<?> fieldLocator, URL fileLocator);
 
     /**
      * Captures a PNG screenshot to the specified file.
@@ -216,7 +216,7 @@ public interface UnsupportedTypedSelenium {
      * 
      * @return the IDs of all buttons on the page
      */
-    List<ElementLocator> getAllButtons();
+    List<ElementLocator<?>> getAllButtons();
 
     /**
      * Returns the IDs of all links on the page.
@@ -227,7 +227,7 @@ public interface UnsupportedTypedSelenium {
      * 
      * @return the IDs of all links on the page
      */
-    List<ElementLocator> getAllLinks();
+    List<ElementLocator<?>> getAllLinks();
 
     /**
      * Returns the IDs of all input fields on the page.
@@ -238,7 +238,7 @@ public interface UnsupportedTypedSelenium {
      * 
      * @return the IDs of all field on the page
      */
-    List<ElementLocator> getAllFields();
+    List<ElementLocator<?>> getAllFields();
 
     /**
      * Returns the IDs of all windows that the browser knows about.

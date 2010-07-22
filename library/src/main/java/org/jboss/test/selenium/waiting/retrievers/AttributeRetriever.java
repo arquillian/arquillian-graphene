@@ -48,7 +48,7 @@ public class AttributeRetriever implements SeleniumRetriever<String>, JavaScript
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
     
     /** The attribute locator. */
-    private AttributeLocator attributeLocator;
+    private AttributeLocator<?> attributeLocator;
 
     /**
      * Instantiates a new attribute retriever.
@@ -88,7 +88,7 @@ public class AttributeRetriever implements SeleniumRetriever<String>, JavaScript
      *            the attribute locator to preset
      * @return the AttributeRetriever preset with attributeLocator of given value
      */
-    public AttributeRetriever attributeLocator(AttributeLocator attributeLocator) {
+    public AttributeRetriever attributeLocator(AttributeLocator<?> attributeLocator) {
         Validate.notNull(attributeLocator);
 
         AttributeRetriever copy = copy();

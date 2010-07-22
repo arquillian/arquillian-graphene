@@ -24,7 +24,7 @@ package org.jboss.test.selenium.locator;
 import org.jboss.test.selenium.locator.iteration.ChildElementList;
 import org.jboss.test.selenium.locator.iteration.ElementOcurrenceList;
 import org.jboss.test.selenium.locator.type.LocationStrategy;
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
  * <p>
@@ -37,16 +37,15 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  * </p>
  * 
  * <ul>
- * <li><tt>:textStartsWith(textPattern)</tt> - trimmed element's text are matched to start with given textPattern</li>
- * <li><tt>:textEndsWith(textPattern)</tt> - trimmed element's text are matched to end with given textPattern</li>
- * <li><tt>:textEquals(textPattern)</tt> - trimmed element's text are compared to exact match with given
- * textPattern</li>
+ * <li><tt>:textStartsWith(textPattern)</tt> - trimmed element text are matched to start with given textPattern</li>
+ * <li><tt>:textEndsWith(textPattern)</tt> - trimmed element text are matched to end with given textPattern</li>
+ * <li><tt>:textEquals(textPattern)</tt> - trimmed element text are compared to exact match with given textPattern</li>
  * </ul>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class JQueryLocator extends AbstractElementLocator implements IterableLocator<JQueryLocator>,
+public class JQueryLocator extends AbstractElementLocator<JQueryLocator> implements IterableLocator<JQueryLocator>,
     CompoundableLocator<JQueryLocator> {
 
     /**
@@ -74,7 +73,7 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthChildElement(int)
      */
     public JQueryLocator getNthChildElement(int index) {
-        return new JQueryLocator(format("{0}:nth-child({1})", getRawLocator(), index + 1));
+        return new JQueryLocator(SimplifiedFormat.format("{0}:nth-child({1})", getRawLocator(), index + 1));
     }
 
     /*
@@ -83,7 +82,7 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthOccurence(int)
      */
     public JQueryLocator getNthOccurence(int index) {
-        return new JQueryLocator(format("{0}:eq({1})", getRawLocator(), index));
+        return new JQueryLocator(SimplifiedFormat.format("{0}:eq({1})", getRawLocator(), index));
     }
 
     /*
@@ -121,19 +120,17 @@ public class JQueryLocator extends AbstractElementLocator implements IterableLoc
      * org.jboss.test.selenium.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator)
      */
     public JQueryLocator getChild(JQueryLocator elementLocator) {
-        return new JQueryLocator(format("{0} > {1}", getRawLocator(), elementLocator.getRawLocator()));
+        return new JQueryLocator(SimplifiedFormat.format("{0} > {1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.jboss.test.selenium.locator.CompoundableLocator#getDescendant
-     * (org.jboss.test.selenium.locator.CompoundableLocator
-     * )
+     * @see org.jboss.test.selenium.locator.CompoundableLocator#getDescendant
+     * (org.jboss.test.selenium.locator.CompoundableLocator )
      */
     public JQueryLocator getDescendant(JQueryLocator elementLocator) {
-        return new JQueryLocator(format("{0} {1}", getRawLocator(), elementLocator.getRawLocator()));
+        return new JQueryLocator(SimplifiedFormat.format("{0} {1}", getRawLocator(), elementLocator.getRawLocator()));
     }
 
 }

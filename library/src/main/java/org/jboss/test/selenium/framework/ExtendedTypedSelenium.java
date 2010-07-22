@@ -53,7 +53,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @throws IllegalStateException
      *             if is caught unrecognized throwable
      */
-    String getStyle(ElementLocator elementLocator, String property);
+    String getStyle(ElementLocator<?> elementLocator, String property);
 
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
@@ -63,7 +63,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @param alignToTop
      *            should be top border of screen aligned to top border of element
      */
-    void scrollIntoView(ElementLocator elementLocator, boolean alignToTop);
+    void scrollIntoView(ElementLocator<?> elementLocator, boolean alignToTop);
 
     /**
      * Simulates a user hovering a mouse over the specified element at specific coordinates relative to element.
@@ -74,7 +74,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
      *            locator.
      */
-    void mouseOverAt(ElementLocator elementLocator, Point point);
+    void mouseOverAt(ElementLocator<?> elementLocator, Point point);
 
     /**
      * Returns whether the element is displayed on the page.
@@ -83,7 +83,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      *            element locator
      * @return if style contains "display: none;" returns false, else returns true
      */
-    boolean isDisplayed(ElementLocator elementLocator);
+    boolean isDisplayed(ElementLocator<?> elementLocator);
 
     /**
      * Checks if element given by locator is member of CSS class given by className.
@@ -94,7 +94,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      *            element's locator
      * @return true if element given by locator is member of CSS class given by className
      */
-    boolean belongsClass(ElementLocator elementLocator, String className);
+    boolean belongsClass(ElementLocator<?> elementLocator, String className);
 
     /**
      * Verifies that the specified attribute is defined for the element.
@@ -105,7 +105,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @throws SeleniumException
      *             when element isn't present
      */
-    boolean isAttributePresent(AttributeLocator attributeLocator);
+    boolean isAttributePresent(AttributeLocator<?> attributeLocator);
 
     /*
      * (non-Javadoc)

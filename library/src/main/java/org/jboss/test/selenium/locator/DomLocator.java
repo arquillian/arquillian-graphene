@@ -40,7 +40,7 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class DomLocator extends AbstractElementLocator {
+public class DomLocator extends AbstractElementLocator<DomLocator> {
     public DomLocator(JavaScript javascriptExpression) {
         super(javascriptExpression.getAsString());
     }
