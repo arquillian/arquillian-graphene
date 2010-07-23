@@ -48,13 +48,13 @@ public final class GuardedCommands {
      * @return the set of the interactive selenium commands
      */
     public static Set<String> initInteractiveCommands() {
-        return Collections.unmodifiableSortedSet(new TreeSet<String>(Arrays.asList(new String[]{"click", "doubleClick",
-            "contextMenu", "clickAt", "doubleClickAt", "contextMenuAt", "fireEvent", "focus", "keyPress",
-            "shiftKeyDown", "shiftKeyUp", "metaKeyDown", "metaKeyUp", "altKeyDown", "altKeyUp", "controlKeyDown",
-            "controlKeyUp", "keyDown", "keyUp", "mouseOver", "mouseOut", "mouseDown", "mouseDownRight",
-            "mouseDownRightAt", "mouseUp", "mouseUpRight", "mouseUpAt", "mouseUpRightAt", "mouseMove", "mouseMoveAt",
-            "typeKeys", "check", "uncheck", "select", "addSelection", "removeSelection", "removeAllSelections",
-            "submit", "getEval", "dragdrop", "dragAndDrop", "dragAndDropToObject", "keyDownNative", "keyUpNative",
-            "keyPressNative"})));
+        return Collections.unmodifiableSortedSet(new TreeSet<String>(Arrays.asList(new String[] { "click",
+            "doubleClick", "contextMenu", "clickAt", "doubleClickAt", "contextMenuAt", "fireEvent", "focus",
+            "keyPress", "shiftKeyDown", "shiftKeyUp", "metaKeyDown", "metaKeyUp", "altKeyDown", "altKeyUp",
+            "controlKeyDown", "controlKeyUp", "keyDown", "keyUp", "mouseOver", "mouseOut", "mouseDown",
+            "mouseDownRight", "mouseDownRightAt", "mouseUp", "mouseUpRight", "mouseUpAt", "mouseUpRightAt",
+            "mouseMove", "mouseMoveAt", "type", "typeKeys", "check", "uncheck", "select", "addSelection",
+            "removeSelection", "removeAllSelections", "submit", "getEval", "dragdrop", "dragAndDrop",
+            "dragAndDropToObject", "keyDownNative", "keyUpNative", "keyPressNative" })));
     }
 }
