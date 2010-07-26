@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.test.richfaces-selenium</groupId>
@@ -20,25 +21,25 @@
 		<module>functional-test-template</module>
 		<module>library/functional-test</module>
 	</modules>
-	
+
 	<licenses>
-        <license>
-            <name>GNU Lesser General Public License, Version 2.1</name>
-            <distribution>repo</distribution>
-            <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
-        </license>
-    </licenses>
+		<license>
+			<name>GNU Lesser General Public License, Version 2.1</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+		</license>
+	</licenses>
 
 	<scm>
 		<connection>scm:svn:http://anonsvn.jboss.org/repos/qa/richfaces-selenium/trunk</connection>
 		<developerConnection>scm:svn:https://svn.jboss.org/repos/qa/richfaces-selenium/trunk</developerConnection>
 		<url>http://anonsvn.jboss.org/repos/qa/richfaces-selenium/trunk</url>
 	</scm>
-	
+
 	<issueManagement>
-        <system>jira</system>
-        <url>https://jira.jboss.org/jira/browse/RFPL</url>
-    </issueManagement>
+		<system>jira</system>
+		<url>https://jira.jboss.org/jira/browse/RFPL</url>
+	</issueManagement>
 
 	<developers>
 		<developer>
@@ -184,6 +185,11 @@
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
+				<version>1.4</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
 				<version>1.4</version>
 			</dependency>
 		</dependencies>

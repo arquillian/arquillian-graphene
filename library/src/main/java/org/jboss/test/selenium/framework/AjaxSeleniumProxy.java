@@ -26,6 +26,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import org.jboss.test.selenium.framework.internal.UnsupportedTypedSelenium;
+
 /**
  * <p>
  * Proxy for retrieving thread local context of AjaxSelenium.
@@ -66,6 +68,10 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
     private static AjaxSelenium getCurrentContext() {
         return REFERENCE.get();
     }
+    
+    public static boolean isContextInitialized() {
+        return getCurrentContext() != null;
+    }
 
     /**
      * Returns the instance of proxy to thread local context of AjaxSelenium
@@ -74,7 +80,7 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      */
     public static AjaxSelenium getInstance() {
         return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(),
-            new Class[]{AjaxSelenium.class}, new AjaxSeleniumProxy());
+            new Class[]{AjaxSelenium.class, UnsupportedTypedSelenium.class}, new AjaxSeleniumProxy());
     }
 
     /**

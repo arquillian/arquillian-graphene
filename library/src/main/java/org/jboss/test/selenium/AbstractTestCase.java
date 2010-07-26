@@ -139,6 +139,7 @@ public abstract class AbstractTestCase {
     public void initializeBrowser() {
         selenium = new AjaxSeleniumImpl(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
         AjaxSeleniumProxy.setCurrentContext(selenium);
+        selenium.enableNetworkTrafficCapturing(true);
         selenium.start();
         loadCustomLocationStrategies();
 

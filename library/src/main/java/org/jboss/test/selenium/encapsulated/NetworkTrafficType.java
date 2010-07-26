@@ -22,10 +22,44 @@
 package org.jboss.test.selenium.encapsulated;
 
 /**
- * TODO not implemented yet
+ * The enumeration of supported network traffic types.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public class NetworkTrafficType {
+
+    /**
+     * The network traffic in JSON format type
+     */
+    public static final NetworkTrafficType JSON = new NetworkTrafficType("json");
+    /**
+     * The network traffic in XML format type
+     */
+    public static final NetworkTrafficType XML = new NetworkTrafficType("xml");
+    /**
+     * The network traffic in plain-text
+     */
+    public static final NetworkTrafficType PLAIN = new NetworkTrafficType("plain");
+
+    private String type;
+
+    /**
+     * Constructs the new network traffic output format type using it's string identifier
+     * 
+     * @param type
+     *            the string identifier of output format type
+     */
+    public NetworkTrafficType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * Returns the type's string identifier
+     * 
+     * @return the type's string identifier
+     */
+    public String getType() {
+        return type;
+    }
 }

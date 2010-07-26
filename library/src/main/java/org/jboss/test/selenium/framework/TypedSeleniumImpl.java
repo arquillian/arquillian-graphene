@@ -22,12 +22,17 @@
 package org.jboss.test.selenium.framework;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.binary.Base64;
 import org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
 import org.jboss.test.selenium.dom.Event;
 import org.jboss.test.selenium.encapsulated.Cookie;
@@ -35,7 +40,6 @@ import org.jboss.test.selenium.encapsulated.CookieParameters;
 import org.jboss.test.selenium.encapsulated.Frame;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.encapsulated.Kwargs;
 import org.jboss.test.selenium.encapsulated.LogLevel;
 import org.jboss.test.selenium.encapsulated.NetworkTraffic;
 import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
@@ -121,16 +125,17 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-    public void captureEntirePageScreenshot(File filename, Kwargs kwargs) {
+    public void captureEntirePageScreenshot(File filename) {
         throw new UnsupportedOperationException();
     }
 
-    public BufferedImage captureEntirePageScreenshot(Kwargs kwargs) {
-        throw new UnsupportedOperationException();
+    public BufferedImage captureEntirePageScreenshot() {
+        return decodeBase64Screenshot(selenium.captureEntirePageScreenshotToString(""));
     }
 
     public NetworkTraffic captureNetworkTraffic(NetworkTrafficType type) {
-        throw new UnsupportedOperationException();
+        String traffic = selenium.captureNetworkTraffic(type.getType());
+        return new NetworkTraffic(type, traffic);
     }
 
     public void captureScreenshot(File filename) {
@@ -138,7 +143,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public BufferedImage captureScreenshot() {
-        throw new UnsupportedOperationException();
+        return decodeBase64Screenshot(selenium.captureScreenshotToString());
     }
 
     public void check(ElementLocator<?> elementLocator) {
@@ -704,5 +709,16 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void windowMaximize() {
         selenium.windowMaximize();
     }
-
+    
+    private BufferedImage decodeBase64Screenshot(String screenshotInBase64) {
+        byte[] screenshotPng = Base64.decodeBase64(screenshotInBase64);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(screenshotPng);
+        BufferedImage result;
+        try {
+            result = ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

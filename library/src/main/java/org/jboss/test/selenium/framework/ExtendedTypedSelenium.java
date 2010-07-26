@@ -37,6 +37,27 @@ import org.jboss.test.selenium.locator.IterableLocator;
 public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
+     * <p>
+     * Configures if the network traffic should be recorded for Selenium session.
+     * </p>
+     * 
+     * <p>
+     * Have to be configured before the start of the Selenium session.
+     * </p>
+     * 
+     * @param networkTrafficCapturingEnabled
+     *            whether the network traffic should be recorded or not
+     */
+    void enableNetworkTrafficCapturing(boolean networkTrafficCapturingEnabled);
+
+    /**
+     * Returns whether the network traffic should be recorded or not
+     * 
+     * @return whether the network traffic should be recorded or not
+     */
+    boolean isNetworkTrafficCapturingEnabled();
+
+    /**
      * Get current style value of element given by locator.
      * 
      * Use CSS style notation instead of JavaScript's camel notation!

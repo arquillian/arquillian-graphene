@@ -21,6 +21,7 @@
  */
 package org.jboss.test.selenium.framework;
 
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.List;
 
@@ -28,6 +29,8 @@ import org.jboss.test.selenium.dom.Event;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.encapsulated.LogLevel;
+import org.jboss.test.selenium.encapsulated.NetworkTraffic;
+import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
 import org.jboss.test.selenium.encapsulated.XpathLibrary;
 import org.jboss.test.selenium.geometry.Dimension;
 import org.jboss.test.selenium.geometry.Offset;
@@ -1396,5 +1399,33 @@ public interface TypedSelenium {
      *            the same thing as JavaScript keycodes!
      */
     void keyPressNative(String keycode);
+    
+    /**
+     * Capture a PNG screenshot. It then returns the file as a base 64 encoded string.
+     * 
+     * @return The BufferedImage
+     */
+    BufferedImage captureScreenshot();
+    
+    /**
+     * Downloads a screenshot of the browser current window canvas to a based 64 encoded PNG file. The <em>entire</em>
+     * windows canvas is captured, including parts rendered outside of the current view port.
+     * 
+     * Currently this only works in Mozilla and when running in chrome mode.
+     * 
+     * @return The BufferedImage
+     */
+    BufferedImage captureEntirePageScreenshot();
+    
+    /**
+     * Returns the network traffic seen by the browser, including headers, AJAX requests, status codes, and timings.
+     * When this function is called, the traffic log is cleared, so the returned content is only the traffic seen since
+     * the last call.
+     * 
+     * @param type
+     *            The type of data to return the network traffic as. Valid values are: json, xml, or plain.
+     * @return A string representation in the defined type of the network traffic seen by the browser.
+     */
+    NetworkTraffic captureNetworkTraffic(NetworkTrafficType type);
 
 }

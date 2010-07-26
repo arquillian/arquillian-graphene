@@ -21,7 +21,6 @@
  */
 package org.jboss.test.selenium.framework.internal;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -30,9 +29,6 @@ import org.jboss.test.selenium.encapsulated.Cookie;
 import org.jboss.test.selenium.encapsulated.CookieParameters;
 import org.jboss.test.selenium.encapsulated.Frame;
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.encapsulated.Kwargs;
-import org.jboss.test.selenium.encapsulated.NetworkTraffic;
-import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
 import org.jboss.test.selenium.encapsulated.Window;
 import org.jboss.test.selenium.encapsulated.WindowId;
 import org.jboss.test.selenium.locator.Attribute;
@@ -80,7 +76,6 @@ public interface UnsupportedTypedSelenium {
      *            form. This is common in selenium grid configurations where the RC server driving the browser is not
      *            the same machine that started the test. Supported Browsers: Firefox ("*chrome") only.
      */
-    @Deprecated
     void attachFile(ElementLocator<?> fieldLocator, URL fileLocator);
 
     /**
@@ -90,39 +85,6 @@ public interface UnsupportedTypedSelenium {
      *            the absolute path to the file to be written, e.g. "c:\blah\screenshot.png"
      */
     void captureScreenshot(File filename);
-
-    /**
-     * Capture a PNG screenshot. It then returns the file as a base 64 encoded string.
-     * 
-     * @return The BufferedImage
-     */
-    BufferedImage captureScreenshot();
-
-    /**
-     * Returns the network traffic seen by the browser, including headers, AJAX requests, status codes, and timings.
-     * When this function is called, the traffic log is cleared, so the returned content is only the traffic seen since
-     * the last call.
-     * 
-     * @param type
-     *            The type of data to return the network traffic as. Valid values are: json, xml, or plain.
-     * @return A string representation in the defined type of the network traffic seen by the browser.
-     */
-    NetworkTraffic captureNetworkTraffic(NetworkTrafficType type);
-
-    /**
-     * Downloads a screenshot of the browser current window canvas to a based 64 encoded PNG file. The <em>entire</em>
-     * windows canvas is captured, including parts rendered outside of the current view port.
-     * 
-     * Currently this only works in Mozilla and when running in chrome mode.
-     * 
-     * @param kwargs
-     *            A kwargs string that modifies the way the screenshot is captured. Example: "background=#CCFFDD". This
-     *            may be useful to set for capturing screenshots of less-than-ideal layouts, for example where absolute
-     *            positioning causes the calculation of the canvas dimension to fail and a black background is exposed
-     *            (possibly obscuring black text).
-     * @return The BufferedImage
-     */
-    BufferedImage captureEntirePageScreenshot(Kwargs kwargs);
 
     /**
      * Saves the entire contents of the current window canvas to a PNG file. Contrast this with the captureScreenshot
@@ -136,17 +98,8 @@ public interface UnsupportedTypedSelenium {
      *            the path to the file to persist the screenshot as. No filename extension will be appended by default.
      *            Directories will not be created if they do not exist, and an exception will be thrown, possibly by
      *            native code.
-     * @param kwargs
-     *            a kwargs string that modifies the way the screenshot is captured. Example: "background=#CCFFDD" .
-     *            Currently valid options:
-     *            <dl>
-     *            <dt>background</dt>
-     *            <dd>the background CSS for the HTML document. This may be useful to set for capturing screenshots of
-     *            less-than-ideal layouts, for example where absolute positioning causes the calculation of the canvas
-     *            dimension to fail and a black background is exposed (possibly obscuring black text).</dd>
-     *            </dl>
      */
-    void captureEntirePageScreenshot(File filename, Kwargs kwargs);
+    void captureEntirePageScreenshot(File filename);
 
     /**
      * Return all cookies of the current page under test.
