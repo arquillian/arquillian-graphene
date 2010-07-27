@@ -30,8 +30,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jboss.test.selenium.SystemProperties;
-import org.jboss.test.selenium.encapsulated.NetworkTraffic;
 import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
@@ -39,6 +39,8 @@ import org.jboss.test.selenium.utils.testng.TestInfo;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+
+import com.thoughtworks.selenium.SeleniumException;
 
 /**
  * Test listener which provides the methods injected in lifecycle of test case to catch the additional information in
@@ -90,8 +92,13 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        NetworkTraffic traffic = selenium.captureNetworkTraffic(NetworkTrafficType.PLAIN);
+        
+        String traffic;
+        try {
+            traffic = selenium.captureNetworkTraffic(NetworkTrafficType.PLAIN).getTraffic();
+        } catch (SeleniumException e) {
+            traffic = ExceptionUtils.getFullStackTrace(e);
+        }
 
         BufferedImage screenshot = selenium.captureEntirePageScreenshot();
 
@@ -104,7 +111,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
         try {
             ImageIO.write(screenshot, "PNG", imageOutputFile);
-            FileUtils.writeStringToFile(trafficOutputFile, traffic.getTraffic());
+            FileUtils.writeStringToFile(trafficOutputFile, traffic);
             FileUtils.writeLines(logOutputFile, methodLog);
             FileUtils.writeStringToFile(htmlSourceOutputFile, htmlSource);
         } catch (IOException e) {
