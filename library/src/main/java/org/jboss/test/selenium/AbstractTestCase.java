@@ -204,7 +204,7 @@ public abstract class AbstractTestCase {
      */
     @AfterClass(alwaysRun = true)
     public void finalizeBrowser() {
-        if (selenium != null) {
+        if (selenium != null && selenium.isStarted()) {
             AjaxSeleniumProxy.setCurrentContext(null);
             selenium.stop();
             selenium = null;

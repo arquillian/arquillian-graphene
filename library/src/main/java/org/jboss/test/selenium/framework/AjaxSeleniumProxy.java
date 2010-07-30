@@ -37,6 +37,16 @@ import org.jboss.test.selenium.framework.internal.UnsupportedTypedSelenium;
  * All methods on returned proxy will be invoked on AjaxSelenium instance associated with current thread.
  * </p>
  * 
+ * <p>
+ * Proxy specifically handles the situations when no context is set - in this situation, runtime exception with
+ * IllegalStateException cause is thrown.
+ * </p>
+ * 
+ * <p>
+ * Especially, the {@link AjaxSelenium#isStarted()} method is handled in that situation, it returns false instead of
+ * throwing exception. Therefore it can be safely used for obtaining current status of Selenium initialization.
+ * </p>
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -68,7 +78,7 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
     private static AjaxSelenium getCurrentContext() {
         return REFERENCE.get();
     }
-    
+
     public static boolean isContextInitialized() {
         return getCurrentContext() != null;
     }
@@ -79,8 +89,8 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      * @return the instance of proxy to thread local context of AjaxSelenium
      */
     public static AjaxSelenium getInstance() {
-        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(),
-            new Class[]{AjaxSelenium.class, UnsupportedTypedSelenium.class}, new AjaxSeleniumProxy());
+        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(), new Class[] {
+            AjaxSelenium.class, UnsupportedTypedSelenium.class }, new AjaxSeleniumProxy());
     }
 
     /**
@@ -89,6 +99,13 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         try {
+            if (!isContextInitialized()) {
+                if (method.getName().equals("isStarted")) {
+                    return false;
+                } else {
+                    throw new IllegalStateException("Context is not initialized");
+                }
+            }
             result = method.invoke(getCurrentContext(), args);
         } catch (InvocationTargetException e) {
             throw e.getCause();

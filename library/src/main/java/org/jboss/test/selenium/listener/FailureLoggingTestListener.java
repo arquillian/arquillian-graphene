@@ -67,7 +67,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        if (!AjaxSeleniumProxy.isContextInitialized()) {
+        if (selenium.isStarted()) {
             return;
         }
 

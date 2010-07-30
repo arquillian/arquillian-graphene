@@ -35,9 +35,10 @@ import org.jboss.test.selenium.locator.type.LocationStrategy;
  * @version $Revision$
  */
 public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements ExtendedTypedSelenium {
-    
+
+    private boolean started = false;
     private boolean networkTrafficCapturingEnabled = false;
-    
+
     protected ExtendedSelenium getExtendedSelenium() {
         if (selenium instanceof ExtendedSelenium) {
             return (ExtendedSelenium) selenium;
@@ -45,26 +46,48 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
             throw new UnsupportedOperationException("Assigned Selenium isn't instance of ExtendedSelenium");
         }
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.framework.ExtendedTypedSelenium#isStarted()
+     */
+    public boolean isStarted() {
+        return started;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.framework.TypedSeleniumImpl#start()
      */
-    @Override
     public void start() {
         selenium.start("captureNetworkTraffic=" + Boolean.toString(networkTrafficCapturingEnabled));
+        started = true;
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
+     * @see org.jboss.test.selenium.framework.TypedSeleniumImpl#stop()
+     */
+    public void stop() {
+        super.stop();
+        started = false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.framework.ExtendedTypedSelenium#enableNetworkTrafficCapturing(boolean)
      */
     public void enableNetworkTrafficCapturing(boolean networkTrafficCapturingEnabled) {
         this.networkTrafficCapturingEnabled = networkTrafficCapturingEnabled;
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.framework.ExtendedTypedSelenium#isNetworkTrafficCapturingEnabled()
      */
     public boolean isNetworkTrafficCapturingEnabled() {

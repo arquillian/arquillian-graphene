@@ -84,7 +84,7 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
         String message = String.format("%s %s %s", hashes, testDescription, hashes);
         String line = StringUtils.repeat("#", message.length());
 
-        if (selenium != null) {
+        if (selenium.isStarted()) {
             String output = String.format("\n%s\n%s\n%s\n", line, message, line);
             selenium.logToBrowser(output);
         }

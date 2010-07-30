@@ -37,6 +37,13 @@ import org.jboss.test.selenium.locator.IterableLocator;
 public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
+     * Indicates if selenium session was already successfully started.
+     * 
+     * @return true if selenium session was already successfully started; false otherwise
+     */
+    boolean isStarted();
+
+    /**
      * <p>
      * Configures if the network traffic should be recorded for Selenium session.
      * </p>
