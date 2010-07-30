@@ -44,11 +44,9 @@ public final class TestLoggingUtils {
      * 
      * @param result
      *            the ITestResult object
-     * @param isTestStart
-     *            if the current state is start of the test
      * @return the detailed test description
      */
-    public static String getTestDescription(ITestResult result, boolean isTestStart) {
+    public static String getTestDescription(ITestResult result) {
         final String methodName = getMethodName(result);
         final String status = STATUSES.get(result.getStatus());
 
@@ -67,7 +65,7 @@ public final class TestLoggingUtils {
         String invocationCount = "";
         if (result.getMethod().getInvocationCount() > 1) {
             int count = result.getMethod().getCurrentInvocationCount();
-            count += isTestStart ? 1 : 0;
+            count += (result.getStatus() == ITestResult.STARTED) ? 1 : 0;
             invocationCount = String.format(" [%d]", count);
         }
 

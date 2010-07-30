@@ -47,27 +47,27 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
 
     @Override
     public void onTestStart(ITestResult result) {
-        logStatus(result, true);
+        logStatus(result);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        logStatus(result, false);
+        logStatus(result);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        logStatus(result, false);
+        logStatus(result);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        logStatus(result, false);
+        logStatus(result);
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        logStatus(result, false);
+        logStatus(result);
     }
 
     /**
@@ -77,16 +77,20 @@ public class SeleniumLoggingTestListener extends TestListenerAdapter {
      * @param result
      *            from the fine-grained listener's method such as onTestFailure(ITestResult)
      */
-    private void logStatus(ITestResult result, boolean isTestStart) {
+    private void logStatus(ITestResult result) {
         final String hashes = "##########";
-        final String testDescription = TestLoggingUtils.getTestDescription(result, isTestStart);
+        final String message = getMessage(result);
 
-        String message = String.format("%s %s %s", hashes, testDescription, hashes);
-        String line = StringUtils.repeat("#", message.length());
+        String messageLine = String.format("%s %s %s", hashes, message, hashes);
+        String line = StringUtils.repeat("#", messageLine.length());
 
         if (selenium.isStarted()) {
-            String output = String.format("\n%s\n%s\n%s\n", line, message, line);
+            String output = String.format("\n%s\n%s\n%s\n", line, messageLine, line);
             selenium.logToBrowser(output);
         }
+    }
+    
+    protected String getMessage(ITestResult result) {
+        return TestLoggingUtils.getTestDescription(result);
     }
 }

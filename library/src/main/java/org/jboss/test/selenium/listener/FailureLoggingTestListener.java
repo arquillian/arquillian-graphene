@@ -36,6 +36,7 @@ import org.jboss.test.selenium.encapsulated.NetworkTrafficType;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.utils.testng.TestInfo;
+import org.jboss.test.selenium.utils.testng.TestLoggingUtils;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
@@ -67,11 +68,12 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        if (selenium.isStarted()) {
+        if (!selenium.isStarted()) {
             return;
         }
 
-        String methodName = TestInfo.getMethodName(result);
+        String filenameIdentification = getFilenameIdentification(result);
+        String seleniumLogIdentification = getSeleniumLogIdentification(result);
 
         File seleniumLogFile = new File(mavenProjectBuildDirectory, "selenium/selenium-server.log");
         List<String> methodLog = new ArrayList<String>();
@@ -81,7 +83,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
             boolean started = false;
             for (String line : seleniumLog) {
-                if (line.contains("STARTED: " + methodName)) {
+                if (line.contains(seleniumLogIdentification)) {
                     started = true;
                     methodLog = new ArrayList<String>();
                 }
@@ -92,7 +94,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         String traffic;
         try {
             traffic = selenium.captureNetworkTraffic(NetworkTrafficType.PLAIN).getTraffic();
@@ -104,10 +106,10 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
         String htmlSource = selenium.getHtmlSource();
 
-        File imageOutputFile = new File(failuresOutputDir, methodName + ".png");
-        File trafficOutputFile = new File(failuresOutputDir, methodName + ".traffic.txt");
-        File logOutputFile = new File(failuresOutputDir, methodName + ".selenium-rc.txt");
-        File htmlSourceOutputFile = new File(failuresOutputDir, methodName + ".html");
+        File imageOutputFile = new File(failuresOutputDir, filenameIdentification + ".png");
+        File trafficOutputFile = new File(failuresOutputDir, filenameIdentification + ".traffic.txt");
+        File logOutputFile = new File(failuresOutputDir, filenameIdentification + ".selenium-rc.txt");
+        File htmlSourceOutputFile = new File(failuresOutputDir, filenameIdentification + ".html");
 
         try {
             ImageIO.write(screenshot, "PNG", imageOutputFile);
@@ -117,5 +119,18 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected String getSeleniumLogIdentification(ITestResult result) {
+        final String failure = TestInfo.STATUSES.get(result.getStatus()).toUpperCase();
+        final String started = TestInfo.STATUSES.get(ITestResult.STARTED).toUpperCase();
+        String testDescription = TestLoggingUtils.getTestDescription(result);
+        testDescription = testDescription.replaceFirst(failure, started);
+        testDescription = testDescription.replaceFirst("\\[[^\\]]+\\] ", "");
+        return testDescription;
+    }
+
+    protected String getFilenameIdentification(ITestResult result) {
+        return TestInfo.getMethodName(result);
     }
 }
