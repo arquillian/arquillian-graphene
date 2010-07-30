@@ -150,7 +150,7 @@ public class Browser {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("mode", browserMode).append("type",
-            browserMode.getBrowserType()).toString();
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("mode", browserMode)
+            .append("type", browserMode.getBrowserType()).append("executable", executable).toString();
     }
 }
