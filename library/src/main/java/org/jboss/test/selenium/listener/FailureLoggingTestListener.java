@@ -110,6 +110,9 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         File htmlSourceOutputFile = new File(failuresOutputDir, filenameIdentification + ".html");
 
         try {
+            File directory = imageOutputFile.getParentFile();
+            FileUtils.forceMkdir(directory);
+            
             ImageIO.write(screenshot, "PNG", imageOutputFile);
             FileUtils.writeStringToFile(trafficOutputFile, traffic);
 //            FileUtils.writeLines(logOutputFile, methodLog);
@@ -129,6 +132,6 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
     }
 
     protected String getFilenameIdentification(ITestResult result) {
-        return TestInfo.getMethodName(result);
+        return TestInfo.getClassMethodName(result);
     }
 }

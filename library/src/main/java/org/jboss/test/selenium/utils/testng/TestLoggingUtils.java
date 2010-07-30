@@ -22,7 +22,7 @@
 package org.jboss.test.selenium.utils.testng;
 
 import static org.jboss.test.selenium.utils.testng.TestInfo.STATUSES;
-import static org.jboss.test.selenium.utils.testng.TestInfo.getMethodName;
+import static org.jboss.test.selenium.utils.testng.TestInfo.getClassMethodName;
 
 import java.util.Date;
 
@@ -47,7 +47,7 @@ public final class TestLoggingUtils {
      * @return the detailed test description
      */
     public static String getTestDescription(ITestResult result) {
-        final String methodName = getMethodName(result);
+        final String methodName = getClassMethodName(result);
         final String status = STATUSES.get(result.getStatus());
 
         // parameters
