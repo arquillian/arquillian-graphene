@@ -69,7 +69,7 @@ public class XpathLocator extends AbstractElementLocator<XpathLocator> implement
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthOccurence(int)
      */
     public XpathLocator getNthOccurence(int index) {
-        return new XpathLocator(SimplifiedFormat.format("getLocator[{0}]", index));
+        return new XpathLocator(SimplifiedFormat.format("getLocator[{0}]", index - 1));
     }
 
     /*

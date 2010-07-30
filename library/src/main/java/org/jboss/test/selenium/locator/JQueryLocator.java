@@ -73,7 +73,7 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthChildElement(int)
      */
     public JQueryLocator getNthChildElement(int index) {
-        return new JQueryLocator(SimplifiedFormat.format("{0}:nth-child({1})", getRawLocator(), index + 1));
+        return new JQueryLocator(SimplifiedFormat.format("{0}:nth-child({1})", getRawLocator(), index));
     }
 
     /*
@@ -82,7 +82,7 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
      * @see org.jboss.test.selenium.locator.IterableLocator#getNthOccurence(int)
      */
     public JQueryLocator getNthOccurence(int index) {
-        return new JQueryLocator(SimplifiedFormat.format("{0}:eq({1})", getRawLocator(), index));
+        return new JQueryLocator(SimplifiedFormat.format("{0}:eq({1})", getRawLocator(), index - 1));
     }
 
     /*

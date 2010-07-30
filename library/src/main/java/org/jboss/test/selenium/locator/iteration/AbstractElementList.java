@@ -95,7 +95,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
          * </p>
          */
         public ElementIterator() {
-            index = 0;
+            index = 1;
             recount();
         }
 
@@ -112,7 +112,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
          * @see java.util.Iterator#hasNext()
          */
         public boolean hasNext() {
-            return index < count;
+            return index <= count;
         }
 
         /*
