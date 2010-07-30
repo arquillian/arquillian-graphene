@@ -24,8 +24,6 @@ package org.jboss.test.selenium.listener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -73,27 +71,27 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         }
 
         String filenameIdentification = getFilenameIdentification(result);
-        String seleniumLogIdentification = getSeleniumLogIdentification(result);
+//        String seleniumLogIdentification = getSeleniumLogIdentification(result);
 
-        File seleniumLogFile = new File(mavenProjectBuildDirectory, "selenium/selenium-server.log");
-        List<String> methodLog = new ArrayList<String>();
-        try {
-            @SuppressWarnings("unchecked")
-            List<String> seleniumLog = FileUtils.readLines(seleniumLogFile);
-
-            boolean started = false;
-            for (String line : seleniumLog) {
-                if (line.contains(seleniumLogIdentification)) {
-                    started = true;
-                    methodLog = new ArrayList<String>();
-                }
-                if (started) {
-                    methodLog.add(line);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        File seleniumLogFile = new File(mavenProjectBuildDirectory, "selenium/selenium-server.log");
+//        List<String> methodLog = new ArrayList<String>();
+//        try {
+//            @SuppressWarnings("unchecked")
+//            List<String> seleniumLog = FileUtils.readLines(seleniumLogFile);
+//
+//            boolean started = false;
+//            for (String line : seleniumLog) {
+//                if (line.contains(seleniumLogIdentification)) {
+//                    started = true;
+//                    methodLog = new ArrayList<String>();
+//                }
+//                if (started) {
+//                    methodLog.add(line);
+//                }
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         String traffic;
         try {
@@ -108,13 +106,13 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
         File imageOutputFile = new File(failuresOutputDir, filenameIdentification + ".png");
         File trafficOutputFile = new File(failuresOutputDir, filenameIdentification + ".traffic.txt");
-        File logOutputFile = new File(failuresOutputDir, filenameIdentification + ".selenium-rc.txt");
+//        File logOutputFile = new File(failuresOutputDir, filenameIdentification + ".selenium-rc.txt");
         File htmlSourceOutputFile = new File(failuresOutputDir, filenameIdentification + ".html");
 
         try {
             ImageIO.write(screenshot, "PNG", imageOutputFile);
             FileUtils.writeStringToFile(trafficOutputFile, traffic);
-            FileUtils.writeLines(logOutputFile, methodLog);
+//            FileUtils.writeLines(logOutputFile, methodLog);
             FileUtils.writeStringToFile(htmlSourceOutputFile, htmlSource);
         } catch (IOException e) {
             throw new RuntimeException(e);
