@@ -104,10 +104,10 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
         String htmlSource = selenium.getHtmlSource();
 
-        File imageOutputFile = new File(failuresOutputDir, filenameIdentification + ".png");
-        File trafficOutputFile = new File(failuresOutputDir, filenameIdentification + ".traffic.txt");
-//        File logOutputFile = new File(failuresOutputDir, filenameIdentification + ".selenium-rc.txt");
-        File htmlSourceOutputFile = new File(failuresOutputDir, filenameIdentification + ".html");
+        File imageOutputFile = new File(failuresOutputDir, filenameIdentification + "/screenshot.png");
+        File trafficOutputFile = new File(failuresOutputDir, filenameIdentification + "/network-traffic.txt");
+//        File logOutputFile = new File(failuresOutputDir, filenameIdentification + "/selenium-log.txt");
+        File htmlSourceOutputFile = new File(failuresOutputDir, filenameIdentification + "/html-source.html");
 
         try {
             File directory = imageOutputFile.getParentFile();
