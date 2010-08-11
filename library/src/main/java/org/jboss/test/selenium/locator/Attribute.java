@@ -40,6 +40,9 @@ public class Attribute {
 
     /** The HREF attribute. */
     public static final Attribute HREF = new Attribute("href");
+    
+    /** The TITLE attribute. */
+    public static final Attribute TITLE = new Attribute("title");
 
     /** The attribute name. */
     private String attributeName;
