@@ -21,7 +21,6 @@
  */
 package org.jboss.test.selenium.locator;
 
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 /**
  * Locates the element with the specified &#64;id attribute. If no match is found, select the first element whose
@@ -35,7 +34,7 @@ public class IdentifierLocator extends AbstractElementLocator<IdentifierLocator>
         super(idOrName);
     }
 
-    public LocationStrategy getLocationStrategy() {
-        return LocationStrategy.IDENTIFIER;
+    public ElementLocationStrategy getLocationStrategy() {
+        return ElementLocationStrategy.IDENTIFIER;
     }
 }

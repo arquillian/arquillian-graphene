@@ -23,7 +23,6 @@ package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.locator.iteration.ChildElementList;
 import org.jboss.test.selenium.locator.iteration.ElementOcurrenceList;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
@@ -50,8 +49,8 @@ public class XpathLocator extends AbstractElementLocator<XpathLocator> implement
      * 
      * @see org.jboss.test.selenium.locator.Locator#getLocationStrategy()
      */
-    public LocationStrategy getLocationStrategy() {
-        return LocationStrategy.XPATH;
+    public ElementLocationStrategy getLocationStrategy() {
+        return ElementLocationStrategy.XPATH;
     }
 
     /*

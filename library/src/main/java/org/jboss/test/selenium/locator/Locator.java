@@ -21,7 +21,6 @@
  */
 package org.jboss.test.selenium.locator;
 
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 /**
  * Locates the object by given strategy and parameters.

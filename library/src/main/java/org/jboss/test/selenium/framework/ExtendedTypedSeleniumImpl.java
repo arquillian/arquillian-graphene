@@ -23,9 +23,9 @@ package org.jboss.test.selenium.framework;
 
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
+import org.jboss.test.selenium.locator.ElementLocationStrategy;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.locator.IterableLocator;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 /**
  * Type-safe selenium wrapper for Selenium API with extension of some useful commands defined in
@@ -160,7 +160,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      */
     @Override
     public int getCount(IterableLocator<?> locator) {
-        if (locator.getLocationStrategy() == LocationStrategy.JQUERY) {
+        if (locator.getLocationStrategy() == ElementLocationStrategy.JQUERY) {
             return getExtendedSelenium().getJQueryCount(locator.getRawLocator()).intValue();
         }
 

@@ -19,23 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
 
 /**
- * Strategy for locating elements by given xpath xpression.
+ * <p>
+ * Locates select options based on their labels, i.e. the visible text.
+ * </p>
+ * 
+ * <p>
+ * Can be regular expression: "regexp:^[Oo]ther"
+ * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class XpathStrategy implements LocationStrategy {
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
-     */
-    public String getStrategyName() {
-        return "xpath";
+public class OptionLabelLocator extends AbstractOptionLocator<OptionLabelLocator> {
+    public OptionLabelLocator(String label) {
+        super(label);
     }
 
+    public OptionLocationStrategy getLocationStrategy() {
+        return OptionLocationStrategy.LABEL;
+    }
 }

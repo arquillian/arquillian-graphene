@@ -36,7 +36,7 @@ import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumImpl;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
+import org.jboss.test.selenium.locator.ElementLocationStrategy;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
 import org.jboss.test.selenium.waiting.conditions.AttributePresent;
@@ -196,7 +196,7 @@ public abstract class AbstractTestCase {
     private void loadCustomLocationStrategies() {
         // jQuery location strategy
         JavaScript strategySource = fromResource("javascript/selenium-location-strategies/jquery-location-strategy.js");
-        selenium.addLocationStrategy(LocationStrategy.JQUERY, strategySource);
+        selenium.addLocationStrategy(ElementLocationStrategy.JQUERY, strategySource);
     }
 
     /**

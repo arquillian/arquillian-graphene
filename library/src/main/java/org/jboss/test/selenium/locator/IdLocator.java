@@ -21,7 +21,6 @@
  */
 package org.jboss.test.selenium.locator;
 
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 /**
  * Locates the element with specified &#64;id attribute.
@@ -34,7 +33,7 @@ public class IdLocator extends AbstractElementLocator<IdLocator> {
         super(id);
     }
 
-    public LocationStrategy getLocationStrategy() {
-        return LocationStrategy.ID;
+    public ElementLocationStrategy getLocationStrategy() {
+        return ElementLocationStrategy.ID;
     }
 }

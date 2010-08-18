@@ -19,21 +19,39 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
+
+import org.jboss.test.selenium.locator.AbstractLocationStrategy;
 
 /**
- * Strategy for locating elements by given id or by name as a fallback.
+ * Strategy for locating select options on the page.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class IdentifierStrategy implements LocationStrategy {
+public class OptionLocationStrategy extends AbstractLocationStrategy {
 
-    /* (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
+    /**
+     * Strategy for location using option id
      */
-    public String getStrategyName() {
-        return "identifier";
-    }
+    public static final OptionLocationStrategy ID = new OptionLocationStrategy("id");
 
+    /**
+     * Strategy for location using options value
+     */
+    public static final OptionLocationStrategy VALUE = new OptionLocationStrategy("value");
+
+    /**
+     * Strategy for location using options label
+     */
+    public static final OptionLocationStrategy LABEL = new OptionLocationStrategy("label");
+
+    /**
+     * Strategy for location using option index
+     */
+    public static final OptionLocationStrategy INDEX = new OptionLocationStrategy("index");
+
+    public OptionLocationStrategy(String strategyName) {
+        super(strategyName);
+    }
 }

@@ -36,10 +36,11 @@ import org.jboss.test.selenium.geometry.Dimension;
 import org.jboss.test.selenium.geometry.Offset;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
+import org.jboss.test.selenium.locator.ElementLocationStrategy;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.locator.IdLocator;
 import org.jboss.test.selenium.locator.IterableLocator;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
+import org.jboss.test.selenium.locator.option.OptionLocator;
 
 /**
  * The type-safe wrapper for Selenium API.
@@ -435,7 +436,7 @@ public interface TypedSelenium {
      * @param optionLocator
      *            an option locator (a label by default)
      */
-    void select(ElementLocator<?> selectLocator, ElementLocator<?> optionLocator);
+    void select(ElementLocator<?> selectLocator, OptionLocator<?> optionLocator);
 
     /**
      * Add a selection to the set of selected options in a multi-select element using an option locator.
@@ -1286,7 +1287,7 @@ public interface TypedSelenium {
      *            a string defining the body of a function in JavaScript. For example:
      *            <code>return inDocument.getElementById(locator);</code>
      */
-    void addLocationStrategy(LocationStrategy strategyName, JavaScript functionDefinition);
+    void addLocationStrategy(ElementLocationStrategy strategyName, JavaScript functionDefinition);
 
     /**
      * Loads script content into a new script tag in the Selenium document. This differs from the runScript command in

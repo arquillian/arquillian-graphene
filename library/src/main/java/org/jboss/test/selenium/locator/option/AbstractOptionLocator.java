@@ -19,22 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
+
+import org.jboss.test.selenium.locator.AbstractLocator;
 
 /**
- * Strategy for locating by CSS selectors.
+ * Abstract implementation of option locator.
  * 
- * @see org.jboss.test.selenium.locator.CssLocator
- *  
+ * @param <T>
+ *            the type of locator which can be derived from this locator
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class CssStrategy implements LocationStrategy {
-
-    /* (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
-     */
-    public String getStrategyName() {
-        return "css";
+public abstract class AbstractOptionLocator<T extends OptionLocator<T>> extends AbstractLocator<T> implements
+    OptionLocator<T> {
+    
+    public AbstractOptionLocator(String locator) {
+        super(locator);
     }
 }

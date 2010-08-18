@@ -21,6 +21,7 @@
  */
 package org.jboss.test.selenium.locator;
 
+
 /**
  * Locator for locating elements on page.
  * 
@@ -39,4 +40,6 @@ public interface ElementLocator<T extends ElementLocator<T>> extends Locator<T> 
      * @return the attribute for this locator
      */
     AttributeLocator<T> getAttribute(Attribute attribute);
+
+    ElementLocationStrategy getLocationStrategy();
 }

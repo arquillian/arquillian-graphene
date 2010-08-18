@@ -19,21 +19,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
+
+import org.jboss.test.selenium.locator.Locator;
 
 /**
- * Strategy for locating elements by text of the link (anchor)
+ * Locator for locating select options on page.
+ * 
+ * @param <T>
+ *            the type of locator which can be derived from this locator
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class LinkStrategy implements LocationStrategy {
-
-    /* (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
-     */
-    public String getStrategyName() {
-        return "link";
-    }
-
+public interface OptionLocator<T extends OptionLocator<T>> extends Locator<T> {
+    OptionLocationStrategy getLocationStrategy();
 }

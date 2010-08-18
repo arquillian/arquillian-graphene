@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator;
 
 /**
  * Strategy for locating element on the page.
@@ -27,42 +27,34 @@ package org.jboss.test.selenium.locator.type;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface LocationStrategy {
+public class ElementLocationStrategy extends AbstractLocationStrategy {
 
     /** Strategy for locating by CSS selectors. */
-    LocationStrategy CSS = new CssStrategy();
+    public static final ElementLocationStrategy CSS = new ElementLocationStrategy("css");
 
     /** Strategy for locating by given JavaScript expression. */
-    LocationStrategy DOM = new DomStrategy();
+    public static final ElementLocationStrategy DOM = new ElementLocationStrategy("dom");
 
     /** Strategy for locating elements by given id or by name as a fallback */
-    LocationStrategy IDENTIFIER = new IdentifierStrategy();
+    public static final ElementLocationStrategy IDENTIFIER = new ElementLocationStrategy("identifier");
 
     /** Strategy for locating elements by given id attribute. */
-    LocationStrategy ID = new IdStrategy();
+    public static final ElementLocationStrategy ID = new ElementLocationStrategy("id");
 
     /** Strategy for locating elements using JQuery Selector syntax. */
-    LocationStrategy JQUERY = new JQueryStrategy();
+    public static final ElementLocationStrategy JQUERY = new ElementLocationStrategy("jquery");
 
     /** Strategy for locating elements by text of the link (anchor) */
-    LocationStrategy LINK = new LinkStrategy();
+    public static final ElementLocationStrategy LINK = new ElementLocationStrategy("link");
 
     /** Strategy for locating elements by given name attribute. */
-    LocationStrategy NAME = new NameStrategy();
+    public static final ElementLocationStrategy NAME = new ElementLocationStrategy("name");
 
     /** Strategy for locating elements by given xpath xpression. */
-    LocationStrategy XPATH = new XpathStrategy();
+    public static final ElementLocationStrategy XPATH = new ElementLocationStrategy("xpath");
 
-    /**
-     * <p>
-     * Gets the strategy name used to express location strategy in Selenium API.
-     * </p>
-     * 
-     * <p>
-     * E.g. <tt>&lt;strategyName&gt;=&lt;elementLocator&gt;</tt>
-     * </p>
-     * 
-     * @return the strategy name
-     */
-    String getStrategyName();
+    public ElementLocationStrategy(String strategyName) {
+        super(strategyName);
+    }
+
 }

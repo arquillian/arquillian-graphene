@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * JBoss, Home of Professional Open Source
  * Copyright 2010, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -18,23 +18,26 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
+ *******************************************************************************/
 package org.jboss.test.selenium.locator;
 
-
 /**
- * 
- * Locates the link (anchor) element which contains text matching the specified pattern.
+ * Strategy for locating items on page.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class LinkLocator extends AbstractElementLocator<LinkLocator> {
-    public LinkLocator(String linkText) {
-        super(linkText);
-    }
-
-    public ElementLocationStrategy getLocationStrategy() {
-        return ElementLocationStrategy.LINK;
-    }
+public interface LocationStrategy {
+    /**
+     * <p>
+     * Gets the strategy name used to express location strategy in Selenium API.
+     * </p>
+     * 
+     * <p>
+     * E.g. <tt>&lt;strategyName&gt;=&lt;locator&gt;</tt>
+     * </p>
+     * 
+     * @return the strategy name
+     */
+    String getStrategyName();
 }

@@ -52,10 +52,11 @@ import org.jboss.test.selenium.geometry.Offset;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.Attribute;
 import org.jboss.test.selenium.locator.AttributeLocator;
+import org.jboss.test.selenium.locator.ElementLocationStrategy;
 import org.jboss.test.selenium.locator.ElementLocator;
 import org.jboss.test.selenium.locator.IdLocator;
 import org.jboss.test.selenium.locator.IterableLocator;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
+import org.jboss.test.selenium.locator.option.OptionLocator;
 import org.jboss.test.selenium.utils.array.ArrayTransform;
 
 import com.thoughtworks.selenium.Selenium;
@@ -84,7 +85,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-    public void addLocationStrategy(LocationStrategy locationStrategy, JavaScript strategyDefinition) {
+    public void addLocationStrategy(ElementLocationStrategy locationStrategy, JavaScript strategyDefinition) {
         selenium.addLocationStrategy(locationStrategy.getStrategyName(), strategyDefinition.toString());
     }
 
@@ -291,7 +292,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public int getCount(IterableLocator<?> locator) {
-        if (locator.getLocationStrategy() != LocationStrategy.XPATH) {
+        if (locator.getLocationStrategy() != ElementLocationStrategy.XPATH) {
             throw new UnsupportedOperationException("Only XPath locators are supported for counting");
         }
         return selenium.getXpathCount(locator.getRawLocator()).intValue();
@@ -591,7 +592,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.runScript(script.getAsString());
     }
 
-    public void select(ElementLocator<?> selectLocator, ElementLocator<?> optionLocator) {
+    public void select(ElementLocator<?> selectLocator, OptionLocator<?> optionLocator) {
         selenium.select(selectLocator.getAsString(), optionLocator.getAsString());
     }
 

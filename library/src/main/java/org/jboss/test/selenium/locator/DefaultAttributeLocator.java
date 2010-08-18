@@ -22,7 +22,6 @@
 package org.jboss.test.selenium.locator;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
@@ -72,7 +71,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
      * 
      * @see org.jboss.test.selenium.locator.AttributeLocator#getLocationStrategy()
      */
-    public LocationStrategy getLocationStrategy() {
+    public ElementLocationStrategy getLocationStrategy() {
         return elementLocator.getLocationStrategy();
     }
 

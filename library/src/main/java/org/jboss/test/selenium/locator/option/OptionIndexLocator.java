@@ -19,23 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
 
 /**
- * Strategy for locating elements by given name attribute.
+ * Locates the select option based on its index (offset from zero).
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class NameStrategy implements LocationStrategy {
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
-     */
-    public String getStrategyName() {
-        return "name";
+public class OptionIndexLocator extends AbstractOptionLocator<OptionIndexLocator> {
+    public OptionIndexLocator(int index) {
+        super(String.valueOf(index));
     }
 
+    public OptionLocationStrategy getLocationStrategy() {
+        return OptionLocationStrategy.INDEX;
+    }
 }

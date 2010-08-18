@@ -19,21 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
 
 /**
- * Strategy for locating elements by given id attribute.
+ * Locates the select option with specified id.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class IdStrategy implements LocationStrategy {
-
-    /* (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
-     */
-    public String getStrategyName() {
-        return "id";
+public class OptionIdLocator extends AbstractOptionLocator<OptionIdLocator> {
+    public OptionIdLocator(String id) {
+        super(id);
     }
 
+    public OptionLocationStrategy getLocationStrategy() {
+        return OptionLocationStrategy.ID;
+    }
 }

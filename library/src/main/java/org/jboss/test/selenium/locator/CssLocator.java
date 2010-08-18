@@ -21,7 +21,6 @@
  */
 package org.jboss.test.selenium.locator;
 
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 /**
  * <p>
@@ -51,8 +50,8 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
      * 
      * @see org.jboss.test.selenium.locator.Locator#getLocationStrategy()
      */
-    public LocationStrategy getLocationStrategy() {
-        return LocationStrategy.CSS;
+    public ElementLocationStrategy getLocationStrategy() {
+        return ElementLocationStrategy.CSS;
     }
 
     /*

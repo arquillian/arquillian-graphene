@@ -22,7 +22,6 @@
 package org.jboss.test.selenium.locator;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 
 /**
  * <p>
@@ -45,7 +44,7 @@ public class DomLocator extends AbstractElementLocator<DomLocator> {
         super(javascriptExpression.getAsString());
     }
 
-    public LocationStrategy getLocationStrategy() {
-        return LocationStrategy.DOM;
+    public ElementLocationStrategy getLocationStrategy() {
+        return ElementLocationStrategy.DOM;
     }
 }

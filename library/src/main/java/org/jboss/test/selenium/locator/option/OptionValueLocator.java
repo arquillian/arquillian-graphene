@@ -19,23 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.locator.type;
+package org.jboss.test.selenium.locator.option;
 
-// TDO: Auto-generated Javadoc
 /**
- * Strategy for locating by given JavaScript expression.
+ * Locates select options based on their values.
  * 
- * @see org.jboss.test.selenium.locator.DomLocator
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class DomStrategy implements LocationStrategy {
-
-    /* (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.type.LocationStrategy#getStrategyName()
-     */
-    public String getStrategyName() {
-        return "dom";
+public class OptionValueLocator extends AbstractOptionLocator<OptionValueLocator> {
+    public OptionValueLocator(String value) {
+        super(value);
     }
 
+    public OptionLocationStrategy getLocationStrategy() {
+        return OptionLocationStrategy.VALUE;
+    }
 }

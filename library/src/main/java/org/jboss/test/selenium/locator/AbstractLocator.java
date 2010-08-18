@@ -22,7 +22,6 @@
 package org.jboss.test.selenium.locator;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.test.selenium.locator.type.LocationStrategy;
 import org.jboss.test.selenium.utils.text.SimplifiedFormat;
 
 /**
