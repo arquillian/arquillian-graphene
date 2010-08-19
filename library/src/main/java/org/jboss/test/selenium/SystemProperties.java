@@ -70,7 +70,9 @@ public final class SystemProperties {
      * @return current browser implementation used in tests.
      */
     public static Browser getBrowser() {
-        return new Browser(getProperty("browser"));
+        String browser = getProperty("browser");
+        Validate.notNull(browser, "browser system property should be set");
+        return new Browser(browser);
     }
 
     /**
@@ -79,7 +81,7 @@ public final class SystemProperties {
      * @return current maven resources dir, such as images, XMLs, etc.
      */
     public static File getMavenResourcesDir() {
-        return new File(getProperty("maven.resources.dir"), "./target/test-classes/");
+        return new File(getProperty("maven.resources.dir", "./target/test-classes/"));
     }
 
     /**
@@ -88,7 +90,7 @@ public final class SystemProperties {
      * @return current maven project build (target) directory.
      */
     public static File getMavenProjectBuildDirectory() {
-        return new File(getProperty("maven.project.build.directory"), "./target/");
+        return new File(getProperty("maven.project.build.directory", "./target/"));
     }
 
     /**
@@ -97,7 +99,9 @@ public final class SystemProperties {
      * @return the host of Selenium Server
      */
     public static String getSeleniumHost() {
-        return getProperty("selenium.host", "localhost");
+        String seleniumHost = getProperty("selenium.host", "localhost");
+        Validate.notNull(seleniumHost, "selenium.host system property should be set");
+        return seleniumHost;
     }
 
     /**
