@@ -139,10 +139,14 @@ public abstract class AbstractTestCase {
     public void initializeBrowser() {
         selenium = new AjaxSeleniumImpl(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
         AjaxSeleniumProxy.setCurrentContext(selenium);
-        selenium.enableNetworkTrafficCapturing(true);
+        
+        selenium.enableNetworkTrafficCapturing(isSeleniumNetworkTrafficEnabled());
         selenium.start();
+        
         loadCustomLocationStrategies();
-
+        
+        selenium.setSpeed(getSeleniumSpeed());
+        
         if (isSeleniumMaximize()) {
             // focus and maximaze tested window
             selenium.windowFocus();

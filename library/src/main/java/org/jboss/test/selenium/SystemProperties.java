@@ -28,6 +28,7 @@ import static org.jboss.test.selenium.utils.PrimitiveUtils.*;
 import java.io.File;
 import java.net.URL;
 
+import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.browser.Browser;
 
 /**
@@ -43,22 +44,29 @@ public final class SystemProperties {
 
     /**
      * Returns context root, the root URL for server instance.
+     * 
      * @return context root, the root URL for server instance.
      */
     public static URL getContextRoot() {
-        return buildUrl(getProperty("context.root"));
+        String contextRoot = getProperty("context.root");
+        Validate.notNull(contextRoot, "context.root system property should be set");
+        return buildUrl(contextRoot);
     }
 
     /**
      * Returns context path, the URL for application context incl. context root ({@link #getContextRoot()}.
+     * 
      * @return context path, the URL for application context incl. context root ({@link #getContextRoot()}.
      */
     public static URL getContextPath() {
-        return buildUrl(getContextRoot(), getProperty("context.path"));
+        String contextPath = getProperty("context.path");
+        Validate.notNull(contextPath, "context.path system property should be set");
+        return buildUrl(getContextRoot(), contextPath);
     }
 
     /**
      * Returns current browser implementation used in tests.
+     * 
      * @return current browser implementation used in tests.
      */
     public static Browser getBrowser() {
@@ -67,59 +75,95 @@ public final class SystemProperties {
 
     /**
      * Returns current maven resources dir, such as images, XMLs, etc.
+     * 
      * @return current maven resources dir, such as images, XMLs, etc.
      */
     public static File getMavenResourcesDir() {
-        return new File(getProperty("maven.resources.dir"));
+        return new File(getProperty("maven.resources.dir"), "./target/test-classes/");
     }
 
     /**
      * Returns current maven project build (target) directory.
+     * 
      * @return current maven project build (target) directory.
      */
     public static File getMavenProjectBuildDirectory() {
-        return new File(getProperty("maven.project.build.directory"));
+        return new File(getProperty("maven.project.build.directory"), "./target/");
     }
 
     /**
      * Returns the host of Selenium Server
+     * 
      * @return the host of Selenium Server
      */
     public static String getSeleniumHost() {
-        return getProperty("selenium.host");
+        return getProperty("selenium.host", "localhost");
     }
 
     /**
      * Returns the port for Selenium Server
+     * 
      * @return the port for Selenium Server
      */
     public static int getSeleniumPort() {
-        return asInteger(getProperty("selenium.port"));
+        String seleniumPort = getProperty("selenium.port");
+        Validate.notNull(seleniumPort, "selenium.port system property should be set");
+        return asInteger(seleniumPort);
     }
 
     /**
      * Returns whenever should browser window be maximized after start.
+     * 
      * @return whenever should browser window be maximized after start
      */
     public static boolean isSeleniumMaximize() {
-        return asBoolean(getProperty("selenium.maximize"));
+        return asBoolean(getProperty("selenium.maximize", "false"));
     }
 
     /**
      * Returns if Selenium test is in debug mode
+     * 
      * @return if Selenium test is in debug mode
      */
     public static boolean isSeleniumDebug() {
-        return asBoolean(getProperty("selenium.debug"));
+        return asBoolean(getProperty("selenium.debug", "false"));
+    }
+
+    /**
+     * Returns the speed of performing selenium commands
+     * 
+     * @return the speed of performing selenium commands
+     */
+    public static int getSeleniumSpeed() {
+        return asInteger(getProperty("selenium.speed", "0"));
+    }
+
+    /**
+     * Returns if the network traffic should be captured during the selenium session.
+     * 
+     * @return if the network traffic should be captured during the selenium session.
+     */
+    public static boolean isSeleniumNetworkTrafficEnabled() {
+        return asBoolean(getProperty("selenium.network.traffic", "false"));
     }
 
     /**
      * Returns the predefined timeout for given type.
-     * @param type the type of timeout ({@link SeleniumTimeoutType})
+     * 
+     * @param type
+     *            the type of timeout ({@link SeleniumTimeoutType})
      * @return the predefined timeout for given type.
      */
     public static long getSeleniumTimeout(SeleniumTimeoutType type) {
-        return asLong(getProperty("selenium.timeout." + type.toString().toLowerCase()));
+        Validate.notNull(type);
+
+        String seleniumTimeout = getProperty("selenium.timeout." + type.toString().toLowerCase());
+
+        if (seleniumTimeout == null) {
+            return type.defaultTimeout;
+        }
+
+        return asLong(seleniumTimeout);
     }
 
     /**
@@ -129,21 +173,27 @@ public final class SystemProperties {
         /**
          * Default waiting set in Selenium API
          */
-        DEFAULT,
-        
+        DEFAULT(30000),
+
         /**
          * Waiting for GUI operations, such as rendering
          */
-        GUI,
-        
+        GUI(5000),
+
         /**
          * Waiting for AJAX operations (computational intensive server operations)
          */
-        AJAX,
-        
+        AJAX(15000),
+
         /**
          * Waiting for Model change operations (computational intensive server operations)
          */
-        MODEL;
+        MODEL(30000);
+
+        int defaultTimeout;
+
+        private SeleniumTimeoutType(int defaultTimeout) {
+            this.defaultTimeout = defaultTimeout;
+        }
     }
 }

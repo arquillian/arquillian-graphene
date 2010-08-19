@@ -29,6 +29,8 @@
 		<selenium.port>8444</selenium.port>
 		<selenium.debug>false</selenium.debug>
 		<selenium.maximize>false</selenium.maximize>
+		<selenium.speed>0</selenium.speed>
+		<selenium.network.traffic>false</selenium.network.traffic>
 		<selenium.timeout.default>30000</selenium.timeout.default>
 		<selenium.timeout.gui>5000</selenium.timeout.gui>
 		<selenium.timeout.ajax>15000</selenium.timeout.ajax>
