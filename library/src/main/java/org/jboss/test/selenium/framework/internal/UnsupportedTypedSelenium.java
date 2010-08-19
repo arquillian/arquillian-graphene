@@ -25,8 +25,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import org.jboss.test.selenium.encapsulated.Cookie;
-import org.jboss.test.selenium.encapsulated.CookieParameters;
 import org.jboss.test.selenium.encapsulated.Frame;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.encapsulated.Window;
@@ -100,65 +98,6 @@ public interface UnsupportedTypedSelenium {
      *            native code.
      */
     void captureEntirePageScreenshot(File filename);
-
-    /**
-     * Return all cookies of the current page under test.
-     * 
-     * @return all cookies of the current page under test
-     */
-    List<Cookie> getCookie();
-
-    /**
-     * Returns the value of the cookie with the specified name, or throws an error if the cookie is not present.
-     * 
-     * @param name
-     *            the name of the cookie
-     * @return the value of the cookie
-     */
-    Cookie getCookieByName(Cookie name);
-
-    /**
-     * Returns true if a cookie with the specified name is present, or false otherwise.
-     * 
-     * @param name
-     *            the name of the cookie
-     * @return true if a cookie with the specified name is present, or false otherwise.
-     */
-    boolean isCookiePresent(Cookie name);
-
-    /**
-     * Create a new cookie whose path and domain are same with those of current page under test, unless you specified a
-     * path for this cookie explicitly.
-     * 
-     * @param nameValuePair
-     *            name and value of the cookie in a format "name=value"
-     * @param optionsString
-     *            options for the cookie. Currently supported options include 'path', 'max_age' and 'domain'. the
-     *            optionsString's format is "path=/path/, max_age=60, domain=.foo.com". The order of options are
-     *            irrelevant, the unit of the value of 'max_age' is second. Note that specifying a domain that isn't a
-     *            subset of the current domain will usually fail.
-     */
-    void createCookie(Cookie cookie, CookieParameters parameters);
-
-    /**
-     * Delete a named cookie with specified path and domain. Be careful; to delete a cookie, you need to delete it using
-     * the exact same path and domain that were used to create the cookie. If the path is wrong, or the domain is wrong,
-     * the cookie simply won't be deleted. Also note that specifying a domain that isn't a subset of the current domain
-     * will usually fail.
-     * 
-     * Since there's no way to discover at runtime the original path and domain of a given cookie, we've added an option
-     * called 'recurse' to try all sub-domains of the current domain with all paths that are a subset of the current
-     * path. Beware; this option can be slow. In big-O notation, it operates in O(n*m) time, where n is the number of
-     * dots in the domain name and m is the number of slashes in the path.
-     * 
-     * @param name
-     *            the name of the cookie to be deleted
-     * @param optionsString
-     *            options for the cookie. Currently supported options include 'path', 'domain' and 'recurse.' The
-     *            optionsString's format is "path=/path/, domain=.foo.com, recurse=true". The order of options are
-     *            irrelevant. Note that specifying a domain that isn't a subset of the current domain will usually fail.
-     */
-    void deleteCookie(Cookie cookie, CookieParameters parameters);
 
     /**
      * Returns the IDs of all buttons on the page.

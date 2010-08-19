@@ -24,7 +24,11 @@ package org.jboss.test.selenium.framework;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.List;
+import java.util.Set;
 
+import org.jboss.test.selenium.cookie.Cookie;
+import org.jboss.test.selenium.cookie.CreateCookieOptions;
+import org.jboss.test.selenium.cookie.DeleteCookieOptions;
 import org.jboss.test.selenium.dom.Event;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
@@ -1238,6 +1242,75 @@ public interface TypedSelenium {
      *            a timeout in milliseconds, after which this command will return with an error
      */
     void waitForFrameToLoad(URL frameAddress, long timeout);
+
+    /**
+     * <p>Return all cookies of the current page under test.</p>
+     * 
+     * <p><b>Currently unsupported</b></p>
+     * 
+     * @return all cookies of the current page under test
+     */
+    Set<Cookie> getAllCookies();
+
+    /**
+     * Returns the value of the cookie with the specified name, or throws an error if the cookie is not present.
+     * 
+     * @param cookieName
+     *            the name of the cookie
+     * @return the value of the cookie
+     */
+    Cookie getCookieByName(String cookieName);
+
+    /**
+     * Returns true if a cookie with the specified name is present, or false otherwise.
+     * 
+     * @param cookieName
+     *            the name of the cookie
+     * @return true if a cookie with the specified name is present, or false otherwise.
+     */
+    boolean isCookiePresent(String cookieName);
+
+    /**
+     * Create a new cookie whose path and domain are same with those of current page under test.
+     * 
+     * @param cookie
+     *            the cookie to be created
+     */
+    void createCookie(Cookie cookie);
+    
+    /**
+     * Create a new cookie whose path and domain are same with those of current page under test, unless you specified a
+     * path for this cookie explicitly in options.
+     * 
+     * @param cookie
+     *            the cookie to be created
+     * @param options
+     *            options for the cookie. Currently supported options include 'path', 'max_age' and 'domain'. the
+     *            optionsString's format is "path=/path/, max_age=60, domain=.foo.com". The order of options are
+     *            irrelevant, the unit of the value of 'max_age' is second. Note that specifying a domain that isn't a
+     *            subset of the current domain will usually fail.
+     */
+    void createCookie(Cookie cookie, CreateCookieOptions options);
+
+    /**
+     * Delete a named cookie with specified options. Be careful; to delete a cookie, you need to delete it using
+     * the exact same path and domain that were used to create the cookie. If the path is wrong, or the domain is wrong,
+     * the cookie simply won't be deleted. Also note that specifying a domain that isn't a subset of the current domain
+     * will usually fail.
+     * 
+     * Since there's no way to discover at runtime the original path and domain of a given cookie, we've added an option
+     * called 'recurse' to try all sub-domains of the current domain with all paths that are a subset of the current
+     * path. Beware; this option can be slow. In big-O notation, it operates in O(n*m) time, where n is the number of
+     * dots in the domain name and m is the number of slashes in the path.
+     * 
+     * @param cookieName
+     *            the name of the cookie to be deleted
+     * @param options
+     *            options for the cookie. Currently supported options include 'path', 'domain' and 'recurse.' The
+     *            optionsString's format is "path=/path/, domain=.foo.com, recurse=true". The order of options are
+     *            irrelevant. Note that specifying a domain that isn't a subset of the current domain will usually fail.
+     */
+    void deleteCookie(String cookieName, DeleteCookieOptions options);
 
     /**
      * Calls deleteCookie with recurse=true on all cookies visible to the current page. As noted on the documentation

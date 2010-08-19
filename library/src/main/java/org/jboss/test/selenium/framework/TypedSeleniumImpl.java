@@ -29,14 +29,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
 import org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
+import org.jboss.test.selenium.cookie.Cookie;
+import org.jboss.test.selenium.cookie.CreateCookieOptions;
+import org.jboss.test.selenium.cookie.DeleteCookieOptions;
 import org.jboss.test.selenium.dom.Event;
-import org.jboss.test.selenium.encapsulated.Cookie;
-import org.jboss.test.selenium.encapsulated.CookieParameters;
 import org.jboss.test.selenium.encapsulated.Frame;
 import org.jboss.test.selenium.encapsulated.FrameLocator;
 import org.jboss.test.selenium.encapsulated.JavaScript;
@@ -193,16 +195,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.controlKeyUp();
     }
 
-    public void createCookie(Cookie cookie, CookieParameters parameters) {
-        throw new UnsupportedOperationException();
-    }
-
     public void deleteAllVisibleCookies() {
         selenium.deleteAllVisibleCookies();
-    }
-
-    public void deleteCookie(Cookie cookie, CookieParameters parameters) {
-        throw new UnsupportedOperationException();
     }
 
     public void deselectPopUp() {
@@ -281,14 +275,6 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     public String getConfirmation() {
         return selenium.getConfirmation();
-    }
-
-    public List<Cookie> getCookie() {
-        throw new UnsupportedOperationException();
-    }
-
-    public Cookie getCookieByName(Cookie name) {
-        throw new UnsupportedOperationException();
     }
 
     public int getCount(IterableLocator<?> locator) {
@@ -442,10 +428,6 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     public boolean isConfirmationPresent() {
         return Boolean.valueOf(selenium.isConfirmationPresent());
-    }
-
-    public boolean isCookiePresent(Cookie name) {
-        throw new UnsupportedOperationException("not implemented yet");
     }
 
     public boolean isEditable(ElementLocator<?> elementLocator) {
@@ -721,5 +703,36 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    @Override
+    public Set<Cookie> getAllCookies() {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public Cookie getCookieByName(String cookieName) {
+        String value = selenium.getCookieByName(cookieName);
+        return new Cookie(cookieName, value);
+    }
+
+    @Override
+    public boolean isCookiePresent(String cookieName) {
+        return selenium.isCookiePresent(cookieName);
+    }
+
+    @Override
+    public void createCookie(Cookie cookie) {
+        this.createCookie(cookie, new CreateCookieOptions());
+    }
+
+    @Override
+    public void createCookie(Cookie cookie, CreateCookieOptions options) {
+        selenium.createCookie(cookie.getAsNameValuePair(), options.getAsString());
+    }
+
+    @Override
+    public void deleteCookie(String cookieName, DeleteCookieOptions options) {
+        selenium.deleteCookie(cookieName, options.getAsString());
     }
 }

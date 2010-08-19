@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * JBoss, Home of Professional Open Source
  * Copyright 2010, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -18,14 +18,43 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
-package org.jboss.test.selenium.encapsulated;
+ *******************************************************************************/
+package org.jboss.test.selenium.cookie;
 
 /**
- * TODO not implemented yet
+ * Options for creating cookies.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Cookie {
+public class CreateCookieOptions extends CookieOptions<CreateCookieOptions> {
+    private Long maxAge = null;
+
+    /**
+     * Specifies max time to live in seconds.
+     * 
+     * @param maxAge
+     *            max time to live in seconds
+     * @return the create cookie options with max age specified
+     */
+    public CreateCookieOptions maxAge(long maxAge) {
+        CreateCookieOptions copy = copy();
+        copy.maxAge = maxAge;
+        return copy;
+    }
+
+    public Long getMaxAge() {
+        return maxAge;
+    }
+
+    @Override
+    public String getAsString() {
+        String result = super.getAsString();
+
+        if (maxAge != null) {
+            return result + ", " + maxAge;
+        } else {
+            return result;
+        }
+    }
 }
