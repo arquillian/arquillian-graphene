@@ -142,4 +142,16 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * org.jboss.test.selenium.framework.DefaultTypedSelenium#getCount(org.jboss.test.selenium.locator.IterableLocator)
      */
     int getCount(IterableLocator<?> locator);
+
+    /**
+     * <p>
+     * Check a toggle-button (checkbox/radio) on or off.
+     * </p>
+     * 
+     * @param locator
+     *            an element locator
+     * @param checked
+     *            if true, toggle-button will be checked on, otherwise checked off
+     */
+    void check(ElementLocator<?> locator, boolean checked);
 }

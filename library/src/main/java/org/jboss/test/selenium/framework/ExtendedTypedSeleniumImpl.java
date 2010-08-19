@@ -170,4 +170,20 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
             throw new UnsupportedOperationException("Only JQuery and XPath locators are supported for counting");
         }
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.jboss.test.selenium.framework.ExtendedTypedSelenium#check(org.jboss.test.selenium.locator.ElementLocator,
+     * boolean)
+     */
+    @Override
+    public void check(ElementLocator<?> locator, boolean checked) {
+        if (checked) {
+            check(locator);
+        } else {
+            uncheck(locator);
+        }
+    }
 }
