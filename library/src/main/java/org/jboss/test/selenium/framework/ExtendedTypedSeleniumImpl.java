@@ -21,6 +21,10 @@
  */
 package org.jboss.test.selenium.framework;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.jboss.test.selenium.css.CssProperty;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
@@ -63,7 +67,11 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * @see org.jboss.test.selenium.framework.TypedSeleniumImpl#start()
      */
     public void start() {
-        selenium.start("captureNetworkTraffic=" + Boolean.toString(networkTrafficCapturingEnabled));
+        List<String> parameters = new LinkedList<String>();
+        if (networkTrafficCapturingEnabled) {
+            parameters.add("captureNetworkTraffic=true");
+        }
+        selenium.start(StringUtils.join(parameters, ","));
         started = true;
     }
 
