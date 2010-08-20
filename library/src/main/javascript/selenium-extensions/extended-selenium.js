@@ -104,6 +104,10 @@ Selenium.prototype.isAttributePresent = function(elementLocator, attributeName) 
 	return (!! attribute);
 };
 
+Selenium.prototype.throwError = function(message) {
+	throw new SeleniumError(message);
+};
+
 /**
  * Syntactic shortcut for accessing RichFacesSelenium on the page.
  * 

@@ -38,8 +38,11 @@ import org.jboss.test.selenium.framework.AjaxSeleniumImpl;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.locator.ElementLocationStrategy;
 import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
+import org.jboss.test.selenium.waiting.conditions.AlertEquals;
+import org.jboss.test.selenium.waiting.conditions.AlertPresent;
 import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
 import org.jboss.test.selenium.waiting.conditions.AttributePresent;
+import org.jboss.test.selenium.waiting.conditions.CountEquals;
 import org.jboss.test.selenium.waiting.conditions.ElementPresent;
 import org.jboss.test.selenium.waiting.conditions.StyleEquals;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
@@ -90,6 +93,9 @@ public abstract class AbstractTestCase {
     protected StyleEquals styleEquals = StyleEquals.getInstance();
     protected AttributePresent attributePresent = AttributePresent.getInstance();
     protected AttributeEquals attributeEquals = AttributeEquals.getInstance();
+    protected AlertPresent alertPresent = AlertPresent.getInstance();
+    protected AlertEquals alertEquals = AlertEquals.getInstance();
+    protected CountEquals countEquals = CountEquals.getInstance();
 
     protected TextRetriever retrieveText = TextRetriever.getInstance();
     protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
