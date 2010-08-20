@@ -21,6 +21,7 @@
  */
 package org.jboss.test.selenium.framework;
 
+import org.jboss.test.selenium.css.CssProperty;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocator;
@@ -81,8 +82,22 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @throws IllegalStateException
      *             if is caught unrecognized throwable
      */
+    @Deprecated
     String getStyle(ElementLocator<?> elementLocator, String property);
 
+    /**
+     * Get current style value of element given by locator.
+     * 
+     * @param locator
+     *            of element from what we want to get current style value
+     * @param property
+     *            CSS style property
+     * @return current value of property if its element exists and has this property value set; null value otherwise
+     * @throws IllegalStateException
+     *             if is caught unrecognized throwable
+     */
+    String getStyle(ElementLocator<?> elementLocator, CssProperty property);
+    
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
      * 

@@ -21,6 +21,7 @@
  */
 package org.jboss.test.selenium.framework;
 
+import org.jboss.test.selenium.css.CssProperty;
 import org.jboss.test.selenium.geometry.Point;
 import org.jboss.test.selenium.locator.AttributeLocator;
 import org.jboss.test.selenium.locator.ElementLocationStrategy;
@@ -103,6 +104,17 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      */
     public String getStyle(ElementLocator<?> elementLocator, String property) {
         return getExtendedSelenium().getStyle(elementLocator.getAsString(), property);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.jboss.test.selenium.framework.ExtendedTypedSelenium#getStyle(org.jboss.test.selenium.locator.ElementLocator,
+     * org.jboss.test.selenium.css.CssProperty)
+     */
+    public String getStyle(ElementLocator<?> elementLocator, CssProperty property) {
+        return getExtendedSelenium().getStyle(elementLocator.getAsString(), property.getPropertyName());
     }
 
     /*
