@@ -59,7 +59,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *             if is caught unrecognized throwable
      */
     public String getStyle(String locator, String property) {
-        return commandProcessor.doCommand("getStyle", new String[]{locator, property});
+        return commandProcessor.getString("getStyle", new String[]{locator, property});
     }
 
     /**
