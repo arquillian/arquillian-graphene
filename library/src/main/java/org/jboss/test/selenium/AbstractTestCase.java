@@ -41,6 +41,7 @@ import org.jboss.test.selenium.waiting.ajax.AjaxWaiting;
 import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
 import org.jboss.test.selenium.waiting.conditions.AttributePresent;
 import org.jboss.test.selenium.waiting.conditions.ElementPresent;
+import org.jboss.test.selenium.waiting.conditions.StyleEquals;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
 import org.jboss.test.selenium.waiting.retrievers.TextRetriever;
@@ -86,6 +87,7 @@ public abstract class AbstractTestCase {
 
     protected ElementPresent elementPresent = ElementPresent.getInstance();
     protected TextEquals textEquals = TextEquals.getInstance();
+    protected StyleEquals styleEquals = StyleEquals.getInstance();
     protected AttributePresent attributePresent = AttributePresent.getInstance();
     protected AttributeEquals attributeEquals = AttributeEquals.getInstance();
 
