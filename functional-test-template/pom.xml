@@ -420,7 +420,7 @@
 				</property>
 			</activation>
 			<properties>
-				<container.version>6.0.26</container.version>
+				<container.version>6.0.29</container.version>
 				<container.installer.url>http://www.apache.org/dist/tomcat/tomcat-6/v${container.version}/bin/apache-tomcat-${container.version}.zip</container.installer.url>
 				<container.dir>apache-tomcat-${container.version}</container.dir>
 			</properties>
