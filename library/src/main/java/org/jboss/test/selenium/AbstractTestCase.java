@@ -55,9 +55,22 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import static org.jboss.test.selenium.waiting.Wait.*;
+import static org.jboss.test.selenium.waiting.Wait.waitAjax;
+import static org.jboss.test.selenium.waiting.Wait.waitSelenium;
 import static org.jboss.test.selenium.encapsulated.JavaScript.fromResource;
-import static org.jboss.test.selenium.SystemProperties.*;
+import static org.jboss.test.selenium.SystemProperties.getBrowser;
+import static org.jboss.test.selenium.SystemProperties.getContextPath;
+import static org.jboss.test.selenium.SystemProperties.getContextRoot;
+import static org.jboss.test.selenium.SystemProperties.getMavenProjectBuildDirectory;
+import static org.jboss.test.selenium.SystemProperties.getMavenResourcesDir;
+import static org.jboss.test.selenium.SystemProperties.getSeleniumHost;
+import static org.jboss.test.selenium.SystemProperties.getSeleniumPort;
+import static org.jboss.test.selenium.SystemProperties.getSeleniumSpeed;
+import static org.jboss.test.selenium.SystemProperties.getSeleniumTimeout;
+import static org.jboss.test.selenium.SystemProperties.isSeleniumDebug;
+import static org.jboss.test.selenium.SystemProperties.isSeleniumMaximize;
+import static org.jboss.test.selenium.SystemProperties.isSeleniumNetworkTrafficEnabled;
+import static org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
 
 /**
  * <p>
@@ -143,23 +156,32 @@ public abstract class AbstractTestCase {
      * @param seleniumPort
      *            specifies on which port should selenium server run
      */
-    @BeforeClass(dependsOnMethods = {"initializeParameters", "isTestBrowserEnabled"}, alwaysRun = true)
+    @BeforeClass(dependsOnMethods = { "initializeParameters", "isTestBrowserEnabled" }, alwaysRun = true)
     public void initializeBrowser() {
         selenium = new AjaxSeleniumImpl(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
         AjaxSeleniumProxy.setCurrentContext(selenium);
-        
+
         selenium.enableNetworkTrafficCapturing(isSeleniumNetworkTrafficEnabled());
         selenium.start();
-        
+
         loadCustomLocationStrategies();
-        
+
         selenium.setSpeed(getSeleniumSpeed());
-        
+
         if (isSeleniumMaximize()) {
             // focus and maximaze tested window
             selenium.windowFocus();
             selenium.windowMaximize();
         }
+    }
+
+    /**
+     * Restarts the browser by finalizing current session and initializing new one.
+     */
+    public void restartBrowser() {
+        finalizeBrowser();
+        initializeBrowser();
+        initializeExtensions();
     }
 
     /**
@@ -185,14 +207,11 @@ public abstract class AbstractTestCase {
     /**
      * Initializes page and Selenium's extensions to correctly install before test run.
      */
-    @SuppressWarnings("unchecked")
-    @BeforeClass(dependsOnMethods = {"initializeBrowser"}, alwaysRun = true)
-    public void initializeExtensions() throws IOException {
+    @BeforeClass(dependsOnMethods = { "initializeBrowser" }, alwaysRun = true)
+    public void initializeExtensions() {
 
-        List<String> seleniumExtensions =
-            IOUtils.readLines(ClassLoader.getSystemResourceAsStream("javascript/selenium-extensions-order.txt"));
-        List<String> pageExtensions =
-            IOUtils.readLines(ClassLoader.getSystemResourceAsStream("javascript/page-extensions-order.txt"));
+        List<String> seleniumExtensions = getExtensionsListFromResource("javascript/selenium-extensions-order.txt");
+        List<String> pageExtensions = getExtensionsListFromResource("javascript/page-extensions-order.txt");
 
         // loads the extensions to the selenium
         selenium.getSeleniumExtensions().requireResources(seleniumExtensions);
@@ -200,6 +219,22 @@ public abstract class AbstractTestCase {
         selenium.getSeleniumExtensions().registerCustomHandlers();
         // prepares the resources to load into page
         selenium.getPageExtensions().loadFromResources(pageExtensions);
+    }
+
+    /**
+     * Loads the list of resource names from the given resource.
+     * 
+     * @param resourceName
+     *            the path to resource on classpath
+     * @return the list of resource names from the given resource.
+     */
+    @SuppressWarnings("unchecked")
+    private List<String> getExtensionsListFromResource(String resourceName) {
+        try {
+            return IOUtils.readLines(ClassLoader.getSystemResourceAsStream(resourceName));
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**
@@ -217,6 +252,7 @@ public abstract class AbstractTestCase {
     @AfterClass(alwaysRun = true)
     public void finalizeBrowser() {
         if (selenium != null && selenium.isStarted()) {
+            selenium.deleteAllVisibleCookies();
             AjaxSeleniumProxy.setCurrentContext(null);
             selenium.stop();
             selenium = null;
@@ -228,7 +264,7 @@ public abstract class AbstractTestCase {
      * 
      * If it is not enabled, skip the particular test.
      */
-    @Parameters({"enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes"})
+    @Parameters({ "enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes" })
     @BeforeClass(dependsOnMethods = "initializeParameters", alwaysRun = true)
     public void isTestBrowserEnabled(@Optional("*") String enabledBrowsersParam,
         @Optional("") String disabledBrowsersParam, @Optional("*") String enabledModesParam,
