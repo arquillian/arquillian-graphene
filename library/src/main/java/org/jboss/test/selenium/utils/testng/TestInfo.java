@@ -55,6 +55,17 @@ public final class TestInfo {
     }
 
     /**
+     * Get package + class + method name from ITestResult
+     * 
+     * @param result
+     *            from the fine-grained listener's method such as onTestFailure(ITestResult)
+     * @return the package + class + method name in current context
+     */
+    public static String getPackageClassMethodName(ITestResult result) {
+        return getContainingPackageName(result) + "." + getClassMethodName(result);
+    }
+
+    /**
      * Get class + method name from ITestResult
      * 
      * @param result
