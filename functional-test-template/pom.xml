@@ -329,9 +329,11 @@
 				</property>
 			</activation>
 			<properties>
-				<container.version>6.0.0.M2</container.version>
-				<container.dir.unflatted>jboss-6.0.0.20100216-M2</container.dir.unflatted>
-				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.version}/jboss-${container.version}.zip</container.installer.url>
+				<container.short.version>6.0.0.M4</container.short.version>
+				<container.version>6.0.0.20100721-M4</container.version>
+				<container.dir.deflatted>jboss-as-distribution-${container.version}</container.dir.deflatted>
+				<container.dir.unflatted>jboss-${container.version}</container.dir.unflatted>
+				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.short.version}/jboss-as-distribution-${container.version}.zip</container.installer.url>
 				<container.dir>jboss-${container.version}</container.dir>
 				<container.configuration>default</container.configuration>
 				<container.configuration.home>${container.home}/server/${container.configuration}</container.configuration.home>
