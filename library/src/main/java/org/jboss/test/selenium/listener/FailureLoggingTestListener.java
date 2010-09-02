@@ -65,33 +65,42 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
     }
 
     @Override
+    public void onConfigurationFailure(ITestResult result) {
+        onFailure(result);
+    }
+
+    @Override
     public void onTestFailure(ITestResult result) {
+        onFailure(result);
+    }
+
+    private void onFailure(ITestResult result) {
         if (!selenium.isStarted()) {
             return;
         }
 
         String filenameIdentification = getFilenameIdentification(result);
-//        String seleniumLogIdentification = getSeleniumLogIdentification(result);
+        // String seleniumLogIdentification = getSeleniumLogIdentification(result);
 
-//        File seleniumLogFile = new File(mavenProjectBuildDirectory, "selenium/selenium-server.log");
-//        List<String> methodLog = new ArrayList<String>();
-//        try {
-//            @SuppressWarnings("unchecked")
-//            List<String> seleniumLog = FileUtils.readLines(seleniumLogFile);
-//
-//            boolean started = false;
-//            for (String line : seleniumLog) {
-//                if (line.contains(seleniumLogIdentification)) {
-//                    started = true;
-//                    methodLog = new ArrayList<String>();
-//                }
-//                if (started) {
-//                    methodLog.add(line);
-//                }
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        // File seleniumLogFile = new File(mavenProjectBuildDirectory, "selenium/selenium-server.log");
+        // List<String> methodLog = new ArrayList<String>();
+        // try {
+        // @SuppressWarnings("unchecked")
+        // List<String> seleniumLog = FileUtils.readLines(seleniumLogFile);
+        //
+        // boolean started = false;
+        // for (String line : seleniumLog) {
+        // if (line.contains(seleniumLogIdentification)) {
+        // started = true;
+        // methodLog = new ArrayList<String>();
+        // }
+        // if (started) {
+        // methodLog.add(line);
+        // }
+        // }
+        // } catch (IOException e) {
+        // throw new RuntimeException(e);
+        // }
 
         String traffic;
         try {
@@ -106,16 +115,16 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
         File imageOutputFile = new File(failuresOutputDir, filenameIdentification + "/screenshot.png");
         File trafficOutputFile = new File(failuresOutputDir, filenameIdentification + "/network-traffic.txt");
-//        File logOutputFile = new File(failuresOutputDir, filenameIdentification + "/selenium-log.txt");
+        // File logOutputFile = new File(failuresOutputDir, filenameIdentification + "/selenium-log.txt");
         File htmlSourceOutputFile = new File(failuresOutputDir, filenameIdentification + "/html-source.html");
 
         try {
             File directory = imageOutputFile.getParentFile();
             FileUtils.forceMkdir(directory);
-            
+
             ImageIO.write(screenshot, "PNG", imageOutputFile);
             FileUtils.writeStringToFile(trafficOutputFile, traffic);
-//            FileUtils.writeLines(logOutputFile, methodLog);
+            // FileUtils.writeLines(logOutputFile, methodLog);
             FileUtils.writeStringToFile(htmlSourceOutputFile, htmlSource);
         } catch (IOException e) {
             throw new RuntimeException(e);
