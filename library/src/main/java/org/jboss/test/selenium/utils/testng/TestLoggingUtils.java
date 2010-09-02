@@ -61,18 +61,9 @@ public final class TestLoggingUtils {
         }
         parameters.append(")");
 
-        // invocation count
-        String invocationCount = "";
-        if (result.getMethod().getInvocationCount() > 1) {
-            int count = result.getMethod().getCurrentInvocationCount();
-            count += (result.getStatus() == ITestResult.STARTED) ? 1 : 0;
-            invocationCount = String.format(" [%d]", count);
-        }
-
         // result
         String message =
-            String.format("[%tT] %s: %s%s%s", new Date(), status.toUpperCase(), methodName, parameters.toString(),
-                invocationCount);
+            String.format("[%tT] %s: %s%s", new Date(), status.toUpperCase(), methodName, parameters.toString());
         return message;
     }
 }
