@@ -52,7 +52,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
     AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
     File mavenProjectBuildDirectory = SystemProperties.getMavenProjectBuildDirectory();
-    File failuresOutputDir = new File(mavenProjectBuildDirectory, "failures");
+    protected File failuresOutputDir = new File(mavenProjectBuildDirectory, "failures");
 
     @Override
     public void onStart(ITestContext testContext) {
@@ -74,9 +74,16 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         onFailure(result);
     }
 
-    private void onFailure(ITestResult result) {
+    protected void onFailure(ITestResult result) {
         if (!selenium.isStarted()) {
             return;
+        }
+        
+        Throwable throwable = result.getThrowable();
+        String stacktrace = null;
+        
+        if (throwable != null) {
+            stacktrace = ExceptionUtils.getStackTrace(throwable);
         }
 
         String filenameIdentification = getFilenameIdentification(result);
@@ -113,6 +120,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
         String htmlSource = selenium.getHtmlSource();
 
+        File stacktraceOutputFile = new File(failuresOutputDir, filenameIdentification + "/stacktrace.txt");
         File imageOutputFile = new File(failuresOutputDir, filenameIdentification + "/screenshot.png");
         File trafficOutputFile = new File(failuresOutputDir, filenameIdentification + "/network-traffic.txt");
         // File logOutputFile = new File(failuresOutputDir, filenameIdentification + "/selenium-log.txt");
@@ -122,6 +130,7 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
             File directory = imageOutputFile.getParentFile();
             FileUtils.forceMkdir(directory);
 
+            FileUtils.writeStringToFile(stacktraceOutputFile, stacktrace);
             ImageIO.write(screenshot, "PNG", imageOutputFile);
             FileUtils.writeStringToFile(trafficOutputFile, traffic);
             // FileUtils.writeLines(logOutputFile, methodLog);
