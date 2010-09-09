@@ -9,13 +9,6 @@
 	<packaging>pom</packaging>
 	<name>RichFaces-Selenium: Functional Test Template</name>
 	
-	<pluginRepositories>
-		<pluginRepository>
-			<id>twmdata</id>
-			<url>http://twdata-m2-repository.googlecode.com/svn</url>
-		</pluginRepository>
-	</pluginRepositories>
-	
 	<properties>
 		<method>*</method>
 		<deployable.location />
