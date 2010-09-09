@@ -54,7 +54,8 @@ RichFacesSelenium.XHRWrapper.prototype.setRequestHeader = function(name, value) 
 	return this.xhr.setRequestHeader(name, value);
 };
 
-RichFacesSelenium.XHRWrapper.prototype.onreadystatechangeCallback = function() {
+RichFacesSelenium.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
+	return this.onreadystatechange.call(this.xhr, event);
 }
 
 if (window.ActiveXObject) {
@@ -73,8 +74,7 @@ if (window.ActiveXObject) {
 				proxy.status       = proxy.xhr.status;
 				proxy.statusText   = proxy.xhr.statusText;
 			}
-			proxy.onreadystatechangeCallback();
-		 if (proxy.onreadystatechange) proxy.onreadystatechange();
+			if (self.onreadystatechange) self.onreadystatechangeCallback(event);
 	      };
 	};
 
@@ -115,8 +115,7 @@ if (window.ActiveXObject) {
 				self.status       = this.status;
 				self.statusText   = this.statusText;
 			}
-			self.onreadystatechangeCallback();
-			if (self.onreadystatechange) self.onreadystatechange(event);
+			if (self.onreadystatechange) self.onreadystatechangeCallback(event);
 		};
 	};
 
