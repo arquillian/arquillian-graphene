@@ -48,7 +48,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
-    
+
     /**
      * Stars loop waiting to satisfy condition.
      * 
@@ -86,11 +86,13 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      * @return new retrieved value
      */
     public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retrieve) {
+        final JavaScript script = retrieve.getJavaScriptRetrieve();
+        final String scriptString = retrieve.getJavaScriptRetrieve().getAsString();
         final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
-        JavaScript waitingRetriever =
-            js(format("selenium.waitForCondition({0} != '{1}'); {0}", retrieve.getJavaScriptRetrieve().getAsString(),
-                oldValueString));
-        String retrieved = selenium.getEval(waitingRetriever);
+
+        selenium.waitForCondition(js(format("{0} != '{1}'", scriptString, oldValueString)), this.getTimeout());
+        String retrieved = selenium.getEval(script);
+
         return retrieve.getConvertor().backwardConversion(retrieved);
     }
 }
