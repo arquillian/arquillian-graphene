@@ -51,11 +51,36 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
      *            type of value what we are waiting for change
      * @param oldValue
      *            value that we are waiting for change
-     * @param retrieve
+     * @param retriever
      *            implementation of retrieving actual value
      */
     public <T> void waitForChange(T oldValue, SeleniumRetriever<T> retrieve) {
         waitForChangeAndReturn(oldValue, retrieve);
+    }
+
+    /**
+     * <p>
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
+     * retriever.
+     * </p>
+     * 
+     * <p>
+     * After retrieving, new value will be associated with given Retriever.
+     * </p>
+     * 
+     * <p>
+     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
+     * {@link Retriever#setValue(Object)}.
+     * </p>
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     */
+    public <T> void waitForChange(SeleniumRetriever<T> retriever) {
+        T newValue = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(newValue);
     }
 
     /**
@@ -65,7 +90,7 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
      *            type of value what we are waiting for change
      * @param oldValue
      *            value that we are waiting for change
-     * @param retrieve
+     * @param retriever
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
@@ -83,5 +108,32 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
         });
 
         return vector.get(0);
+    }
+
+    /**
+     * <p>
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
+     * retriever.
+     * </p>
+     * 
+     * <p>
+     * After retrieving, new value will be associated with given Retriever.
+     * </p>
+     * 
+     * <p>
+     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
+     * {@link Retriever#setValue(Object)}.
+     * </p>
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     * @return new retrieved value
+     */
+    public <T> T waitForChangeAndReturn(final SeleniumRetriever<T> retriever) {
+        T newValue = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(newValue);
+        return newValue;
     }
 }

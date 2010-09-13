@@ -19,33 +19,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.waiting.ajax;
-
-import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.waiting.conversion.Convertor;
-import org.jboss.test.selenium.waiting.retrievers.Retriever;
+package org.jboss.test.selenium.waiting.retrievers;
 
 /**
- * JavaScript code obtaining the value convertable to <tt>T</tt> type.
+ * Retrieves the typed value from page and stores it as {@link ThreadLocal}.
  * 
  * @param <T>
- *            object, which should be from string representation inside JavaScript converted to object representation
+ *            the type of object to retrieve from page
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface JavaScriptRetriever<T> extends Retriever<T> {
+public abstract class AbstractRetriever<T> implements Retriever<T> {
+    private ThreadLocal<T> oldValue = new ThreadLocal<T>();
 
-    /**
-     * Gets the code for retrieving value on JavaScript side.
-     * 
-     * @return the JavaScript
-     */
-    JavaScript getJavaScriptRetrieve();
+    public T getValue() {
+        return oldValue.get();
+    }
 
-    /**
-     * Gets the convertor for converting JavaScript representation to Object representation and vice versa.
-     * 
-     * @return the convertor for converting JavaScript representation to Object representation and vice versa.
-     */
-    Convertor<T, String> getConvertor();
+    public void initializeValue() {
+        oldValue.set(retrieve());
+    }
+
+    public void setValue(T value) {
+        oldValue.set(value);
+    }
+
+    public abstract T retrieve();
 }

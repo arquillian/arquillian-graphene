@@ -59,9 +59,11 @@ public class WaitingSample extends AbstractTestCase {
         // javascript waiting
         waitGui.until(countEquals.text("2"));
 
+        retrieveCount.initializeValue();
         selenium.click(BUTTON_INCREMENT);
         // selenium-polling retriever usage sample
-        String result = waitModel.waitForChangeAndReturn("2", retrieveCount);
+        String result = waitModel.waitForChangeAndReturn(retrieveCount);
+
         assert "3".equals(result);
     }
 }

@@ -19,33 +19,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.waiting.ajax;
-
-import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.waiting.conversion.Convertor;
-import org.jboss.test.selenium.waiting.retrievers.Retriever;
+package org.jboss.test.selenium.waiting.retrievers;
 
 /**
- * JavaScript code obtaining the value convertable to <tt>T</tt> type.
+ * Provides the basic set of predefined retrievers to reference from the test implementations.
  * 
- * @param <T>
- *            object, which should be from string representation inside JavaScript converted to object representation
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface JavaScriptRetriever<T> extends Retriever<T> {
+public final class RetrieverFactory {
+    /**
+     * Retrieves the text for given elementLocator
+     * 
+     * @See {@link TextRetriever}
+     */
+    public static final TextRetriever RETRIEVE_TEXT = TextRetriever.getInstance();
 
     /**
-     * Gets the code for retrieving value on JavaScript side.
+     * Retrieves the attribute with given attributeLocator.
      * 
-     * @return the JavaScript
+     * @see {@link AttributeRetriever}
      */
-    JavaScript getJavaScriptRetrieve();
+    public static final AttributeRetriever RETRIEVE_ATTRIBUTE = AttributeRetriever.getInstance();
 
-    /**
-     * Gets the convertor for converting JavaScript representation to Object representation and vice versa.
-     * 
-     * @return the convertor for converting JavaScript representation to Object representation and vice versa.
-     */
-    Convertor<T, String> getConvertor();
+    private RetrieverFactory() {
+    }
 }

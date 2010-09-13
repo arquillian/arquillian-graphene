@@ -19,33 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.waiting.ajax;
+package org.jboss.test.selenium.waiting.retrievers;
 
-import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.waiting.conversion.Convertor;
-import org.jboss.test.selenium.waiting.retrievers.Retriever;
+import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
+import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
 
 /**
- * JavaScript code obtaining the value convertable to <tt>T</tt> type.
+ * Composes all types able to retrieve typed object from page.
  * 
  * @param <T>
- *            object, which should be from string representation inside JavaScript converted to object representation
+ *            the type of object to retrieve from page
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface JavaScriptRetriever<T> extends Retriever<T> {
+public interface ExtendedRetriever<T> extends JavaScriptRetriever<T>, SeleniumRetriever<T> {
 
-    /**
-     * Gets the code for retrieving value on JavaScript side.
-     * 
-     * @return the JavaScript
-     */
-    JavaScript getJavaScriptRetrieve();
-
-    /**
-     * Gets the convertor for converting JavaScript representation to Object representation and vice versa.
-     * 
-     * @return the convertor for converting JavaScript representation to Object representation and vice versa.
-     */
-    Convertor<T, String> getConvertor();
 }

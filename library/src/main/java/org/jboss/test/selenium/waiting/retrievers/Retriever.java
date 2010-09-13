@@ -19,33 +19,41 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.selenium.waiting.ajax;
-
-import org.jboss.test.selenium.encapsulated.JavaScript;
-import org.jboss.test.selenium.waiting.conversion.Convertor;
-import org.jboss.test.selenium.waiting.retrievers.Retriever;
+package org.jboss.test.selenium.waiting.retrievers;
 
 /**
- * JavaScript code obtaining the value convertable to <tt>T</tt> type.
+ * <p>
+ * Retriever able to obtain typed object from page.
+ * </p>
+ * 
+ * <p>
+ * Stores the last value
+ * </p>
  * 
  * @param <T>
- *            object, which should be from string representation inside JavaScript converted to object representation
+ *            the type of object to retrieve from page
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface JavaScriptRetriever<T> extends Retriever<T> {
+public interface Retriever<T> {
+    /**
+     * Initializes the value associated to this retriever internally.
+     */
+    void initializeValue();
 
     /**
-     * Gets the code for retrieving value on JavaScript side.
+     * Initializes the value associated to this retriever with given value.
      * 
-     * @return the JavaScript
+     * @param value
+     *            the value to associate with this retriever
      */
-    JavaScript getJavaScriptRetrieve();
+    void setValue(T value);
 
     /**
-     * Gets the convertor for converting JavaScript representation to Object representation and vice versa.
+     * Returns the last retrieved value.
      * 
-     * @return the convertor for converting JavaScript representation to Object representation and vice versa.
+     * @return the last retriever value.
      */
-    Convertor<T, String> getConvertor();
+    T getValue();
 }

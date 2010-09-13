@@ -21,18 +21,16 @@
  */
 package org.jboss.test.selenium.waiting.retrievers;
 
+import static org.jboss.test.selenium.encapsulated.JavaScript.js;
+import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
+
 import org.apache.commons.lang.Validate;
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.locator.AttributeLocator;
-import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
 import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
-import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
-
-import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
-import static org.jboss.test.selenium.encapsulated.JavaScript.js;
 
 /**
  * Retrieves the attribute with given attributeLocator.
@@ -40,13 +38,13 @@ import static org.jboss.test.selenium.encapsulated.JavaScript.js;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AttributeRetriever implements SeleniumRetriever<String>, JavaScriptRetriever<String> {
+public class AttributeRetriever extends AbstractRetriever<String> implements ExtendedRetriever<String> {
 
     /**
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
-    
+
     /** The attribute locator. */
     private AttributeLocator<?> attributeLocator;
 

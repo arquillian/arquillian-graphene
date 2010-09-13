@@ -29,6 +29,8 @@ import org.jboss.test.selenium.framework.AjaxSelenium;
 import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
 import org.jboss.test.selenium.waiting.DefaultWaiting;
 
+import com.thoughtworks.selenium.SeleniumException;
+
 /**
  * <p>
  * Implementation of waiting for satisfaction of conditions on page after the Ajax request.
@@ -56,7 +58,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      *            what wait for to be satisfied
      */
     public void until(JavaScriptCondition condition) {
-        selenium.waitForCondition(condition.getJavaScriptCondition(), this.getTimeout());
+        waitExpectingTimeout(condition.getJavaScriptCondition());
     }
 
     /**
@@ -66,12 +68,38 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      *            type of value what we are waiting for change
      * @param oldValue
      *            value that we are waiting for change
-     * @param retrieve
+     * @param retriever
      *            implementation of retrieving actual value
      */
-    public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retrieve) {
-        JavaScript waitCondition = js(format("{0} != '{1}'", retrieve.getJavaScriptRetrieve().getAsString(), oldValue));
-        selenium.waitForCondition(waitCondition, this.getTimeout());
+    public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever) {
+        final JavaScript condition = prepareCondition(oldValue, retriever);
+        waitExpectingTimeout(condition);
+    }
+
+    /**
+     * <p>
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
+     * retriever.
+     * </p>
+     * 
+     * <p>
+     * After retrieving, new value will be associated with given Retriever.
+     * </p>
+     * 
+     * 
+     * <p>
+     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
+     * {@link Retriever#setValue(Object)}.
+     * </p>
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     */
+    public <T> void waitForChange(JavaScriptRetriever<T> retriever) {
+        T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(retrieved);
     }
 
     /**
@@ -81,18 +109,67 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      *            type of value what we are waiting for change
      * @param oldValue
      *            value that we are waiting for change
-     * @param retrieve
+     * @param retriever
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retrieve) {
-        final JavaScript script = retrieve.getJavaScriptRetrieve();
-        final String scriptString = retrieve.getJavaScriptRetrieve().getAsString();
-        final String oldValueString = retrieve.getConvertor().forwardConversion(oldValue);
+    public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retriever) {
+        final JavaScript script = retriever.getJavaScriptRetrieve();
+        final JavaScript condition = prepareCondition(oldValue, retriever);
 
-        selenium.waitForCondition(js(format("{0} != '{1}'", scriptString, oldValueString)), this.getTimeout());
+        waitExpectingTimeout(condition);
         String retrieved = selenium.getEval(script);
 
-        return retrieve.getConvertor().backwardConversion(retrieved);
+        T converted = retriever.getConvertor().backwardConversion(retrieved);
+        return converted;
+    }
+
+    /**
+     * <p>
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
+     * retriever.
+     * </p>
+     * 
+     * <p>
+     * After retrieving, new value will be associated with given Retriever.
+     * </p>
+     * 
+     * 
+     * <p>
+     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
+     * {@link Retriever#setValue(Object)}.
+     * </p>
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     * @return new retrieved value
+     */
+    public <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever) {
+        T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(retrieved);
+        return retrieved;
+    }
+
+    private <T> JavaScript prepareCondition(T oldValue, JavaScriptRetriever<T> retriever) {
+        final String scriptString = retriever.getJavaScriptRetrieve().getAsString();
+        final String oldValueString = retriever.getConvertor().forwardConversion(oldValue);
+        return js(format("{0} != '{1}'", scriptString, oldValueString));
+    }
+
+    private void waitExpectingTimeout(JavaScript condition) {
+        try {
+            selenium.waitForCondition(condition, this.getTimeout());
+        } catch (SeleniumException e) {
+            if (isTimeoutException(e)) {
+                fail();
+            }
+            throw e;
+        }
+    }
+
+    private boolean isTimeoutException(SeleniumException e) {
+        return e.getMessage().startsWith("Timed out after");
     }
 }
