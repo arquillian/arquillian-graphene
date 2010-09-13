@@ -44,8 +44,7 @@ import org.jboss.test.selenium.utils.text.SimplifiedFormat;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class JQueryLocator extends AbstractElementLocator<JQueryLocator> implements IterableLocator<JQueryLocator>,
-    CompoundableLocator<JQueryLocator> {
+public class JQueryLocator extends AbstractElementLocator<JQueryLocator> implements ExtendedLocator<JQueryLocator> {
 
     /**
      * Instantiates a new jQuery locator.

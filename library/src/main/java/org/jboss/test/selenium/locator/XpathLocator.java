@@ -31,8 +31,7 @@ import org.jboss.test.selenium.utils.text.SimplifiedFormat;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class XpathLocator extends AbstractElementLocator<XpathLocator> implements IterableLocator<XpathLocator>,
-    CompoundableLocator<XpathLocator> {
+public class XpathLocator extends AbstractElementLocator<XpathLocator> implements ExtendedLocator<XpathLocator> {
 
     /**
      * Instantiates a new xpath locator.
