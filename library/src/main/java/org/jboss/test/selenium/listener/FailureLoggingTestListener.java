@@ -50,9 +50,10 @@ import com.thoughtworks.selenium.SeleniumException;
  */
 public class FailureLoggingTestListener extends TestListenerAdapter {
 
-    AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
-    File mavenProjectBuildDirectory = SystemProperties.getMavenProjectBuildDirectory();
+    protected File mavenProjectBuildDirectory = SystemProperties.getMavenProjectBuildDirectory();
     protected File failuresOutputDir = new File(mavenProjectBuildDirectory, "failures");
+
+    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
 
     @Override
     public void onStart(ITestContext testContext) {
@@ -78,10 +79,10 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
         if (!selenium.isStarted()) {
             return;
         }
-        
+
         Throwable throwable = result.getThrowable();
         String stacktrace = null;
-        
+
         if (throwable != null) {
             stacktrace = ExceptionUtils.getStackTrace(throwable);
         }
