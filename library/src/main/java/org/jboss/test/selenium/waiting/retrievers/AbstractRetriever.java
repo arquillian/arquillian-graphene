@@ -30,7 +30,7 @@ package org.jboss.test.selenium.waiting.retrievers;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class AbstractRetriever<T> implements Retriever<T> {
+public abstract class AbstractRetriever<T> implements RetrievedValueHolder<T> {
     private ThreadLocal<T> oldValue = new ThreadLocal<T>();
 
     public T getValue() {

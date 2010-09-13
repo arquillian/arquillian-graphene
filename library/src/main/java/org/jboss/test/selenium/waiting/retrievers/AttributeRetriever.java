@@ -38,7 +38,7 @@ import org.jboss.test.selenium.waiting.conversion.PassOnConvertor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AttributeRetriever extends AbstractRetriever<String> implements ExtendedRetriever<String> {
+public class AttributeRetriever extends AbstractRetriever<String> implements Retriever<String> {
 
     /**
      * Proxy to local selenium instance

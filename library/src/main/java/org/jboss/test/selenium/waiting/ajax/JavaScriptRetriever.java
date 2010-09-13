@@ -23,7 +23,7 @@ package org.jboss.test.selenium.waiting.ajax;
 
 import org.jboss.test.selenium.encapsulated.JavaScript;
 import org.jboss.test.selenium.waiting.conversion.Convertor;
-import org.jboss.test.selenium.waiting.retrievers.Retriever;
+import org.jboss.test.selenium.waiting.retrievers.RetrievedValueHolder;
 
 /**
  * JavaScript code obtaining the value convertable to <tt>T</tt> type.
@@ -33,7 +33,7 @@ import org.jboss.test.selenium.waiting.retrievers.Retriever;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface JavaScriptRetriever<T> extends Retriever<T> {
+public interface JavaScriptRetriever<T> extends RetrievedValueHolder<T> {
 
     /**
      * Gets the code for retrieving value on JavaScript side.

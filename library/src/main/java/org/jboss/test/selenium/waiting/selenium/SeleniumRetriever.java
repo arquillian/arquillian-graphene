@@ -22,7 +22,7 @@
 
 package org.jboss.test.selenium.waiting.selenium;
 
-import org.jboss.test.selenium.waiting.retrievers.Retriever;
+import org.jboss.test.selenium.waiting.retrievers.RetrievedValueHolder;
 
 /**
  * Implementing this method you get implementation of retrieving typed values from some source.
@@ -32,7 +32,7 @@ import org.jboss.test.selenium.waiting.retrievers.Retriever;
  * @param <T>
  *            type of retrieved value
  */
-public interface SeleniumRetriever<T> extends Retriever<T> {
+public interface SeleniumRetriever<T> extends RetrievedValueHolder<T> {
     /**
      * Override with implementation of retrieving value from source.
      * 

@@ -38,7 +38,7 @@ import static org.jboss.test.selenium.encapsulated.JavaScript.js;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TextRetriever extends AbstractRetriever<String> implements ExtendedRetriever<String> {
+public class TextRetriever extends AbstractRetriever<String> implements Retriever<String> {
 
     /**
      * Proxy to local selenium instance

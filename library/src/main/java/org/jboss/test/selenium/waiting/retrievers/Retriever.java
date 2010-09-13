@@ -21,14 +21,11 @@
  */
 package org.jboss.test.selenium.waiting.retrievers;
 
+import org.jboss.test.selenium.waiting.ajax.JavaScriptRetriever;
+import org.jboss.test.selenium.waiting.selenium.SeleniumRetriever;
+
 /**
- * <p>
- * Retriever able to obtain typed object from page.
- * </p>
- * 
- * <p>
- * Stores the last value
- * </p>
+ * Composes all types able to retrieve typed object from page.
  * 
  * @param <T>
  *            the type of object to retrieve from page
@@ -36,24 +33,6 @@ package org.jboss.test.selenium.waiting.retrievers;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface Retriever<T> {
-    /**
-     * Initializes the value associated to this retriever internally.
-     */
-    void initializeValue();
+public interface Retriever<T> extends JavaScriptRetriever<T>, SeleniumRetriever<T> {
 
-    /**
-     * Initializes the value associated to this retriever with given value.
-     * 
-     * @param value
-     *            the value to associate with this retriever
-     */
-    void setValue(T value);
-
-    /**
-     * Returns the last retrieved value.
-     * 
-     * @return the last retriever value.
-     */
-    T getValue();
 }
