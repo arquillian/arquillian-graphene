@@ -82,9 +82,9 @@ import static org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
  */
 public abstract class AbstractTestCase {
 
-    private static final int WAIT_GUI_INTERVAL = 100;
-    private static final int WAIT_AJAX_INTERVAL = 500;
-    private static final int WAIT_MODEL_INTERVAL = 1500;
+    public static final int WAIT_GUI_INTERVAL = 100;
+    public static final int WAIT_AJAX_INTERVAL = 500;
+    public static final int WAIT_MODEL_INTERVAL = 1500;
 
     protected AjaxSelenium selenium;
 
