@@ -21,13 +21,13 @@
  */
 Selenium.prototype.getStyle = function(locator, property) {
 	var element = this.browserbot.findElementOrNull(locator);
-	
+
 	if (element == null) {
-			throw new SeleniumError("null property value");
+		throw new SeleniumError("null property value");
 	}
-	
+
 	var currentDocument = this.browserbot.getCurrentWindow().document;
-	
+
 	return jQuery(element, currentDocument).css(property);
 }
 
@@ -36,23 +36,26 @@ Selenium.prototype.getStyle = function(locator, property) {
  * 
  * TODO should be reimplemented to use of JQuery.scrollTo
  * 
- * @param locator of element which should be screen aligned to
- * @param alignToTop should be top border of screen aligned to top border of element
+ * @param locator
+ *            of element which should be screen aligned to
+ * @param alignToTop
+ *            should be top border of screen aligned to top border of element
  */
 Selenium.prototype.doScrollIntoView = function(locator, alignToTop) {
 	var elem = this.browserbot.findElementOrNull(locator);
-	
+
 	if (elem == null) {
 		throw new SeleniumError("null property value");
 	}
-	
+
 	if (elem.scrollIntoView == undefined) {
-		throw new SeleniumError("scrollIntoView isn't supported at this element");
+		throw new SeleniumError(
+				"scrollIntoView isn't supported at this element");
 	}
-	
+
 	elem.scrollIntoView(alignToTop);
 }
- 
+
 /**
  * Simulates a user hovering a mouse over the specified element at specific
  * coordinates relative to element.
@@ -101,7 +104,25 @@ Selenium.prototype.isAttributePresent = function(elementLocator, attributeName) 
 		throw new SeleniumError("element is not found");
 	}
 	var attribute = element.getAttribute(attributeName);
-	return (!! attribute);
+	return (!!attribute);
+};
+
+/**
+ * Verifies that the specified attribute is visible on the page.
+ * 
+ * @param elementLocator
+ *            an element locator
+ * @return true if the element's attribute is present and visible, false otherwise
+ */
+Selenium.prototype.isDisplayed = function(elementLocator) {
+	var element = this.browserbot.findElementOrNull(elementLocator);
+	if (element == null) {
+		return false;
+	}
+
+	var currentDocument = this.browserbot.getCurrentWindow().document;
+
+	return jQuery(element, currentDocument).css('display') != 'none';
 };
 
 Selenium.prototype.throwError = function(message) {
