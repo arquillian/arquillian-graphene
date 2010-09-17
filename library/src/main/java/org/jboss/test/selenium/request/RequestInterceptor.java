@@ -43,12 +43,9 @@ import org.jboss.test.selenium.framework.AjaxSeleniumProxy;
  * @version $Revision$
  */
 public class RequestInterceptor {
-
-    private final JavaScript clearRequestDone = js("(getRFS() === undefined) ? 'HTTP' : getRFS().clearRequestDone()");
-    private final JavaScript getRequestDone = js("(getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()");
-    private final JavaScript waitRequestChange =
-        js("((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE' && "
-            + "selenium.browserbot.getCurrentWindow().document.body");
+    private final JavaScript clearRequestDone = js("cheiron.requestInterceptor.clearRequestDone()");
+    private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestDone()");
+    private final JavaScript waitRequestChange = js("cheiron.requestInterceptor.waitRequestChange()");
 
     /**
      * Proxy for thread local context of AjaxSelenium

@@ -54,12 +54,12 @@ public class RequestTypeGuardTestCase extends AbstractTestCase {
     }
 
     @Test
-    public void testNoRequest() {
+    public void testGuardNone() {
         guardNoRequest(selenium).click(linkNoRequest);
     }
 
     @Test
-    public void testNoRequestWrong() {
+    public void testGuardNoneWrong() {
         try {
             guardNoRequest(selenium).click(linkHttpRequest);
             Assert.fail("The NO request was observed, however HTTP request was expected");
@@ -76,12 +76,12 @@ public class RequestTypeGuardTestCase extends AbstractTestCase {
     }
 
     @Test
-    public void testHttpRequest() {
+    public void testGuardHttp() {
         guardHttp(selenium).click(linkHttpRequest);
     }
 
     @Test
-    public void testHttpRequestWrong() {
+    public void testGuardHttpWrong() {
         try {
             guardHttp(selenium).click(linkNoRequest);
             Assert.fail("The HTTP request was observed, however NONE request was expected");
@@ -99,12 +99,12 @@ public class RequestTypeGuardTestCase extends AbstractTestCase {
     }
 
     @Test
-    public void testXhrRequest() {
+    public void testGuardXhr() {
         guardXhr(selenium).click(linkAjaxRequest);
     }
 
     @Test
-    public void testXhrRequestWrong() {
+    public void testGuardXhrWrong() {
         try {
             guardXhr(selenium).click(linkNoRequest);
             Assert.fail("The XHR request was observed, however NONE request was expected");

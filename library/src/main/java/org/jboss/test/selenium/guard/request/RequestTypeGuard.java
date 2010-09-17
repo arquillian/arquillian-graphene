@@ -22,6 +22,8 @@
 package org.jboss.test.selenium.guard.request;
 
 import static org.jboss.test.selenium.guard.GuardedCommands.INTERACTIVE_COMMANDS;
+import static org.jboss.test.selenium.request.RequestType.HTTP;
+import static org.jboss.test.selenium.request.RequestType.NONE;
 
 import org.jboss.test.selenium.SystemProperties;
 import org.jboss.test.selenium.SystemProperties.SeleniumTimeoutType;
@@ -31,6 +33,7 @@ import org.jboss.test.selenium.interception.CommandContext;
 import org.jboss.test.selenium.interception.CommandInterceptionException;
 import org.jboss.test.selenium.interception.CommandInterceptor;
 import org.jboss.test.selenium.request.RequestType;
+
 
 import com.thoughtworks.selenium.SeleniumException;
 
@@ -110,7 +113,7 @@ public class RequestTypeGuard implements CommandInterceptor {
     public void doAfterCommand() {
         final long end = System.currentTimeMillis() + SystemProperties.getSeleniumTimeout(SeleniumTimeoutType.AJAX);
         
-        RequestType lastRequestDone = RequestType.NONE;
+        RequestType lastRequestDone = NONE;
         
         while (System.currentTimeMillis() <= end) {
             try {
@@ -126,11 +129,11 @@ public class RequestTypeGuard implements CommandInterceptor {
                 break;
             } else {
                 if (interlayed) {
-                    if (requestDone == RequestType.HTTP) {
+                    if (requestDone == HTTP) {
                         selenium.getPageExtensions().install();
                         selenium.getRequestInterceptor().clearRequestTypeDone();
                     }
-                    if (requestDone != RequestType.NONE) {
+                    if (requestDone != NONE) {
                         lastRequestDone = requestDone;
                     }
                     continue;

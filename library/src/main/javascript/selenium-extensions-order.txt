@@ -4,3 +4,4 @@ javascript/selenium-extensions/goog/disposable/disposable.js
 javascript/selenium-extensions/jquery/jquery.js
 javascript/selenium-extensions/jquery/jquery-selector-extensions.js
 javascript/selenium-extensions/extended-selenium.js
+javascript/selenium-extensions/Cheiron.js
