@@ -169,4 +169,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      *            if true, toggle-button will be checked on, otherwise checked off
      */
     void check(ElementLocator<?> locator, boolean checked);
+
+    
+    void doCommand(String command, String param1, String param2);
 }

@@ -148,4 +148,12 @@ public class ExtendedSelenium extends DefaultSelenium {
     public Number getJQueryCount(String jqueryLocator) {
         return commandProcessor.getNumber("getJQueryCount", new String[]{jqueryLocator});
     }
+    
+    public void doCommand(String command, String param1, String param2) {
+        String[] array = new String[] { param1, param2 };
+        if (param2 == null) {
+            array = new String[] { param1 };
+        }
+        commandProcessor.doCommand(command, array);
+    }
 }

@@ -206,4 +206,9 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
             uncheck(locator);
         }
     }
+    
+    @Override
+    public void doCommand(String command, String param1, String param2) {
+        getExtendedSelenium().doCommand(command, param1, param2);
+    }
 }

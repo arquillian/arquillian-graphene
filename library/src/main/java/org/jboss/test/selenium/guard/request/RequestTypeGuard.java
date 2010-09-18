@@ -120,6 +120,7 @@ public class RequestTypeGuard implements CommandInterceptor {
                 selenium.getRequestInterceptor().waitForRequestTypeChange();
             } catch (SeleniumException e) {
                 // ignore the timeout exception
+                System.out.println(e.getMessage());
             }
 
             RequestType requestDone = selenium.getRequestInterceptor().clearRequestTypeDone();
