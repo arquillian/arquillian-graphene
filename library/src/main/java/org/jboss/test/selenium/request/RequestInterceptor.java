@@ -86,8 +86,7 @@ public class RequestInterceptor {
      * Waits for change of RequestType indicated on the page from NONE to other value.
      */
     public void waitForRequestTypeChange() {
-        selenium.waitForCondition(waitRequestChange, SystemProperties.getSeleniumTimeout(SeleniumTimeoutType.AJAX));
-//        selenium.doCommand("waitForRequestChange", "5000", null);
+        selenium.doCommand("waitForRequestChange", Long.toString(SystemProperties.getSeleniumTimeout(SeleniumTimeoutType.AJAX)), null);
     }
 
     private RequestType parseRequest(String request) {
