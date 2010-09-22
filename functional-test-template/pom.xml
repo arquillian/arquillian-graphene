@@ -211,6 +211,41 @@
 				</plugins>
 			</build>
 		</profile>
+		
+		<!-- Installs Selenium Server Standalone locally to run it outside of Maven -->
+		<profile>
+			<id>provide-selenium-server-standalone</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>copy-selenium-server-standalone</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.seleniumhq.selenium.server</groupId>
+											<artifactId>selenium-server</artifactId>
+											<classifier>standalone</classifier>
+											<type>jar</type>
+										</artifactItem>
+									</artifactItems>
+									<stripVersion>true</stripVersion>
+									<outputDirectory>target</outputDirectory>
+									<overWriteReleases>true</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
 		<!-- Cargo - Generic Container Profile -->
 		<profile>
