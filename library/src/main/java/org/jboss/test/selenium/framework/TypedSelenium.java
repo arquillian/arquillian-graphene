@@ -451,7 +451,7 @@ public interface TypedSelenium {
      * @param optionLocator
      *            an option locator (a label by default)
      */
-    void addSelection(ElementLocator<?> locator, ElementLocator<?> optionLocator);
+    void addSelection(ElementLocator<?> locator, OptionLocator<?> optionLocator);
 
     /**
      * Remove a selection from the set of selected options in a multi-select element using an option locator.
@@ -462,7 +462,7 @@ public interface TypedSelenium {
      * @param optionLocator
      *            an option locator (a label by default)
      */
-    void removeSelection(ElementLocator<?> locator, ElementLocator<?> optionLocator);
+    void removeSelection(ElementLocator<?> locator, OptionLocator<?> optionLocator);
 
     /**
      * Unselects all of the selected options in a multi-select element.

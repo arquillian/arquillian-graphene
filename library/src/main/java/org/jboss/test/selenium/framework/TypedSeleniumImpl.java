@@ -95,7 +95,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.addScript(javaScript.getAsString(), javaScript.getIdentification());
     }
 
-    public void addSelection(ElementLocator<?> elementLocator, ElementLocator<?> optionLocator) {
+    public void addSelection(ElementLocator<?> elementLocator, OptionLocator<?> optionLocator) {
         selenium.addSelection(elementLocator.getAsString(), optionLocator.getAsString());
     }
 
@@ -562,7 +562,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.removeScript(javaScript.getIdentification());
     }
 
-    public void removeSelection(ElementLocator<?> elementLocator, ElementLocator<?> optionLocator) {
+    public void removeSelection(ElementLocator<?> elementLocator, OptionLocator<?> optionLocator) {
         selenium.removeSelection(elementLocator.getAsString(), optionLocator.getAsString());
     }
 
