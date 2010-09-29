@@ -122,7 +122,7 @@ Selenium.prototype.isDisplayed = function(elementLocator) {
 
 	var currentDocument = this.browserbot.getCurrentWindow().document;
 
-	return jQuery(element, currentDocument).css('display') != 'none';
+	return jQuery(element, currentDocument).is(':visible');
 };
 
 Selenium.prototype.throwError = function(message) {

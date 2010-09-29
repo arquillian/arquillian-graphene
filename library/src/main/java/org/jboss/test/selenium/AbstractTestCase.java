@@ -44,6 +44,7 @@ import org.jboss.test.selenium.waiting.conditions.AttributeEquals;
 import org.jboss.test.selenium.waiting.conditions.AttributePresent;
 import org.jboss.test.selenium.waiting.conditions.CountEquals;
 import org.jboss.test.selenium.waiting.conditions.ElementPresent;
+import org.jboss.test.selenium.waiting.conditions.IsDisplayed;
 import org.jboss.test.selenium.waiting.conditions.StyleEquals;
 import org.jboss.test.selenium.waiting.conditions.TextEquals;
 import org.jboss.test.selenium.waiting.retrievers.AttributeRetriever;
@@ -109,6 +110,7 @@ public abstract class AbstractTestCase {
     protected AlertPresent alertPresent = AlertPresent.getInstance();
     protected AlertEquals alertEquals = AlertEquals.getInstance();
     protected CountEquals countEquals = CountEquals.getInstance();
+    protected IsDisplayed isDisplayed = IsDisplayed.getInstance();
 
     protected TextRetriever retrieveText = TextRetriever.getInstance();
     protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
