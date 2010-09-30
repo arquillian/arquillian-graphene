@@ -41,6 +41,18 @@ public class ExtendedSelenium extends DefaultSelenium {
         super(commandProcessor);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.thoughtworks.selenium.DefaultSelenium#open(java.lang.String)
+     * 
+     * Workaround for http://code.google.com/p/selenium/issues/detail?id=408
+     */
+    @Override
+    public void open(String url) {
+        commandProcessor.doCommand("open", new String[] { url, "true" });
+    }
+
     /**
      * Get current style value of element given by locator.
      * 
@@ -59,7 +71,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *             if is caught unrecognized throwable
      */
     public String getStyle(String locator, String property) {
-        return commandProcessor.getString("getStyle", new String[]{locator, property});
+        return commandProcessor.getString("getStyle", new String[] { locator, property });
     }
 
     /**
@@ -71,7 +83,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            should be top border of screen aligned to top border of element
      */
     public void scrollIntoView(String locator, String alignToTop) {
-        commandProcessor.doCommand("doScrollIntoView", new String[]{locator, alignToTop});
+        commandProcessor.doCommand("doScrollIntoView", new String[] { locator, alignToTop });
     }
 
     /**
@@ -84,7 +96,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            locator.
      */
     public void mouseOverAt(String locator, String coordString) {
-        commandProcessor.doCommand("doMouseOverAt", new String[]{locator, coordString});
+        commandProcessor.doCommand("doMouseOverAt", new String[] { locator, coordString });
     }
 
     /**
@@ -135,7 +147,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *             when element isn't present
      */
     public boolean isAttributePresent(String elementLocator, String attributeName) {
-        return commandProcessor.getBoolean("isAttributePresent", new String[]{elementLocator, attributeName});
+        return commandProcessor.getBoolean("isAttributePresent", new String[] { elementLocator, attributeName });
     }
 
     /**
@@ -146,9 +158,9 @@ public class ExtendedSelenium extends DefaultSelenium {
      * @return number of found elements
      */
     public Number getJQueryCount(String jqueryLocator) {
-        return commandProcessor.getNumber("getJQueryCount", new String[]{jqueryLocator});
+        return commandProcessor.getNumber("getJQueryCount", new String[] { jqueryLocator });
     }
-    
+
     public void doCommand(String command, String param1, String param2) {
         String[] array = new String[] { param1, param2 };
         if (param2 == null) {
