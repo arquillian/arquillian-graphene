@@ -361,8 +361,8 @@
 				</property>
 			</activation>
 			<properties>
-				<container.short.version>6.0.0.M4</container.short.version>
-				<container.version>6.0.0.20100721-M4</container.version>
+				<container.short.version>6.0.0.M5</container.short.version>
+				<container.version>6.0.0.20100911-M5</container.version>
 				<container.dir.deflatted>jboss-as-distribution-${container.version}</container.dir.deflatted>
 				<container.dir.unflatted>jboss-${container.version}</container.dir.unflatted>
 				<container.installer.url>http://downloads.sourceforge.net/project/jboss/JBoss/JBoss-${container.short.version}/jboss-as-distribution-${container.version}.zip</container.installer.url>
