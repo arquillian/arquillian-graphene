@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.test.richfaces-selenium</groupId>
 	<artifactId>root</artifactId>
-	<version>1.5.2.Final</version>
+	<version>1.5.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>RichFaces-Selenium: Root</name>
 	<description>Library extending Selenium functionality for testing Ajax and containing templates for testing of JavaEE applications incl. server deployment</description>
@@ -30,9 +30,9 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:svn:http://anonsvn.jboss.org/repos/qa/richfaces-selenium/tags/1.5.2.Final</connection>
-		<developerConnection>scm:svn:https://svn.jboss.org/repos/qa/richfaces-selenium/tags/1.5.2.Final</developerConnection>
-		<url>http://fisheye.jboss.org/browse/qa/richfaces-selenium/tags/1.5.2.Final</url>
+		<connection>scm:svn:http://anonsvn.jboss.org/repos/qa/richfaces-selenium/trunk</connection>
+		<developerConnection>scm:svn:https://svn.jboss.org/repos/qa/richfaces-selenium/trunk</developerConnection>
+		<url>http://fisheye.jboss.org/browse/qa/richfaces-selenium/trunk</url>
 	</scm>
 
 	<issueManagement>
