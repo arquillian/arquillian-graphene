@@ -82,7 +82,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.richfaces-selenium>1.5.2.Final</version.richfaces-selenium>
+		<version.richfaces-selenium>1.5.2-SNAPSHOT</version.richfaces-selenium>
 	</properties>
 
 	<build>
