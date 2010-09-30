@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>functional-test-jboss-ci-template</artifactId>
 		<groupId>org.jboss.test.richfaces-selenium</groupId>
-		<version>1.5.2-SNAPSHOT</version>
+		<version>1.5.2.Final</version>
 	</parent>
 	<groupId>org.jboss.test.richfaces-selenium</groupId>
 	<artifactId>test</artifactId>
@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>org.jboss.test.richfaces-selenium.library</groupId>
 			<artifactId>functional-test-war</artifactId>
-			<version>1.5.2-SNAPSHOT</version>
+			<version>1.5.2.Final</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>
