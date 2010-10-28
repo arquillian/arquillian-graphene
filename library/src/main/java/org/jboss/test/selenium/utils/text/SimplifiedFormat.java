@@ -21,6 +21,7 @@
  */
 package org.jboss.test.selenium.utils.text;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -60,22 +61,44 @@ public final class SimplifiedFormat {
      */
     public static String format(String message, Object... args) {
         String result = message;
+        System.out.println("message: " + result);
         for (int i = 0; i < args.length; i++) {
             String arg = args[i].toString();
+            System.out.println("arg " + i + " -: " + arg);
+            arg = increaseByDelta(arg, args.length);
+            arg = StringUtils.replace(arg, "{}", "{-1}");
+            System.out.println("arg " + i + " +: " + arg);
+
             result = StringUtils.replaceOnce(result, "{}", arg);
             result = StringUtils.replace(result, "{" + i + "}", arg);
+            System.out.println("result " + i + ": " + result);
         }
 
+        result = decreaseByDelta(result, args.length);
+        System.out.println("result decreased: " + result);
+        result = StringUtils.replace(result, "{-1}", "{}");
+        System.out.println("result replaced: " + result);
+
+        return result;
+    }
+
+    private static String decreaseByDelta(String message, int delta) {
+        return increaseByDelta(message, 0 - delta);
+    }
+
+    private static String increaseByDelta(String message, int delta) {
+        String result = message;
         Matcher matcher = PATTERN.matcher(result);
-        int delta = args.length;
         List<Integer> found = new LinkedList<Integer>();
         while (matcher.find()) {
             int value = Integer.valueOf(matcher.group(1));
             found.add(value);
         }
 
+        Collections.sort(found);
+
         for (int value : found) {
-            int replacement = value - delta;
+            int replacement = value + delta;
             result = StringUtils.replaceOnce(result, "{" + value + "}", "{" + replacement + "}");
         }
 

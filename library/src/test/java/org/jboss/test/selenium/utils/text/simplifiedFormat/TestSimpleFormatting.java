@@ -33,20 +33,39 @@ import static org.jboss.test.selenium.utils.text.SimplifiedFormat.format;
  */
 public class TestSimpleFormatting {
 
+    Object[] simpleParameters = new Object[] { 1, "2", '3' };
+    Object[] parametrizedParameters = new Object[] { "{}{1}{3}{0}{}{2}", "{1}{}{3}{0}{}{2}", "{3}{1}{}{0}{}{2}" };
+
     @Test
     public void testSimpleWithoutNumbers() {
-        Assert.assertEquals("123", format("{}{}{}", 1, "2", '3'));
+        Assert.assertEquals("a1b2c3d", format("a{}b{}c{}d", simpleParameters));
     }
-    
+
     @Test
-    public void testSimpleWitNumbers() {
-        Assert.assertEquals("123", format("{0}{1}{2}", 1, "2", '3'));
+    public void testSimpleWithNumbers() {
+        Assert.assertEquals("a1b2c3d", format("a{0}b{1}c{2}d", simpleParameters));
     }
-    
+
     @Test
     public void testSimpleWithNumbersNotInOrder() {
-        Assert.assertEquals("321", format("{2}{1}{0}", 1, "2", '3'));
+        Assert.assertEquals("a3b1c2d", format("a{2}b{0}c{1}d", simpleParameters));
     }
-    
-    
+
+    @Test
+    public void testParametrizedParametersWithoutNumbers() {
+        Assert.assertEquals("a{}{1}{3}{0}{}{2}b{1}{}{3}{0}{}{2}c{3}{1}{}{0}{}{2}d",
+            format("a{}b{}c{}d", parametrizedParameters));
+    }
+
+    @Test
+    public void testParametrizedParametersWithNumbers() {
+        Assert.assertEquals("a{}{1}{3}{0}{}{2}b{1}{}{3}{0}{}{2}c{3}{1}{}{0}{}{2}d",
+            format("a{0}b{1}c{2}d", parametrizedParameters));
+    }
+
+    @Test
+    public void testParametrizedParametersWithNumbersNotInOrder() {
+        Assert.assertEquals("a{3}{1}{}{0}{}{2}b{}{1}{3}{0}{}{2}c{1}{}{3}{0}{}{2}d",
+            format("a{2}b{0}c{1}d", parametrizedParameters));
+    }
 }
