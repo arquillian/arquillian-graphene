@@ -61,23 +61,17 @@ public final class SimplifiedFormat {
      */
     public static String format(String message, Object... args) {
         String result = message;
-        System.out.println("message: " + result);
         for (int i = 0; i < args.length; i++) {
             String arg = args[i].toString();
-            System.out.println("arg " + i + " -: " + arg);
             arg = increaseByDelta(arg, args.length);
             arg = StringUtils.replace(arg, "{}", "{-1}");
-            System.out.println("arg " + i + " +: " + arg);
 
             result = StringUtils.replaceOnce(result, "{}", arg);
             result = StringUtils.replace(result, "{" + i + "}", arg);
-            System.out.println("result " + i + ": " + result);
         }
 
         result = decreaseByDelta(result, args.length);
-        System.out.println("result decreased: " + result);
         result = StringUtils.replace(result, "{-1}", "{}");
-        System.out.println("result replaced: " + result);
 
         return result;
     }
