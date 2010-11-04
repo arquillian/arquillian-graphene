@@ -4,6 +4,7 @@
 		<artifactId>functional-test-jboss-ci-template</artifactId>
 		<groupId>org.jboss.test.richfaces-selenium</groupId>
 		<version>1.5.3-SNAPSHOT</version>
+		<relativePath>../../../functional-test-template/jboss-ci/pom.xml</relativePath>
 	</parent>
 	<groupId>org.jboss.test.richfaces-selenium</groupId>
 	<artifactId>test</artifactId>
