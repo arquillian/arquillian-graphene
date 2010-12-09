@@ -180,8 +180,8 @@
 				</property>
 			</activation>
 			<properties>
-				<jbci.container.short.version>6.0.0.M5</jbci.container.short.version>
-				<jbci.container.version>6.0.0.20100911-M5</jbci.container.version>
+				<jbci.container.short.version>6.0.0.CR1</jbci.container.short.version>
+				<jbci.container.version>6.0.0.20101110-CR1</jbci.container.version>
 				<jbci.container.installer.url.unix>file:/qa/tools/src/jboss/jboss-${jbci.container.short.version}.zip</jbci.container.installer.url.unix>
 				<jbci.container.installer.url.windows>file:t:\src\jboss\jboss-${jbci.container.short.version}.zip</jbci.container.installer.url.windows>
 				<jbci.container.dir>jboss-${jbci.container.short.version}</jbci.container.dir>
