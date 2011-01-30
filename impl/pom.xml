@@ -57,7 +57,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<skip>true</skip>
+					<suiteXmlFiles>
+						<suiteXmlFile>${basedir}/src/test/testng/unit-test.xml</suiteXmlFile>
+					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -65,7 +67,7 @@
 
 	<profiles>
 		<profile>
-			<id>integration-test</id>
+			<id>functional-test</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -73,7 +75,7 @@
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>ftest</id>
+								<id>functional-test</id>
 								<phase>integration-test</phase>
 								<goals>
 									<goal>integration-test</goal>
@@ -81,7 +83,7 @@
 								<configuration>
 									<skip>false</skip>
 									<suiteXmlFiles>
-										<suiteXmlFile>${basedir}/src/test/testng/ftest.xml</suiteXmlFile>
+										<suiteXmlFile>${basedir}/src/test/testng/functional-test.xml</suiteXmlFile>
 									</suiteXmlFiles>
 									<systemProperties>
 										<property>

@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="unit-test">
+
+    <test name="waiting">
+        <packages>
+            <package name="org.jboss.ajocado.waiting" />
+        </packages>
+    </test>
+    
+    <test name="utils">
+        <packages>
+            <package name="org.jboss.ajocado.utils.text" />
+        </packages>
+    </test>
+
+</suite>
+

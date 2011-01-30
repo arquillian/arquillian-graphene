@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="ftest">
+<suite name="functional-test">
 
-    <test name="Functional Test">
+    <test name="functional-test">
         <packages>
             <package name="org.jboss.ajocado.ftest" />
         </packages>
