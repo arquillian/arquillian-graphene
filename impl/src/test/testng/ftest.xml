@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="ftest">
+
+    <test name="Functional Test">
+        <packages>
+            <package name="org.jboss.ajocado.ftest" />
+        </packages>
+    </test>
+
+</suite>
+

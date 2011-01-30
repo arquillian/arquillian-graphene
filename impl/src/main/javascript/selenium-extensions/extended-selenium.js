@@ -101,7 +101,7 @@ Selenium.prototype.getJQueryCount = function(selector) {
 Selenium.prototype.isAttributePresent = function(elementLocator, attributeName) {
 	var element = this.browserbot.findElementOrNull(elementLocator);
 	if (element == null) {
-		throw new SeleniumError("element is not found");
+		throw new SeleniumError("element '" + elementLocator + "' is not found");
 	}
 	var attribute = element.getAttribute(attributeName);
 	return (!!attribute);

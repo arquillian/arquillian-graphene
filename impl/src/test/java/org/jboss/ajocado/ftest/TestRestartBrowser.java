@@ -21,6 +21,7 @@
  */
 package org.jboss.ajocado.ftest;
 
+import static org.jboss.ajocado.utils.URLUtils.buildUrl;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.fail;
 
@@ -32,12 +33,12 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class RestartBrowserTestCase extends AbstractTestCase {
+public class TestRestartBrowser extends AbstractTestCase {
 
     private static final String JSESSIONID = "JSESSIONID";
 
     public void openContext() {
-        selenium.open(contextPath);
+        selenium.open(buildUrl(contextPath, "/TestRestartBrowser.jsp"));
     }
 
     @Test
