@@ -22,7 +22,7 @@
 package org.jboss.ajocado.request;
 
 import static org.jboss.ajocado.encapsulated.JavaScript.js;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 import org.jboss.ajocado.SystemProperties;
 import org.jboss.ajocado.SystemProperties.SeleniumTimeoutType;
@@ -36,7 +36,7 @@ import org.jboss.ajocado.framework.AjaxSeleniumProxy;
  * </p>
  * 
  * <p>
- * Needs to have PageExtensions installed in the current page using {@link PageExtensions#install()}.
+ * Needs to have PageExtensions installed in the current page using {@link PageExtensionsImpl#install()}.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

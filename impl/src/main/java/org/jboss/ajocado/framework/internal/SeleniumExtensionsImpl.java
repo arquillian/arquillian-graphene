@@ -27,6 +27,7 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 import org.jboss.ajocado.encapsulated.JavaScript;
 import org.jboss.ajocado.framework.AjaxSelenium;
 import org.jboss.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.ajocado.framework.SeleniumExtensions;
 
 import static org.jboss.ajocado.encapsulated.JavaScript.*;
 
@@ -36,7 +37,7 @@ import static org.jboss.ajocado.encapsulated.JavaScript.*;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class SeleniumExtensions {
+public class SeleniumExtensionsImpl implements SeleniumExtensions {
 
     /**
      * The associated AjaxSelenium object

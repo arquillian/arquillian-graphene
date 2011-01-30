@@ -43,7 +43,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class InterceptionProxy implements java.lang.reflect.InvocationHandler {
+public final class InterceptionProxyImpl implements InterceptionProxy, java.lang.reflect.InvocationHandler {
 
     /**
      * The list of intercepted method names
@@ -75,7 +75,7 @@ public final class InterceptionProxy implements java.lang.reflect.InvocationHand
      * @param commandProcessor
      *            to associate with this proxy
      */
-    public InterceptionProxy(CommandProcessor commandProcessor) {
+    public InterceptionProxyImpl(CommandProcessor commandProcessor) {
         this.commandProcessor = commandProcessor;
     }
 
@@ -84,7 +84,8 @@ public final class InterceptionProxy implements java.lang.reflect.InvocationHand
      * 
      * @return the command processor proxied with functionality of all associated interceptors
      */
-    public CommandProcessor getCommandProcessorProxy() {
+    @SuppressWarnings("unchecked")
+	public CommandProcessor getCommandProcessorProxy() {
         return (CommandProcessor) Proxy.newProxyInstance(commandProcessor.getClass().getClassLoader(), commandProcessor
             .getClass().getInterfaces(), this);
     }
@@ -180,8 +181,8 @@ public final class InterceptionProxy implements java.lang.reflect.InvocationHand
      * 
      * @return the immutable copy of this command processor
      */
-    public InterceptionProxy immutableCopy() {
-        InterceptionProxy copy = new InterceptionProxy(commandProcessor);
+    public InterceptionProxyImpl immutableCopy() {
+        InterceptionProxyImpl copy = new InterceptionProxyImpl(commandProcessor);
         copy.interceptors.putAll(this.interceptors);
         return copy;
     }

@@ -24,9 +24,10 @@ package org.jboss.ajocado.framework;
 import java.net.URL;
 
 import org.jboss.ajocado.browser.Browser;
-import org.jboss.ajocado.framework.internal.PageExtensions;
-import org.jboss.ajocado.framework.internal.SeleniumExtensions;
+import org.jboss.ajocado.framework.internal.PageExtensionsImpl;
+import org.jboss.ajocado.framework.internal.SeleniumExtensionsImpl;
 import org.jboss.ajocado.interception.InterceptionProxy;
+import org.jboss.ajocado.interception.InterceptionProxyImpl;
 import org.jboss.ajocado.request.RequestInterceptor;
 
 import com.thoughtworks.selenium.CommandProcessor;
@@ -38,7 +39,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * </p>
  * 
  * <p>
- * Internally using {@link AjaxAwareInterceptor} and {@link InterceptionProxy}.
+ * Internally using {@link AjaxAwareInterceptor} and {@link InterceptionProxyImpl}.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -58,7 +59,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     /**
      * The command interception proxy
      */
-    InterceptionProxy interceptionProxy;
+    InterceptionProxyImpl interceptionProxy;
 
     /**
      * Instantiates a new ajax selenium.
@@ -81,10 +82,10 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     public AjaxSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
         CommandProcessor commandProcessor =
             new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
-        interceptionProxy = new InterceptionProxy(commandProcessor);
+        interceptionProxy = new InterceptionProxyImpl(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
-        pageExtensions = new PageExtensions();
-        seleniumExtensions = new SeleniumExtensions();
+        pageExtensions = new PageExtensionsImpl();
+        seleniumExtensions = new SeleniumExtensionsImpl();
         requestInterceptor = new RequestInterceptor();
     }
 
@@ -132,8 +133,8 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     @Override
     public AjaxSelenium clone() throws CloneNotSupportedException {
         AjaxSeleniumImpl copy = new AjaxSeleniumImpl();
-        copy.pageExtensions = new PageExtensions();
-        copy.seleniumExtensions = new SeleniumExtensions();
+        copy.pageExtensions = new PageExtensionsImpl();
+        copy.seleniumExtensions = new SeleniumExtensionsImpl();
         copy.interceptionProxy = this.interceptionProxy.immutableCopy();
         copy.selenium = new ExtendedSelenium(copy.interceptionProxy.getCommandProcessorProxy());
         return copy;

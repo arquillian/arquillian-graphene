@@ -55,7 +55,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import static org.jboss.ajocado.waiting.Wait.waitAjax;
 import static org.jboss.ajocado.waiting.Wait.waitSelenium;
 import static org.jboss.ajocado.encapsulated.JavaScript.fromResource;

@@ -29,7 +29,7 @@ import org.jboss.ajocado.locator.ElementLocator;
 import org.jboss.ajocado.waiting.conversion.Convertor;
 import org.jboss.ajocado.waiting.conversion.PassOnConvertor;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import static org.jboss.ajocado.encapsulated.JavaScript.js;
 
 /**

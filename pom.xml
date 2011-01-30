@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>impl</module>
+		<module>api</module>
 	</modules>
 
 	<licenses>
@@ -118,6 +119,7 @@
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
 				<version>5.12.1</version>
+				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium.client-drivers</groupId>

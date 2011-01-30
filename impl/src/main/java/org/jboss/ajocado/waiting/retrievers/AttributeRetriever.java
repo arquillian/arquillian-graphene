@@ -22,7 +22,7 @@
 package org.jboss.ajocado.waiting.retrievers;
 
 import static org.jboss.ajocado.encapsulated.JavaScript.js;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.ajocado.encapsulated.JavaScript;

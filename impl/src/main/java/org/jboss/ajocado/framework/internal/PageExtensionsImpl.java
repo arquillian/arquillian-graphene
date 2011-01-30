@@ -26,6 +26,7 @@ import java.util.List;
 import org.jboss.ajocado.encapsulated.JavaScript;
 import org.jboss.ajocado.framework.AjaxSelenium;
 import org.jboss.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.ajocado.framework.PageExtensions;
 import org.jboss.ajocado.waiting.Wait;
 
 import static org.jboss.ajocado.encapsulated.JavaScript.*;
@@ -36,7 +37,7 @@ import static org.jboss.ajocado.encapsulated.JavaScript.*;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class PageExtensions {
+public class PageExtensionsImpl implements PageExtensions {
 
     /** The JavaScript for extending of the page. */
     JavaScript pageExtensions;

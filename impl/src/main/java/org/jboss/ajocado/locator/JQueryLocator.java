@@ -23,7 +23,7 @@ package org.jboss.ajocado.locator;
 
 import org.jboss.ajocado.locator.iteration.ChildElementList;
 import org.jboss.ajocado.locator.iteration.ElementOcurrenceList;
-import org.jboss.ajocado.utils.text.SimplifiedFormat;
+import org.jboss.ajocado.utils.SimplifiedFormat;
 
 /**
  * <p>

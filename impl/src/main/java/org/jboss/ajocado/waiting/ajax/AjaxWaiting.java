@@ -21,7 +21,7 @@
  */
 package org.jboss.ajocado.waiting.ajax;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import static org.jboss.ajocado.encapsulated.JavaScript.js;
 
 import org.jboss.ajocado.encapsulated.JavaScript;

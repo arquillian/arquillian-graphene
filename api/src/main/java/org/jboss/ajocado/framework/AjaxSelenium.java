@@ -21,8 +21,6 @@
  */
 package org.jboss.ajocado.framework;
 
-import org.jboss.ajocado.framework.internal.PageExtensions;
-import org.jboss.ajocado.framework.internal.SeleniumExtensions;
 import org.jboss.ajocado.interception.InterceptionProxy;
 import org.jboss.ajocado.request.RequestInterceptor;
 

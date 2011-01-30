@@ -21,7 +21,7 @@
  */
 package org.jboss.ajocado.guard.request;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 import org.jboss.ajocado.request.RequestType;
 

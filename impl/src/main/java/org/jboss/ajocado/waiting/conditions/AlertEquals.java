@@ -30,7 +30,7 @@ import org.jboss.ajocado.waiting.selenium.SeleniumCondition;
 
 import com.thoughtworks.selenium.SeleniumException;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 import static org.jboss.ajocado.encapsulated.JavaScript.js;
 

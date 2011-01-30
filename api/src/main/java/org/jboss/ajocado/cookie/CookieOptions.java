@@ -21,11 +21,6 @@
  *******************************************************************************/
 package org.jboss.ajocado.cookie;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-
 /**
  * <p>
  * Options for manipulation with cookies.
@@ -41,61 +36,69 @@ import org.apache.commons.lang.StringUtils;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class CookieOptions<T extends CookieOptions<T>> implements Cloneable {
-    private String domain = null;
-    private String path = null;
+public abstract class CookieOptions<T extends CookieOptions<T>> implements
+		Cloneable {
+	private String domain = null;
+	private String path = null;
 
-    /**
-     * Specifies to which domain is cookie bound.
-     * 
-     * @param domain
-     * @return
-     */
-    public T domain(String domain) {
-        T copy = copy();
-        copy.domain = domain;
-        return (T) copy;
-    }
+	/**
+	 * Specifies to which domain is cookie bound.
+	 * 
+	 * @param domain
+	 * @return
+	 */
+	public T domain(String domain) {
+		T copy = copy();
+		copy.domain = domain;
+		return (T) copy;
+	}
 
-    /**
-     * Specifies to which path is cookie bound.
-     * 
-     * @param path
-     * @return
-     */
-    public T path(String path) {
-        T copy = copy();
-        copy.path = path;
-        return (T) copy;
-    }
+	/**
+	 * Specifies to which path is cookie bound.
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public T path(String path) {
+		T copy = copy();
+		copy.path = path;
+		return (T) copy;
+	}
 
-    public String getDomain() {
-        return domain;
-    }
+	public String getDomain() {
+		return domain;
+	}
 
-    public String getPath() {
-        return path;
-    }
+	public String getPath() {
+		return path;
+	}
 
-    @SuppressWarnings("unchecked")
-    protected T copy() {
-        T clone;
-        try {
-            clone = (T) this.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException(e);
-        }
-        return (T) clone;
-    }
+	@SuppressWarnings("unchecked")
+	protected T copy() {
+		T clone;
+		try {
+			clone = (T) this.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalStateException(e);
+		}
+		return (T) clone;
+	}
 
-    public String getAsString() {
-        List<String> list = new LinkedList<String>();
-        if (domain != null) {
-            list.add("domain=" + domain);
-        }
-        if (path != null) {
-            list.add("path=" + path);
-        }
-        return StringUtils.join(list, ", ");
-    }
+	public String getAsString() {
+		StringBuffer result = new StringBuffer();
+		if (domain != null) {
+			append(result, "domain=" + domain);
+		}
+		if (path != null) {
+			append(result, "path=" + path);
+		}
+		return result.toString();
+	}
+
+	private void append(StringBuffer stringBuffer, String appendix) {
+		if (stringBuffer.length() > 0) {
+			stringBuffer.append(", ");
+		}
+		stringBuffer.append(appendix);
+	}
 }

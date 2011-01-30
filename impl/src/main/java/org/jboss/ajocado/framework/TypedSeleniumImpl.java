@@ -64,7 +64,7 @@ import org.jboss.ajocado.utils.array.ArrayTransform;
 import com.thoughtworks.selenium.Selenium;
 
 import static org.jboss.ajocado.SystemProperties.getSeleniumTimeout;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 /**
  * Wrapper implementation for Selenium object's API to make it type-safe.

@@ -3,7 +3,7 @@
  */
 package org.jboss.ajocado.waiting;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 /**
  * Indicates timeout of waiting.

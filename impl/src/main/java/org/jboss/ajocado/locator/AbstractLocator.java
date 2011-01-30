@@ -22,7 +22,7 @@
 package org.jboss.ajocado.locator;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.ajocado.utils.text.SimplifiedFormat;
+import org.jboss.ajocado.utils.SimplifiedFormat;
 
 /**
  * <p>

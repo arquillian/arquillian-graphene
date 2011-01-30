@@ -27,7 +27,7 @@ import org.apache.commons.lang.Validate;
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.DefaultSelenium;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 /**
  * Selenium API extended by useful commands.

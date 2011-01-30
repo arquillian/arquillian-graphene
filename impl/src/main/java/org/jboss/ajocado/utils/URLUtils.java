@@ -30,7 +30,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 /**
  * Provides URL manipulations and functionality.

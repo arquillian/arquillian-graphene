@@ -29,7 +29,7 @@ import org.jboss.ajocado.locator.AttributeLocator;
 import org.jboss.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.ajocado.waiting.selenium.SeleniumCondition;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 import static org.jboss.ajocado.encapsulated.JavaScript.js;
 

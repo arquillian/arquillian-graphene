@@ -35,7 +35,8 @@ import org.testng.annotations.Test;
 import org.testng.Assert;
 
 import com.thoughtworks.selenium.SeleniumException;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import static org.jboss.ajocado.locator.LocatorFactory.*;
 
 /**

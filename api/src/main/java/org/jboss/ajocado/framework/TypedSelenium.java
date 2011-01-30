@@ -42,7 +42,6 @@ import org.jboss.ajocado.geometry.Point;
 import org.jboss.ajocado.locator.AttributeLocator;
 import org.jboss.ajocado.locator.ElementLocationStrategy;
 import org.jboss.ajocado.locator.ElementLocator;
-import org.jboss.ajocado.locator.IdLocator;
 import org.jboss.ajocado.locator.IterableLocator;
 import org.jboss.ajocado.locator.option.OptionLocator;
 
@@ -1084,7 +1083,7 @@ public interface TypedSelenium {
      * @param identifier
      *            a string to be used as the ID of the specified element
      */
-    IdLocator assignId(ElementLocator<?> locator, String identifier);
+    ElementLocator<?> assignId(ElementLocator<?> locator, String identifier);
 
     /**
      * Specifies whether Selenium should use the native in-browser implementation of XPath (if any native version is

@@ -56,5 +56,4 @@ public class ElementLocationStrategy extends AbstractLocationStrategy {
     public ElementLocationStrategy(String strategyName) {
         super(strategyName);
     }
-
 }

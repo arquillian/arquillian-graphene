@@ -21,7 +21,6 @@
  *******************************************************************************/
 package org.jboss.ajocado.cookie;
 
-import org.apache.commons.lang.Validate;
 
 /**
  * The representation of Cookie.
@@ -34,8 +33,12 @@ public class Cookie {
     private String value;
 
     public Cookie(String name, String value) {
-        Validate.notNull(name);
-        Validate.notNull(value);
+    	if (name == null) {
+    		throw new IllegalArgumentException("name parameter can't be null");
+    	}
+    	if (value == null) {
+    		throw new IllegalArgumentException("value parameter can't be null");
+    	}
 
         this.name = name;
         this.value = value;

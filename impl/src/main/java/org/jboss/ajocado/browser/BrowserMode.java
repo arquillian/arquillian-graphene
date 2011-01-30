@@ -21,7 +21,7 @@
  */
 package org.jboss.ajocado.browser;
 
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 
 import java.util.EnumSet;
 import java.util.HashSet;

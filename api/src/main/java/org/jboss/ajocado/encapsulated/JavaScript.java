@@ -21,14 +21,14 @@
  */
 package org.jboss.ajocado.encapsulated;
 
+import static org.jboss.ajocado.utils.SimplifiedFormat.format;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.IOUtils;
-import static org.jboss.ajocado.utils.text.SimplifiedFormat.format;
+import org.jboss.ajocado.utils.IOUtils;
 
 /**
  * <p>
@@ -136,7 +136,7 @@ public class JavaScript {
     public static JavaScript fromFile(File sourceFile) {
         String sourceCode;
         try {
-            sourceCode = IOUtils.toString(new FileReader(sourceFile));
+            sourceCode = IOUtils.toString(new FileInputStream(sourceFile));
         } catch (FileNotFoundException e) {
             throw new IllegalStateException(format("Unable to find JavaScript source file '{0}'", sourceFile), e);
         } catch (IOException e) {
