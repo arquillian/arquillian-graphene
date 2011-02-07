@@ -27,6 +27,7 @@ import java.net.URL;
 import org.jboss.ajocado.AbstractTestCase;
 import org.jboss.ajocado.encapsulated.JavaScript;
 import org.jboss.ajocado.guard.request.RequestTypeGuardException;
+import org.jboss.ajocado.request.RequestInterceptor;
 import org.jboss.ajocado.request.RequestType;
 import org.jboss.ajocado.locator.ElementLocator;
 import org.testng.Assert;
@@ -62,14 +63,17 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 	}
 
 	@Test
-	public void testGuardNoneWrong() {
+	public void testGuardNoneButHttpDone() {
 		try {
 			guardNoRequest(selenium).click(linkHttpRequest);
 			fail("The NO request was observed, however HTTP request was expected");
 		} catch (RequestTypeGuardException e) {
 			assertTrue(e.getRequestDone() == RequestType.HTTP);
 		}
+	}
 
+	@Test
+	public void testGuardNoneButXhrDone() {
 		try {
 			guardNoRequest(selenium).click(linkAjaxRequest);
 			fail("The NO request was observed, however XHR request was expected");
@@ -84,20 +88,38 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 	}
 
 	@Test
-	public void testGuardHttpWrong() {
+	public void testGuardHttpButNoneDone() {
 		try {
 			guardHttp(selenium).click(linkNoRequest);
 			fail("The HTTP request was observed, however NONE request was expected");
 		} catch (RequestTypeGuardException e) {
-			assertTrue(e.getRequestDone() == RequestType.NONE);
+			assertTrue(e.getRequestDone() == RequestType.NONE,
+					"NONE request expected, but " + e.getRequestDone()
+							+ " was done");
 		}
+	}
 
+	@Test
+	public void testGuardHttpButXhrDone() {
 		try {
 			guardHttp(selenium).click(linkAjaxRequest);
 			fail("The HTTP request was observed, however XHR request was expected");
 		} catch (RequestTypeGuardException e) {
-			assertTrue(e.getRequestDone() == RequestType.XHR);
+			assertTrue(e.getRequestDone() == RequestType.XHR,
+					"XHR request expected, but " + e.getRequestDone()
+							+ " was done");
 		}
+	}
+
+	@Test
+	public void test() {
+		selenium.getPageExtensions().install();
+		RequestInterceptor interceptor = selenium.getRequestInterceptor();
+		interceptor.clearRequestTypeDone();
+
+		selenium.click(linkAjaxRequest);
+
+		interceptor.waitForRequestTypeChange();
 	}
 
 	@Test
@@ -106,14 +128,17 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 	}
 
 	@Test
-	public void testGuardXhrWrong() {
+	public void testGuardXhrButNoneDone() {
 		try {
 			guardXhr(selenium).click(linkNoRequest);
 			fail("The XHR request was observed, however NONE request was expected");
 		} catch (RequestTypeGuardException e) {
 			assertTrue(e.getRequestDone() == RequestType.NONE);
 		}
+	}
 
+	@Test
+	public void testGuardXhrButHttpDone() {
 		try {
 			guardXhr(selenium).click(linkHttpRequest);
 			fail("The XHR request was observed, however HTTP request was expected");
@@ -133,7 +158,7 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 	}
 
 	@Test
-	public void testWaitXhrWrong() {
+	public void testWaitXhrButNoneAndHttpDone() {
 		try {
 			waitXhr(selenium).getEval(
 					twoClicksWithTimeout.parametrize(linkHttpRequest,
@@ -142,7 +167,10 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 		} catch (RequestTypeGuardException e) {
 			assertTrue(e.getRequestDone() == RequestType.HTTP);
 		}
+	}
 
+	@Test
+	public void testWaitXhrButTwoHttpDone() {
 		try {
 			waitXhr(selenium).getEval(
 					twoClicksWithTimeout.parametrize(linkHttpRequest,
@@ -164,7 +192,7 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 	}
 
 	@Test
-	public void testWaitHttpWrong() {
+	public void testWaitHttpButNoneAndXhrDone() {
 		try {
 			waitHttp(selenium).getEval(
 					twoClicksWithTimeout.parametrize(linkAjaxRequest,
@@ -173,7 +201,10 @@ public class TestRequestTypeGuard extends AbstractTestCase {
 		} catch (RequestTypeGuardException e) {
 			assertTrue(e.getRequestDone() == RequestType.XHR);
 		}
+	}
 
+	@Test
+	public void testWaitHttpButTwoXhrDone() {
 		try {
 			waitHttp(selenium).getEval(
 					twoClicksWithTimeout.parametrize(linkAjaxRequest,
