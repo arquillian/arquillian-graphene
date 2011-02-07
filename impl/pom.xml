@@ -43,6 +43,10 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	<properties>
+		<browser>*firefox</browser>
+	</properties>
 
 	<build>
 		<resources>
@@ -96,7 +100,7 @@
 										</property>
 										<property>
 											<name>browser</name>
-											<value>*firefox</value>
+											<value>${browser}</value>
 										</property>
 										<property>
 											<name>selenium.host</name>
