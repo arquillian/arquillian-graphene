@@ -5,14 +5,14 @@
 	<artifactId>ajocado-parent</artifactId>
 	<version>1.5.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Ajocado</name>
+	<name>Ajocado Parent</name>
 	<description>Testing Ajax with flavour of sexy type-safe API</description>
 	<url>TBD</url>
 
 	<parent>
 		<groupId>org.jboss</groupId>
 		<artifactId>jboss-parent</artifactId>
-		<version>5</version>
+		<version>6-beta-1</version>
 	</parent>
 
 	<modules>
@@ -29,45 +29,15 @@
 	</licenses>
 
 	<scm>
-		<connection>TBD</connection>
-		<developerConnection>TBD</developerConnection>
-		<url>TBD</url>
+		<connection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</connection>
+	    <developerConnection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</developerConnection>
+	    <url>https://github.com/arquillian/arquillian-ajocado</url>
 	</scm>
 
 	<issueManagement>
 		<system>jira</system>
 		<url>TBD</url>
 	</issueManagement>
-
-	<developers>
-		<developer>
-			<name>Lukas Fryc</name>
-			<email>lfryc@redhat.com</email>
-		</developer>
-	</developers>
-
-	<repositories>
-		<repository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Maven Repository Group</name>
-			<url>https://repository.jboss.org/nexus/content/groups/public</url>
-			<layout>default</layout>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -76,29 +46,12 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 			</plugin>
 		</plugins>
 
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-help-plugin</artifactId>
-					<version>2.1.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.4.3</version>
-				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>selenium-maven-plugin</artifactId>
@@ -110,17 +63,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>org.jboss.ajocado</groupId>
-				<artifactId>ajocado-impl</artifactId>
-				<version>1.5.3-SNAPSHOT</version>
-			</dependency>
-			<dependency>
-				<groupId>org.testng</groupId>
-				<artifactId>testng</artifactId>
-				<version>5.12.1</version>
-				<scope>test</scope>
-			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
 				<artifactId>selenium-java-client-driver</artifactId>
@@ -138,13 +80,6 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>org.seleniumhq.selenium.server</groupId>
-				<artifactId>selenium-server</artifactId>
-				<version>1.0.3</version>
-				<classifier>standalone</classifier>
-				<type>jar</type>
-			</dependency>
-			<dependency>
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.5</version>
@@ -158,6 +93,11 @@
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>1.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>5.14.6</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

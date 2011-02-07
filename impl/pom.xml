@@ -13,6 +13,7 @@
 	<artifactId>ajocado-impl</artifactId>
 	<packaging>jar</packaging>
 	<name>Ajocado Implementation</name>
+	<description>Testing Ajax with flavour of sexy type-safe API</description>
 
 	<dependencies>
 		<dependency>
@@ -39,7 +40,6 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>5.14.6</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
