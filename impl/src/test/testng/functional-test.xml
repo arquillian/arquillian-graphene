@@ -3,7 +3,7 @@
 
     <test name="functional-test">
         <packages>
-            <package name="org.jboss.ajocado.ftest" />
+            <package name="org.jboss.arquillian.ajocado.ftest" />
         </packages>
     </test>
 

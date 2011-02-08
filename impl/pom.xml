@@ -17,8 +17,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jboss.ajocado</groupId>
-			<artifactId>ajocado-api</artifactId>
+			<groupId>org.jboss.arquillian.ajocado</groupId>
+			<artifactId>arquillian-ajocado-api</artifactId>
 			<version>1.5.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>

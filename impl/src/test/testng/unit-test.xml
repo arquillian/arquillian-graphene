@@ -3,13 +3,13 @@
 
     <test name="waiting">
         <packages>
-            <package name="org.jboss.ajocado.waiting" />
+            <package name="org.jboss.arquillian.ajocado.waiting" />
         </packages>
     </test>
     
     <test name="utils">
         <packages>
-            <package name="org.jboss.ajocado.utils.text" />
+            <package name="org.jboss.arquillian.ajocado.utils.text" />
         </packages>
     </test>
 
