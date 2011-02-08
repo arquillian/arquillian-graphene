@@ -19,47 +19,8 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado;
+package org.jboss.arquillian.ajocado.testng;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.EnumSet;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-import org.jboss.arquillian.ajocado.browser.Browser;
-import org.jboss.arquillian.ajocado.browser.BrowserMode;
-import org.jboss.arquillian.ajocado.browser.BrowserType;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
-import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
-import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
-import org.jboss.arquillian.ajocado.waiting.conditions.AlertEquals;
-import org.jboss.arquillian.ajocado.waiting.conditions.AlertPresent;
-import org.jboss.arquillian.ajocado.waiting.conditions.AttributeEquals;
-import org.jboss.arquillian.ajocado.waiting.conditions.AttributePresent;
-import org.jboss.arquillian.ajocado.waiting.conditions.CountEquals;
-import org.jboss.arquillian.ajocado.waiting.conditions.ElementPresent;
-import org.jboss.arquillian.ajocado.waiting.conditions.IsDisplayed;
-import org.jboss.arquillian.ajocado.waiting.conditions.StyleEquals;
-import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
-import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
-import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
-import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
-import org.testng.SkipException;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
-import static org.jboss.arquillian.ajocado.waiting.Wait.waitAjax;
-import static org.jboss.arquillian.ajocado.waiting.Wait.waitSelenium;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.fromResource;
 import static org.jboss.arquillian.ajocado.SystemProperties.getBrowser;
 import static org.jboss.arquillian.ajocado.SystemProperties.getContextPath;
 import static org.jboss.arquillian.ajocado.SystemProperties.getContextRoot;
@@ -72,7 +33,31 @@ import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumTimeout;
 import static org.jboss.arquillian.ajocado.SystemProperties.isSeleniumDebug;
 import static org.jboss.arquillian.ajocado.SystemProperties.isSeleniumMaximize;
 import static org.jboss.arquillian.ajocado.SystemProperties.isSeleniumNetworkTrafficEnabled;
-import static org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
+import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.fromResource;
+import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.EnumSet;
+import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
+import org.jboss.arquillian.ajocado.browser.Browser;
+import org.jboss.arquillian.ajocado.browser.BrowserMode;
+import org.jboss.arquillian.ajocado.browser.BrowserType;
+import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
+import org.testng.SkipException;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 /**
  * <p>
@@ -82,39 +67,13 @@ import static org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class AbstractTestCase {
+public abstract class AbstractAjocadoTest {
 
     public static final int WAIT_GUI_INTERVAL = 100;
     public static final int WAIT_AJAX_INTERVAL = 500;
     public static final int WAIT_MODEL_INTERVAL = 1500;
 
     protected AjaxSelenium selenium;
-
-    /**
-     * Waits for GUI interaction, such as rendering
-     */
-    protected AjaxWaiting waitGui;
-    /**
-     * Waits for AJAX interaction with server - not computationally difficult
-     */
-    protected AjaxWaiting waitAjax;
-    /**
-     * Waits for computationally difficult requests
-     */
-    protected SeleniumWaiting waitModel;
-
-    protected ElementPresent elementPresent = ElementPresent.getInstance();
-    protected TextEquals textEquals = TextEquals.getInstance();
-    protected StyleEquals styleEquals = StyleEquals.getInstance();
-    protected AttributePresent attributePresent = AttributePresent.getInstance();
-    protected AttributeEquals attributeEquals = AttributeEquals.getInstance();
-    protected AlertPresent alertPresent = AlertPresent.getInstance();
-    protected AlertEquals alertEquals = AlertEquals.getInstance();
-    protected CountEquals countEquals = CountEquals.getInstance();
-    protected IsDisplayed isDisplayed = IsDisplayed.getInstance();
-
-    protected TextRetriever retrieveText = TextRetriever.getInstance();
-    protected AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
 
     /**
      * context root can be used to obtaining full URL paths, is set to actual tested application's context root
@@ -202,9 +161,6 @@ public abstract class AbstractTestCase {
     @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeBrowser")
     public void initializeWaitTimeouts() {
         selenium.setTimeout(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
-        waitGui = waitAjax().interval(WAIT_GUI_INTERVAL).timeout(getSeleniumTimeout(SeleniumTimeoutType.GUI));
-        waitAjax = waitAjax().interval(WAIT_AJAX_INTERVAL).timeout(getSeleniumTimeout(SeleniumTimeoutType.AJAX));
-        waitModel = waitSelenium().interval(WAIT_MODEL_INTERVAL).timeout(getSeleniumTimeout(SeleniumTimeoutType.MODEL));
     }
 
     /**

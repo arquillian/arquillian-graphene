@@ -19,51 +19,51 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.samples;
+package org.jboss.arquillian.ajocado.testng.samples;
 
-import org.jboss.arquillian.ajocado.AbstractTestCase;
+import java.net.URL;
+
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
-import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
-import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
+import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
+
+import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.*;
+import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 
 /**
- * Sample of usage Wait object to implement waiting to satisfy condition.
+ * Sample of guarding request to specific request type.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class WaitingSample extends AbstractTestCase {
+public class RequestGuardSample extends AbstractAjocadoTest {
 
     static final JQueryLocator BUTTON_START = jq("#start");
     static final JQueryLocator BUTTON_INCREMENT = jq(":button");
     static final IdLocator TEXT_COUNT = id("#count");
 
-    final TextEquals countEquals = textEquals.locator(TEXT_COUNT);
-    final TextRetriever retrieveCount = retrieveText.locator(TEXT_COUNT);
+    final URL initialUrl = null;
 
     void usage() {
-        selenium.click(BUTTON_START);
 
-        // selenium-polling waiting
-        waitModel.until(elementPresent.locator(TEXT_COUNT));
-        assert "0".equals(selenium.getText(TEXT_COUNT));
+        // no guards defined
+        selenium.open(initialUrl);
 
-        selenium.click(BUTTON_INCREMENT);
-        // javascript waiting
-        waitGui.until(countEquals.text("1"));
+        // explicitly define what request guard to use for current interaction
+        guardHttp(selenium).click(null);
 
-        selenium.click(BUTTON_INCREMENT);
-        // javascript waiting
-        waitGui.until(countEquals.text("2"));
+        // continue to use XHR as defined for selenium object
+        selenium.controlKeyDown();
+        guardXhr(selenium).click(BUTTON_START);
+        selenium.controlKeyUp();
 
-        retrieveCount.initializeValue();
-        selenium.click(BUTTON_INCREMENT);
-        // selenium-polling retriever usage sample
-        String result = waitModel.waitForChangeAndReturn(retrieveCount);
+        guardNoRequest(selenium).click(null);
 
-        assert "3".equals(result);
+        // this action will not fire any request by default
+        selenium.addScript(js("..."));
+        
+        BUTTON_START.format("test");
     }
 }

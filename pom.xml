@@ -18,6 +18,8 @@
 	<modules>
 		<module>impl</module>
 		<module>api</module>
+		<module>testng</module>
+		<module>ftest</module>
 	</modules>
 
 	<licenses>

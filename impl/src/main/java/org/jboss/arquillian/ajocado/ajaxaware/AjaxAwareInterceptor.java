@@ -79,7 +79,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
                         System.err.println(ctx.toString());
                         e.printStackTrace();
                     }
-                    waitSelenium().timeout(interval).waitForTimeout();
+                    waitSelenium.timeout(interval).waitForTimeout();
                     continue;
                 }
 

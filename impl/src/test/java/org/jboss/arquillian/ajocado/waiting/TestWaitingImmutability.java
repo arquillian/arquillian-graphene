@@ -35,7 +35,7 @@ public class TestWaitingImmutability {
     public void testTimeout() {
         final long timeout = Wait.DEFAULT_TIMEOUT + 1;
 
-        AjaxWaiting waitAjax = Wait.waitAjax();
+        AjaxWaiting waitAjax = Wait.waitAjax;
         assertTrue(waitAjax.getTimeout() != timeout);
         assertNotSame(waitAjax, waitAjax.timeout(timeout));
 

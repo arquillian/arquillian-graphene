@@ -19,11 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.samples;
+package org.jboss.arquillian.ajocado.testng.samples;
 
-import org.jboss.arquillian.ajocado.AbstractTestCase;
 import org.jboss.arquillian.ajocado.locator.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
+
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 import static org.jboss.arquillian.ajocado.locator.Attribute.*;
 
@@ -33,14 +34,14 @@ import static org.jboss.arquillian.ajocado.locator.Attribute.*;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AttributeSample extends AbstractTestCase {
+public class AttributeSample extends AbstractAjocadoTest {
 
     JQueryLocator buttonStart = jq("#start");
     AttributeLocator<JQueryLocator> buttonStartClass = buttonStart.getAttribute(CLASS);
 
     void usage() {
         String styleClass = selenium.getAttribute(buttonStartClass);
-        
+
         assert "myButton".equals(styleClass);
     }
 }

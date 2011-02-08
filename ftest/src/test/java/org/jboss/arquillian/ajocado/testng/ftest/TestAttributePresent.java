@@ -19,17 +19,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.ftest;
+package org.jboss.arquillian.ajocado.testng.ftest;
 
 import java.net.MalformedURLException;
 
 import java.net.URL;
 
-import org.jboss.arquillian.ajocado.AbstractTestCase;
 
 import org.jboss.arquillian.ajocado.locator.Attribute;
 import org.jboss.arquillian.ajocado.locator.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
+import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
@@ -37,6 +37,7 @@ import org.testng.Assert;
 import com.thoughtworks.selenium.SeleniumException;
 
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
+import static org.jboss.arquillian.ajocado.Ajocado.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -45,7 +46,7 @@ import static org.testng.Assert.fail;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestAttributePresent extends AbstractTestCase {
+public class TestAttributePresent extends AbstractAjocadoTest {
 
 	final IdLocator existingElement = id("paragraph");
 	final AttributeLocator<?> attributeExist = existingElement

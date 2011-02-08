@@ -19,29 +19,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.waiting.retrievers;
+package org.jboss.arquillian.ajocado.testng.samples;
+
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
+
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 
 /**
- * Provides the basic set of predefined retrievers to reference from the test implementations.
+ * Sample of iteration and composition of element locators.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class RetrieverFactory {
-    /**
-     * Retrieves the text for given elementLocator
-     * 
-     * @See {@link TextRetriever}
-     */
-    public static final TextRetriever RETRIEVE_TEXT = TextRetriever.getInstance();
+public class IterationAndCompositionSample extends AbstractAjocadoTest {
 
-    /**
-     * Retrieves the attribute with given attributeLocator.
-     * 
-     * @see {@link AttributeRetriever}
-     */
-    public static final AttributeRetriever RETRIEVE_ATTRIBUTE = AttributeRetriever.getInstance();
+    static final JQueryLocator LOC_TABLE = jq("#mytable");
+    static final JQueryLocator LOC_COLUMN_2 = jq("td:nth-child(2)");
+    static final JQueryLocator LOC_LINK = LOC_COLUMN_2.getChild(jq("span a"));
 
-    private RetrieverFactory() {
+    void usage() {
+        Iterable<JQueryLocator> rows;
+
+        rows = LOC_TABLE.getChildren(jq("tr"));
+
+        for (JQueryLocator row : rows) {
+            final JQueryLocator column2 = row.getDescendant(LOC_LINK);
+
+            String text = selenium.getText(column2);
+
+            System.out.println(text);
+        }
     }
 }

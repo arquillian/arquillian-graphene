@@ -86,7 +86,7 @@ public class Drag {
     private int y;
 
     /** The wait. */
-    private final SeleniumWaiting wait = waitSelenium().timeout(10);
+    private final SeleniumWaiting wait = waitSelenium.timeout(10);
 
     /**
      * Initiates Drag object, handled by given Selenium instance, instructing drag of itemToDrag to dropTarget object.

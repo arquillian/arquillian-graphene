@@ -19,16 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.ftest;
+package org.jboss.arquillian.ajocado.testng.ftest;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.jboss.arquillian.ajocado.AbstractTestCase;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardException;
 import org.jboss.arquillian.ajocado.request.RequestInterceptor;
 import org.jboss.arquillian.ajocado.request.RequestType;
+import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
 import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -43,7 +43,7 @@ import static org.testng.Assert.fail;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestRequestTypeGuard extends AbstractTestCase {
+public class TestRequestTypeGuard extends AbstractAjocadoTest {
 
 	private JavaScript twoClicksWithTimeout = JavaScript
 			.fromResource("two-clicks-with-timeout.js");

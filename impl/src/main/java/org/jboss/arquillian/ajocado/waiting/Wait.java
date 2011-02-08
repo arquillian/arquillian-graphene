@@ -54,16 +54,12 @@ public final class Wait {
      * 
      * @return new instance of {@link AjaxWaiting}
      */
-    public static AjaxWaiting waitAjax() {
-        return new AjaxWaiting();
-    }
+    public static AjaxWaiting waitAjax = new AjaxWaiting();
 
     /**
      * Returns new instance of {@link SeleniumWaiting}
      * 
      * @return new instance of {@link SeleniumWaiting}
      */
-    public static SeleniumWaiting waitSelenium() {
-        return new SeleniumWaiting();
-    }
+    public static SeleniumWaiting waitSelenium = new SeleniumWaiting();
 }

@@ -19,13 +19,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.ftest;
+package org.jboss.arquillian.ajocado.testng.ftest;
 
 import static org.jboss.arquillian.ajocado.utils.URLUtils.buildUrl;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.fail;
 
-import org.jboss.arquillian.ajocado.AbstractTestCase;
+import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestRestartBrowser extends AbstractTestCase {
+public class TestRestartBrowser extends AbstractAjocadoTest {
 
     private static final String JSESSIONID = "JSESSIONID";
 
