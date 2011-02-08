@@ -3,14 +3,14 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jboss.ajocado</groupId>
-		<artifactId>ajocado-parent</artifactId>
+		<groupId>org.jboss.arquillian.ajocado</groupId>
+		<artifactId>arquillian-ajocado-parent</artifactId>
 		<version>1.5.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
-	<groupId>org.jboss.ajocado</groupId>
-	<artifactId>ajocado-api</artifactId>
+	<groupId>org.jboss.arquillian.ajocado</groupId>
+	<artifactId>arquillian-ajocado-api</artifactId>
 	<version>1.5.3-SNAPSHOT</version>
 	<name>Ajocado API</name>
 	<description>Interface for integrating and extending Ajocado by another projects</description>

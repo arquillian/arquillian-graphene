@@ -3,14 +3,14 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.jboss.ajocado</groupId>
-		<artifactId>ajocado-parent</artifactId>
+		<groupId>org.jboss.arquillian.ajocado</groupId>
+		<artifactId>arquillian-ajocado-parent</artifactId>
 		<version>1.5.3-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>org.jboss.ajocado</groupId>
-	<artifactId>ajocado-impl</artifactId>
+	<groupId>org.jboss.arquillian.ajocado</groupId>
+	<artifactId>arquillian-ajocado-impl</artifactId>
 	<packaging>jar</packaging>
 	<name>Ajocado Implementation</name>
 	<description>Testing Ajax with flavour of sexy type-safe API</description>
