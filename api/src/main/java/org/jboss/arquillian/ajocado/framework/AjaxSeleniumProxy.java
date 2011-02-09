@@ -26,8 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import org.jboss.arquillian.ajocado.framework.internal.UnsupportedTypedSelenium;
-
 /**
  * <p>
  * Proxy for retrieving thread local context of AjaxSelenium.
@@ -90,7 +88,7 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      */
     public static AjaxSelenium getInstance() {
         return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(), new Class[] {
-            AjaxSelenium.class, UnsupportedTypedSelenium.class }, new AjaxSeleniumProxy());
+            AjaxSelenium.class }, new AjaxSeleniumProxy());
     }
 
     /**
