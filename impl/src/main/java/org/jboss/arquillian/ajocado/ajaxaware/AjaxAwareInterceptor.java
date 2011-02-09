@@ -21,13 +21,14 @@
  */
 package org.jboss.arquillian.ajocado.ajaxaware;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import static org.jboss.arquillian.ajocado.waiting.Wait.waitSelenium;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.interception.CommandContext;
 import org.jboss.arquillian.ajocado.interception.CommandInterceptionException;
 import org.jboss.arquillian.ajocado.interception.CommandInterceptor;
+
 import com.thoughtworks.selenium.SeleniumException;
 
 /**

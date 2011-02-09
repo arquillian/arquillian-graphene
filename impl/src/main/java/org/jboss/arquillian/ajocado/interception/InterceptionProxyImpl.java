@@ -106,8 +106,8 @@ public final class InterceptionProxyImpl implements InterceptionProxy, java.lang
             if (interceptedMethods.contains(method.getName())) {
                 String commandName = (String) args[0];
                 String[] arguments = (String[]) args[1];
-                CommandContext context =
-                    new CommandContext(commandName, arguments, commandProcessor, method, interceptors.values());
+                CommandContextImpl context =
+                    new CommandContextImpl(commandName, arguments, commandProcessor, method, interceptors.values());
                 try {
                     result = context.invoke();
                 } catch (CommandInterceptionException e) {

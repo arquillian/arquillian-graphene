@@ -29,6 +29,7 @@ import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 
 /**
  * <p>
@@ -42,7 +43,7 @@ import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class RequestInterceptor {
+public class RequestInterceptorImpl implements RequestInterceptor {
     private final JavaScript clearRequestDone = js("cheiron.requestInterceptor.clearRequestDone()");
     private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestDone()");
     private final JavaScript waitRequestChange = js("cheiron.requestInterceptor.waitRequestChange()");

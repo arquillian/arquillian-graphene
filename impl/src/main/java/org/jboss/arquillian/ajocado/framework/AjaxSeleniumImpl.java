@@ -23,12 +23,14 @@ package org.jboss.arquillian.ajocado.framework;
 
 import java.net.URL;
 
+import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
 import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
 import org.jboss.arquillian.ajocado.interception.InterceptionProxy;
 import org.jboss.arquillian.ajocado.interception.InterceptionProxyImpl;
 import org.jboss.arquillian.ajocado.request.RequestInterceptor;
+import org.jboss.arquillian.ajocado.request.RequestInterceptorImpl;
 
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.HttpCommandProcessor;
@@ -86,7 +88,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensionsImpl();
         seleniumExtensions = new SeleniumExtensionsImpl();
-        requestInterceptor = new RequestInterceptor();
+        requestInterceptor = new RequestInterceptorImpl();
     }
 
     /*

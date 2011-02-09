@@ -39,7 +39,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class CommandContext {
+public class CommandContextImpl implements CommandContext {
     private String command;
 
     private String[] args;
@@ -63,7 +63,7 @@ public class CommandContext {
      * @param interceptors
      *            enfolds the execution of command
      */
-    CommandContext(String command, String[] args, CommandProcessor commandProcessor, Method method,
+    CommandContextImpl(String command, String[] args, CommandProcessor commandProcessor, Method method,
         Collection<CommandInterceptor> interceptors) {
         this.command = command;
         this.method = method;
@@ -78,15 +78,15 @@ public class CommandContext {
      * </p>
      * 
      * <p>
-     * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method
-     * body method {@link CommandContext#invoke()} at least once. If not, this interceptor will raise
+     * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContextImpl)} method
+     * body method {@link CommandContextImpl#invoke()} at least once. If not, this interceptor will raise
      * {@link CommandInterceptionException}.
      * </p>
      * 
      * @return the return value of executing the command on given commandProcessor
      * @throws CommandInterceptionException
-     *             if the subsequent interceptor doesn't call {@link CommandContext#invoke()} in it's
-     *             {@link CommandInterceptor#intercept(CommandContext)} method body.
+     *             if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in it's
+     *             {@link CommandInterceptor#intercept(CommandContextImpl)} method body.
      */
     public Object invoke() throws CommandInterceptionException {
         invocations += 1;

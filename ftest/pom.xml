@@ -71,7 +71,7 @@
 									<systemProperties>
 										<property>
 											<name>context.root</name>
-											<value>http://localhost:8080/</value>
+											<value>http://localhost:9821/</value>
 										</property>
 										<property>
 											<name>context.path</name>
@@ -87,7 +87,11 @@
 										</property>
 										<property>
 											<name>selenium.port</name>
-											<value>8444</value>
+											<value>9823</value>
+										</property>
+										<property>
+											<name>selenium.timeout.ajax</name>
+											<value>5000</value>
 										</property>
 									</systemProperties>
 								</configuration>
@@ -117,6 +121,12 @@
 							<scanIntervalSeconds>0</scanIntervalSeconds>
 							<stopKey>foo</stopKey>
 							<stopPort>9999</stopPort>
+							<connectors>
+								<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+									<port>9821</port>
+									<maxIdleTime>60000</maxIdleTime>
+								</connector>
+							</connectors>
 						</configuration>
 						<executions>
 							<execution>
@@ -153,7 +163,7 @@
 								</goals>
 								<configuration>
 									<background>true</background>
-									<port>8444</port>
+									<port>9823</port>
 									<logOutput>true</logOutput>
 									<logFile>${project.build.directory}/selenium/selenium-server.log</logFile>
 									<browserSideLog>true</browserSideLog>
@@ -167,7 +177,7 @@
 								</goals>
 								<configuration>
 									<background>true</background>
-									<port>8444</port>
+									<port>9823</port>
 								</configuration>
 							</execution>
 						</executions>

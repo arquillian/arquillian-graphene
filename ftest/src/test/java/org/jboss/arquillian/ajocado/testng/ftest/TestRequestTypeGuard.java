@@ -21,23 +21,27 @@
  */
 package org.jboss.arquillian.ajocado.testng.ftest;
 
+import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.guardHttp;
+import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.guardNoRequest;
+import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.guardXhr;
+import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.waitHttp;
+import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.waitXhr;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.id;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardException;
+import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.request.RequestInterceptor;
 import org.jboss.arquillian.ajocado.request.RequestType;
 import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
-import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.*;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

@@ -34,7 +34,6 @@ import org.jboss.arquillian.ajocado.interception.CommandInterceptionException;
 import org.jboss.arquillian.ajocado.interception.CommandInterceptor;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
-
 import com.thoughtworks.selenium.SeleniumException;
 
 /**
