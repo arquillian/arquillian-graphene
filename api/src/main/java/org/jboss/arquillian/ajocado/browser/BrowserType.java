@@ -25,7 +25,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.jboss.arquillian.ajocado.utils.StringUtils;
 
 /**
  * <p>Enumeration of supported browsers.</p>

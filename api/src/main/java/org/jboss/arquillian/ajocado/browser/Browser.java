@@ -21,14 +21,11 @@
  */
 package org.jboss.arquillian.ajocado.browser;
 
+import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
 /**
  * <p>
@@ -58,7 +55,8 @@ public class Browser {
     File executable;
 
     /**
-     * Pattern for parsing browserMode and executable file from 
+     * Pattern for parsing browserMode and executable file from
+     * 
      * @see #Browser(String)
      */
     Pattern pattern = Pattern.compile("^\\*([^\\s]+)(?:$|\\s+(.*))$");
@@ -91,8 +89,9 @@ public class Browser {
 
     /**
      * Instantiates a new browser by given browserMode
-     *
-     * @param browserMode the browser mode
+     * 
+     * @param browserMode
+     *            the browser mode
      */
     public Browser(BrowserMode browserMode) {
         this.browserMode = browserMode;
@@ -100,37 +99,45 @@ public class Browser {
 
     /**
      * Instantiates a new browser by given browserMode and executableFile.
-     *
-     * @param browserMode the browser mode
-     * @param executableFile the executable file
+     * 
+     * @param browserMode
+     *            the browser mode
+     * @param executableFile
+     *            the executable file
      */
     public Browser(BrowserMode browserMode, File executableFile) {
         this.browserMode = browserMode;
         this.executable = executableFile;
     }
-    
+
     /**
      * Gets the browser's mode (see {@link Browser}).
-     *
+     * 
      * @return the mode
      */
     public BrowserMode getMode() {
         return this.browserMode;
     }
-    
+
     /**
-     * <p>Gets the type of browser.</p>
+     * <p>
+     * Gets the type of browser.
+     * </p>
      * 
-     * <p>Shortcut for {@link BrowserMode#getBrowserType()}.</p>
-     *
+     * <p>
+     * Shortcut for {@link BrowserMode#getBrowserType()}.
+     * </p>
+     * 
      * @return the type
      */
     public BrowserType getType() {
         return this.browserMode.getBrowserType();
     }
-    
+
     /**
-     * <p>Gets a string representation of browser.</p>
+     * <p>
+     * Gets a string representation of browser.
+     * </p>
      * 
      * @see Browser#Browser(String)
      * @return the string representation of browser
@@ -150,7 +157,6 @@ public class Browser {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("mode", browserMode)
-            .append("type", browserMode.getBrowserType()).append("executable", executable).toString();
+        return "Browser [browserMode=" + browserMode + ", executable=" + executable + ", pattern=" + pattern + "]";
     }
 }
