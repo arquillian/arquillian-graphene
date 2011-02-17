@@ -21,18 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.testng;
 
-import static org.jboss.arquillian.ajocado.SystemProperties.getBrowser;
-import static org.jboss.arquillian.ajocado.SystemProperties.getContextPath;
-import static org.jboss.arquillian.ajocado.SystemProperties.getContextRoot;
-import static org.jboss.arquillian.ajocado.SystemProperties.getMavenProjectBuildDirectory;
-import static org.jboss.arquillian.ajocado.SystemProperties.getMavenResourcesDir;
-import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumHost;
-import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumPort;
-import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumSpeed;
-import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumTimeout;
-import static org.jboss.arquillian.ajocado.SystemProperties.isSeleniumDebug;
-import static org.jboss.arquillian.ajocado.SystemProperties.isSeleniumMaximize;
-import static org.jboss.arquillian.ajocado.SystemProperties.isSeleniumNetworkTrafficEnabled;
 import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.fromResource;
 import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
@@ -44,7 +32,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
 import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.browser.BrowserMode;
 import org.jboss.arquillian.ajocado.browser.BrowserType;
@@ -52,6 +39,10 @@ import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
+import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
@@ -74,6 +65,7 @@ public abstract class AbstractAjocadoTest {
     public static final int WAIT_MODEL_INTERVAL = 1500;
 
     protected AjaxSelenium selenium;
+    protected AjocadoConfiguration configuration = new SystemPropertiesConfiguration();
 
     /**
      * context root can be used to obtaining full URL paths, is set to actual tested application's context root
@@ -96,12 +88,13 @@ public abstract class AbstractAjocadoTest {
 
     @BeforeClass(alwaysRun = true)
     public void initializeParameters() throws MalformedURLException {
-        this.seleniumDebug = isSeleniumDebug();
-        this.contextRoot = getContextRoot();
-        this.contextPath = getContextPath();
-        this.mavenResourcesDir = getMavenResourcesDir();
-        this.mavenProjectBuildDirectory = getMavenProjectBuildDirectory();
-        this.browser = getBrowser();
+        AjocadoConfigurationContext.setContext(configuration);
+        this.seleniumDebug = configuration.isSeleniumDebug();
+        this.contextRoot = configuration.getContextRoot();
+        this.contextPath = configuration.getContextPath();
+        this.mavenResourcesDir = configuration.getMavenResourcesDir();
+        this.mavenProjectBuildDirectory = configuration.getMavenProjectBuildDirectory();
+        this.browser = configuration.getBrowser();
     }
 
     /**
@@ -120,17 +113,18 @@ public abstract class AbstractAjocadoTest {
      */
     @BeforeClass(dependsOnMethods = { "initializeParameters", "isTestBrowserEnabled" }, alwaysRun = true)
     public void initializeBrowser() {
-        selenium = new AjaxSeleniumImpl(getSeleniumHost(), getSeleniumPort(), browser, contextPath);
+        selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(), configuration.getSeleniumPort(), browser,
+            contextPath);
         AjaxSeleniumProxy.setCurrentContext(selenium);
 
-        selenium.enableNetworkTrafficCapturing(isSeleniumNetworkTrafficEnabled());
+        selenium.enableNetworkTrafficCapturing(configuration.isSeleniumNetworkTrafficEnabled());
         selenium.start();
 
         loadCustomLocationStrategies();
 
-        selenium.setSpeed(getSeleniumSpeed());
+        selenium.setSpeed(configuration.getSeleniumSpeed());
 
-        if (isSeleniumMaximize()) {
+        if (configuration.isSeleniumMaximize()) {
             // focus and maximaze tested window
             selenium.windowFocus();
             selenium.windowMaximize();
@@ -160,7 +154,7 @@ public abstract class AbstractAjocadoTest {
      */
     @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeBrowser")
     public void initializeWaitTimeouts() {
-        selenium.setTimeout(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        selenium.setTimeout(configuration.getTimeout(TimeoutType.DEFAULT));
     }
 
     /**

@@ -65,7 +65,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @return the set interval
      */
-    protected final long getInterval() {
+    protected long getInterval() {
         return interval;
     }
 
@@ -74,7 +74,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @return the timeout set for this object
      */
-    protected final long getTimeout() {
+    protected long getTimeout() {
         return timeout;
     }
 
@@ -83,7 +83,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @return if this waiting's start is delayed
      */
-    protected final boolean isDelayed() {
+    protected boolean isDelayed() {
         return isDelayed;
     }
 
@@ -92,7 +92,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#interval(long)
      */
-    public final T interval(long interval) {
+    public T interval(long interval) {
         if (interval == this.interval) {
             return (T) this;
         }
@@ -106,7 +106,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#timeout(long)
      */
-    public final T timeout(long timeout) {
+    public T timeout(long timeout) {
         if (timeout == this.timeout) {
             return (T) this;
         }
@@ -120,7 +120,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#failWith(java.lang.Exception)
      */
-    public final T failWith(Exception exception) {
+    public T failWith(Exception exception) {
         if (exception == null && this.failure == null) {
             return (T) this;
         }
@@ -135,7 +135,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#failWith(java.lang.CharSequence, java.lang.Object[])
      */
-    public final T failWith(CharSequence failureMessage, Object... arguments) {
+    public T failWith(CharSequence failureMessage, Object... arguments) {
         T copy = this.copy();
         copy.failure = failureMessage;
         copy.failureArgs = arguments;
@@ -147,7 +147,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#dontFail()
      */
-    public final T dontFail() {
+    public T dontFail() {
         return failWith(null);
     }
 
@@ -156,7 +156,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#noDelay()
      */
-    public final T noDelay() {
+    public T noDelay() {
         return withDelay(false);
     }
 
@@ -165,7 +165,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#withDelay(boolean)
      */
-    public final T withDelay(boolean isDelayed) {
+    public T withDelay(boolean isDelayed) {
         if (isDelayed == this.isDelayed) {
             return (T) this;
         }
@@ -179,7 +179,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#waitForTimeout()
      */
-    public final void waitForTimeout() {
+    public void waitForTimeout() {
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException e) {
@@ -195,7 +195,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * If failure is null, method wont fail.
      */
-    protected final void fail() {
+    protected void fail() {
         if (failure != null) {
             throw prepareFailure();
         }

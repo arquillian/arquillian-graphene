@@ -1122,9 +1122,9 @@ public interface TypedSelenium {
      * 
      * <p>
      * Wait default timeout specified in
-     * {@link org.jboss.arquillian.ajocado.SystemProperties#getSeleniumTimeout
-     * (org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType)}
-     * of type {@link SystemProperties.SeleniumTimeoutType#DEFAULT}.
+     * {@link org.jboss.arquillian.ajocado.SystemProperties#getTimeout
+     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)}
+     * of type {@link TimeoutType.SeleniumTimeoutType#DEFAULT}.
      * </p>
      * 
      * @param script
@@ -1176,9 +1176,9 @@ public interface TypedSelenium {
      * </p>
      * <p>
      * Wait default timeout specified in
-     * {@link org.jboss.arquillian.ajocado.SystemProperties#getSeleniumTimeout
-     * (org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType)}
-     * of type {@link org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType#DEFAULT}.
+     * {@link org.jboss.arquillian.ajocado.SystemProperties#getTimeout
+     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)}
+     * of type {@link org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT}.
      * </p>
      */
     void waitForPageToLoad();
@@ -1215,9 +1215,9 @@ public interface TypedSelenium {
      * 
      * <p>
      * Wait default timeout specified in
-     * {@link org.jboss.arquillian.ajocado.SystemProperties#getSeleniumTimeout
-     * (org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType)}
-     * of type {@link org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType#DEFAULT}.
+     * {@link org.jboss.arquillian.ajocado.SystemProperties#getTimeout
+     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)}
+     * of type {@link org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT}.
      * </p>
      * 
      * @param frameAddress

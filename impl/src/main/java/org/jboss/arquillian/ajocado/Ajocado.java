@@ -1,8 +1,28 @@
+/*
+ * JBoss, Home of Professional Open Source
+ * Copyright 2010, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.jboss.arquillian.ajocado;
 
-import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumTimeout;
-
-import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.internal.WaitingProxy;
 import org.jboss.arquillian.ajocado.waiting.Wait;
 import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
 import org.jboss.arquillian.ajocado.waiting.conditions.AlertEquals;
@@ -18,6 +38,10 @@ import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
 
+/**
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @version $Revision$
+ */
 public class Ajocado {
     public static final int WAIT_GUI_INTERVAL = 100;
     public static final int WAIT_AJAX_INTERVAL = 500;
@@ -26,14 +50,14 @@ public class Ajocado {
     /*
      * Waitings
      */
-    public static final AjaxWaiting waitGui = Wait.waitAjax.interval(WAIT_GUI_INTERVAL).timeout(
-        getSeleniumTimeout(SeleniumTimeoutType.GUI));
-
-    public static final AjaxWaiting waitAjax = Wait.waitAjax.interval(WAIT_AJAX_INTERVAL).timeout(
-        getSeleniumTimeout(SeleniumTimeoutType.AJAX));
-
-    public static final SeleniumWaiting waitModel = Wait.waitSelenium.interval(WAIT_MODEL_INTERVAL).timeout(
-        getSeleniumTimeout(SeleniumTimeoutType.MODEL));
+    public static final AjaxWaiting waitGui = WaitingProxy.create(Wait.waitAjax.interval(WAIT_GUI_INTERVAL),
+        TimeoutType.GUI);
+    
+    public static final AjaxWaiting waitAjax = WaitingProxy.create(Wait.waitAjax.interval(WAIT_AJAX_INTERVAL),
+        TimeoutType.AJAX);
+    
+    public static final SeleniumWaiting waitModel = WaitingProxy.create(
+        Wait.waitSelenium.interval(WAIT_MODEL_INTERVAL), TimeoutType.MODEL);
 
     /*
      * Wait Conditions
@@ -53,4 +77,5 @@ public class Ajocado {
      */
     public static final TextRetriever retrieveText = TextRetriever.getInstance();
     public static final AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
+
 }

@@ -25,10 +25,11 @@ import static org.jboss.arquillian.ajocado.guard.GuardedCommands.INTERACTIVE_COM
 import static org.jboss.arquillian.ajocado.request.RequestType.HTTP;
 import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 
-import org.jboss.arquillian.ajocado.SystemProperties;
-import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.interception.CommandContext;
 import org.jboss.arquillian.ajocado.interception.CommandInterceptionException;
 import org.jboss.arquillian.ajocado.interception.CommandInterceptor;
@@ -48,6 +49,8 @@ public class RequestTypeGuard implements CommandInterceptor {
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
+    private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 
     /**
      * The request what is expected to be done
@@ -110,7 +113,7 @@ public class RequestTypeGuard implements CommandInterceptor {
      *             when done requestType doesn't equal to expected one
      */
     public void doAfterCommand() {
-        final long end = System.currentTimeMillis() + SystemProperties.getSeleniumTimeout(SeleniumTimeoutType.AJAX);
+        final long end = System.currentTimeMillis() + configuration.getTimeout(TimeoutType.AJAX);
         
         RequestType lastRequestDone = NONE;
         

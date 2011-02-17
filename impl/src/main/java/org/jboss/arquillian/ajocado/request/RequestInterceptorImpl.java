@@ -24,11 +24,12 @@ package org.jboss.arquillian.ajocado.request;
 import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
-import org.jboss.arquillian.ajocado.SystemProperties;
-import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 
 /**
@@ -52,6 +53,8 @@ public class RequestInterceptorImpl implements RequestInterceptor {
      * Proxy for thread local context of AjaxSelenium
      */
     private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    
+    private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 
     /**
      * Obtains the done requestType from page.
@@ -87,7 +90,7 @@ public class RequestInterceptorImpl implements RequestInterceptor {
      * Waits for change of RequestType indicated on the page from NONE to other value.
      */
     public void waitForRequestTypeChange() {
-        selenium.doCommand("waitForRequestChange", Long.toString(SystemProperties.getSeleniumTimeout(SeleniumTimeoutType.AJAX)), null);
+        selenium.doCommand("waitForRequestChange", Long.toString(configuration.getTimeout(TimeoutType.AJAX)), null);
     }
 
     private RequestType parseRequest(String request) {

@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
+import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -34,7 +36,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
-import org.jboss.arquillian.ajocado.SystemProperties.SeleniumTimeoutType;
 import org.jboss.arquillian.ajocado.cookie.Cookie;
 import org.jboss.arquillian.ajocado.cookie.CreateCookieOptions;
 import org.jboss.arquillian.ajocado.cookie.DeleteCookieOptions;
@@ -48,6 +49,7 @@ import org.jboss.arquillian.ajocado.encapsulated.NetworkTrafficType;
 import org.jboss.arquillian.ajocado.encapsulated.Window;
 import org.jboss.arquillian.ajocado.encapsulated.WindowId;
 import org.jboss.arquillian.ajocado.encapsulated.XpathLibrary;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.UnsupportedTypedSelenium;
 import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Offset;
@@ -63,9 +65,6 @@ import org.jboss.arquillian.ajocado.utils.array.ArrayTransform;
 
 import com.thoughtworks.selenium.Selenium;
 
-import static org.jboss.arquillian.ajocado.SystemProperties.getSeleniumTimeout;
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
-
 /**
  * Wrapper implementation for Selenium object's API to make it type-safe.
  * 
@@ -75,6 +74,8 @@ import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSelenium {
 
     Selenium selenium;
+    
+    AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 
     private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
         Integer.class) {
@@ -655,7 +656,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void waitForCondition(JavaScript script) {
-        String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        String timeout = String.valueOf(configuration.getTimeout(TimeoutType.DEFAULT));
         selenium.waitForCondition(script.getAsString(), timeout);
     }
 
@@ -664,7 +665,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void waitForFrameToLoad(URL frameURL) {
-        String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        String timeout = String.valueOf(configuration.getTimeout(TimeoutType.DEFAULT));
         selenium.waitForFrameToLoad(frameURL.toString(), timeout);
     }
 
@@ -673,7 +674,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void waitForPageToLoad() {
-        String timeout = String.valueOf(getSeleniumTimeout(SeleniumTimeoutType.DEFAULT));
+        String timeout = String.valueOf(configuration.getTimeout(TimeoutType.DEFAULT));
         selenium.waitForPageToLoad(timeout);
     }
 
