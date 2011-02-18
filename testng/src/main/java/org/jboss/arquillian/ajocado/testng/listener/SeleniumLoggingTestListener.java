@@ -24,7 +24,7 @@ package org.jboss.arquillian.ajocado.testng.listener;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.utils.testng.TestLoggingUtils;
+import org.jboss.arquillian.ajocado.testng.utils.TestLoggingUtils;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
