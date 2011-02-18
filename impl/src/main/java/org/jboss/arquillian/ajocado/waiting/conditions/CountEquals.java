@@ -29,7 +29,7 @@ import static org.jboss.arquillian.ajocado.locator.ElementLocationStrategy.XPATH
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.IterableLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
@@ -53,7 +53,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /** The element locator. */
     private IterableLocator<?> iterableLocator;

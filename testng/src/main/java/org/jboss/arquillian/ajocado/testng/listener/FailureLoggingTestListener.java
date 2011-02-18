@@ -31,7 +31,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jboss.arquillian.ajocado.encapsulated.NetworkTrafficType;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
 import org.jboss.arquillian.ajocado.utils.testng.TestInfo;
 import org.jboss.arquillian.ajocado.utils.testng.TestLoggingUtils;
@@ -50,10 +50,10 @@ import com.thoughtworks.selenium.SeleniumException;
  */
 public class FailureLoggingTestListener extends TestListenerAdapter {
 
-    protected File mavenProjectBuildDirectory = new SystemPropertiesConfiguration().getMavenProjectBuildDirectory();
+    protected File mavenProjectBuildDirectory = new SystemPropertiesConfiguration().getBuildDirectory();
     protected File failuresOutputDir = new File(mavenProjectBuildDirectory, "failures");
 
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     @Override
     public void onStart(ITestContext testContext) {

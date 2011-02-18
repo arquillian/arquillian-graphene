@@ -49,7 +49,7 @@ public class TestAjocado {
     @BeforeMethod
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
-        AjocadoConfigurationContext.setContext(configuration);
+        AjocadoConfigurationContext.set(configuration);
     }
 
     @Test

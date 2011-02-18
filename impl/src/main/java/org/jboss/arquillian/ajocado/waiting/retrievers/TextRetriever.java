@@ -24,7 +24,7 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
@@ -43,7 +43,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /** The element locator. */
     private ElementLocator<?> elementLocator;

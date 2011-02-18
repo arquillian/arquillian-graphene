@@ -73,7 +73,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getMavenResourcesDir()
      */
     @Override
-    public File getMavenResourcesDir() {
+    public File getResourcesDirectory() {
         return new File(getProperty("maven.resources.dir", "./target/test-classes/"));
     }
 
@@ -81,7 +81,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getMavenProjectBuildDirectory()
      */
     @Override
-    public File getMavenProjectBuildDirectory() {
+    public File getBuildDirectory() {
         return new File(getProperty("maven.project.build.directory", "./target/"));
     }
 

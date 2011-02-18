@@ -25,7 +25,7 @@ import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
@@ -46,7 +46,7 @@ public class AlertPresent implements SeleniumCondition, JavaScriptCondition {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /**
      * Instantiates a new element present.

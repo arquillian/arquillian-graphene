@@ -24,7 +24,7 @@ package org.jboss.arquillian.ajocado.waiting.conditions;
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
@@ -50,7 +50,7 @@ public class IsDisplayed implements SeleniumCondition, JavaScriptCondition {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
     
     /** The element locator. */
     private ElementLocator<?> elementLocator;

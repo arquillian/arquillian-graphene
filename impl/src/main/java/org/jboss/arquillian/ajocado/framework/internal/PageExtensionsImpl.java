@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.PageExtensions;
 import org.jboss.arquillian.ajocado.waiting.Wait;
 
@@ -52,7 +52,7 @@ public class PageExtensionsImpl implements PageExtensions {
     final JavaScript isRFSUndefined = js("getRFS() === undefined");
 
     /** The associated selenium object. */
-    AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /**
      * Install.

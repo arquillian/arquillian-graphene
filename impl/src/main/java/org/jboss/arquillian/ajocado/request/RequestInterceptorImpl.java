@@ -26,7 +26,7 @@ import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
@@ -52,7 +52,7 @@ public class RequestInterceptorImpl implements RequestInterceptor {
     /**
      * Proxy for thread local context of AjaxSelenium
      */
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
     
     private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 

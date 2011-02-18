@@ -38,7 +38,7 @@ import org.jboss.arquillian.ajocado.browser.BrowserType;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
@@ -79,21 +79,21 @@ public abstract class AbstractAjocadoTest {
     protected URL contextPath;
 
     /**
-     * Introduce some maven build properties
+     * Introduce some build properties
      */
-    protected File mavenProjectBuildDirectory; // usually ${project}/target
-    protected File mavenResourcesDir; // usually ${project}/target/test-classes
+    protected File buildDirectory;
+    protected File resourcesDir;
     protected boolean seleniumDebug; // if used specified debug mode of selenium testing
     protected Browser browser;
 
     @BeforeClass(alwaysRun = true)
     public void initializeParameters() throws MalformedURLException {
-        AjocadoConfigurationContext.setContext(configuration);
+        AjocadoConfigurationContext.set(configuration);
         this.seleniumDebug = configuration.isSeleniumDebug();
         this.contextRoot = configuration.getContextRoot();
         this.contextPath = configuration.getContextPath();
-        this.mavenResourcesDir = configuration.getMavenResourcesDir();
-        this.mavenProjectBuildDirectory = configuration.getMavenProjectBuildDirectory();
+        this.resourcesDir = configuration.getResourcesDirectory();
+        this.buildDirectory = configuration.getBuildDirectory();
         this.browser = configuration.getBrowser();
     }
 
@@ -115,7 +115,7 @@ public abstract class AbstractAjocadoTest {
     public void initializeBrowser() {
         selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(), configuration.getSeleniumPort(), browser,
             contextPath);
-        AjaxSeleniumProxy.setCurrentContext(selenium);
+        AjaxSeleniumContext.set(selenium);
 
         selenium.enableNetworkTrafficCapturing(configuration.isSeleniumNetworkTrafficEnabled());
         selenium.start();
@@ -206,7 +206,7 @@ public abstract class AbstractAjocadoTest {
     public void finalizeBrowser() {
         if (selenium != null && selenium.isStarted()) {
             selenium.deleteAllVisibleCookies();
-            AjaxSeleniumProxy.setCurrentContext(null);
+            AjaxSeleniumContext.set(null);
             selenium.stop();
             selenium = null;
         }

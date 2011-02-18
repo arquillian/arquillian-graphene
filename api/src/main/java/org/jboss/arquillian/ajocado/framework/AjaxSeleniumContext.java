@@ -28,11 +28,11 @@ import java.lang.reflect.Proxy;
 
 /**
  * <p>
- * Proxy for retrieving thread local context of AjaxSelenium.
+ * Context for keeping thread local context of {@link AjaxSelenium}.
  * </p>
  * 
  * <p>
- * All methods on returned proxy will be invoked on AjaxSelenium instance associated with current thread.
+ * Provides {@link #getProxy()} method for accessing that context over model of your tests.
  * </p>
  * 
  * <p>
@@ -48,14 +48,14 @@ import java.lang.reflect.Proxy;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class AjaxSeleniumProxy implements InvocationHandler {
+public final class AjaxSeleniumContext implements InvocationHandler {
 
     /**
      * The thread local context of AjaxSelenium
      */
     private static final ThreadLocal<AjaxSelenium> REFERENCE = new ThreadLocal<AjaxSelenium>();
 
-    private AjaxSeleniumProxy() {
+    private AjaxSeleniumContext() {
     }
 
     /**
@@ -64,7 +64,7 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      * @param selenium
      *            the AjaxSelenium instance
      */
-    public static void setCurrentContext(AjaxSelenium selenium) {
+    public static void set(AjaxSelenium selenium) {
         REFERENCE.set(selenium);
     }
 
@@ -73,12 +73,12 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      * 
      * @return the context of AjaxSelenium for current thread
      */
-    private static AjaxSelenium getCurrentContext() {
+    private static AjaxSelenium get() {
         return REFERENCE.get();
     }
 
     public static boolean isContextInitialized() {
-        return getCurrentContext() != null;
+        return get() != null;
     }
 
     /**
@@ -86,9 +86,9 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
      * 
      * @return the instance of proxy to thread local context of AjaxSelenium
      */
-    public static AjaxSelenium getInstance() {
+    public static AjaxSelenium getProxy() {
         return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(), new Class[] {
-            AjaxSelenium.class }, new AjaxSeleniumProxy());
+            AjaxSelenium.class }, new AjaxSeleniumContext());
     }
 
     /**
@@ -104,7 +104,7 @@ public final class AjaxSeleniumProxy implements InvocationHandler {
                     throw new IllegalStateException("Context is not initialized");
                 }
             }
-            result = method.invoke(getCurrentContext(), args);
+            result = method.invoke(get(), args);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         } catch (Exception e) {

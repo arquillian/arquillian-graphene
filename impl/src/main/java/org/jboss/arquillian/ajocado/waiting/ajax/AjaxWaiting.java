@@ -26,7 +26,7 @@ import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -49,7 +49,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /**
      * Stars loop waiting to satisfy condition.

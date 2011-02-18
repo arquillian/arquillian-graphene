@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.locator.IterableLocator;
 
 /**
@@ -49,7 +49,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
     /**
      * Proxy to local selenium instance
      */
-    protected AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    protected AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
     
     /** The iterable locator. */
     T iterableLocator;

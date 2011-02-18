@@ -26,7 +26,7 @@ import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumProxy;
+import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.SeleniumExtensions;
 
 import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.*;
@@ -42,7 +42,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     /**
      * The associated AjaxSelenium object
      */
-    AjaxSelenium selenium = AjaxSeleniumProxy.getInstance();
+    AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /*
      * JavaScript definitions for this object
