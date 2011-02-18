@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.arquillian.ajocado</groupId>
@@ -7,7 +8,7 @@
 	<packaging>pom</packaging>
 	<name>Ajocado Parent</name>
 	<description>Testing Ajax with flavour of sexy type-safe API</description>
-	<url>TBD</url>
+	<url>http://community.jboss.org/en/arquillian/dev</url>
 
 	<parent>
 		<groupId>org.jboss</groupId>
@@ -32,14 +33,44 @@
 
 	<scm>
 		<connection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</connection>
-	    <developerConnection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</developerConnection>
-	    <url>https://github.com/arquillian/arquillian-ajocado</url>
+		<developerConnection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</developerConnection>
+		<url>https://github.com/arquillian/arquillian-ajocado</url>
 	</scm>
 
 	<issueManagement>
 		<system>jira</system>
-		<url>TBD</url>
+		<url>https://issues.jboss.org/browse/ARQAJO</url>
 	</issueManagement>
+
+	<repositories>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
