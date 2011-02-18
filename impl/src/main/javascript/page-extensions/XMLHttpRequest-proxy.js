@@ -59,7 +59,7 @@ RichFacesSelenium.XHRWrapper.prototype.onreadystatechangeCallback = function(eve
 }
 
 if (window.ActiveXObject) {
-
+	
 	RichFacesSelenium.ActiveXObject = window.ActiveXObject;
 	
 	RichFacesSelenium.XHRActiveXObject = function(xhr) {
@@ -74,7 +74,7 @@ if (window.ActiveXObject) {
 				proxy.status       = proxy.xhr.status;
 				proxy.statusText   = proxy.xhr.statusText;
 			}
-			if (self.onreadystatechange) self.onreadystatechangeCallback(event);
+			if (proxy.onreadystatechange) proxy.onreadystatechangeCallback(event);
 	      };
 	};
 
