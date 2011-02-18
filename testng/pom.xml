@@ -5,23 +5,22 @@
 	<parent>
 		<artifactId>arquillian-ajocado-parent</artifactId>
 		<groupId>org.jboss.arquillian.ajocado</groupId>
-		<version>1.5.3-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.arquillian.ajocado</groupId>
 	<artifactId>arquillian-ajocado-testng</artifactId>
-	<version>1.5.3-SNAPSHOT</version>
 	<name>Ajocado TestNG Integration</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.jboss.arquillian.ajocado</groupId>
 			<artifactId>arquillian-ajocado-api</artifactId>
-			<version>1.5.3-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.arquillian.ajocado</groupId>
 			<artifactId>arquillian-ajocado-impl</artifactId>
-			<version>1.5.3-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
