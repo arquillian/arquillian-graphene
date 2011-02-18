@@ -41,6 +41,7 @@ import org.testng.annotations.Test;
 public class TestAjocado {
 
     private static final long TIMEOUT = 500L;
+    private static final long TOLERANCE = 1000L;
 
     @Mock
     AjocadoConfiguration configuration;
@@ -59,7 +60,8 @@ public class TestAjocado {
         waitGui.waitForTimeout();
         runtime = System.currentTimeMillis() - runtime;
 
-        assertTrue(runtime > TIMEOUT);
-        assertTrue(runtime < 2 * TIMEOUT);
+        assertTrue(runtime > TIMEOUT, "runtime of less than TIMEOUT=" + (TIMEOUT) + ", wait runtime is " + runtime);
+        assertTrue(runtime < TIMEOUT + TOLERANCE, "runtime of greater than TIMEOUT + TOLERANCE = "
+            + (TIMEOUT + TOLERANCE) + ", wait runtime  is " + runtime);
     }
 }
