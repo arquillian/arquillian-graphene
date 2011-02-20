@@ -24,6 +24,7 @@ package org.jboss.arquillian.ajocado.waiting.ajax;
 import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -155,7 +156,8 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
     private <T> JavaScript prepareCondition(T oldValue, JavaScriptRetriever<T> retriever) {
         final String scriptString = retriever.getJavaScriptRetrieve().getAsString();
         final String oldValueString = retriever.getConvertor().forwardConversion(oldValue);
-        return js(format("{0} != '{1}'", scriptString, oldValueString));
+        final String escapedOldValueString = StringEscapeUtils.escapeJavaScript(oldValueString);
+        return js(format("{0} != '{1}'", scriptString, escapedOldValueString));
     }
 
     private void waitExpectingTimeout(JavaScript condition) {
@@ -164,6 +166,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
         } catch (SeleniumException e) {
             if (isTimeoutException(e)) {
                 fail();
+                return;
             }
             throw e;
         }

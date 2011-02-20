@@ -44,4 +44,6 @@ public interface AttributeLocator<E extends ElementLocator<E>> extends Locator<A
      * @return the type of attribute which this locator points to.
      */
     Attribute getAttribute();
+    
+    public AttributeLocator<E> format(Object... args);
 }

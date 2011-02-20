@@ -46,8 +46,7 @@ import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
  */
 public class RequestInterceptorImpl implements RequestInterceptor {
     private final JavaScript clearRequestDone = js("cheiron.requestInterceptor.clearRequestDone()");
-    private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestDone()");
-    private final JavaScript waitRequestChange = js("cheiron.requestInterceptor.waitRequestChange()");
+    private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestTypeDone()");
 
     /**
      * Proxy for thread local context of AjaxSelenium

@@ -32,6 +32,7 @@ import org.jboss.arquillian.ajocado.waiting.conditions.AttributePresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.CountEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementPresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.IsDisplayed;
+import org.jboss.arquillian.ajocado.waiting.conditions.IsNotDisplayed;
 import org.jboss.arquillian.ajocado.waiting.conditions.StyleEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
@@ -71,6 +72,7 @@ public class Ajocado {
     public static final AlertEquals alertEquals = AlertEquals.getInstance();
     public static final CountEquals countEquals = CountEquals.getInstance();
     public static final IsDisplayed isDisplayed = IsDisplayed.getInstance();
+    public static final IsNotDisplayed isNotDisplayed = IsNotDisplayed.getInstance();
 
     /*
      * Retrievers

@@ -35,5 +35,5 @@ package org.jboss.arquillian.ajocado.locator;
  * @version $Revision$
  */
 public interface ExtendedLocator<T extends ExtendedLocator<T>> extends IterableLocator<T>, CompoundableLocator<T> {
-
+    ExtendedLocator<T> format(Object... args);
 }

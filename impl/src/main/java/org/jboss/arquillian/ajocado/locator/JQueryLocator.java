@@ -91,6 +91,14 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
     public Iterable<JQueryLocator> getAllChildren() {
         return new ChildElementList<JQueryLocator>(this.getChild(LocatorFactory.jq("*")));
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.IterableLocator#getAllOccurrences()
+     */
+    public Iterable<JQueryLocator> getAllOccurrences() {
+        return new ElementOcurrenceList<JQueryLocator>(this);
+    }
 
     /*
      * (non-Javadoc)
@@ -129,6 +137,11 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
      */
     public JQueryLocator getDescendant(JQueryLocator elementLocator) {
         return new JQueryLocator(SimplifiedFormat.format("{0} {1}", getRawLocator(), elementLocator.getRawLocator()));
+    }
+    
+    @Override
+    public JQueryLocator format(Object... args) {
+        return (JQueryLocator) super.format(args);
     }
 
 }

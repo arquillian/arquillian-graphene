@@ -53,5 +53,5 @@ public interface Locator<T extends Locator<T>> {
      */
     String getRawLocator();
 
-    T format(Object... args);
+    Locator<T> format(Object... args);
 }

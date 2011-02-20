@@ -44,6 +44,13 @@ public abstract class AbstractRetriever<T> implements RetrievedValueHolder<T> {
     public void setValue(T value) {
         oldValue.set(value);
     }
+    
+    public boolean isValueChanged() {
+        if (oldValue.get() == null) {
+            return retrieve() != null;
+        }
+        return !oldValue.get().equals(retrieve());
+    }
 
     public abstract T retrieve();
 }

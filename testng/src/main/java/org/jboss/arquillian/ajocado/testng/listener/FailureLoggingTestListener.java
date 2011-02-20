@@ -29,10 +29,12 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.jboss.arquillian.ajocado.browser.BrowserType;
 import org.jboss.arquillian.ajocado.encapsulated.NetworkTrafficType;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.testng.utils.TestInfo;
 import org.jboss.arquillian.ajocado.testng.utils.TestLoggingUtils;
 import org.testng.ITestContext;
@@ -45,15 +47,17 @@ import com.thoughtworks.selenium.SeleniumException;
  * Test listener which provides the methods injected in lifecycle of test case to catch the additional information in
  * context of test failure.
  * 
- * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
+ * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>, <a href="mailto:ppitonak@redhat.com">Pavol Pitonak</a>
  * @version $Revision$
  */
 public class FailureLoggingTestListener extends TestListenerAdapter {
 
-    protected File mavenProjectBuildDirectory = new SystemPropertiesConfiguration().getBuildDirectory();
-    protected File failuresOutputDir = new File(mavenProjectBuildDirectory, "failures");
-
+    private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
     private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    
+    protected File buildDirectory = configuration.getBuildDirectory();
+    protected File failuresOutputDir = new File(buildDirectory, "failures");
+
 
     @Override
     public void onStart(ITestContext testContext) {
@@ -117,7 +121,12 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
             traffic = ExceptionUtils.getFullStackTrace(e);
         }
 
-        BufferedImage screenshot = selenium.captureEntirePageScreenshot();
+        BrowserType browser = configuration.getBrowser().getType();
+        BufferedImage screenshot = null;
+
+        if (browser == BrowserType.FIREFOX) {
+            screenshot = selenium.captureEntirePageScreenshot();
+        }
 
         String htmlSource = selenium.getHtmlSource();
 
@@ -132,7 +141,9 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
             FileUtils.forceMkdir(directory);
 
             FileUtils.writeStringToFile(stacktraceOutputFile, stacktrace);
-            ImageIO.write(screenshot, "PNG", imageOutputFile);
+            if (browser == BrowserType.FIREFOX) {
+                ImageIO.write(screenshot, "PNG", imageOutputFile);
+            }
             FileUtils.writeStringToFile(trafficOutputFile, traffic);
             // FileUtils.writeLines(logOutputFile, methodLog);
             FileUtils.writeStringToFile(htmlSourceOutputFile, htmlSource);

@@ -60,7 +60,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
 
     @Override
     @SuppressWarnings("unchecked")
-    public T format(Object... args) {
+    public Locator<T> format(Object... args) {
         String newLocator = SimplifiedFormat.format(locator, args);
         try {
             return (T) this.getClass().getConstructor(String.class).newInstance(newLocator);

@@ -55,6 +55,13 @@ public interface IterableLocator<T extends IterableLocator<T>> extends ElementLo
      * @return the all children of element given by this locator
      */
     Iterable<T> getAllChildren();
+    
+    /**
+     * Gets the all occurrences of element given by this locator
+     * 
+     * @return the all occurrences of element given by this locator
+     */
+    Iterable<T> getAllOccurrences();
 
     /**
      * Gets the children given by locator composed from this locator and given elementLocator.

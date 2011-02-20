@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
+
 /**
  * Abstract implementation of element locator able to derive attributes for itself.
  * 
@@ -41,5 +42,10 @@ public abstract class AbstractElementLocator<T extends ElementLocator<T>> extend
      */
     public AttributeLocator<T> getAttribute(Attribute attribute) {
         return new DefaultAttributeLocator<T>(this, attribute);
+    }
+    
+    @Override
+    public ElementLocator<T> format(Object... args) {
+        return (ElementLocator<T>) super.format(args);
     }
 }

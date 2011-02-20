@@ -83,7 +83,7 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            should be top border of screen aligned to top border of element
      */
     public void scrollIntoView(String locator, String alignToTop) {
-        commandProcessor.doCommand("doScrollIntoView", new String[] { locator, alignToTop });
+        commandProcessor.doCommand("scrollIntoView", new String[] { locator, alignToTop });
     }
 
     /**
@@ -96,7 +96,20 @@ public class ExtendedSelenium extends DefaultSelenium {
      *            locator.
      */
     public void mouseOverAt(String locator, String coordString) {
-        commandProcessor.doCommand("doMouseOverAt", new String[] { locator, coordString });
+        commandProcessor.doCommand("mouseOverAt", new String[] { locator, coordString });
+    }
+    
+    /**
+     * Simulates a user hovering a mouse out of the specified element at specific coordinates relative to element.
+     * 
+     * @param locator
+     *            element's locator
+     * @param coordString
+     *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
+     *            locator.
+     */
+    public void mouseOutAt(String locator, String coordString) {
+        commandProcessor.doCommand("mouseOutAt", new String[] { locator, coordString });
     }
 
     /**

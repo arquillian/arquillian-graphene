@@ -75,6 +75,24 @@ Selenium.prototype.doMouseOverAt = function(locator, coordString) {
 }
 
 /**
+ * Simulates a user hovering a mouse out of the specified element at specific
+ * coordinates relative to element.
+ * 
+ * @param locator
+ *            element's locator
+ * @param coordString
+ *            specifies the x,y position (i.e. - 10,20) of the mouse event
+ *            relative to the element returned by the locator.
+ */
+Selenium.prototype.doMouseOutAt = function(locator, coordString) {
+	var element = this.browserbot.findElement(locator);
+	var clientXY = getClientXY(element, coordString)
+
+	this.browserbot.triggerMouseEvent(element, 'mouseout', true, clientXY[0],
+			clientXY[1]);
+}
+
+/**
  * Returns the count of elements for given jQuery selector
  * 
  * @param selector

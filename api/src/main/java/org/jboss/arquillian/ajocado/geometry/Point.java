@@ -28,13 +28,21 @@ package org.jboss.arquillian.ajocado.geometry;
  * @version $Revision$
  */
 public class Point {
-    int x;
-    int y;
+    private int x;
+    private int y;
 
     public Point(int x, int y) {
         super();
         this.x = x;
         this.y = y;
+    }
+    
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
     }
 
     /**
@@ -44,5 +52,17 @@ public class Point {
     public String getCoords() {
         return x + "," + y;
     }
-
+    
+    public Point minus(Point point) {
+        return new Point(this.x - point.x, this.y - point.y);
+    }
+    
+    public Point plus(Point point) {
+        return new Point(this.x + point.x, this.y + point.y);
+    }
+    
+    @Override
+    public String toString() {
+        return getCoords();
+    }
 }

@@ -290,7 +290,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public Dimension getElementDimension(ElementLocator<?> elementLocator) {
-        return new Dimension(getElementHeight(elementLocator), getElementWidth(elementLocator));
+        return new Dimension(getElementWidth(elementLocator), getElementHeight(elementLocator));
     }
 
     public int getElementHeight(ElementLocator<?> elementLocator) {

@@ -35,7 +35,22 @@ public final class RequestTypeGuardFactory {
     private RequestTypeGuardFactory() {
     }
 
-    private static AjaxSelenium guard(AjaxSelenium selenium, RequestType requestExpected, boolean interlayed) {
+    /**
+     * Shortcut for registering a guard for specified request type on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered the given request type guard
+     * @param requestExpected
+     *            the request type to be guarded
+     * @param interlayed
+     *            if the expected request is allowed to be preceeded by another request type
+     * @return the selenium guarded to use XMLHttpRequest
+     */
+    public static AjaxSelenium guard(AjaxSelenium selenium, RequestType requestExpected) {
+        if (requestExpected == null) {
+            return selenium;
+        }
+        
         AjaxSelenium copy;
         try {
             copy = selenium.clone();
@@ -43,7 +58,30 @@ public final class RequestTypeGuardFactory {
             throw new IllegalStateException(e);
         }
         copy.getInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
-        copy.getInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, interlayed));
+        copy.getInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, false));
+        return copy;
+    }
+    
+    /**
+     * <p>Shortcut for registering a guard for specified request type on given selenium object.</p>
+     * 
+     * <p>This guard guards the right request type but allows interlaying of the request by another one of other type.
+     * 
+     * @param selenium
+     *            where should be registered the given request type guard
+     * @param requestExpected
+     *            the request type to be guarded
+     * @return the selenium guarded to use XMLHttpRequest
+     */
+    private static AjaxSelenium guardInterlayed(AjaxSelenium selenium, RequestType requestExpected) {
+        AjaxSelenium copy;
+        try {
+            copy = selenium.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
+        copy.getInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
+        copy.getInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, true));
         return copy;
     }
 
@@ -55,7 +93,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static AjaxSelenium guardXhr(AjaxSelenium selenium) {
-        return guard(selenium, RequestType.XHR, false);
+        return guard(selenium, RequestType.XHR);
     }
 
     /**
@@ -66,7 +104,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use regular HTTP requests
      */
     public static AjaxSelenium guardHttp(AjaxSelenium selenium) {
-        return guard(selenium, RequestType.HTTP, false);
+        return guard(selenium, RequestType.HTTP);
     }
 
     /**
@@ -77,7 +115,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use no request during interaction
      */
     public static AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
-        return guard(selenium, RequestType.NONE, false);
+        return guard(selenium, RequestType.NONE);
     }
 
     /**
@@ -88,7 +126,7 @@ public final class RequestTypeGuardFactory {
      * @return the selenium waiting for interception of XHR type request
      */
     public static AjaxSelenium waitXhr(AjaxSelenium selenium) {
-        return guard(selenium, RequestType.XHR, true);
+        return guardInterlayed(selenium, RequestType.XHR);
     }
 
     /**
@@ -99,6 +137,6 @@ public final class RequestTypeGuardFactory {
      * @return the selenium waitinf for interception of HTTP type request
      */
     public static AjaxSelenium waitHttp(AjaxSelenium selenium) {
-        return guard(selenium, RequestType.HTTP, true);
+        return guardInterlayed(selenium, RequestType.HTTP);
     }
 }

@@ -32,7 +32,6 @@ public class Dimension {
     int height;
 
     public Dimension(int width, int height) {
-        super();
         this.width = width;
         this.height = height;
     }
@@ -43,5 +42,10 @@ public class Dimension {
 
     public int getHeight() {
         return height;
+    }
+    
+    @Override
+    public String toString() {
+        return width + "," + height;
     }
 }

@@ -78,6 +78,14 @@ public class XpathLocator extends AbstractElementLocator<XpathLocator> implement
     public Iterable<XpathLocator> getAllChildren() {
         return new ChildElementList<XpathLocator>(this.getChild(LocatorFactory.xp("*")));
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.test.selenium.locator.IterableLocator#getAllOccurrences()
+     */
+    public Iterable<XpathLocator> getAllOccurrences() {
+        return new ElementOcurrenceList<XpathLocator>(this);
+    }
 
     /*
      * (non-Javadoc)
@@ -116,6 +124,11 @@ public class XpathLocator extends AbstractElementLocator<XpathLocator> implement
      */
     public XpathLocator getDescendant(XpathLocator elementLocator) {
         return new XpathLocator(SimplifiedFormat.format("{0}//{1}", getRawLocator(), elementLocator.getRawLocator()));
+    }
+    
+    @Override
+    public ExtendedLocator<XpathLocator> format(Object... args) {
+        return (ExtendedLocator<XpathLocator>) super.format(args);
     }
 
 }

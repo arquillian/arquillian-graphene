@@ -143,6 +143,14 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     public void mouseOverAt(ElementLocator<?> elementLocator, Point point) {
         getExtendedSelenium().mouseOverAt(elementLocator.getAsString(), point.getCoords());
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator, org.jboss.test.selenium.geometry.Point)
+     */
+    public void mouseOutAt(ElementLocator<?> elementLocator, Point point) {
+        getExtendedSelenium().mouseOutAt(elementLocator.getAsString(), point.getCoords());
+    }
 
     /*
      * (non-Javadoc)

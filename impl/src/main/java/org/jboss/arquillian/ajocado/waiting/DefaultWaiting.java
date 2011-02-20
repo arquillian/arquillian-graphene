@@ -53,7 +53,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * If is set to null, no failure will be thrown after timeout.
      */
-    private Object failure = new WaitTimeoutException("Waiting timed out");
+    private Object failure = "Waiting timed out";
 
     /**
      * Arguments to format failure message if it is string value and should be formatted

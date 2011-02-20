@@ -42,4 +42,6 @@ public interface ElementLocator<T extends ElementLocator<T>> extends Locator<T> 
     AttributeLocator<T> getAttribute(Attribute attribute);
 
     ElementLocationStrategy getLocationStrategy();
+    
+    ElementLocator<T> format(Object... args);
 }
