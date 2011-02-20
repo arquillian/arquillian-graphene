@@ -101,7 +101,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
                 if (method.getName().equals("isStarted")) {
                     return false;
                 } else {
-                    throw new IllegalStateException("Context is not initialized");
+                    throw new IllegalStateException("AjaxSeleniumContext is not initialized");
                 }
             }
             result = method.invoke(get(), args);
