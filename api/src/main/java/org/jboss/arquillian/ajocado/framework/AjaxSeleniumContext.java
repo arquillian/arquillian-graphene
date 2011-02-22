@@ -77,7 +77,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
         return REFERENCE.get();
     }
 
-    public static boolean isContextInitialized() {
+    public static boolean isInitialized() {
         return get() != null;
     }
 
@@ -97,7 +97,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         try {
-            if (!isContextInitialized()) {
+            if (!isInitialized()) {
                 if (method.getName().equals("isStarted")) {
                     return false;
                 } else {
