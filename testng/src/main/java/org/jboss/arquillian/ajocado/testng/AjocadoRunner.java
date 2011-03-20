@@ -6,7 +6,9 @@ import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -22,20 +24,20 @@ import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
 import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.testng.listener.AbstractConfigurationListener;
-import org.testng.ITestResult;
+import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 public class AjocadoRunner extends AbstractConfigurationListener {
 
-    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    private ThreadLocal<Boolean> seleniumInitializedByMe = new BooleanThreadLocal();
-    private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
-    private ThreadLocal<Boolean> configurationInitializedByMe = new BooleanThreadLocal();
+    private static AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    private static ThreadLocal<Boolean> seleniumInitializedByMe = new BooleanThreadLocal();
+    private static AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    private static ThreadLocal<Boolean> configurationInitializedByMe = new BooleanThreadLocal();
 
     @BeforeClass(alwaysRun = true)
     public void initializeConfiguration() throws MalformedURLException {
@@ -71,20 +73,16 @@ public class AjocadoRunner extends AbstractConfigurationListener {
             seleniumInitializedByMe.set(false);
         }
     }
-    
-    @BeforeMethod(alwaysRun = true)
-    public void injectContext(ITestResult result) throws IllegalArgumentException, IllegalAccessException {
-        Object testInstance = result.getInstance();
-        for (Field field : testInstance.getClass().getFields()) {
-            if (field.getType().isAssignableFrom(AjaxSelenium.class)) {
-                AjaxSelenium value = (AjaxSelenium) field.get(testInstance);
-                if (value == null) {
-                    field.set(testInstance, selenium);
-                }
-            } else if (field.getType().isAssignableFrom(AjocadoConfiguration.class)) {
-                AjocadoConfiguration value = (AjocadoConfiguration) field.get(testInstance);
-                if (value == null) {
-                    field.set(testInstance, configuration);
+
+    @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeSelenium")
+    public void injectContext(ITestContext context) {
+        for (ITestNGMethod testNGMethod : context.getAllTestMethods()) {
+            Object[] testInstances = testNGMethod.getInstances();
+
+            for (Object testInstance : testInstances) {
+                for (Field field : getAllSuperDeclaredFields(testInstance)) {
+                    tryInjectValue(testInstance, field, AjaxSelenium.class, selenium);
+                    tryInjectValue(testInstance, field, AjocadoConfiguration.class, configuration);
                 }
             }
         }
@@ -95,7 +93,7 @@ public class AjocadoRunner extends AbstractConfigurationListener {
      * 
      * Parameters will be obtained from TestNG.
      */
-    @BeforeClass(dependsOnMethods = "initializeSelenium")
+    @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeSelenium")
     public void initializeBrowser() {
         selenium.enableNetworkTrafficCapturing(configuration.isSeleniumNetworkTrafficEnabled());
         selenium.start();
@@ -106,6 +104,13 @@ public class AjocadoRunner extends AbstractConfigurationListener {
             selenium.windowFocus();
             selenium.windowMaximize();
         }
+    }
+
+    public static void restartBrowser() {
+        AjocadoRunner runner = new AjocadoRunner();
+        runner.finalizeBrowser();
+        runner.initializeBrowser();
+        runner.initializeExtensions();
     }
 
     /**
@@ -154,22 +159,6 @@ public class AjocadoRunner extends AbstractConfigurationListener {
     }
 
     /**
-     * Loads the list of resource names from the given resource.
-     * 
-     * @param resourceName
-     *            the path to resource on classpath
-     * @return the list of resource names from the given resource.
-     */
-    @SuppressWarnings("unchecked")
-    private List<String> getExtensionsListFromResource(String resourceName) {
-        try {
-            return IOUtils.readLines(ClassLoader.getSystemResourceAsStream(resourceName));
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    /**
      * Check whenever the current test is enabled for selected browser (evaluated from testng.xml).
      * 
      * If it is not enabled, skip the particular test.
@@ -194,9 +183,56 @@ public class AjocadoRunner extends AbstractConfigurationListener {
         }
     }
 
-    private class BooleanThreadLocal extends ThreadLocal<Boolean> {
+    /**
+     * Loads the list of resource names from the given resource.
+     * 
+     * @param resourceName
+     *            the path to resource on classpath
+     * @return the list of resource names from the given resource.
+     */
+    @SuppressWarnings("unchecked")
+    private static List<String> getExtensionsListFromResource(String resourceName) {
+        try {
+            return IOUtils.readLines(ClassLoader.getSystemResourceAsStream(resourceName));
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    private static class BooleanThreadLocal extends ThreadLocal<Boolean> {
         protected Boolean initialValue() {
             return false;
         }
+    }
+
+    private static <T> void tryInjectValue(Object testInstance, Field injectionField, Class<T> injectionType,
+        T injectedValue) {
+        try {
+            if (injectionField.getType().isAssignableFrom(injectionType)) {
+                final boolean accessible = injectionField.isAccessible();
+                if (!accessible) {
+                    injectionField.setAccessible(true);
+                }
+                Object currentValue = injectionField.get(testInstance);
+                if (currentValue == null) {
+                    injectionField.set(testInstance, injectedValue);
+                }
+                if (!accessible) {
+                    injectionField.setAccessible(false);
+                }
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Can't proceed injection of " + injectionType + " to " + injectionField, e);
+        }
+    }
+
+    private static List<Field> getAllSuperDeclaredFields(Object object) {
+        List<Field> fields = new LinkedList<Field>();
+        Class<?> classT = object.getClass();
+        while (classT != null) {
+            fields.addAll(Arrays.asList(classT.getDeclaredFields()));
+            classT = classT.getSuperclass();
+        }
+        return fields;
     }
 }

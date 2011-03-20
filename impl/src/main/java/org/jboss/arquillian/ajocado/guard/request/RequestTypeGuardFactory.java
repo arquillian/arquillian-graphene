@@ -73,7 +73,7 @@ public final class RequestTypeGuardFactory {
      *            the request type to be guarded
      * @return the selenium guarded to use XMLHttpRequest
      */
-    private static AjaxSelenium guardInterlayed(AjaxSelenium selenium, RequestType requestExpected) {
+    public static AjaxSelenium guardInterlayed(AjaxSelenium selenium, RequestType requestExpected) {
         AjaxSelenium copy;
         try {
             copy = selenium.clone();
