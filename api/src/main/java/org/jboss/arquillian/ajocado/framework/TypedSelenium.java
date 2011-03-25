@@ -44,6 +44,7 @@ import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.locator.IterableLocator;
 import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
+import org.jboss.arquillian.ajocado.request.Header;
 
 /**
  * The type-safe wrapper for Selenium API.
@@ -1501,5 +1502,13 @@ public interface TypedSelenium {
      * @return A string representation in the defined type of the network traffic seen by the browser.
      */
     NetworkTraffic captureNetworkTraffic(NetworkTrafficType type);
+    
+    /**
+     * Tells the Selenium server to add the specificed key and value as a custom outgoing request header. This only
+     * works if the browser is configured to use the built in Selenium proxy.
+     * 
+     * @param header Header to be added
+     */
+    void addCustomRequestHeader(Header header);
 
 }

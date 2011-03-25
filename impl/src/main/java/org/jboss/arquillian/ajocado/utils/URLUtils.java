@@ -28,8 +28,11 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.apache.commons.codec.binary.Base64;
 
 import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
@@ -120,5 +123,19 @@ public final class URLUtils {
         byte[] md5sum = digest.digest();
         BigInteger bigInt = new BigInteger(1, md5sum);
         return bigInt.toString(HEX_RADIX);
+    }
+    
+    /**
+     * Encodes credentials using Base64 encoding, which can be used to build
+     * a header for HTTP Basic authorization 
+     * @param username User name to be encoded
+     * @param password Password to be encoded
+     * @return A string {@code username:password} encoded with Base64
+     */
+    public static String encodeBase64Credentials(String username, String password)
+    {
+       String credentials = username + ":" + password;
+       return new String(Base64.encodeBase64(credentials.getBytes(Charset.defaultCharset())), Charset.defaultCharset());
+
     }
 }

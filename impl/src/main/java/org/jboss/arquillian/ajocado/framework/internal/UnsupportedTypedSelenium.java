@@ -39,17 +39,7 @@ import org.jboss.arquillian.ajocado.locator.ElementLocator;
  * @version $Revision$
  */
 public interface UnsupportedTypedSelenium {
-    /**
-     * Tells the Selenium server to add the specificed key and value as a custom outgoing request header. This only
-     * works if the browser is configured to use the built in Selenium proxy.
-     * 
-     * @param key
-     *            the header name.
-     * @param value
-     *            the header value.
-     */
-    void addCustomRequestHeader(String key, String value);
-
+    
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
      * 
