@@ -20,6 +20,8 @@
 
 	<properties>
 		<browser>*firefox</browser>
+		<selenium.debug>false</selenium.debug>
+		<selenium.test.skip>false</selenium.test.skip>
 	</properties>
 
 	<build>
@@ -40,7 +42,6 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-failsafe-plugin</artifactId>
 						<executions>
 							<execution>
@@ -50,6 +51,7 @@
 									<goal>integration-test</goal>
 								</goals>
 								<configuration>
+									<skip>${selenium.test.skip}</skip>
 									<failIfNoTests>true</failIfNoTests>
 									<includes>
 										<include>**/Test*.java</include>
@@ -78,6 +80,10 @@
 										<property>
 											<name>selenium.timeout.ajax</name>
 											<value>5000</value>
+										</property>
+										<property>
+											<name>selenium.debug</name>
+											<value>${selenium.debug}</value>
 										</property>
 									</systemProperties>
 								</configuration>

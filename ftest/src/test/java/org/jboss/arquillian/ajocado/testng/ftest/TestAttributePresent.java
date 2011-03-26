@@ -21,86 +21,76 @@
  */
 package org.jboss.arquillian.ajocado.testng.ftest;
 
+import static org.jboss.arquillian.ajocado.Ajocado.attributePresent;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.id;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.net.MalformedURLException;
-
 import java.net.URL;
-
 
 import org.jboss.arquillian.ajocado.locator.Attribute;
 import org.jboss.arquillian.ajocado.locator.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
-import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.Assert;
 
 import com.thoughtworks.selenium.SeleniumException;
-
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
-import static org.jboss.arquillian.ajocado.Ajocado.*;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestAttributePresent extends AbstractAjocadoTest {
+public class TestAttributePresent extends AbstractTest {
 
-	final IdLocator existingElement = id("paragraph");
-	final AttributeLocator<?> attributeExist = existingElement
-			.getAttribute(Attribute.STYLE);
-	final AttributeLocator<?> attributeNotExist = existingElement
-			.getAttribute(Attribute.CLASS);
+    final IdLocator existingElement = id("paragraph");
+    final AttributeLocator<?> attributeExist = existingElement.getAttribute(Attribute.STYLE);
+    final AttributeLocator<?> attributeNotExist = existingElement.getAttribute(Attribute.CLASS);
 
-	final IdLocator notExistentElement = id("no-such-element");
-	final AttributeLocator<?> attributeOfNotExistsElement = notExistentElement
-			.getAttribute(Attribute.CLASS);
+    final IdLocator notExistentElement = id("no-such-element");
+    final AttributeLocator<?> attributeOfNotExistsElement = notExistentElement.getAttribute(Attribute.CLASS);
 
-	final String expectedMessage = "ERROR: element is not found";
+    final String expectedMessage = "ERROR: element is not found";
 
-	@BeforeMethod(alwaysRun = true)
-	public void openContext() throws MalformedURLException {
-		selenium.open(new URL(contextPath, "/TestAttributePresent.jsp"));
-	}
+    @BeforeMethod(alwaysRun = true)
+    public void openContext() throws MalformedURLException {
+        selenium.open(new URL(configuration.getContextPath(), "/TestAttributePresent.jsp"));
+    }
 
-	@Test
-	public void testAttributePresent() {
-		Assert.assertTrue(selenium.isAttributePresent(attributeExist));
-	}
+    @Test
+    public void testAttributePresent() throws MalformedURLException {
+        Assert.assertTrue(selenium.isAttributePresent(attributeExist));
+    }
 
-	@Test
-	public void testAttributeNotPresent() {
-		Assert.assertFalse(selenium.isAttributePresent(attributeNotExist));
-	}
+    @Test
+    public void testAttributeNotPresent() {
+        Assert.assertFalse(selenium.isAttributePresent(attributeNotExist));
+    }
 
-	@Test
-	public void testElementNotPresent() {
-		try {
-			selenium.isAttributePresent(attributeOfNotExistsElement);
-			fail("should raise a exception pointing that there is not such element");
-		} catch (SeleniumException e) {
-			assertTrue(e.getMessage().startsWith("ERROR: element '"),
-					"message was: " + e.getMessage());
-			assertTrue(e.getMessage().endsWith("' is not found"),
-					"message was: " + e.getMessage());
-		}
-	}
+    @Test
+    public void testElementNotPresent() {
+        try {
+            selenium.isAttributePresent(attributeOfNotExistsElement);
+            fail("should raise a exception pointing that there is not such element");
+        } catch (SeleniumException e) {
+            assertTrue(e.getMessage().startsWith("ERROR: element '"), "message was: " + e.getMessage());
+            assertTrue(e.getMessage().endsWith("' is not found"), "message was: " + e.getMessage());
+        }
+    }
 
-	@Test
-	public void testExposedMember() {
-		assertTrue(attributePresent.locator(attributeExist).isTrue());
-		assertFalse(attributePresent.locator(attributeNotExist).isTrue());
+    @Test
+    public void testExposedMember() {
+        assertTrue(attributePresent.locator(attributeExist).isTrue());
+        assertFalse(attributePresent.locator(attributeNotExist).isTrue());
 
-		try {
-			attributePresent.locator(attributeOfNotExistsElement).isTrue();
-			fail("should raise a exception pointing that there is not such element");
-		} catch (SeleniumException e) {
-			assertTrue(e.getMessage().startsWith("ERROR: element '"),
-					"message was: " + e.getMessage());
-			assertTrue(e.getMessage().endsWith("' is not found"),
-					"message was: " + e.getMessage());
-		}
-	}
+        try {
+            attributePresent.locator(attributeOfNotExistsElement).isTrue();
+            fail("should raise a exception pointing that there is not such element");
+        } catch (SeleniumException e) {
+            assertTrue(e.getMessage().startsWith("ERROR: element '"), "message was: " + e.getMessage());
+            assertTrue(e.getMessage().endsWith("' is not found"), "message was: " + e.getMessage());
+        }
+    }
 }

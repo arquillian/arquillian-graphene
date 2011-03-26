@@ -25,7 +25,7 @@ import static org.jboss.arquillian.ajocado.utils.URLUtils.buildUrl;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.fail;
 
-import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
+import org.jboss.arquillian.ajocado.testng.AjocadoRunner;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestRestartBrowser extends AbstractAjocadoTest {
+public class TestRestartBrowser extends AbstractTest {
 
     private static final String JSESSIONID = "JSESSIONID";
 
@@ -51,7 +51,7 @@ public class TestRestartBrowser extends AbstractAjocadoTest {
 
         String jSessionId1 = selenium.getCookieByName(JSESSIONID).getValue();
 
-        super.restartBrowser();
+        AjocadoRunner.restartBrowser();
 
         openContext();
 

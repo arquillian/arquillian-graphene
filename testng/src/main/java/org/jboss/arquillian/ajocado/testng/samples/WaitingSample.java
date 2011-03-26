@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.testng.samples;
 
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 import static org.jboss.arquillian.ajocado.Ajocado.*;
 
 import org.jboss.arquillian.ajocado.locator.IdLocator;
