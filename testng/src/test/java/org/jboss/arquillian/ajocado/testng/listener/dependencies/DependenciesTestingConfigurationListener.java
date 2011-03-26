@@ -1,6 +1,6 @@
 package org.jboss.arquillian.ajocado.testng.listener.dependencies;
 
-import static org.jboss.arquillian.ajocado.testng.listener.dependencies.TestingConfigurationListener.Phase.*;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.*;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @Test(enabled = false)
-public class TestingConfigurationListener extends AbstractConfigurationListener {
+public class DependenciesTestingConfigurationListener extends AbstractConfigurationListener {
 
     private static int PHASE = 0;
     private static Phase[] PHASES = new Phase[] { BEFORE_CLASS1, BEFORE_CLASS2, BEFORE_METHOD1, BEFORE_METHOD2, TEST1,

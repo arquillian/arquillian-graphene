@@ -1,6 +1,6 @@
 package org.jboss.arquillian.ajocado.testng.listener.lifecycle;
 
-import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.*;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.*;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 @Test(enabled = false)
-public class TestingConfigurationListener extends AbstractConfigurationListener {
+public class LifecycleTestingConfigurationListener extends AbstractConfigurationListener {
 
     private static int PHASE = 0;
     private static Phase[] PHASES = new Phase[] { LISTENER_BEFORE_SUITE, LISTENER_BEFORE_CLASS, BEFORE_CLASS,
@@ -57,6 +57,7 @@ public class TestingConfigurationListener extends AbstractConfigurationListener 
     }
 
     public static void assertPhase(Phase... actualPhases) {
+    	System.out.println("assertPhase: " + Arrays.deepToString(actualPhases));
         final Phase phaseName = PHASES[PHASE++];
         assertTrue(ArrayUtils.contains(actualPhases, phaseName),
             "Actual phase options (" + Arrays.deepToString(actualPhases) + ") doesn't match expected phase ("

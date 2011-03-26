@@ -266,13 +266,17 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     }
 
     private void checkClassChange() {
-        if (testResult.get().getTestClass().getRealClass() != lastRunnedClass.get()) {
+        if (getRealClassFromTestResult(testResult.get()) != lastRunnedClass.get()) {
             if (lastRunnedClass.get() != null) {
                 onClassFinish();
             }
             onClassStart();
-            lastRunnedClass.set(testResult.get().getTestClass().getRealClass());
+            lastRunnedClass.set(getRealClassFromTestResult(testResult.get()));
         }
+    }
+    
+    private static Class<?> getRealClassFromTestResult(ITestResult testResult) {
+    	return testResult.getInstance().getClass();
     }
 
     /**
@@ -285,7 +289,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      * </p>
      */
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-        setupContext(Reporter.getCurrentTestResult());
+        setupContext(testResult);
         checkClassChange();
 
         BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);
