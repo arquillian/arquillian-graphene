@@ -61,21 +61,21 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      * Thread local set of configuration methods, which was already executed for current test class and separated by
      * statuses
      */
-    private static ThreadLocal<Set<String>> configurationsSucceded = new StringSetLocal();
-    private static ThreadLocal<Set<String>> configurationsFailed = new StringSetLocal();
-    private static ThreadLocal<Set<String>> configurationsSkipped = new StringSetLocal();
+    private static StringSetLocal configurationsSucceded = new StringSetLocal();
+    private static StringSetLocal configurationsFailed = new StringSetLocal();
+    private static StringSetLocal configurationsSkipped = new StringSetLocal();
 
     /**
      * The method names which was already executed at least once
      */
-    private static ThreadLocal<Set<String>> methodsRunned = new StringSetLocal();
+    private static StringSetLocal methodsRunned = new StringSetLocal();
 
     /**
      * The set of configuration methods, which wasn't executed yet
      */
     private static Configurations configurations = new Configurations();
 
-    private static class Configurations extends ThreadLocal<SortedSet<ConfigurationMethod>> {
+    private static class Configurations extends ListenerThreadLocal<SortedSet<ConfigurationMethod>> {
         @Override
         protected SortedSet<ConfigurationMethod> initialValue() {
             return new TreeSet<ConfigurationMethod>();
@@ -88,7 +88,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     private static ThreadLocalBoolean methodConfigurationsAdded = new ThreadLocalBoolean();
 
-    private static class ThreadLocalBoolean extends ThreadLocal<Boolean> {
+    private static class ThreadLocalBoolean extends ListenerThreadLocal<Boolean> {
         @Override
         protected Boolean initialValue() {
             return Boolean.FALSE;
@@ -101,13 +101,13 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     /**
      * Remembers the current running class to register switch to another class
      */
-    private static ThreadLocal<Class<?>> lastRunnedClass = new ThreadLocal<Class<?>>();
+    private static ListenerThreadLocal<Class<?>> lastRunnedClass = new ListenerThreadLocal<Class<?>>();
 
     /*
      * Test Context information
      */
-    private static ThreadLocal<ITestResult> testResult = new ThreadLocal<ITestResult>();
-    private static ThreadLocal<ITestContext> testContext = new ThreadLocal<ITestContext>();
+    private static ListenerThreadLocal<ITestResult> testResult = new ListenerThreadLocal<ITestResult>();
+    private static ListenerThreadLocal<ITestContext> testContext = new ListenerThreadLocal<ITestContext>();
 
     /*
      * (non-Javadoc)
@@ -127,20 +127,20 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onFinish(ITestContext context) {
         setupContext(context);
-        if (lastRunnedClass.get() != null) {
+        if (lastRunnedClass.get(this.getClass()) != null) {
             onClassFinish();
         }
-        if (!afterSuiteConfigurationsAdded.get()) {
+        if (!afterSuiteConfigurationsAdded.get(this.getClass())) {
             introduceMethods(AfterSuite.class);
-            afterSuiteConfigurationsAdded.set(true);
+            afterSuiteConfigurationsAdded.set(this.getClass(), true);
         }
         invokeMethods(AfterSuite.class);
     }
 
     public void onSuiteStart() {
-        if (!beforeSuiteConfigurationsAdded.get()) {
+        if (!beforeSuiteConfigurationsAdded.get(this.getClass())) {
             introduceMethods(BeforeSuite.class);
-            beforeSuiteConfigurationsAdded.set(true);
+            beforeSuiteConfigurationsAdded.set(this.getClass(), true);
         }
         invokeMethods(BeforeSuite.class);
     }
@@ -171,9 +171,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     public void onTestStart(ITestResult result) {
         setupContext(result);
         checkClassChange();
-        if (!methodConfigurationsAdded.get()) {
+        if (!methodConfigurationsAdded.get(this.getClass())) {
             introduceMethods(BeforeMethod.class, AfterMethod.class);
-            methodConfigurationsAdded.set(true);
+            methodConfigurationsAdded.set(this.getClass(), true);
         }
         invokeMethods(BeforeMethod.class);
     }
@@ -186,7 +186,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
         setupContext(result);
-        methodsRunned.get().add(result.getMethod().getMethodName());
+        methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -198,7 +198,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestFailure(ITestResult result) {
         setupContext(result);
-        methodsRunned.get().add(result.getMethod().getMethodName());
+        methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -210,7 +210,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestSkipped(ITestResult result) {
         setupContext(result);
-        methodsRunned.get().add(result.getMethod().getMethodName());
+        methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -222,7 +222,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestSuccess(ITestResult result) {
         setupContext(result);
-        methodsRunned.get().add(result.getMethod().getMethodName());
+        methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
     }
 
@@ -236,7 +236,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (DEBUG) {
             System.out.println("#" + itr.getMethod().getMethodName());
         }
-        configurationsSucceded.get().add(itr.getMethod().getMethodName());
+        configurationsSucceded.get(this.getClass()).add(itr.getMethod().getMethodName());
     }
 
     /*
@@ -249,7 +249,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (DEBUG) {
             System.out.println("#" + itr.getMethod().getMethodName());
         }
-        configurationsFailed.get().add(itr.getMethod().getMethodName());
+        configurationsFailed.get(this.getClass()).add(itr.getMethod().getMethodName());
     }
 
     /*
@@ -262,16 +262,16 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         if (DEBUG) {
             System.out.println("#" + itr.getMethod().getMethodName());
         }
-        configurationsSkipped.get().add(itr.getMethod().getMethodName());
+        configurationsSkipped.get(this.getClass()).add(itr.getMethod().getMethodName());
     }
 
     private void checkClassChange() {
-        if (getRealClassFromTestResult(testResult.get()) != lastRunnedClass.get()) {
-            if (lastRunnedClass.get() != null) {
+        if (getRealClassFromTestResult(testResult.get(this.getClass())) != lastRunnedClass.get(this.getClass())) {
+            if (lastRunnedClass.get(this.getClass()) != null) {
                 onClassFinish();
             }
             onClassStart();
-            lastRunnedClass.set(getRealClassFromTestResult(testResult.get()));
+            lastRunnedClass.set(this.getClass(), getRealClassFromTestResult(testResult.get(this.getClass())));
         }
     }
     
@@ -305,9 +305,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         Test testMethod = method.getTestMethod().getMethod().getAnnotation(Test.class);
         if (beforeMethod != null || testMethod != null) {
             setupContext(Reporter.getCurrentTestResult());
-            if (!methodConfigurationsAdded.get()) {
+            if (!methodConfigurationsAdded.get(this.getClass())) {
                 introduceMethods(BeforeMethod.class, AfterMethod.class);
-                methodConfigurationsAdded.set(true);
+                methodConfigurationsAdded.set(this.getClass(), true);
             }
             invokeMethods(BeforeMethod.class);
         }
@@ -329,7 +329,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         setupContext(testResult);
         if (method.isTestMethod()) {
-            methodConfigurationsAdded.set(false);
+            methodConfigurationsAdded.set(this.getClass(), false);
         }
         BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);
         if (beforeClass != null) {
@@ -360,13 +360,13 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     private void invokeMethods(Class<? extends Annotation>... typesToInvoke) {
         SortedSet<ConfigurationMethod> configurationsToRemove = new TreeSet<ConfigurationMethod>();
-        for (ConfigurationMethod configuration : configurations.get()) {
+        for (ConfigurationMethod configuration : configurations.get(this.getClass())) {
             if (tryInvoke(configuration.method, configuration.annotation, typesToInvoke)) {
                 configurationsToRemove.add(configuration);
             }
         }
         for (ConfigurationMethod configuration : configurationsToRemove) {
-            configurations.get().remove(configuration);
+            configurations.get(this.getClass()).remove(configuration);
         }
     }
 
@@ -397,15 +397,15 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         // verify dependencies of current method
         for (String dependency : getMethodDependencies(annotation)) {
             if (getMethodAlwaysRun(annotation)) {
-                invoke &= configurationsSucceded.get().contains(dependency)
-                    || configurationsSkipped.get().contains(dependency)
-                    || configurationsFailed.get().contains(dependency);
+                invoke &= configurationsSucceded.get(this.getClass()).contains(dependency)
+                    || configurationsSkipped.get(this.getClass()).contains(dependency)
+                    || configurationsFailed.get(this.getClass()).contains(dependency);
             } else {
-                invoke &= configurationsSucceded.get().contains(dependency);
+                invoke &= configurationsSucceded.get(this.getClass()).contains(dependency);
             }
         }
         // verify the success of the method
-        invoke &= !((AfterMethod.class == type) && (!testResult.get().isSuccess()) && (!getMethodAlwaysRun(annotation)));
+        invoke &= !((AfterMethod.class == type) && (!testResult.get(this.getClass()).isSuccess()) && (!getMethodAlwaysRun(annotation)));
         // should test pass regarding to previous verifications?
         if (invoke) {
             invokeMethod(method);
@@ -439,14 +439,14 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
                 System.out.println("%" + method.getName());
             }
             method.invoke(this, parameters);
-            configurationsSucceded.get().add(method.getName());
+            configurationsSucceded.get(this.getClass()).add(method.getName());
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
             throw new IllegalStateException(e);
         } catch (InvocationTargetException e) {
             e.getCause().printStackTrace();
-            configurationsFailed.get().add(method.getName());
+            configurationsFailed.get(this.getClass()).add(method.getName());
         }
     }
 
@@ -462,13 +462,13 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      * @param contextParams
      */
     private void setupContext(Object... contextParams) {
-        testResult.set(null);
+        testResult.set(this.getClass(), null);
 
         for (Object contextParam : contextParams) {
             if (contextParam instanceof ITestResult) {
-                testResult.set((ITestResult) contextParam);
+                testResult.set(this.getClass(), (ITestResult) contextParam);
             } else if (contextParam instanceof ITestContext) {
-                testContext.set((ITestContext) contextParam);
+                testContext.set(this.getClass(), (ITestContext) contextParam);
             }
         }
     }
@@ -483,12 +483,12 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      * </p>
      */
     private void clearConfigurations() {
-        configurationsSucceded.get().clear();
-        configurationsFailed.get().clear();
-        configurationsSkipped.get().clear();
-        methodsRunned.get().clear();
-        configurations.get().clear();
-        methodConfigurationsAdded.set(false);
+        configurationsSucceded.get(this.getClass()).clear();
+        configurationsFailed.get(this.getClass()).clear();
+        configurationsSkipped.get(this.getClass()).clear();
+        methodsRunned.get(this.getClass()).clear();
+        configurations.get(this.getClass()).clear();
+        methodConfigurationsAdded.set(this.getClass(), false);
     }
 
     /**
@@ -509,7 +509,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     private void introduceAnnotatedMethod(Method method, Annotation annotation) {
         if (annotation != null) {
             ConfigurationMethod configuration = new ConfigurationMethod(method, annotation);
-            configurations.get().add(configuration);
+            configurations.get(this.getClass()).add(configuration);
         }
     }
 
@@ -564,7 +564,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     /**
      * Implementation of thread local Set of Strings
      */
-    private static class StringSetLocal extends ThreadLocal<Set<String>> {
+    private static class StringSetLocal extends ListenerThreadLocal<Set<String>> {
         @Override
         protected Set<String> initialValue() {
             return new TreeSet<String>();

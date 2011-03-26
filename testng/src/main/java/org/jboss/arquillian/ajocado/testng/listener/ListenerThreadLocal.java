@@ -5,37 +5,38 @@ import java.util.Map;
 
 public class ListenerThreadLocal<T> {
 
-	private T initialValue;
-
 	private Map<Class<? extends AbstractConfigurationListener>, ThreadLocal<T>> map = new HashMap<Class<? extends AbstractConfigurationListener>, ThreadLocal<T>>() {
+		@Override
 		public java.lang.ThreadLocal<T> get(Object key) {
 			if (key instanceof Class
-					&& ((Class<?>) key)
-							.isAssignableFrom(AbstractConfigurationListener.class)) {
+					&& AbstractConfigurationListener.class.isAssignableFrom((Class<?>) key)) {
 				if (!containsKey(key)) {
 					put((Class<? extends AbstractConfigurationListener>) key,
 							new ThreadLocal<T>() {
 								protected T initialValue() {
-									return initialValue;
+									return ListenerThreadLocal.this
+											.initialValue();
 								};
 							});
 				}
-				return get(key);
+				return super.get(key);
 			}
 			return null;
 		}
 	};
 
-	public ListenerThreadLocal(T initialValue) {
-		this.initialValue = initialValue;
+	protected T initialValue() {
+		return null;
 	}
 
-	public synchronized T get(Class<? extends AbstractConfigurationListener> listenerType) {
+	public synchronized T get(
+			Class<? extends AbstractConfigurationListener> listenerType) {
 		return map.get(listenerType).get();
 	}
 
-	public synchronized void set(Class<? extends AbstractConfigurationListener> listenerType, T value) {
+	public synchronized void set(
+			Class<? extends AbstractConfigurationListener> listenerType, T value) {
 		ThreadLocal<T> threadLocal = map.get(listenerType);
-		threadLocal.get();
+		threadLocal.set(value);
 	}
 }
