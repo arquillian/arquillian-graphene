@@ -55,9 +55,14 @@ import org.testng.annotations.Parameters;
  * Abstract implementation of TestNG test using RichFaces Selenium
  * </p>
  * 
+ * <p>
+ * <b>DEPRECATED:</b> use {@link AjocadoRunner} instead.
+ * </p>
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
+@Deprecated
 public abstract class AbstractAjocadoTest {
 
     public static final int WAIT_GUI_INTERVAL = 100;
