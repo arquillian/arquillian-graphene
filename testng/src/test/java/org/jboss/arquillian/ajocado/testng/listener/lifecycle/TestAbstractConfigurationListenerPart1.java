@@ -1,7 +1,7 @@
-package org.jboss.arquillian.ajocado.testng.listener;
+package org.jboss.arquillian.ajocado.testng.listener.lifecycle;
 
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.TEST1;
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.TEST2;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.TEST1;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.TEST2;
 
 import org.testng.annotations.Test;
 

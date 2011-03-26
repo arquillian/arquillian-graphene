@@ -5,11 +5,10 @@ import java.net.URL;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.testng.AjocadoRunner;
-import org.jboss.arquillian.ajocado.testng.listener.ConsoleStatusTestListener;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 
-@Listeners({AjocadoRunner.class, ConsoleStatusTestListener.class})
+@Listeners({AjocadoRunner.class})
 public class AbstractTest {
 
     AjaxSelenium selenium;

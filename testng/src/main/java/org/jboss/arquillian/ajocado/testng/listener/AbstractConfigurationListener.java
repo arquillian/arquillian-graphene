@@ -285,7 +285,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      * </p>
      */
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-        setupContext(testResult);
+        setupContext(Reporter.getCurrentTestResult());
         checkClassChange();
 
         BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);

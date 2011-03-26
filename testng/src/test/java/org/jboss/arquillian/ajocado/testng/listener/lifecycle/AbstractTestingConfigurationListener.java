@@ -1,9 +1,9 @@
-package org.jboss.arquillian.ajocado.testng.listener;
+package org.jboss.arquillian.ajocado.testng.listener.lifecycle;
 
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.AFTER_CLASS;
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.AFTER_METHOD;
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.BEFORE_CLASS;
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.BEFORE_METHOD;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.AFTER_CLASS;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.AFTER_METHOD;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.BEFORE_CLASS;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.BEFORE_METHOD;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;

@@ -1,6 +1,6 @@
-package org.jboss.arquillian.ajocado.testng.listener;
+package org.jboss.arquillian.ajocado.testng.listener.lifecycle;
 
-import static org.jboss.arquillian.ajocado.testng.listener.TestingConfigurationListener.Phase.*;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.TestingConfigurationListener.Phase.*;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
