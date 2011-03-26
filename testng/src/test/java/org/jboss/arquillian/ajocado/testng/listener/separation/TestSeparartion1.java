@@ -7,6 +7,6 @@ import org.testng.annotations.Test;
 public class TestSeparartion1 {
 	@Test
 	public void testSeparartion1() {
-		SeparationTestingConfigurationListener1.incredemtInvocationCount1();
+		SeparationTestingConfigurationListener1.incrementInvocationCount1();
 	}
 }

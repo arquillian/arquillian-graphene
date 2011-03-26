@@ -1,4 +1,4 @@
-package org.jboss.arquillian.ajocado.testng.listener.separation;
+package org.jboss.arquillian.ajocado.testng.listener.separationAbstract;
 
 import static org.testng.Assert.assertEquals;
 

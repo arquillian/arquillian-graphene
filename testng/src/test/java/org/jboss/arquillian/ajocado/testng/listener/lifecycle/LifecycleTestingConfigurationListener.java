@@ -57,7 +57,6 @@ public class LifecycleTestingConfigurationListener extends AbstractConfiguration
     }
 
     public static void assertPhase(Phase... actualPhases) {
-    	System.out.println("assertPhase: " + Arrays.deepToString(actualPhases));
         final Phase phaseName = PHASES[PHASE++];
         assertTrue(ArrayUtils.contains(actualPhases, phaseName),
             "Actual phase options (" + Arrays.deepToString(actualPhases) + ") doesn't match expected phase ("

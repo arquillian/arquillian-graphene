@@ -7,12 +7,12 @@ import org.testng.annotations.Test;
 
 public class TestAbstractConfigurationListenerPart2 extends AbstractTestingConfigurationListener {
     @Test
-    public void test1() {
+    public void testDependencies1() {
         DependenciesTestingConfigurationListener.assertPhase(TEST1);
     }
 
     @Test
-    public void test2() {
+    public void testDependencies2() {
         DependenciesTestingConfigurationListener.assertPhase(TEST2);
     }
 }
