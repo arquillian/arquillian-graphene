@@ -42,6 +42,7 @@ public class TestAjocado {
 
     private static final long TIMEOUT = 500L;
     private static final long TOLERANCE = 1000L;
+    private static final int LOOPS = 8;
 
     @Mock
     AjocadoConfiguration configuration;
@@ -57,11 +58,14 @@ public class TestAjocado {
         when(configuration.getTimeout(any(TimeoutType.class))).thenReturn(TIMEOUT);
 
         long runtime = System.currentTimeMillis();
-        waitGui.waitForTimeout();
+        for (int i = 0; i < LOOPS; i++) {
+            waitGui.waitForTimeout();
+        }
         runtime = System.currentTimeMillis() - runtime;
+        runtime = runtime / LOOPS;
 
-        assertTrue(runtime > TIMEOUT, "runtime of less than TIMEOUT=" + (TIMEOUT) + ", wait runtime is " + runtime);
-        assertTrue(runtime < TIMEOUT + TOLERANCE, "runtime of greater than TIMEOUT + TOLERANCE = "
-            + (TIMEOUT + TOLERANCE) + ", wait runtime  is " + runtime);
+        assertTrue(runtime > TIMEOUT, "runtime (" + runtime + ") is less than TIMEOUT=" + (TIMEOUT));
+        assertTrue(runtime < TIMEOUT + TOLERANCE, "runtime (" + runtime + ") is greater than TIMEOUT + TOLERANCE = "
+            + TIMEOUT + " + " + TOLERANCE + " = " + (TIMEOUT + TOLERANCE));
     }
 }
