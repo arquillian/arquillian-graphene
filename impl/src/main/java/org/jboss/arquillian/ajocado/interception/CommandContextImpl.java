@@ -78,7 +78,7 @@ public class CommandContextImpl implements CommandContext {
      * </p>
      * 
      * <p>
-     * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContextImpl)} method
+     * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method
      * body method {@link CommandContextImpl#invoke()} at least once. If not, this interceptor will raise
      * {@link CommandInterceptionException}.
      * </p>
@@ -86,7 +86,7 @@ public class CommandContextImpl implements CommandContext {
      * @return the return value of executing the command on given commandProcessor
      * @throws CommandInterceptionException
      *             if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in it's
-     *             {@link CommandInterceptor#intercept(CommandContextImpl)} method body.
+     *             {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
     public Object invoke() throws CommandInterceptionException {
         invocations += 1;
@@ -100,7 +100,7 @@ public class CommandContextImpl implements CommandContext {
             return result;
         } else {
             try {
-                result = method.invoke(commandProcessor, new Object[]{command, args});
+                result = method.invoke(commandProcessor, new Object[] { command, args });
             } catch (IllegalArgumentException e) {
                 throw new RuntimeException(e.getMessage(), e);
             } catch (IllegalAccessException e) {

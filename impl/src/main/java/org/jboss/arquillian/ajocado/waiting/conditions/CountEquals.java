@@ -148,7 +148,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * For this count of elements will condition wait.
      * </p>
      * 
-     * @param value
+     * @param count
      *            it should wait for this element count
      * @return the CountEquals object with preset value
      */

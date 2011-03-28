@@ -1,19 +1,15 @@
 package org.jboss.arquillian.ajocado.testng;
 
 import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.fromResource;
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.jboss.arquillian.ajocado.browser.BrowserMode;
-import org.jboss.arquillian.ajocado.browser.BrowserType;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -26,11 +22,8 @@ import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.testng.listener.AbstractConfigurationListener;
 import org.testng.ITestContext;
 import org.testng.ITestNGMethod;
-import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
 
 public class AjocadoRunner extends AbstractConfigurationListener {
 
@@ -156,31 +149,6 @@ public class AjocadoRunner extends AbstractConfigurationListener {
         selenium.getSeleniumExtensions().registerCustomHandlers();
         // prepares the resources to load into page
         selenium.getPageExtensions().loadFromResources(pageExtensions);
-    }
-
-    /**
-     * Check whenever the current test is enabled for selected browser (evaluated from testng.xml).
-     * 
-     * If it is not enabled, skip the particular test.
-     */
-    @Parameters({ "enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes" })
-    @BeforeClass(dependsOnMethods = "initializeParameters", alwaysRun = true)
-    public void isTestBrowserEnabled(@Optional("*") String enabledBrowsersParam,
-        @Optional("") String disabledBrowsersParam, @Optional("*") String enabledModesParam,
-        @Optional("") String disabledModesParam) {
-
-        EnumSet<BrowserType> enabledBrowserTypes = BrowserType.parseTypes(enabledBrowsersParam);
-        EnumSet<BrowserType> disabledBrowserTypes = BrowserType.parseTypes(disabledBrowsersParam);
-        EnumSet<BrowserMode> enabledBrowserModes = BrowserMode.parseModes(enabledModesParam);
-        EnumSet<BrowserMode> disabledBrowserModes = BrowserMode.parseModes(disabledModesParam);
-
-        enabledBrowserTypes.removeAll(disabledBrowserTypes);
-        enabledBrowserModes.addAll(BrowserMode.getModesFromTypes(enabledBrowserTypes));
-        enabledBrowserModes.removeAll(disabledBrowserModes);
-
-        if (!enabledBrowserModes.contains(configuration.getBrowser().getMode())) {
-            throw new SkipException(format("This test isn't supported in {0}", configuration.getBrowser()));
-        }
     }
 
     /**

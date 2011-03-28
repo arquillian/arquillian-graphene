@@ -47,7 +47,7 @@ public class Point {
 
     /**
      * Gets coordinations of this point as string used in Selenium.
-     * @return
+     * @return coordinations of this point as string used in Selenium.
      */
     public String getCoords() {
         return x + "," + y;

@@ -94,7 +94,7 @@ public class Event {
     /**
      * Returns the name of this event as it is specified in DOM Event model.
      * 
-     * @return
+     * @return the event name
      */
     public String getEventName() {
         return eventName;

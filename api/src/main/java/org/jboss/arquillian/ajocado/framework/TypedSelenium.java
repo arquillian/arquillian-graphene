@@ -103,7 +103,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void doubleClickAt(ElementLocator<?> locator, Point coords);
@@ -114,7 +114,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void contextMenuAt(ElementLocator<?> locator, Point coords);
@@ -124,7 +124,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param eventName
+     * @param event
      *            the event name, e.g. "focus" or "blur"
      */
     void fireEvent(ElementLocator<?> locator, Event event);
@@ -248,7 +248,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
      *            locator.
      */
@@ -259,7 +259,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseDownRightAt(ElementLocator<?> locator, Point coords);
@@ -288,7 +288,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseUpAt(ElementLocator<?> locator, Point coords);
@@ -299,7 +299,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseUpRightAt(ElementLocator<?> locator, Point coords);
@@ -317,7 +317,7 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param coordString
+     * @param coords
      *            specifies the point (x,y position) of the mouse event relative to the element returned by the locator.
      */
     void mouseMoveAt(ElementLocator<?> locator, Point coords);
@@ -366,7 +366,7 @@ public interface TypedSelenium {
      * Set execution speed (i.e., set the millisecond length of a delay which will follow each selenium operation). By
      * default, there is no such delay, i.e., the delay is 0 milliseconds.
      * 
-     * @param value
+     * @param speedInMilis
      *            the number of milliseconds to pause after operation
      */
     void setSpeed(long speedInMilis);
@@ -444,7 +444,7 @@ public interface TypedSelenium {
     /**
      * Add a selection to the set of selected options in a multi-select element using an option locator.
      * 
-     * @see #doSelect for details of option locators
+     * @see #select(ElementLocator, OptionLocator) for details of option locators
      * @param locator
      *            an element locator identifying a multi-select box
      * @param optionLocator
@@ -455,7 +455,7 @@ public interface TypedSelenium {
     /**
      * Remove a selection from the set of selected options in a multi-select element using an option locator.
      * 
-     * @see #doSelect for details of option locators
+     * @see #select(ElementLocator, OptionLocator) for details of option locators
      * @param locator
      *            an element locator identifying a multi-select box
      * @param optionLocator
@@ -505,13 +505,13 @@ public interface TypedSelenium {
      * Selects a frame within the current window. (You may invoke this command multiple times to select nested frames.)
      * To select the parent frame, use {@link FrameLocator#PARENT}; to select the top frame, use
      * {@link FrameLocator#TOP}. You can also select a frame by its 0-based index number (construct own
-     * {@link FrameLocator} using notation described in {@link com.thoughtworks.selenium.Selenium#selectFrame(String)}).
+     * {@link FrameLocator} using notation described in com.thoughtworks.selenium.Selenium#selectFrame(String)).
      * </p>
      * 
      * <p>
      * You may also use a DOM expression to identify the frame you want directly, like this:
      * <code>dom=frames["main"].frames["subframe"]</code> (construct own {@link FrameLocator} using notation described
-     * in {@link com.thoughtworks.selenium.Selenium#selectFrame(String)}).
+     * in com.thoughtworks.selenium.Selenium#selectFrame(String)).
      * </p>
      * 
      * @param frameLocator
@@ -1082,6 +1082,7 @@ public interface TypedSelenium {
      *            an element locator pointing to an element
      * @param identifier
      *            a string to be used as the ID of the specified element
+     * @return element locator pointing to an element
      */
     ElementLocator<?> assignId(ElementLocator<?> locator, String identifier);
 
@@ -1121,10 +1122,8 @@ public interface TypedSelenium {
      * </p>
      * 
      * <p>
-     * Wait default timeout specified in
-     * {@link org.jboss.arquillian.ajocado.SystemProperties#getTimeout
-     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)}
-     * of type {@link TimeoutType.SeleniumTimeoutType#DEFAULT}.
+     * Wait default timeout specified in org.jboss.arquillian.ajocado.SystemProperties#getTimeout
+     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType of type TimeoutType.SeleniumTimeoutType#DEFAULT.
      * </p>
      * 
      * @param script
@@ -1175,10 +1174,9 @@ public interface TypedSelenium {
      * page to load, you must wait immediately after a Selenium command that caused a page-load.
      * </p>
      * <p>
-     * Wait default timeout specified in
-     * {@link org.jboss.arquillian.ajocado.SystemProperties#getTimeout
-     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)}
-     * of type {@link org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT}.
+     * Wait default timeout specified in org.jboss.arquillian.ajocado.SystemProperties#getTimeout
+     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType) of type
+     * org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT.
      * </p>
      */
     void waitForPageToLoad();
@@ -1214,17 +1212,16 @@ public interface TypedSelenium {
      * </p>
      * 
      * <p>
-     * Wait default timeout specified in
-     * {@link org.jboss.arquillian.ajocado.SystemProperties#getTimeout
-     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)}
-     * of type {@link org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT}.
+     * Wait default timeout specified in org.jboss.arquillian.ajocado.SystemProperties#getTimeout
+     * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)} of type
+     * org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT.
      * </p>
      * 
      * @param frameAddress
      *            FrameAddress from the server side
      */
     void waitForFrameToLoad(URL frameAddress);
-    
+
     /**
      * Waits for a new frame to load.
      * 
@@ -1243,9 +1240,13 @@ public interface TypedSelenium {
     void waitForFrameToLoad(URL frameAddress, long timeout);
 
     /**
-     * <p>Return all cookies of the current page under test.</p>
+     * <p>
+     * Return all cookies of the current page under test.
+     * </p>
      * 
-     * <p><b>Currently unsupported</b></p>
+     * <p>
+     * <b>Currently unsupported</b>
+     * </p>
      * 
      * @return all cookies of the current page under test
      */
@@ -1276,7 +1277,7 @@ public interface TypedSelenium {
      *            the cookie to be created
      */
     void createCookie(Cookie cookie);
-    
+
     /**
      * Create a new cookie whose path and domain are same with those of current page under test, unless you specified a
      * path for this cookie explicitly in options.
@@ -1292,10 +1293,10 @@ public interface TypedSelenium {
     void createCookie(Cookie cookie, CreateCookieOptions options);
 
     /**
-     * Delete a named cookie with specified options. Be careful; to delete a cookie, you need to delete it using
-     * the exact same path and domain that were used to create the cookie. If the path is wrong, or the domain is wrong,
-     * the cookie simply won't be deleted. Also note that specifying a domain that isn't a subset of the current domain
-     * will usually fail.
+     * Delete a named cookie with specified options. Be careful; to delete a cookie, you need to delete it using the
+     * exact same path and domain that were used to create the cookie. If the path is wrong, or the domain is wrong, the
+     * cookie simply won't be deleted. Also note that specifying a domain that isn't a subset of the current domain will
+     * usually fail.
      * 
      * Since there's no way to discover at runtime the original path and domain of a given cookie, we've added an option
      * called 'recurse' to try all sub-domains of the current domain with all paths that are a subset of the current
@@ -1472,14 +1473,14 @@ public interface TypedSelenium {
      *            the same thing as JavaScript keycodes!
      */
     void keyPressNative(String keycode);
-    
+
     /**
      * Capture a PNG screenshot. It then returns the file as a base 64 encoded string.
      * 
      * @return The BufferedImage
      */
     BufferedImage captureScreenshot();
-    
+
     /**
      * Downloads a screenshot of the browser current window canvas to a based 64 encoded PNG file. The <em>entire</em>
      * windows canvas is captured, including parts rendered outside of the current view port.
@@ -1489,7 +1490,7 @@ public interface TypedSelenium {
      * @return The BufferedImage
      */
     BufferedImage captureEntirePageScreenshot();
-    
+
     /**
      * Returns the network traffic seen by the browser, including headers, AJAX requests, status codes, and timings.
      * When this function is called, the traffic log is cleared, so the returned content is only the traffic seen since

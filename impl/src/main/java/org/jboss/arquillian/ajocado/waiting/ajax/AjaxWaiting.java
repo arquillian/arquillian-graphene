@@ -38,8 +38,8 @@ import com.thoughtworks.selenium.SeleniumException;
  * </p>
  * 
  * <p>
- * It uses custom JavaScript and {@link com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String)} to
- * wait for satisfying given condition.
+ * It uses custom JavaScript and com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String) to wait
+ * for satisfying given condition.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -89,8 +89,9 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      * 
      * 
      * <p>
-     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
-     * {@link Retriever#setValue(Object)}.
+     * Note that Retriever needs to be initialized first by one of methods
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      * 
      * @param <T>
@@ -137,8 +138,9 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      * 
      * 
      * <p>
-     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
-     * {@link Retriever#setValue(Object)}.
+     * Note that Retriever needs to be initialized first by one of methods
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      * 
      * @param <T>

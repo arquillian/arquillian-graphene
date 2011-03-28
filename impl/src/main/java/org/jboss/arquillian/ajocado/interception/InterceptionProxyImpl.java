@@ -96,7 +96,7 @@ public final class InterceptionProxyImpl implements InterceptionProxy, java.lang
      * </p>
      * 
      * <p>
-     * In case of {@link CommandProcessor#invoke(String, String[])} method, it also executes all associated interceptors
+     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated interceptors
      * before performing the actual invocation of method.
      * </p>
      */

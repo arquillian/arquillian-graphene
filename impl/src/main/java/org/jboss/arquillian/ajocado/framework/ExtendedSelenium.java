@@ -156,8 +156,6 @@ public class ExtendedSelenium extends DefaultSelenium {
      * @param attributeName
      *            a name of an attribute
      * @return true if the element's attribute is present, false otherwise
-     * @throws SeleniumException
-     *             when element isn't present
      */
     public boolean isAttributePresent(String elementLocator, String attributeName) {
         return commandProcessor.getBoolean("isAttributePresent", new String[] { elementLocator, attributeName });

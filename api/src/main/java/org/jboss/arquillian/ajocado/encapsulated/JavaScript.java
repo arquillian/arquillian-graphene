@@ -171,12 +171,12 @@ public class JavaScript {
     }
 
     /**
-     * Fills the parameters to placeholders in {@link SimplifiedFormat} format to this JavaScript code and returns the
-     * result.
+     * Fills the parameters to placeholders in simplified format (look for Simplified format) to this JavaScript code
+     * and returns the result.
      * 
      * @param parameters
      *            to parametrize this JavaScript code
-     * @return this JavaScript with parameters filled in place of placeholders in {@link SimplifiedFormat} format
+     * @return this JavaScript with parameters filled in place of placeholders in simplified format
      */
     public JavaScript parametrize(Object... parameters) {
         return js(format(javaScript, parameters));

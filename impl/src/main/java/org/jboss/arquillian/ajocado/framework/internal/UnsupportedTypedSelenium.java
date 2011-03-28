@@ -156,7 +156,7 @@ public interface UnsupportedTypedSelenium {
     /**
      * Returns every instance of some attribute from all known windows.
      * 
-     * @param attributeName
+     * @param attribute
      *            name of an attribute on the windows
      * @return the set of values of this attribute from all known windows.
      */
@@ -186,9 +186,9 @@ public interface UnsupportedTypedSelenium {
      * while all others will return false.
      * </p>
      * 
-     * @param currentFrameString
+     * @param currentFrame
      *            starting frame
-     * @param target
+     * @param targetFrame
      *            new frame (which might be relative to the current one)
      * @return true if the new frame is this code's window
      */
@@ -307,17 +307,21 @@ public interface UnsupportedTypedSelenium {
      */
     void selectWindow(WindowId windowID);
 
-    /** Sets the per-session extension Javascript */
+    /**
+     * Sets the per-session extension Javascript
+     * 
+     * @param extensionJs
+     */
     void setExtensionJs(JavaScript extensionJs);
 
     /**
      * Waits for a popup window to appear and load up.
      * 
-     * @param windowID
+     * @param windowId
      *            the JavaScript window "name" of the window that will appear (not the text of the title bar) If
      *            unspecified, or specified as "null", this command will wait for the first non-top window to appear
      *            (don't rely on this if you are working with multiple popups simultaneously).
-     * @param timeout
+     * @param timeoutInMilis
      *            a timeout in milliseconds, after which the action will return with an error. If this value is not
      *            specified, the default Selenium timeout will be used. See the setTimeout() command.
      */

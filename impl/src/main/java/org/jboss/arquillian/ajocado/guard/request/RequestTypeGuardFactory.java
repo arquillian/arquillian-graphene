@@ -42,7 +42,6 @@ public final class RequestTypeGuardFactory {
      *            where should be registered the given request type guard
      * @param requestExpected
      *            the request type to be guarded
-     * @param interlayed
      *            if the expected request is allowed to be preceeded by another request type
      * @return the selenium guarded to use XMLHttpRequest
      */

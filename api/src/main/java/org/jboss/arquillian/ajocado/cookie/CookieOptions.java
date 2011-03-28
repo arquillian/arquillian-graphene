@@ -45,7 +45,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements
 	 * Specifies to which domain is cookie bound.
 	 * 
 	 * @param domain
-	 * @return
+	 * @return domain to which is cookie bound
 	 */
 	public T domain(String domain) {
 		T copy = copy();
@@ -57,7 +57,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements
 	 * Specifies to which path is cookie bound.
 	 * 
 	 * @param path
-	 * @return
+	 * @return path to which is cookie bound
 	 */
 	public T path(String path) {
 		T copy = copy();

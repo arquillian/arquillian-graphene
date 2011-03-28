@@ -29,7 +29,7 @@ import org.jboss.arquillian.ajocado.locator.IterableLocator;
 
 /**
  * <p>
- * Extends the common Selenium API by other useful functions wrapped from {@link ExtendedSelenium}.
+ * Extends the common Selenium API by other useful functions.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -74,7 +74,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * 
      * E.g.: use property "background-color" instead of "backgroundColor"
      * 
-     * @param locator
+     * @param elementLocator
      *            of element from what we want to get current style value
      * @param property
      *            CSS style property what we can to recognize
@@ -88,7 +88,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     /**
      * Get current style value of element given by locator.
      * 
-     * @param locator
+     * @param elementLocator
      *            of element from what we want to get current style value
      * @param property
      *            CSS style property
@@ -97,11 +97,11 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      *             if is caught unrecognized throwable
      */
     String getStyle(ElementLocator<?> elementLocator, CssProperty property);
-    
+
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
      * 
-     * @param locator
+     * @param elementLocator
      *            of element which should be screen aligned to
      * @param alignToTop
      *            should be top border of screen aligned to top border of element
@@ -111,20 +111,20 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     /**
      * Simulates a user hovering a mouse over the specified element at specific coordinates relative to element.
      * 
-     * @param locator
+     * @param elementLocator
      *            element's locator
-     * @param coordString
+     * @param point
      *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
      *            locator.
      */
     void mouseOverAt(ElementLocator<?> elementLocator, Point point);
-    
+
     /**
      * Simulates a user hovering a mouse out of the specified element at specific coordinates relative to element.
      * 
-     * @param locator
+     * @param elementLocator
      *            element's locator
-     * @param coordString
+     * @param point
      *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
      *            locator.
      */
@@ -133,7 +133,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     /**
      * Returns whether the element is displayed on the page.
      * 
-     * @param locator
+     * @param elementLocator
      *            element locator
      * @return if style contains "display: none;" returns false, else returns true
      */
@@ -144,7 +144,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * 
      * @param className
      *            name of CSS class
-     * @param locator
+     * @param elementLocator
      *            element's locator
      * @return true if element given by locator is member of CSS class given by className
      */
@@ -156,8 +156,6 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @param attributeLocator
      *            an attribute locator
      * @return true if the element's attribute is present, false otherwise
-     * @throws SeleniumException
-     *             when element isn't present
      */
     boolean isAttributePresent(AttributeLocator<?> attributeLocator);
 
@@ -165,7 +163,8 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * (non-Javadoc)
      * 
      * @see
-     * org.jboss.arquillian.ajocado.framework.DefaultTypedSelenium#getCount(org.jboss.test.selenium.locator.IterableLocator)
+     * org.jboss.arquillian.ajocado.framework.DefaultTypedSelenium#getCount(org.jboss.test.selenium.locator.IterableLocator
+     * )
      */
     int getCount(IterableLocator<?> locator);
 
@@ -181,6 +180,15 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      */
     void check(ElementLocator<?> locator, boolean checked);
 
-    
+    /**
+     * Invokes selenium command.
+     * 
+     * @param command
+     *            the command name from Selenium's JavaScript API
+     * @param param1
+     *            first parameter
+     * @param param2
+     *            second parameter
+     */
     void doCommand(String command, String param1, String param2);
 }

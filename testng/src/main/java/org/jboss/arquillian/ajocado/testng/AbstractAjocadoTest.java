@@ -106,15 +106,6 @@ public abstract class AbstractAjocadoTest {
      * Initializes context before each class run.
      * 
      * Parameters will be obtained from TestNG.
-     * 
-     * @param contextRoot
-     *            server's context root, e.g. http://localhost:8080/
-     * @param contextPath
-     *            context path to application in context of server's root (e.g. /myapp)
-     * @param browser
-     *            used browser (e.g. "*firefox", see selenium reference API)
-     * @param seleniumPort
-     *            specifies on which port should selenium server run
      */
     @BeforeClass(dependsOnMethods = { "initializeParameters", "isTestBrowserEnabled" }, alwaysRun = true)
     public void initializeBrowser() {
@@ -147,15 +138,6 @@ public abstract class AbstractAjocadoTest {
 
     /**
      * Initializes the timeouts for waiting on interaction
-     * 
-     * @param seleniumTimeoutDefault
-     *            the timeout set in Selenium API
-     * @param seleniumTimeoutGui
-     *            initial timeout set for waiting GUI interaction
-     * @param seleniumTimeoutAjax
-     *            initial timeout set for waiting server AJAX interaction
-     * @param seleniumTimeoutModel
-     *            initial timeout set for waiting server computationally difficult interaction
      */
     @BeforeClass(alwaysRun = true, dependsOnMethods = "initializeBrowser")
     public void initializeWaitTimeouts() {
@@ -221,6 +203,10 @@ public abstract class AbstractAjocadoTest {
      * Check whenever the current test is enabled for selected browser (evaluated from testng.xml).
      * 
      * If it is not enabled, skip the particular test.
+     * @param enabledBrowsersParam the list of enabled browsers
+     * @param disabledBrowsersParam the list of disabled browsers
+     * @param enabledModesParam the list of enabled browser modes
+     * @param disabledModesParam the list of disabled browser modes
      */
     @Parameters({ "enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes" })
     @BeforeClass(dependsOnMethods = "initializeParameters", alwaysRun = true)

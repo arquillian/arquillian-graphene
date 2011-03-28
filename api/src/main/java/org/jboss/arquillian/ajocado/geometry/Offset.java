@@ -38,7 +38,7 @@ public class Offset {
 
     /**
      * Returns the movement as it is used in Selenium.
-     * @return
+     * @return the movement to use in Selenium API
      */
     public String getMovement() {
         return x + "," + y;

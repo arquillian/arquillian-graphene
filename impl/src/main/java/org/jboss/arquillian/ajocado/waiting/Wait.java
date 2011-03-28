@@ -47,16 +47,12 @@ public final class Wait {
     public static final long DEFAULT_TIMEOUT = com.thoughtworks.selenium.Wait.DEFAULT_TIMEOUT;
 
     /**
-     * Returns new instance of {@link AjaxWaiting}
-     * 
-     * @return new instance of {@link AjaxWaiting}
+     * Provides instance of {@link AjaxWaiting}
      */
     public static final AjaxWaiting waitAjax = new AjaxWaiting();
 
     /**
-     * Returns new instance of {@link SeleniumWaiting}
-     * 
-     * @return new instance of {@link SeleniumWaiting}
+     * Provides instance of {@link SeleniumWaiting}
      */
     public static final SeleniumWaiting waitSelenium = new SeleniumWaiting();
 

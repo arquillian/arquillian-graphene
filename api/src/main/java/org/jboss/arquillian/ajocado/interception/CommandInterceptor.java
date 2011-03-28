@@ -27,9 +27,9 @@ package org.jboss.arquillian.ajocado.interception;
  * </p>
  * 
  * <p>
- * Each implementor must satisfy, that in the {@link #intercept(CommandContext, String)} method body will be called at
- * least once method from current context {@link CommandContext#invoke()}. This method also returns the return value
- * of executing given command on associated commandProcessor.
+ * Each implementor must satisfy, that in the {@link #intercept(CommandContext)} method body will be called at least
+ * once method from current context {@link CommandContext#invoke()}. This method also returns the return value of
+ * executing given command on associated commandProcessor.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -39,9 +39,9 @@ public interface CommandInterceptor {
 
     /**
      * When processing custom logic must satisfy, that at least once will be called method
-     * {@link CommandContext#invoke()}. It's entry point for passing the logic to next interceptor until the
-     * associated interceptors aren't all triggered, then commandProcess will execute given command and it's return
-     * value will bubble back to each interceptor as return value of {@link CommandContext#invoke()} method.
+     * {@link CommandContext#invoke()}. It's entry point for passing the logic to next interceptor until the associated
+     * interceptors aren't all triggered, then commandProcess will execute given command and it's return value will
+     * bubble back to each interceptor as return value of {@link CommandContext#invoke()} method.
      * 
      * @param ctx
      *            the current command context

@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
- * @see {@link #Browser(String)}
  */
 public class Browser {
 

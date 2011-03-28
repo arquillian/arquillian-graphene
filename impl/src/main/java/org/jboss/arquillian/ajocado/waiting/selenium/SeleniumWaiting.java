@@ -54,8 +54,8 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
      * @param retriever
      *            implementation of retrieving actual value
      */
-    public <T> void waitForChange(T oldValue, SeleniumRetriever<T> retrieve) {
-        waitForChangeAndReturn(oldValue, retrieve);
+    public <T> void waitForChange(T oldValue, SeleniumRetriever<T> retriever) {
+        waitForChangeAndReturn(oldValue, retriever);
     }
 
     /**
@@ -69,8 +69,9 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
      * </p>
      * 
      * <p>
-     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
-     * {@link Retriever#setValue(Object)}.
+     * Note that Retriever needs to be initialized first by one of methods
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      * 
      * @param <T>
@@ -94,12 +95,12 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    public <T> T waitForChangeAndReturn(final T oldValue, final SeleniumRetriever<T> retrieve) {
+    public <T> T waitForChangeAndReturn(final T oldValue, final SeleniumRetriever<T> retriever) {
         final Vector<T> vector = new Vector<T>(1);
 
         this.until(new SeleniumCondition() {
             public boolean isTrue() {
-                vector.add(0, retrieve.retrieve());
+                vector.add(0, retriever.retrieve());
                 if (oldValue == null) {
                     return vector.get(0) != null;
                 }
@@ -121,8 +122,9 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
      * </p>
      * 
      * <p>
-     * Note that Retriever needs to be initialized first by one of methods {@link Retriever#initializeValue()} or
-     * {@link Retriever#setValue(Object)}.
+     * Note that Retriever needs to be initialized first by one of methods
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      * 
      * @param <T>

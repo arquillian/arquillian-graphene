@@ -31,7 +31,7 @@ package org.jboss.arquillian.ajocado.encapsulated;
  * 
  * <p>
  * You can also implement own frame locators, using 'dom=&lt;dom&gt;' locator or by indexing the frame using
- * 'index=&lt;index&gt;' (see {@link com.thoughtworks.selenium.Selenium.Selenium#selectFrame(String)}).
+ * 'index=&lt;index&gt;' (see com.thoughtworks.selenium.Selenium.Selenium#selectFrame(String)).
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$

@@ -26,11 +26,11 @@ import org.jboss.arquillian.ajocado.request.RequestInterceptor;
 
 /**
  * <p>
- * Implementation of {@link TypedSelenium} extended by methods in {@link ExtendedTypedSeleniumImpl}.
+ * Extension for {@link TypedSelenium} extended by methods in {@link ExtendedTypedSelenium}.
  * </p>
  * 
  * <p>
- * Internally using {@link AjaxAwareInterceptor} and {@link InterceptionProxy}.
+ * Internally using {@link InterceptionProxy} to add aspects to commands.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -70,11 +70,12 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * </p>
      * 
      * <p>
-     * RequestInterceptor 
+     * RequestInterceptor
+     * 
      * @return the RequestInterceptor object
      */
     RequestInterceptor getRequestInterceptor();
-    
+
     /**
      * Returns associated command interception proxy
      * 
@@ -86,6 +87,8 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * Immutable clone of this object.
      * 
      * @return immutable clone of this object
+     * @throws CloneNotSupportedException
+     *             when AjaxSelenium implementation doesn't isn't cloneable
      */
     AjaxSelenium clone() throws CloneNotSupportedException;
 }

@@ -51,8 +51,7 @@ public final class SimplifiedFormat {
     /**
      * Parametrize given string with arguments, using {} or {number} (e.g. {0}, {1}, ...) as placeholders.
      * 
-     * @param format
-     *            string to format
+     * @param message message to format
      * @param args
      *            used to formatting given format string
      * @return string formatted using given arguments

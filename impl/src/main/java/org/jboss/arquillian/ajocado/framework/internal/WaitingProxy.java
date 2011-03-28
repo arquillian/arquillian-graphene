@@ -35,6 +35,9 @@ import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
+ * 
+ * @param <T>
+ *            type of waiting
  */
 public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler {
 

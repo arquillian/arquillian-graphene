@@ -100,8 +100,6 @@ public class Drag {
     /**
      * Initiates Drag object, handled by given Selenium instance, instructing drag of itemToDrag to dropTarget object.
      * 
-     * @param selenium
-     *            initialized and started Selenium instance
      * @param itemToDrag
      *            item to drag
      * @param dropTarget
