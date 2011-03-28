@@ -111,9 +111,9 @@ public final class LocatorFactory {
      * @param xpath
      *            the xpath expression
      * @return the xpath locator
-     * @see XpathLocator
+     * @see XPathLocator
      */
-    public static XpathLocator xp(String xpath) {
-        return new XpathLocator(xpath);
+    public static XPathLocator xp(String xpath) {
+        return new XPathLocator(xpath);
     }
 }

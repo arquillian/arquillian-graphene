@@ -31,7 +31,7 @@ import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.locator.LinkLocator;
 import org.jboss.arquillian.ajocado.locator.NameLocator;
-import org.jboss.arquillian.ajocado.locator.XpathLocator;
+import org.jboss.arquillian.ajocado.locator.XPathLocator;
 import org.jboss.arquillian.ajocado.request.RequestType;
 import org.jboss.arquillian.ajocado.waiting.Wait;
 import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
@@ -191,9 +191,9 @@ public final class Ajocado {
      * @param xpath
      *            the xpath expression
      * @return the xpath locator
-     * @see XpathLocator
+     * @see XPathLocator
      */
-    public static XpathLocator xp(String xpath) {
-        return new XpathLocator(xpath);
+    public static XPathLocator xp(String xpath) {
+        return new XPathLocator(xpath);
     }
 }
