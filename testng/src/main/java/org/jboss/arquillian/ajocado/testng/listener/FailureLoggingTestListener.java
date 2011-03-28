@@ -54,10 +54,9 @@ public class FailureLoggingTestListener extends TestListenerAdapter {
 
     private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
     private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    
-    protected File buildDirectory = configuration.getBuildDirectory();
-    protected File failuresOutputDir = new File(buildDirectory, "failures");
 
+    private File buildDirectory = configuration.getBuildDirectory();
+    private File failuresOutputDir = new File(buildDirectory, "failures");
 
     @Override
     public void onStart(ITestContext testContext) {

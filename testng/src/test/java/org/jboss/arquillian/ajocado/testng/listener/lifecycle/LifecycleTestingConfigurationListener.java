@@ -1,6 +1,17 @@
 package org.jboss.arquillian.ajocado.testng.listener.lifecycle;
 
-import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.*;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.AFTER_CLASS;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.AFTER_METHOD;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.BEFORE_CLASS;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.BEFORE_METHOD;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.LISTENER_AFTER_CLASS;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.LISTENER_AFTER_METHOD;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.LISTENER_AFTER_SUITE;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.LISTENER_BEFORE_CLASS;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.LISTENER_BEFORE_METHOD;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.LISTENER_BEFORE_SUITE;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.TEST1;
+import static org.jboss.arquillian.ajocado.testng.listener.lifecycle.LifecycleTestingConfigurationListener.Phase.TEST2;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -18,13 +29,14 @@ import org.testng.annotations.Test;
 @Test(enabled = false)
 public class LifecycleTestingConfigurationListener extends AbstractConfigurationListener {
 
-    private static int PHASE = 0;
-    private static Phase[] PHASES = new Phase[] { LISTENER_BEFORE_SUITE, LISTENER_BEFORE_CLASS, BEFORE_CLASS,
+    private static final Phase[] PHASES = new Phase[] { LISTENER_BEFORE_SUITE, LISTENER_BEFORE_CLASS, BEFORE_CLASS,
             LISTENER_BEFORE_METHOD, BEFORE_METHOD, TEST1, LISTENER_AFTER_METHOD, AFTER_METHOD, LISTENER_BEFORE_METHOD,
             BEFORE_METHOD, TEST2, LISTENER_AFTER_METHOD, AFTER_METHOD, LISTENER_AFTER_CLASS, AFTER_CLASS,
             LISTENER_BEFORE_CLASS, BEFORE_CLASS, LISTENER_BEFORE_METHOD, BEFORE_METHOD, TEST1, LISTENER_AFTER_METHOD,
             AFTER_METHOD, LISTENER_BEFORE_METHOD, BEFORE_METHOD, TEST2, LISTENER_AFTER_METHOD, AFTER_METHOD,
             LISTENER_AFTER_CLASS, AFTER_CLASS, LISTENER_AFTER_SUITE };
+
+    private static int phase = 0;
 
     @BeforeSuite
     public void beforeSuite() {
@@ -57,7 +69,7 @@ public class LifecycleTestingConfigurationListener extends AbstractConfiguration
     }
 
     public static void assertPhase(Phase... actualPhases) {
-        final Phase phaseName = PHASES[PHASE++];
+        final Phase phaseName = PHASES[phase++];
         assertTrue(ArrayUtils.contains(actualPhases, phaseName),
             "Actual phase options (" + Arrays.deepToString(actualPhases) + ") doesn't match expected phase ("
                 + phaseName + ")");

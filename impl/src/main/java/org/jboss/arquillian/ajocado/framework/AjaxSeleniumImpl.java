@@ -23,7 +23,6 @@ package org.jboss.arquillian.ajocado.framework;
 
 import java.net.URL;
 
-import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
 import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
@@ -41,7 +40,8 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * </p>
  * 
  * <p>
- * Internally using {@link AjaxAwareInterceptor} and {@link InterceptionProxyImpl}.
+ * Internally using {@link org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor} and
+ * {@link InterceptionProxyImpl}.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -54,7 +54,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /** The JavaScript Extension to Selenium */
     SeleniumExtensions seleniumExtensions;
-    
+
     /** The RequestInterceptor */
     RequestInterceptor requestInterceptor;
 
@@ -82,8 +82,8 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      *            the context path url
      */
     public AjaxSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-        CommandProcessor commandProcessor =
-            new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(), contextPathURL.toString());
+        CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(),
+            contextPathURL.toString());
         interceptionProxy = new InterceptionProxyImpl(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensionsImpl();
@@ -111,6 +111,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getRequestInterceptor()
      */
     @Override

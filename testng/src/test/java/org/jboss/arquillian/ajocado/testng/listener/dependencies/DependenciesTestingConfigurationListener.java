@@ -1,6 +1,11 @@
 package org.jboss.arquillian.ajocado.testng.listener.dependencies;
 
-import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.*;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.BEFORE_CLASS1;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.BEFORE_CLASS2;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.BEFORE_METHOD1;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.BEFORE_METHOD2;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.TEST1;
+import static org.jboss.arquillian.ajocado.testng.listener.dependencies.DependenciesTestingConfigurationListener.Phase.TEST2;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -14,10 +19,11 @@ import org.testng.annotations.Test;
 @Test(enabled = false)
 public class DependenciesTestingConfigurationListener extends AbstractConfigurationListener {
 
-    private static int PHASE = 0;
-    private static Phase[] PHASES = new Phase[] { BEFORE_CLASS1, BEFORE_CLASS2, BEFORE_METHOD1, BEFORE_METHOD2, TEST1,
-            BEFORE_METHOD1, BEFORE_METHOD2, TEST2, BEFORE_CLASS1, BEFORE_CLASS2, BEFORE_METHOD1, BEFORE_METHOD2, TEST1,
-            BEFORE_METHOD1, BEFORE_METHOD2, TEST2 };
+    private static final Phase[] PHASES = new Phase[] { BEFORE_CLASS1, BEFORE_CLASS2, BEFORE_METHOD1, BEFORE_METHOD2,
+            TEST1, BEFORE_METHOD1, BEFORE_METHOD2, TEST2, BEFORE_CLASS1, BEFORE_CLASS2, BEFORE_METHOD1, BEFORE_METHOD2,
+            TEST1, BEFORE_METHOD1, BEFORE_METHOD2, TEST2 };
+
+    private static int phase = 0;
 
     @BeforeClass(dependsOnMethods = "beforeClass1")
     public void beforeClass2() {
@@ -40,7 +46,7 @@ public class DependenciesTestingConfigurationListener extends AbstractConfigurat
     }
 
     public static void assertPhase(Phase... actualPhases) {
-        final Phase phaseName = PHASES[PHASE++];
+        final Phase phaseName = PHASES[phase++];
         assertTrue(ArrayUtils.contains(actualPhases, phaseName),
             "Actual phase options (" + Arrays.deepToString(actualPhases) + ") doesn't match expected phase ("
                 + phaseName + ")");

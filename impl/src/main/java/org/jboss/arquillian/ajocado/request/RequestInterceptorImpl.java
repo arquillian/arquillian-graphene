@@ -30,7 +30,6 @@ import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
-import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 
 /**
  * <p>
@@ -38,7 +37,8 @@ import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
  * </p>
  * 
  * <p>
- * Needs to have PageExtensions installed in the current page using {@link PageExtensionsImpl#install()}.
+ * Needs to have PageExtensions installed in the current page using
+ * {@link org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl#install()}.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -52,7 +52,7 @@ public class RequestInterceptorImpl implements RequestInterceptor {
      * Proxy for thread local context of AjaxSelenium
      */
     private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    
+
     private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 
     /**

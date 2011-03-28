@@ -39,7 +39,6 @@ import org.testng.IInvokedMethodListener;
 import org.testng.ITestContext;
 import org.testng.ITestNGListener;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -61,6 +60,8 @@ import org.testng.annotations.Test;
 public abstract class AbstractConfigurationListener extends TestListenerAdapter implements IInvokedMethodListener {
 
     private static final boolean DEBUG = Boolean.valueOf(System.getProperty("selenium.debug", "false"));
+    private static final Class<?>[] CONFIGURATION_ORDER = new Class[] { BeforeSuite.class, BeforeClass.class,
+            BeforeMethod.class, AfterMethod.class, AfterClass.class, AfterSuite.class };
 
     /*
      * Thread local set of configuration methods, which was already executed for current test class and separated by
@@ -99,7 +100,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             return Boolean.FALSE;
         }
     }
-    
+
     private static ThreadLocalBoolean beforeSuiteConfigurationsAdded = new ThreadLocalBoolean();
     private static ThreadLocalBoolean afterSuiteConfigurationsAdded = new ThreadLocalBoolean();
 
@@ -113,6 +114,23 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     private static ListenerThreadLocal<ITestResult> testResult = new ListenerThreadLocal<ITestResult>();
     private static ListenerThreadLocal<ITestContext> testContext = new ListenerThreadLocal<ITestContext>();
+
+    private Comparator<Class<?>> comparator = new Comparator<Class<?>>() {
+        @Override
+        public int compare(Class<?> o1, Class<?> o2) {
+            if (o1 == o2) {
+                return 0;
+            }
+            for (Class<?> type : CONFIGURATION_ORDER) {
+                if (o1 == type) {
+                    return -1;
+                } else if (o2 == type) {
+                    return +1;
+                }
+            }
+            throw new IllegalStateException();
+        }
+    };
 
     /*
      * (non-Javadoc)
@@ -175,9 +193,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     @Override
     public void onTestStart(ITestResult result) {
         checkClassChange(result);
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         setupContext(result);
         if (!methodConfigurationsAdded.get(this.getClass())) {
             introduceMethods(BeforeMethod.class, AfterMethod.class);
@@ -193,9 +211,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         setupContext(result);
         methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
@@ -208,9 +226,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onTestFailure(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         setupContext(result);
         methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
@@ -223,9 +241,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onTestSkipped(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         setupContext(result);
         methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
@@ -238,9 +256,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onTestSuccess(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         setupContext(result);
         methodsRunned.get(this.getClass()).add(result.getMethod().getMethodName());
         invokeMethods(AfterMethod.class);
@@ -253,9 +271,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onConfigurationSuccess(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         if (DEBUG) {
             System.out.println("#" + result.getMethod().getMethodName());
         }
@@ -269,9 +287,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onConfigurationFailure(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         if (DEBUG) {
             System.out.println("#" + result.getMethod().getMethodName());
         }
@@ -285,9 +303,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      */
     @Override
     public void onConfigurationSkip(ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         if (DEBUG) {
             System.out.println("#" + result.getMethod().getMethodName());
         }
@@ -295,23 +313,23 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     }
 
     private void checkClassChange(ITestResult result) {
-    	if (getRealClassFromTestResult(result) != lastRunnedClass.get(this.getClass())) {
+        if (getRealClassFromTestResult(result) != lastRunnedClass.get(this.getClass())) {
             if (lastRunnedClass.get(this.getClass()) != null) {
                 onClassFinish();
             }
         }
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         if (getRealClassFromTestResult(result) != lastRunnedClass.get(this.getClass())) {
             setupContext(result);
             onClassStart();
             lastRunnedClass.set(this.getClass(), getRealClassFromTestResult(result));
         }
     }
-    
+
     private static Class<?> getRealClassFromTestResult(ITestResult testResult) {
-    	return testResult.getInstance().getClass();
+        return testResult.getInstance().getClass();
     }
 
     /**
@@ -326,8 +344,8 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
     public void beforeInvocation(IInvokedMethod method, ITestResult result) {
         checkClassChange(result);
         if (!isResultForThisListener(result)) {
-    		return;
-    	}
+            return;
+        }
         setupContext(result);
 
         BeforeClass beforeClass = method.getTestMethod().getMethod().getAnnotation(BeforeClass.class);
@@ -342,7 +360,7 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
         BeforeMethod beforeMethod = method.getTestMethod().getMethod().getAnnotation(BeforeMethod.class);
         Test testMethod = method.getTestMethod().getMethod().getAnnotation(Test.class);
         if (beforeMethod != null || testMethod != null) {
-//            setupContext(Reporter.getCurrentTestResult());
+            // setupContext(Reporter.getCurrentTestResult());
             if (!methodConfigurationsAdded.get(this.getClass())) {
                 introduceMethods(BeforeMethod.class, AfterMethod.class);
                 methodConfigurationsAdded.set(this.getClass(), true);
@@ -365,9 +383,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      * </p>
      */
     public void afterInvocation(IInvokedMethod method, ITestResult result) {
-    	if (!isResultForThisListener(result)) {
-    		return;
-    	}
+        if (!isResultForThisListener(result)) {
+            return;
+        }
         setupContext(result);
         if (method.isTestMethod()) {
             methodConfigurationsAdded.set(this.getClass(), false);
@@ -392,10 +410,10 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             invokeMethods(AfterMethod.class);
         }
     }
-    
+
     @Override
     public String toString() {
-    	return this.getClass().getSimpleName();
+        return this.getClass().getSimpleName();
     }
 
     /**
@@ -405,9 +423,9 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
      *            the array of annotation, whose methods should be executed
      */
     private void invokeMethods(Class<? extends Annotation>... typesToInvoke) {
-    	if (!isResultForThisListener(testResult.get(this.getClass()))) {
-    		return;
-    	}
+        if (!isResultForThisListener(testResult.get(this.getClass()))) {
+            return;
+        }
         SortedSet<ConfigurationMethod> configurationsToRemove = new TreeSet<ConfigurationMethod>();
         for (ConfigurationMethod configuration : configurations.get(this.getClass())) {
             if (tryInvoke(configuration.method, configuration.annotation, typesToInvoke)) {
@@ -418,30 +436,30 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             configurations.get(this.getClass()).remove(configuration);
         }
     }
-    
+
     private boolean isResultForThisListener(ITestResult testResult) {
-    	if (testResult != null) {
-    		Class<?> testInstanceClass = testResult.getInstance().getClass();
-			for (Class<? extends ITestNGListener> listenerType : getAllListenerTypesForClass(testInstanceClass)) {
-				if (listenerType == this.getClass()) {
-					return true;
-				}
-			}
-    		return false;
-    	}
-    	return true;
+        if (testResult != null) {
+            Class<?> testInstanceClass = testResult.getInstance().getClass();
+            for (Class<? extends ITestNGListener> listenerType : getAllListenerTypesForClass(testInstanceClass)) {
+                if (listenerType == this.getClass()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
-    
+
     private List<Class<? extends ITestNGListener>> getAllListenerTypesForClass(Class<?> type) {
-    	List<Class<? extends ITestNGListener>> list = new LinkedList<Class<? extends ITestNGListener>>();
-    	while (type != Object.class) {
-    		Listeners annotation = type.getAnnotation(Listeners.class);
-    		if (annotation != null) {
-    			list.addAll(Arrays.asList(annotation.value()));
-    		}
-    		type = type.getSuperclass();
-    	}
-    	return list;
+        List<Class<? extends ITestNGListener>> list = new LinkedList<Class<? extends ITestNGListener>>();
+        while (type != Object.class) {
+            Listeners annotation = type.getAnnotation(Listeners.class);
+            if (annotation != null) {
+                list.addAll(Arrays.asList(annotation.value()));
+            }
+            type = type.getSuperclass();
+        }
+        return list;
     }
 
     /**
@@ -515,10 +533,10 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             method.invoke(this, parameters);
             configurationsSucceded.get(this.getClass()).add(method.getName());
         } catch (IllegalArgumentException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             throw new IllegalStateException(e);
         } catch (IllegalAccessException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             throw new IllegalStateException(e);
         } catch (InvocationTargetException e) {
             e.getCause().printStackTrace();
@@ -691,24 +709,4 @@ public abstract class AbstractConfigurationListener extends TestListenerAdapter 
             return method.getName() + " (" + annotation.annotationType().getSimpleName() + ")";
         }
     }
-
-    private Comparator<Class<?>> comparator = new Comparator<Class<?>>() {
-        @Override
-        public int compare(Class<?> o1, Class<?> o2) {
-            if (o1 == o2) {
-                return 0;
-            }
-            for (Class<?> type : configurationOrder) {
-                if (o1 == type) {
-                    return -1;
-                } else if (o2 == type) {
-                    return +1;
-                }
-            }
-            throw new IllegalStateException();
-        }
-    };
-
-    private static final Class<?>[] configurationOrder = new Class[] { BeforeSuite.class, BeforeClass.class,
-            BeforeMethod.class, AfterMethod.class, AfterClass.class, AfterSuite.class };
 }

@@ -54,7 +54,7 @@ import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Ajocado {
+public final class Ajocado {
     public static final int WAIT_GUI_INTERVAL = 100;
     public static final int WAIT_AJAX_INTERVAL = 500;
     public static final int WAIT_MODEL_INTERVAL = 1500;
@@ -91,6 +91,9 @@ public class Ajocado {
     public static final TextRetriever retrieveText = TextRetriever.getInstance();
     public static final AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
 
+    private Ajocado() {
+    }
+
     /*
      * Guards
      */
@@ -113,7 +116,7 @@ public class Ajocado {
     public static final AjaxSelenium waitXhr(AjaxSelenium selenium) {
         return RequestTypeGuardFactory.guardInterlayed(selenium, RequestType.XHR);
     }
-    
+
     /**
      * Gets element locator finding elements using CSS selectors.
      * 

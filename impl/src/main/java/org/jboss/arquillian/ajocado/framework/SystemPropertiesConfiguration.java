@@ -30,7 +30,6 @@ import java.net.URL;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.browser.Browser;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 
 /**
  * Exposing of test system properties.
@@ -39,7 +38,9 @@ import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
  * @version $Revision$
  */
 public class SystemPropertiesConfiguration implements AjocadoConfiguration {
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getContextRoot()
      */
     @Override
@@ -49,7 +50,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return buildUrl(contextRoot);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getContextPath()
      */
     @Override
@@ -59,7 +62,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return buildUrl(getContextRoot(), contextPath);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getBrowser()
      */
     @Override
@@ -69,7 +74,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return new Browser(browser);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getMavenResourcesDir()
      */
     @Override
@@ -77,7 +84,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return new File(getProperty("maven.resources.dir", "./target/test-classes/"));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getMavenProjectBuildDirectory()
      */
     @Override
@@ -85,7 +94,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return new File(getProperty("maven.project.build.directory", "./target/"));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumHost()
      */
     @Override
@@ -95,7 +106,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return seleniumHost;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumPort()
      */
     @Override
@@ -105,7 +118,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return asInteger(seleniumPort);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumMaximize()
      */
     @Override
@@ -113,7 +128,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return asBoolean(getProperty("selenium.maximize", "false"));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumDebug()
      */
     @Override
@@ -121,7 +138,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return asBoolean(getProperty("selenium.debug", "false"));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumSpeed()
      */
     @Override
@@ -129,7 +148,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return asInteger(getProperty("selenium.speed", "0"));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumNetworkTrafficEnabled()
      */
     @Override
@@ -137,8 +158,11 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         return asBoolean(getProperty("selenium.network.traffic", "false"));
     }
 
-    /* (non-Javadoc)
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumTimeout(org.jboss.arquillian.ajocado.AjocadoConfigurationImpl.SeleniumTimeoutType)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumTimeout(org.jboss.arquillian.ajocado.
+     * AjocadoConfigurationImpl.SeleniumTimeoutType)
      */
     @Override
     public long getTimeout(TimeoutType type) {

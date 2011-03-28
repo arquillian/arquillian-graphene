@@ -73,25 +73,25 @@ public class Drag {
 
     /** The item to drag. */
     private ElementLocator<?> itemToDrag;
-    
+
     /** The drag indicator. */
     private ElementLocator<?> dragIndicator;
 
     /** The drop target. */
     private ElementLocator<?> dropTarget;
-    
+
     private Point startMove;
-    
+
     private Point currentPosition;
-    
+
     private Point endPosition;
-    
+
     private Point overallMove;
-    
+
     private Point reposition = new Point(0, 0);
-    
+
     private Point movement = new Point(0, 0);
-    
+
     private int numberOfSteps = NUMBER_OF_STEPS;
 
     /** The wait. */
@@ -113,11 +113,12 @@ public class Drag {
         this.dropTarget = dropTarget;
         setDropTarget(dropTarget);
     }
-    
+
     public void setDropTarget(ElementLocator<?> dropTarget) {
         switch (currentPhase) {
             case INITIAL:
-                startMove = new Point(selenium.getElementWidth(itemToDrag) / 2, selenium.getElementHeight(itemToDrag) / 2);
+                startMove = new Point(selenium.getElementWidth(itemToDrag) / 2,
+                    selenium.getElementHeight(itemToDrag) / 2);
                 currentPosition = getCenterOfElement(itemToDrag);
                 endPosition = getCenterOfElement(dropTarget);
                 overallMove = endPosition.minus(currentPosition);
@@ -126,6 +127,8 @@ public class Drag {
                 throw new IllegalStateException("draggable was already dropped");
             case ENTER:
                 selenium.mouseOut(this.dropTarget);
+                break;
+            default:
         }
         if (Phase.MOUSE_OUT.before(currentPhase)) {
             currentPhase = Phase.MOUSE_OUT;
@@ -136,11 +139,11 @@ public class Drag {
         movement = new Point(0, 0);
         this.dropTarget = dropTarget;
     }
-    
+
     public void setDragIndicator(ElementLocator<?> dragIndicator) {
         this.dragIndicator = dragIndicator;
     }
-    
+
     public void setNumberOfSteps(int numberOfSteps) {
         this.numberOfSteps = numberOfSteps;
     }
@@ -206,15 +209,16 @@ public class Drag {
      */
     private void processUntilPhase(Phase requestedPhase) {
         if (requestedPhase.before(currentPhase)) {
-            throw new IllegalArgumentException("Requested phase (" + requestedPhase + ") is before current phase (" + currentPhase + ")");
+            throw new IllegalArgumentException("Requested phase (" + requestedPhase + ") is before current phase ("
+                + currentPhase + ")");
         }
 
-        while ((currentPhase.before(requestedPhase)))  {
+        while ((currentPhase.before(requestedPhase))) {
             currentPhase = currentPhase.next();
             executePhase(currentPhase);
         }
     }
-    
+
     /**
      * Executes the instructions for given phase.
      * 
@@ -224,7 +228,8 @@ public class Drag {
     private void executePhase(Phase phase) {
         switch (phase) {
             case START:
-                currentDelta = startMove.plus(new Point((overallMove.getX() < 0) ? FIRST_STEP : -FIRST_STEP, (overallMove.getY() < 0) ? FIRST_STEP : -FIRST_STEP));
+                currentDelta = startMove.plus(new Point((overallMove.getX() < 0) ? FIRST_STEP : -FIRST_STEP,
+                    (overallMove.getY() < 0) ? FIRST_STEP : -FIRST_STEP));
                 selenium.mouseDownAt(itemToDrag, new Point(0, 0));
                 selenium.mouseMoveAt(itemToDrag, new Point(2, 2));
                 if (dragIndicator != null && selenium.isElementPresent(dragIndicator)) {
@@ -237,10 +242,10 @@ public class Drag {
                 break;
             case MOVE:
                 for (int i = 0; i < numberOfSteps; i++) {
-                    Point oldMovement = movement; 
+                    Point oldMovement = movement;
                     movement = new Point(overallMove.getX() * i / numberOfSteps, overallMove.getY() * i / numberOfSteps);
                     Point movementDelta = movement.minus(oldMovement);
-                    
+
                     currentDelta = reposition.plus(startMove).plus(movement);
                     selenium.mouseMoveAt(itemToDrag, currentDelta);
                     currentPosition = currentPosition.plus(movementDelta);
@@ -296,13 +301,13 @@ public class Drag {
             return null;
         }
     }
-    
+
     private Point getCentral(ElementLocator<?> element) {
         Dimension dimension = selenium.getElementDimension(element);
         Point central = new Point(dimension.getWidth() / 2, dimension.getHeight() / 2);
         return central;
     }
-    
+
     private Point getCenterOfElement(ElementLocator<?> element) {
         return selenium.getElementPosition(element).plus(getCentral(element));
     }
