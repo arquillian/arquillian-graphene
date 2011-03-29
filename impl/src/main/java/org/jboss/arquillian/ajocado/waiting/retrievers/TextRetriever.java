@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.waiting.retrievers;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -67,7 +68,8 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
      * JavaScript expression to retrieve text value from element given by elementLocator
      */
     public JavaScript getJavaScriptRetrieve() {
-        return js(format("selenium.getText('{0}')", elementLocator.getAsString()));
+        String escapedLocator = StringEscapeUtils.escapeJavaScript(elementLocator.getAsString());
+        return js(format("selenium.getText('{0}')", escapedLocator));
     }
 
     /**

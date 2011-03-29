@@ -24,6 +24,7 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -67,7 +68,8 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
      * JavaScript expression to retrieve attribute value from element given by attributeLocator
      */
     public JavaScript getJavaScriptRetrieve() {
-        return js(format("selenium.getAttribute('{0}')", attributeLocator.getAsString()));
+        String escapedLocator = StringEscapeUtils.escapeJavaScript(attributeLocator.getAsString());
+        return js(format("selenium.getAttribute('{0}')", escapedLocator));
     }
 
     /**
