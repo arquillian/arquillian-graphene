@@ -22,6 +22,7 @@
 		<browser>*firefox</browser>
 		<selenium.debug>false</selenium.debug>
 		<selenium.test.skip>false</selenium.test.skip>
+		<selenium.server.skip>false</selenium.server.skip>
 	</properties>
 
 	<build>
@@ -154,6 +155,7 @@
 									<goal>start-server</goal>
 								</goals>
 								<configuration>
+									<skip>${selenium.server.skip}</skip>
 									<background>true</background>
 									<port>9823</port>
 									<logOutput>true</logOutput>
@@ -168,6 +170,7 @@
 									<goal>stop-server</goal>
 								</goals>
 								<configuration>
+									<skip>${selenium.server.skip}</skip>
 									<background>true</background>
 									<port>9823</port>
 								</configuration>
