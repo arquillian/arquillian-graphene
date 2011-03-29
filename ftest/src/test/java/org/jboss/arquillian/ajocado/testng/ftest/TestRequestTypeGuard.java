@@ -30,15 +30,11 @@ import static org.jboss.arquillian.ajocado.Ajocado.waitXhr;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardException;
 import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.request.RequestType;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -53,11 +49,6 @@ public class TestRequestTypeGuard extends AbstractTest {
 	private ElementLocator<?> linkNoRequest = id("noRequest");
 	private ElementLocator<?> linkAjaxRequest = id("ajax");
 	private ElementLocator<?> linkHttpRequest = id("http");
-
-	@BeforeMethod
-	public void openContext() throws MalformedURLException {
-		selenium.open(new URL(contextPath, "/TestRequestTypeGuard.jsp"));
-	}
 
 	@Test
 	public void testGuardNone() {

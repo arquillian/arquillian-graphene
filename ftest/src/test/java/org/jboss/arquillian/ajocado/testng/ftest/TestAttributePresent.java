@@ -28,13 +28,11 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.jboss.arquillian.ajocado.locator.Attribute;
 import org.jboss.arquillian.ajocado.locator.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -53,11 +51,6 @@ public class TestAttributePresent extends AbstractTest {
     final AttributeLocator<?> attributeOfNotExistsElement = notExistentElement.getAttribute(Attribute.CLASS);
 
     final String expectedMessage = "ERROR: element is not found";
-
-    @BeforeMethod(alwaysRun = true)
-    public void openContext() throws MalformedURLException {
-        selenium.open(new URL(configuration.getContextPath(), "/TestAttributePresent.jsp"));
-    }
 
     @Test
     public void testAttributePresent() throws MalformedURLException {

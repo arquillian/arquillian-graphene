@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.testng.ftest;
 
-import static org.jboss.arquillian.ajocado.utils.URLUtils.buildUrl;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.fail;
 
@@ -36,10 +35,6 @@ import org.testng.annotations.Test;
 public class TestRestartBrowser extends AbstractTest {
 
     private static final String JSESSIONID = "JSESSIONID";
-
-    public void openContext() {
-        selenium.open(buildUrl(contextPath, "/TestRestartBrowser.jsp"));
-    }
 
     @Test
     public void testJSessionIdChange() {

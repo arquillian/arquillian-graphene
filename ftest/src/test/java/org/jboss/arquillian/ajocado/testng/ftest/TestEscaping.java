@@ -28,14 +28,10 @@ import static org.jboss.arquillian.ajocado.Ajocado.waitGui;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.jboss.arquillian.ajocado.locator.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -51,11 +47,6 @@ public class TestEscaping extends AbstractTest {
     TextRetriever retrieveParagraphText = retrieveText.locator(paragraph);
     AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph
         .getAttribute(Attribute.TITLE));
-
-    @BeforeMethod(alwaysRun = true)
-    public void openContext() throws MalformedURLException {
-        selenium.open(new URL(configuration.getContextPath(), "/" + this.getClass().getSimpleName() + ".jsp"));
-    }
 
     @Test
     public void testEscapingTextRetriever() {
