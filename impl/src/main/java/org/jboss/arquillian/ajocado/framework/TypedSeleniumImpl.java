@@ -61,6 +61,7 @@ import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.IterableLocator;
 import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
+import org.jboss.arquillian.ajocado.request.Header;
 import org.jboss.arquillian.ajocado.utils.array.ArrayTransform;
 
 import com.thoughtworks.selenium.Selenium;
@@ -83,10 +84,6 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
             return Integer.valueOf(source);
         }
     };
-
-    public void addCustomRequestHeader(String key, String value) {
-        throw new UnsupportedOperationException();
-    }
 
     public void addLocationStrategy(ElementLocationStrategy locationStrategy, JavaScript strategyDefinition) {
         selenium.addLocationStrategy(locationStrategy.getStrategyName(), strategyDefinition.toString());
@@ -735,5 +732,10 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     @Override
     public void deleteCookie(String cookieName, DeleteCookieOptions options) {
         selenium.deleteCookie(cookieName, options.getAsString());
+    }
+    
+    @Override
+    public void addCustomRequestHeader(Header header) {
+        selenium.addCustomRequestHeader(header.getName(), header.getValue());
     }
 }
