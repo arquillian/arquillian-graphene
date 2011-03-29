@@ -22,6 +22,8 @@
 
 package org.jboss.arquillian.ajocado.utils;
 
+import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -34,8 +36,6 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Base64;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
-
 /**
  * Provides URL manipulations and functionality.
  * 
@@ -43,7 +43,7 @@ import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
  * @version $Revision$
  */
 public final class URLUtils {
-    
+
     private static final int MD5_BUFFER_SIZE = 8192;
     private static final int HEX_RADIX = 16;
 
@@ -124,18 +124,19 @@ public final class URLUtils {
         BigInteger bigInt = new BigInteger(1, md5sum);
         return bigInt.toString(HEX_RADIX);
     }
-    
+
     /**
-     * Encodes credentials using Base64 encoding, which can be used to build
-     * a header for HTTP Basic authorization 
-     * @param username User name to be encoded
-     * @param password Password to be encoded
+     * Encodes credentials using Base64 encoding, which can be used to build a header for HTTP Basic authorization
+     * 
+     * @param username
+     *            User name to be encoded
+     * @param password
+     *            Password to be encoded
      * @return A string {@code username:password} encoded with Base64
      */
-    public static String encodeBase64Credentials(String username, String password)
-    {
-       String credentials = username + ":" + password;
-       return new String(Base64.encodeBase64(credentials.getBytes(Charset.defaultCharset())), Charset.defaultCharset());
-
+    public static String encodeBase64Credentials(String username, String password) {
+        String credentials = username + ":" + password;
+        byte[] encodedCredentials = Base64.encodeBase64(credentials.getBytes(Charset.defaultCharset()));
+        return new String(encodedCredentials, Charset.defaultCharset());
     }
 }

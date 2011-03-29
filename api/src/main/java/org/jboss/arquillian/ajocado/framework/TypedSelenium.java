@@ -44,7 +44,7 @@ import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.locator.IterableLocator;
 import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
-import org.jboss.arquillian.ajocado.request.Header;
+import org.jboss.arquillian.ajocado.request.RequestHeader;
 
 /**
  * The type-safe wrapper for Selenium API.
@@ -1509,6 +1509,6 @@ public interface TypedSelenium {
      * 
      * @param header Header to be added
      */
-    void addCustomRequestHeader(Header header);
+    void addCustomRequestHeader(RequestHeader header);
 
 }

@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.utils;
 
-import org.jboss.arquillian.ajocado.request.Header;
+import org.jboss.arquillian.ajocado.request.RequestHeader;
 
 /**
  * Encapsulates HTTP header creation
@@ -29,10 +29,9 @@ import org.jboss.arquillian.ajocado.request.Header;
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  * 
  */
-public class HeaderUtils {
-    // disable instantiation
+public final class HeaderUtils {
+
     private HeaderUtils() {
-        throw new AssertionError("Instantiation of HeaderUtils is not supported");
     }
 
     /**
@@ -45,8 +44,8 @@ public class HeaderUtils {
      * 
      * @return Header which corresponds to HTTP Basic authorization for given credentials
      */
-    public static Header basicAuthorization(String username, String password) {
-        return new Header("Authorization", "Basic " + URLUtils.encodeBase64Credentials(username, password));
+    public static RequestHeader createBasicAuthorization(String username, String password) {
+        return new RequestHeader("Authorization", "Basic " + URLUtils.encodeBase64Credentials(username, password));
     }
 
 }

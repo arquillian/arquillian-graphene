@@ -61,7 +61,7 @@ import org.jboss.arquillian.ajocado.locator.ElementLocator;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.IterableLocator;
 import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
-import org.jboss.arquillian.ajocado.request.Header;
+import org.jboss.arquillian.ajocado.request.RequestHeader;
 import org.jboss.arquillian.ajocado.utils.array.ArrayTransform;
 
 import com.thoughtworks.selenium.Selenium;
@@ -735,7 +735,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
     
     @Override
-    public void addCustomRequestHeader(Header header) {
+    public void addCustomRequestHeader(RequestHeader header) {
         selenium.addCustomRequestHeader(header.getName(), header.getValue());
     }
 }
