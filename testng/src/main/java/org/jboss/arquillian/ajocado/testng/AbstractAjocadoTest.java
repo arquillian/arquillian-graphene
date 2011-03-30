@@ -55,14 +55,9 @@ import org.testng.annotations.Parameters;
  * Abstract implementation of TestNG test using RichFaces Selenium
  * </p>
  * 
- * <p>
- * <b>DEPRECATED:</b> use {@link AjocadoRunner} instead.
- * </p>
- * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-@Deprecated
 public abstract class AbstractAjocadoTest {
 
     public static final int WAIT_GUI_INTERVAL = 100;
@@ -203,10 +198,15 @@ public abstract class AbstractAjocadoTest {
      * Check whenever the current test is enabled for selected browser (evaluated from testng.xml).
      * 
      * If it is not enabled, skip the particular test.
-     * @param enabledBrowsersParam the list of enabled browsers
-     * @param disabledBrowsersParam the list of disabled browsers
-     * @param enabledModesParam the list of enabled browser modes
-     * @param disabledModesParam the list of disabled browser modes
+     * 
+     * @param enabledBrowsersParam
+     *            the list of enabled browsers
+     * @param disabledBrowsersParam
+     *            the list of disabled browsers
+     * @param enabledModesParam
+     *            the list of enabled browser modes
+     * @param disabledModesParam
+     *            the list of disabled browser modes
      */
     @Parameters({ "enabled-browsers", "disabled-browsers", "enabled-modes", "disabled-modes" })
     @BeforeClass(dependsOnMethods = "initializeParameters", alwaysRun = true)
