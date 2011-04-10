@@ -1,6 +1,6 @@
 package org.jboss.arquillian.ajocado.testng;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.fromResource;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.fromResource;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
@@ -18,7 +17,8 @@ import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
-import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.testng.listener.AbstractConfigurationListener;
 import org.testng.ITestContext;
 import org.testng.ITestNGMethod;

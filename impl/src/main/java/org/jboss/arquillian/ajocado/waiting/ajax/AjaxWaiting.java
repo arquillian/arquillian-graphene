@@ -21,13 +21,13 @@
  */
 package org.jboss.arquillian.ajocado.waiting.ajax;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
 
 import com.thoughtworks.selenium.SeleniumException;

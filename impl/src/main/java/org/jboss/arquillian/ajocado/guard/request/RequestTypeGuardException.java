@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.guard.request;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
 import org.jboss.arquillian.ajocado.request.RequestType;
 

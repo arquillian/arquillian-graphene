@@ -32,6 +32,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
+import org.jboss.arquillian.ajocado.command.CommandInterceptionProxy;
+import org.jboss.arquillian.ajocado.command.CommandInterceptor;
+
 import com.thoughtworks.selenium.CommandProcessor;
 
 /**
@@ -43,7 +47,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class InterceptionProxyImpl implements InterceptionProxy, java.lang.reflect.InvocationHandler {
+public final class InterceptionProxyImpl implements CommandInterceptionProxy, java.lang.reflect.InvocationHandler {
 
     /**
      * The list of intercepted method names

@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 
 /**
  * Utility class simplifying creation of locators of various types providing it's factories.

@@ -21,9 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.utils.text;
 
-import org.jboss.arquillian.ajocado.locator.Attribute;
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
+import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.testng.annotations.Test;
 
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
@@ -37,14 +37,14 @@ public class TestFormattingLocators {
 
     @Test
     public void testBackReference() {
-        assertEquals(jq("input[id$=myId]").getAsString(), "jquery=input[id$=myId]");
+        assertEquals(jq("input[id$=myId]").inSeleniumRepresentation(), "jquery=input[id$=myId]");
     }
     
     @Test
     public void testSimpleFormatting() {
         JQueryLocator locator = jq("x{0}z");
         locator = locator.format("y");
-        assertEquals(locator.getAsString(), "jquery=xyz");
+        assertEquals(locator.inSeleniumRepresentation(), "jquery=xyz");
     }
     
     @Test
@@ -52,7 +52,7 @@ public class TestFormattingLocators {
         JQueryLocator locator = jq("a{0}c{1}e");
         locator = locator.format("b");
         locator = locator.format("d");
-        assertEquals(locator.getAsString(), "jquery=abcde");
+        assertEquals(locator.inSeleniumRepresentation(), "jquery=abcde");
     }
     
     @Test
@@ -61,7 +61,7 @@ public class TestFormattingLocators {
         locator = locator.format(0, 1);
         locator = locator.format(2, 3);
         locator = locator.format(4);
-        assertEquals(locator.getAsString(), "jquery=a1b3c04d1e2f");
+        assertEquals(locator.inSeleniumRepresentation(), "jquery=a1b3c04d1e2f");
     }
     
     @Test
@@ -70,7 +70,7 @@ public class TestFormattingLocators {
         AttributeLocator<?> attributeLocator = locator.getAttribute(Attribute.CLASS);
         attributeLocator = attributeLocator.format("y");
         assertEquals(attributeLocator.getAttribute(), Attribute.CLASS);
-        assertEquals(attributeLocator.getAssociatedElement().getAsString(), "jquery=xyz");
-        assertEquals(attributeLocator.getAsString(), "jquery=xyz@class");
+        assertEquals(attributeLocator.getAssociatedElement().inSeleniumRepresentation(), "jquery=xyz");
+        assertEquals(attributeLocator.inSeleniumRepresentation(), "jquery=xyz@class");
     }
 }

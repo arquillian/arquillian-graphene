@@ -23,9 +23,9 @@ package org.jboss.arquillian.ajocado.framework;
 
 import org.jboss.arquillian.ajocado.css.CssProperty;
 import org.jboss.arquillian.ajocado.geometry.Point;
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
-import org.jboss.arquillian.ajocado.locator.IterableLocator;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 
 /**
  * <p>
@@ -162,9 +162,8 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.jboss.arquillian.ajocado.framework.DefaultTypedSelenium#getCount(org.jboss.test.selenium.locator.IterableLocator
-     * )
+     * @see org.jboss.arquillian.ajocado.framework.DefaultTypedSelenium
+     * #getCount(org.jboss.test.selenium.locator.IterableLocator )
      */
     int getCount(IterableLocator<?> locator);
 

@@ -24,12 +24,12 @@ package org.jboss.arquillian.ajocado.framework.internal;
 import java.util.List;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.SeleniumExtensions;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.*;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.*;
 
 /**
  * Defines the methods for loading the Selenium JS extensions to the Selenium Test Runner window.

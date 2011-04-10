@@ -21,6 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
+import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
+
 
 /**
  * Locates the first element with the specified &#64;name attribute.

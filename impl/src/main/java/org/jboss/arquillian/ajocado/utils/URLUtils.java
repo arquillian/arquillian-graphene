@@ -22,7 +22,7 @@
 
 package org.jboss.arquillian.ajocado.utils;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
 import java.io.IOException;
 import java.io.InputStream;

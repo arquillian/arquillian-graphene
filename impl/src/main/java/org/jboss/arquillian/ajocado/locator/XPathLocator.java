@@ -21,9 +21,12 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
+import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
+import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
+import org.jboss.arquillian.ajocado.locator.element.ExtendedLocator;
 import org.jboss.arquillian.ajocado.locator.iteration.ChildElementList;
 import org.jboss.arquillian.ajocado.locator.iteration.ElementOcurrenceList;
-import org.jboss.arquillian.ajocado.utils.SimplifiedFormat;
 
 /**
  * Locates the element using <a href="http://www.w3.org/TR/xpath/">XPath expression</a>.

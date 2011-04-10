@@ -21,15 +21,15 @@
  */
 package org.jboss.arquillian.ajocado.waiting.retrievers;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
 
@@ -68,7 +68,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
      * JavaScript expression to retrieve attribute value from element given by attributeLocator
      */
     public JavaScript getJavaScriptRetrieve() {
-        String escapedLocator = StringEscapeUtils.escapeJavaScript(attributeLocator.getAsString());
+        String escapedLocator = StringEscapeUtils.escapeJavaScript(attributeLocator.inSeleniumRepresentation());
         return js(format("selenium.getAttribute('{0}')", escapedLocator));
     }
 

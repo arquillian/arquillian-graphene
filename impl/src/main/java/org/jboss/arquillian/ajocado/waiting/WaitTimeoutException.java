@@ -3,7 +3,7 @@
  */
 package org.jboss.arquillian.ajocado.waiting;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
 /**
  * Indicates timeout of waiting.

@@ -22,16 +22,16 @@
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
-import static org.jboss.arquillian.ajocado.locator.ElementLocationStrategy.JQUERY;
-import static org.jboss.arquillian.ajocado.locator.ElementLocationStrategy.XPATH;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+import static org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy.JQUERY;
+import static org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy.XPATH;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
-import org.jboss.arquillian.ajocado.locator.IterableLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
+import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 

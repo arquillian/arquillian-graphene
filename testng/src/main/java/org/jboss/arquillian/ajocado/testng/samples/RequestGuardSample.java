@@ -23,6 +23,7 @@ package org.jboss.arquillian.ajocado.testng.samples;
 
 import java.net.URL;
 
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 
 import org.jboss.arquillian.ajocado.locator.IdLocator;
@@ -30,7 +31,6 @@ import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
 
 import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.*;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
 
 /**
  * Sample of guarding request to specific request type.

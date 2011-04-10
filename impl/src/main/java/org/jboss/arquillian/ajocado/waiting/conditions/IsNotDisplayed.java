@@ -22,14 +22,14 @@
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
+import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
-import org.jboss.arquillian.ajocado.utils.SimplifiedFormat;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
@@ -78,7 +78,7 @@ public class IsNotDisplayed implements SeleniumCondition, JavaScriptCondition {
      * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        String escapedLocator = escapeJavaScript(this.elementLocator.getAsString());
+        String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         return js(SimplifiedFormat.format("!selenium.isDisplayed('{0}')", escapedLocator));
     }
 

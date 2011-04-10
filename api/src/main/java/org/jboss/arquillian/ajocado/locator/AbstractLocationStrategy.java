@@ -31,12 +31,19 @@ public abstract class AbstractLocationStrategy implements LocationStrategy {
 
     private final String strategyName;
 
+    /**
+     * Creates new location strategy with name
+     * 
+     * @param strategyName
+     *            the name of strategy
+     */
     public AbstractLocationStrategy(String strategyName) {
-        super();
         this.strategyName = strategyName;
     }
 
-    @Override
+    /**
+     * Returns the name of strategy
+     */
     public String getStrategyName() {
         return strategyName;
     }

@@ -21,84 +21,112 @@
  *******************************************************************************/
 package org.jboss.arquillian.ajocado.cookie;
 
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
+
 /**
  * <p>
- * Options for manipulation with cookies.
- * </p>
- * 
- * <p>
- * Immutable implementation.
+ * Abstract immutable representation of options for manipulation with cookies.
  * </p>
  * 
  * @param <T>
- *            What final implementation can be derived by this object
+ *            What type of cookie options are represented by this object
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public abstract class CookieOptions<T extends CookieOptions<T>> implements
-		Cloneable {
-	private String domain = null;
-	private String path = null;
+public abstract class CookieOptions<T extends CookieOptions<T>> implements Cloneable, SeleniumRepresentable {
 
-	/**
-	 * Specifies to which domain is cookie bound.
-	 * 
-	 * @param domain
-	 * @return domain to which is cookie bound
-	 */
-	public T domain(String domain) {
-		T copy = copy();
-		copy.domain = domain;
-		return (T) copy;
-	}
+    private String domain = null;
+    private String path = null;
 
-	/**
-	 * Specifies to which path is cookie bound.
-	 * 
-	 * @param path
-	 * @return path to which is cookie bound
-	 */
-	public T path(String path) {
-		T copy = copy();
-		copy.path = path;
-		return (T) copy;
-	}
+    /**
+     * Creates options for creating cookies
+     * @return options for creating cookies
+     */
+    public static CookieCreateOptions forCreation() {
+        return new CookieCreateOptions();
+    }
+    /**
+     * Creates options for deleting cookies
+     * @return options for deleting cookies
+     */
+    public static CookieDeleteOptions forDeletion() {
+        return new CookieDeleteOptions();
+    }
+    
+    /**
+     * Specifies to which domain is cookie bound.
+     * 
+     * @param domain
+     * @return domain to which is cookie bound
+     */
+    public T domain(String domain) {
+        T copy = (T) copy();
+        copy.domain = domain;
+        return (T) copy;
+    }
 
-	public String getDomain() {
-		return domain;
-	}
+    /**
+     * Specifies to which path is cookie bound.
+     * 
+     * @param path
+     * @return path to which is cookie bound
+     */
+    public T path(String path) {
+        T copy = (T) copy();
+        copy.path = path;
+        return (T) copy;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    /**
+     * Returns the domain for which is cookie registered
+     * 
+     * @return the domain for which is cookie registered
+     */
+    public String getDomain() {
+        return domain;
+    }
 
-	@SuppressWarnings("unchecked")
-	protected T copy() {
-		T clone;
-		try {
-			clone = (T) this.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new IllegalStateException(e);
-		}
-		return (T) clone;
-	}
+    /**
+     * Returns the path for which is cookie registered
+     * 
+     * @return the path for which is cookie registered
+     */
+    public String getPath() {
+        return path;
+    }
 
-	public String getAsString() {
-		StringBuffer result = new StringBuffer();
-		if (domain != null) {
-			append(result, "domain=" + domain);
-		}
-		if (path != null) {
-			append(result, "path=" + path);
-		}
-		return result.toString();
-	}
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
-	private void append(StringBuffer stringBuffer, String appendix) {
-		if (stringBuffer.length() > 0) {
-			stringBuffer.append(", ");
-		}
-		stringBuffer.append(appendix);
-	}
+    public String inSeleniumRepresentation() {
+        StringBuffer result = new StringBuffer();
+        if (domain != null) {
+            append(result, "domain=" + domain);
+        }
+        if (path != null) {
+            append(result, "path=" + path);
+        }
+        return result.toString();
+    }
+
+    protected void append(StringBuffer stringBuffer, String appendix) {
+        if (stringBuffer.length() > 0) {
+            stringBuffer.append(", ");
+        }
+        stringBuffer.append(appendix);
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected T copy() {
+        T clone;
+        try {
+            clone = (T) this.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
+        return (T) clone;
+    }
 }

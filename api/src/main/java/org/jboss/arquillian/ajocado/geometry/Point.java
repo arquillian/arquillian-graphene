@@ -21,48 +21,97 @@
  */
 package org.jboss.arquillian.ajocado.geometry;
 
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
+
 /**
  * Point as position rendered on browser canvas.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Point {
+public class Point implements SeleniumRepresentable {
     private int x;
     private int y;
 
+    /**
+     * Constructs new point with specified x and y positions
+     * 
+     * @param x
+     * @param y
+     */
     public Point(int x, int y) {
-        super();
         this.x = x;
         this.y = y;
     }
-    
+
+    /**
+     * Returns x position
+     * 
+     * @return x position
+     */
     public int getX() {
         return x;
     }
-    
+
+    /**
+     * Returns y position
+     * 
+     * @return y position
+     */
     public int getY() {
         return y;
     }
 
     /**
-     * Gets coordinations of this point as string used in Selenium.
-     * @return coordinations of this point as string used in Selenium.
+     * Subtracts the given point from this point
+     * 
+     * @param point
+     *            to substract
+     * @return the point with this point substract of given point
      */
-    public String getCoords() {
-        return x + "," + y;
-    }
-    
-    public Point minus(Point point) {
+    public Point substract(Point point) {
         return new Point(this.x - point.x, this.y - point.y);
     }
-    
-    public Point plus(Point point) {
+
+    /**
+     * Adds the given point from this point
+     * 
+     * @param point
+     *            to add
+     * @return the point with this point add of given point
+     */
+    public Point add(Point point) {
         return new Point(this.x + point.x, this.y + point.y);
     }
-    
-    @Override
-    public String toString() {
-        return getCoords();
+
+    /**
+     * Subtracts the given offset from this point
+     * 
+     * @param offset
+     *            to subtract
+     * @return the point with this point subtract of given offset
+     */
+    public Point substract(Offset offset) {
+        return new Point(this.x - offset.getX(), this.y - offset.getY());
+    }
+
+    /**
+     * Adds the given offset from this point
+     * 
+     * @param offset
+     *            to add
+     * @return the point with this point add of given offset
+     */
+    public Point add(Offset offset) {
+        return new Point(this.x + offset.getX(), this.y + offset.getY());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
+     */
+    public String inSeleniumRepresentation() {
+        return x + "," + y;
     }
 }

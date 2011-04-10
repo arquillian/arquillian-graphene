@@ -76,7 +76,11 @@ public final class AjaxSeleniumContext implements InvocationHandler {
     private static AjaxSelenium get() {
         return REFERENCE.get();
     }
-
+    
+    /**
+     * Returns true of the context is initialized
+     * @return true of the context is initialized
+     */
     public static boolean isInitialized() {
         return get() != null;
     }

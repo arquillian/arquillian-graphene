@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.waiting.ajax;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.retrievers.RetrievedValueHolder;
 

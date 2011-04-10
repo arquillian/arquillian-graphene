@@ -21,7 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
 /**
  * <p>

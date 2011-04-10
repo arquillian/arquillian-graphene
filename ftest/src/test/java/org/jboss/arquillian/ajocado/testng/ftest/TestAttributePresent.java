@@ -29,9 +29,9 @@ import static org.testng.Assert.fail;
 
 import java.net.MalformedURLException;
 
-import org.jboss.arquillian.ajocado.locator.Attribute;
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
+import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

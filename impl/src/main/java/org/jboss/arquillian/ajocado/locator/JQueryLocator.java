@@ -21,9 +21,13 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
+import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
+import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
+import org.jboss.arquillian.ajocado.locator.element.ExtendedLocator;
+import org.jboss.arquillian.ajocado.locator.element.FilterableLocator;
 import org.jboss.arquillian.ajocado.locator.iteration.ChildElementList;
 import org.jboss.arquillian.ajocado.locator.iteration.ElementOcurrenceList;
-import org.jboss.arquillian.ajocado.utils.SimplifiedFormat;
 
 /**
  * <p>
@@ -44,7 +48,8 @@ import org.jboss.arquillian.ajocado.utils.SimplifiedFormat;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class JQueryLocator extends AbstractElementLocator<JQueryLocator> implements ExtendedLocator<JQueryLocator> {
+public class JQueryLocator extends AbstractElementLocator<JQueryLocator> implements ExtendedLocator<JQueryLocator>,
+    FilterableLocator<JQueryLocator> {
 
     /**
      * Instantiates a new jQuery locator.
@@ -91,9 +96,10 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
     public Iterable<JQueryLocator> getAllChildren() {
         return new ChildElementList<JQueryLocator>(this.getChild(LocatorFactory.jq("*")));
     }
-    
+
     /*
      * (non-Javadoc)
+     * 
      * @see org.jboss.test.selenium.locator.IterableLocator#getAllOccurrences()
      */
     public Iterable<JQueryLocator> getAllOccurrences() {
@@ -103,7 +109,8 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
     /*
      * (non-Javadoc)
      * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getChildren(org.jboss.test.selenium.locator.IterableLocator)
+     * @see
+     * org.jboss.arquillian.ajocado.locator.IterableLocator#getChildren(org.jboss.test.selenium.locator.IterableLocator)
      */
     public Iterable<JQueryLocator> getChildren(JQueryLocator elementLocator) {
         return new ChildElementList<JQueryLocator>(this.getChild(elementLocator));
@@ -113,7 +120,8 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
      * (non-Javadoc)
      * 
      * @see
-     * org.jboss.arquillian.ajocado.locator.IterableLocator#getDescendants(org.jboss.test.selenium.locator.IterableLocator)
+     * org.jboss.arquillian.ajocado.locator.IterableLocator#getDescendants(org.jboss.test.selenium.locator.IterableLocator
+     * )
      */
     public Iterable<JQueryLocator> getDescendants(JQueryLocator elementLocator) {
         return new ElementOcurrenceList<JQueryLocator>(this.getDescendant(elementLocator));
@@ -123,7 +131,8 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
      * (non-Javadoc)
      * 
      * @see
-     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator)
+     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
+     * )
      */
     public JQueryLocator getChild(JQueryLocator elementLocator) {
         return new JQueryLocator(SimplifiedFormat.format("{0} > {1}", getRawLocator(), elementLocator.getRawLocator()));
@@ -138,10 +147,14 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
     public JQueryLocator getDescendant(JQueryLocator elementLocator) {
         return new JQueryLocator(SimplifiedFormat.format("{0} {1}", getRawLocator(), elementLocator.getRawLocator()));
     }
-    
+
     @Override
     public JQueryLocator format(Object... args) {
         return (JQueryLocator) super.format(args);
     }
 
+    @Override
+    public JQueryLocator filter(String extension) {
+        return new JQueryLocator(getRawLocator() + extension);
+    }
 }

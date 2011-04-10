@@ -21,38 +21,71 @@
  *******************************************************************************/
 package org.jboss.arquillian.ajocado.cookie;
 
+import java.io.Serializable;
+
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
- * The representation of Cookie.
+ * The immutable representation of Cookie
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Cookie {
+public final class Cookie implements SeleniumRepresentable, Cloneable, Serializable {
+    
+    private static final long serialVersionUID = 8126558593039344559L;
+    
     private String name;
     private String value;
 
-    public Cookie(String name, String value) {
-    	if (name == null) {
-    		throw new IllegalArgumentException("name parameter can't be null");
-    	}
-    	if (value == null) {
-    		throw new IllegalArgumentException("value parameter can't be null");
-    	}
-
+    private Cookie(String name, String value) {
         this.name = name;
         this.value = value;
     }
 
+    /**
+     * Creates cookie with specified name and value.
+     * 
+     * @param name
+     *            the name of cookie (non-null)
+     * @param value
+     *            the value for cookie (non-null)
+     * @return new cookie with specified name and value
+     */
+    public static Cookie createCookie(String name, String value) {
+        if (name == null) {
+            throw new IllegalArgumentException("name parameter can't be null");
+        }
+        if (value == null) {
+            throw new IllegalArgumentException("value parameter can't be null");
+        }
+        return new Cookie(name, value);
+    }
+
+    /**
+     * Returns name of the cookie
+     * 
+     * @return name of the cookie
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns value of the cookie
+     * 
+     * @return value of the cookie
+     */
     public String getValue() {
         return value;
     }
 
-    public String getAsNameValuePair() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
+     */
+    public String inSeleniumRepresentation() {
         return name + "=" + value;
     }
 
@@ -93,5 +126,4 @@ public class Cookie {
         }
         return true;
     }
-
 }

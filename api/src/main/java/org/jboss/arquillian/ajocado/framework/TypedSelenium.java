@@ -26,24 +26,27 @@ import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.arquillian.ajocado.configuration.XPathLibrary;
 import org.jboss.arquillian.ajocado.cookie.Cookie;
-import org.jboss.arquillian.ajocado.cookie.CreateCookieOptions;
-import org.jboss.arquillian.ajocado.cookie.DeleteCookieOptions;
+import org.jboss.arquillian.ajocado.cookie.CookieCreateOptions;
+import org.jboss.arquillian.ajocado.cookie.CookieDeleteOptions;
+import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.dom.Event;
-import org.jboss.arquillian.ajocado.encapsulated.FrameLocator;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
-import org.jboss.arquillian.ajocado.encapsulated.LogLevel;
-import org.jboss.arquillian.ajocado.encapsulated.NetworkTraffic;
-import org.jboss.arquillian.ajocado.encapsulated.NetworkTrafficType;
-import org.jboss.arquillian.ajocado.encapsulated.XpathLibrary;
 import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Offset;
 import org.jboss.arquillian.ajocado.geometry.Point;
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
-import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
-import org.jboss.arquillian.ajocado.locator.IterableLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
+import org.jboss.arquillian.ajocado.locator.frame.FrameLocator;
 import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
+import org.jboss.arquillian.ajocado.locator.window.WindowLocator;
+import org.jboss.arquillian.ajocado.locator.window.WindowNameLocator;
+import org.jboss.arquillian.ajocado.log.LogLevel;
+import org.jboss.arquillian.ajocado.network.NetworkTraffic;
+import org.jboss.arquillian.ajocado.network.NetworkTrafficType;
 import org.jboss.arquillian.ajocado.request.RequestHeader;
 
 /**
@@ -496,6 +499,24 @@ public interface TypedSelenium {
     void open(URL url);
 
     /**
+     * Opens a popup window (if a window with that ID isn't already open). After opening the window, you'll need to
+     * select it using the selectWindow command.
+     * 
+     * <p>
+     * This command can also be a useful workaround for bug SEL-339. In some cases, Selenium will be unable to intercept
+     * a call to window.open (if the call occurs during or before the "onLoad" event, for example). In those cases, you
+     * can force Selenium to notice the open window's name by using the Selenium openWindow command, using an empty
+     * (blank) url, like this: openWindow("", "myFunnyWindow").
+     * </p>
+     * 
+     * @param url
+     *            the URL to open, which can be blank
+     * @param windowName
+     *            the JavaScript window ID of the window to select
+     */
+    void openWindow(URL url, WindowNameLocator windowName);
+
+    /**
      * Selects the main window. Functionally equivalent to using <code>selectWindow()</code> and specifying no value for
      * <code>windowID</code>.
      */
@@ -504,9 +525,10 @@ public interface TypedSelenium {
     /**
      * <p>
      * Selects a frame within the current window. (You may invoke this command multiple times to select nested frames.)
-     * To select the parent frame, use {@link FrameLocator#PARENT}; to select the top frame, use
-     * {@link FrameLocator#TOP}. You can also select a frame by its 0-based index number (construct own
-     * {@link FrameLocator} using notation described in com.thoughtworks.selenium.Selenium#selectFrame(String)).
+     * To select the parent frame, use {@link org.jboss.arquillian.ajocado.locator.frame.FrameRelativeLocator#PARENT};
+     * to select the top frame, use {@link org.jboss.arquillian.ajocado.locator.frame.FrameRelativeLocator#TOP}. You can
+     * also select a frame by its 0-based index number (construct own {@link FrameLocator} using notation described in
+     * com.thoughtworks.selenium.Selenium#selectFrame(String)).
      * </p>
      * 
      * <p>
@@ -518,7 +540,84 @@ public interface TypedSelenium {
      * @param frameLocator
      *            an frame locator identifying a frame or iframe
      */
-    void selectFrame(FrameLocator frameLocator);
+    void selectFrame(FrameLocator<?> frameLocator);
+
+    /**
+     * Selects a popup window using a window locator; once a popup window has been selected, all commands go to that
+     * window. To select the main window again, use null as the target.
+     * 
+     * <p>
+     * 
+     * Window locators provide different ways of specifying the window object: by title, by internal JavaScript "name,"
+     * or by JavaScript variable.
+     * </p>
+     * <ul>
+     * <li><strong>title</strong>=<em>My Special Window</em>: Finds the window using the text that appears in the title
+     * bar. Be careful; two windows can share the same title. If that happens, this locator will just pick one.</li>
+     * <li><strong>name</strong>=<em>myWindow</em>: Finds the window using its internal JavaScript "name" property. This
+     * is the second parameter "windowName" passed to the JavaScript method window.open(url, windowName, windowFeatures,
+     * replaceFlag) (which Selenium intercepts).</li>
+     * <li><strong>var</strong>=<em>variableName</em>: Some pop-up windows are unnamed (anonymous), but are associated
+     * with a JavaScript variable name in the current application window, e.g. "window.foo = window.open(url);". In
+     * those cases, you can open the window using "var=foo".</li>
+     * </ul>
+     * <p>
+     * If no window locator prefix is provided, we'll try to guess what you mean like this:
+     * </p>
+     * <p>
+     * 1.) if windowID is null, (or the string "null") then it is assumed the user is referring to the original window
+     * instantiated by the browser).
+     * </p>
+     * <p>
+     * 2.) if the value of the "windowID" parameter is a JavaScript variable name in the current application window,
+     * then it is assumed that this variable contains the return value from a call to the JavaScript window.open()
+     * method.
+     * </p>
+     * <p>
+     * 3.) Otherwise, selenium looks in a hash it maintains that maps string names to window "names".
+     * </p>
+     * <p>
+     * 4.) If <em>that</em> fails, we'll try looping over all of the known windows to try to find the appropriate
+     * "title". Since "title" is not necessarily unique, this may have unexpected behavior.
+     * </p>
+     * <p>
+     * If you're having trouble figuring out the name of a window that you want to manipulate, look at the Selenium log
+     * messages which identify the names of windows created via window.open (and therefore intercepted by Selenium). You
+     * will see messages like the following for each window as it is opened:
+     * </p>
+     * <p>
+     * <code>debug: window.open call intercepted; window ID (which you can use with selectWindow()) is
+     * "myNewWindow"</code>
+     * </p>
+     * <p>
+     * In some cases, Selenium will be unable to intercept a call to window.open (if the call occurs during or before
+     * the "onLoad" event, for example). (This is bug SEL-339.) In those cases, you can force Selenium to notice the
+     * open window's name by using the Selenium openWindow command, using an empty (blank) url, like this:
+     * openWindow("", "myFunnyWindow").
+     * </p>
+     * 
+     * @param windowLocator
+     *            the JavaScript window ID of the window to select
+     */
+    void selectWindow(WindowLocator<?> windowLocator);
+
+    /**
+     * Simplifies the process of selecting a popup window (and does not offer functionality beyond what
+     * <code>selectWindow()</code> already provides).
+     * <ul>
+     * <li>If <code>windowID</code> is either not specified, or specified as "null", the first non-top window is
+     * selected. The top window is the one that would be selected by <code>selectWindow()</code> without providing a
+     * <code>windowID</code> . This should not be used when more than one popup window is in play.</li>
+     * <li>Otherwise, the window will be looked up considering <code>windowID</code> as the following in order: 1) the
+     * "name" of the window, as specified to <code>window.open()</code>; 2) a javascript variable which is a reference
+     * to a window; and 3) the title of the window. This is the same ordered lookup performed by
+     * <code>selectWindow</code> .</li>
+     * </ul>
+     * 
+     * @param windowID
+     *            an identifier for the popup window, which can take on a number of different meanings
+     */
+    void selectPopUp(String windowID);
 
     /**
      * <p>
@@ -625,6 +724,13 @@ public interface TypedSelenium {
      * @return The message of the most recent JavaScript alert
      */
     String getAlert();
+
+    /**
+     * Returns the IDs of all windows that the browser knows about.
+     * 
+     * @return the IDs of all windows that the browser knows about.
+     */
+    List<WindowNameLocator> getAllWindowIds();
 
     /**
      * Retrieves the message of a JavaScript confirmation dialog generated during the previous action.
@@ -848,6 +954,18 @@ public interface TypedSelenium {
      * @return the value of the specified attribute
      */
     String getAttribute(AttributeLocator<?> attributeLocator);
+
+    /**
+     * Gets the value of an element attribute. The value of the attribute may differ across browsers (this is the case
+     * for the "style" attribute, for example).
+     * 
+     * @param elementLocator
+     *            element locator
+     * @param attribute
+     *            the attribute type
+     * @return the value of the specified attribute for given element
+     */
+    String getAttribute(ElementLocator<?> elementLocator, Attribute attribute);
 
     /**
      * Verifies that the specified text pattern appears somewhere on the rendered page shown to the user.
@@ -1201,6 +1319,19 @@ public interface TypedSelenium {
     void waitForPageToLoad(long timeout);
 
     /**
+     * Waits for a popup window to appear and load up.
+     * 
+     * @param windowNameLocator
+     *            the JavaScript window "name" of the window that will appear (not the text of the title bar) If
+     *            unspecified, or specified as "null", this command will wait for the first non-top window to appear
+     *            (don't rely on this if you are working with multiple popups simultaneously).
+     * @param timeoutInMilis
+     *            a timeout in milliseconds, after which the action will return with an error. If this value is not
+     *            specified, the default Selenium timeout will be used. See the setTimeout() command.
+     */
+    void waitForPopUp(WindowNameLocator windowNameLocator, long timeoutInMilis);
+
+    /**
      * Waits for a new frame to load.
      * 
      * <p>
@@ -1276,8 +1407,9 @@ public interface TypedSelenium {
      * 
      * @param cookie
      *            the cookie to be created
+     * @return the options which was used to create cookie
      */
-    void createCookie(Cookie cookie);
+    CookieCreateOptions createCookie(Cookie cookie);
 
     /**
      * Create a new cookie whose path and domain are same with those of current page under test, unless you specified a
@@ -1291,7 +1423,7 @@ public interface TypedSelenium {
      *            irrelevant, the unit of the value of 'max_age' is second. Note that specifying a domain that isn't a
      *            subset of the current domain will usually fail.
      */
-    void createCookie(Cookie cookie, CreateCookieOptions options);
+    void createCookie(Cookie cookie, CookieCreateOptions options);
 
     /**
      * Delete a named cookie with specified options. Be careful; to delete a cookie, you need to delete it using the
@@ -1311,7 +1443,7 @@ public interface TypedSelenium {
      *            optionsString's format is "path=/path/, domain=.foo.com, recurse=true". The order of options are
      *            irrelevant. Note that specifying a domain that isn't a subset of the current domain will usually fail.
      */
-    void deleteCookie(String cookieName, DeleteCookieOptions options);
+    void deleteCookie(String cookieName, CookieDeleteOptions options);
 
     /**
      * Calls deleteCookie with recurse=true on all cookies visible to the current page. As noted on the documentation
@@ -1409,7 +1541,7 @@ public interface TypedSelenium {
      *            </ul>
      *            If libraryName isn't one of these three, then no change will be made.
      */
-    void useXpathLibrary(XpathLibrary xpathLibrary);
+    void useXpathLibrary(XPathLibrary xpathLibrary);
 
     /**
      * Writes a message to the status bar and adds a note to the browser-side log.
@@ -1502,12 +1634,13 @@ public interface TypedSelenium {
      * @return A string representation in the defined type of the network traffic seen by the browser.
      */
     NetworkTraffic captureNetworkTraffic(NetworkTrafficType type);
-    
+
     /**
      * Tells the Selenium server to add the specificed key and value as a custom outgoing request header. This only
      * works if the browser is configured to use the built in Selenium proxy.
      * 
-     * @param header Header to be added
+     * @param header
+     *            Header to be added
      */
     void addCustomRequestHeader(RequestHeader header);
 

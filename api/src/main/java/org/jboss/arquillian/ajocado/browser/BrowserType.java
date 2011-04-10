@@ -24,13 +24,13 @@ package org.jboss.arquillian.ajocado.browser;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.jboss.arquillian.ajocado.utils.StringUtils;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>Enumeration of supported browsers.</p>
  * 
- * <p>This enum has direct association to browser modes, see {@link BrowserMode}.
+ * <p>This enumeration has direct association with browser modes, see {@link BrowserMode}.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -57,6 +57,8 @@ public enum BrowserType {
 
     /** Mock browser */
     MOCK;
+    
+    private static final Pattern PATTERN = Pattern.compile("([^, ]+)(?:[, ]+|$)");
 
     /**
      * Parses the type in case-insensitive manner.
@@ -86,11 +88,13 @@ public enum BrowserType {
      */
     public static EnumSet<BrowserType> parseTypes(String browserTypesEnumeration) {
         Set<BrowserType> types = new HashSet<BrowserType>();
-        for (String type : StringUtils.split(browserTypesEnumeration, ", ")) {
-            if ("*".equals(type)) {
+        Matcher matcher = PATTERN.matcher(browserTypesEnumeration);
+        while (matcher.find()) {
+            final String mode = matcher.group(1);
+            if ("*".equals(mode)) {
                 return EnumSet.allOf(BrowserType.class);
             }
-            types.add(parseType(type));
+            types.add(parseType(mode));
         }
         if (types.isEmpty()) {
             return EnumSet.noneOf(BrowserType.class);

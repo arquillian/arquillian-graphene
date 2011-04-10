@@ -22,15 +22,18 @@
 package org.jboss.arquillian.ajocado.framework;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.browser.Browser;
 
 /**
+ * The runtime configuration of Ajocado test.
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface AjocadoConfiguration {
+public interface AjocadoConfiguration extends Cloneable, Serializable {
 
     /**
      * Returns context root, the root URL for server instance.
@@ -148,6 +151,10 @@ public interface AjocadoConfiguration {
             this.defaultTimeout = defaultTimeout;
         }
         
+        /**
+         * Returns the value of default timeout for given type
+         * @return the value of default timeout for given type
+         */
         public int getDefaultTimeout() {
             return defaultTimeout;
         }

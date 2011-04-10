@@ -23,13 +23,13 @@ package org.jboss.arquillian.ajocado.framework.internal;
 
 import java.util.List;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.PageExtensions;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.Wait;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.*;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.*;
 
 /**
  * Defines methods for installing JavaScript page extension to the target page.

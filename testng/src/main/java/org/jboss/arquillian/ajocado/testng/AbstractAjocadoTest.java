@@ -21,8 +21,8 @@
  */
 package org.jboss.arquillian.ajocado.testng;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.fromResource;
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.fromResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +35,6 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.browser.BrowserMode;
 import org.jboss.arquillian.ajocado.browser.BrowserType;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -43,7 +42,8 @@ import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.SystemPropertiesConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
-import org.jboss.arquillian.ajocado.locator.ElementLocationStrategy;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.testng.SkipException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

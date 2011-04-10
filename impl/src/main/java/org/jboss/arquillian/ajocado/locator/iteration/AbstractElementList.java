@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.IterableLocator;
+import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 
 /**
  * <p>

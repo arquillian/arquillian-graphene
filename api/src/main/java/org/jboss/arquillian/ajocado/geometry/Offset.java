@@ -21,26 +21,56 @@
  */
 package org.jboss.arquillian.ajocado.geometry;
 
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
+
 /**
  * Offset for movement on browser-rendered canvas.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Offset {
-    int x;
-    int y;
+public class Offset implements SeleniumRepresentable {
 
+    private int x;
+    private int y;
+
+    /**
+     * Creates the offset with specified x and y movements
+     * 
+     * @param x
+     *            the x movement
+     * @param y
+     *            the y movement
+     */
     public Offset(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Returns the movement as it is used in Selenium.
-     * @return the movement to use in Selenium API
+     * Returns the x movement
+     * 
+     * @return the x movement
      */
-    public String getMovement() {
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * Returns the y movement
+     * 
+     * @return the y movement
+     */
+    public int getY() {
+        return y;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
+     */
+    public String inSeleniumRepresentation() {
         return x + "," + y;
     }
 }

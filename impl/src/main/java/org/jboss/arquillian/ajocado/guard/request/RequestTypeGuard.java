@@ -25,14 +25,14 @@ import static org.jboss.arquillian.ajocado.guard.GuardedCommands.INTERACTIVE_COM
 import static org.jboss.arquillian.ajocado.request.RequestType.HTTP;
 import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 
+import org.jboss.arquillian.ajocado.command.CommandContext;
+import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
+import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
-import org.jboss.arquillian.ajocado.interception.CommandContext;
-import org.jboss.arquillian.ajocado.interception.CommandInterceptionException;
-import org.jboss.arquillian.ajocado.interception.CommandInterceptor;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -42,6 +42,7 @@ import com.thoughtworks.selenium.SeleniumException;
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
+ *TODO rename to *Interceptor
  */
 public class RequestTypeGuard implements CommandInterceptor {
 

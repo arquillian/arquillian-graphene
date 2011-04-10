@@ -24,11 +24,11 @@ package org.jboss.arquillian.ajocado.framework;
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.browser.Browser;
+import org.jboss.arquillian.ajocado.command.CommandInterceptionProxy;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
-import org.jboss.arquillian.ajocado.interception.InterceptionProxy;
+import org.jboss.arquillian.ajocado.guard.RequestGuard;
 import org.jboss.arquillian.ajocado.interception.InterceptionProxyImpl;
-import org.jboss.arquillian.ajocado.request.RequestInterceptor;
 import org.jboss.arquillian.ajocado.request.RequestInterceptorImpl;
 
 import com.thoughtworks.selenium.CommandProcessor;
@@ -56,7 +56,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     SeleniumExtensions seleniumExtensions;
 
     /** The RequestInterceptor */
-    RequestInterceptor requestInterceptor;
+    RequestGuard requestInterceptor;
 
     /**
      * The command interception proxy
@@ -82,7 +82,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      *            the context path url
      */
     public AjaxSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-        CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort, browser.getAsString(),
+        CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort, browser.inSeleniumRepresentation(),
             contextPathURL.toString());
         interceptionProxy = new InterceptionProxyImpl(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
@@ -115,7 +115,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getRequestInterceptor()
      */
     @Override
-    public RequestInterceptor getRequestInterceptor() {
+    public RequestGuard getRequestInterceptor() {
         return requestInterceptor;
     }
 
@@ -124,7 +124,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getInterceptionProxy()
      */
-    public InterceptionProxy getInterceptionProxy() {
+    public CommandInterceptionProxy getInterceptionProxy() {
         return interceptionProxy;
     }
 

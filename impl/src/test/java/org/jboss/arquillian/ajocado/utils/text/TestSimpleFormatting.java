@@ -25,7 +25,7 @@ import junit.framework.Assert;
 
 import org.testng.annotations.Test;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

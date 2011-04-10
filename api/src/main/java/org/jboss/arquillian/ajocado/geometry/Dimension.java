@@ -21,31 +21,62 @@
  */
 package org.jboss.arquillian.ajocado.geometry;
 
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
+
 /**
  * Dimensions of object rendered by browser.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Dimension {
-    int width;
-    int height;
+public class Dimension implements SeleniumRepresentable {
+    private final int width;
+    private final int height;
 
+    /**
+     * Creates new dimension with given width and height
+     * 
+     * @param width
+     * @param height
+     */
     public Dimension(int width, int height) {
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Returns the width
+     * 
+     * @return the width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the height
+     * 
+     * @return the height
+     */
     public int getHeight() {
         return height;
     }
-    
-    @Override
-    public String toString() {
+
+    /**
+     * Converts dimension to offset
+     * 
+     * @return the dimension converted to offset
+     */
+    public Offset toOffset() {
+        return new Offset(width, height);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
+     */
+    public String inSeleniumRepresentation() {
         return width + "," + height;
     }
 }

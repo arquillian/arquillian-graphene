@@ -21,10 +21,10 @@
  */
 package org.jboss.arquillian.ajocado;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.WaitingProxy;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.CssLocator;
 import org.jboss.arquillian.ajocado.locator.DomLocator;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
@@ -97,23 +97,23 @@ public final class Ajocado {
     /*
      * Guards
      */
-    public static final AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
+    public static AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
         return RequestTypeGuardFactory.guard(selenium, RequestType.NONE);
     }
 
-    public static final AjaxSelenium guardHttp(AjaxSelenium selenium) {
+    public static AjaxSelenium guardHttp(AjaxSelenium selenium) {
         return RequestTypeGuardFactory.guard(selenium, RequestType.HTTP);
     }
 
-    public static final AjaxSelenium guardXhr(AjaxSelenium selenium) {
+    public static AjaxSelenium guardXhr(AjaxSelenium selenium) {
         return RequestTypeGuardFactory.guard(selenium, RequestType.XHR);
     }
 
-    public static final AjaxSelenium waitHttp(AjaxSelenium selenium) {
+    public static AjaxSelenium waitForHttp(AjaxSelenium selenium) {
         return RequestTypeGuardFactory.guardInterlayed(selenium, RequestType.HTTP);
     }
 
-    public static final AjaxSelenium waitXhr(AjaxSelenium selenium) {
+    public static AjaxSelenium waitForXhr(AjaxSelenium selenium) {
         return RequestTypeGuardFactory.guardInterlayed(selenium, RequestType.XHR);
     }
 

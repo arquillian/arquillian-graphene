@@ -22,16 +22,16 @@
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * 
@@ -83,7 +83,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        String escapedLocator = escapeJavaScript(this.elementLocator.getAsString());
+        String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         String escapedText = escapeJavaScript(this.text);
         return js(format("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')", escapedLocator,
             escapedText));

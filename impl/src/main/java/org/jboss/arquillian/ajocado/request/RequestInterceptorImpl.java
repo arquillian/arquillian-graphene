@@ -21,15 +21,16 @@
  */
 package org.jboss.arquillian.ajocado.request;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.guard.RequestGuard;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 
 /**
  * <p>
@@ -44,7 +45,7 @@ import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class RequestInterceptorImpl implements RequestInterceptor {
+public class RequestInterceptorImpl implements RequestGuard {
     private final JavaScript clearRequestDone = js("cheiron.requestInterceptor.clearRequestDone()");
     private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestTypeDone()");
 

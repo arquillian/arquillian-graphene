@@ -21,11 +21,11 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 

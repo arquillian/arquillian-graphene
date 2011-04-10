@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.waiting.ajax;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
 
 /**
  * Condition using JavaScript to decide when it is already satisfied.

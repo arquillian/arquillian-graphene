@@ -21,11 +21,13 @@
  */
 package org.jboss.arquillian.ajocado.browser;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * <p>
@@ -33,32 +35,32 @@ import java.util.regex.Pattern;
  * </p>
  * 
  * <p>
- * Consists from browser mode (incl. it's brand type) and associated executable file
+ * Consists from browser mode (including its type) and associated executable file
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class Browser {
-
-    /** The group in {@link #pattern} for associated executable. */
-    private static final int GROUP_EXECUTABLE = 2;
-
-    /** The group in {@link #pattern} for browser's mode. */
-    private static final int GROUP_MODE = 1;
-
-    /** The browser mode. */
-    BrowserMode browserMode;
-
-    /** The associated executable for given browser instance. */
-    File executable;
+public class Browser implements SeleniumRepresentable {
 
     /**
      * Pattern for parsing browserMode and executable file from
      * 
      * @see #Browser(String)
      */
-    Pattern pattern = Pattern.compile("^\\*([^\\s]+)(?:$|\\s+(.*))$");
+    private static final Pattern PATTERN = Pattern.compile("^\\*([^\\s]+)(?:$|\\s+(.*))$");
+
+    /** The group in {@link #PATTERN} for browser's mode. */
+    private static final int GROUP_MODE = 1;
+
+    /** The group in {@link #PATTERN} for associated executable. */
+    private static final int GROUP_EXECUTABLE = 2;
+
+    /** The browser mode. */
+    private BrowserMode browserMode;
+
+    /** The associated executable for given browser instance. */
+    private File executable;
 
     /**
      * <p>
@@ -73,7 +75,7 @@ public class Browser {
      *            the string representation
      */
     public Browser(String stringRepresentation) {
-        Matcher matcher = pattern.matcher(stringRepresentation);
+        Matcher matcher = PATTERN.matcher(stringRepresentation);
         if (!matcher.find()) {
             throw new IllegalArgumentException(format(
                 "given browser's stringRepresentation '{0}' doesn't match pattern", stringRepresentation));
@@ -110,12 +112,12 @@ public class Browser {
     }
 
     /**
-     * Gets the browser's mode (see {@link Browser}).
+     * Gets the browser's mode (see {@link BrowserMode}).
      * 
      * @return the mode
      */
     public BrowserMode getMode() {
-        return this.browserMode;
+        return browserMode;
     }
 
     /**
@@ -124,13 +126,16 @@ public class Browser {
      * </p>
      * 
      * <p>
-     * Shortcut for {@link BrowserMode#getBrowserType()}.
+     * Shortcut for {@link BrowserMode#getType()}.
      * </p>
      * 
      * @return the type
      */
     public BrowserType getType() {
-        return this.browserMode.getBrowserType();
+        if (browserMode == null) {
+            return null;
+        }
+        return browserMode.getType();
     }
 
     /**
@@ -141,8 +146,8 @@ public class Browser {
      * @see Browser#Browser(String)
      * @return the string representation of browser
      */
-    public String getAsString() {
-        StringBuilder builder = new StringBuilder(browserMode.getMode());
+    public String inSeleniumRepresentation() {
+        StringBuilder builder = new StringBuilder(browserMode.inSeleniumRepresentation());
         if (executable != null) {
             builder.append(" ").append(executable.toString());
         }
@@ -156,6 +161,40 @@ public class Browser {
      */
     @Override
     public String toString() {
-        return "Browser [browserMode=" + browserMode + ", executable=" + executable + ", pattern=" + pattern + "]";
+        return "Browser [browserMode=" + browserMode + ", executable=" + executable + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((browserMode == null) ? 0 : browserMode.hashCode());
+        result = prime * result + ((executable == null) ? 0 : executable.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Browser other = (Browser) obj;
+        if (browserMode != other.browserMode) {
+            return false;
+        }
+        if (executable == null) {
+            if (other.executable != null) {
+                return false;
+            }
+        } else if (!executable.equals(other.executable)) {
+            return false;
+        }
+        return true;
     }
 }

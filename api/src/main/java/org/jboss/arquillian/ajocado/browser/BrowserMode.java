@@ -21,17 +21,17 @@
  */
 package org.jboss.arquillian.ajocado.browser;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
-
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.jboss.arquillian.ajocado.utils.StringUtils;
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * <p>
- * Encapsulates execution mode of browser runned by Selenium.
+ * Encapsulates execution mode of browser ran by Selenium.
  * </p>
  * 
  * <p>
@@ -41,7 +41,7 @@ import org.jboss.arquillian.ajocado.utils.StringUtils;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public enum BrowserMode {
+public enum BrowserMode implements SeleniumRepresentable {
 
     /** FirefoxCustomProfileLauncher */
     FIREFOX_PROXY(BrowserType.FIREFOX, "firefoxproxy"),
@@ -105,11 +105,13 @@ public enum BrowserMode {
     @Deprecated
     SAFARI_PROXY_INJECTION(BrowserType.SAFARI, "pisafari");
 
+    private static final Pattern PATTERN = Pattern.compile("([^, ]+)(?:[, ]+|$)");
+
     /** The mode. */
     private String mode;
 
     /** The browser type. */
-    private BrowserType browserType;
+    private BrowserType type;
 
     /**
      * Instantiates a new browser mode.
@@ -121,7 +123,7 @@ public enum BrowserMode {
      */
     private BrowserMode(BrowserType browserType, String mode) {
         this.mode = mode;
-        this.browserType = browserType;
+        this.type = browserType;
     }
 
     /**
@@ -149,7 +151,7 @@ public enum BrowserMode {
                 return value;
             }
         }
-        throw new IllegalArgumentException(format("The browser defined by mode '{0}' isn't supported", browserMode));
+        throw new IllegalArgumentException("The browser defined by mode '" + browserMode + "' isn't supported");
     }
 
     /**
@@ -166,7 +168,9 @@ public enum BrowserMode {
      */
     public static EnumSet<BrowserMode> parseModes(String browserModesEnumeration) {
         Set<BrowserMode> modes = new HashSet<BrowserMode>();
-        for (String mode : StringUtils.split(browserModesEnumeration, ", ")) {
+        Matcher matcher = PATTERN.matcher(browserModesEnumeration);
+        while (matcher.find()) {
+            final String mode = matcher.group(1);
             if ("*".equals(mode)) {
                 return EnumSet.allOf(BrowserMode.class);
             }
@@ -188,7 +192,7 @@ public enum BrowserMode {
     public static EnumSet<BrowserMode> getModesFromTypes(EnumSet<BrowserType> types) {
         Set<BrowserMode> list = new HashSet<BrowserMode>();
         for (BrowserMode mode : values()) {
-            if (types.contains(mode.getBrowserType())) {
+            if (types.contains(mode.getType())) {
                 list.add(mode);
             }
         }
@@ -200,7 +204,7 @@ public enum BrowserMode {
      * 
      * @return the mode
      */
-    public String getMode() {
+    public String inSeleniumRepresentation() {
         return "*" + mode;
     }
 
@@ -209,7 +213,7 @@ public enum BrowserMode {
      * 
      * @return the browser type
      */
-    public BrowserType getBrowserType() {
-        return browserType;
+    public BrowserType getType() {
+        return type;
     }
 }

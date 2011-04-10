@@ -27,6 +27,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.jboss.arquillian.ajocado.command.CommandContext;
+import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
+import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 
 import com.thoughtworks.selenium.CommandProcessor;
 

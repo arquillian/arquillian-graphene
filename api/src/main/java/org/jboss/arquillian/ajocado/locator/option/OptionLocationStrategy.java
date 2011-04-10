@@ -51,6 +51,12 @@ public class OptionLocationStrategy extends AbstractLocationStrategy {
      */
     public static final OptionLocationStrategy INDEX = new OptionLocationStrategy("index");
 
+    /**
+     * Constructs new named options location strategy
+     * 
+     * @param strategyName
+     *            the name of strategy
+     */
     public OptionLocationStrategy(String strategyName) {
         super(strategyName);
     }

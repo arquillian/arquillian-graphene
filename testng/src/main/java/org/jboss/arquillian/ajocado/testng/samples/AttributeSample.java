@@ -21,12 +21,12 @@
  */
 package org.jboss.arquillian.ajocado.testng.samples;
 
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
 
+import static org.jboss.arquillian.ajocado.dom.Attribute.*;
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
-import static org.jboss.arquillian.ajocado.locator.Attribute.*;
 
 /**
  * Sample for using attributes

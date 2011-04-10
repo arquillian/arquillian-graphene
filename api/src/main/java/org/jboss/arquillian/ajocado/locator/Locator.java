@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.locator;
 
+import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Locates the object by given strategy and parameters.
@@ -31,7 +32,8 @@ package org.jboss.arquillian.ajocado.locator;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface Locator<T extends Locator<T>> {
+public interface Locator<T extends Locator<T>> extends SeleniumRepresentable {
+
     /**
      * Returns the location strategy for this element
      * 
@@ -40,18 +42,18 @@ public interface Locator<T extends Locator<T>> {
     LocationStrategy getLocationStrategy();
 
     /**
-     * Returns the locator represented as string used in Selenium to locate elements.
-     * 
-     * @return the locator represented as string used in Selenium to locate elements.
-     */
-    String getAsString();
-
-    /**
      * Returns the raw locator (without the prefix defining location strategy) representation.
      * 
      * @return the raw locator (without the prefix defining location strategy) representation.
      */
     String getRawLocator();
 
+    /**
+     * Formats the locator with placeholders given by {@link org.jboss.arquillian.ajocado.format.SimplifiedFormat}.
+     * 
+     * @param args
+     *            the arguments for filling in the placeholders
+     * @return the locator with filled placeholders with given arguments
+     */
     Locator<T> format(Object... args);
 }

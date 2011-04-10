@@ -87,7 +87,7 @@ public interface Waiting<T extends Waiting<T>> {
      * 
      * <p>
      * To parametrize failure message, the
-     * {@link org.jboss.arquillian.ajocado.utils.SimplifiedFormat#format(String, Object...)} will be used.
+     * {@link org.jboss.arquillian.ajocado.format.SimplifiedFormat#format(String, Object...)} will be used.
      * </p>
      * 
      * <p>

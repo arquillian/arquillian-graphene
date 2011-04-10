@@ -30,9 +30,9 @@ import static org.jboss.arquillian.ajocado.Ajocado.waitXhr;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardException;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.request.RequestType;
 import org.testng.Assert;
 import org.testng.annotations.Test;

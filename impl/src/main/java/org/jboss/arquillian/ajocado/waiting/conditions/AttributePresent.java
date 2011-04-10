@@ -22,16 +22,16 @@
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.AttributeLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * <p>
@@ -78,7 +78,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().getAsString());
+        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
         String escapedAttributeName = escapeJavaScript(this.attributeLocator.getAttribute().getAttributeName());
         return js(format("selenium.isAttributePresent('{0}', '{1}')", escapedElementLocator,
             escapedAttributeName));

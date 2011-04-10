@@ -23,15 +23,15 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.encapsulated.JavaScript;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.ElementLocator;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
 
-import static org.jboss.arquillian.ajocado.utils.SimplifiedFormat.format;
-import static org.jboss.arquillian.ajocado.encapsulated.JavaScript.js;
+import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * Retrieves the text for given elementLocator
@@ -68,7 +68,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
      * JavaScript expression to retrieve text value from element given by elementLocator
      */
     public JavaScript getJavaScriptRetrieve() {
-        String escapedLocator = StringEscapeUtils.escapeJavaScript(elementLocator.getAsString());
+        String escapedLocator = StringEscapeUtils.escapeJavaScript(elementLocator.inSeleniumRepresentation());
         return js(format("selenium.getText('{0}')", escapedLocator));
     }
 
