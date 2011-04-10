@@ -76,9 +76,10 @@ public final class AjaxSeleniumContext implements InvocationHandler {
     private static AjaxSelenium get() {
         return REFERENCE.get();
     }
-    
+
     /**
      * Returns true of the context is initialized
+     * 
      * @return true of the context is initialized
      */
     public static boolean isInitialized() {
@@ -91,8 +92,8 @@ public final class AjaxSeleniumContext implements InvocationHandler {
      * @return the instance of proxy to thread local context of AjaxSelenium
      */
     public static AjaxSelenium getProxy() {
-        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(), new Class[] {
-            AjaxSelenium.class }, new AjaxSeleniumContext());
+        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(),
+            new Class[] { AjaxSelenium.class }, new AjaxSeleniumContext());
     }
 
     /**

@@ -41,19 +41,22 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Creates options for creating cookies
+     * 
      * @return options for creating cookies
      */
     public static CookieCreateOptions forCreation() {
         return new CookieCreateOptions();
     }
+
     /**
      * Creates options for deleting cookies
+     * 
      * @return options for deleting cookies
      */
     public static CookieDeleteOptions forDeletion() {
         return new CookieDeleteOptions();
     }
-    
+
     /**
      * Specifies to which domain is cookie bound.
      * 
@@ -118,7 +121,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
         }
         stringBuffer.append(appendix);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected T copy() {
         T clone;

@@ -39,19 +39,22 @@ public final class CloneUtils {
      * 
      * @param <T>
      *            the cloneable object type
+     * @param type the type of cloneable object
      * @param objectToClone
      *            object to clone
      * @return the clone of object
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Cloneable> T clone(T objectToClone) {
+    public static <T extends Cloneable> T clone(Class<T> type, T objectToClone) {
         if (!(objectToClone instanceof Cloneable)) {
             throw new IllegalArgumentException("objectToClone have to be instance of Cloneable");
         }
         T clone;
         try {
-            Method method = objectToClone.getClass().getMethod("clone");
+            Method method = type.getDeclaredMethod("clone");
+            method.setAccessible(true);
             clone = (T) method.invoke(objectToClone);
+            method.setAccessible(false);
         } catch (Exception e) {
             throw new IllegalStateException("Unexpected exception during cloning of "
                 + objectToClone.getClass().getName(), e);

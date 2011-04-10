@@ -39,9 +39,7 @@ public class IterationAndCompositionSample extends AbstractAjocadoTest {
     static final JQueryLocator LOC_LINK = LOC_COLUMN_2.getChild(jq("span a"));
 
     void usage() {
-        Iterable<JQueryLocator> rows;
-
-        rows = LOC_TABLE.getChildren(jq("tr"));
+        JQueryLocator rows = LOC_TABLE.getChild(jq("tr"));
 
         for (JQueryLocator row : rows) {
             final JQueryLocator column2 = row.getDescendant(LOC_LINK);

@@ -81,11 +81,16 @@ public class Event {
     private String eventName;
 
     /**
-     * <p>Initializes new event.</p>
+     * <p>
+     * Initializes new event.
+     * </p>
      * 
-     * <p>Use for extending event model as it can became out-of-date.</p>
+     * <p>
+     * Use for extending event model as it can became out-of-date.
+     * </p>
      * 
-     * @param eventName the name for event in DOM Event model
+     * @param eventName
+     *            the name for event in DOM Event model
      */
     public Event(String eventName) {
         this.eventName = eventName;
@@ -100,7 +105,9 @@ public class Event {
         return eventName;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

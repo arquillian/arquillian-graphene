@@ -22,12 +22,10 @@
 package org.jboss.arquillian.ajocado.locator;
 
 import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
-import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.AbstractIterableLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.element.ExtendedLocator;
 import org.jboss.arquillian.ajocado.locator.element.FilterableLocator;
-import org.jboss.arquillian.ajocado.locator.iteration.ChildElementList;
-import org.jboss.arquillian.ajocado.locator.iteration.ElementOcurrenceList;
 
 /**
  * <p>
@@ -48,7 +46,7 @@ import org.jboss.arquillian.ajocado.locator.iteration.ElementOcurrenceList;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class JQueryLocator extends AbstractElementLocator<JQueryLocator> implements ExtendedLocator<JQueryLocator>,
+public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implements ExtendedLocator<JQueryLocator>,
     FilterableLocator<JQueryLocator> {
 
     /**
@@ -73,58 +71,10 @@ public class JQueryLocator extends AbstractElementLocator<JQueryLocator> impleme
     /*
      * (non-Javadoc)
      * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getNthChildElement(int)
+     * @see org.jboss.arquillian.ajocado.locator.element.IterableLocator#get(int)
      */
-    public JQueryLocator getNthChildElement(int index) {
-        return new JQueryLocator(SimplifiedFormat.format("{0}:nth-child({1})", getRawLocator(), index));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getNthOccurence(int)
-     */
-    public JQueryLocator getNthOccurence(int index) {
+    public JQueryLocator get(int index) {
         return new JQueryLocator(SimplifiedFormat.format("{0}:eq({1})", getRawLocator(), index - 1));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getAllChildren()
-     */
-    public Iterable<JQueryLocator> getAllChildren() {
-        return new ChildElementList<JQueryLocator>(this.getChild(LocatorFactory.jq("*")));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.test.selenium.locator.IterableLocator#getAllOccurrences()
-     */
-    public Iterable<JQueryLocator> getAllOccurrences() {
-        return new ElementOcurrenceList<JQueryLocator>(this);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jboss.arquillian.ajocado.locator.IterableLocator#getChildren(org.jboss.test.selenium.locator.IterableLocator)
-     */
-    public Iterable<JQueryLocator> getChildren(JQueryLocator elementLocator) {
-        return new ChildElementList<JQueryLocator>(this.getChild(elementLocator));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jboss.arquillian.ajocado.locator.IterableLocator#getDescendants(org.jboss.test.selenium.locator.IterableLocator
-     * )
-     */
-    public Iterable<JQueryLocator> getDescendants(JQueryLocator elementLocator) {
-        return new ElementOcurrenceList<JQueryLocator>(this.getDescendant(elementLocator));
     }
 
     /*

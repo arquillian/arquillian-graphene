@@ -115,7 +115,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getRequestInterceptor()
      */
     @Override
-    public RequestGuard getRequestInterceptor() {
+    public RequestGuard getRequestGuard() {
         return requestInterceptor;
     }
 
@@ -124,17 +124,16 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getInterceptionProxy()
      */
-    public CommandInterceptionProxy getInterceptionProxy() {
+    public CommandInterceptionProxy getCommandInterceptionProxy() {
         return interceptionProxy;
     }
 
     /*
      * (non-Javadoc)
-     * 
      * @see java.lang.Object#clone()
      */
     @Override
-    public AjaxSelenium clone() throws CloneNotSupportedException {
+    public AjaxSelenium clone() {
         AjaxSeleniumImpl copy = new AjaxSeleniumImpl();
         copy.pageExtensions = new PageExtensionsImpl();
         copy.seleniumExtensions = new SeleniumExtensionsImpl();

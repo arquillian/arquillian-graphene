@@ -44,7 +44,7 @@ import java.io.StringWriter;
  * @version $Revision$
  */
 public class JavaScript {
-    
+
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
     /** The java script. */
@@ -184,7 +184,7 @@ public class JavaScript {
     public JavaScript parametrize(Object... parameters) {
         return js(format(javaScript, parameters));
     }
-    
+
     private static String inputStreamToString(InputStream inputStream) throws IOException {
         StringWriter output = new StringWriter();
         InputStreamReader input = new InputStreamReader(inputStream);

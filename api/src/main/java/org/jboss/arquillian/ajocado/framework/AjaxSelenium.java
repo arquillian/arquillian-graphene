@@ -74,12 +74,20 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * 
      * @return the RequestInterceptor object
      */
-    RequestGuard getRequestInterceptor();
+    RequestGuard getRequestGuard();
 
     /**
      * Returns associated command interception proxy
      * 
      * @return associated command interception proxy
      */
-    CommandInterceptionProxy getInterceptionProxy();
+    CommandInterceptionProxy getCommandInterceptionProxy();
+
+    /**
+     * Returns the clone of AjaxSelenium pointing to the same Selenium session but with cloned configuration objects
+     * (PageExtensions, SeleniumExtensions, RequestGuard and CommandInterceptionProxy).
+     * 
+     * @return the clone of this AjaxSelenium instance
+     */
+    AjaxSelenium clone();
 }

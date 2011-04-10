@@ -92,7 +92,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
     public Attribute getAttribute() {
         return attribute;
     }
-    
+
     @Override
     public AttributeLocator<E> format(Object... args) {
         ElementLocator<E> derivedElementLocator = elementLocator.format(args);

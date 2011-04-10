@@ -34,7 +34,7 @@ import org.jboss.arquillian.ajocado.locator.AbstractLocator;
  */
 public abstract class AbstractOptionLocator<T extends OptionLocator<T>> extends AbstractLocator<T> implements
     OptionLocator<T> {
-    
+
     /**
      * Constructs locator for given string representation
      * 

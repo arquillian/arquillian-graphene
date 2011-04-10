@@ -150,9 +150,10 @@ public interface AjocadoConfiguration extends Cloneable, Serializable {
         private TimeoutType(int defaultTimeout) {
             this.defaultTimeout = defaultTimeout;
         }
-        
+
         /**
          * Returns the value of default timeout for given type
+         * 
          * @return the value of default timeout for given type
          */
         public int getDefaultTimeout() {

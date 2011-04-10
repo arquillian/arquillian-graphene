@@ -55,23 +55,4 @@ public interface IterableLocator<T extends IterableLocator<T>> extends ElementLo
      * @return the count of occurrences of this locator
      */
     int size();
-
-    /**
-     * Gets the children given by locator composed from this locator and given elementLocator.
-     * 
-     * @param elementLocator
-     *            the locator for element for composition with this locator
-     * @return the children given by locator composed from this locator and elementLocator
-     */
-    IterableLocator<T> getChildren(T elementLocator);
-
-    /**
-     * Gets all the descendants for this locator specified by composed locator from this locator and given
-     * elementLocator.
-     * 
-     * @param elementLocator
-     *            the element locator, which should be added to this locator to specify this element's descendants
-     * @return the descendants of element given by composition of this locator and elementLocator
-     */
-    IterableLocator<T> getDescendants(T elementLocator);
 }

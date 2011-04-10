@@ -106,20 +106,8 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#getStyle(org.jboss.test.selenium.locator.ElementLocator,
-     * java.lang.String)
-     */
-    public String getStyle(ElementLocator<?> elementLocator, String property) {
-        return getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(), property);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#getStyle(org.jboss.test.selenium.locator.ElementLocator,
-     * org.jboss.arquillian.ajocado.css.CssProperty)
+     * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium
+     * #getStyle(org.jboss.test.selenium.locator.ElementLocator , org.jboss.arquillian.ajocado.css.CssProperty)
      */
     public String getStyle(ElementLocator<?> elementLocator, CssProperty property) {
         return getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(), property.getPropertyName());
@@ -141,15 +129,18 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * org.jboss.arquillian.ajocado.geometry.Point)
      */
     public void mouseOverAt(ElementLocator<?> elementLocator, Point point) {
-        getExtendedSelenium().mouseOverAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        getExtendedSelenium().mouseOverAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
-    
+
     /*
      * (non-Javadoc)
-     * @see org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator, org.jboss.test.selenium.geometry.Point)
+     * 
+     * @see
+     * org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator
+     * , org.jboss.test.selenium.geometry.Point)
      */
     public void mouseOutAt(ElementLocator<?> elementLocator, Point point) {
-        getExtendedSelenium().mouseOutAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        getExtendedSelenium().mouseOutAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     /*
@@ -203,8 +194,8 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * (non-Javadoc)
      * 
      * @see
-     * org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#check(org.jboss.test.selenium.locator.ElementLocator,
-     * boolean)
+     * org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#check(org.jboss.test.selenium.locator.ElementLocator
+     * , boolean)
      */
     @Override
     public void check(ElementLocator<?> locator, boolean checked) {
@@ -214,7 +205,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
             uncheck(locator);
         }
     }
-    
+
     @Override
     public void doCommand(String command, String param1, String param2) {
         getExtendedSelenium().doCommand(command, param1, param2);

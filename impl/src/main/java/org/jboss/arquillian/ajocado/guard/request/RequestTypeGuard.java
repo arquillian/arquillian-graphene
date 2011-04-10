@@ -98,7 +98,7 @@ public class RequestTypeGuard implements CommandInterceptor {
      */
     public void doBeforeCommand() {
         selenium.getPageExtensions().install();
-        selenium.getRequestInterceptor().clearRequestTypeDone();
+        selenium.getRequestGuard().clearRequestTypeDone();
     }
 
     /**
@@ -120,12 +120,12 @@ public class RequestTypeGuard implements CommandInterceptor {
         
         while (System.currentTimeMillis() <= end) {
             try {
-                selenium.getRequestInterceptor().waitForRequestTypeChange();
+                selenium.getRequestGuard().waitForRequestTypeChange();
             } catch (SeleniumException e) {
                 // ignore the timeout exception
             }
 
-            RequestType requestDone = selenium.getRequestInterceptor().clearRequestTypeDone();
+            RequestType requestDone = selenium.getRequestGuard().clearRequestTypeDone();
 
             if (requestDone == requestExpected) {
                 lastRequestDone = requestDone;
@@ -134,7 +134,7 @@ public class RequestTypeGuard implements CommandInterceptor {
                 if (interlayed) {
                     if (requestDone == HTTP) {
                         selenium.getPageExtensions().install();
-                        selenium.getRequestInterceptor().clearRequestTypeDone();
+                        selenium.getRequestGuard().clearRequestTypeDone();
                     }
                     if (requestDone != NONE) {
                         lastRequestDone = requestDone;

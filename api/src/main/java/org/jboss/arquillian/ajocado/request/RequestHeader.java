@@ -27,7 +27,7 @@ package org.jboss.arquillian.ajocado.request;
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
 public class RequestHeader {
-    
+
     private String name;
     private String value;
 

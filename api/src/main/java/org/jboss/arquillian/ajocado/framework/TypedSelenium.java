@@ -614,10 +614,10 @@ public interface TypedSelenium {
      * <code>selectWindow</code> .</li>
      * </ul>
      * 
-     * @param windowID
+     * @param windowLocator
      *            an identifier for the popup window, which can take on a number of different meanings
      */
-    void selectPopUp(String windowID);
+    void selectPopUp(WindowLocator<?> windowLocator);
 
     /**
      * <p>
@@ -1005,16 +1005,6 @@ public interface TypedSelenium {
      * @return true if the input element is editable, false otherwise
      */
     boolean isEditable(ElementLocator<?> locator);
-
-    /**
-     * deprecated - use dragAndDrop instead
-     * 
-     * @param locator
-     *            an element locator
-     * @param movementsString
-     *            offset in pixels from the current location to which the element should be moved
-     */
-    void dragdrop(ElementLocator<?> locator, Offset movementsString);
 
     /**
      * Configure the number of pixels between "mousemove" events during dragAndDrop commands (default=10).

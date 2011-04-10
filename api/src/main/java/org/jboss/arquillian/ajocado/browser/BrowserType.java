@@ -28,9 +28,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <p>Enumeration of supported browsers.</p>
+ * <p>
+ * Enumeration of supported browsers.
+ * </p>
  * 
- * <p>This enumeration has direct association with browser modes, see {@link BrowserMode}.
+ * <p>
+ * This enumeration has direct association with browser modes, see {@link BrowserMode}.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -57,7 +60,7 @@ public enum BrowserType {
 
     /** Mock browser */
     MOCK;
-    
+
     private static final Pattern PATTERN = Pattern.compile("([^, ]+)(?:[, ]+|$)");
 
     /**

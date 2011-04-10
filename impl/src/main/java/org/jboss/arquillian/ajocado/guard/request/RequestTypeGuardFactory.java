@@ -41,30 +41,28 @@ public final class RequestTypeGuardFactory {
      * @param selenium
      *            where should be registered the given request type guard
      * @param requestExpected
-     *            the request type to be guarded
-     *            if the expected request is allowed to be preceeded by another request type
+     *            the request type to be guarded if the expected request is allowed to be preceeded by another request
+     *            type
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static AjaxSelenium guard(AjaxSelenium selenium, RequestType requestExpected) {
         if (requestExpected == null) {
             return selenium;
         }
-        
-        AjaxSelenium copy;
-        try {
-            copy = selenium.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException(e);
-        }
-        copy.getInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
-        copy.getInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, false));
+
+        AjaxSelenium copy = selenium.clone();
+        copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
+        copy.getCommandInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, false));
         return copy;
     }
-    
+
     /**
-     * <p>Shortcut for registering a guard for specified request type on given selenium object.</p>
+     * <p>
+     * Shortcut for registering a guard for specified request type on given selenium object.
+     * </p>
      * 
-     * <p>This guard guards the right request type but allows interlaying of the request by another one of other type.
+     * <p>
+     * This guard guards the right request type but allows interlaying of the request by another one of other type.
      * 
      * @param selenium
      *            where should be registered the given request type guard
@@ -73,14 +71,9 @@ public final class RequestTypeGuardFactory {
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static AjaxSelenium guardInterlayed(AjaxSelenium selenium, RequestType requestExpected) {
-        AjaxSelenium copy;
-        try {
-            copy = selenium.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException(e);
-        }
-        copy.getInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
-        copy.getInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, true));
+        AjaxSelenium copy = selenium.clone();
+        copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
+        copy.getCommandInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, true));
         return copy;
     }
 

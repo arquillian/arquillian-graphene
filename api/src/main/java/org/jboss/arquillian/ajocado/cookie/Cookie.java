@@ -32,9 +32,9 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
  * @version $Revision$
  */
 public final class Cookie implements SeleniumRepresentable, Cloneable, Serializable {
-    
+
     private static final long serialVersionUID = 8126558593039344559L;
-    
+
     private String name;
     private String value;
 

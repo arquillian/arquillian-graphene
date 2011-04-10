@@ -119,7 +119,7 @@ public class Drag {
                     selenium.getElementHeight(itemToDrag) / 2);
                 currentPosition = getCenterOfElement(itemToDrag);
                 endPosition = getCenterOfElement(dropTarget);
-                overallMove = endPosition.minus(currentPosition);
+                overallMove = endPosition.substract(currentPosition);
                 return;
             case DROP:
                 throw new IllegalStateException("draggable was already dropped");
@@ -132,8 +132,8 @@ public class Drag {
             currentPhase = Phase.MOUSE_OUT;
         }
         endPosition = getCenterOfElement(dropTarget);
-        overallMove = endPosition.minus(currentPosition);
-        reposition = currentDelta.minus(startMove);
+        overallMove = endPosition.substract(currentPosition);
+        reposition = currentDelta.substract(startMove);
         movement = new Point(0, 0);
         this.dropTarget = dropTarget;
     }
@@ -226,12 +226,12 @@ public class Drag {
     private void executePhase(Phase phase) {
         switch (phase) {
             case START:
-                currentDelta = startMove.plus(new Point((overallMove.getX() < 0) ? FIRST_STEP : -FIRST_STEP,
+                currentDelta = startMove.add(new Point((overallMove.getX() < 0) ? FIRST_STEP : -FIRST_STEP,
                     (overallMove.getY() < 0) ? FIRST_STEP : -FIRST_STEP));
                 selenium.mouseDownAt(itemToDrag, new Point(0, 0));
                 selenium.mouseMoveAt(itemToDrag, new Point(2, 2));
                 if (dragIndicator != null && selenium.isElementPresent(dragIndicator)) {
-                    startMove = startMove.minus(getCentral(dragIndicator));
+                    startMove = startMove.substract(getCentral(dragIndicator));
                 }
                 selenium.mouseMoveAt(itemToDrag, startMove);
                 break;
@@ -242,16 +242,16 @@ public class Drag {
                 for (int i = 0; i < numberOfSteps; i++) {
                     Point oldMovement = movement;
                     movement = new Point(overallMove.getX() * i / numberOfSteps, overallMove.getY() * i / numberOfSteps);
-                    Point movementDelta = movement.minus(oldMovement);
+                    Point movementDelta = movement.substract(oldMovement);
 
-                    currentDelta = reposition.plus(startMove).plus(movement);
+                    currentDelta = reposition.add(startMove).add(movement);
                     selenium.mouseMoveAt(itemToDrag, currentDelta);
-                    currentPosition = currentPosition.plus(movementDelta);
+                    currentPosition = currentPosition.add(movementDelta);
                     wait.waitForTimeout();
                 }
                 break;
             case ENTER:
-                currentDelta = reposition.plus(startMove).plus(overallMove);
+                currentDelta = reposition.add(startMove).add(overallMove);
                 currentPosition = endPosition;
                 selenium.mouseMoveAt(itemToDrag, currentDelta);
                 selenium.mouseOverAt(dropTarget, currentDelta);
@@ -307,6 +307,6 @@ public class Drag {
     }
 
     private Point getCenterOfElement(ElementLocator<?> element) {
-        return selenium.getElementPosition(element).plus(getCentral(element));
+        return selenium.getElementPosition(element).add(getCentral(element));
     }
 }

@@ -40,12 +40,9 @@ import org.jboss.arquillian.ajocado.configuration.XPathLibrary;
 import org.jboss.arquillian.ajocado.cookie.Cookie;
 import org.jboss.arquillian.ajocado.cookie.CookieCreateOptions;
 import org.jboss.arquillian.ajocado.cookie.CookieDeleteOptions;
+import org.jboss.arquillian.ajocado.cookie.CookieOptions;
 import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.dom.Event;
-import org.jboss.arquillian.ajocado.encapsulated.Frame;
-import org.jboss.arquillian.ajocado.encapsulated.FrameLocator;
-import org.jboss.arquillian.ajocado.encapsulated.Window;
-import org.jboss.arquillian.ajocado.encapsulated.WindowId;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.UnsupportedTypedSelenium;
 import org.jboss.arquillian.ajocado.geometry.Dimension;
@@ -57,7 +54,10 @@ import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
+import org.jboss.arquillian.ajocado.locator.frame.FrameLocator;
 import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
+import org.jboss.arquillian.ajocado.locator.window.WindowLocator;
+import org.jboss.arquillian.ajocado.locator.window.WindowNameLocator;
 import org.jboss.arquillian.ajocado.log.LogLevel;
 import org.jboss.arquillian.ajocado.network.NetworkTraffic;
 import org.jboss.arquillian.ajocado.network.NetworkTrafficType;
@@ -75,7 +75,7 @@ import com.thoughtworks.selenium.Selenium;
 public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSelenium {
 
     Selenium selenium;
-    
+
     AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 
     private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
@@ -164,7 +164,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void clickAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.clickAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.clickAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void close() {
@@ -182,7 +182,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void contextMenuAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.contextMenuAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.contextMenuAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void controlKeyDown() {
@@ -206,22 +206,17 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void doubleClickAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.doubleClickAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.doubleClickAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void dragAndDrop(ElementLocator<?> elementLocator, Offset offset) {
-        selenium.dragAndDrop(elementLocator.inSeleniumRepresentation(), offset.getMovement());
+        selenium.dragAndDrop(elementLocator.inSeleniumRepresentation(), offset.inSeleniumRepresentation());
     }
 
     public void dragAndDropToObject(ElementLocator<?> elementLocatorOfObjectToBeDragged,
         ElementLocator<?> elementLocatorOfDragDestinationObject) {
         selenium.dragAndDropToObject(elementLocatorOfDragDestinationObject.inSeleniumRepresentation(),
             elementLocatorOfObjectToBeDragged.inSeleniumRepresentation());
-    }
-
-    // TODO deprecated in selenium
-    public void dragdrop(ElementLocator<?> elementLocator, Offset offset) {
-        selenium.dragdrop(elementLocator.inSeleniumRepresentation(), offset.getMovement());
     }
 
     public void fireEvent(ElementLocator<?> elementLocator, Event event) {
@@ -248,7 +243,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         throw new UnsupportedOperationException();
     }
 
-    public List<WindowId> getAllWindowIds() {
+    public List<WindowNameLocator> getAllWindowIds() {
         throw new UnsupportedOperationException();
     }
 
@@ -262,6 +257,10 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     public String getAttribute(AttributeLocator<?> attributeLocator) {
         return selenium.getAttribute(attributeLocator.inSeleniumRepresentation());
+    }
+
+    public String getAttribute(ElementLocator<?> elementLocator, Attribute attribute) {
+        return getAttribute(elementLocator.getAttribute(attribute));
     }
 
     public List<String> getAttributeFromAllWindows(Attribute attribute) {
@@ -438,7 +437,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public boolean isOrdered(ElementLocator<?> elementLocator1, ElementLocator<?> elementLocator2) {
-        return selenium.isOrdered(elementLocator1.inSeleniumRepresentation(), elementLocator2.inSeleniumRepresentation());
+        return selenium.isOrdered(elementLocator1.inSeleniumRepresentation(),
+            elementLocator2.inSeleniumRepresentation());
     }
 
     public boolean isPromptPresent() {
@@ -498,7 +498,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void mouseDownAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.mouseDownAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.mouseDownAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void mouseDownRight(ElementLocator<?> elementLocator) {
@@ -506,7 +506,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void mouseDownRightAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.mouseDownRightAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.mouseDownRightAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void mouseMove(ElementLocator<?> elementLocator) {
@@ -514,7 +514,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void mouseMoveAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.mouseMoveAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.mouseMoveAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void mouseOut(ElementLocator<?> elementLocator) {
@@ -530,7 +530,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void mouseUpAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.mouseUpAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.mouseUpAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void mouseUpRight(ElementLocator<?> elementLocator) {
@@ -538,15 +538,15 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     public void mouseUpRightAt(ElementLocator<?> elementLocator, Point point) {
-        selenium.mouseUpRightAt(elementLocator.inSeleniumRepresentation(), point.getCoords());
+        selenium.mouseUpRightAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
     public void open(URL url) {
         selenium.open(url.toString());
     }
 
-    public void openWindow(URL url, WindowId windowID) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public void openWindow(URL url, WindowNameLocator windowName) {
+        selenium.openWindow(url.toString(), windowName.getRawLocator());
     }
 
     public void refresh() {
@@ -577,16 +577,16 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.select(selectLocator.inSeleniumRepresentation(), optionLocator.inSeleniumRepresentation());
     }
 
-    public void selectFrame(FrameLocator frameLocator) {
-        selenium.selectFrame(frameLocator.getAsString());
+    public void selectFrame(FrameLocator<?> frameLocator) {
+        selenium.selectFrame(frameLocator.inSeleniumRepresentation());
     }
 
-    public void selectPopUp(WindowId windowID) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public void selectPopUp(WindowLocator<?> windowLocator) {
+        selenium.selectPopUp(windowLocator.getRawLocator());
     }
 
-    public void selectWindow(WindowId windowID) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public void selectWindow(WindowLocator<?> windowLocator) {
+        selenium.selectWindow(windowLocator.inSeleniumRepresentation());
     }
 
     public void setBrowserLogLevel(LogLevel logLevel) {
@@ -649,8 +649,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.uncheck(elementLocator.inSeleniumRepresentation());
     }
 
-    public void useXpathLibrary(XPathLibrary xpathLibrary) {
-        selenium.useXpathLibrary(xpathLibrary.getXpathLibraryName());
+    public void useXpathLibrary(XPathLibrary xPathLibrary) {
+        selenium.useXpathLibrary(xPathLibrary.inSeleniumRepresentation());
     }
 
     public void waitForCondition(JavaScript script) {
@@ -680,8 +680,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.waitForPageToLoad(String.valueOf(timeout));
     }
 
-    public void waitForPopUp(WindowId windowId, long timeoutInMilis) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public void waitForPopUp(WindowNameLocator windowNameLocator, long timeoutInMilis) {
+        selenium.waitForPopUp(windowNameLocator.getRawLocator(), Long.toString(timeoutInMilis));
     }
 
     public void windowFocus() {
@@ -691,7 +691,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void windowMaximize() {
         selenium.windowMaximize();
     }
-    
+
     private BufferedImage decodeBase64Screenshot(String screenshotInBase64) {
         byte[] screenshotPng = Base64.decodeBase64(screenshotInBase64);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(screenshotPng);
@@ -712,7 +712,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     @Override
     public Cookie getCookieByName(String cookieName) {
         String value = selenium.getCookieByName(cookieName);
-        return new Cookie(cookieName, value);
+        return Cookie.createCookie(cookieName, value);
     }
 
     @Override
@@ -721,8 +721,10 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     }
 
     @Override
-    public void createCookie(Cookie cookie) {
-        this.createCookie(cookie, new CookieCreateOptions());
+    public CookieCreateOptions createCookie(Cookie cookie) {
+        CookieCreateOptions options = CookieOptions.forCreation();
+        this.createCookie(cookie, options);
+        return options;
     }
 
     @Override
@@ -734,7 +736,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void deleteCookie(String cookieName, CookieDeleteOptions options) {
         selenium.deleteCookie(cookieName, options.inSeleniumRepresentation());
     }
-    
+
     @Override
     public void addCustomRequestHeader(RequestHeader header) {
         selenium.addCustomRequestHeader(header.getName(), header.getValue());

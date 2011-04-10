@@ -68,26 +68,6 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     /**
      * Get current style value of element given by locator.
      * 
-     * Use CSS style notation instead of JavaScript's camel notation!
-     * 
-     * This methods of getting current style value haven't absolute browser compatibility.
-     * 
-     * E.g.: use property "background-color" instead of "backgroundColor"
-     * 
-     * @param elementLocator
-     *            of element from what we want to get current style value
-     * @param property
-     *            CSS style property what we can to recognize
-     * @return current value of property if its element exists and has this property value set; null value otherwise
-     * @throws IllegalStateException
-     *             if is caught unrecognized throwable
-     */
-    @Deprecated
-    String getStyle(ElementLocator<?> elementLocator, String property);
-
-    /**
-     * Get current style value of element given by locator.
-     * 
      * @param elementLocator
      *            of element from what we want to get current style value
      * @param property

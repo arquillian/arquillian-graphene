@@ -19,59 +19,45 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.locator.iteration;
+package org.jboss.arquillian.ajocado.locator.element;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 
 /**
- * <p>
- * Abstract class able to iterate over <tt>IterableLocator&lt;T&gt;</tt>.
- * </p>
- * 
- * <p>
- * Encapsulates the functionality around the iterating over <tt>IterableLocator</tt>s.
- * </p>
+ * Abstract implementation of locator which can iterate over it's descendant.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <T>
- *            the IterableLocator implementation
- * @see ChildElementList
- * @see ElementOcurrenceList
+ *            type what we want to iterate over - this type will be returned by method provided by this abtract class
  */
-public abstract class AbstractElementList<T extends IterableLocator<T>> implements Iterable<T> {
+public abstract class AbstractIterableLocator<T extends IterableLocator<T>> extends AbstractElementLocator<T> implements
+    IterableLocator<T> {
+
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
     /**
-     * Proxy to local selenium instance
-     */
-    protected AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    
-    /** The iterable locator. */
-    T iterableLocator;
-
-    /**
-     * Instantiates a new abstract element list for given iterableLocator.
+     * Constructs locator for given string representation
      * 
-     * @param iterableLocator
-     *            the iterable locator
+     * @param locator
+     *            the string representation of locator
      */
-    public AbstractElementList(T iterableLocator) {
-        super();
-        this.iterableLocator = iterableLocator;
+    public AbstractIterableLocator(String locator) {
+        super(locator);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Iterable#iterator()
-     */
+    @Override
     public Iterator<T> iterator() {
         return new ElementIterator();
+    }
+
+    @Override
+    public int size() {
+        return selenium.getCount(this);
     }
 
     /**
@@ -103,7 +89,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
          * Recounts the actual count of elements by given elementLocator.
          */
         private void recount() {
-            count = selenium.getCount(iterableLocator);
+            count = size();
         }
 
         /*
@@ -122,7 +108,7 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
          */
         public T next() {
             if (hasNext()) {
-                return abstractNthElement(index++);
+                return get(index++);
             } else {
                 throw new NoSuchElementException();
             }
@@ -139,18 +125,4 @@ public abstract class AbstractElementList<T extends IterableLocator<T>> implemen
             throw new UnsupportedOperationException(this.getClass().getCanonicalName() + " doesn't support remove()");
         }
     }
-
-    /**
-     * <p>
-     * The point of extension.
-     * </p>
-     * 
-     * <p>
-     * Returns the <i>N</i>-th element (= on given index) in element list given by iterableLocator.
-     * 
-     * @param index
-     *            the index of element to get
-     * @return the IterableLocator instance on given index in element list
-     */
-    abstract T abstractNthElement(int index);
 }

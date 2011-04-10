@@ -22,11 +22,9 @@
 package org.jboss.arquillian.ajocado.locator;
 
 import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
-import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
+import org.jboss.arquillian.ajocado.locator.element.AbstractIterableLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.element.ExtendedLocator;
-import org.jboss.arquillian.ajocado.locator.iteration.ChildElementList;
-import org.jboss.arquillian.ajocado.locator.iteration.ElementOcurrenceList;
 
 /**
  * Locates the element using <a href="http://www.w3.org/TR/xpath/">XPath expression</a>.
@@ -34,7 +32,7 @@ import org.jboss.arquillian.ajocado.locator.iteration.ElementOcurrenceList;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class XPathLocator extends AbstractElementLocator<XPathLocator> implements ExtendedLocator<XPathLocator> {
+public class XPathLocator extends AbstractIterableLocator<XPathLocator> implements ExtendedLocator<XPathLocator> {
 
     /**
      * Instantiates a new xpath locator.
@@ -58,55 +56,10 @@ public class XPathLocator extends AbstractElementLocator<XPathLocator> implement
     /*
      * (non-Javadoc)
      * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getNthChildElement(int)
-     */
-    public XPathLocator getNthChildElement(int index) {
-        throw new UnsupportedOperationException("not implemented yet");
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getNthOccurence(int)
      */
-    public XPathLocator getNthOccurence(int index) {
+    public XPathLocator get(int index) {
         return new XPathLocator(SimplifiedFormat.format("getLocator[{0}]", index - 1));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getAllChildren()
-     */
-    public Iterable<XPathLocator> getAllChildren() {
-        return new ChildElementList<XPathLocator>(this.getChild(LocatorFactory.xp("*")));
-    }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.jboss.test.selenium.locator.IterableLocator#getAllOccurrences()
-     */
-    public Iterable<XPathLocator> getAllOccurrences() {
-        return new ElementOcurrenceList<XPathLocator>(this);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getChildren(org.jboss.test.selenium.locator.IterableLocator)
-     */
-    public Iterable<XPathLocator> getChildren(XPathLocator elementLocator) {
-        return new ChildElementList<XPathLocator>(this.getChild(elementLocator));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getDescendants
-     * (org.jboss.arquillian.ajocado.locator.IterableLocator)
-     */
-    public Iterable<XPathLocator> getDescendants(XPathLocator elementLocator) {
-        return new ElementOcurrenceList<XPathLocator>(this);
     }
 
     /*
