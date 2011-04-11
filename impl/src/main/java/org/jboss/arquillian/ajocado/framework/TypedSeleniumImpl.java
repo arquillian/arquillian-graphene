@@ -49,6 +49,7 @@ import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Offset;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.javascript.KeyCode;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
@@ -456,25 +457,37 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public boolean isVisible(ElementLocator<?> elementLocator) {
         return selenium.isVisible(elementLocator.inSeleniumRepresentation());
     }
-
-    public void keyDown(ElementLocator<?> elementLocator, String keySequence) {
-        selenium.keyDown(elementLocator.inSeleniumRepresentation(), keySequence);
+    
+    public void keyDown(ElementLocator<?> elementLocator, char character) {
+        selenium.keyPress(elementLocator.inSeleniumRepresentation(), String.valueOf(character));
+    }
+    
+    public void keyDown(ElementLocator<?> elementLocator, KeyCode keyCode) {
+        selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
     public void keyDownNative(String keycode) {
         selenium.keyDownNative(keycode);
     }
 
-    public void keyPress(ElementLocator<?> elementLocator, String keySequence) {
-        selenium.keyPress(elementLocator.inSeleniumRepresentation(), keySequence);
+    public void keyPress(ElementLocator<?> elementLocator, char character) {
+        selenium.keyPress(elementLocator.inSeleniumRepresentation(), String.valueOf(character));
+    }
+    
+    public void keyPress(ElementLocator<?> elementLocator, KeyCode keyCode) {
+        selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
     public void keyPressNative(String keycode) {
         selenium.keyPressNative(keycode);
     }
-
-    public void keyUp(ElementLocator<?> elementLocator, String keySequence) {
-        selenium.keyUp(elementLocator.inSeleniumRepresentation(), keySequence);
+    
+    public void keyUp(ElementLocator<?> elementLocator, char character) {
+        selenium.keyPress(elementLocator.inSeleniumRepresentation(), String.valueOf(character));
+    }
+    
+    public void keyUp(ElementLocator<?> elementLocator, KeyCode keyCode) {
+        selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
     public void keyUpNative(String keycode) {

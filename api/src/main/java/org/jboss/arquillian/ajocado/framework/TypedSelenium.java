@@ -36,6 +36,7 @@ import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Offset;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.javascript.KeyCode;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
@@ -147,11 +148,20 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param keySequence
-     *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
-     *            value of that key), or a single character. For example: " w", "\119".
+     * @param character
+     *            single character to type
      */
-    void keyPress(ElementLocator<?> locator, String keySequence);
+    void keyPress(ElementLocator<?> locator, char character);
+
+    /**
+     * Simulates a user pressing and releasing a key.
+     * 
+     * @param locator
+     *            an element locator
+     * @param keyCode
+     *            the key code in JavaScripy key code representation
+     */
+    void keyPress(ElementLocator<?> locator, KeyCode keyCode);
 
     /**
      * Press the shift key and hold it down until doShiftUp() is called or a new page is loaded.
@@ -198,22 +208,40 @@ public interface TypedSelenium {
      * 
      * @param locator
      *            an element locator
-     * @param keySequence
-     *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
-     *            value of that key), or a single character. For example: " w", "\119".
+     * @param character
+     *            single character to type
      */
-    void keyDown(ElementLocator<?> locator, String keySequence);
+    void keyDown(ElementLocator<?> locator, char character);
+
+    /**
+     * Simulates a user pressing a key (without releasing it yet).
+     * 
+     * @param locator
+     *            an element locator
+     * @param keyCode
+     *            the key code in JavaScripy key code representation
+     */
+    void keyDown(ElementLocator<?> locator, KeyCode keyCode);
 
     /**
      * Simulates a user releasing a key.
      * 
      * @param locator
      *            an element locator
-     * @param keySequence
-     *            Either be a string("\" followed by the numeric keycode of the key to be pressed, normally the ASCII
-     *            value of that key), or a single character. For example: " w", "\119".
+     * @param character
+     *            single character to type
      */
-    void keyUp(ElementLocator<?> locator, String keySequence);
+    void keyUp(ElementLocator<?> locator, char character);
+
+    /**
+     * Simulates a user releasing a key.
+     * 
+     * @param locator
+     *            an element locator
+     * @param keyCode
+     *            the key code in JavaScripy key code representation
+     */
+    void keyUp(ElementLocator<?> locator, KeyCode keyCode);
 
     /**
      * Simulates a user hovering a mouse over the specified element.
