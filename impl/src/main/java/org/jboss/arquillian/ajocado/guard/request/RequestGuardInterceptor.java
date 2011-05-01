@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.guard.request;
 
-import static org.jboss.arquillian.ajocado.guard.GuardedCommands.INTERACTIVE_COMMANDS;
 import static org.jboss.arquillian.ajocado.request.RequestType.HTTP;
 import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 
@@ -33,6 +32,7 @@ import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.guard.GuardedCommands;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -42,15 +42,14 @@ import com.thoughtworks.selenium.SeleniumException;
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
- *TODO rename to *Interceptor
  */
-public class RequestTypeGuard implements CommandInterceptor {
+public class RequestGuardInterceptor implements CommandInterceptor {
 
     /**
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    
+
     private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
 
     /**
@@ -71,7 +70,7 @@ public class RequestTypeGuard implements CommandInterceptor {
      * @param interlayed
      *            indicates whenever the request can be interlayed by another request
      */
-    public RequestTypeGuard(RequestType requestExpected, boolean interlayed) {
+    public RequestGuardInterceptor(RequestType requestExpected, boolean interlayed) {
         super();
         this.requestExpected = requestExpected;
         this.interlayed = interlayed;
@@ -83,11 +82,11 @@ public class RequestTypeGuard implements CommandInterceptor {
     public void intercept(CommandContext ctx) throws CommandInterceptionException {
         final String command = ctx.getCommand();
 
-        if (INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
+        if (GuardedCommands.INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
             doBeforeCommand();
         }
         ctx.invoke();
-        if (INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
+        if (GuardedCommands.INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
             doAfterCommand();
         }
     }
@@ -115,9 +114,9 @@ public class RequestTypeGuard implements CommandInterceptor {
      */
     public void doAfterCommand() {
         final long end = System.currentTimeMillis() + configuration.getTimeout(TimeoutType.AJAX);
-        
+
         RequestType lastRequestDone = NONE;
-        
+
         while (System.currentTimeMillis() <= end) {
             try {
                 selenium.getRequestGuard().waitForRequestTypeChange();
@@ -146,7 +145,7 @@ public class RequestTypeGuard implements CommandInterceptor {
                 }
             }
         }
-        
+
         if (lastRequestDone != requestExpected) {
             throw new RequestTypeGuardException(requestExpected, lastRequestDone);
         }

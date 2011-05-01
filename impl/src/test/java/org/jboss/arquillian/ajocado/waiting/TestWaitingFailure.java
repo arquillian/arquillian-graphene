@@ -21,13 +21,15 @@
  */
 package org.jboss.arquillian.ajocado.waiting;
 
-import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
+import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

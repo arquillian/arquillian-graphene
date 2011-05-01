@@ -21,13 +21,13 @@
  */
 package org.jboss.arquillian.ajocado.utils.text;
 
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.testng.Assert.assertEquals;
+
 import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.testng.annotations.Test;
-
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
-import static org.testng.Assert.*;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

@@ -21,8 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.browser;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
-
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,8 +75,8 @@ public class Browser implements SeleniumRepresentable {
     public Browser(String stringRepresentation) {
         Matcher matcher = PATTERN.matcher(stringRepresentation);
         if (!matcher.find()) {
-            throw new IllegalArgumentException(format(
-                "given browser's stringRepresentation '{0}' doesn't match pattern", stringRepresentation));
+            throw new IllegalArgumentException("given browser's stringRepresentation '" + stringRepresentation
+                + "' doesn't match pattern");
         }
 
         browserMode = BrowserMode.parseMode(matcher.group(GROUP_MODE));

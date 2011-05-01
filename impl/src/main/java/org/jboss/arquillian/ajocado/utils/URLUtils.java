@@ -22,8 +22,6 @@
 
 package org.jboss.arquillian.ajocado.utils;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -65,7 +63,7 @@ public final class URLUtils {
         try {
             return buildUrl(new URL(context), relocations);
         } catch (MalformedURLException e) {
-            throw new AssertionError(format("URL('{0}') isn't valid URL", context));
+            throw new AssertionError("URL('" + context + "') isn't valid URL");
         }
     }
 
@@ -87,7 +85,7 @@ public final class URLUtils {
             try {
                 url = new URL(url, move);
             } catch (MalformedURLException e) {
-                throw new AssertionError(format("URL('{0}', '{1}') isn't valid URL", url, move));
+                throw new AssertionError("URL('" + url + "', '" + move + "') isn't valid URL");
             }
         }
 

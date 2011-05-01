@@ -31,7 +31,6 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
@@ -92,8 +91,8 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         String escapedCssProperty = escapeJavaScript(this.cssProperty.getPropertyName());
         String escapedText = escapeJavaScript(this.value);
-        return js(format("selenium.isElementPresent('{0}') && (selenium.getStyle('{0}', '{1}') == '{2}')",
-            escapedLocator, escapedCssProperty, escapedText));
+        return js("selenium.isElementPresent('{0}') && (selenium.getStyle('{0}', '{1}') == '{2}')").parametrize(
+            escapedLocator, escapedCssProperty, escapedText);
     }
     
     private void validate() {

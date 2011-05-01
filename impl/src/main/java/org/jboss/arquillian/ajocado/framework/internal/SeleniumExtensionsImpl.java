@@ -21,15 +21,15 @@
  */
 package org.jboss.arquillian.ajocado.framework.internal;
 
-import java.util.List;
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
+import java.util.List;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.SeleniumExtensions;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
-
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.*;
 
 /**
  * Defines the methods for loading the Selenium JS extensions to the Selenium Test Runner window.
@@ -47,7 +47,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     /*
      * JavaScript definitions for this object
      */
-    final JavaScript getScriptWithResourceName = fromResource("javascript/get-script-with-resourcename.js");
+    final JavaScript getScriptWithResourceName = JavaScript.fromResource("javascript/get-script-with-resourcename.js");
     final JavaScript containsScriptWithResourceName = getScriptWithResourceName.append(" != null");
     final JavaScript getIdForScriptWithResourceName = getScriptWithResourceName.append(".getAttribute('id')");
     final JavaScript setResourceNameForId = js("document.getElementById('{0}').setAttribute('resourceName', '{1}')");
@@ -83,7 +83,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     }
 
     private void loadScript(String resourceName) {
-        JavaScript extension = fromResource(resourceName);
+        JavaScript extension = JavaScript.fromResource(resourceName);
         String identification = extension.getIdentification();
         String escapedResourceName = escapeJavaScript(resourceName);
         selenium.addScript(extension);
@@ -91,7 +91,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     }
 
     private void refreshScript(String resourceName) {
-        JavaScript extension = fromResource(resourceName);
+        JavaScript extension = JavaScript.fromResource(resourceName);
         String identification = extension.getIdentification();
         String escapedResourceName = escapeJavaScript(resourceName);
 

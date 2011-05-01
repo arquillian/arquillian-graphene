@@ -21,10 +21,13 @@
  */
 package org.jboss.arquillian.ajocado.waiting;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotSame;
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.assertTrue;
+
 import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

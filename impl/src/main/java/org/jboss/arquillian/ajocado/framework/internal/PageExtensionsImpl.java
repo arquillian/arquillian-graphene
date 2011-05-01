@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.ajocado.framework.internal;
 
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
 import java.util.List;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -28,8 +30,6 @@ import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.PageExtensions;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.Wait;
-
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.*;
 
 /**
  * Defines methods for installing JavaScript page extension to the target page.
@@ -96,7 +96,7 @@ public class PageExtensionsImpl implements PageExtensions {
     public void loadFromResources(List<String> resourceNames) {
         JavaScript extensions = null;
         for (String resourceName : resourceNames) {
-            JavaScript partial = fromResource(resourceName);
+            JavaScript partial = JavaScript.fromResource(resourceName);
             extensions = (extensions == null) ? partial : extensions.join(partial);
         }
         this.pageExtensions = extensions;

@@ -31,7 +31,6 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 import com.thoughtworks.selenium.SeleniumException;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
@@ -82,9 +81,8 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
         String alertMessage = selenium.getAlert();
 
         if (!message.equals(alertMessage)) {
-            throw new SeleniumException(format(
-                "Alert has been displayed, but the message '{0}' doesn't equal to the expected '{1}'", message,
-                alertMessage));
+            throw new SeleniumException("Alert has been displayed, but the message '" + message
+                + "' doesn't equal to the expected '" + alertMessage + "'");
         }
 
         return true;
@@ -99,9 +97,11 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
         Validate.notNull(message);
         String escapedMessage = escapeJavaScript(message);
 
-        return js(format(
-            "selenium.isAlertPresent() && ((alertMessage = selenium.getAlert()) == '{0}' || selenium.throwError('Alert has been displayed, but the message \\'' + alertMessage + '\\' doesn\\'t equal to the expected \\'{0}\\''))",
-            escapedMessage));
+        return js(
+            "selenium.isAlertPresent() && ((alertMessage = selenium.getAlert()) == '{0}' "
+                + " || selenium.throwError('Alert has been displayed, "
+                + "but the message \\'' + alertMessage + '\\' doesn\\'t equal to the expected \\'{0}\\''))")
+            .parametrize(escapedMessage);
     }
 
     /**

@@ -23,11 +23,10 @@
 package org.jboss.arquillian.ajocado.framework;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
 
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.DefaultSelenium;
-
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
 /**
  * Selenium API extended by useful commands.
@@ -141,10 +140,10 @@ public class ExtendedSelenium extends DefaultSelenium {
         Validate.notNull(className);
         Validate.notNull(locator);
 
-        String classLocator = format("{0}@class", locator);
+        String classLocator = SimplifiedFormat.format("{0}@class", locator);
         String classNames = getAttribute(classLocator);
 
-        String regex = format("(?:^|.*\\s){0}(?:$|\\s.*)", className);
+        String regex = SimplifiedFormat.format("(?:^|.*\\s){0}(?:$|\\s.*)", className);
         return classNames.matches(regex);
     }
 

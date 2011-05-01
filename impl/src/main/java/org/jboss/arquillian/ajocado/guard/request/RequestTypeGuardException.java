@@ -21,8 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.guard.request;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
-
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
@@ -74,6 +72,6 @@ public class RequestTypeGuardException extends RuntimeException {
      */
     @Override
     public String getMessage() {
-        return format("Request type '{0}' was expected, but type '{1}' was done instead", requestExpected, requestDone);
+        return "Request type '" + requestExpected + "' was expected, but type '" + requestDone + "' was done instead";
     }
 }

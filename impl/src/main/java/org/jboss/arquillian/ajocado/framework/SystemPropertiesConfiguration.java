@@ -21,15 +21,16 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import static org.jboss.arquillian.ajocado.utils.URLUtils.buildUrl;
-import static java.lang.System.getProperty;
-import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.*;
+import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asBoolean;
+import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asInteger;
+import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asLong;
 
 import java.io.File;
 import java.net.URL;
 
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.browser.Browser;
+import org.jboss.arquillian.ajocado.utils.URLUtils;
 
 /**
  * Exposing of test system properties.
@@ -45,9 +46,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public URL getContextRoot() {
-        String contextRoot = getProperty("context.root");
+        String contextRoot = System.getProperty("context.root");
         Validate.notNull(contextRoot, "context.root system property should be set");
-        return buildUrl(contextRoot);
+        return URLUtils.buildUrl(contextRoot);
     }
 
     /*
@@ -57,9 +58,9 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public URL getContextPath() {
-        String contextPath = getProperty("context.path");
+        String contextPath = System.getProperty("context.path");
         Validate.notNull(contextPath, "context.path system property should be set");
-        return buildUrl(getContextRoot(), contextPath);
+        return URLUtils.buildUrl(getContextRoot(), contextPath);
     }
 
     /*
@@ -69,7 +70,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public Browser getBrowser() {
-        String browser = getProperty("browser");
+        String browser = System.getProperty("browser");
         Validate.notNull(browser, "browser system property should be set");
         return new Browser(browser);
     }
@@ -81,7 +82,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public File getResourcesDirectory() {
-        return new File(getProperty("maven.resources.dir", "./target/test-classes/"));
+        return new File(System.getProperty("maven.resources.dir", "./target/test-classes/"));
     }
 
     /*
@@ -91,7 +92,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public File getBuildDirectory() {
-        return new File(getProperty("maven.project.build.directory", "./target/"));
+        return new File(System.getProperty("maven.project.build.directory", "./target/"));
     }
 
     /*
@@ -101,7 +102,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public String getSeleniumHost() {
-        String seleniumHost = getProperty("selenium.host", "localhost");
+        String seleniumHost = System.getProperty("selenium.host", "localhost");
         Validate.notNull(seleniumHost, "selenium.host system property should be set");
         return seleniumHost;
     }
@@ -113,7 +114,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public int getSeleniumPort() {
-        String seleniumPort = getProperty("selenium.port");
+        String seleniumPort = System.getProperty("selenium.port");
         Validate.notNull(seleniumPort, "selenium.port system property should be set");
         return asInteger(seleniumPort);
     }
@@ -125,7 +126,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public boolean isSeleniumMaximize() {
-        return asBoolean(getProperty("selenium.maximize", "false"));
+        return asBoolean(System.getProperty("selenium.maximize", "false"));
     }
 
     /*
@@ -135,7 +136,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public boolean isSeleniumDebug() {
-        return asBoolean(getProperty("selenium.debug", "false"));
+        return asBoolean(System.getProperty("selenium.debug", "false"));
     }
 
     /*
@@ -145,7 +146,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public int getSeleniumSpeed() {
-        return asInteger(getProperty("selenium.speed", "0"));
+        return asInteger(System.getProperty("selenium.speed", "0"));
     }
 
     /*
@@ -155,7 +156,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public boolean isSeleniumNetworkTrafficEnabled() {
-        return asBoolean(getProperty("selenium.network.traffic", "false"));
+        return asBoolean(System.getProperty("selenium.network.traffic", "false"));
     }
 
     /*
@@ -168,7 +169,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
     public long getTimeout(TimeoutType type) {
         Validate.notNull(type);
 
-        String seleniumTimeout = getProperty("selenium.timeout." + type.toString().toLowerCase());
+        String seleniumTimeout = System.getProperty("selenium.timeout." + type.toString().toLowerCase());
 
         if (seleniumTimeout == null) {
             return type.getDefaultTimeout();

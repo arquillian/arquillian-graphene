@@ -21,14 +21,14 @@
  */
 package org.jboss.arquillian.ajocado.actions;
 
-import static org.jboss.arquillian.ajocado.waiting.Wait.waitSelenium;
+import static org.jboss.arquillian.ajocado.Ajocado.waitGui;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
-import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
+import org.jboss.arquillian.ajocado.waiting.Waiting;
 
 /**
  * <p>
@@ -95,7 +95,7 @@ public class Drag {
     private int numberOfSteps = NUMBER_OF_STEPS;
 
     /** The wait. */
-    private final SeleniumWaiting wait = waitSelenium.timeout(10);
+    private final Waiting<?> wait = waitGui.timeout(10);
 
     /**
      * Initiates Drag object, handled by given Selenium instance, instructing drag of itemToDrag to dropTarget object.

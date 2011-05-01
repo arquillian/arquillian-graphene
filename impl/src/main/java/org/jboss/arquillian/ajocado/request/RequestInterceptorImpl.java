@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.request;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -97,7 +96,7 @@ public class RequestInterceptorImpl implements RequestGuard {
         try {
             return RequestType.valueOf(request);
         } catch (IllegalArgumentException e) {
-            throw new IllegalStateException(format("Request was evaluated to unknown type '{0}'", request));
+            throw new IllegalStateException("Request was evaluated to unknown type '" + request + "'");
         }
     }
 }

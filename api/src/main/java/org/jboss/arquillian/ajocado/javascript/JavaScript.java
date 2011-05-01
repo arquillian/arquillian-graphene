@@ -21,8 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.javascript;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,6 +28,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+
+import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
 
 /**
  * <p>
@@ -141,9 +141,9 @@ public class JavaScript {
         try {
             sourceCode = inputStreamToString(new FileInputStream(sourceFile));
         } catch (FileNotFoundException e) {
-            throw new IllegalStateException(format("Unable to find JavaScript source file '{0}'", sourceFile), e);
+            throw new IllegalStateException("Unable to find JavaScript source file '" + sourceFile + "'", e);
         } catch (IOException e) {
-            throw new RuntimeException(format("Unable to load JavaScript from file '{0}'", sourceFile), e);
+            throw new RuntimeException("Unable to load JavaScript from file '" + sourceFile + "'", e);
         }
         return js(sourceCode);
     }
@@ -166,8 +166,7 @@ public class JavaScript {
         try {
             sourceCode = inputStreamToString(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(format("Unable to load JavaScript from resource with name '{0}'", resourceName),
-                e);
+            throw new RuntimeException("Unable to load JavaScript from resource with name '" + resourceName + "'", e);
         }
 
         return js(sourceCode);
@@ -182,7 +181,7 @@ public class JavaScript {
      * @return this JavaScript with parameters filled in place of placeholders in simplified format
      */
     public JavaScript parametrize(Object... parameters) {
-        return js(format(javaScript, parameters));
+        return js(SimplifiedFormat.format(javaScript, parameters));
     }
 
     private static String inputStreamToString(InputStream inputStream) throws IOException {

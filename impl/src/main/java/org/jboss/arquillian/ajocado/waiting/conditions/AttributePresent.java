@@ -30,7 +30,6 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
@@ -78,10 +77,10 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
-        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
+        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement()
+            .inSeleniumRepresentation());
         String escapedAttributeName = escapeJavaScript(this.attributeLocator.getAttribute().getAttributeName());
-        return js(format("selenium.isAttributePresent('{0}', '{1}')", escapedElementLocator,
-            escapedAttributeName));
+        return js("selenium.isAttributePresent('{0}', '{1}')").parametrize(escapedElementLocator, escapedAttributeName);
     }
 
     /**

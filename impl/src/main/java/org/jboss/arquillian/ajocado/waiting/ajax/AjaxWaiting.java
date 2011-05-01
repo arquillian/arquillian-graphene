@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.waiting.ajax;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -159,7 +158,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
         final String scriptString = retriever.getJavaScriptRetrieve().getAsString();
         final String oldValueString = retriever.getConvertor().forwardConversion(oldValue);
         final String escapedOldValueString = StringEscapeUtils.escapeJavaScript(oldValueString);
-        return js(format("{0} != '{1}'", scriptString, escapedOldValueString));
+        return js("{0} != '{1}'").parametrize(scriptString, escapedOldValueString);
     }
 
     private void waitExpectingTimeout(JavaScript condition) {

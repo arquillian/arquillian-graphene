@@ -21,8 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
-
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -175,7 +173,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     public boolean containsScript(JavaScript javaScript) {
         final String identification = javaScript.getIdentification();
-        String evaluated = selenium.getEval(format("document.getElementById('{0}') ? true : false", identification));
+        String evaluated = selenium.getEval("document.getElementById('" + identification + "') ? true : false");
         return Boolean.valueOf(evaluated);
     }
 

@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
- * The factory for shortening use of {@link RequestTypeGuard}s in code.
+ * The factory for shortening use of {@link RequestGuardInterceptor}s in code.
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -51,8 +51,8 @@ public final class RequestTypeGuardFactory {
         }
 
         AjaxSelenium copy = selenium.clone();
-        copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
-        copy.getCommandInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, false));
+        copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestGuardInterceptor.class);
+        copy.getCommandInterceptionProxy().registerInterceptor(new RequestGuardInterceptor(requestExpected, false));
         return copy;
     }
 
@@ -72,8 +72,8 @@ public final class RequestTypeGuardFactory {
      */
     public static AjaxSelenium guardInterlayed(AjaxSelenium selenium, RequestType requestExpected) {
         AjaxSelenium copy = selenium.clone();
-        copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestTypeGuard.class);
-        copy.getCommandInterceptionProxy().registerInterceptor(new RequestTypeGuard(requestExpected, true));
+        copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestGuardInterceptor.class);
+        copy.getCommandInterceptionProxy().registerInterceptor(new RequestGuardInterceptor(requestExpected, true));
         return copy;
     }
 

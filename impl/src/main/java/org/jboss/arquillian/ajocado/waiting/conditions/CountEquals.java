@@ -30,7 +30,6 @@ import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
-import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
@@ -89,7 +88,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
         String escapedRawLocator = escapeJavaScript(this.iterableLocator.getRawLocator());
         String countFunction;
 
-        if (iterableLocator.getLocationStrategy() == ElementLocationStrategy.JQUERY) {
+        if (iterableLocator.getLocationStrategy() == JQUERY) {
             countFunction = "getJQueryCount";
         } else {
             countFunction = "getXPathCount";

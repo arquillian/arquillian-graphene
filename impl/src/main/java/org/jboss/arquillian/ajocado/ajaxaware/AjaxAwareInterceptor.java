@@ -21,13 +21,17 @@
  */
 package org.jboss.arquillian.ajocado.ajaxaware;
 
-import static org.jboss.arquillian.ajocado.waiting.Wait.waitSelenium;
+import static org.jboss.arquillian.ajocado.Ajocado.waitAjax;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.command.CommandContext;
 import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.waiting.Waiting;
 
 import com.thoughtworks.selenium.SeleniumException;
 
@@ -47,8 +51,10 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
                 + " details from the log window.  The error message is: Permission denied",
             "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied",};
 
-    private final long interval = 1000;
-    private final long timeout = 30000;
+    private final AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    
+    private final Waiting<?> wait = waitAjax;
+    
 
     /**
      * <p>
@@ -64,7 +70,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
      * </p>
      */
     public void intercept(final CommandContext ctx) throws CommandInterceptionException {
-        long end = System.currentTimeMillis() + timeout;
+        long end = System.currentTimeMillis() + configuration.getTimeout(TimeoutType.AJAX);
         boolean exceptionLogged = false;
         while (System.currentTimeMillis() < end) {
             try {
@@ -80,7 +86,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
                         System.err.println(ctx.toString());
                         e.printStackTrace();
                     }
-                    waitSelenium.timeout(interval).waitForTimeout();
+                    wait.waitForTimeout();
                     continue;
                 }
 

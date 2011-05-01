@@ -30,7 +30,6 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
@@ -85,8 +84,8 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
     public JavaScript getJavaScriptCondition() {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         String escapedText = escapeJavaScript(this.text);
-        return js(format("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')", escapedLocator,
-            escapedText));
+        return js("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')").parametrize(escapedLocator,
+            escapedText);
     }
 
     /**

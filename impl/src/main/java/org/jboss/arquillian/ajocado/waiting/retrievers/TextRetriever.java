@@ -30,7 +30,6 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
@@ -69,7 +68,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
      */
     public JavaScript getJavaScriptRetrieve() {
         String escapedLocator = StringEscapeUtils.escapeJavaScript(elementLocator.inSeleniumRepresentation());
-        return js(format("selenium.getText('{0}')", escapedLocator));
+        return js("selenium.getText('{0}')").parametrize(escapedLocator);
     }
 
     /**

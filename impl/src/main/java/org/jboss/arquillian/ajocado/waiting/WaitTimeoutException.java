@@ -3,12 +3,12 @@
  */
 package org.jboss.arquillian.ajocado.waiting;
 
-import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
 
 /**
  * Indicates timeout of waiting.
  */
-class WaitTimeoutException extends RuntimeException {
+public class WaitTimeoutException extends RuntimeException {
     private static final long serialVersionUID = 6056785264760499779L;
 
     // failure subject - cannot be null after construction
@@ -22,7 +22,7 @@ class WaitTimeoutException extends RuntimeException {
 
     public WaitTimeoutException(CharSequence message, Object... args) {
         if (args != null) {
-            failure = format(message.toString(), args);
+            failure = SimplifiedFormat.format(message.toString(), args);
         } else {
             failure = message.toString();
         }
