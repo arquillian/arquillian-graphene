@@ -23,6 +23,7 @@ package org.jboss.arquillian.ajocado.framework;
 
 import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
 
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -466,8 +467,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
-    public void keyDownNative(String keycode) {
-        selenium.keyDownNative(keycode);
+    public void keyDownNative(KeyEvent keycode) {
+        selenium.keyDownNative(keyEventToNativeCode(keycode));
     }
 
     public void keyPress(ElementLocator<?> elementLocator, char character) {
@@ -478,8 +479,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
-    public void keyPressNative(String keycode) {
-        selenium.keyPressNative(keycode);
+    public void keyPressNative(KeyEvent keycode) {
+        selenium.keyPressNative(keyEventToNativeCode(keycode));
     }
     
     public void keyUp(ElementLocator<?> elementLocator, char character) {
@@ -490,8 +491,8 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
-    public void keyUpNative(String keycode) {
-        selenium.keyUpNative(keycode);
+    public void keyUpNative(KeyEvent keycode) {
+        selenium.keyUpNative(keyEventToNativeCode(keycode));
     }
 
     public void logToBrowser(String textToLog) {
@@ -753,5 +754,9 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     @Override
     public void addCustomRequestHeader(RequestHeader header) {
         selenium.addCustomRequestHeader(header.getName(), header.getValue());
+    }
+    
+    private static String keyEventToNativeCode(KeyEvent event) {
+        return Integer.toString(event.getKeyCode());
     }
 }
