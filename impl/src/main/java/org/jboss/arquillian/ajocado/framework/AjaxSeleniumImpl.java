@@ -29,7 +29,7 @@ import org.jboss.arquillian.ajocado.command.CommandInterceptorProxyImpl;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
 import org.jboss.arquillian.ajocado.guard.RequestGuard;
-import org.jboss.arquillian.ajocado.request.RequestInterceptorImpl;
+import org.jboss.arquillian.ajocado.guard.RequestGuardImpl;
 
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.HttpCommandProcessor;
@@ -88,7 +88,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensionsImpl();
         seleniumExtensions = new SeleniumExtensionsImpl();
-        requestInterceptor = new RequestInterceptorImpl();
+        requestInterceptor = new RequestGuardImpl();
     }
 
     /*

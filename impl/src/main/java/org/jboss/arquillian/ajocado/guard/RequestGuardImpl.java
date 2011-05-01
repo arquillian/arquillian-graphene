@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.request;
+package org.jboss.arquillian.ajocado.guard;
 
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
@@ -28,8 +28,8 @@ import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
-import org.jboss.arquillian.ajocado.guard.RequestGuard;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
  * <p>
@@ -44,7 +44,7 @@ import org.jboss.arquillian.ajocado.javascript.JavaScript;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class RequestInterceptorImpl implements RequestGuard {
+public class RequestGuardImpl implements RequestGuard {
     private final JavaScript clearRequestDone = js("cheiron.requestInterceptor.clearRequestDone()");
     private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestTypeDone()");
 
