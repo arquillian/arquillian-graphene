@@ -144,7 +144,7 @@
 							<exclude>.gitignore</exclude>
 						</excludes>
 						<properties>
-							<year>${project.inceptionYear}</year>
+							<year>2011</year>
 						</properties>
 					</configuration>
 					<executions>
