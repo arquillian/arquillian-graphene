@@ -48,7 +48,7 @@ import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
-import org.jboss.arquillian.ajocado.guard.request.RequestGuardFactory;
+import org.jboss.arquillian.ajocado.guard.RequestGuardFactory;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
