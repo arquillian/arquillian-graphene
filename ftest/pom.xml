@@ -38,6 +38,11 @@
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>src/test/webapp/resources/script/jquery-min.js</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

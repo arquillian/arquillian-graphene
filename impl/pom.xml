@@ -73,6 +73,15 @@
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>src/main/javascript/selenium-extensions/goog/disposable/disposable.js</exclude>
+						<exclude>src/main/javascript/selenium-extensions/goog/base.js</exclude>
+						<exclude>src/main/javascript/selenium-extensions/jquery/jquery.js</exclude>
+						<exclude>src/main/javascript/page-extensions-order.txt</exclude>
+						<exclude>src/main/javascript/selenium-extensions-order.txt</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
