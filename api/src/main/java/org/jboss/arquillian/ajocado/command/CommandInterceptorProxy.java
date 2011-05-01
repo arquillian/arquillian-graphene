@@ -29,7 +29,7 @@ import java.util.Set;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface CommandInterceptionProxy {
+public interface CommandInterceptorProxy {
 
     /**
      * Registers new interceptor

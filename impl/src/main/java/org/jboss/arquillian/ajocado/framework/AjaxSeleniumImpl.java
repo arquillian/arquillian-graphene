@@ -24,11 +24,11 @@ package org.jboss.arquillian.ajocado.framework;
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.browser.Browser;
-import org.jboss.arquillian.ajocado.command.CommandInterceptionProxy;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorProxy;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorProxyImpl;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
 import org.jboss.arquillian.ajocado.guard.RequestGuard;
-import org.jboss.arquillian.ajocado.interception.InterceptionProxyImpl;
 import org.jboss.arquillian.ajocado.request.RequestInterceptorImpl;
 
 import com.thoughtworks.selenium.CommandProcessor;
@@ -41,7 +41,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * 
  * <p>
  * Internally using {@link org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor} and
- * {@link InterceptionProxyImpl}.
+ * {@link CommandInterceptorProxyImpl}.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -61,7 +61,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     /**
      * The command interception proxy
      */
-    InterceptionProxyImpl interceptionProxy;
+    CommandInterceptorProxyImpl interceptionProxy;
 
     /**
      * Instantiates a new ajax selenium.
@@ -84,7 +84,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
     public AjaxSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
         CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort, browser.inSeleniumRepresentation(),
             contextPathURL.toString());
-        interceptionProxy = new InterceptionProxyImpl(commandProcessor);
+        interceptionProxy = new CommandInterceptorProxyImpl(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensionsImpl();
         seleniumExtensions = new SeleniumExtensionsImpl();
@@ -124,7 +124,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getInterceptionProxy()
      */
-    public CommandInterceptionProxy getCommandInterceptionProxy() {
+    public CommandInterceptorProxy getCommandInterceptionProxy() {
         return interceptionProxy;
     }
 

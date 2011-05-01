@@ -34,10 +34,10 @@ public interface CommandContext {
      * 
      * @return the result of command invocation
      * 
-     * @throws CommandInterceptionException
+     * @throws CommandInterceptorException
      *             when one of the interceptors in chain didn't call this method
      */
-    Object invoke() throws CommandInterceptionException;
+    Object invoke() throws CommandInterceptorException;
 
     /**
      * Returns name of command

@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.interception;
+package org.jboss.arquillian.ajocado.command;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,9 +27,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.jboss.arquillian.ajocado.command.CommandContext;
-import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
-import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 
 import com.thoughtworks.selenium.CommandProcessor;
 
@@ -83,22 +80,22 @@ public class CommandContextImpl implements CommandContext {
      * <p>
      * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method
      * body method {@link CommandContextImpl#invoke()} at least once. If not, this interceptor will raise
-     * {@link CommandInterceptionException}.
+     * {@link CommandInterceptorException}.
      * </p>
      * 
      * @return the return value of executing the command on given commandProcessor
-     * @throws CommandInterceptionException
+     * @throws CommandInterceptorException
      *             if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in it's
      *             {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
-    public Object invoke() throws CommandInterceptionException {
+    public Object invoke() throws CommandInterceptorException {
         invocations += 1;
         final int currentInvocations = invocations;
         if (interceptors.hasNext()) {
             CommandInterceptor interceptor = interceptors.next();
             interceptor.intercept(this);
             if (currentInvocations == invocations) {
-                throw new CommandInterceptionException();
+                throw new CommandInterceptorException();
             }
             return result;
         } else {

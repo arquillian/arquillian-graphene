@@ -26,7 +26,7 @@ import static org.jboss.arquillian.ajocado.Ajocado.waitAjax;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.command.CommandContext;
-import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
@@ -69,7 +69,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
      * Prints the exception stack trace to help identify the problematic commands.
      * </p>
      */
-    public void intercept(final CommandContext ctx) throws CommandInterceptionException {
+    public void intercept(final CommandContext ctx) throws CommandInterceptorException {
         long end = System.currentTimeMillis() + configuration.getTimeout(TimeoutType.AJAX);
         boolean exceptionLogged = false;
         while (System.currentTimeMillis() < end) {

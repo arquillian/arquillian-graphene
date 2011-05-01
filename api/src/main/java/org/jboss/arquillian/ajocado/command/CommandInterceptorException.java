@@ -28,7 +28,7 @@ package org.jboss.arquillian.ajocado.command;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class CommandInterceptionException extends Exception {
+public class CommandInterceptorException extends Exception {
 
     private static final long serialVersionUID = 7802363137415880152L;
 }

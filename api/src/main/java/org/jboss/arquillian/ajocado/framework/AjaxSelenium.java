@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import org.jboss.arquillian.ajocado.command.CommandInterceptionProxy;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorProxy;
 import org.jboss.arquillian.ajocado.guard.RequestGuard;
 
 /**
@@ -30,7 +30,7 @@ import org.jboss.arquillian.ajocado.guard.RequestGuard;
  * </p>
  * 
  * <p>
- * Internally using {@link CommandInterceptionProxy} to add aspects to commands.
+ * Internally using {@link CommandInterceptorProxy} to add aspects to commands.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -81,7 +81,7 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * 
      * @return associated command interception proxy
      */
-    CommandInterceptionProxy getCommandInterceptionProxy();
+    CommandInterceptorProxy getCommandInterceptionProxy();
 
     /**
      * Returns the clone of AjaxSelenium pointing to the same Selenium session but with cloned configuration objects

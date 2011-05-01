@@ -45,9 +45,9 @@ public interface CommandInterceptor {
      * 
      * @param ctx
      *            the current command context
-     * @throws CommandInterceptionException
+     * @throws CommandInterceptorException
      *             if the subsequent interceptor doesn't call {@link CommandContext#invoke()} in it's
      *             {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
-    void intercept(CommandContext ctx) throws CommandInterceptionException;
+    void intercept(CommandContext ctx) throws CommandInterceptorException;
 }

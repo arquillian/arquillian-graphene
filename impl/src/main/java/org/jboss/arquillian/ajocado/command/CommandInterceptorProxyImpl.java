@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.interception;
+package org.jboss.arquillian.ajocado.command;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -32,10 +32,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
-import org.jboss.arquillian.ajocado.command.CommandInterceptionProxy;
-import org.jboss.arquillian.ajocado.command.CommandInterceptor;
-
 import com.thoughtworks.selenium.CommandProcessor;
 
 /**
@@ -47,7 +43,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class InterceptionProxyImpl implements CommandInterceptionProxy, java.lang.reflect.InvocationHandler {
+public final class CommandInterceptorProxyImpl implements CommandInterceptorProxy, java.lang.reflect.InvocationHandler {
 
     /**
      * The list of intercepted method names
@@ -79,7 +75,7 @@ public final class InterceptionProxyImpl implements CommandInterceptionProxy, ja
      * @param commandProcessor
      *            to associate with this proxy
      */
-    public InterceptionProxyImpl(CommandProcessor commandProcessor) {
+    public CommandInterceptorProxyImpl(CommandProcessor commandProcessor) {
         this.commandProcessor = commandProcessor;
     }
 
@@ -114,7 +110,7 @@ public final class InterceptionProxyImpl implements CommandInterceptionProxy, ja
                     new CommandContextImpl(commandName, arguments, commandProcessor, method, interceptors.values());
                 try {
                     result = context.invoke();
-                } catch (CommandInterceptionException e) {
+                } catch (CommandInterceptorException e) {
                     throw new IllegalStateException("There was at least one interceptor which didn't call invoke()");
                 } catch (Exception e) {
                     throw new InvocationTargetException(e);
@@ -185,8 +181,8 @@ public final class InterceptionProxyImpl implements CommandInterceptionProxy, ja
      * 
      * @return the immutable copy of this command processor
      */
-    public InterceptionProxyImpl immutableCopy() {
-        InterceptionProxyImpl copy = new InterceptionProxyImpl(commandProcessor);
+    public CommandInterceptorProxyImpl immutableCopy() {
+        CommandInterceptorProxyImpl copy = new CommandInterceptorProxyImpl(commandProcessor);
         copy.interceptors.putAll(this.interceptors);
         return copy;
     }
