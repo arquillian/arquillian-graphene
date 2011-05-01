@@ -46,7 +46,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public URL getContextRoot() {
-        String contextRoot = System.getProperty("context.root");
+        String contextRoot = System.getProperty("context.root", "http://localhost:8080/");
         Validate.notNull(contextRoot, "context.root system property should be set");
         return URLUtils.buildUrl(contextRoot);
     }
@@ -58,7 +58,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public URL getContextPath() {
-        String contextPath = System.getProperty("context.path");
+        String contextPath = System.getProperty("context.path", "/");
         Validate.notNull(contextPath, "context.path system property should be set");
         return URLUtils.buildUrl(getContextRoot(), contextPath);
     }
@@ -70,7 +70,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public Browser getBrowser() {
-        String browser = System.getProperty("browser");
+        String browser = System.getProperty("browser", "*firefox");
         Validate.notNull(browser, "browser system property should be set");
         return new Browser(browser);
     }
@@ -114,7 +114,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
      */
     @Override
     public int getSeleniumPort() {
-        String seleniumPort = System.getProperty("selenium.port");
+        String seleniumPort = System.getProperty("selenium.port", "4444");
         Validate.notNull(seleniumPort, "selenium.port system property should be set");
         return asInteger(seleniumPort);
     }
