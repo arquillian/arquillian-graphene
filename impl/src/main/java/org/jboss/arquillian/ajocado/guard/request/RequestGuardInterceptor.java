@@ -25,7 +25,7 @@ import static org.jboss.arquillian.ajocado.request.RequestType.HTTP;
 import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 
 import org.jboss.arquillian.ajocado.command.CommandContext;
-import org.jboss.arquillian.ajocado.command.CommandInterceptionException;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -79,7 +79,7 @@ public class RequestGuardInterceptor implements CommandInterceptor {
     /**
      * Enfolds the command with guarding code to detect request type
      */
-    public void intercept(CommandContext ctx) throws CommandInterceptionException {
+    public void intercept(CommandContext ctx) throws CommandInterceptorException {
         final String command = ctx.getCommand();
 
         if (GuardedCommands.INTERACTIVE_COMMANDS.contains(command) || command.equals("getEval")) {
@@ -109,7 +109,7 @@ public class RequestGuardInterceptor implements CommandInterceptor {
      * Then figure out what requestType was actually done and compare to expected one.
      * </p>
      * 
-     * @throws RequestTypeGuardException
+     * @throws RequestGuardException
      *             when done requestType doesn't equal to expected one
      */
     public void doAfterCommand() {
@@ -147,7 +147,7 @@ public class RequestGuardInterceptor implements CommandInterceptor {
         }
 
         if (lastRequestDone != requestExpected) {
-            throw new RequestTypeGuardException(requestExpected, lastRequestDone);
+            throw new RequestGuardException(requestExpected, lastRequestDone);
         }
     }
 }

@@ -48,7 +48,7 @@ import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
-import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory;
+import org.jboss.arquillian.ajocado.guard.request.RequestGuardFactory;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -94,27 +94,59 @@ public final class Ajocado {
     private Ajocado() {
     }
 
-    /*
-     * Guards
+    /**
+     * Shortcut for registering a guard for no request on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered no request guard
+     * @return the selenium guarded to use no request during interaction
      */
     public static AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
-        return RequestTypeGuardFactory.guard(selenium, RequestType.NONE);
+        return RequestGuardFactory.guard(selenium, RequestType.NONE);
     }
 
+    /**
+     * Shortcut for registering a regular HTTP request on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered regular HTTP request guard
+     * @return the selenium guarded to use regular HTTP requests
+     */
     public static AjaxSelenium guardHttp(AjaxSelenium selenium) {
-        return RequestTypeGuardFactory.guard(selenium, RequestType.HTTP);
+        return RequestGuardFactory.guard(selenium, RequestType.HTTP);
     }
 
+    /**
+     * Shortcut for registering a XMLHttpRequest on given selenium object.
+     * 
+     * @param selenium
+     *            where should be registered XMLHttpRequest guard
+     * @return the selenium guarded to use XMLHttpRequest
+     */
     public static AjaxSelenium guardXhr(AjaxSelenium selenium) {
-        return RequestTypeGuardFactory.guard(selenium, RequestType.XHR);
+        return RequestGuardFactory.guard(selenium, RequestType.XHR);
     }
 
+    /**
+     * Shortcut for registering guard waiting for interception of HTTP type request
+     * 
+     * @param selenium
+     *            selenium where should be the guard registered
+     * @return the selenium waitinf for interception of HTTP type request
+     */
     public static AjaxSelenium waitForHttp(AjaxSelenium selenium) {
-        return RequestTypeGuardFactory.guardInterlayed(selenium, RequestType.HTTP);
+        return RequestGuardFactory.guardInterlayed(selenium, RequestType.HTTP);
     }
 
+    /**
+     * Shortcut for registering guard waiting for interception of XHR type request
+     * 
+     * @param selenium
+     *            where should be the guard registered
+     * @return the selenium waiting for interception of XHR type request
+     */
     public static AjaxSelenium waitForXhr(AjaxSelenium selenium) {
-        return RequestTypeGuardFactory.guardInterlayed(selenium, RequestType.XHR);
+        return RequestGuardFactory.guardInterlayed(selenium, RequestType.XHR);
     }
 
     /**
