@@ -36,17 +36,17 @@ public interface RequestGuard {
      * 
      * @return the type of last request which was done
      */
-    RequestType getRequestTypeDone();
+    RequestType getRequestDone();
 
     /**
      * Resets the type of last request to NONE
      * 
      * @return the type of last request which was done before resetting
      */
-    RequestType clearRequestTypeDone();
+    RequestType clearRequestDone();
 
     /**
      * Waits until the request type changes to other than NONE
      */
-    void waitForRequestTypeChange();
+    void waitForRequest();
 }

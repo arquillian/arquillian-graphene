@@ -25,12 +25,12 @@ import static org.jboss.arquillian.ajocado.Ajocado.guardHttp;
 import static org.jboss.arquillian.ajocado.Ajocado.guardNoRequest;
 import static org.jboss.arquillian.ajocado.Ajocado.guardXhr;
 import static org.jboss.arquillian.ajocado.Ajocado.id;
-import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
 import static org.jboss.arquillian.ajocado.Ajocado.waitForHttp;
+import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardException;
+import org.jboss.arquillian.ajocado.guard.RequestGuardException;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.request.RequestType;
@@ -59,7 +59,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             guardNoRequest(selenium).click(linkHttpRequest);
             fail("The NO request was observed, however HTTP request was expected");
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.HTTP);
         }
     }
@@ -69,7 +69,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             guardNoRequest(selenium).click(linkAjaxRequest);
             fail("The NO request was observed, however XHR request was expected");
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.XHR);
         }
     }
@@ -84,7 +84,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             guardHttp(selenium).click(linkNoRequest);
             fail("The HTTP request was observed, however NONE request was expected");
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.NONE, "NONE request expected, but " + e.getRequestDone()
                 + " was done");
         }
@@ -95,7 +95,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             guardHttp(selenium).click(linkAjaxRequest);
             fail("The HTTP request was observed, however XHR request was expected");
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.XHR, "XHR request expected, but " + e.getRequestDone()
                 + " was done");
         }
@@ -111,7 +111,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             guardXhr(selenium).click(linkNoRequest);
             fail("The XHR request was observed, however NONE request was expected");
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.NONE);
         }
     }
@@ -121,7 +121,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             guardXhr(selenium).click(linkHttpRequest);
             fail("The XHR request was observed, however HTTP request was expected");
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.HTTP);
         }
     }
@@ -139,7 +139,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             waitForXhr(selenium).getEval(twoClicksWithTimeout.parametrize(linkHttpRequest, linkNoRequest));
             fail();
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.HTTP);
         }
     }
@@ -149,7 +149,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             waitForXhr(selenium).getEval(twoClicksWithTimeout.parametrize(linkHttpRequest, linkHttpRequest));
             fail();
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.HTTP);
         }
     }
@@ -167,7 +167,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             waitForHttp(selenium).getEval(twoClicksWithTimeout.parametrize(linkAjaxRequest, linkNoRequest));
             fail();
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.XHR);
         }
     }
@@ -177,7 +177,7 @@ public class TestRequestTypeGuard extends AbstractTest {
         try {
             waitForHttp(selenium).getEval(twoClicksWithTimeout.parametrize(linkAjaxRequest, linkAjaxRequest));
             fail();
-        } catch (RequestTypeGuardException e) {
+        } catch (RequestGuardException e) {
             assertTrue(e.getRequestDone() == RequestType.XHR);
         }
     }

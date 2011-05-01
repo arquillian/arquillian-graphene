@@ -21,16 +21,18 @@
  */
 package org.jboss.arquillian.ajocado.testng.samples;
 
-import java.net.URL;
-
+import static org.jboss.arquillian.ajocado.Ajocado.guardHttp;
+import static org.jboss.arquillian.ajocado.Ajocado.guardNoRequest;
+import static org.jboss.arquillian.ajocado.Ajocado.guardXhr;
+import static org.jboss.arquillian.ajocado.Ajocado.id;
+import static org.jboss.arquillian.ajocado.Ajocado.jq;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
+
+import java.net.URL;
 
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
-
-import static org.jboss.arquillian.ajocado.guard.request.RequestTypeGuardFactory.*;
 
 /**
  * Sample of guarding request to specific request type.

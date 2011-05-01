@@ -19,7 +19,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var RichFacesSelenium = {
+var Ajocado = Ajocado || {};
+
+Ajocado.extend = function(child, parent) {
+	var F = function() {};
+    F.prototype = parent.prototype;
+    child.prototype = new F();
+    child._superClass = parent.prototype;
+    child.prototype.constructor = child;
+};
+
+Ajocado.Page = Ajocado.Page || {};
+
+Ajocado.Page.RequestGuard = {
 	
 	requestDone : "HTTP",
 	
@@ -35,13 +47,5 @@ var RichFacesSelenium = {
 		var result = this.requestDone;
 		this.requestDone = "NONE";
 		return result;
-	},
-	
-	extend : function(child, parent) {
-	    var F = function() {};
-	    F.prototype = parent.prototype;
-	    child.prototype = new F();
-	    child._superClass = parent.prototype;
-	    child.prototype.constructor = child;
 	}
 };

@@ -45,8 +45,10 @@ import org.jboss.arquillian.ajocado.request.RequestType;
  * @version $Revision$
  */
 public class RequestGuardImpl implements RequestGuard {
-    private final JavaScript clearRequestDone = js("cheiron.requestInterceptor.clearRequestDone()");
-    private final JavaScript getRequestDone = js("cheiron.requestInterceptor.getRequestTypeDone()");
+
+    private static final String WAIT_FOR_REQUEST = "waitForRequest";
+    private static final JavaScript CLEAR_REQUEST_DONE = js("Ajocado.RequestInterceptor.clearRequestDone()");
+    private static final JavaScript GET_REQUEST_DONE = js("Ajocado.RequestInterceptor.getRequestDone()");
 
     /**
      * Proxy for thread local context of AjaxSelenium
@@ -62,8 +64,8 @@ public class RequestGuardImpl implements RequestGuard {
      * @throws IllegalStateException
      *             when the unknown type of request was obtained
      */
-    public RequestType getRequestTypeDone() {
-        String requestDone = selenium.getEval(getRequestDone);
+    public RequestType getRequestDone() {
+        String requestDone = selenium.getEval(GET_REQUEST_DONE);
         return parseRequest(requestDone);
     }
 
@@ -80,16 +82,16 @@ public class RequestGuardImpl implements RequestGuard {
      * @throws IllegalStateException
      *             when the unknown type of request was obtained
      */
-    public RequestType clearRequestTypeDone() {
-        String lastRequest = selenium.getEval(clearRequestDone);
+    public RequestType clearRequestDone() {
+        String lastRequest = selenium.getEval(CLEAR_REQUEST_DONE);
         return parseRequest(lastRequest);
     }
 
     /**
      * Waits for change of RequestType indicated on the page from NONE to other value.
      */
-    public void waitForRequestTypeChange() {
-        selenium.doCommand("waitForRequestChange", Long.toString(configuration.getTimeout(TimeoutType.AJAX)), null);
+    public void waitForRequest() {
+        selenium.doCommand(WAIT_FOR_REQUEST, Long.toString(configuration.getTimeout(TimeoutType.AJAX)), null);
     }
 
     private RequestType parseRequest(String request) {

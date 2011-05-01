@@ -19,7 +19,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-RichFacesSelenium.XHRWrapper = function() {
+var Ajocado = Ajocado || {};
+
+Ajocado.XHRWrapper = function() {
 	this.xhr;
 	this.responseText= "";
 	this.responseXml= null;
@@ -29,41 +31,41 @@ RichFacesSelenium.XHRWrapper = function() {
 	this.onreadystatechange= null;
 };
 	
-RichFacesSelenium.XHRWrapper.prototype.abort = function() {
+Ajocado.XHRWrapper.prototype.abort = function() {
     return this.xhr.abort();
 };
 
-RichFacesSelenium.XHRWrapper.prototype.open = function(method, url, asyncFlag, userName, password) {
+Ajocado.XHRWrapper.prototype.open = function(method, url, asyncFlag, userName, password) {
     asyncFlag = (asyncFlag !== false);
 	return this.xhr.open(method, url, asyncFlag, userName, password);
 };
 
-RichFacesSelenium.XHRWrapper.prototype.getAllResponseHeaders = function() {
+Ajocado.XHRWrapper.prototype.getAllResponseHeaders = function() {
     return this.xhr.getAllResponseHeaders();
 };
 
-RichFacesSelenium.XHRWrapper.prototype.getResponseHeader = function(name) {
+Ajocado.XHRWrapper.prototype.getResponseHeader = function(name) {
     return this.xhr.getResponseHeader(name);
 };
 
-RichFacesSelenium.XHRWrapper.prototype.send = function(content) {
+Ajocado.XHRWrapper.prototype.send = function(content) {
 	return this.xhr.send(content);
 };
 
-RichFacesSelenium.XHRWrapper.prototype.setRequestHeader = function(name, value) {
+Ajocado.XHRWrapper.prototype.setRequestHeader = function(name, value) {
 	return this.xhr.setRequestHeader(name, value);
 };
 
-RichFacesSelenium.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
+Ajocado.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
 	return this.onreadystatechange.call(this.xhr, event);
 }
 
 if (window.ActiveXObject) {
 	
-	RichFacesSelenium.ActiveXObject = window.ActiveXObject;
+	Ajocado.ActiveXObject = window.ActiveXObject;
 	
-	RichFacesSelenium.XHRActiveXObject = function(xhr) {
-		RichFacesSelenium.XHRWrapper.call(this);
+	Ajocado.XHRActiveXObject = function(xhr) {
+		Ajocado.XHRWrapper.call(this);
 		this.xhr = xhr;
 		var proxy = this;
 		this.xhr.onreadystatechange = function() {
@@ -78,14 +80,14 @@ if (window.ActiveXObject) {
 	      };
 	};
 
-	RichFacesSelenium.extend(RichFacesSelenium.XHRActiveXObject, RichFacesSelenium.XHRWrapper);
+	Ajocado.extend(Ajocado.XHRActiveXObject, Ajocado.XHRWrapper);
 
 	var ActiveXObject = function(type, location) {
-		var realActiveXObject = (location) ? new RichFacesSelenium.ActiveXObject(type, location) : new RichFacesSelenium.ActiveXObject(type);
+		var realActiveXObject = (location) ? new Ajocado.ActiveXObject(type, location) : new Ajocado.ActiveXObject(type);
 		
 		type = type.toLowerCase();
 		if (type == "msxml2.xmlhttp" || type == "microsoft.xmlhttp") {
-			var proxy = new RichFacesSelenium.XHRActiveXObject(realActiveXObject);
+			var proxy = new Ajocado.XHRActiveXObject(realActiveXObject);
 		} else {
 			var proxy = realActiveXObject;
 		}
@@ -95,14 +97,14 @@ if (window.ActiveXObject) {
 	
 } else if (window.XMLHttpRequest) {
 	
-	RichFacesSelenium.XMLHttpRequest = window.XMLHttpRequest;
+	Ajocado.XMLHttpRequest = window.XMLHttpRequest;
 	
 	var XMLHttpRequest = function() {
-		RichFacesSelenium.XHRWrapper.call(this);
-		this.xhr = new RichFacesSelenium.XMLHttpRequest();
+		Ajocado.XHRWrapper.call(this);
+		this.xhr = new Ajocado.XMLHttpRequest();
 	};
 
-	RichFacesSelenium.extend(XMLHttpRequest, RichFacesSelenium.XHRWrapper);
+	Ajocado.extend(XMLHttpRequest, Ajocado.XHRWrapper);
 	
 	XMLHttpRequest.prototype.onreadystatechangeWrapper = function() {
 		var self = this;
@@ -121,6 +123,6 @@ if (window.ActiveXObject) {
 
 	XMLHttpRequest.prototype.open = function(method, url, asyncFlag, userName, password) {
 		this.xhr.onreadystatechange = this.onreadystatechangeWrapper();
-		RichFacesSelenium.XHRWrapper.prototype.open.call(this, method, url, asyncFlag, userName, password);
+		Ajocado.XHRWrapper.prototype.open.call(this, method, url, asyncFlag, userName, password);
 	}
 }

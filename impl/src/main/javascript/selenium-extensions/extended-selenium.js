@@ -146,12 +146,3 @@ Selenium.prototype.isDisplayed = function(elementLocator) {
 Selenium.prototype.throwError = function(message) {
 	throw new SeleniumError(message);
 };
-
-/**
- * Syntactic shortcut for accessing RichFacesSelenium on the page.
- * 
- * @return the RichFacesSelenium object defined in the current page.
- */
-var getRFS = function() {
-	return selenium.browserbot.getCurrentWindow().RichFacesSelenium;
-}

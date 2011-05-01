@@ -48,8 +48,8 @@ public class PageExtensionsImpl implements PageExtensions {
             + " && (selenium.browserbot.getCurrentWindow().document != null) "
             + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
 
-    /** Evalutes if the RichFacesSelenium object is undefined on the page */
-    final JavaScript isRFSUndefined = js("getRFS() === undefined");
+    /** Evalutes if the Ajocado object is undefined on the page */
+    final JavaScript isAjocadoPageUndefined = js("Ajocado === undefined || Ajocado.getPage() === undefined");
 
     /** The associated selenium object. */
     AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
@@ -70,7 +70,7 @@ public class PageExtensionsImpl implements PageExtensions {
      * @return true, if is installed
      */
     public boolean isInstalled() {
-        return !Boolean.valueOf(selenium.getEval(isRFSUndefined));
+        return !Boolean.valueOf(selenium.getEval(isAjocadoPageUndefined));
     }
 
     /**

@@ -1,34 +1,23 @@
-var Cheiron = function() {
-	this.requestInterceptor = new Cheiron.RequestInterceptor();
+var Ajocado = Ajocado || {};
+
+Ajocado.RequestInterceptor = Ajocado.RequestInterceptor || {};
+
+Ajocado.RequestInterceptor.getRequestDone = function() {
+	return (Ajocado.getPage() === undefined) ? 'HTTP' : Ajocado.getPage().RequestGuard.getRequestDone();
 };
 
-Cheiron.RequestInterceptor = function() {
-};
-
-Cheiron.RequestInterceptor.prototype.getRequestTypeDone = function() {
-	return (getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone();
-};
-
-Cheiron.RequestInterceptor.prototype.clearRequestDone = function() {
+Ajocado.RequestInterceptor.clearRequestDone = function() {
 	var result;
-	if (getRFS() === undefined) {
+	if (Ajocado.getPage() === undefined) {
 		selenium.doWaitForPageToLoad();
 		result = 'HTTP';
 	} else {
-		result = getRFS().clearRequestDone();
+		result = Ajocado.getPage().RequestGuard.clearRequestDone();
 	};
 	return result;
 };
 
-Cheiron.RequestInterceptor.prototype.waitRequestChange = function() {
-	return ((getRFS() === undefined) ? 'HTTP' : getRFS().getRequestDone()) != 'NONE' && selenium.browserbot.getCurrentWindow().document.body;
-};
-
-var cheiron = new Cheiron();
-
-
-
-Selenium.prototype.doWaitForRequestChange = function(timeout) {
+Selenium.prototype.doWaitForRequest = function(timeout) {
 	return this.makeRequestChangeCondition(timeout);
 };
 
