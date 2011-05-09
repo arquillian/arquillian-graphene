@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import org.jboss.arquillian.ajocado.css.CssProperty;
+import org.jboss.arquillian.ajocado.css.CssResolver;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
@@ -68,15 +68,21 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     /**
      * Get current style value of element given by locator.
      * 
+     * @param <R>
+     *            the returning type (which was resolved by given resolver)
+     * 
+     * @param <T>
+     *            the type of resolver {@link CssResolver}
+     * 
      * @param elementLocator
      *            of element from what we want to get current style value
-     * @param property
-     *            CSS style property
+     * @param cssResolver
+     *            CSS style property resolver, see {@link CssResolver}}
      * @return current value of property if its element exists and has this property value set; null value otherwise
      * @throws IllegalStateException
      *             if is caught unrecognized throwable
      */
-    String getStyle(ElementLocator<?> elementLocator, CssProperty property);
+    <R, T extends CssResolver<R>> R getStyle(ElementLocator<?> elementLocator, T cssResolver);
 
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.

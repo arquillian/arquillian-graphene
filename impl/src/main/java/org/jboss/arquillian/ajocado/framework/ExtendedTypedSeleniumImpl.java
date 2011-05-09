@@ -25,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.jboss.arquillian.ajocado.css.CssProperty;
+import org.jboss.arquillian.ajocado.css.CssResolver;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
@@ -109,8 +109,9 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium
      * #getStyle(org.jboss.test.selenium.locator.ElementLocator , org.jboss.arquillian.ajocado.css.CssProperty)
      */
-    public String getStyle(ElementLocator<?> elementLocator, CssProperty property) {
-        return getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(), property.getPropertyName());
+    public <R, T extends CssResolver<R>> R getStyle(ElementLocator<?> elementLocator, T cssResolver) {
+        final String propertyValue = getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(), cssResolver.getPropertyName());
+        return cssResolver.resolveProperty(propertyValue);
     }
 
     /*

@@ -23,13 +23,13 @@ package org.jboss.arquillian.ajocado.css;
 
 /**
  * <p>
- * Encapsulates extendable enumeration CSS properties.
+ * Encapsulates extendable enumeration of CSS properties.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class CssProperty {
+public class CssProperty implements CssResolver<String> {
 
     public static final CssProperty BACKGROUND = new CssProperty("background");
     public static final CssProperty BACKGROUND_ATTACHMENT = new CssProperty("background-attachment");
@@ -46,6 +46,7 @@ public class CssProperty {
     public static final CssProperty BORDER_RIGHT = new CssProperty("border-right");
     public static final CssProperty BORDER_RIGHT_WIDTH = new CssProperty("border-right-width");
     public static final CssProperty BORDER_STYLE = new CssProperty("border-style");
+    public static final CssProperty BORDER_SPACING = new CssProperty("border-spacing");
     public static final CssProperty BORDER_TOP = new CssProperty("border-top");
     public static final CssProperty BORDER_TOP_WIDTH = new CssProperty("border-top-width");
     public static final CssProperty BORDER_WIDTH = new CssProperty("border-width");
@@ -84,8 +85,7 @@ public class CssProperty {
     public static final CssProperty WORD_SPACING = new CssProperty("word-spacing");
     public static final CssProperty WHITE_SPACE = new CssProperty("white-space");
     public static final CssProperty WIDTH = new CssProperty("width");
-
-    static final CssProperty BORDER_SPACING = new CssProperty("border-spacing");
+    public static final CssProperty Z_INDEX = new CssProperty("z-index");
 
     private String propertyName;
 
@@ -98,5 +98,10 @@ public class CssProperty {
 
     public String getPropertyName() {
         return propertyName;
+    }
+
+    @Override
+    public String resolveProperty(String propertyAsString) {
+        return propertyAsString;
     }
 }
