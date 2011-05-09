@@ -32,6 +32,7 @@ import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.locator.LinkLocator;
 import org.jboss.arquillian.ajocado.locator.NameLocator;
 import org.jboss.arquillian.ajocado.locator.XPathLocator;
+import org.jboss.arquillian.ajocado.locator.element.CompoundableLocator;
 import org.jboss.arquillian.ajocado.request.RequestType;
 import org.jboss.arquillian.ajocado.waiting.Wait;
 import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
@@ -227,5 +228,26 @@ public final class Ajocado {
      */
     public static XPathLocator xp(String xpath) {
         return new XPathLocator(xpath);
+    }
+    
+    /**
+     * <p>Prepares new locator from composition of locator with children.</p>
+     * 
+     * <p>Syntactic shortcut for expressions like:</p>
+     * 
+     * <p> locator.getChild(child1).getChild(child2)</p>
+     * 
+     * @param <T> the type of compoundable locator
+     * @param locator locator base
+     * @param child the childr of base locator
+     * @param children sub-children of base locator
+     * @return locator composition from base and its children
+     */
+    public static <T extends CompoundableLocator<T>> T child(T locator, T child, T... children) {
+        T result = locator.getChild(child);
+        for (T loc : children) {
+            result = result.getChild(loc);
+        }
+        return result;
     }
 }

@@ -24,6 +24,7 @@ package org.jboss.arquillian.ajocado.testng.samples;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
 
+import static org.jboss.arquillian.ajocado.Ajocado.child;
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 
 /**
@@ -36,10 +37,10 @@ public class IterationAndCompositionSample extends AbstractAjocadoTest {
 
     static final JQueryLocator LOC_TABLE = jq("#mytable");
     static final JQueryLocator LOC_COLUMN_2 = jq("td:nth-child(2)");
-    static final JQueryLocator LOC_LINK = LOC_COLUMN_2.getChild(jq("span a"));
+    static final JQueryLocator LOC_LINK = child(LOC_COLUMN_2, jq("span a"));
 
     void usage() {
-        JQueryLocator rows = LOC_TABLE.getChild(jq("tr"));
+        JQueryLocator rows = child(LOC_TABLE, jq("tr"));
 
         for (JQueryLocator row : rows) {
             final JQueryLocator column2 = row.getDescendant(LOC_LINK);
