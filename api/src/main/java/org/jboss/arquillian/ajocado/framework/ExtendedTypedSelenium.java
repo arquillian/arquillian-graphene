@@ -111,15 +111,6 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     void mouseOutAt(ElementLocator<?> elementLocator, Point point);
 
     /**
-     * Returns whether the element is displayed on the page.
-     * 
-     * @param elementLocator
-     *            element locator
-     * @return if style contains "display: none;" returns false, else returns true
-     */
-    boolean isDisplayed(ElementLocator<?> elementLocator);
-
-    /**
      * Checks if element given by locator is member of CSS class given by className.
      * 
      * @param className

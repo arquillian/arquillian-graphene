@@ -21,11 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
-
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
@@ -33,19 +29,22 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
 /**
  * <p>
- * Implementation of Condition for waiting until given element is not displayed.
+ * Implementation of Condition for waiting until given element is displayed.
  * </p>
  * 
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
  * 
- * @author <a href="mailto:ppitonak@redhat.com">Lukas Fryc</a>
+ * @author <a href="mailto:ppitonak@redhat.com">Pavol Pitonak</a>
  * @version $Revision$
  */
-public class IsNotDisplayed implements SeleniumCondition, JavaScriptCondition {
+public class IsVisible implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Proxy to local selenium instance
@@ -56,64 +55,64 @@ public class IsNotDisplayed implements SeleniumCondition, JavaScriptCondition {
     private ElementLocator<?> elementLocator;
 
     /**
-     * Instantiates a new condition
+     * Instantiates a new element present.
      */
-    protected IsNotDisplayed() {
+    protected IsVisible() {
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.jboss.test.selenium.waiting.Condition#isTrue()
+     * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     public boolean isTrue() {
         Validate.notNull(elementLocator);
 
-        return !selenium.isDisplayed(elementLocator);
+        return selenium.isVisible(elementLocator);
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
+     * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     public JavaScript getJavaScriptCondition() {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
-        return js(SimplifiedFormat.format("!selenium.isDisplayed('{0}')", escapedLocator));
+        return js("selenium.isVisible('{0}')").parametrize(escapedLocator);
     }
 
     /**
      * Factory method.
      * 
-     * @return single instance of IsNotDisplayed
+     * @return single instance of ElementPresent
      */
-    public static IsNotDisplayed getInstance() {
-        return new IsNotDisplayed();
+    public static IsVisible getInstance() {
+        return new IsVisible();
     }
 
     /**
-     * Returns the IsNotDisplayed instance with given elementLocator set.
+     * Returns the ElementPresent instance with given elementLocator set.
      * 
      * @param elementLocator
      *            the element locator
-     * @return the IsNotDisplayed instance
+     * @return the element present
      */
-    public IsNotDisplayed locator(ElementLocator<?> elementLocator) {
+    public IsVisible locator(ElementLocator<?> elementLocator) {
         Validate.notNull(elementLocator);
 
-        IsNotDisplayed copy = copy();
+        IsVisible copy = copy();
         copy.elementLocator = elementLocator;
 
         return copy;
     }
 
     /**
-     * Returns the exact copy of this IsNotDisplayed object.
+     * Returns the exact copy of this ElementPresent object.
      * 
-     * @return the IsNotDisplayed instance
+     * @return the element present
      */
-    private IsNotDisplayed copy() {
-        IsNotDisplayed copy = new IsNotDisplayed();
+    private IsVisible copy() {
+        IsVisible copy = new IsVisible();
         copy.elementLocator = elementLocator;
         return copy;
     }

@@ -146,15 +146,6 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     /*
      * (non-Javadoc)
      * 
-     * @see ExtendedTypedSelenium#isDisplayed(org.jboss.arquillian.ajocado.locator.ElementLocator )
-     */
-    public boolean isDisplayed(ElementLocator<?> elementLocator) {
-        return getExtendedSelenium().isDisplayed(elementLocator.inSeleniumRepresentation());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see ExtendedTypedSelenium#belongsClass(org.jboss.arquillian.ajocado.locator.ElementLocator , java.lang.String)
      */
     public boolean belongsClass(ElementLocator<?> elementLocator, String className) {

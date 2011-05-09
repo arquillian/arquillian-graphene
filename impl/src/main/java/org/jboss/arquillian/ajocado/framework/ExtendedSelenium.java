@@ -111,22 +111,6 @@ public class ExtendedSelenium extends DefaultSelenium {
     }
 
     /**
-     * Returns whether the element is displayed on the page.
-     * 
-     * @param locator
-     *            element locator
-     * @return if style contains "display: none;" returns false, else returns true
-     */
-    public boolean isDisplayed(String locator) {
-        try {
-            return !getStyle(locator, "display").contains("none");
-        } catch (Exception e) {
-            // there is no attribute "style"
-            return true;
-        }
-    }
-
-    /**
      * Checks if element given by locator is member of CSS class given by className.
      * 
      * @param className
