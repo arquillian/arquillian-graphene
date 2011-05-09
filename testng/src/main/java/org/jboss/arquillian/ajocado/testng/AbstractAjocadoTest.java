@@ -60,10 +60,6 @@ import org.testng.annotations.Parameters;
  */
 public abstract class AbstractAjocadoTest {
 
-    public static final int WAIT_GUI_INTERVAL = 100;
-    public static final int WAIT_AJAX_INTERVAL = 500;
-    public static final int WAIT_MODEL_INTERVAL = 1500;
-
     protected AjaxSelenium selenium;
     protected AjocadoConfiguration configuration = new SystemPropertiesConfiguration();
 
@@ -113,8 +109,6 @@ public abstract class AbstractAjocadoTest {
 
         loadCustomLocationStrategies();
 
-        selenium.setSpeed(configuration.getSeleniumSpeed());
-
         if (configuration.isSeleniumMaximize()) {
             // focus and maximaze tested window
             selenium.windowFocus();
@@ -154,6 +148,14 @@ public abstract class AbstractAjocadoTest {
         selenium.getSeleniumExtensions().registerCustomHandlers();
         // prepares the resources to load into page
         selenium.getPageExtensions().loadFromResources(pageExtensions);
+    }
+
+    /**
+     * Configure Ajocado - it have to be done after initialization of extensions
+     */
+    @BeforeClass(dependsOnMethods = { "initializeExtensions" }, alwaysRun = true)
+    public void configureAjocado() {
+        selenium.setSpeed(configuration.getSeleniumSpeed());
     }
 
     /**
