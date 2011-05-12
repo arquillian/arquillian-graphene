@@ -30,6 +30,7 @@ import org.jboss.arquillian.api.ArquillianResource;
 import org.jboss.arquillian.api.RunAsClient;
 import org.jboss.arquillian.drone.annotation.Drone;
 import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.BeforeMethod;
@@ -44,9 +45,14 @@ public class AbstractTest extends Arquillian {
     protected URL applicationPath;
 
     protected static WebArchive createDeploymentForClass(Class<? extends AbstractTest> testClass) {
-        return ShrinkWrap.create(WebArchive.class, "ftest-app.war")
+        WebArchive war = ShrinkWrap
+            .create(WebArchive.class, "ftest-app.war")
             .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
-            .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"));
+            .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
+            .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
+                ArchivePaths.create("resources/script/jquery-min.js"));
+
+        return war;
     }
 
     @BeforeMethod
