@@ -31,8 +31,8 @@ import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import com.thoughtworks.selenium.SeleniumException;
 
@@ -62,25 +62,25 @@ public class TestAttributePresent extends AbstractTest {
         Assert.assertTrue(selenium.isAttributePresent(attributeExist));
     }
 
-    //@Test
+    @Test
     public void testAttributeNotPresent() {
         openContext();
         Assert.assertFalse(selenium.isAttributePresent(attributeNotExist));
     }
 
-    //@Test
+    @Test
     public void testElementNotPresent() {
         openContext();
         try {
             selenium.isAttributePresent(attributeOfNotExistsElement);
             Assert.fail("should raise a exception pointing that there is not such element");
         } catch (SeleniumException e) {
-            Assert.assertTrue("message was: " + e.getMessage(), e.getMessage().startsWith("ERROR: element '"));
-            Assert.assertTrue("message was: " + e.getMessage(), e.getMessage().endsWith("' is not found"));
+            Assert.assertTrue(e.getMessage().startsWith("ERROR: element '"), "message was: " + e.getMessage());
+            Assert.assertTrue(e.getMessage().endsWith("' is not found"), "message was: " + e.getMessage());
         }
     }
 
-    //@Test
+    @Test
     public void testExposedMember() {
         openContext();
         Assert.assertTrue(attributePresent.locator(attributeExist).isTrue());
@@ -90,8 +90,8 @@ public class TestAttributePresent extends AbstractTest {
             attributePresent.locator(attributeOfNotExistsElement).isTrue();
             Assert.fail("should raise a exception pointing that there is not such element");
         } catch (SeleniumException e) {
-            Assert.assertTrue("message was: " + e.getMessage(), e.getMessage().startsWith("ERROR: element '"));
-            Assert.assertTrue("message was: " + e.getMessage(), e.getMessage().endsWith("' is not found"));
+            Assert.assertTrue(e.getMessage().startsWith("ERROR: element '"), "message was: " + e.getMessage());
+            Assert.assertTrue(e.getMessage().endsWith("' is not found"), "message was: " + e.getMessage());
         }
     }
 }

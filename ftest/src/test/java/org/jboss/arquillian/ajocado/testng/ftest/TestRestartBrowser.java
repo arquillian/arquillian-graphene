@@ -21,8 +21,10 @@
  */
 package org.jboss.arquillian.ajocado.testng.ftest;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.jboss.arquillian.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -32,9 +34,14 @@ public class TestRestartBrowser extends AbstractTest {
 
     private static final String JSESSIONID = "JSESSIONID";
 
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return createDeploymentForClass(TestRestartBrowser.class);
+    }
+
     @Test
     public void testJSessionIdChange() {
-        selenium.open(applicationPath);
+        openContext();
 
         if (!selenium.isCookiePresent(JSESSIONID)) {
             Assert.fail("Cookie " + JSESSIONID + " is not present");
@@ -43,8 +50,8 @@ public class TestRestartBrowser extends AbstractTest {
         String jSessionId1 = selenium.getCookieByName(JSESSIONID).getValue();
 
         selenium.restartBrowser();
-        
-        selenium.open(applicationPath);
+
+        openContext();
 
         if (!selenium.isCookiePresent(JSESSIONID)) {
             Assert.fail("Cookie " + JSESSIONID + " is not present");

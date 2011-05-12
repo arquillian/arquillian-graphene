@@ -11,44 +11,12 @@
 	<name>Ajocado Functional Test</name>
 
 	<dependencies>
-		<!-- Arquillian -->
-		<dependency>
-			<groupId>org.jboss.arquillian</groupId>
-			<artifactId>arquillian-junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
+		
 		<!-- Arquillian Ajocado -->
 		<dependency>
 			<groupId>org.jboss.arquillian.ajocado</groupId>
-			<artifactId>arquillian-ajocado-impl</artifactId>
+			<artifactId>arquillian-ajocado-testng</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Arquillian Drone -->
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- JUnit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Selenium Dependencies -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-control</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

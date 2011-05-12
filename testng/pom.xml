@@ -12,19 +12,39 @@
 	<name>Ajocado TestNG Integration</name>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.jboss.arquillian.ajocado</groupId>
-			<artifactId>arquillian-ajocado-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+		<!-- Arquillian Ajocado -->
 		<dependency>
 			<groupId>org.jboss.arquillian.ajocado</groupId>
 			<artifactId>arquillian-ajocado-impl</artifactId>
-			<version>${project.version}</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+
+		<!-- Arquillian -->
+		<dependency>
+			<groupId>org.jboss.arquillian</groupId>
+			<artifactId>arquillian-testng</artifactId>
+		</dependency>
+
+		<!-- Arquillian Drone -->
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone</artifactId>
+		</dependency>
+
+		<!-- JUnit -->
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
+		</dependency>
+
+		<!-- Selenium -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-control</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
 		</dependency>
 	</dependencies>
 

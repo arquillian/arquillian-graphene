@@ -32,8 +32,10 @@ import org.jboss.arquillian.ajocado.guard.RequestGuardException;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.request.RequestType;
-import org.junit.Assert;
-import org.junit.Test;
+import org.jboss.arquillian.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -46,6 +48,11 @@ public class TestRequestTypeGuard extends AbstractTest {
     private ElementLocator<?> linkNoRequest = id("noRequest");
     private ElementLocator<?> linkAjaxRequest = id("ajax");
     private ElementLocator<?> linkHttpRequest = id("http");
+
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return createDeploymentForClass(TestRequestTypeGuard.class);
+    }
 
     @Test
     public void testGuardNone() {
@@ -83,8 +90,8 @@ public class TestRequestTypeGuard extends AbstractTest {
             guardHttp(selenium).click(linkNoRequest);
             Assert.fail("The HTTP request was observed, however NONE request was expected");
         } catch (RequestGuardException e) {
-            Assert.assertTrue("NONE request expected, but " + e.getRequestDone() + " was done",
-                e.getRequestDone() == RequestType.NONE);
+            Assert.assertTrue(e.getRequestDone() == RequestType.NONE,
+                "NONE request expected, but " + e.getRequestDone() + " was done");
         }
     }
 
@@ -94,8 +101,8 @@ public class TestRequestTypeGuard extends AbstractTest {
             guardHttp(selenium).click(linkAjaxRequest);
             Assert.fail("The HTTP request was observed, however XHR request was expected");
         } catch (RequestGuardException e) {
-            Assert.assertTrue("XHR request expected, but " + e.getRequestDone() + " was done",
-                e.getRequestDone() == RequestType.XHR);
+            Assert.assertTrue(e.getRequestDone() == RequestType.XHR, "XHR request expected, but " + e.getRequestDone()
+                + " was done");
         }
     }
 

@@ -30,8 +30,10 @@ import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
-import org.junit.Assert;
-import org.junit.Test;
+import org.jboss.arquillian.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -46,6 +48,11 @@ public class TestEscaping extends AbstractTest {
     TextRetriever retrieveParagraphText = retrieveText.locator(paragraph);
     AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph
         .getAttribute(Attribute.TITLE));
+
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return createDeploymentForClass(TestEscaping.class);
+    }
 
     @Test
     public void testEscapingTextRetriever() {
