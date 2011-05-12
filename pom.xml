@@ -22,6 +22,7 @@
 		<module>impl</module>
 		<module>testng</module>
 		<module>ftest</module>
+		<module>junit</module>
 	</modules>
 
 	<licenses>
@@ -76,6 +77,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<useReleaseProfile>true</useReleaseProfile>
+		<version.selenium>2.0b3</version.selenium>
+		<version.arquillian>1.0.0.Alpha5</version.arquillian>
 	</properties>
 
 	<build>
@@ -94,11 +97,6 @@
 
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>selenium-maven-plugin</artifactId>
-					<version>1.0.1</version>
-				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
@@ -171,20 +169,24 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-				<artifactId>selenium-java-client-driver</artifactId>
-				<version>1.0.2</version>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-junit</artifactId>
+				<version>${version.arquillian}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.seleniumhq.selenium.server</groupId>
-				<artifactId>selenium-server-coreless</artifactId>
-				<version>1.0.3</version>
-				<exclusions>
-					<exclusion>
-						<groupId>jetty</groupId>
-						<artifactId>org.mortbay.jetty</artifactId>
-					</exclusion>
-				</exclusions>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-drone</artifactId>
+				<version>${version.arquillian}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-server</artifactId>
+				<version>${version.selenium}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-remote-control</artifactId>
+				<version>${version.selenium}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-lang</groupId>
@@ -215,6 +217,11 @@
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-all</artifactId>
 				<version>1.8.5</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

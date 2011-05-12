@@ -24,8 +24,8 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.seleniumhq.selenium.client-drivers</groupId>
-			<artifactId>selenium-java-client-driver</artifactId>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-control</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>

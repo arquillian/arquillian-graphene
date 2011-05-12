@@ -25,14 +25,13 @@ import static org.jboss.arquillian.ajocado.Ajocado.jq;
 import static org.jboss.arquillian.ajocado.Ajocado.retrieveAttribute;
 import static org.jboss.arquillian.ajocado.Ajocado.retrieveText;
 import static org.jboss.arquillian.ajocado.Ajocado.waitGui;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
-import org.testng.annotations.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -50,13 +49,13 @@ public class TestEscaping extends AbstractTest {
 
     @Test
     public void testEscapingTextRetriever() {
-        assertTrue(selenium.isElementPresent(paragraph));
-        assertEquals(waitGui.waitForChangeAndReturn("unknown", retrieveParagraphText), paragraphText);
+        Assert.assertTrue(selenium.isElementPresent(paragraph));
+        Assert.assertEquals(waitGui.waitForChangeAndReturn("unknown", retrieveParagraphText), paragraphText);
     }
 
     @Test
     public void testEscapingAttributeRetriever() {
-        assertTrue(selenium.isElementPresent(paragraph));
-        assertEquals(waitGui.waitForChangeAndReturn("unknown", retrieveParagraphTitle), paragraphTitle);
+        Assert.assertTrue(selenium.isElementPresent(paragraph));
+        Assert.assertEquals(waitGui.waitForChangeAndReturn("unknown", retrieveParagraphTitle), paragraphTitle);
     }
 }

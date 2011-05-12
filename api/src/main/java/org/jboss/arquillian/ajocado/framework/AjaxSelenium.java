@@ -82,6 +82,17 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * @return associated command interception proxy
      */
     CommandInterceptorProxy getCommandInterceptionProxy();
+    
+    /**
+     * <p>
+     * Simulates restart of browser in order to be able get unpolluted browser session.
+     * </p>
+     * 
+     * <p>
+     * When running in mode that reuses browser session, it will only delete all cookies.
+     * </p>
+     */
+    void restartBrowser();
 
     /**
      * Returns the clone of AjaxSelenium pointing to the same Selenium session but with cloned configuration objects

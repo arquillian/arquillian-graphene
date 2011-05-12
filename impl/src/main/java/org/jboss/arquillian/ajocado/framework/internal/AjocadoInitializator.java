@@ -19,39 +19,53 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.testng.ftest;
-
-import org.junit.Assert;
-import org.junit.Test;
+package org.jboss.arquillian.ajocado.framework.internal;
 
 /**
+ * <p>
+ * Utilities for control of Selenium session and extensions.
+ * </p>
+ * 
+ * <p>
+ * For proper initialization, methods should be called in following order:
+ * </p>
+ * 
+ * <ol>
+ * <li>{@link #initializeBrowser()}</li>
+ * <li>{@link #initializeSeleniumExtensions()}</li>
+ * <li>{@link #initializePageExtensions()}</li>
+ * <li>{@link #configureBrowser()}</li>
+ * </ol>
+ * 
+ * 
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestRestartBrowser extends AbstractTest {
+public interface AjocadoInitializator {
+    
+    /**
+     * Initializes browser session and prepares it for further configuration
+     */
+    void initializeBrowser();
 
-    private static final String JSESSIONID = "JSESSIONID";
+    /**
+     * Initializes Ajocado extentensions for Selenium
+     */
+    void initializeSeleniumExtensions();
 
-    @Test
-    public void testJSessionIdChange() {
-        selenium.open(applicationPath);
+    /**
+     * Initializes Ajocado extentensions for application page
+     */
+    void initializePageExtensions();
 
-        if (!selenium.isCookiePresent(JSESSIONID)) {
-            Assert.fail("Cookie " + JSESSIONID + " is not present");
-        }
+    /**
+     * Configures browser from users configuration
+     */
+    void configureBrowser();
 
-        String jSessionId1 = selenium.getCookieByName(JSESSIONID).getValue();
-
-        selenium.restartBrowser();
-        
-        selenium.open(applicationPath);
-
-        if (!selenium.isCookiePresent(JSESSIONID)) {
-            Assert.fail("Cookie " + JSESSIONID + " is not present");
-        }
-
-        String jSessionId2 = selenium.getCookieByName(JSESSIONID).getValue();
-
-        Assert.assertFalse(jSessionId1.equals(jSessionId2));
-    }
+    /**
+     * Cleans browser window (by closing window or deleting all cookies)
+     */
+    void finalizeBrowser();
 }

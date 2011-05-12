@@ -21,15 +21,24 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import java.net.URL;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.fromResource;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
+import org.apache.commons.io.IOUtils;
 import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorProxy;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorProxyImpl;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.internal.AjocadoInitializator;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
 import org.jboss.arquillian.ajocado.guard.RequestGuard;
 import org.jboss.arquillian.ajocado.guard.RequestGuardImpl;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.HttpCommandProcessor;
@@ -47,7 +56,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxSelenium {
+public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxSelenium, AjocadoInitializator {
 
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;
@@ -82,8 +91,8 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      *            the context path url
      */
     public AjaxSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
-        CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort, browser.inSeleniumRepresentation(),
-            contextPathURL.toString());
+        CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort,
+            browser.inSeleniumRepresentation(), contextPathURL.toString());
         interceptionProxy = new CommandInterceptorProxyImpl(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensionsImpl();
@@ -130,6 +139,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
+     * 
      * @see java.lang.Object#clone()
      */
     @Override
@@ -140,5 +150,83 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
         copy.interceptionProxy = this.interceptionProxy.immutableCopy();
         copy.selenium = new ExtendedSelenium(copy.interceptionProxy.getCommandProcessorProxy());
         return copy;
+    }
+
+    @Override
+    public void initializeBrowser() {
+        this.enableNetworkTrafficCapturing(configuration.isSeleniumNetworkTrafficEnabled());
+        this.start();
+    }
+
+    @Override
+    public void configureBrowser() {
+        if (configuration.isSeleniumMaximize()) {
+            this.windowFocus();
+            this.windowMaximize();
+        }
+
+        loadCustomLocationStrategies();
+
+        this.setTimeout(configuration.getTimeout(TimeoutType.DEFAULT));
+
+        // set speed after all configurations done
+        this.setSpeed(configuration.getSeleniumSpeed());
+    }
+
+    @Override
+    public void initializeSeleniumExtensions() {
+        List<String> seleniumExtensions = getExtensionsListFromResource("javascript/selenium-extensions-order.txt");
+        // loads the extensions to the selenium
+        getSeleniumExtensions().requireResources(seleniumExtensions);
+        // register the handlers for newly loaded extensions
+        getSeleniumExtensions().registerCustomHandlers();
+    }
+
+    @Override
+    public void initializePageExtensions() {
+        List<String> pageExtensions = getExtensionsListFromResource("javascript/page-extensions-order.txt");
+        // prepares the resources to load into page
+        getPageExtensions().loadFromResources(pageExtensions);
+    }
+
+    @Override
+    public void finalizeBrowser() {
+        this.setSpeed(0);
+
+        if (this.isStarted()) {
+            this.deleteAllVisibleCookies();
+            this.stop();
+        }
+    }
+
+    @Override
+    public void restartBrowser() {
+        this.finalizeBrowser();
+        this.initializeBrowser();
+        this.initializeSeleniumExtensions();
+        this.initializePageExtensions();
+        this.configureBrowser();
+    }
+
+    protected void loadCustomLocationStrategies() {
+        // jQuery location strategy
+        JavaScript strategySource = fromResource("javascript/selenium-location-strategies/jquery-location-strategy.js");
+        this.addLocationStrategy(ElementLocationStrategy.JQUERY, strategySource);
+    }
+
+    /**
+     * Loads the list of resource names from the given resource.
+     * 
+     * @param resourceName
+     *            the path to resource on classpath
+     * @return the list of resource names from the given resource.
+     */
+    @SuppressWarnings("unchecked")
+    protected static List<String> getExtensionsListFromResource(String resourceName) {
+        try {
+            return IOUtils.readLines(ClassLoader.getSystemResourceAsStream(resourceName));
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

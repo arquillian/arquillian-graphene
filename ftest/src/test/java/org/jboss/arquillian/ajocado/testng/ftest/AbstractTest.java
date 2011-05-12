@@ -21,14 +21,36 @@
  */
 package org.jboss.arquillian.ajocado.testng.ftest;
 
-import org.jboss.arquillian.ajocado.testng.AbstractAjocadoTest;
+import java.io.File;
+import java.net.URL;
+
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
-import org.testng.annotations.BeforeMethod;
+import org.jboss.arquillian.api.ArquillianResource;
+import org.jboss.arquillian.api.RunAsClient;
+import org.jboss.arquillian.drone.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.runner.RunWith;
 
-public class AbstractTest extends AbstractAjocadoTest {
+@RunAsClient
+@RunWith(Arquillian.class)
+public class AbstractTest {
 
-    @BeforeMethod(alwaysRun = true)
-    public void openContext() {
-        selenium.open(URLUtils.buildUrl(contextPath, "/" + this.getClass().getSimpleName() + ".jsp"));
+    @Drone
+    protected AjaxSelenium selenium;
+
+    @ArquillianResource
+    protected URL applicationPath;
+
+    protected static WebArchive createDeploymentForClass(Class<? extends AbstractTest> testClass) {
+        return ShrinkWrap.create(WebArchive.class, "ftest-app.war")
+            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
+            .addAsResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"));
+    }
+
+    protected void openContext() {
+        selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
     }
 }
