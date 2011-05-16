@@ -20,9 +20,9 @@
 		<module>build-resources</module>
 		<module>api</module>
 		<module>impl</module>
-		<module>testng</module>
+		<!--<module>testng</module>
 		<module>junit</module>
-		<module>ftest</module>
+		<module>ftest</module>->
 	</modules>
 
 	<licenses>
