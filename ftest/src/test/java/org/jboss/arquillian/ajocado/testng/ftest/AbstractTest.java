@@ -27,7 +27,6 @@ import java.net.URL;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
 import org.jboss.arquillian.api.ArquillianResource;
-import org.jboss.arquillian.api.RunAsClient;
 import org.jboss.arquillian.drone.annotation.Drone;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
@@ -35,14 +34,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.BeforeMethod;
 
-@RunAsClient
 public class AbstractTest extends Arquillian {
 
-    @Drone
-    protected AjaxSelenium selenium;
+    @Drone AjaxSelenium selenium;
 
-    @ArquillianResource
-    protected URL applicationPath;
+    @ArquillianResource URL applicationPath;
 
     protected static WebArchive createDeploymentForClass(Class<? extends AbstractTest> testClass) {
         WebArchive war = ShrinkWrap
