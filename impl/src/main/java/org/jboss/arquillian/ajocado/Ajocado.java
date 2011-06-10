@@ -42,14 +42,7 @@ import org.jboss.arquillian.ajocado.waiting.conditions.AttributeEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.AttributePresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.CountEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementPresent;
-<<<<<<< HEAD
-import org.jboss.arquillian.ajocado.waiting.conditions.IsVisible;
-import org.jboss.arquillian.ajocado.waiting.conditions.IsNotVisible;
-=======
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotPresent;
-import org.jboss.arquillian.ajocado.waiting.conditions.ElementVisible;
-import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotVisible;
->>>>>>> 4deecc9... implementation of elementNotPresent wait condition
 import org.jboss.arquillian.ajocado.waiting.conditions.StyleEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
@@ -90,15 +83,6 @@ public final class Ajocado {
     public static final AlertPresent alertPresent = AlertPresent.getInstance();
     public static final AlertEquals alertEquals = AlertEquals.getInstance();
     public static final CountEquals countEquals = CountEquals.getInstance();
-<<<<<<< HEAD
-    public static final IsVisible isVisible = IsVisible.getInstance();
-    public static final IsNotVisible isNotVisible = IsNotVisible.getInstance();
-
-=======
-    public static final ElementVisible elementVisible = ElementVisible.getInstance();
-    public static final ElementNotVisible elementNotVisible = ElementNotVisible.getInstance();
-    
->>>>>>> 4deecc9... implementation of elementNotPresent wait condition
     /*
      * Retrievers
      */
