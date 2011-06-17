@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.framework.internal;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javassist.util.proxy.MethodHandler;
@@ -53,8 +54,12 @@ public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler 
 
     @Override
     public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-        Object target = waiting.timeout(configuration.getTimeout(timeoutType));
-        return thisMethod.invoke(target, args);
+    	try {
+	    	Object target = waiting.timeout(configuration.getTimeout(timeoutType));
+	        return thisMethod.invoke(target, args);
+        } catch (InvocationTargetException e) {
+			throw e.getTargetException();
+		}
     }
 
     public static <T extends DefaultWaiting<T>> T create(T waiting, TimeoutType timeoutType) {
