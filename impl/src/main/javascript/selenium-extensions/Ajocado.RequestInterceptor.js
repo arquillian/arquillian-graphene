@@ -57,5 +57,5 @@ Selenium.prototype.makeRequestChangeCondition = function(timeout) {
 
 Selenium.prototype._isRequestChanged = function() {
 	var newPageLoaded = this.browserbot.isNewPageLoaded();
-	return (this.browserbot.getCurrentWindow().RichFacesSelenium === undefined) ? newPageLoaded : this.browserbot.getCurrentWindow().RichFacesSelenium.requestDone != 'NONE' ;
+	return (Ajocado.getPage() === undefined) ? newPageLoaded : Ajocado.getPage().RequestGuard.getRequestDone() != 'NONE' ;
 };
