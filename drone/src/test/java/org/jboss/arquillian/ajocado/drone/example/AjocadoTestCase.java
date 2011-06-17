@@ -26,7 +26,7 @@ import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.XPathLocator;
 import org.jboss.arquillian.api.ArquillianResource;
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.drone.annotation.Drone;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
