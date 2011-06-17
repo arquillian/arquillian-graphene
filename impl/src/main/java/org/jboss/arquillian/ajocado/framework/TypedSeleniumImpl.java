@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -465,7 +464,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
-    public void keyDownNative(KeyEvent keycode) {
+    public void keyDownNative(int keycode) {
         selenium.keyDownNative(keyEventToNativeCode(keycode));
     }
 
@@ -477,7 +476,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
-    public void keyPressNative(KeyEvent keycode) {
+    public void keyPressNative(int keycode) {
         selenium.keyPressNative(keyEventToNativeCode(keycode));
     }
     
@@ -489,7 +488,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
-    public void keyUpNative(KeyEvent keycode) {
+    public void keyUpNative(int keycode) {
         selenium.keyUpNative(keyEventToNativeCode(keycode));
     }
 
@@ -754,7 +753,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         selenium.addCustomRequestHeader(header.getName(), header.getValue());
     }
     
-    private static String keyEventToNativeCode(KeyEvent event) {
-        return Integer.toString(event.getKeyCode());
+    private static String keyEventToNativeCode(int event) {
+        return Integer.toString(event);
     }
 }
