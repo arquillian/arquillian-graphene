@@ -44,6 +44,7 @@ import org.jboss.arquillian.ajocado.waiting.conditions.CountEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementPresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementVisible;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotVisible;
+import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotPresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.StyleEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
@@ -76,6 +77,7 @@ public final class Ajocado {
      * Wait Conditions
      */
     public static final ElementPresent elementPresent = ElementPresent.getInstance();
+    public static final ElementNotPresent elementNotPresent = ElementNotPresent.getInstance();
     public static final TextEquals textEquals = TextEquals.getInstance();
     public static final StyleEquals styleEquals = StyleEquals.getInstance();
     public static final AttributePresent attributePresent = AttributePresent.getInstance();
