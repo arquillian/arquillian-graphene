@@ -41,7 +41,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestRequestTypeGuard extends AbstractTest {
+public class TestRequestGuard extends AbstractTest {
 
     private JavaScript twoClicksWithTimeout = JavaScript.fromResource("two-clicks-with-timeout.js");
 
@@ -51,7 +51,7 @@ public class TestRequestTypeGuard extends AbstractTest {
 
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
-        return createDeploymentForClass(TestRequestTypeGuard.class);
+        return createDeploymentForClass(TestRequestGuard.class);
     }
 
     @Test
@@ -133,10 +133,9 @@ public class TestRequestTypeGuard extends AbstractTest {
 
     @Test
     public void testWaitForXhr() {
-        long time = System.currentTimeMillis();
+        
         waitForXhr(selenium).getEval(twoClicksWithTimeout.parametrize(linkHttpRequest, linkAjaxRequest));
-        time -= System.currentTimeMillis();
-        Assert.assertTrue(time < -5000);
+        
     }
 
     @Test
@@ -161,10 +160,9 @@ public class TestRequestTypeGuard extends AbstractTest {
 
     @Test
     public void testWaitHttp() {
-        long time = System.currentTimeMillis();
+        
         waitForHttp(selenium).getEval(twoClicksWithTimeout.parametrize(linkAjaxRequest, linkHttpRequest));
-        time -= System.currentTimeMillis();
-        Assert.assertTrue(time < -5000);
+       
     }
 
     @Test
