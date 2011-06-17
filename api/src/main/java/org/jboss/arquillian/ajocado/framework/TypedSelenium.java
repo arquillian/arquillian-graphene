@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.List;
@@ -1597,7 +1596,7 @@ public interface TypedSelenium {
      * @param keycode
      *            java.awt.event.KeyEvent
      */
-    void keyDownNative(KeyEvent keycode);
+    void keyDownNative(int keycode);
 
     /**
      * Simulates a user releasing a key by sending a native operating system keystroke. This function uses the
@@ -1609,7 +1608,7 @@ public interface TypedSelenium {
      * @param keycode
      *            java.awt.event.KeyEvent
      */
-    void keyUpNative(KeyEvent keycode);
+    void keyUpNative(int keycode);
 
     /**
      * Simulates a user pressing and releasing a key by sending a native operating system keystroke. This function uses
@@ -1621,7 +1620,7 @@ public interface TypedSelenium {
      * @param keycode
      *            java.awt.event.KeyEvent
      */
-    void keyPressNative(KeyEvent keycode);
+    void keyPressNative(int keycode);
 
     /**
      * Capture a PNG screenshot. It then returns the file as a base 64 encoded string.
