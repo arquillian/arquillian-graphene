@@ -26,8 +26,8 @@ import java.net.URL;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
-import org.jboss.arquillian.api.ArquillianResource;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -36,17 +36,19 @@ import org.testng.annotations.BeforeMethod;
 
 public class AbstractTest extends Arquillian {
 
-    @Drone AjaxSelenium selenium;
+    @Drone
+    AjaxSelenium selenium;
 
-    @ArquillianResource URL applicationPath;
+    @ArquillianResource
+    URL applicationPath;
 
     protected static WebArchive createDeploymentForClass(Class<? extends AbstractTest> testClass) {
         WebArchive war = ShrinkWrap
-            .create(WebArchive.class, "ftest-app.war")
-            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
-            .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
-            .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
-                ArchivePaths.create("resources/script/jquery-min.js"));
+                .create(WebArchive.class, "ftest-app.war")
+                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
+                .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
+                .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
+                        ArchivePaths.create("resources/script/jquery-min.js"));
 
         return war;
     }

@@ -25,13 +25,11 @@ import org.jboss.arquillian.drone.spi.Instantiator;
 /**
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
-public class DroneAjocadoExtension implements LoadableExtension
-{
-   @Override
-   public void register(ExtensionBuilder builder)
-   {
-      builder.service(Configurator.class, AjocadoFactory.class);
-      builder.service(Instantiator.class, AjocadoFactory.class);
-      builder.service(Destructor.class, AjocadoFactory.class);
-   }
+public class DroneAjocadoExtension implements LoadableExtension {
+    @Override
+    public void register(ExtensionBuilder builder) {
+        builder.service(Configurator.class, AjocadoFactory.class);
+        builder.service(Instantiator.class, AjocadoFactory.class);
+        builder.service(Destructor.class, AjocadoFactory.class);
+    }
 }

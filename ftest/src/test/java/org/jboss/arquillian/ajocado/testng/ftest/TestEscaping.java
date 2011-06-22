@@ -30,7 +30,7 @@ import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -46,8 +46,7 @@ public class TestEscaping extends AbstractTest {
 
     JQueryLocator paragraph = jq("p:contains('" + paragraphText + "')");
     TextRetriever retrieveParagraphText = retrieveText.locator(paragraph);
-    AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph
-        .getAttribute(Attribute.TITLE));
+    AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph.getAttribute(Attribute.TITLE));
 
     @Deployment(testable = false)
     public static WebArchive createDeployment() {

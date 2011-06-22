@@ -30,74 +30,66 @@ import org.jboss.arquillian.drone.spi.Instantiator;
 import java.lang.annotation.Annotation;
 
 /**
- * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado
- * browser object called {@link AjaxSelenium}.
- *
+ * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado browser
+ * object called {@link AjaxSelenium}.
+ * 
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
- *
+ * 
  */
-public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjocadoConfiguration>, Instantiator<AjaxSelenium, ArquillianAjocadoConfiguration>, Destructor<AjaxSelenium>
-{
+public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjocadoConfiguration>,
+        Instantiator<AjaxSelenium, ArquillianAjocadoConfiguration>, Destructor<AjaxSelenium> {
 
-   /*
-    * (non-Javadoc)
-    *
-    * @see org.jboss.arquillian.selenium.spi.Instantiator#getPrecedence()
-    */
-   public int getPrecedence()
-   {
-      return 0;
-   }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.selenium.spi.Instantiator#getPrecedence()
+     */
+    public int getPrecedence() {
+        return 0;
+    }
 
-   /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.jboss.arquillian.selenium.spi.Destructor#destroyInstance(java.lang
-    * .Object)
-    */
-   public void destroyInstance(AjaxSelenium instance)
-   {
-      AjaxSeleniumContext.set(null);
-      if (instance instanceof AjocadoInitializator) {
-          ((AjocadoInitializator) instance).finalizeBrowser();
-      }
-   }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.selenium.spi.Destructor#destroyInstance(java.lang .Object)
+     */
+    public void destroyInstance(AjaxSelenium instance) {
+        AjaxSeleniumContext.set(null);
+        if (instance instanceof AjocadoInitializator) {
+            ((AjocadoInitializator) instance).finalizeBrowser();
+        }
+    }
 
-   /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.jboss.arquillian.selenium.spi.Instantiator#createInstance(java.lang
-    * .Object)
-    */
-   public AjaxSelenium createInstance(ArquillianAjocadoConfiguration configuration)
-   {
-      AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(), configuration.getSeleniumPort(), configuration.getBrowser(), configuration.getContextRoot());
-      AjaxSeleniumContext.set(selenium);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.selenium.spi.Instantiator#createInstance(java.lang .Object)
+     */
+    public AjaxSelenium createInstance(ArquillianAjocadoConfiguration configuration) {
+        AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(), configuration.getSeleniumPort(),
+                configuration.getBrowser(), configuration.getContextRoot());
+        AjaxSeleniumContext.set(selenium);
 
-      selenium.initializeBrowser();
-      selenium.initializeSeleniumExtensions();
-      selenium.initializePageExtensions();
-      selenium.configureBrowser();
+        selenium.initializeBrowser();
+        selenium.initializeSeleniumExtensions();
+        selenium.initializePageExtensions();
+        selenium.configureBrowser();
 
-      return selenium;
-   }
+        return selenium;
+    }
 
-   /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.jboss.arquillian.selenium.spi.Configurator#createConfiguration(org
-    * .jboss.arquillian.impl.configuration.api.ArquillianDescriptor,
-    * java.lang.Class)
-    */
-   public ArquillianAjocadoConfiguration createConfiguration(ArquillianDescriptor descriptor, Class<? extends Annotation> qualifier)
-   {
-      ArquillianAjocadoConfiguration configuration = new ArquillianAjocadoConfiguration();
-      configuration.configure(descriptor, qualifier);
-      AjocadoConfigurationContext.set(configuration);
-      return configuration;
-   }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.jboss.arquillian.selenium.spi.Configurator#createConfiguration(org
+     * .jboss.arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
+     */
+    public ArquillianAjocadoConfiguration createConfiguration(ArquillianDescriptor descriptor,
+            Class<? extends Annotation> qualifier) {
+        ArquillianAjocadoConfiguration configuration = new ArquillianAjocadoConfiguration();
+        configuration.configure(descriptor, qualifier);
+        AjocadoConfigurationContext.set(configuration);
+        return configuration;
+    }
 
 }

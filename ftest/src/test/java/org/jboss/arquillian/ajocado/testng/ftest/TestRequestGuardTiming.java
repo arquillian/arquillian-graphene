@@ -30,7 +30,7 @@ import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
 
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -54,31 +54,31 @@ public class TestRequestGuardTiming extends AbstractTest {
 
     @Test
     public void testGuardXhrTiming() {
-    	
-    	long time = System.currentTimeMillis();
-    	guardXhr(selenium).click(linkAjaxRequest);
-    	time -= System.currentTimeMillis();
+
+        long time = System.currentTimeMillis();
+        guardXhr(selenium).click(linkAjaxRequest);
+        time -= System.currentTimeMillis();
         Assert.assertTrue(time > -1000, "The intercepting of ajax request should not last more than 1 sec");
     }
-    
+
     @Test
     public void testGuardHttpTiming() {
-    	
-    	long time = System.currentTimeMillis();
-    	guardHttp(selenium).click(linkHttpRequest);
-    	time -= System.currentTimeMillis();
+
+        long time = System.currentTimeMillis();
+        guardHttp(selenium).click(linkHttpRequest);
+        time -= System.currentTimeMillis();
         Assert.assertTrue(time > -1000, "The intercepting of the http request should not last more than 1 sec");
     }
-    
+
     @Test
     public void testGuardNoneTiming() {
-    	
-    	long time = System.currentTimeMillis();
-    	guardNoRequest(selenium).click(linkNoRequest);
-    	time -= System.currentTimeMillis();
+
+        long time = System.currentTimeMillis();
+        guardNoRequest(selenium).click(linkNoRequest);
+        time -= System.currentTimeMillis();
         Assert.assertTrue(time < -5000, "The checking of none request should last more than 5 sec");
     }
-    
+
     @Test
     public void testWaitHttpTiming() {
         long time = System.currentTimeMillis();
@@ -86,7 +86,7 @@ public class TestRequestGuardTiming extends AbstractTest {
         time -= System.currentTimeMillis();
         Assert.assertTrue(time < -5000);
     }
-    
+
     @Test
     public void testWaitForXhrTiming() {
         long time = System.currentTimeMillis();
@@ -94,7 +94,5 @@ public class TestRequestGuardTiming extends AbstractTest {
         time -= System.currentTimeMillis();
         Assert.assertTrue(time < -5000);
     }
-    
-    
-    
+
 }

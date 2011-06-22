@@ -1,102 +1,94 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <artifactId>arquillian-ajocado-parent</artifactId>
-      <groupId>org.jboss.arquillian.ajocado</groupId>
-      <version>1.0.0-SNAPSHOT</version>
-   </parent>
+    <parent>
+        <artifactId>arquillian-ajocado-parent</artifactId>
+        <groupId>org.jboss.arquillian.ajocado</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-   <artifactId>arquillian-ajocado-ftest</artifactId>
-   <name>Ajocado Functional Test</name>
+    <artifactId>arquillian-ajocado-ftest</artifactId>
+    <name>Ajocado Functional Test</name>
 
-   <dependencies>		
+    <dependencies>		
 	  <!-- Arquillian Ajocado Test NG-->
-      <dependency>
-         <groupId>org.jboss.arquillian.ajocado</groupId>
-         <artifactId>arquillian-ajocado-testng</artifactId>
-         <version>1.0.0-SNAPSHOT</version>
-         <type>pom</type>
-         <scope>test</scope>
-      </dependency>
-      
-      <!-- required to create Selenium server -->
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId>
-         <version>1.5.10</version>
-         <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.ajocado</groupId>
+            <artifactId>arquillian-ajocado-testng</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-   </dependencies>
-
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>default-test</id>
-                  <goals>
-                     <goal>test</goal>
-                  </goals>
-                  <configuration>
-                     <skipTests>true</skipTests>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>com.mycila.maven-license-plugin</groupId>
-            <artifactId>maven-license-plugin</artifactId>
-            <configuration>
-               <excludes>
-                  <exclude>src/test/webapp/resources/script/jquery-min.js</exclude>
-               </excludes>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
-
-   <profiles>
-      <profile>
-         <id>ftest</id>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <id>ajocado-test</id>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
                         <goals>
-                           <goal>test</goal>
-                        </goals>                       
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>src/test/webapp/resources/script/jquery-min.js</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-jbossas-remote-6</artifactId>
-               <version>${version.arquillian}</version>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.jbossas</groupId>
-               <artifactId>jboss-as-client</artifactId>
-               <version>6.0.0.Final</version>
-               <type>pom</type>
-            </dependency>
-         </dependencies>
+    <profiles>
+        <profile>
+            <id>ftest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>ajocado-test</id>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
 
-      </profile>
-   </profiles>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-jbossas-remote-6</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.jbossas</groupId>
+                    <artifactId>jboss-as-client</artifactId>
+                    <version>6.0.0.Final</version>
+                    <type>pom</type>
+                </dependency>
+            </dependencies>
+
+        </profile>
+    </profiles>
 </project>

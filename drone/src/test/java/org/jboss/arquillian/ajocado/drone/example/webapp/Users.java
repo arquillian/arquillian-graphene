@@ -24,18 +24,17 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+public class Users {
 
-public class Users
-{
-   
-   @PersistenceContext
-   private EntityManager userDatabase;
-   
-   @SuppressWarnings("unchecked")
-   @Produces @Named @RequestScoped
-   public List<User> getUsers()
-   {
-      return userDatabase.createQuery("select u from User u").getResultList();
-   }
+    @PersistenceContext
+    private EntityManager userDatabase;
+
+    @SuppressWarnings("unchecked")
+    @Produces
+    @Named
+    @RequestScoped
+    public List<User> getUsers() {
+        return userDatabase.createQuery("select u from User u").getResultList();
+    }
 
 }

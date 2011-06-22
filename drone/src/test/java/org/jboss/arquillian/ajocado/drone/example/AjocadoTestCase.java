@@ -24,10 +24,10 @@ import org.jboss.arquillian.ajocado.drone.example.webapp.Users;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.XPathLocator;
-import org.jboss.arquillian.api.ArquillianResource;
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -49,65 +49,64 @@ import static org.jboss.arquillian.ajocado.Ajocado.*;
  * 
  */
 @RunWith(Arquillian.class)
-public class AjocadoTestCase
-{
-   // load ajocado driver
-   @Drone
-   AjaxSelenium driver;
+public class AjocadoTestCase {
+    // load ajocado driver
+    @Drone
+    AjaxSelenium driver;
 
-   @ArquillianResource URL contextPath;
+    @ArquillianResource
+    URL contextPath;
 
-   protected XPathLocator LOGGED_IN = xp("//li[contains(text(),'Welcome')]");
-   protected XPathLocator LOGGED_OUT = xp("//li[contains(text(),'Goodbye')]");
+    protected XPathLocator LOGGED_IN = xp("//li[contains(text(),'Welcome')]");
+    protected XPathLocator LOGGED_OUT = xp("//li[contains(text(),'Goodbye')]");
 
-   protected IdLocator USERNAME_FIELD = id("loginForm:username");
-   protected IdLocator PASSWORD_FIELD = id("loginForm:password");
+    protected IdLocator USERNAME_FIELD = id("loginForm:username");
+    protected IdLocator PASSWORD_FIELD = id("loginForm:password");
 
-   protected IdLocator LOGIN_BUTTON = id("loginForm:login");
-   protected IdLocator LOGOUT_BUTTON = id("loginForm:logout");
+    protected IdLocator LOGIN_BUTTON = id("loginForm:login");
+    protected IdLocator LOGOUT_BUTTON = id("loginForm:logout");
 
-   /**
-    * Creates a WAR of a Weld based application using ShrinkWrap
-    *
-    * @return WebArchive to be tested
-    */
-   @Deployment(testable = false)
-   public static WebArchive createDeployment()
-   {
-      WebArchive war = ShrinkWrap.create(WebArchive.class, "weld-login.war")
-            .addClasses(Credentials.class, LoggedIn.class, Login.class, User.class, Users.class)
-            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/beans.xml"))
-            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/faces-config.xml"))
-            .addAsWebInfResource(new File("src/test/resources/import.sql"))
-            .addAsWebResource(new File("src/test/webapp/index.html"))
-            .addAsWebResource(new File("src/test/webapp/home.xhtml"))
-            .addAsWebResource(new File("src/test/webapp/template.xhtml"))
-            .addAsWebResource(new File("src/test/webapp/users.xhtml"))
-            .addAsResource(new File("src/test/resources/META-INF/persistence.xml"), ArchivePaths.create("META-INF/persistence.xml"))
-            .setWebXML(new File("src/test/webapp/WEB-INF/web.xml"));
+    /**
+     * Creates a WAR of a Weld based application using ShrinkWrap
+     * 
+     * @return WebArchive to be tested
+     */
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        WebArchive war = ShrinkWrap
+                .create(WebArchive.class, "weld-login.war")
+                .addClasses(Credentials.class, LoggedIn.class, Login.class, User.class, Users.class)
+                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/beans.xml"))
+                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/faces-config.xml"))
+                .addAsWebInfResource(new File("src/test/resources/import.sql"))
+                .addAsWebResource(new File("src/test/webapp/index.html"))
+                .addAsWebResource(new File("src/test/webapp/home.xhtml"))
+                .addAsWebResource(new File("src/test/webapp/template.xhtml"))
+                .addAsWebResource(new File("src/test/webapp/users.xhtml"))
+                .addAsResource(new File("src/test/resources/META-INF/persistence.xml"),
+                        ArchivePaths.create("META-INF/persistence.xml")).setWebXML(new File("src/test/webapp/WEB-INF/web.xml"));
 
-      //war.as(ZipExporter.class).exportTo(new File("weld-login.war"), true);
+        // war.as(ZipExporter.class).exportTo(new File("weld-login.war"), true);
 
-      return war;
-   }
+        return war;
+    }
 
-   @Test
-   public void testLoginAndLogout()
-   {
-      Assert.assertNotNull("Path is not null", contextPath);
-      Assert.assertNotNull("AjaxSelenium is not null", driver);
+    @Test
+    public void testLoginAndLogout() {
+        Assert.assertNotNull("Path is not null", contextPath);
+        Assert.assertNotNull("AjaxSelenium is not null", driver);
 
-      driver.open(contextPath);
-      waitModel.until(elementPresent.locator(USERNAME_FIELD));      
-      Assert.assertFalse("User should not be logged in!", driver.isElementPresent(LOGOUT_BUTTON));
-      driver.type(USERNAME_FIELD, "demo");
-      driver.type(PASSWORD_FIELD, "demo");
-      
-      guardHttp(driver).click(LOGIN_BUTTON);
-      Assert.assertTrue("User should be logged in!", driver.isElementPresent(LOGGED_IN));
-      
-      guardHttp(driver).click(LOGOUT_BUTTON);
-      Assert.assertTrue("User should not be logged in!", driver.isElementPresent(LOGGED_OUT));
-   }
+        driver.open(contextPath);
+        waitModel.until(elementPresent.locator(USERNAME_FIELD));
+        Assert.assertFalse("User should not be logged in!", driver.isElementPresent(LOGOUT_BUTTON));
+        driver.type(USERNAME_FIELD, "demo");
+        driver.type(PASSWORD_FIELD, "demo");
+
+        guardHttp(driver).click(LOGIN_BUTTON);
+        Assert.assertTrue("User should be logged in!", driver.isElementPresent(LOGGED_IN));
+
+        guardHttp(driver).click(LOGOUT_BUTTON);
+        Assert.assertTrue("User should not be logged in!", driver.isElementPresent(LOGGED_OUT));
+    }
 
 }
