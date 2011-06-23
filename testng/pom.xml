@@ -1,63 +1,62 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>arquillian-ajocado-parent</artifactId>
-		<groupId>org.jboss.arquillian.ajocado</groupId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
-	<groupId>org.jboss.arquillian.ajocado</groupId>
-	<artifactId>arquillian-ajocado-testng</artifactId>
-	<name>Ajocado TestNG Integration</name>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>arquillian-ajocado-parent</artifactId>
+        <groupId>org.jboss.arquillian.ajocado</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<dependencies>
-		<!-- Arquillian Ajocado -->
-		<dependency>
-			<groupId>org.jboss.arquillian.ajocado</groupId>
-			<artifactId>arquillian-ajocado-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+    <artifactId>arquillian-ajocado-testng</artifactId>
+    <packaging>pom</packaging>
+    <name>Ajocado TestNG Integration</name>
 
-		<!-- Arquillian -->
-		<dependency>
-			<groupId>org.jboss.arquillian</groupId>
-			<artifactId>arquillian-testng</artifactId>
-		</dependency>
+    <dependencies>
+        <!-- Arquillian Ajocado -->
+        <dependency>
+            <groupId>org.jboss.arquillian.ajocado</groupId>
+            <artifactId>arquillian-ajocado-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+		
+	    <!-- Arquillian Drone -->
+        <dependency>
+            <groupId>org.jboss.arquillian.ajocado</groupId>
+            <artifactId>arquillian-ajocado-drone</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-impl</artifactId>
+        </dependency>
+      
+        <!-- Support for Selenium Server -->
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-selenium-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+        </dependency>
 
-		<!-- Arquillian Drone -->
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone</artifactId>
-		</dependency>
+        <!-- required to run Selenium Server -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
 
-		<!-- JUnit -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-		</dependency>
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.jboss.arquillian.testng</groupId>
+            <artifactId>arquillian-testng-container</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+        </dependency>
+    </dependencies>
 
-		<!-- Selenium -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-control</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 </project>
