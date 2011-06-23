@@ -23,7 +23,8 @@
         <module>drone</module>
         <module>testng</module>
         <module>junit</module>
-        <module>ftest</module>
+     <!--    <module>ftest-testng</module> -->
+        <module>ftest-junit</module> 
     </modules>
 
     <licenses>
@@ -198,10 +199,10 @@
                 <version>${version.arquillian.core}</version>
             </dependency>
         
-            <!-- Arquillian Drone dependencies -->
+            <!-- Arquillian Drone dependencies and Selenium dependencies -->
             <dependency>
                 <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-parent</artifactId>
+                <artifactId>arquillian-drone-bom</artifactId>
                 <version>${version.arquillian.drone}</version>
                 <type>pom</type>
                 <scope>import</scope>
