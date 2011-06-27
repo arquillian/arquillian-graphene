@@ -23,7 +23,7 @@
         <module>drone</module>
         <module>testng</module>
         <module>junit</module>
-     <!--    <module>ftest-testng</module> -->
+        <module>ftest-testng</module>
         <module>ftest-junit</module> 
     </modules>
 
@@ -81,8 +81,9 @@
         <useReleaseProfile>true</useReleaseProfile>
         
         <!-- Versioning -->
-        <version.arquillian.core>1.0.0.CR1-SNAPSHOT</version.arquillian.core>
+        <version.arquillian.core>1.0.0.CR1</version.arquillian.core>
         <version.arquillian.drone>1.0.0.CR1-SNAPSHOT</version.arquillian.drone>
+        <version.shrinkwrap>1.0.0-beta-3</version.shrinkwrap>
     </properties>
 
     <build>
@@ -234,6 +235,13 @@
             </dependency>
 
             <!-- External dependencies -->
+            <!-- required until ARQ-488 is fixed -->
+            <dependency>
+                <groupId>org.jboss.shrinkwrap</groupId>
+                <artifactId>shrinkwrap-impl-base</artifactId>
+                <version>${version.shrinkwrap}</version>
+            </dependency>
+
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
