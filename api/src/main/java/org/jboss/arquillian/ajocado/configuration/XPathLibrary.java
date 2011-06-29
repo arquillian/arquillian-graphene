@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Encapsulates the current implementations of XPath libraries supported by Selenium.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -45,7 +45,7 @@ public class XPathLibrary implements SeleniumRepresentable {
 
     /**
      * New named XPath library
-     * 
+     *
      * @param xpathLibraryName
      *            the XPath library name
      */
@@ -55,7 +55,7 @@ public class XPathLibrary implements SeleniumRepresentable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

@@ -38,7 +38,7 @@ import com.thoughtworks.selenium.SeleniumException;
 
 /**
  * The Guard which guards that request what was expected to be done will be actually done.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -63,7 +63,7 @@ public class RequestGuardInterceptor implements CommandInterceptor {
 
     /**
      * Constructs the guard with predefined expected RequestType
-     * 
+     *
      * @param requestExpected
      *            the RequestType which is expected to be done
      * @param interlayed
@@ -104,11 +104,11 @@ public class RequestGuardInterceptor implements CommandInterceptor {
      * <p>
      * Waits for changing the requestDone flag (or for timeout, when flag stay to be NONE).
      * </p>
-     * 
+     *
      * <p>
      * Then figure out what requestType was actually done and compare to expected one.
      * </p>
-     * 
+     *
      * @throws RequestGuardException
      *             when done requestType doesn't equal to expected one
      */

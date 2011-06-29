@@ -34,19 +34,19 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 import com.thoughtworks.selenium.SeleniumException;
 
 /**
- * 
+ *
  * <p>
  * Implementation of Condition for waiting if alert is shown and its message has has given value.
  * </p>
- * 
+ *
  * <p>
  * If the alert appears but it's message doesn't match expected message, the SeleniumException is thrown.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -68,7 +68,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -91,7 +91,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -108,7 +108,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of AlertEquals
      */
     public static AlertEquals getInstance() {
@@ -119,11 +119,11 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the AlertEquals instance with text set.
      * </p>
-     * 
+     *
      * <p>
      * For equality with this text the condition will wait.
      * </p>
-     * 
+     *
      * @param message
      *            it should wait for equality
      * @return the AlertEquals object with preset text
@@ -139,7 +139,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Returns the exact copy of this ElementPresent object.
-     * 
+     *
      * @return the copy of this AlertEquals object
      */
     private AlertEquals copy() {

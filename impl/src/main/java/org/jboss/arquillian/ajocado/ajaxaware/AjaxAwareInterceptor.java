@@ -38,7 +38,7 @@ import com.thoughtworks.selenium.SeleniumException;
 /**
  * Class to use to extend functionality of command processors to catch Selenium exceptions and repeat the command for
  * specific issue types (like Permission denied in Internet Explorer).
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -58,11 +58,11 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
      * <p>
      * Executes the command wrapped in exception handler.
      * </p>
-     * 
+     *
      * <p>
      * Reacts to exceptions with 'Permission denied' type and try to reexecute the command in this situation.
      * </p>
-     * 
+     *
      * <p>
      * Prints the exception stack trace to help identify the problematic commands.
      * </p>

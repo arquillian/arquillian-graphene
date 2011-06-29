@@ -31,10 +31,10 @@ import java.util.regex.Pattern;
  * <p>
  * Enumeration of supported browsers.
  * </p>
- * 
+ *
  * <p>
  * This enumeration has direct association with browser modes, see {@link BrowserMode}.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -65,7 +65,7 @@ public enum BrowserType {
 
     /**
      * Parses the type in case-insensitive manner.
-     * 
+     *
      * @param browserType
      *            the browser type
      * @return the browser type
@@ -82,7 +82,7 @@ public enum BrowserType {
      * Returns set of browser types derived from string enumeration of comma- and/or space-separated representation of
      * browser types ({@link BrowserType#parseType(String)}).
      * </p>
-     * 
+     *
      * @param browserTypesEnumeration
      *            comma and/or spaces separated string enumeration of string representation of browser types
      * @return the set of browser modes

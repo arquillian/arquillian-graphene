@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.locator;
 
 /**
  * Abstract strategy for location of items on page.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -33,7 +33,7 @@ public abstract class AbstractLocationStrategy implements LocationStrategy {
 
     /**
      * Creates new location strategy with name
-     * 
+     *
      * @param strategyName
      *            the name of strategy
      */

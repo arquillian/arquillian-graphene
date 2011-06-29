@@ -30,21 +30,21 @@ import java.lang.reflect.Proxy;
  * <p>
  * Context for keeping thread local context of {@link AjaxSelenium}.
  * </p>
- * 
+ *
  * <p>
  * Provides {@link #getProxy()} method for accessing that context over model of your tests.
  * </p>
- * 
+ *
  * <p>
  * Proxy specifically handles the situations when no context is set - in this situation, runtime exception with
  * IllegalStateException cause is thrown.
  * </p>
- * 
+ *
  * <p>
  * Especially, the {@link AjaxSelenium#isStarted()} method is handled in that situation, it returns false instead of
  * throwing exception. Therefore it can be safely used for obtaining current status of Selenium initialization.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -60,7 +60,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
 
     /**
      * Sets the AjaxSelenium context for current thread
-     * 
+     *
      * @param selenium
      *            the AjaxSelenium instance
      */
@@ -70,7 +70,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
 
     /**
      * Returns the context of AjaxSelenium for current thread
-     * 
+     *
      * @return the context of AjaxSelenium for current thread
      */
     private static AjaxSelenium get() {
@@ -79,7 +79,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
 
     /**
      * Returns true of the context is initialized
-     * 
+     *
      * @return true of the context is initialized
      */
     public static boolean isInitialized() {
@@ -88,7 +88,7 @@ public final class AjaxSeleniumContext implements InvocationHandler {
 
     /**
      * Returns the instance of proxy to thread local context of AjaxSelenium
-     * 
+     *
      * @return the instance of proxy to thread local context of AjaxSelenium
      */
     public static AjaxSelenium getProxy() {

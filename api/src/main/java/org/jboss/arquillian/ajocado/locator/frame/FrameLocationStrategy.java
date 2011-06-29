@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.locator.AbstractLocationStrategy;
 
 /**
  * Frame location strategy
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -48,7 +48,7 @@ public class FrameLocationStrategy extends AbstractLocationStrategy {
 
     /**
      * Constructs new named frame location strategy
-     * 
+     *
      * @param strategyName
      *            the name of strategy
      */

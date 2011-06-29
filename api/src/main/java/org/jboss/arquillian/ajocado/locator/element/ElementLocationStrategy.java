@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.locator.AbstractLocationStrategy;
 
 /**
  * Strategy for locating element on the page.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -57,7 +57,7 @@ public class ElementLocationStrategy extends AbstractLocationStrategy {
 
     /**
      * Constructs new named element location strategy
-     * 
+     *
      * @param strategyName
      *            the name of strategy
      */

@@ -35,12 +35,12 @@ import org.jboss.arquillian.ajocado.request.RequestType;
  * <p>
  * Java API for interception of HTTP/XMLHttpRequest requests.
  * </p>
- * 
+ *
  * <p>
  * Needs to have PageExtensions installed in the current page using
  * {@link org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl#install()}.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -59,7 +59,7 @@ public class RequestGuardImpl implements RequestGuard {
 
     /**
      * Obtains the done requestType from page.
-     * 
+     *
      * @return the RequestType what was done
      * @throws IllegalStateException
      *             when the unknown type of request was obtained
@@ -74,11 +74,11 @@ public class RequestGuardImpl implements RequestGuard {
      * <p>
      * Clears the request type indicated on the page, gives possibility to intercept subsequent requests.
      * </p>
-     * 
+     *
      * <p>
      * Returns the last RequestType set.
      * </p>
-     * 
+     *
      * @return the last RequestType done
      * @throws IllegalStateException
      *             when the unknown type of request was obtained

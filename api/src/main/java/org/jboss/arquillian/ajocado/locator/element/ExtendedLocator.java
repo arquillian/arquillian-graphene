@@ -24,13 +24,13 @@ package org.jboss.arquillian.ajocado.locator.element;
 /**
  * Locator which is iterable and compoundable - it means you can iterate through it's descendants (
  * {@link IterableLocator}) and can derive it's descendants using composition of locators ({@link CompoundableLocator}).
- * 
+ *
  * @see IterableLocator
  * @see CompoundableLocator
- * 
+ *
  * @param <T>
  *            the type of locator which can be derived from this locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

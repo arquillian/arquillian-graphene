@@ -25,9 +25,9 @@ import java.lang.reflect.Method;
 
 /**
  * Provides functionality for cloning objects.
- * 
+ *
  * @author lfryc
- * 
+ *
  */
 public final class CloneUtils {
 
@@ -36,7 +36,7 @@ public final class CloneUtils {
 
     /**
      * Clones the cloneable object without need to check for exceptions.
-     * 
+     *
      * @param <T>
      *            the cloneable object type
      * @param type

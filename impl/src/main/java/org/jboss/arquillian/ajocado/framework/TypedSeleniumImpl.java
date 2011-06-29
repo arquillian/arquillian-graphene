@@ -67,7 +67,7 @@ import com.thoughtworks.selenium.Selenium;
 
 /**
  * Wrapper implementation for Selenium object's API to make it type-safe.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

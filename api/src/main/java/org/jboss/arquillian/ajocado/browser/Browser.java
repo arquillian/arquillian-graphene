@@ -31,11 +31,11 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
  * <p>
  * Encapsulates execution properties of selected browser.
  * </p>
- * 
+ *
  * <p>
  * Consists from browser mode (including its type) and associated executable file
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -43,7 +43,7 @@ public class Browser implements SeleniumRepresentable {
 
     /**
      * Pattern for parsing browserMode and executable file from
-     * 
+     *
      * @see #Browser(String)
      */
     private static final Pattern PATTERN = Pattern.compile("^\\*([^\\s]+)(?:$|\\s+(.*))$");
@@ -64,11 +64,11 @@ public class Browser implements SeleniumRepresentable {
      * <p>
      * Instantiates a new browser from string representation defined by Selenium framework
      * </p>
-     * 
+     *
      * <p>
      * e.g. "*pifirefox /some/path/firefox-bin"
      * </p>
-     * 
+     *
      * @param stringRepresentation
      *            the string representation
      */
@@ -88,7 +88,7 @@ public class Browser implements SeleniumRepresentable {
 
     /**
      * Instantiates a new browser by given browserMode
-     * 
+     *
      * @param browserMode
      *            the browser mode
      */
@@ -98,7 +98,7 @@ public class Browser implements SeleniumRepresentable {
 
     /**
      * Instantiates a new browser by given browserMode and executableFile.
-     * 
+     *
      * @param browserMode
      *            the browser mode
      * @param executableFile
@@ -111,7 +111,7 @@ public class Browser implements SeleniumRepresentable {
 
     /**
      * Gets the browser's mode (see {@link BrowserMode}).
-     * 
+     *
      * @return the mode
      */
     public BrowserMode getMode() {
@@ -122,11 +122,11 @@ public class Browser implements SeleniumRepresentable {
      * <p>
      * Gets the type of browser.
      * </p>
-     * 
+     *
      * <p>
      * Shortcut for {@link BrowserMode#getType()}.
      * </p>
-     * 
+     *
      * @return the type
      */
     public BrowserType getType() {
@@ -140,7 +140,7 @@ public class Browser implements SeleniumRepresentable {
      * <p>
      * Gets a string representation of browser.
      * </p>
-     * 
+     *
      * @see Browser#Browser(String)
      * @return the string representation of browser
      */
@@ -155,7 +155,7 @@ public class Browser implements SeleniumRepresentable {
 
     /**
      * Returns a string representation of the object in human-readable format.
-     * 
+     *
      * @return the human-readable string representation of this object
      */
     @Override

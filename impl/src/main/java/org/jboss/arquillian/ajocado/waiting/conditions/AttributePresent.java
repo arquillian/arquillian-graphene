@@ -36,11 +36,11 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
  * <p>
  * Implementation of Condition for waiting, if given element's attribute is already present on the page.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -62,7 +62,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -74,7 +74,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -87,7 +87,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of AttributePresent
      */
     public static AttributePresent getInstance() {
@@ -96,7 +96,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
 
     /**
      * Returns the AttributePresent instance with given attributeLocator set.
-     * 
+     *
      * @param attributeLocator
      *            the attribute locator
      * @return the attribute present
@@ -112,7 +112,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
 
     /**
      * Returns the exact copy of this AttributePresent object.
-     * 
+     *
      * @return the attribute present
      */
     private AttributePresent copy() {

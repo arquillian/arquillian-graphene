@@ -25,7 +25,7 @@ import java.util.Iterator;
 
 /**
  * Locator which can iterate over it's descendant.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <T>
@@ -35,7 +35,7 @@ public interface IterableLocator<T extends IterableLocator<T>> extends ElementLo
 
     /**
      * Gets the <i>index</i>-th occurrence of this locator
-     * 
+     *
      * @param index
      *            the index of occurrence of this locator
      * @return the <i>index</i>-th occurrence of this locator
@@ -44,7 +44,7 @@ public interface IterableLocator<T extends IterableLocator<T>> extends ElementLo
 
     /**
      * Returns the iterator through the occurrences of this locator
-     * 
+     *
      * @return the iterator through the occurrences of this locator
      */
     @Override
@@ -52,7 +52,7 @@ public interface IterableLocator<T extends IterableLocator<T>> extends ElementLo
 
     /**
      * Returns the count of occurrences of this locator
-     * 
+     *
      * @return the count of occurrences of this locator
      */
     int size();

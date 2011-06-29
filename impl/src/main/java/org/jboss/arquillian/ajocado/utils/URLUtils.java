@@ -35,7 +35,7 @@ import org.apache.commons.codec.binary.Base64;
 
 /**
  * Provides URL manipulations and functionality.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -49,7 +49,7 @@ public final class URLUtils {
 
     /**
      * Use URL context and one or more relocations to build end URL.
-     * 
+     *
      * @param context
      *            first URL used like a context root for all relocation changes
      * @param relocations
@@ -68,7 +68,7 @@ public final class URLUtils {
 
     /**
      * Use URL context and one or more relocations to build end URL.
-     * 
+     *
      * @param context
      *            first URL used like a context root for all relocation changes
      * @param relocations
@@ -93,7 +93,7 @@ public final class URLUtils {
 
     /**
      * Gets a MD5 digest of some resource obtains as input stream from connection to URL given by URL string.
-     * 
+     *
      * @param url
      *            of the resource
      * @return MD5 message digest of resource
@@ -124,7 +124,7 @@ public final class URLUtils {
 
     /**
      * Encodes credentials using Base64 encoding, which can be used to build a header for HTTP Basic authorization
-     * 
+     *
      * @param username
      *            User name to be encoded
      * @param password

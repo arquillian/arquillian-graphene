@@ -24,16 +24,16 @@ package org.jboss.arquillian.ajocado.command;
 /**
  * Context of the Selenium command including the name of command, its arguments and provides method for command
  * invocation
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public interface CommandContext {
     /**
      * Method for invoking the command
-     * 
+     *
      * @return the result of command invocation
-     * 
+     *
      * @throws CommandInterceptorException
      *             when one of the interceptors in chain didn't call this method
      */
@@ -41,14 +41,14 @@ public interface CommandContext {
 
     /**
      * Returns name of command
-     * 
+     *
      * @return name of command
      */
     String getCommand();
 
     /**
      * Returns list of command arguments
-     * 
+     *
      * @return list of command arguments
      */
     String[] getArguments();

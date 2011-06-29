@@ -25,10 +25,10 @@ import org.jboss.arquillian.ajocado.locator.Locator;
 
 /**
  * Locator for locating select options on page.
- * 
+ *
  * @param <T>
  *            the type of locator which can be derived from this locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

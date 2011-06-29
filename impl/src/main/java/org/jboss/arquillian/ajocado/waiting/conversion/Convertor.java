@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.waiting.conversion;
 
 /**
  * Convertor for converting the values from one type to another and vice versa.
- * 
+ *
  * @param <F>
  *            the from type (type which we want to convert from)
  * @param <T>
@@ -35,7 +35,7 @@ public interface Convertor<F, T> {
 
     /**
      * Convert from object of F type to T type.
-     * 
+     *
      * @param object
      *            of F type to convert to T type
      * @return the T type converted from F type
@@ -44,7 +44,7 @@ public interface Convertor<F, T> {
 
     /**
      * Convert from object of T type to F type.
-     * 
+     *
      * @param object
      *            of T type to convert to F type
      * @return the F type converted from T type

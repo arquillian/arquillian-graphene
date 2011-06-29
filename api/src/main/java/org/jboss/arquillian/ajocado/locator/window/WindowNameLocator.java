@@ -23,14 +23,14 @@ package org.jboss.arquillian.ajocado.locator.window;
 
 /**
  * The locator for referencing window by name
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public class WindowNameLocator extends AbstractWindowLocator<WindowNameLocator> {
     /**
      * Construct new locator for referencing windows by name
-     * 
+     *
      * @param name
      *            referencing window
      */

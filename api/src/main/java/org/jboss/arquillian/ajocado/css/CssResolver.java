@@ -25,7 +25,7 @@ package org.jboss.arquillian.ajocado.css;
  * <p>
  * Resolves the CSS property values from their string representation to their object representation.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <T>
@@ -35,14 +35,14 @@ public interface CssResolver<T> {
 
     /**
      * Returns the name of property which can resolve
-     * 
+     *
      * @return the name of property which can resolve
      */
     String getPropertyName();
 
     /**
      * Resolves the property - converts the string representation to object representation
-     * 
+     *
      * @param propertyValue
      *            the value of property
      * @return converted property value string representation to object representation

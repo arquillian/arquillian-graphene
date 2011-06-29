@@ -27,10 +27,10 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
  * <p>
  * Abstract immutable representation of options for manipulation with cookies.
  * </p>
- * 
+ *
  * @param <T>
  *            What type of cookie options are represented by this object
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -41,7 +41,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Creates options for creating cookies
-     * 
+     *
      * @return options for creating cookies
      */
     public static CookieCreateOptions forCreation() {
@@ -50,7 +50,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Creates options for deleting cookies
-     * 
+     *
      * @return options for deleting cookies
      */
     public static CookieDeleteOptions forDeletion() {
@@ -59,7 +59,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Specifies to which domain is cookie bound.
-     * 
+     *
      * @param domain
      * @return domain to which is cookie bound
      */
@@ -71,7 +71,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Specifies to which path is cookie bound.
-     * 
+     *
      * @param path
      * @return path to which is cookie bound
      */
@@ -83,7 +83,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Returns the domain for which is cookie registered
-     * 
+     *
      * @return the domain for which is cookie registered
      */
     public String getDomain() {
@@ -92,7 +92,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
 
     /**
      * Returns the path for which is cookie registered
-     * 
+     *
      * @return the path for which is cookie registered
      */
     public String getPath() {

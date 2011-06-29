@@ -36,11 +36,11 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
  * <p>
  * Implementation of Condition for waiting, if given element is already present on the page.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -62,7 +62,7 @@ public class ElementNotPresent implements SeleniumCondition, JavaScriptCondition
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -74,7 +74,7 @@ public class ElementNotPresent implements SeleniumCondition, JavaScriptCondition
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -85,7 +85,7 @@ public class ElementNotPresent implements SeleniumCondition, JavaScriptCondition
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of ElementPresent
      */
     public static ElementNotPresent getInstance() {
@@ -94,7 +94,7 @@ public class ElementNotPresent implements SeleniumCondition, JavaScriptCondition
 
     /**
      * Returns the ElementPresent instance with given elementLocator set.
-     * 
+     *
      * @param elementLocator
      *            the element locator
      * @return the element present
@@ -110,7 +110,7 @@ public class ElementNotPresent implements SeleniumCondition, JavaScriptCondition
 
     /**
      * Returns the exact copy of this ElementPresent object.
-     * 
+     *
      * @return the element present
      */
     private ElementNotPresent copy() {

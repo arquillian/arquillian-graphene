@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Dimensions of object rendered by browser.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -35,7 +35,7 @@ public class Dimension implements SeleniumRepresentable {
 
     /**
      * Creates new dimension with given width and height
-     * 
+     *
      * @param width
      * @param height
      */
@@ -46,7 +46,7 @@ public class Dimension implements SeleniumRepresentable {
 
     /**
      * Returns the width
-     * 
+     *
      * @return the width
      */
     public int getWidth() {
@@ -55,7 +55,7 @@ public class Dimension implements SeleniumRepresentable {
 
     /**
      * Returns the height
-     * 
+     *
      * @return the height
      */
     public int getHeight() {
@@ -64,7 +64,7 @@ public class Dimension implements SeleniumRepresentable {
 
     /**
      * Converts dimension to offset
-     * 
+     *
      * @return the dimension converted to offset
      */
     public Offset toOffset() {
@@ -73,7 +73,7 @@ public class Dimension implements SeleniumRepresentable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

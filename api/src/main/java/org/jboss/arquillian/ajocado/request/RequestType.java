@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.request;
 
 /**
  * Types of request, which browser executes.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

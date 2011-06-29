@@ -35,7 +35,7 @@ import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 /**
  * Type-safe selenium wrapper for Selenium API with extension of some useful commands defined in
  * {@link ExtendedSelenium}
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -54,7 +54,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#isStarted()
      */
     @Override
@@ -64,7 +64,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.TypedSeleniumImpl#start()
      */
     @Override
@@ -79,7 +79,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.TypedSeleniumImpl#stop()
      */
     @Override
@@ -90,7 +90,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#enableNetworkTrafficCapturing(boolean)
      */
     @Override
@@ -100,7 +100,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#isNetworkTrafficCapturingEnabled()
      */
     @Override
@@ -110,7 +110,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium
      * #getStyle(org.jboss.test.selenium.locator.ElementLocator , org.jboss.arquillian.ajocado.css.CssProperty)
      */
@@ -123,7 +123,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see ExtendedTypedSelenium#scrollIntoView(org.jboss.arquillian.ajocado.locator.ElementLocator , boolean)
      */
     @Override
@@ -133,7 +133,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see ExtendedTypedSelenium#mouseOverAt(org.jboss.arquillian.ajocado.locator.ElementLocator ,
      * org.jboss.arquillian.ajocado.geometry.Point)
      */
@@ -144,7 +144,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator
      * , org.jboss.test.selenium.geometry.Point)
@@ -156,7 +156,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see ExtendedTypedSelenium#belongsClass(org.jboss.arquillian.ajocado.locator.ElementLocator , java.lang.String)
      */
     @Override
@@ -166,7 +166,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see ExtendedTypedSelenium#isAttributePresent(org.jboss.arquillian.ajocado.locator. AttributeLocator)
      */
     @Override
@@ -178,7 +178,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see DefaultTypedSelenium#getCount(org.jboss.arquillian.ajocado.locator.IterableLocator)
      */
     @Override
@@ -196,7 +196,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#check(org.jboss.test.selenium.locator.ElementLocator
      * , boolean)

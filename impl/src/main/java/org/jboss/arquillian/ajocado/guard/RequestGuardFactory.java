@@ -26,7 +26,7 @@ import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
  * The factory for shortening use of {@link RequestGuardInterceptor}s in code.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -37,7 +37,7 @@ public final class RequestGuardFactory {
 
     /**
      * Shortcut for registering a guard for specified request type on given selenium object.
-     * 
+     *
      * @param selenium
      *            where should be registered the given request type guard
      * @param requestExpected
@@ -60,10 +60,10 @@ public final class RequestGuardFactory {
      * <p>
      * Shortcut for registering a guard for specified request type on given selenium object.
      * </p>
-     * 
+     *
      * <p>
      * This guard guards the right request type but allows interlaying of the request by another one of other type.
-     * 
+     *
      * @param selenium
      *            where should be registered the given request type guard
      * @param requestExpected

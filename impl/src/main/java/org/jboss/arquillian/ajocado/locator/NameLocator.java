@@ -26,7 +26,7 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
 /**
  * Locates the first element with the specified &#64;name attribute.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

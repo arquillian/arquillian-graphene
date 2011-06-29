@@ -33,16 +33,16 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 /**
- * 
+ *
  * <p>
  * Implementation of Condition for waiting if element's attribute given by attributeLocator has value equal to given
  * value.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -67,7 +67,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -80,7 +80,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -95,7 +95,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of AttributeEquals
      */
     public static AttributeEquals getInstance() {
@@ -106,11 +106,11 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the AttributeEquals instance with given attributeLocator preset.
      * </p>
-     * 
+     *
      * <p>
      * From this element's attribute will be obtained the value.
      * </p>
-     * 
+     *
      * @param attributeLocator
      *            the attribute locator
      * @return the AttributeEquals object with preset locator
@@ -128,11 +128,11 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the AttributeEquals instance with preset value.
      * </p>
-     * 
+     *
      * <p>
      * For equality with this value the condition will wait.
      * </p>
-     * 
+     *
      * @param value
      *            it should wait for equality
      * @return the AttributeEquals object with preset value
@@ -148,7 +148,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Returns the exact copy of this AttributeEquals object.
-     * 
+     *
      * @return the copy of this AttributeEquals object
      */
     private AttributeEquals copy() {

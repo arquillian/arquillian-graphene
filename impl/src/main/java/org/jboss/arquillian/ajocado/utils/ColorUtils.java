@@ -29,7 +29,7 @@ import org.apache.commons.lang.Validate;
 
 /**
  * Provides Color manipulations and functionality.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -48,16 +48,16 @@ public final class ColorUtils {
      * <p>
      * Converts a string representation of color to integer.
      * </p>
-     * 
+     *
      * <p>
      * Works with two formats:
      * </p>
-     * 
+     *
      * <ul>
      * <li><code>#09FE4A</code> - <b>hexadecimal</b></li>
      * <li><code>rgb(132, 5, 18)</code> - <b>decimal</b></li>
      * </ul>
-     * 
+     *
      * @param colorValue
      *            string represented in one of two formats
      * @return integer value of color derived from string representation
@@ -88,16 +88,16 @@ public final class ColorUtils {
      * <p>
      * Converts a string representation of color to AWT Color object.
      * </p>
-     * 
+     *
      * <p>
      * Works with two formats:
      * </p>
-     * 
+     *
      * <ul>
      * <li><code>#09FE4A</code> - <b>hexadecimal</b></li>
      * <li><code>rgb(132, 5, 18)</code> - <b>decimal</b></li>
      * </ul>
-     * 
+     *
      * @param colorValue
      *            string represented in one of two formats
      * @return AWT's Color value representation of string-represented colorValue; if colorValue is null, returns null

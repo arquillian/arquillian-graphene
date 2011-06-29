@@ -33,11 +33,11 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
  * <p>
  * Encapsulates execution mode of browser ran by Selenium.
  * </p>
- * 
+ *
  * <p>
  * Enumerates all the browsers supported by Selenium.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -115,7 +115,7 @@ public enum BrowserMode implements SeleniumRepresentable {
 
     /**
      * Instantiates a new browser mode.
-     * 
+     *
      * @param browserType
      *            the browser type
      * @param mode
@@ -130,15 +130,15 @@ public enum BrowserMode implements SeleniumRepresentable {
      * <p>
      * Parses the mode from given string representation.
      * </p>
-     * 
+     *
      * <p>
      * String representation is derived from string representing mode in Selenium.
      * </p>
-     * 
+     *
      * <p>
      * E.g.: for "*pifirefox" string you get FIREFOX_PROXY_INJECTION mode
      * </p>
-     * 
+     *
      * @param browserMode
      *            the browser mode string representation
      * @return the browser mode
@@ -159,7 +159,7 @@ public enum BrowserMode implements SeleniumRepresentable {
      * Returns set of browser modes derived from string enumeration of comma- and/or space-separated representation of
      * browser modes ({@link BrowserMode#parseMode(String)}).
      * </p>
-     * 
+     *
      * @param browserModesEnumeration
      *            comma and/or spaces separated string enumeration of string representation of browser modes
      * @return the set of browser modes
@@ -184,7 +184,7 @@ public enum BrowserMode implements SeleniumRepresentable {
 
     /**
      * Gets the set of browser modes, which are associated with browsers given by types (see {@link BrowserType}).
-     * 
+     *
      * @param types
      *            the set of browser types
      * @return the browsers associated with browser by given set of types
@@ -201,7 +201,7 @@ public enum BrowserMode implements SeleniumRepresentable {
 
     /**
      * Gets string representations of mode.
-     * 
+     *
      * @return the mode
      */
     @Override
@@ -211,7 +211,7 @@ public enum BrowserMode implements SeleniumRepresentable {
 
     /**
      * Gets the browser type.
-     * 
+     *
      * @return the browser type
      */
     public BrowserType getType() {

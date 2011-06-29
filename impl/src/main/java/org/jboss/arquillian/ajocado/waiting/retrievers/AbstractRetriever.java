@@ -23,10 +23,10 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 
 /**
  * Retrieves the typed value from page and stores it as {@link ThreadLocal}.
- * 
+ *
  * @param <T>
  *            the type of object to retrieve from page
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

@@ -25,7 +25,7 @@ package org.jboss.arquillian.ajocado.css;
  * <p>
  * Encapsulates extendable enumeration of CSS properties.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

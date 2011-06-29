@@ -31,7 +31,7 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 
 /**
  * Unsupported methods from Selenium API didn't exposed to TypedSelenium
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -39,7 +39,7 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
-     * 
+     *
      * @param fieldLocator
      *            an element locator
      * @param fileLocator
@@ -52,7 +52,7 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
-     * 
+     *
      * @param fieldLocator
      *            an element locator
      * @param fileLocator
@@ -65,7 +65,7 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Captures a PNG screenshot to the specified file.
-     * 
+     *
      * @param filename
      *            the absolute path to the file to be written, e.g. "c:\blah\screenshot.png"
      */
@@ -78,7 +78,7 @@ public interface UnsupportedTypedSelenium {
      * and in IE non-HTA using the EXPERIMENTAL "Snapsie" utility. The Firefox implementation is mostly borrowed from
      * the Screengrab! Firefox extension. Please see http://www.screengrab.org and http://snapsie.sourceforge.net/ for
      * details.
-     * 
+     *
      * @param filename
      *            the path to the file to persist the screenshot as. No filename extension will be appended by default.
      *            Directories will not be created if they do not exist, and an exception will be thrown, possibly by
@@ -88,54 +88,54 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Returns the IDs of all buttons on the page.
-     * 
+     *
      * <p>
      * If a given button has no ID, it will appear as "" in this array.
      * </p>
-     * 
+     *
      * @return the IDs of all buttons on the page
      */
     List<ElementLocator<?>> getAllButtons();
 
     /**
      * Returns the IDs of all links on the page.
-     * 
+     *
      * <p>
      * If a given link has no ID, it will appear as "" in this array.
      * </p>
-     * 
+     *
      * @return the IDs of all links on the page
      */
     List<ElementLocator<?>> getAllLinks();
 
     /**
      * Returns the IDs of all input fields on the page.
-     * 
+     *
      * <p>
      * If a given field has no ID, it will appear as "" in this array.
      * </p>
-     * 
+     *
      * @return the IDs of all field on the page
      */
     List<ElementLocator<?>> getAllFields();
 
     /**
      * Returns the names of all windows that the browser knows about.
-     * 
+     *
      * @return the names of all windows that the browser knows about.
      */
     List<String> getAllWindowNames();
 
     /**
      * Returns the titles of all windows that the browser knows about.
-     * 
+     *
      * @return the titles of all windows that the browser knows about.
      */
     List<String> getAllWindowTitles();
 
     /**
      * Returns every instance of some attribute from all known windows.
-     * 
+     *
      * @param attribute
      *            name of an attribute on the windows
      * @return the set of values of this attribute from all known windows.
@@ -144,12 +144,12 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Returns the specified expression.
-     * 
+     *
      * <p>
      * This is useful because of JavaScript preprocessing. It is used to generate commands like assertExpression and
      * waitForExpression.
      * </p>
-     * 
+     *
      * @param expression
      *            the value to return
      * @return the value passed in
@@ -158,14 +158,14 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Determine whether current/locator identify the frame containing this running code.
-     * 
+     *
      * <p>
      * This is useful in proxy injection mode, where this code runs in every browser frame and window, and sometimes the
      * selenium server needs to identify the "current" frame. In this case, when the test calls selectFrame, this
      * routine is called for each frame to figure out which one has been selected. The selected frame will return true,
      * while all others will return false.
      * </p>
-     * 
+     *
      * @param currentFrameString
      *            starting frame
      * @param target
@@ -176,14 +176,14 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Determine whether currentWindowString plus target identify the window containing this running code.
-     * 
+     *
      * <p>
      * This is useful in proxy injection mode, where this code runs in every browser frame and window, and sometimes the
      * selenium server needs to identify the "current" window. In this case, when the test calls selectWindow, this
      * routine is called for each window to figure out which one has been selected. The selected window will return
      * true, while all others will return false.
      * </p>
-     * 
+     *
      * @param currentWindowString
      *            starting window
      * @param target
@@ -194,7 +194,7 @@ public interface UnsupportedTypedSelenium {
 
     /**
      * Sets the per-session extension Javascript
-     * 
+     *
      * @param extensionJs
      */
     void setExtensionJs(JavaScript extensionJs);

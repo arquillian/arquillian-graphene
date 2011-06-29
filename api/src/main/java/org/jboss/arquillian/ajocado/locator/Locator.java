@@ -25,10 +25,10 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Locates the object by given strategy and parameters.
- * 
+ *
  * @param <T>
  *            the type of locator which can be derived from this locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -36,21 +36,21 @@ public interface Locator<T extends Locator<T>> extends SeleniumRepresentable {
 
     /**
      * Returns the location strategy for this element
-     * 
+     *
      * @return the location strategy for this element
      */
     LocationStrategy getLocationStrategy();
 
     /**
      * Returns the raw locator (without the prefix defining location strategy) representation.
-     * 
+     *
      * @return the raw locator (without the prefix defining location strategy) representation.
      */
     String getRawLocator();
 
     /**
      * Formats the locator with placeholders given by {@link org.jboss.arquillian.ajocado.format.SimplifiedFormat}.
-     * 
+     *
      * @param args
      *            the arguments for filling in the placeholders
      * @return the locator with filled placeholders with given arguments

@@ -27,7 +27,7 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 /**
  * Locates the element with the specified &#64;id attribute. If no match is found, select the first element whose
  * &#64;name attribute is id.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.cookie;
 
 /**
  * Options for deleting cookies.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -38,12 +38,12 @@ public class CookieDeleteOptions extends CookieOptions<CookieDeleteOptions> {
      * <p>
      * Specifies whether the domain and path should be searched recursively.
      * </p>
-     * 
+     *
      * <p>
      * In big-O notation, it operates in O(n*m) time, where n is the number of dots in the domain name and m is the
      * number of slashes in the path.
      * </p>
-     * 
+     *
      * @param recurse
      *            specifies whether the domain and path should be searched for recursively
      * @return the delete cookie options with recurse specified to given value
@@ -56,7 +56,7 @@ public class CookieDeleteOptions extends CookieOptions<CookieDeleteOptions> {
 
     /**
      * Returns true if the domain and path should be searched recursively; false otherwise
-     * 
+     *
      * @return true if the domain and path should be searched recursively; false otherwise
      */
     public boolean isRecursive() {

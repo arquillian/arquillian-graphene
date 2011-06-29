@@ -24,7 +24,7 @@ package org.jboss.arquillian.ajocado.waiting;
 /**
  * Abstract implementation of immutable class with purpose of waiting with customizable timeout, interval, and failure
  * behaviour and delay on start of waiting.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <T>
@@ -50,7 +50,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * Failure indicates that waiting timeouted.
-     * 
+     *
      * If is set to null, no failure will be thrown after timeout.
      */
     private Object failure = "Waiting timed out";
@@ -62,7 +62,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * Returns the interval set for this object.
-     * 
+     *
      * @return the set interval
      */
     protected long getInterval() {
@@ -71,7 +71,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * Returns the timeout set for this object.
-     * 
+     *
      * @return the timeout set for this object
      */
     protected long getTimeout() {
@@ -80,7 +80,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * Returns if this waiting's start is delayed.
-     * 
+     *
      * @return if this waiting's start is delayed
      */
     protected boolean isDelayed() {
@@ -89,7 +89,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#interval(long)
      */
     @Override
@@ -104,7 +104,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#timeout(long)
      */
     @Override
@@ -119,7 +119,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#failWith(java.lang.Exception)
      */
     @Override
@@ -135,7 +135,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#failWith(java.lang.CharSequence, java.lang.Object[])
      */
     @Override
@@ -148,7 +148,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#dontFail()
      */
     @Override
@@ -158,7 +158,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#noDelay()
      */
     @Override
@@ -168,7 +168,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#withDelay(boolean)
      */
     @Override
@@ -183,7 +183,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#waitForTimeout()
      */
     @Override
@@ -197,10 +197,10 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * Tries to fail by throwing 'failure' throwable.
-     * 
+     *
      * If failure is instance of RuntimeException, will be directly thrown. Otherwise will be failure clothe to
      * RuntimeException.
-     * 
+     *
      * If failure is null, method wont fail.
      */
     protected void fail() {
@@ -211,7 +211,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * Prepares a exception for failing the waiting
-     * 
+     *
      * @return runtime exception
      */
     private RuntimeException prepareFailure() {
@@ -228,7 +228,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
 
     /**
      * This methods helps to make copies of current instance.
-     * 
+     *
      * @return copy of current instance
      */
     private T copy() {

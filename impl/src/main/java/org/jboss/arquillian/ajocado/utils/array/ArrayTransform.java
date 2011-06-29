@@ -23,12 +23,12 @@ package org.jboss.arquillian.ajocado.utils.array;
 
 /**
  * Abstract class providing generic array transformations.
- * 
+ *
  * Use overridden method transform(S[] sourceArray) to transform sourceArray to T[] targetArray. Method transform(S[]
  * sourceArray) is implementation of transformation of each item from type S to type T.
- * 
+ *
  * Items are transformed to target array as one-to-one preserving order of source.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <S>
@@ -43,7 +43,7 @@ public abstract class ArrayTransform<S, T> {
     /**
      * Constructs ArrayTransform with implementation of transformation predefining tClass like a class of
      * transformation-target array.
-     * 
+     *
      * @param tClass
      *            class of type T in which should be typed resulting target array
      */
@@ -54,7 +54,7 @@ public abstract class ArrayTransform<S, T> {
     /**
      * This method is implementation of transformation each item of sourceArray and type S to item of type T in
      * targetArray.
-     * 
+     *
      * @param source
      *            transformation object
      * @return transformation result
@@ -63,7 +63,7 @@ public abstract class ArrayTransform<S, T> {
 
     /**
      * Process transformation of S[] sourceArray with T[] targetArray like return value.
-     * 
+     *
      * @param sourceArray
      *            array of type S which should be transformed to targetArray of type T
      * @return targetArray of type T after transformation from S[] sourceArray

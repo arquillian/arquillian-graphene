@@ -28,10 +28,10 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
  * <p>
  * Factory class with static methods to create new instances of {@link AjaxWaiting} and {@link SeleniumWaiting}.
  * </p>
- * 
+ *
  * <p>
  * Keeps the default timeouts and intervals used by implementations of {@link DefaultWaiting}.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

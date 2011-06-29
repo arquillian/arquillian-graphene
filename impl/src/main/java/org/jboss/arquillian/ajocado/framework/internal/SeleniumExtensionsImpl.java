@@ -33,7 +33,7 @@ import org.jboss.arquillian.ajocado.javascript.JavaScript;
 
 /**
  * Defines the methods for loading the Selenium JS extensions to the Selenium Test Runner window.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -57,15 +57,15 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
      * <p>
      * Loads the JavaScript extension by it's resourceName.
      * </p>
-     * 
+     *
      * <p>
      * If the JavaScript with given resourceName are already loaded, it will not be loaded again.
      * </p>
-     * 
+     *
      * <p>
      * If the JavaScript is already loaded but it's source has another checksum, it will be reloaded.
      * </p>
-     * 
+     *
      * @param resourceName
      *            the full path to resource
      */
@@ -107,7 +107,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
 
     /**
      * Adds the JavaScript extensions by defining list of resource names.
-     * 
+     *
      * @param resourceNames
      *            the list of full paths to resources
      */

@@ -30,7 +30,7 @@ import org.jboss.arquillian.ajocado.browser.Browser;
 
 /**
  * Exposing of test system properties.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -40,7 +40,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getBrowser()
      */
     @Override
@@ -52,7 +52,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumHost()
      */
     @Override
@@ -64,7 +64,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumPort()
      */
     @Override
@@ -76,7 +76,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumMaximize()
      */
     @Override
@@ -86,7 +86,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumDebug()
      */
     @Override
@@ -96,7 +96,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumSpeed()
      */
     @Override
@@ -106,7 +106,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumNetworkTrafficEnabled()
      */
     @Override
@@ -116,7 +116,7 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumTimeout(org.jboss.arquillian.ajocado.
      * AjocadoConfigurationImpl.SeleniumTimeoutType)
      */

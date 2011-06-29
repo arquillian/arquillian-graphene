@@ -27,28 +27,28 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 
 /**
  * Specific locator for attributes.
- * 
+ *
  * @param <E>
  *            the type of associated element locator, which can be obtained from this attribute locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public interface AttributeLocator<E extends ElementLocator<E>> extends Locator<AttributeLocator<E>> {
     /**
      * Returns the underlying element what associates attribute given by this locator to
-     * 
+     *
      * @return the underlying element what associates attribute given by this locator to
      */
     ElementLocator<E> getAssociatedElement();
 
     /**
      * Returns the type of attribute which this locator points to.
-     * 
+     *
      * @return the type of attribute which this locator points to.
      */
     Attribute getAttribute();
 
     @Override
-    public AttributeLocator<E> format(Object... args);
+    AttributeLocator<E> format(Object... args);
 }

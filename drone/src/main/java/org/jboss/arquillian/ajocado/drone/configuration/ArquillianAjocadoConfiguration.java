@@ -32,11 +32,11 @@ import org.jboss.arquillian.drone.spi.DroneConfiguration;
 /**
  * Configuration for Arquillian Ajocado. This configuration can be fetched from Arquillian Descriptor and overridden by
  * System properties.
- * 
+ *
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
  * @see ArquillianDescriptor
  * @see ConfigurationMapper
- * 
+ *
  */
 public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
     DroneConfiguration<ArquillianAjocadoConfiguration> {
@@ -87,7 +87,7 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.selenium.spi.WebTestConfiguration#configure(org.jboss
      * .arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
      */
@@ -100,7 +100,7 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.selenium.spi.WebTestConfiguration#getConfigurationName ()
      */
     @Override
@@ -362,7 +362,7 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.AjocadoConfiguration#getTimeout
      * (org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType)
      */

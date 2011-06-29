@@ -25,11 +25,11 @@ package org.jboss.arquillian.ajocado.locator.option;
  * <p>
  * Locates select options based on their labels, i.e. the visible text.
  * </p>
- * 
+ *
  * <p>
  * Can be regular expression: "regexp:^[Oo]ther"
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

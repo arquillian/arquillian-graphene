@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.utils;
 
 /**
  * The static methods desired to simplify conversion of primitive types.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -34,7 +34,7 @@ public final class PrimitiveUtils {
 
     /**
      * Converts string to boolean
-     * 
+     *
      * @param string
      *            to convert
      * @return the boolean value of string
@@ -45,7 +45,7 @@ public final class PrimitiveUtils {
 
     /**
      * Converts string to long
-     * 
+     *
      * @param string
      *            to convert
      * @return the long value of string
@@ -56,7 +56,7 @@ public final class PrimitiveUtils {
 
     /**
      * Converts string to integer
-     * 
+     *
      * @param string
      *            to convert
      * @return the integer value of string
@@ -67,7 +67,7 @@ public final class PrimitiveUtils {
 
     /**
      * Converts string to double
-     * 
+     *
      * @param string
      *            to convert
      * @return the double value of string
@@ -78,7 +78,7 @@ public final class PrimitiveUtils {
 
     /**
      * Converts string to float
-     * 
+     *
      * @param string
      *            to convert
      * @return the float value of string

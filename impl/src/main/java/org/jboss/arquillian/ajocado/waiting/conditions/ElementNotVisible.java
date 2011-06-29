@@ -37,11 +37,11 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
  * <p>
  * Implementation of Condition for waiting until given element is not displayed.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:ppitonak@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -63,7 +63,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.test.selenium.waiting.Condition#isTrue()
      */
     @Override
@@ -75,7 +75,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -86,7 +86,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of IsNotDisplayed
      */
     public static ElementNotVisible getInstance() {
@@ -95,7 +95,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
 
     /**
      * Returns the IsNotDisplayed instance with given elementLocator set.
-     * 
+     *
      * @param elementLocator
      *            the element locator
      * @return the IsNotDisplayed instance
@@ -111,7 +111,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
 
     /**
      * Returns the exact copy of this IsNotDisplayed object.
-     * 
+     *
      * @return the IsNotDisplayed instance
      */
     private ElementNotVisible copy() {

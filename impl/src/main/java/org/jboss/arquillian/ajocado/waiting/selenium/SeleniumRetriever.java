@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.waiting.retrievers.RetrievedValueHolder;
 
 /**
  * Implementing this method you get implementation of retrieving typed values from some source.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <T>
@@ -34,7 +34,7 @@ import org.jboss.arquillian.ajocado.waiting.retrievers.RetrievedValueHolder;
 public interface SeleniumRetriever<T> extends RetrievedValueHolder<T> {
     /**
      * Override with implementation of retrieving value from source.
-     * 
+     *
      * @return retrieved value
      */
     T retrieve();

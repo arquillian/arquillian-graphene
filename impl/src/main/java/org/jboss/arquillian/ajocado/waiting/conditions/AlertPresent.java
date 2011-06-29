@@ -33,11 +33,11 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
  * <p>
  * Implementation of Condition for waiting, if an alert is present on the page.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -56,7 +56,7 @@ public class AlertPresent implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -66,7 +66,7 @@ public class AlertPresent implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -76,7 +76,7 @@ public class AlertPresent implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of ElementPresent
      */
     public static AlertPresent getInstance() {

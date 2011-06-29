@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Offset for movement on browser-rendered canvas.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -36,7 +36,7 @@ public class Offset implements SeleniumRepresentable {
 
     /**
      * Creates the offset with specified x and y movements
-     * 
+     *
      * @param x
      *            the x movement
      * @param y
@@ -49,7 +49,7 @@ public class Offset implements SeleniumRepresentable {
 
     /**
      * Returns the x movement
-     * 
+     *
      * @return the x movement
      */
     public int getX() {
@@ -58,7 +58,7 @@ public class Offset implements SeleniumRepresentable {
 
     /**
      * Returns the y movement
-     * 
+     *
      * @return the y movement
      */
     public int getY() {
@@ -67,7 +67,7 @@ public class Offset implements SeleniumRepresentable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

@@ -31,18 +31,18 @@ import org.jboss.arquillian.ajocado.locator.element.FilterableLocator;
  * <p>
  * Locates the element using <a href="http://api.jquery.com/category/selectors/">JQuery Selector</a> syntax.
  * </p>
- * 
+ *
  * <p>
  * This syntax is extended in AjaxSelenium by new filters similar to <tt><a
  * href="http://api.jquery.com/contains-selector/">:contains(text)</a></tt>
  * </p>
- * 
+ *
  * <ul>
  * <li><tt>:textStartsWith(textPattern)</tt> - trimmed element text are matched to start with given textPattern</li>
  * <li><tt>:textEndsWith(textPattern)</tt> - trimmed element text are matched to end with given textPattern</li>
  * <li><tt>:textEquals(textPattern)</tt> - trimmed element text are compared to exact match with given textPattern</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -51,7 +51,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
 
     /**
      * Instantiates a new jQuery locator.
-     * 
+     *
      * @param jquerySelector
      *            the jquery selector
      */
@@ -61,7 +61,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
     @Override
@@ -71,7 +71,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.element.IterableLocator#get(int)
      */
     @Override
@@ -81,7 +81,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
      * )
@@ -93,7 +93,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getDescendant
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator )
      */

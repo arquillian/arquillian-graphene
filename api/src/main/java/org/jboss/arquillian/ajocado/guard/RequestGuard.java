@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
  * Provides methods for checking and waiting for specific request type
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -33,14 +33,14 @@ public interface RequestGuard {
 
     /**
      * Returns the type of last request which was done
-     * 
+     *
      * @return the type of last request which was done
      */
     RequestType getRequestDone();
 
     /**
      * Resets the type of last request to NONE
-     * 
+     *
      * @return the type of last request which was done before resetting
      */
     RequestType clearRequestDone();

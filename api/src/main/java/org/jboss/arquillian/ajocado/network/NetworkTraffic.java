@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.network;
 
 /**
  * The encapsulation of network traffic proceeded in tested scenario.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -36,7 +36,7 @@ public class NetworkTraffic {
 
     /**
      * Constructs the representation of network traffic with associated format type.
-     * 
+     *
      * @param type
      *            the output format type
      * @param traffic
@@ -49,7 +49,7 @@ public class NetworkTraffic {
 
     /**
      * Returns the associated output format type
-     * 
+     *
      * @return the associated output format type
      */
     public NetworkTrafficType getType() {
@@ -58,7 +58,7 @@ public class NetworkTraffic {
 
     /**
      * Returns string representation of network traffic data
-     * 
+     *
      * @return string representation of network traffic data
      */
     public String getTraffic() {

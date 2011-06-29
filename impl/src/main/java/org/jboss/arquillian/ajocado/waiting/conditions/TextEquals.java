@@ -33,15 +33,15 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 /**
- * 
+ *
  * <p>
  * Implementation of Condition for waiting if element given by elementLocator has text equal to given text.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -66,7 +66,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -79,7 +79,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -92,7 +92,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of TextEquals
      */
     public static TextEquals getInstance() {
@@ -103,11 +103,11 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the TextEquals instance with given elementLocator set.
      * </p>
-     * 
+     *
      * <p>
      * From this locator will be obtained the text.
      * </p>
-     * 
+     *
      * @param elementLocator
      *            the element locator
      * @return the TextEquals object with preset locator
@@ -125,11 +125,11 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the TextEquals instance with text set.
      * </p>
-     * 
+     *
      * <p>
      * For equality with this text the condition will wait.
      * </p>
-     * 
+     *
      * @param text
      *            it should wait for equality
      * @return the TextEquals object with preset text
@@ -145,7 +145,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Returns the exact copy of this ElementPresent object.
-     * 
+     *
      * @return the copy of this TextEquals object
      */
     private TextEquals copy() {

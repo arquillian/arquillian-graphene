@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Point as position rendered on browser canvas.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -35,7 +35,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Constructs new point with specified x and y positions
-     * 
+     *
      * @param x
      * @param y
      */
@@ -46,7 +46,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Returns x position
-     * 
+     *
      * @return x position
      */
     public int getX() {
@@ -55,7 +55,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Returns y position
-     * 
+     *
      * @return y position
      */
     public int getY() {
@@ -64,7 +64,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Subtracts the given point from this point
-     * 
+     *
      * @param point
      *            to substract
      * @return the point with this point substract of given point
@@ -75,7 +75,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Adds the given point from this point
-     * 
+     *
      * @param point
      *            to add
      * @return the point with this point add of given point
@@ -86,7 +86,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Subtracts the given offset from this point
-     * 
+     *
      * @param offset
      *            to subtract
      * @return the point with this point subtract of given offset
@@ -97,7 +97,7 @@ public class Point implements SeleniumRepresentable {
 
     /**
      * Adds the given offset from this point
-     * 
+     *
      * @param offset
      *            to add
      * @return the point with this point add of given offset
@@ -108,7 +108,7 @@ public class Point implements SeleniumRepresentable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

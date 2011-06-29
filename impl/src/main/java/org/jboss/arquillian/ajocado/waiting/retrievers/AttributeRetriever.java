@@ -34,7 +34,7 @@ import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
 
 /**
  * Retrieves the attribute with given attributeLocator.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -75,7 +75,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of AttributeRetriever
      */
     public static AttributeRetriever getInstance() {
@@ -84,7 +84,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
 
     /**
      * Gets a AttributeRetriever object preset with attributeLocator to given value.
-     * 
+     *
      * @param attributeLocator
      *            the attribute locator to preset
      * @return the AttributeRetriever preset with attributeLocator of given value
@@ -100,9 +100,9 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
 
     /**
      * Returns a copy of this attributeRetriever with exactly same settings.
-     * 
+     *
      * Keeps the immutability of this class.
-     * 
+     *
      * @return the exact copy of this attributeRetriever
      */
     private AttributeRetriever copy() {

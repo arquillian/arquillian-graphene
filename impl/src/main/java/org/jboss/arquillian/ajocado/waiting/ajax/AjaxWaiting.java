@@ -35,12 +35,12 @@ import com.thoughtworks.selenium.SeleniumException;
  * <p>
  * Implementation of waiting for satisfaction of conditions on page after the Ajax request.
  * </p>
- * 
+ *
  * <p>
  * It uses custom JavaScript and com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String) to wait
  * for satisfying given condition.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -53,7 +53,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
 
     /**
      * Stars loop waiting to satisfy condition.
-     * 
+     *
      * @param condition
      *            what wait for to be satisfied
      */
@@ -63,7 +63,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
-     * 
+     *
      * @param <T>
      *            type of value what we are waiting for change
      * @param oldValue
@@ -81,18 +81,18 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
      * retriever.
      * </p>
-     * 
+     *
      * <p>
      * After retrieving, new value will be associated with given Retriever.
      * </p>
-     * 
-     * 
+     *
+     *
      * <p>
      * Note that Retriever needs to be initialized first by one of methods
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
      * </p>
-     * 
+     *
      * @param <T>
      *            type of value what we are waiting for change
      * @param retriever
@@ -105,7 +105,7 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
-     * 
+     *
      * @param <T>
      *            type of value what we are waiting for change
      * @param oldValue
@@ -130,18 +130,18 @@ public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
      * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
      * retriever.
      * </p>
-     * 
+     *
      * <p>
      * After retrieving, new value will be associated with given Retriever.
      * </p>
-     * 
-     * 
+     *
+     *
      * <p>
      * Note that Retriever needs to be initialized first by one of methods
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
      * </p>
-     * 
+     *
      * @param <T>
      *            type of value what we are waiting for change
      * @param retriever

@@ -29,18 +29,18 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
  * <p>
  * A element locator using CSS selectors.
  * </p>
- * 
+ *
  * <p>
  * Can be used to compose new locators.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public class CssLocator extends AbstractElementLocator<CssLocator> implements CompoundableLocator<CssLocator> {
     /**
      * Initiates element locator by using CSS selectors.
-     * 
+     *
      * @param cssSelector
      *            <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
      */
@@ -50,7 +50,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
     @Override
@@ -60,7 +60,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
      * )
@@ -72,7 +72,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getDescendant
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator)
      */

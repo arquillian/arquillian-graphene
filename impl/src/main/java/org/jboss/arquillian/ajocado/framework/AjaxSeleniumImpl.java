@@ -47,12 +47,12 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * <p>
  * Implementation of {@link TypedSelenium} extended by methods in {@link ExtendedTypedSeleniumImpl}.
  * </p>
- * 
+ *
  * <p>
  * Internally using {@link org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor} and
  * {@link CommandInterceptorProxyImpl}.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -80,7 +80,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /**
      * Instantiates a new ajax selenium.
-     * 
+     *
      * @param serverHost
      *            the server host
      * @param serverPort
@@ -102,7 +102,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getPageExtensions()
      */
     @Override
@@ -112,7 +112,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getSeleniumExtensions()
      */
     @Override
@@ -122,7 +122,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getRequestInterceptor()
      */
     @Override
@@ -132,7 +132,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getInterceptionProxy()
      */
     @Override
@@ -142,7 +142,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#clone()
      */
     @Override
@@ -219,7 +219,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     /**
      * Loads the list of resource names from the given resource.
-     * 
+     *
      * @param resourceName
      *            the path to resource on classpath
      * @return the list of resource names from the given resource.

@@ -34,7 +34,7 @@ import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
 
 /**
  * Retrieves the text for given elementLocator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -75,7 +75,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of TextRetriever
      */
     public static TextRetriever getInstance() {
@@ -84,7 +84,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
 
     /**
      * Gets a TextRetriever object preset with elementLocator to given value.
-     * 
+     *
      * @param elementLocator
      *            the element locator to preset
      * @return the TextRetriever preset with elementLocator of given value
@@ -100,9 +100,9 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
 
     /**
      * Returns a copy of this textRetriever with exactly same settings.
-     * 
+     *
      * Keeps the immutability of this class.
-     * 
+     *
      * @return the exact copy of this textRetriever
      */
     private TextRetriever copy() {

@@ -52,7 +52,7 @@ import org.jboss.arquillian.ajocado.request.RequestHeader;
 
 /**
  * The type-safe wrapper for Selenium API.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -67,7 +67,7 @@ public interface TypedSelenium {
     /**
      * Clicks on a link, button, checkbox or radio button. If the click action causes a new page to load (like a link
      * usually does), call waitForPageToLoad.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -76,7 +76,7 @@ public interface TypedSelenium {
     /**
      * Double clicks on a link, button, checkbox or radio button. If the double click action causes a new page to load
      * (like a link usually does), call waitForPageToLoad.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -85,7 +85,7 @@ public interface TypedSelenium {
     /**
      * Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the
      * element).
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -94,7 +94,7 @@ public interface TypedSelenium {
     /**
      * Clicks on a link, button, checkbox or radio button. If the click action causes a new page to load (like a link
      * usually does), call waitForPageToLoad.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -105,7 +105,7 @@ public interface TypedSelenium {
     /**
      * Doubleclicks on a link, button, checkbox or radio button. If the action causes a new page to load (like a link
      * usually does), call waitForPageToLoad.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -116,7 +116,7 @@ public interface TypedSelenium {
     /**
      * Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the
      * element).
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -126,7 +126,7 @@ public interface TypedSelenium {
 
     /**
      * Explicitly simulate an event, to trigger the corresponding handler.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param event
@@ -137,7 +137,7 @@ public interface TypedSelenium {
     /**
      * Move the focus to the specified element; for example, if the element is an input field, move the cursor to that
      * field.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -145,7 +145,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing and releasing a key.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param character
@@ -155,7 +155,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing and releasing a key.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param keyCode
@@ -205,7 +205,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing a key (without releasing it yet).
-     * 
+     *
      * @param locator
      *            an element locator
      * @param character
@@ -215,7 +215,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing a key (without releasing it yet).
-     * 
+     *
      * @param locator
      *            an element locator
      * @param keyCode
@@ -225,7 +225,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user releasing a key.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param character
@@ -235,7 +235,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user releasing a key.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param keyCode
@@ -245,7 +245,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user hovering a mouse over the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -253,7 +253,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user moving the mouse pointer away from the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -261,7 +261,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing the left mouse button (without releasing it yet) on the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -269,7 +269,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing the right mouse button (without releasing it yet) on the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -277,7 +277,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing the left mouse button (without releasing it yet) at the specified location.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -288,7 +288,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing the right mouse button (without releasing it yet) at the specified location.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -299,7 +299,7 @@ public interface TypedSelenium {
     /**
      * Simulates the event that occurs when the user releases the mouse button (i.e., stops holding the button down) on
      * the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -308,7 +308,7 @@ public interface TypedSelenium {
     /**
      * Simulates the event that occurs when the user releases the right mouse button (i.e., stops holding the button
      * down) on the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -317,7 +317,7 @@ public interface TypedSelenium {
     /**
      * Simulates the event that occurs when the user releases the mouse button (i.e., stops holding the button down) at
      * the specified location.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -328,7 +328,7 @@ public interface TypedSelenium {
     /**
      * Simulates the event that occurs when the user releases the right mouse button (i.e., stops holding the button
      * down) at the specified location.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -338,7 +338,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing the mouse button (without releasing it yet) on the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -346,7 +346,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates a user pressing the mouse button (without releasing it yet) on the specified element.
-     * 
+     *
      * @param locator
      *            an element locator
      * @param coords
@@ -356,12 +356,12 @@ public interface TypedSelenium {
 
     /**
      * Sets the value of an input field, as though you typed it in.
-     * 
+     *
      * <p>
      * Can also be used to set the value of combo boxes, check boxes, etc. In these cases, value should be the value of
      * the option selected, not the visible text.
      * </p>
-     * 
+     *
      * @param locator
      *            an element locator
      * @param value
@@ -371,7 +371,7 @@ public interface TypedSelenium {
 
     /**
      * Simulates keystroke events on the specified element, as though you typed the value key-by-key.
-     * 
+     *
      * <p>
      * This is a convenience method for calling keyDown, keyUp, keyPress for every character in the specified string;
      * this is useful for dynamic UI widgets (like auto-completing combo boxes) that require explicit key events.
@@ -386,7 +386,7 @@ public interface TypedSelenium {
      * In some cases, you may need to use the simple "type" command to set the value of the field and then the
      * "typeKeys" command to send the keystroke events corresponding to what you just typed.
      * </p>
-     * 
+     *
      * @param locator
      *            an element locator
      * @param value
@@ -397,7 +397,7 @@ public interface TypedSelenium {
     /**
      * Set execution speed (i.e., set the millisecond length of a delay which will follow each selenium operation). By
      * default, there is no such delay, i.e., the delay is 0 milliseconds.
-     * 
+     *
      * @param speedInMilis
      *            the number of milliseconds to pause after operation
      */
@@ -406,16 +406,16 @@ public interface TypedSelenium {
     /**
      * Get execution speed (i.e., get the millisecond length of the delay following each selenium operation). By
      * default, there is no such delay, i.e., the delay is 0 milliseconds.
-     * 
+     *
      * See also setSpeed.
-     * 
+     *
      * @return the execution speed in milliseconds.
      */
     long getSpeed();
 
     /**
      * Check a toggle-button (checkbox/radio)
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -423,7 +423,7 @@ public interface TypedSelenium {
 
     /**
      * Uncheck a toggle-button (checkbox/radio)
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -431,7 +431,7 @@ public interface TypedSelenium {
 
     /**
      * Select an option from a drop-down using an option locator.
-     * 
+     *
      * <p>
      * Option locators provide different ways of specifying options of an HTML Select element (e.g. for selecting a
      * specific option, or for asserting that the selected option satisfies a specification). There are several forms of
@@ -450,7 +450,7 @@ public interface TypedSelenium {
      * </ul>
      * </li>
      * <li><strong>id</strong>=<em>id</em>:
-     * 
+     *
      * matches options based on their ids.
      * <ul class="first last simple">
      * <li>id=option1</li>
@@ -465,7 +465,7 @@ public interface TypedSelenium {
      * <p>
      * If no option locator prefix is provided, the default behaviour is to match on <strong>label</strong>.
      * </p>
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @param optionLocator
@@ -475,7 +475,7 @@ public interface TypedSelenium {
 
     /**
      * Add a selection to the set of selected options in a multi-select element using an option locator.
-     * 
+     *
      * @see #select(ElementLocator, OptionLocator) for details of option locators
      * @param locator
      *            an element locator identifying a multi-select box
@@ -486,7 +486,7 @@ public interface TypedSelenium {
 
     /**
      * Remove a selection from the set of selected options in a multi-select element using an option locator.
-     * 
+     *
      * @see #select(ElementLocator, OptionLocator) for details of option locators
      * @param locator
      *            an element locator identifying a multi-select box
@@ -497,7 +497,7 @@ public interface TypedSelenium {
 
     /**
      * Unselects all of the selected options in a multi-select element.
-     * 
+     *
      * @param locator
      *            an element locator identifying a multi-select box
      */
@@ -506,7 +506,7 @@ public interface TypedSelenium {
     /**
      * Submit the specified form. This is particularly useful for forms without submit buttons, e.g. single-input
      * "Search" forms.
-     * 
+     *
      * @param formLocator
      *            an element locator for the form you want to submit
      */
@@ -514,13 +514,13 @@ public interface TypedSelenium {
 
     /**
      * Opens an URL in the test frame. This accepts both relative and absolute URLs.
-     * 
+     *
      * The "open" command waits for the page to load before proceeding, ie. the "AndWait" suffix is implicit.
-     * 
+     *
      * <em>Note</em>: The URL must be on the same domain as the runner HTML due to security restrictions in the browser
      * (Same Origin Policy). If you need to open an URL on another domain, use the Selenium Server to start a new
      * browser session on that domain.
-     * 
+     *
      * @param url
      *            the URL to open; may be relative or absolute
      */
@@ -529,14 +529,14 @@ public interface TypedSelenium {
     /**
      * Opens a popup window (if a window with that ID isn't already open). After opening the window, you'll need to
      * select it using the selectWindow command.
-     * 
+     *
      * <p>
      * This command can also be a useful workaround for bug SEL-339. In some cases, Selenium will be unable to intercept
      * a call to window.open (if the call occurs during or before the "onLoad" event, for example). In those cases, you
      * can force Selenium to notice the open window's name by using the Selenium openWindow command, using an empty
      * (blank) url, like this: openWindow("", "myFunnyWindow").
      * </p>
-     * 
+     *
      * @param url
      *            the URL to open, which can be blank
      * @param windowName
@@ -558,13 +558,13 @@ public interface TypedSelenium {
      * also select a frame by its 0-based index number (construct own {@link FrameLocator} using notation described in
      * com.thoughtworks.selenium.Selenium#selectFrame(String)).
      * </p>
-     * 
+     *
      * <p>
      * You may also use a DOM expression to identify the frame you want directly, like this:
      * <code>dom=frames["main"].frames["subframe"]</code> (construct own {@link FrameLocator} using notation described
      * in com.thoughtworks.selenium.Selenium#selectFrame(String)).
      * </p>
-     * 
+     *
      * @param frameLocator
      *            an frame locator identifying a frame or iframe
      */
@@ -573,9 +573,9 @@ public interface TypedSelenium {
     /**
      * Selects a popup window using a window locator; once a popup window has been selected, all commands go to that
      * window. To select the main window again, use null as the target.
-     * 
+     *
      * <p>
-     * 
+     *
      * Window locators provide different ways of specifying the window object: by title, by internal JavaScript "name,"
      * or by JavaScript variable.
      * </p>
@@ -623,7 +623,7 @@ public interface TypedSelenium {
      * open window's name by using the Selenium openWindow command, using an empty (blank) url, like this:
      * openWindow("", "myFunnyWindow").
      * </p>
-     * 
+     *
      * @param windowLocator
      *            the JavaScript window ID of the window to select
      */
@@ -641,7 +641,7 @@ public interface TypedSelenium {
      * to a window; and 3) the title of the window. This is the same ordered lookup performed by
      * <code>selectWindow</code> .</li>
      * </ul>
-     * 
+     *
      * @param windowLocator
      *            an identifier for the popup window, which can take on a number of different meanings
      */
@@ -679,7 +679,7 @@ public interface TypedSelenium {
     /**
      * Instructs Selenium to return the specified answer string in response to the next JavaScript prompt
      * [window.prompt()].
-     * 
+     *
      * @param answer
      *            the answer to give in response to the prompt pop-up
      */
@@ -702,33 +702,33 @@ public interface TypedSelenium {
 
     /**
      * Has an alert occurred?
-     * 
+     *
      * <p>
      * This function never throws an exception
      * </p>
-     * 
+     *
      * @return true if there is an alert
      */
     boolean isAlertPresent();
 
     /**
      * Has a prompt occurred?
-     * 
+     *
      * <p>
      * This function never throws an exception
      * </p>
-     * 
+     *
      * @return true if there is a pending prompt
      */
     boolean isPromptPresent();
 
     /**
      * Has confirm() been called?
-     * 
+     *
      * <p>
      * This function never throws an exception
      * </p>
-     * 
+     *
      * @return true if there is a pending confirmation
      */
     boolean isConfirmationPresent();
@@ -736,7 +736,7 @@ public interface TypedSelenium {
     /**
      * Retrieves the message of a JavaScript alert generated during the previous action, or fail if there were no
      * alerts.
-     * 
+     *
      * <p>
      * Getting an alert has the same effect as manually clicking OK. If an alert is generated but you do not consume it
      * with getAlert, the next Selenium action will fail.
@@ -748,21 +748,21 @@ public interface TypedSelenium {
      * Selenium does NOT support JavaScript alerts that are generated in a page's onload() event handler. In this case a
      * visible dialog WILL be generated and Selenium will hang until someone manually clicks OK.
      * </p>
-     * 
+     *
      * @return The message of the most recent JavaScript alert
      */
     String getAlert();
 
     /**
      * Returns the IDs of all windows that the browser knows about.
-     * 
+     *
      * @return the IDs of all windows that the browser knows about.
      */
     List<WindowNameLocator> getAllWindowIds();
 
     /**
      * Retrieves the message of a JavaScript confirmation dialog generated during the previous action.
-     * 
+     *
      * <p>
      * By default, the confirm function will return true, having the same effect as manually clicking OK. This can be
      * changed by prior execution of the chooseCancelOnNextConfirmation command.
@@ -778,14 +778,14 @@ public interface TypedSelenium {
      * NOTE: Selenium does NOT support JavaScript confirmations that are generated in a page's onload() event handler.
      * In this case a visible dialog WILL be generated and Selenium will hang until you manually click OK.
      * </p>
-     * 
+     *
      * @return the message of the most recent JavaScript confirmation dialog
      */
     String getConfirmation();
 
     /**
      * Retrieves the message of a JavaScript question prompt dialog generated during the previous action.
-     * 
+     *
      * <p>
      * Successful handling of the prompt requires prior execution of the answerOnNextPrompt command. If a prompt is
      * generated but you do not get/verify it, the next Selenium action will fail.
@@ -797,28 +797,28 @@ public interface TypedSelenium {
      * NOTE: Selenium does NOT support JavaScript prompts that are generated in a page's onload() event handler. In this
      * case a visible dialog WILL be generated and Selenium will hang until someone manually clicks OK.
      * </p>
-     * 
+     *
      * @return the message of the most recent JavaScript question prompt
      */
     String getPrompt();
 
     /**
      * Gets the absolute URL of the current page.
-     * 
+     *
      * @return the absolute URL of the current page
      */
     URL getLocation();
 
     /**
      * Gets the title of the current page.
-     * 
+     *
      * @return the title of the current page
      */
     String getTitle();
 
     /**
      * Gets the entire text of the page.
-     * 
+     *
      * @return the entire text of the page
      */
     String getBodyText();
@@ -826,7 +826,7 @@ public interface TypedSelenium {
     /**
      * Gets the (whitespace-trimmed) value of an input field (or anything else with a value parameter). For
      * checkbox/radio elements, the value will be "on" or "off" depending on whether the element is checked or not.
-     * 
+     *
      * @param locator
      *            an element locator
      * @return the element value, or "on/off" for checkbox/radio elements
@@ -837,7 +837,7 @@ public interface TypedSelenium {
      * Gets the text of an element. This works for any element that contains text. This command uses either the
      * textContent (Mozilla-like browsers) or the innerText (IE-like browsers) of the element, which is the rendered
      * text shown to the user.
-     * 
+     *
      * @param locator
      *            an element locator
      * @return the text of the element
@@ -846,7 +846,7 @@ public interface TypedSelenium {
 
     /**
      * Briefly changes the backgroundColor of the specified element yellow. Useful for debugging.
-     * 
+     *
      * @param locator
      *            an element locator
      */
@@ -855,7 +855,7 @@ public interface TypedSelenium {
     /**
      * Gets the result of evaluating the specified JavaScript snippet. The snippet may have multiple lines, but only the
      * result of the last line will be returned.
-     * 
+     *
      * <p>
      * Note that, by default, the snippet will run in the context of the "selenium" object itself, so <code>this</code>
      * will refer to the Selenium object. Use <code>window</code> to refer to the window of your application, e.g.
@@ -865,7 +865,7 @@ public interface TypedSelenium {
      * If you need to use a locator to refer to a single element in your application page, you can use
      * <code>this.browserbot.findElement("id=foo")</code> where "id=foo" is your locator.
      * </p>
-     * 
+     *
      * @param script
      *            the JavaScript snippet to run
      * @return the results of evaluating the snippet
@@ -875,7 +875,7 @@ public interface TypedSelenium {
     /**
      * Gets whether a toggle-button (checkbox/radio) is checked. Fails if the specified element doesn't exist or isn't a
      * toggle-button.
-     * 
+     *
      * @param locator
      *            an element locator pointing to a checkbox or radio button
      * @return true if the checkbox is checked, false otherwise
@@ -884,7 +884,7 @@ public interface TypedSelenium {
 
     /**
      * Gets all option labels (visible text) for selected options in the specified select or multi-select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option labels in the specified select drop-down
@@ -893,7 +893,7 @@ public interface TypedSelenium {
 
     /**
      * Gets option label (visible text) for selected option in the specified select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return the selected option label in the specified select drop-down
@@ -902,7 +902,7 @@ public interface TypedSelenium {
 
     /**
      * Gets all option values (value attributes) for selected options in the specified select or multi-select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option values in the specified select drop-down
@@ -911,7 +911,7 @@ public interface TypedSelenium {
 
     /**
      * Gets option value (value attribute) for selected option in the specified select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return the selected option value in the specified select drop-down
@@ -921,7 +921,7 @@ public interface TypedSelenium {
     /**
      * Gets all option indexes (option number, starting at 0) for selected options in the specified select or
      * multi-select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option indexes in the specified select drop-down
@@ -930,7 +930,7 @@ public interface TypedSelenium {
 
     /**
      * Gets option index (option number, starting at 0) for selected option in the specified select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return the selected option index in the specified select drop-down
@@ -939,7 +939,7 @@ public interface TypedSelenium {
 
     /**
      * Gets all option element IDs for selected options in the specified select or multi-select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return an array of all selected option IDs in the specified select drop-down
@@ -948,7 +948,7 @@ public interface TypedSelenium {
 
     /**
      * Gets option element ID for selected option in the specified select element.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return the selected option ID in the specified select drop-down
@@ -957,7 +957,7 @@ public interface TypedSelenium {
 
     /**
      * Determines whether some option in a drop-down menu is selected.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return true if some option has been selected, false otherwise
@@ -966,7 +966,7 @@ public interface TypedSelenium {
 
     /**
      * Gets all option labels in the specified select drop-down.
-     * 
+     *
      * @param selectLocator
      *            an element locator identifying a drop-down menu
      * @return an array of all option labels in the specified select drop-down
@@ -976,7 +976,7 @@ public interface TypedSelenium {
     /**
      * Gets the value of an element attribute. The value of the attribute may differ across browsers (this is the case
      * for the "style" attribute, for example).
-     * 
+     *
      * @param attributeLocator
      *            attribute locator
      * @return the value of the specified attribute
@@ -986,7 +986,7 @@ public interface TypedSelenium {
     /**
      * Gets the value of an element attribute. The value of the attribute may differ across browsers (this is the case
      * for the "style" attribute, for example).
-     * 
+     *
      * @param elementLocator
      *            element locator
      * @param attribute
@@ -997,7 +997,7 @@ public interface TypedSelenium {
 
     /**
      * Verifies that the specified text pattern appears somewhere on the rendered page shown to the user.
-     * 
+     *
      * @param text
      *            a pattern to match with the text of the page
      * @return true if the pattern matches the text, false otherwise
@@ -1006,7 +1006,7 @@ public interface TypedSelenium {
 
     /**
      * Verifies that the specified element is somewhere on the page.
-     * 
+     *
      * @param locator
      *            an element locator
      * @return true if the element is present, false otherwise
@@ -1017,7 +1017,7 @@ public interface TypedSelenium {
      * Determines if the specified element is visible. An element can be rendered invisible by setting the CSS
      * "visibility" property to "hidden", or the "display" property to "none", either for the element itself or one if
      * its ancestors. This method will fail if the element is not present.
-     * 
+     *
      * @param locator
      *            an element locator
      * @return true if the specified element is visible, false otherwise
@@ -1027,7 +1027,7 @@ public interface TypedSelenium {
     /**
      * Determines whether the specified input element is editable, ie hasn't been disabled. This method will fail if the
      * specified element isn't an input element.
-     * 
+     *
      * @param locator
      *            an element locator
      * @return true if the input element is editable, false otherwise
@@ -1045,7 +1045,7 @@ public interface TypedSelenium {
      * If the mouse speed is greater than the distance between the two dragged objects, we'll just send one "mousemove"
      * at the start location and then one final one at the end location.
      * </p>
-     * 
+     *
      * @param pixels
      *            the number of pixels between "mousemove" events
      */
@@ -1053,14 +1053,14 @@ public interface TypedSelenium {
 
     /**
      * Returns the number of pixels between "mousemove" events during dragAndDrop commands (default=10).
-     * 
+     *
      * @return the number of pixels between "mousemove" events during dragAndDrop commands (default=10)
      */
     int getMouseSpeed();
 
     /**
      * Drags an element a certain distance and then drops it
-     * 
+     *
      * @param locator
      *            an element locator
      * @param movementsString
@@ -1070,7 +1070,7 @@ public interface TypedSelenium {
 
     /**
      * Drags an element and drops it on another element
-     * 
+     *
      * @param locatorOfObjectToBeDragged
      *            an element to be dragged
      * @param locatorOfDragDestinationObject
@@ -1092,7 +1092,7 @@ public interface TypedSelenium {
 
     /**
      * Returns the entire HTML source between the opening and closing "html" tags.
-     * 
+     *
      * @return the entire HTML source
      */
     String getHtmlSource();
@@ -1100,7 +1100,7 @@ public interface TypedSelenium {
     /**
      * Moves the text cursor to the specified position in the given input element or textarea. This method will fail if
      * the specified element isn't an input element or textarea.
-     * 
+     *
      * @param locator
      *            an element locator pointing to an input element or textarea
      * @param position
@@ -1112,7 +1112,7 @@ public interface TypedSelenium {
     /**
      * Get the relative index of an element to its parent (starting from 0). The comment node and empty text node will
      * be ignored.
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @return of relative index of the element to its parent (starting from 0)
@@ -1122,7 +1122,7 @@ public interface TypedSelenium {
     /**
      * Check if these two elements have same parent and are ordered siblings in the DOM. Two same elements will not be
      * considered ordered.
-     * 
+     *
      * @param locator1
      *            an element locator pointing to the first element
      * @param locator2
@@ -1133,7 +1133,7 @@ public interface TypedSelenium {
 
     /**
      * Retrieves the horizontal position of an element
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @return of pixels from the edge of the frame.
@@ -1142,7 +1142,7 @@ public interface TypedSelenium {
 
     /**
      * Retrieves the vertical position of an element
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @return of pixels from the edge of the frame.
@@ -1151,7 +1151,7 @@ public interface TypedSelenium {
 
     /**
      * Retrieves the position of an element
-     * 
+     *
      * @param locator
      * @return the position in the current frame
      */
@@ -1159,7 +1159,7 @@ public interface TypedSelenium {
 
     /**
      * Retrieves the width of an element
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @return width of an element in pixels
@@ -1168,7 +1168,7 @@ public interface TypedSelenium {
 
     /**
      * Retrieves the height of an element
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @return height of an element in pixels
@@ -1177,7 +1177,7 @@ public interface TypedSelenium {
 
     /**
      * Retrievers the element dimensions (width, height)
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @return dimensions of an element in pixels
@@ -1187,7 +1187,7 @@ public interface TypedSelenium {
     /**
      * Retrieves the text cursor position in the given input element or textarea; beware, this may not work perfectly on
      * all browsers.
-     * 
+     *
      * <p>
      * Specifically, if the cursor/selection has been cleared by JavaScript, this command will tend to return the
      * position of the last location of the cursor, even though the cursor is now gone from the page. This is filed as
@@ -1195,7 +1195,7 @@ public interface TypedSelenium {
      * </p>
      * This method will fail if the specified element isn't an input element or textarea, or there is no cursor in the
      * element.
-     * 
+     *
      * @param locator
      *            an element locator pointing to an input element or textarea
      * @return the numerical position of the cursor in the field
@@ -1204,9 +1204,9 @@ public interface TypedSelenium {
 
     /**
      * Returns the number of elements that match the specified locator.
-     * 
+     *
      * @param locator
-     * 
+     *
      * @return the number of nodes that match the specified locator
      */
     int getCount(IterableLocator<?> locator);
@@ -1214,7 +1214,7 @@ public interface TypedSelenium {
     /**
      * Temporarily sets the "id" attribute of the specified element, so you can locate it in the future using its ID
      * rather than a slow/complicated XPath. This ID will disappear once the page is reloaded.
-     * 
+     *
      * @param locator
      *            an element locator pointing to an element
      * @param identifier
@@ -1228,7 +1228,7 @@ public interface TypedSelenium {
      * available); if you pass "false" to this function, we will always use our pure-JavaScript xpath library. Using the
      * pure-JS xpath library can improve the consistency of xpath element locators between different browser vendors,
      * but the pure-JS version is much slower than the native implementations.
-     * 
+     *
      * @param allow
      *            boolean, true means we'll prefer to use native XPath; false means we'll only use JS XPath
      */
@@ -1238,10 +1238,10 @@ public interface TypedSelenium {
      * Specifies whether Selenium will ignore xpath attributes that have no value, i.e. are the empty string, when using
      * the non-native xpath evaluation engine. You'd want to do this for performance reasons in IE. However, this could
      * break certain xpaths, for example an xpath that looks for an attribute whose value is NOT the empty string.
-     * 
+     *
      * The hope is that such xpaths are relatively rare, but the user should have the option of using them. Note that
      * this only influences xpath evaluation when using the ajaxslt engine (i.e. not "javascript-xpath").
-     * 
+     *
      * @param ignore
      *            boolean, true means we'll ignore attributes without value at the expense of xpath "correctness"; false
      *            means we'll sacrifice speed for correctness.
@@ -1251,18 +1251,18 @@ public interface TypedSelenium {
     /**
      * Runs the specified JavaScript snippet repeatedly until it evaluates to "true". The snippet may have multiple
      * lines, but only the result of the last line will be considered.
-     * 
+     *
      * <p>
      * Note that, by default, the snippet will be run in the runner's test window, not in the window of your
      * application. To get the window of your application, you can use the JavaScript snippet
      * <code>selenium.browserbot.getCurrentWindow()</code>, and then run your JavaScript in there
      * </p>
-     * 
+     *
      * <p>
      * Wait default timeout specified in org.jboss.arquillian.ajocado.SystemProperties#getTimeout
      * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType of type TimeoutType.SeleniumTimeoutType#DEFAULT.
      * </p>
-     * 
+     *
      * @param script
      *            the JavaScript snippet to run
      */
@@ -1271,13 +1271,13 @@ public interface TypedSelenium {
     /**
      * Runs the specified JavaScript snippet repeatedly until it evaluates to "true". The snippet may have multiple
      * lines, but only the result of the last line will be considered.
-     * 
+     *
      * <p>
      * Note that, by default, the snippet will be run in the runner's test window, not in the window of your
      * application. To get the window of your application, you can use the JavaScript snippet
      * <code>selenium.browserbot.getCurrentWindow()</code>, and then run your JavaScript in there
      * </p>
-     * 
+     *
      * @param script
      *            the JavaScript snippet to run
      * @param timeout
@@ -1287,12 +1287,12 @@ public interface TypedSelenium {
 
     /**
      * Specifies the amount of time that Selenium will wait for actions to complete.
-     * 
+     *
      * <p>
      * Actions that require waiting include "open" and the "waitFor*" actions.
      * </p>
      * The default timeout is 30 seconds.
-     * 
+     *
      * @param timeout
      *            a timeout in milliseconds, after which the action will return with an error
      */
@@ -1300,7 +1300,7 @@ public interface TypedSelenium {
 
     /**
      * Waits for a new page to load.
-     * 
+     *
      * <p>
      * You can use this command instead of the "AndWait" suffixes, "clickAndWait", "selectAndWait", "typeAndWait" etc.
      * (which are only available in the JS API).
@@ -1320,7 +1320,7 @@ public interface TypedSelenium {
 
     /**
      * Waits for a new page to load.
-     * 
+     *
      * <p>
      * You can use this command instead of the "AndWait" suffixes, "clickAndWait", "selectAndWait", "typeAndWait" etc.
      * (which are only available in the JS API).
@@ -1330,7 +1330,7 @@ public interface TypedSelenium {
      * page load. Running any other Selenium command after turns the flag to false. Hence, if you want to wait for a
      * page to load, you must wait immediately after a Selenium command that caused a page-load.
      * </p>
-     * 
+     *
      * @param timeout
      *            a timeout in milliseconds, after which this command will return with an error
      */
@@ -1338,7 +1338,7 @@ public interface TypedSelenium {
 
     /**
      * Waits for a popup window to appear and load up.
-     * 
+     *
      * @param windowNameLocator
      *            the JavaScript window "name" of the window that will appear (not the text of the title bar) If
      *            unspecified, or specified as "null", this command will wait for the first non-top window to appear
@@ -1351,22 +1351,22 @@ public interface TypedSelenium {
 
     /**
      * Waits for a new frame to load.
-     * 
+     *
      * <p>
      * Selenium constantly keeps track of new pages and frames loading, and sets a "newPageLoaded" flag when it first
      * notices a page load.
      * </p>
-     * 
+     *
      * <p>
      * See waitForPageToLoad for more information.
      * </p>
-     * 
+     *
      * <p>
      * Wait default timeout specified in org.jboss.arquillian.ajocado.SystemProperties#getTimeout
      * (org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType)} of type
      * org.jboss.arquillian.ajocado.TimeoutType.SeleniumTimeoutType#DEFAULT.
      * </p>
-     * 
+     *
      * @param frameAddress
      *            FrameAddress from the server side
      */
@@ -1374,14 +1374,14 @@ public interface TypedSelenium {
 
     /**
      * Waits for a new frame to load.
-     * 
+     *
      * <p>
      * Selenium constantly keeps track of new pages and frames loading, and sets a "newPageLoaded" flag when it first
      * notices a page load.
      * </p>
-     * 
+     *
      * See waitForPageToLoad for more information.
-     * 
+     *
      * @param frameAddress
      *            FrameAddress from the server side
      * @param timeout
@@ -1393,18 +1393,18 @@ public interface TypedSelenium {
      * <p>
      * Return all cookies of the current page under test.
      * </p>
-     * 
+     *
      * <p>
      * <b>Currently unsupported</b>
      * </p>
-     * 
+     *
      * @return all cookies of the current page under test
      */
     Set<Cookie> getAllCookies();
 
     /**
      * Returns the value of the cookie with the specified name, or throws an error if the cookie is not present.
-     * 
+     *
      * @param cookieName
      *            the name of the cookie
      * @return the value of the cookie
@@ -1413,7 +1413,7 @@ public interface TypedSelenium {
 
     /**
      * Returns true if a cookie with the specified name is present, or false otherwise.
-     * 
+     *
      * @param cookieName
      *            the name of the cookie
      * @return true if a cookie with the specified name is present, or false otherwise.
@@ -1422,7 +1422,7 @@ public interface TypedSelenium {
 
     /**
      * Create a new cookie whose path and domain are same with those of current page under test.
-     * 
+     *
      * @param cookie
      *            the cookie to be created
      * @return the options which was used to create cookie
@@ -1432,7 +1432,7 @@ public interface TypedSelenium {
     /**
      * Create a new cookie whose path and domain are same with those of current page under test, unless you specified a
      * path for this cookie explicitly in options.
-     * 
+     *
      * @param cookie
      *            the cookie to be created
      * @param options
@@ -1448,12 +1448,12 @@ public interface TypedSelenium {
      * exact same path and domain that were used to create the cookie. If the path is wrong, or the domain is wrong, the
      * cookie simply won't be deleted. Also note that specifying a domain that isn't a subset of the current domain will
      * usually fail.
-     * 
+     *
      * Since there's no way to discover at runtime the original path and domain of a given cookie, we've added an option
      * called 'recurse' to try all sub-domains of the current domain with all paths that are a subset of the current
      * path. Beware; this option can be slow. In big-O notation, it operates in O(n*m) time, where n is the number of
      * dots in the domain name and m is the number of slashes in the path.
-     * 
+     *
      * @param cookieName
      *            the name of the cookie to be deleted
      * @param options
@@ -1473,7 +1473,7 @@ public interface TypedSelenium {
      * Sets the threshold for browser-side logging messages; log messages beneath this threshold will be discarded.
      * Valid logLevel strings are: "debug", "info", "warn", "error" or "off". To see the browser logs, you need to
      * either show the log window in GUI mode, or enable browser-side logging in Selenium RC.
-     * 
+     *
      * @param logLevel
      *            one of the following: "debug", "info", "warn", "error" or "off"
      */
@@ -1485,7 +1485,7 @@ public interface TypedSelenium {
      * "getEval" command. Beware that JS exceptions thrown in these script tags aren't managed by Selenium, so you
      * should probably wrap your script in try/catch blocks if there is any chance that the script will throw an
      * exception.
-     * 
+     *
      * @param script
      *            the JavaScript snippet to run
      */
@@ -1495,7 +1495,7 @@ public interface TypedSelenium {
      * Defines a new function for Selenium to locate elements on the page. For example, if you define the strategy
      * "foo", and someone runs click("foo=blah"), we'll run your function, passing you the string "blah", and click on
      * the element that your function returns, or throw an "Element not found" error if your function returns null.
-     * 
+     *
      * We'll pass three arguments to your function:
      * <ul>
      * <li>locator: the string the user passed in</li>
@@ -1503,7 +1503,7 @@ public interface TypedSelenium {
      * <li>inDocument: the currently selected document</li>
      * </ul>
      * The function must return null if the element can't be found.
-     * 
+     *
      * @param strategyName
      *            the name of the strategy to define; this should use only letters [a-zA-Z] with no spaces or other
      *            punctuation.
@@ -1517,11 +1517,11 @@ public interface TypedSelenium {
      * Loads script content into a new script tag in the Selenium document. This differs from the runScript command in
      * that runScript adds the script tag to the document of the AUT, not the Selenium document. The following entities
      * in the script content are replaced by the characters they represent:
-     * 
+     *
      * &lt; &gt; &amp;
-     * 
+     *
      * The corresponding remove command is removeScript.
-     * 
+     *
      * @param javaScript
      *            the JavaScript script to add
      */
@@ -1529,9 +1529,9 @@ public interface TypedSelenium {
 
     /**
      * Checks whenever the script is already added.
-     * 
+     *
      * Check is based on JavaScript's id (see {@link JavaScript#getIdentification()}.
-     * 
+     *
      * @param javaScript
      *            JavaScript we want to check if it is added
      * @return true if the javaScript is already added; false otherwise
@@ -1541,7 +1541,7 @@ public interface TypedSelenium {
     /**
      * Removes a script tag from the Selenium document identified by the JavaScript's id (see
      * {@link JavaScript#getIdentification()}. Does nothing if the referenced tag doesn't exist.
-     * 
+     *
      * @param javaScript
      *            JavaScript we want to remove
      */
@@ -1549,7 +1549,7 @@ public interface TypedSelenium {
 
     /**
      * Allows choice of one of the available libraries.
-     * 
+     *
      * @param xpathLibrary
      *            name of the desired library Only the following three can be chosen:
      *            <ul>
@@ -1563,7 +1563,7 @@ public interface TypedSelenium {
 
     /**
      * Writes a message to the status bar and adds a note to the browser-side log.
-     * 
+     *
      * @param context
      *            the message to be sent to the browser
      */
@@ -1581,7 +1581,7 @@ public interface TypedSelenium {
      * Retrieve the last messages logged on a specific remote control. Useful for error reports, especially when running
      * multiple remote controls in a distributed environment. The maximum number of log messages that can be retrieve is
      * configured on remote control startup.
-     * 
+     *
      * @return The last N log messages as a multi-line string.
      */
     String retrieveLastRemoteControlLogs();
@@ -1592,7 +1592,7 @@ public interface TypedSelenium {
      * keyboard. It does not honor settings from the shiftKeyDown, controlKeyDown, altKeyDown and metaKeyDown commands,
      * and does not target any particular HTML element. To send a keystroke to a particular element, focus on the
      * element first before running this command.
-     * 
+     *
      * @param keycode
      *            java.awt.event.KeyEvent
      */
@@ -1604,7 +1604,7 @@ public interface TypedSelenium {
      * not honor settings from the shiftKeyDown, controlKeyDown, altKeyDown and metaKeyDown commands, and does not
      * target any particular HTML element. To send a keystroke to a particular element, focus on the element first
      * before running this command.
-     * 
+     *
      * @param keycode
      *            java.awt.event.KeyEvent
      */
@@ -1616,7 +1616,7 @@ public interface TypedSelenium {
      * does not honor settings from the shiftKeyDown, controlKeyDown, altKeyDown and metaKeyDown commands, and does not
      * target any particular HTML element. To send a keystroke to a particular element, focus on the element first
      * before running this command.
-     * 
+     *
      * @param keycode
      *            java.awt.event.KeyEvent
      */
@@ -1624,7 +1624,7 @@ public interface TypedSelenium {
 
     /**
      * Capture a PNG screenshot. It then returns the file as a base 64 encoded string.
-     * 
+     *
      * @return The BufferedImage
      */
     BufferedImage captureScreenshot();
@@ -1632,9 +1632,9 @@ public interface TypedSelenium {
     /**
      * Downloads a screenshot of the browser current window canvas to a based 64 encoded PNG file. The <em>entire</em>
      * windows canvas is captured, including parts rendered outside of the current view port.
-     * 
+     *
      * Currently this only works in Mozilla and when running in chrome mode.
-     * 
+     *
      * @return The BufferedImage
      */
     BufferedImage captureEntirePageScreenshot();
@@ -1643,7 +1643,7 @@ public interface TypedSelenium {
      * Returns the network traffic seen by the browser, including headers, AJAX requests, status codes, and timings.
      * When this function is called, the traffic log is cleared, so the returned content is only the traffic seen since
      * the last call.
-     * 
+     *
      * @param type
      *            The type of data to return the network traffic as. Valid values are: json, xml, or plain.
      * @return A string representation in the defined type of the network traffic seen by the browser.
@@ -1653,7 +1653,7 @@ public interface TypedSelenium {
     /**
      * Tells the Selenium server to add the specificed key and value as a custom outgoing request header. This only
      * works if the browser is configured to use the built in Selenium proxy.
-     * 
+     *
      * @param header
      *            Header to be added
      */

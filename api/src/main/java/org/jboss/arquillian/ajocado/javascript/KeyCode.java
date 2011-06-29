@@ -27,7 +27,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
  * <p>
  * Encapsulates key codes as they are interpreted by JavaScript.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -136,7 +136,7 @@ public class KeyCode implements SeleniumRepresentable {
 
     /**
      * Constructs new key code by providing it's JavaScript key code representation
-     * 
+     *
      * @param code
      */
     public KeyCode(String code) {
@@ -145,7 +145,7 @@ public class KeyCode implements SeleniumRepresentable {
 
     /**
      * Returns the code of JavaScript key code representation
-     * 
+     *
      * @return the code of JavaScript key code representation
      */
     public String getCode() {

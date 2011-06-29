@@ -25,20 +25,20 @@ package org.jboss.arquillian.ajocado.framework.internal;
  * <p>
  * Utilities for control of Selenium session and extensions.
  * </p>
- * 
+ *
  * <p>
  * For proper initialization, methods should be called in following order:
  * </p>
- * 
+ *
  * <ol>
  * <li>{@link #initializeBrowser()}</li>
  * <li>{@link #initializeSeleniumExtensions()}</li>
  * <li>{@link #initializePageExtensions()}</li>
  * <li>{@link #configureBrowser()}</li>
  * </ol>
- * 
- * 
- * 
+ *
+ *
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

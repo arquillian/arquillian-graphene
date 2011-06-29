@@ -31,7 +31,7 @@ import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
  * <p>
  * Extends the common Selenium API by other useful functions.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -39,7 +39,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Indicates if selenium session was already successfully started.
-     * 
+     *
      * @return true if selenium session was already successfully started; false otherwise
      */
     boolean isStarted();
@@ -48,11 +48,11 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * <p>
      * Configures if the network traffic should be recorded for Selenium session.
      * </p>
-     * 
+     *
      * <p>
      * Have to be configured before the start of the Selenium session.
      * </p>
-     * 
+     *
      * @param networkTrafficCapturingEnabled
      *            whether the network traffic should be recorded or not
      */
@@ -60,20 +60,20 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Returns whether the network traffic should be recorded or not
-     * 
+     *
      * @return whether the network traffic should be recorded or not
      */
     boolean isNetworkTrafficCapturingEnabled();
 
     /**
      * Get current style value of element given by locator.
-     * 
+     *
      * @param <R>
      *            the returning type (which was resolved by given resolver)
-     * 
+     *
      * @param <T>
      *            the type of resolver {@link CssResolver}
-     * 
+     *
      * @param elementLocator
      *            of element from what we want to get current style value
      * @param cssResolver
@@ -86,7 +86,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
-     * 
+     *
      * @param elementLocator
      *            of element which should be screen aligned to
      * @param alignToTop
@@ -96,7 +96,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Simulates a user hovering a mouse over the specified element at specific coordinates relative to element.
-     * 
+     *
      * @param elementLocator
      *            element's locator
      * @param point
@@ -107,7 +107,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Simulates a user hovering a mouse out of the specified element at specific coordinates relative to element.
-     * 
+     *
      * @param elementLocator
      *            element's locator
      * @param point
@@ -118,7 +118,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Checks if element given by locator is member of CSS class given by className.
-     * 
+     *
      * @param className
      *            name of CSS class
      * @param elementLocator
@@ -129,7 +129,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Verifies that the specified attribute is defined for the element.
-     * 
+     *
      * @param attributeLocator
      *            an attribute locator
      * @return true if the element's attribute is present, false otherwise
@@ -138,7 +138,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.framework.DefaultTypedSelenium
      * #getCount(org.jboss.test.selenium.locator.IterableLocator )
      */
@@ -149,7 +149,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * <p>
      * Check a toggle-button (checkbox/radio) on or off.
      * </p>
-     * 
+     *
      * @param locator
      *            an element locator
      * @param checked
@@ -159,7 +159,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
 
     /**
      * Invokes selenium command.
-     * 
+     *
      * @param command
      *            the command name from Selenium's JavaScript API
      * @param param1

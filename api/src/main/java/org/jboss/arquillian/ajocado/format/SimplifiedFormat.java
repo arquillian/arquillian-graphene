@@ -32,12 +32,12 @@ import java.util.regex.Pattern;
  * Formats using simplified MessageFormat syntax: {} are used as placeholders in order of arguments; {number} are
  * placeholders with given argument number.
  * </p>
- * 
+ *
  * <p>
  * When filling the placeholders by given arguments are compelete, rest of the numbered placeholders are decreased by
  * number of arguments in previous format action.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -53,7 +53,7 @@ public final class SimplifiedFormat {
 
     /**
      * Parametrize given string with arguments, using {} or {number} (e.g. {0}, {1}, ...) as placeholders.
-     * 
+     *
      * @param message
      *            message to format
      * @param args

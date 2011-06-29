@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * Allows to register command interceptors which wraps the invocation of commands giving Selenium commands new aspects.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -33,7 +33,7 @@ public interface CommandInterceptorProxy {
 
     /**
      * Registers new interceptor
-     * 
+     *
      * @param interceptor
      *            to register
      */
@@ -41,7 +41,7 @@ public interface CommandInterceptorProxy {
 
     /**
      * Unregisters the inceptor by reference
-     * 
+     *
      * @param interceptor
      *            the interceptor by reference
      * @return the command interceptor which was unregistered, null if no such interceptor was registered on this proxy
@@ -50,7 +50,7 @@ public interface CommandInterceptorProxy {
 
     /**
      * Unregisters all of the interceptors of given type
-     * 
+     *
      * @param type
      *            the type of interceptors to unregister
      * @return the references to all command interceptors which was unregistered

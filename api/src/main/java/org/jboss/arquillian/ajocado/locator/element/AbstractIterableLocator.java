@@ -29,7 +29,7 @@ import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 
 /**
  * Abstract implementation of locator which can iterate over it's descendant.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  * @param <T>
@@ -42,7 +42,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
 
     /**
      * Constructs locator for given string representation
-     * 
+     *
      * @param locator
      *            the string representation of locator
      */
@@ -75,7 +75,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
          * <p>
          * Instantiates a new element iterator.
          * </p>
-         * 
+         *
          * <p>
          * Set iteration index to first element and then try to found actual count for given elements.
          * </p>
@@ -94,7 +94,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.util.Iterator#hasNext()
          */
         @Override
@@ -104,7 +104,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.util.Iterator#next()
          */
         @Override
@@ -118,10 +118,10 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
 
         /**
          * <b>Unsupported</b> for this Iterator.
-         * 
+         *
          * @throws UnsupportedOperationException
          *             in every call
-         * 
+         *
          */
         @Override
         public void remove() {

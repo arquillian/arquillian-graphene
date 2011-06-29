@@ -25,21 +25,21 @@ package org.jboss.arquillian.ajocado.waiting;
  * <p>
  * Interface for implementations of waiting for satisfaction of condition.
  * </p>
- * 
+ *
  * <p>
  * Implementations should keep contract of immutability.
  * </p>
- * 
+ *
  * @param <T>
  *            the end implementation of Waiting to return by methods on Waiting
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public interface Waiting<T extends Waiting<T>> {
     /**
      * Returns instance of waiting with same properties like this object and interval set to given interval.
-     * 
+     *
      * @param interval
      *            in milliseconds that will be preset to returned instance of Waiting
      * @return Waiting instance configured with given interval
@@ -48,7 +48,7 @@ public interface Waiting<T extends Waiting<T>> {
 
     /**
      * Returns instance of waiting with same properties like this object and timeout set to given timeout.
-     * 
+     *
      * @param timeout
      *            in milliseconds that will be preset to returned instance of Waiting
      * @return Waiting instance configured with given timeout
@@ -59,20 +59,20 @@ public interface Waiting<T extends Waiting<T>> {
      * <p>
      * Returns Waiting object initialized with given exception.
      * </p>
-     * 
+     *
      * <p>
      * If the exception is instance of RuntimeException, it will be thrown in case of waiting timed out.
      * </p>
-     * 
+     *
      * <p>
      * If the exception isn't instance of RuntimeException, the WaitingTimeoutException will be thrown with cause preset
      * to the given Throwable.
      * </p>
-     * 
+     *
      * <p>
      * If failure is set to null, timeout will not result to failure!
      * </p>
-     * 
+     *
      * @param exception
      *            the instance of RuntimeException to be thrown or any other Exception when the WaitTimeoutException
      *            should be thrown with this exception as cause
@@ -84,16 +84,16 @@ public interface Waiting<T extends Waiting<T>> {
      * <p>
      * Returns preset instance of waiting with given failure message parametrized by given objects.
      * </p>
-     * 
+     *
      * <p>
      * To parametrize failure message, the
      * {@link org.jboss.arquillian.ajocado.format.SimplifiedFormat#format(String, Object...)} will be used.
      * </p>
-     * 
+     *
      * <p>
      * If failure is set to null, timeout will not result to failure!
      * </p>
-     * 
+     *
      * @param failureMessage
      *            character sequence that will be used as message of exception thrown in case of waiting timeout or null
      *            if waiting timeout shouldn't result to failure
@@ -105,16 +105,16 @@ public interface Waiting<T extends Waiting<T>> {
 
     /**
      * Sets no failure after waiting timeout.
-     * 
+     *
      * Waiting timeout with this preset don't result to failure!
-     * 
+     *
      * @return Waiting instance initialized with no failure
      */
     T dontFail();
 
     /**
      * Sets no delay between start of waiting and first test for conditions.
-     * 
+     *
      * @return Waiting instance initialized with no delay
      */
     T noDelay();
@@ -123,11 +123,11 @@ public interface Waiting<T extends Waiting<T>> {
      * <p>
      * Set if testing condition should be delayed of one interval after the start of waiting.
      * </p>
-     * 
+     *
      * <p>
      * The length of delay is one interval (see {@link #interval(long)}).
      * </p>
-     * 
+     *
      * @param isDelayed
      *            true if start of condition testing should be delayed; false otherwise
      * @return Waiting instance initialized with the delay before start of testing conditions if isDelayed is set to

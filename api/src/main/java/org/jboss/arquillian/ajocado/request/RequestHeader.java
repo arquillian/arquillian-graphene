@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.request;
 
 /**
  * Request header which can be added to Selenium requests
- * 
+ *
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
 public class RequestHeader {
@@ -33,7 +33,7 @@ public class RequestHeader {
 
     /**
      * Creates a header with a given name and value
-     * 
+     *
      * @param name
      *            Name of the header
      * @param value
@@ -46,7 +46,7 @@ public class RequestHeader {
 
     /**
      * Returns the name of the header
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -55,7 +55,7 @@ public class RequestHeader {
 
     /**
      * Returns the value of the header
-     * 
+     *
      * @return the value
      */
     public String getValue() {

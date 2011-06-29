@@ -29,7 +29,7 @@ import com.thoughtworks.selenium.DefaultSelenium;
 
 /**
  * Selenium API extended by useful commands.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>, <a href="mailto:ppitonak@redhat.com">Pavol Pitonak</a>
  * @version $Revision$
  */
@@ -41,9 +41,9 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.thoughtworks.selenium.DefaultSelenium#open(java.lang.String)
-     * 
+     *
      * Workaround for http://code.google.com/p/selenium/issues/detail?id=408
      */
     @Override
@@ -53,13 +53,13 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Get current style value of element given by locator.
-     * 
+     *
      * Use CSS style notation instead of JavaScript's camel notation!
-     * 
+     *
      * This methods of getting current style value haven't absolute browser compatibility.
-     * 
+     *
      * E.g.: use property "background-color" instead of "backgroundColor"
-     * 
+     *
      * @param locator
      *            of element from what we want to get current style value
      * @param property
@@ -74,7 +74,7 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
-     * 
+     *
      * @param locator
      *            of element which should be screen aligned to
      * @param alignToTop
@@ -86,7 +86,7 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Simulates a user hovering a mouse over the specified element at specific coordinates relative to element.
-     * 
+     *
      * @param locator
      *            element's locator
      * @param coordString
@@ -99,7 +99,7 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Simulates a user hovering a mouse out of the specified element at specific coordinates relative to element.
-     * 
+     *
      * @param locator
      *            element's locator
      * @param coordString
@@ -112,7 +112,7 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Checks if element given by locator is member of CSS class given by className.
-     * 
+     *
      * @param className
      *            name of CSS class
      * @param locator
@@ -132,7 +132,7 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Verifies that the specified attribute is defined for the element.
-     * 
+     *
      * @param elementLocator
      *            an element locator
      * @param attributeName
@@ -145,7 +145,7 @@ public class ExtendedSelenium extends DefaultSelenium {
 
     /**
      * Returns the number of elements with given jQuery locator.
-     * 
+     *
      * @param jqueryLocator
      *            jQuery locator of an element
      * @return number of found elements

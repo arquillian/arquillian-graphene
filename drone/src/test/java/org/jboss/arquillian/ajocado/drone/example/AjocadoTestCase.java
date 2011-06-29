@@ -46,11 +46,11 @@ import org.junit.runner.RunWith;
 
 /**
  * Tests Arquillian Drone extension against Weld Login example.
- * 
+ *
  * Uses Ajocado driver bound to Firefox browser.
- * 
+ *
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
- * 
+ *
  */
 @RunWith(Arquillian.class)
 public class AjocadoTestCase {
@@ -72,7 +72,7 @@ public class AjocadoTestCase {
 
     /**
      * Creates a WAR of a Weld based application using ShrinkWrap
-     * 
+     *
      * @return WebArchive to be tested
      */
     @Deployment(testable = false)

@@ -25,11 +25,11 @@ package org.jboss.arquillian.ajocado.dom;
  * <p>
  * Attribute of page element.
  * </p>
- * 
+ *
  * <p>
  * Contains almost complete enumeration of attributes
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -280,7 +280,7 @@ public class Attribute {
 
     /**
      * Instantiates a new attribute from it's name.
-     * 
+     *
      * @param attributeName
      *            the attribute name
      */
@@ -291,7 +291,7 @@ public class Attribute {
 
     /**
      * Gets the attribute name.
-     * 
+     *
      * @return the attribute name
      */
     public String getAttributeName() {

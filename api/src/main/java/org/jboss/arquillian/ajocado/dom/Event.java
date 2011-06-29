@@ -25,11 +25,11 @@ package org.jboss.arquillian.ajocado.dom;
  * <p>
  * Encapsulates event definitions from DOM Events model.
  * </p>
- * 
+ *
  * <p>
  * Events matches it's equivalents in JavaScript, where are used "onevent" for binding with event called "event".
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -84,11 +84,11 @@ public class Event {
      * <p>
      * Initializes new event.
      * </p>
-     * 
+     *
      * <p>
      * Use for extending event model as it can became out-of-date.
      * </p>
-     * 
+     *
      * @param eventName
      *            the name for event in DOM Event model
      */
@@ -98,7 +98,7 @@ public class Event {
 
     /**
      * Returns the name of this event as it is specified in DOM Event model.
-     * 
+     *
      * @return the event name
      */
     public String getEventName() {
@@ -107,7 +107,7 @@ public class Event {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

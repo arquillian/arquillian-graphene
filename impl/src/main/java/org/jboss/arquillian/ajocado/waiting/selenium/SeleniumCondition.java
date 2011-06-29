@@ -23,14 +23,14 @@ package org.jboss.arquillian.ajocado.waiting.selenium;
 
 /**
  * Specifies when condition will be true.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public interface SeleniumCondition {
     /**
      * Returns true if condition is satisfied, false if it isn't.
-     * 
+     *
      * @return true if desired condition is satisfied, false if it isn't
      */
     boolean isTrue();

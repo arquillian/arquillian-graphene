@@ -28,11 +28,11 @@ import org.jboss.arquillian.ajocado.guard.RequestGuard;
  * <p>
  * Extension for {@link TypedSelenium} extended by methods in {@link ExtendedTypedSelenium}.
  * </p>
- * 
+ *
  * <p>
  * Internally using {@link CommandInterceptorProxy} to add aspects to commands.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -42,11 +42,11 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * <p>
      * Gets a PageExtensions object.
      * </p>
-     * 
+     *
      * <p>
      * PageExtensions represents the JavaScript extensions on the tested page.
      * </p>
-     * 
+     *
      * @return the PageExtensions object
      */
     PageExtensions getPageExtensions();
@@ -55,11 +55,11 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * <p>
      * Returns a SeleniumExtensions object.
      * </p>
-     * 
+     *
      * <p>
      * SeleniumExtensions can be used in Selenium Test Runner to extend Selenium functionality.
      * </p>
-     * 
+     *
      * @return the SeleniumExtensions object
      */
     SeleniumExtensions getSeleniumExtensions();
@@ -68,17 +68,17 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * <p>
      * Returns the RequestInterceptor object
      * </p>
-     * 
+     *
      * <p>
      * RequestInterceptor
-     * 
+     *
      * @return the RequestInterceptor object
      */
     RequestGuard getRequestGuard();
 
     /**
      * Returns associated command interception proxy
-     * 
+     *
      * @return associated command interception proxy
      */
     CommandInterceptorProxy getCommandInterceptionProxy();
@@ -87,7 +87,7 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * <p>
      * Simulates restart of browser in order to be able get unpolluted browser session.
      * </p>
-     * 
+     *
      * <p>
      * When running in mode that reuses browser session, it will only delete all cookies.
      * </p>
@@ -97,7 +97,7 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
     /**
      * Returns the clone of AjaxSelenium pointing to the same Selenium session but with cloned configuration objects
      * (PageExtensions, SeleniumExtensions, RequestGuard and CommandInterceptionProxy).
-     * 
+     *
      * @return the clone of this AjaxSelenium instance
      */
     AjaxSelenium clone();

@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.cookie;
 
 /**
  * Immutable representation of options for creating cookies.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -36,7 +36,7 @@ public class CookieCreateOptions extends CookieOptions<CookieCreateOptions> {
 
     /**
      * Specifies max time to live in seconds.
-     * 
+     *
      * @param maxAge
      *            max time to live in seconds
      * @return the create cookie options with max age specified
@@ -49,7 +49,7 @@ public class CookieCreateOptions extends CookieOptions<CookieCreateOptions> {
 
     /**
      * Returns the max time which this cookie should live
-     * 
+     *
      * @return the max time which this cookie should live
      */
     public Long getMaxAge() {

@@ -29,15 +29,15 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
  * <p>
  * Find an element by evaluating the specified JavaScript expression.
  * </p>
- * 
+ *
  * <p>
  * This allows you to traverse the HTML Document Object Model using JavaScript.
  * </p>
- * 
+ *
  * <p>
  * Note that you must not return a value in this expression; simply make it the last expression in the block.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

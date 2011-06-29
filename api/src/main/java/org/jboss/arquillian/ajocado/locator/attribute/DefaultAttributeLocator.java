@@ -29,10 +29,10 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 
 /**
  * Default implementation of locator for element's attributes.
- * 
+ *
  * @param <E>
  *            the type of associated element locator, which can be obtained from this attribute locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -47,7 +47,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
 
     /**
      * Instantiates a attribute locator using given elementLocator and the specific attribute.
-     * 
+     *
      * @param elementLocator
      *            the element locator
      * @param attribute
@@ -64,7 +64,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#getRawLocator()
      */
     @Override
@@ -74,7 +74,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.AttributeLocator#getLocationStrategy()
      */
     @Override
@@ -84,7 +84,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.AttributeLocator#getAssociatedElement()
      */
     @Override

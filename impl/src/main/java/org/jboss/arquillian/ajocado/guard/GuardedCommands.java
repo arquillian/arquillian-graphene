@@ -28,9 +28,9 @@ import java.util.TreeSet;
 
 /**
  * This utility class contains the collections of commands of specific types.
- * 
+ *
  * @author lfryc
- * 
+ *
  */
 public final class GuardedCommands {
 
@@ -44,7 +44,7 @@ public final class GuardedCommands {
 
     /**
      * Inits the set of interactive commands.
-     * 
+     *
      * @return the set of the interactive selenium commands
      */
     public static Set<String> initInteractiveCommands() {

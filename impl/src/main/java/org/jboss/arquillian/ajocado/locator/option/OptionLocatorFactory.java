@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.locator.option;
 
 /**
  * Utility class simplifying creation of option locators of various types providing it's factories.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -37,7 +37,7 @@ public final class OptionLocatorFactory {
 
     /**
      * Locates the select option with specified id.
-     * 
+     *
      * @param id
      *            the id of select option
      * @return the locator for the select option with given id
@@ -48,7 +48,7 @@ public final class OptionLocatorFactory {
 
     /**
      * Locates the select option based on its index (offset from zero).
-     * 
+     *
      * @param index
      *            the index of select option (offset from zero)
      * @return the locator for the select option with given id
@@ -61,11 +61,11 @@ public final class OptionLocatorFactory {
      * <p>
      * Locates select options based on their labels, i.e. the visible text.
      * </p>
-     * 
+     *
      * <p>
      * Can be regular expression: "regexp:^[Oo]ther"
      * </p>
-     * 
+     *
      * @param label
      *            the label for the select options (visible text).
      * @return the locator for the select options matching given label
@@ -76,7 +76,7 @@ public final class OptionLocatorFactory {
 
     /**
      * Locates select options based on their values.
-     * 
+     *
      * @param value
      *            the value matching select options
      * @return the locator for the select options matching given value

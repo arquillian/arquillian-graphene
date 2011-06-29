@@ -27,7 +27,7 @@ import org.jboss.arquillian.ajocado.browser.Browser;
 
 /**
  * The runtime configuration of Ajocado test.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -35,56 +35,56 @@ public interface AjocadoConfiguration extends Cloneable, Serializable {
 
     /**
      * Returns current browser implementation used in tests.
-     * 
+     *
      * @return current browser implementation used in tests.
      */
     Browser getBrowser();
 
     /**
      * Returns the host of Selenium Server
-     * 
+     *
      * @return the host of Selenium Server
      */
     String getSeleniumHost();
 
     /**
      * Returns the port for Selenium Server
-     * 
+     *
      * @return the port for Selenium Server
      */
     int getSeleniumPort();
 
     /**
      * Returns whenever should browser window be maximized after start.
-     * 
+     *
      * @return whenever should browser window be maximized after start
      */
     boolean isSeleniumMaximize();
 
     /**
      * Returns if Selenium test is in debug mode
-     * 
+     *
      * @return if Selenium test is in debug mode
      */
     boolean isSeleniumDebug();
 
     /**
      * Returns the speed of performing selenium commands
-     * 
+     *
      * @return the speed of performing selenium commands
      */
     int getSeleniumSpeed();
 
     /**
      * Returns if the network traffic should be captured during the selenium session.
-     * 
+     *
      * @return if the network traffic should be captured during the selenium session.
      */
     boolean isSeleniumNetworkTrafficEnabled();
 
     /**
      * Returns the predefined timeout for given type.
-     * 
+     *
      * @param type
      *            the type of timeout ({@link TimeoutType})
      * @return the predefined timeout for given type.
@@ -123,7 +123,7 @@ public interface AjocadoConfiguration extends Cloneable, Serializable {
 
         /**
          * Returns the value of default timeout for given type
-         * 
+         *
          * @return the value of default timeout for given type
          */
         public int getDefaultTimeout() {

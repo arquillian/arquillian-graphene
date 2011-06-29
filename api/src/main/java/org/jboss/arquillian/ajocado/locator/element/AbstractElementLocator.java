@@ -28,10 +28,10 @@ import org.jboss.arquillian.ajocado.locator.attribute.DefaultAttributeLocator;
 
 /**
  * Abstract implementation of element locator able to derive attributes for itself.
- * 
+ *
  * @param <T>
  *            the type of locator which can be derived from this locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -40,7 +40,7 @@ public abstract class AbstractElementLocator<T extends ElementLocator<T>> extend
 
     /**
      * Constructs locator for given string representation
-     * 
+     *
      * @param locator
      *            the string representation of locator
      */
@@ -58,7 +58,7 @@ public abstract class AbstractElementLocator<T extends ElementLocator<T>> extend
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.AbstractLocator#format(java.lang.Object[])
      */
     @Override

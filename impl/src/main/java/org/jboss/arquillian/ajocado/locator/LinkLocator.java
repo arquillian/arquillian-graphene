@@ -25,9 +25,9 @@ import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
 /**
- * 
+ *
  * Locates the link (anchor) element which contains text matching the specified pattern.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

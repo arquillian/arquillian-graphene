@@ -39,7 +39,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * The proxy for command processor which instead of direct executing of given command triggers logic of all associated
  * interceptors.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -70,7 +70,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
 
     /**
      * Constructs new proxy with associated command processor
-     * 
+     *
      * @param commandProcessor
      *            to associate with this proxy
      */
@@ -80,7 +80,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
 
     /**
      * Returns the command processor proxied with functionality of all associated interceptors.
-     * 
+     *
      * @return the command processor proxied with functionality of all associated interceptors
      */
     @SuppressWarnings("unchecked")
@@ -93,7 +93,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      * <p>
      * Proxies all the request on associated command processor.
      * </p>
-     * 
+     *
      * <p>
      * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated
      * interceptors before performing the actual invocation of method.
@@ -128,7 +128,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
 
     /**
      * Registers the interceptor, only one interceptor can be registered for given class of interceptor.
-     * 
+     *
      * @param interceptor
      *            the interceptor implementation
      */
@@ -139,7 +139,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
 
     /**
      * Removes and returns the interceptor instance, or null, if such instance isn't registered.
-     * 
+     *
      * @param interceptor
      *            the instance of interceptor to remove
      * @return removed interceptor or null, if such interceptor ins't registered
@@ -158,7 +158,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
 
     /**
      * Removes and returns all associated interceptors which of given type.
-     * 
+     *
      * @param type
      *            of interceptors which we want to unregister from this command processor
      * @return the removed interceptors
@@ -180,7 +180,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
 
     /**
      * Creates immutable copy of this command processor with all interceptors registered.
-     * 
+     *
      * @return the immutable copy of this command processor
      */
     public CommandInterceptorProxyImpl immutableCopy() {

@@ -25,14 +25,14 @@ import java.util.List;
 
 /**
  * JavaScript extension that can be installed into tested page.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 public interface PageExtensions {
     /**
      * Loads the page extension from the resources listed in list
-     * 
+     *
      * @param resourceNames
      *            the list of resource names to load as page extension
      */
@@ -40,7 +40,7 @@ public interface PageExtensions {
 
     /**
      * Returns true if the page extension is already installed
-     * 
+     *
      * @return true if the page extension is already installed
      */
     boolean isInstalled();

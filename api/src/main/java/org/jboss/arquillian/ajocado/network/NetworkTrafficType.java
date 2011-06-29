@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.network;
 
 /**
  * The enumeration of supported network traffic types.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -46,7 +46,7 @@ public class NetworkTrafficType {
 
     /**
      * Constructs the new network traffic output format type using it's string identifier
-     * 
+     *
      * @param type
      *            the string identifier of output format type
      */
@@ -56,7 +56,7 @@ public class NetworkTrafficType {
 
     /**
      * Returns the type's string identifier
-     * 
+     *
      * @return the type's string identifier
      */
     public String getType() {

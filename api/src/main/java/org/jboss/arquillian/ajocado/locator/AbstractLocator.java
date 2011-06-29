@@ -27,14 +27,14 @@ import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
  * <p>
  * Abstract implementation of locator.
  * </p>
- * 
+ *
  * <p>
  * Able to return the locator as string for use in Selenium {@link #inSeleniumRepresentation()}
  * </p>
- * 
+ *
  * @param <T>
  *            the type of locator which can be derived from this locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -44,7 +44,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
 
     /**
      * The locator constructor
-     * 
+     *
      * @param locator
      *            the string representation of locator (without the locator type prefix)
      */
@@ -57,7 +57,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#getRawLocator()
      */
     @Override
@@ -67,7 +67,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#format(java.lang.Object[])
      */
     @Override
@@ -83,7 +83,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

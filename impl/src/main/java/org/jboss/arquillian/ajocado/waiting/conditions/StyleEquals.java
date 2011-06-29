@@ -34,16 +34,16 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 /**
- * 
+ *
  * <p>
  * Implementation of Condition for waiting if element given by elementLocator has given CSS style property's value equal
  * to given value.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -73,7 +73,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -84,7 +84,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -105,7 +105,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of TextEquals
      */
     public static StyleEquals getInstance() {
@@ -116,11 +116,11 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the StyleEquals instance with given elementLocator set.
      * </p>
-     * 
+     *
      * <p>
      * From this locator will be obtained the CSS property.
      * </p>
-     * 
+     *
      * @param elementLocator
      *            the element locator
      * @return the StyleEquals object with preset locator
@@ -138,11 +138,11 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the StyleEquals instance with CSS property preset.
      * </p>
-     * 
+     *
      * <p>
      * This CSS property will be obtained in way to compare equality to given value.
      * </p>
-     * 
+     *
      * @param cssProperty
      *            the property to obtain
      * @return the StyleEquals object with preset CSS property to obtain
@@ -160,11 +160,11 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the StyleEquals instance with value set.
      * </p>
-     * 
+     *
      * <p>
      * For equality with this value the condition will wait.
      * </p>
-     * 
+     *
      * @param value
      *            it should wait for equality
      * @return the StyleEquals object with preset value
@@ -180,7 +180,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Returns the exact copy of this ElementPresent object.
-     * 
+     *
      * @return the copy of this TextEquals object
      */
     private StyleEquals copy() {

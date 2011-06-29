@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.locator.AbstractLocationStrategy;
 
 /**
  * Strategy for locating select options on the page.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -53,7 +53,7 @@ public class OptionLocationStrategy extends AbstractLocationStrategy {
 
     /**
      * Constructs new named options location strategy
-     * 
+     *
      * @param strategyName
      *            the name of strategy
      */

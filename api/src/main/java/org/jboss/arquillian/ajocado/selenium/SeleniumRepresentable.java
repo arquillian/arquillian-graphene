@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.selenium;
 
 /**
  * The type which is represented in Selenium simply by String.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -31,7 +31,7 @@ public interface SeleniumRepresentable {
 
     /**
      * Returns Selenium's string representation of this object
-     * 
+     *
      * @return Selenium's string representation of this object
      */
     String inSeleniumRepresentation();

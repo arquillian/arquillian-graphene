@@ -24,7 +24,7 @@ package org.jboss.arquillian.ajocado.command;
 /**
  * Thrown when at least one intercepter didn't call {@link CommandContext#invoke()} in it's
  * {@link CommandInterceptor#intercept(CommandContext)} method body
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

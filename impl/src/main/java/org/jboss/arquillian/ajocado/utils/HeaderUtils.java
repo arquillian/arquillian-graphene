@@ -25,9 +25,9 @@ import org.jboss.arquillian.ajocado.request.RequestHeader;
 
 /**
  * Encapsulates HTTP header creation
- * 
+ *
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
- * 
+ *
  */
 public final class HeaderUtils {
 
@@ -36,12 +36,12 @@ public final class HeaderUtils {
 
     /**
      * Creates a header which corresponds to HTTP Basic authorization
-     * 
+     *
      * @param username
      *            User name to be encoded in header
      * @param password
      *            Password to be encoded in header
-     * 
+     *
      * @return Header which corresponds to HTTP Basic authorization for given credentials
      */
     public static RequestHeader createBasicAuthorization(String username, String password) {

@@ -28,7 +28,7 @@ import org.jboss.arquillian.ajocado.locator.element.ExtendedLocator;
 
 /**
  * Locates the element using <a href="http://www.w3.org/TR/xpath/">XPath expression</a>.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -36,7 +36,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
 
     /**
      * Instantiates a new xpath locator.
-     * 
+     *
      * @param xpath
      *            the xpath
      */
@@ -46,7 +46,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
     @Override
@@ -56,7 +56,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getNthOccurence(int)
      */
     @Override
@@ -66,7 +66,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator)
      */
@@ -77,7 +77,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getDescendant
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator)
      */

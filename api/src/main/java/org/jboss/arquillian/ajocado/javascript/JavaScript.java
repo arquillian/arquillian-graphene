@@ -35,11 +35,11 @@ import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
  * <p>
  * Encapsulates JavaScript definitions.
  * </p>
- * 
+ *
  * <p>
  * Able to load JavaScript code from file or from classpath resource.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -52,7 +52,7 @@ public class JavaScript {
 
     /**
      * Instantiates a new java script.
-     * 
+     *
      * @param javaScript
      *            the java script code
      */
@@ -62,7 +62,7 @@ public class JavaScript {
 
     /**
      * The factory method for JavaScript object
-     * 
+     *
      * @param javaScript
      *            code
      * @return the new JavaScript object with predefined JavaScript code
@@ -73,7 +73,7 @@ public class JavaScript {
 
     /**
      * Gets the JavaScript as string
-     * 
+     *
      * @return the JavaScript as string
      */
     public String getAsString() {
@@ -82,7 +82,7 @@ public class JavaScript {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -92,7 +92,7 @@ public class JavaScript {
 
     /**
      * Joins this JavaScript object with another JavaScript object to single JavaScript.
-     * 
+     *
      * @param javaScriptToJoin
      *            the JavaScript object we want to join with
      * @return the joined JavaScript object
@@ -103,7 +103,7 @@ public class JavaScript {
 
     /**
      * Append the JavaScript part to end of the this JavaScript
-     * 
+     *
      * @param javaScriptPartToAppend
      *            javaScript to append on the end of this JavaScript
      * @return this JavaScript with javaScriptPartToAppend appended
@@ -116,11 +116,11 @@ public class JavaScript {
      * <p>
      * Gets a identification for this script based on script's hashcode.
      * </p>
-     * 
+     *
      * <p>
      * It can be used to uniquely distinguish the script on the page.
      * </p>
-     * 
+     *
      * @return the unique identification for this script based on script's hashcode.
      */
     public String getIdentification() {
@@ -129,7 +129,7 @@ public class JavaScript {
 
     /**
      * Loads the JavaScript from file.
-     * 
+     *
      * @param sourceFile
      *            the source file
      * @return the JavaScript object loaded from file
@@ -150,7 +150,7 @@ public class JavaScript {
 
     /**
      * Loads the JavaScript from classpath resource.
-     * 
+     *
      * @param resourceName
      *            the resource name, e.g. "org/jboss/test/..."
      * @return the JavaScript object loaded from classpath resource
@@ -175,7 +175,7 @@ public class JavaScript {
     /**
      * Fills the parameters to placeholders in simplified format (look for Simplified format) to this JavaScript code
      * and returns the result.
-     * 
+     *
      * @param parameters
      *            to parametrize this JavaScript code
      * @return this JavaScript with parameters filled in place of placeholders in simplified format

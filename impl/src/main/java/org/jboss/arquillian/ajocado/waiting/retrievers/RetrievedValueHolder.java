@@ -25,10 +25,10 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
  * <p>
  * Holds typed value retrieved from page in thread local storage.
  * </p>
- * 
+ *
  * @param <T>
  *            the type of object to store
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -40,7 +40,7 @@ public interface RetrievedValueHolder<T> {
 
     /**
      * Initializes the value associated to this retriever with given value.
-     * 
+     *
      * @param value
      *            the value to associate with this retriever
      */
@@ -48,7 +48,7 @@ public interface RetrievedValueHolder<T> {
 
     /**
      * Returns the last retrieved value.
-     * 
+     *
      * @return the last retriever value.
      */
     T getValue();

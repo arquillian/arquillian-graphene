@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.locator.frame;
 
 /**
  * The locators of relative addressing of frames
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -45,7 +45,7 @@ public final class FrameRelativeLocator extends AbstractFrameLocator<FrameRelati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
     @Override

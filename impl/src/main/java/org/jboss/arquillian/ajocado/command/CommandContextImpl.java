@@ -35,7 +35,7 @@ import com.thoughtworks.selenium.CommandProcessor;
  * This context holds the iterator over collection of interceptors, which will be triggered before the command will be
  * passed to commandProcessor to execute.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -53,7 +53,7 @@ public class CommandContextImpl implements CommandContext {
     /**
      * Creates new context of command, using command name, its args, command processor used to execute command and
      * command interceptors, which will enfold the execution of command.
-     * 
+     *
      * @param command
      *            the name of the command to trigger
      * @param args
@@ -76,13 +76,13 @@ public class CommandContextImpl implements CommandContext {
      * <p>
      * For each remaining interceptor in list call it's intercept method.
      * </p>
-     * 
+     *
      * <p>
      * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method
      * body method {@link CommandContextImpl#invoke()} at least once. If not, this interceptor will raise
      * {@link CommandInterceptorException}.
      * </p>
-     * 
+     *
      * @return the return value of executing the command on given commandProcessor
      * @throws CommandInterceptorException
      *             if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in it's
@@ -119,7 +119,7 @@ public class CommandContextImpl implements CommandContext {
 
     /**
      * Returns the command.
-     * 
+     *
      * @return the command
      */
     @Override
@@ -129,7 +129,7 @@ public class CommandContextImpl implements CommandContext {
 
     /**
      * Returns the arguments of the command.
-     * 
+     *
      * @return the arguments of the command
      */
     @Override
@@ -139,7 +139,7 @@ public class CommandContextImpl implements CommandContext {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

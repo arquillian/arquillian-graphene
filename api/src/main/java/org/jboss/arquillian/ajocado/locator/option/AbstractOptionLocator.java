@@ -25,10 +25,10 @@ import org.jboss.arquillian.ajocado.locator.AbstractLocator;
 
 /**
  * Abstract implementation of option locator.
- * 
+ *
  * @param <T>
  *            the type of locator which can be derived from this locator
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -37,7 +37,7 @@ public abstract class AbstractOptionLocator<T extends OptionLocator<T>> extends 
 
     /**
      * Constructs locator for given string representation
-     * 
+     *
      * @param locator
      *            the string representation of locator
      */

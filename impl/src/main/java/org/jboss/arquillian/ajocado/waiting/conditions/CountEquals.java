@@ -35,15 +35,15 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 /**
- * 
+ *
  * <p>
  * Implementation of Condition for waiting if count of elements with given locator is equal to given count.
  * </p>
- * 
+ *
  * <p>
  * Implements Condition and JavaScriptCondition used in SeleniumWaiting and AjaxWaiting.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -70,7 +70,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
     @Override
@@ -81,7 +81,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
     @Override
@@ -107,7 +107,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Factory method.
-     * 
+     *
      * @return single instance of CountEquals
      */
     public static CountEquals getInstance() {
@@ -118,11 +118,11 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the CountEquals instance with given elementLocator set.
      * </p>
-     * 
+     *
      * <p>
      * From this locator will be the count of elements.
      * </p>
-     * 
+     *
      * @param iterableLocator
      *            the element locator
      * @return the CountEquals object with preset locator
@@ -144,11 +144,11 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * <p>
      * Returns the CountEquals instance with the count set.
      * </p>
-     * 
+     *
      * <p>
      * For this count of elements will condition wait.
      * </p>
-     * 
+     *
      * @param count
      *            it should wait for this element count
      * @return the CountEquals object with preset value
@@ -164,7 +164,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
 
     /**
      * Returns the exact copy of this ElementPresent object.
-     * 
+     *
      * @return the copy of this CountEquals object
      */
     private CountEquals copy() {

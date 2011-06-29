@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * JavaScript extensions to Selenium functionality (installed to test runner window).
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -34,7 +34,7 @@ public interface SeleniumExtensions {
     /**
      * Checks for the required JavaScript resource whether is already loaded and if not, add it to test runner window
      * scripts
-     * 
+     *
      * @param resourceName
      *            the name of resource which is required
      */
@@ -43,7 +43,7 @@ public interface SeleniumExtensions {
     /**
      * Checks for each of the required JavaScript resources in list whether is already loaded and if not, add it to test
      * runner window scripts
-     * 
+     *
      * @param resourceNames
      *            the list of resources which are required
      */

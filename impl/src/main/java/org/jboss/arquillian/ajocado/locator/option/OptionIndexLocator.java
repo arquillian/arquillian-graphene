@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.locator.option;
 
 /**
  * Locates the select option based on its index (offset from zero).
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

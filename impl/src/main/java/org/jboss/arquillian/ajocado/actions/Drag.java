@@ -34,20 +34,20 @@ import org.jboss.arquillian.ajocado.waiting.Waiting;
  * <p>
  * Provides item dragging capability to Selenium tests.
  * </p>
- * 
+ *
  * <p>
  * Methods can be call in following serie: start, mouseOut, move, enter, drop.
  * </p>
- * 
+ *
  * <p>
  * If we are calling preceding phase (e.g. move, when drag was already called), IllegalStateException is thrown.
  * </p>
- * 
+ *
  * <p>
  * If we are calling following phase (e.g. drop, when no action was called), all phases preceding requested phase will
  * be done before requested phase can be done.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -99,7 +99,7 @@ public class Drag {
 
     /**
      * Initiates Drag object, handled by given Selenium instance, instructing drag of itemToDrag to dropTarget object.
-     * 
+     *
      * @param itemToDrag
      *            item to drag
      * @param dropTarget
@@ -148,7 +148,7 @@ public class Drag {
 
     /**
      * Starts first phase of dragging.
-     * 
+     *
      * Simulate left mouse button pressing and small initial movement.
      */
     public void start() {
@@ -157,9 +157,9 @@ public class Drag {
 
     /**
      * Starts second phase of dragging.
-     * 
+     *
      * If there is some unfinished preceding phases, it will be done before this phase.
-     * 
+     *
      * Simulate movement of mouse cursor out of the item that ve want to drag.
      */
     public void mouseOut() {
@@ -168,9 +168,9 @@ public class Drag {
 
     /**
      * Starts third phase of dragging.
-     * 
+     *
      * If there is some unfinished preceding phases, it will be done before this phase.
-     * 
+     *
      * Simulate movement of mouse cursor near the target item.
      */
     public void move() {
@@ -179,7 +179,7 @@ public class Drag {
 
     /**
      * Starts fourth phase of dragging.
-     * 
+     *
      * If there is some unfinished preceding phases, it will be done before this phase.
      */
     public void enter() {
@@ -188,9 +188,9 @@ public class Drag {
 
     /**
      * Last phase of dragging.
-     * 
+     *
      * If there is some unfinished preceding phases, it will be done before this phase.
-     * 
+     *
      * Drop the item to target.
      */
     public void drop() {
@@ -199,9 +199,9 @@ public class Drag {
 
     /**
      * Holds whole process of dragging serialized to one switch condition.
-     * 
+     *
      * If some phase is called by its number, it will be recognized, that is possible to process this step.
-     * 
+     *
      * Internally is used counter 'phase' which will be decreased when passed to a new phase. Switch condition breaks
      * when will finished in requesting phase.
      */
@@ -219,7 +219,7 @@ public class Drag {
 
     /**
      * Executes the instructions for given phase.
-     * 
+     *
      * @param phase
      *            the phase what should be executed
      */
@@ -272,7 +272,7 @@ public class Drag {
 
         /**
          * Compares given phase to this phase.
-         * 
+         *
          * @param phase
          *            the phase
          * @return true, if given phase is before this phase; else otherwise
@@ -283,7 +283,7 @@ public class Drag {
 
         /**
          * Return next phase in order after this phase.
-         * 
+         *
          * @return the next phase in oder after this phase
          */
         Phase next() {

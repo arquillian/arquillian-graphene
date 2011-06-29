@@ -27,7 +27,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * The immutable representation of Cookie
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -45,7 +45,7 @@ public final class Cookie implements SeleniumRepresentable, Cloneable, Serializa
 
     /**
      * Creates cookie with specified name and value.
-     * 
+     *
      * @param name
      *            the name of cookie (non-null)
      * @param value
@@ -64,7 +64,7 @@ public final class Cookie implements SeleniumRepresentable, Cloneable, Serializa
 
     /**
      * Returns name of the cookie
-     * 
+     *
      * @return name of the cookie
      */
     public String getName() {
@@ -73,7 +73,7 @@ public final class Cookie implements SeleniumRepresentable, Cloneable, Serializa
 
     /**
      * Returns value of the cookie
-     * 
+     *
      * @return value of the cookie
      */
     public String getValue() {
@@ -82,7 +82,7 @@ public final class Cookie implements SeleniumRepresentable, Cloneable, Serializa
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

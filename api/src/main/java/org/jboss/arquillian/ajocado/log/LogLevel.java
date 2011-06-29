@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
 
 /**
  * Logging level of Selenium command processor.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -51,7 +51,7 @@ public class LogLevel implements SeleniumRepresentable {
 
     /**
      * Instantiates a new log level.
-     * 
+     *
      * @param logLevelName
      *            the log level name
      */
@@ -61,7 +61,7 @@ public class LogLevel implements SeleniumRepresentable {
 
     /**
      * Gets the log level name.
-     * 
+     *
      * @return the log level name
      */
     public String getLogLevelName() {
@@ -70,7 +70,7 @@ public class LogLevel implements SeleniumRepresentable {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
     @Override

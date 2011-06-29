@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.locator;
 
 /**
  * Strategy for locating items on page.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -32,11 +32,11 @@ public interface LocationStrategy {
      * <p>
      * Gets the strategy name used to express location strategy in Selenium API.
      * </p>
-     * 
+     *
      * <p>
      * E.g. <tt>&lt;strategyName&gt;=&lt;locator&gt;</tt>
      * </p>
-     * 
+     *
      * @return the strategy name
      */
     String getStrategyName();

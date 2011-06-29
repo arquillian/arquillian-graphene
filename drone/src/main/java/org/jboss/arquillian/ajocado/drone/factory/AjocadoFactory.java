@@ -32,16 +32,16 @@ import org.jboss.arquillian.drone.spi.Instantiator;
 /**
  * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado
  * browser object called {@link AjaxSelenium}.
- * 
+ *
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
- * 
+ *
  */
 public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjocadoConfiguration>,
     Instantiator<AjaxSelenium, ArquillianAjocadoConfiguration>, Destructor<AjaxSelenium> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.selenium.spi.Instantiator#getPrecedence()
      */
     @Override
@@ -51,7 +51,7 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.selenium.spi.Destructor#destroyInstance(java.lang .Object)
      */
     @Override
@@ -64,7 +64,7 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.selenium.spi.Instantiator#createInstance(java.lang .Object)
      */
     @Override
@@ -83,7 +83,7 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.jboss.arquillian.selenium.spi.Configurator#createConfiguration(org
      * .jboss.arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
      */

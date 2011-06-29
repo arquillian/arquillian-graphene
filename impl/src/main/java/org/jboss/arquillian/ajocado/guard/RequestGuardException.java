@@ -25,7 +25,7 @@ import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
  * This exception determines that when interacting with browser using Selenium, the wrong request type was executed.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -49,7 +49,7 @@ public class RequestGuardException extends RuntimeException {
 
     /**
      * Returns the RequestType which was expected to be done
-     * 
+     *
      * @return the requestExpected RequestType which was expected to be done
      */
     public RequestType getRequestExpected() {
@@ -58,7 +58,7 @@ public class RequestGuardException extends RuntimeException {
 
     /**
      * Returns the RequestType which was actually done
-     * 
+     *
      * @return the requestDone RequestType which was actually done
      */
     public RequestType getRequestDone() {
@@ -67,7 +67,7 @@ public class RequestGuardException extends RuntimeException {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Throwable#getMessage()
      */
     @Override

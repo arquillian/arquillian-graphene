@@ -30,20 +30,20 @@ import java.lang.reflect.Proxy;
  * <p>
  * Context for keeping thread local context of {@link AjocadoConfiguration}.
  * </p>
- * 
+ *
  * <p>
  * Provides {@link #getProxy()} method for accessing that context over model of your tests.
  * </p>
- * 
+ *
  * <p>
  * All methods on returned proxy will be invoked on AjocadoConfiguration instance associated with current thread.
  * </p>
- * 
+ *
  * <p>
  * Proxy specifically handles the situations when no context is set - in this situation, IllegalStateException is
  * thrown.
  * </p>
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -59,7 +59,7 @@ public final class AjocadoConfigurationContext implements InvocationHandler {
 
     /**
      * Sets the AjocadoConfiguration context for current thread
-     * 
+     *
      * @param configuration
      *            the AjocadoConfiguration instance
      */
@@ -69,7 +69,7 @@ public final class AjocadoConfigurationContext implements InvocationHandler {
 
     /**
      * Returns the context of AjocadoConfiguration for current thread
-     * 
+     *
      * @return the context of AjocadoConfiguration for current thread
      */
     private static AjocadoConfiguration get() {
@@ -78,7 +78,7 @@ public final class AjocadoConfigurationContext implements InvocationHandler {
 
     /**
      * Returns true if configuration context is associated with current thread.
-     * 
+     *
      * @return true if configuration context is associated with current thread, false otherwise.
      */
     public static boolean isInitialized() {
@@ -87,7 +87,7 @@ public final class AjocadoConfigurationContext implements InvocationHandler {
 
     /**
      * Returns the instance of proxy to thread local context of AjocadoConfiguration
-     * 
+     *
      * @return the instance of proxy to thread local context of AjocadoConfiguration
      */
     public static AjocadoConfiguration getProxy() {

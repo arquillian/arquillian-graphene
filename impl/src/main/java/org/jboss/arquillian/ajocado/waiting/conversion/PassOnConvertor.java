@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.waiting.conversion;
 
 /**
  * Simple convertor which actually doesn't convert method, but it is passing it directly.
- * 
+ *
  * @param <T>
  *            the type, which we want to pass
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -33,7 +33,7 @@ public class PassOnConvertor<T> implements Convertor<T, T> {
 
     /**
      * Pass the object
-     * 
+     *
      * @param object
      *            the object to pass
      * @return the exactly same object as given
@@ -45,7 +45,7 @@ public class PassOnConvertor<T> implements Convertor<T, T> {
 
     /**
      * Pass the object
-     * 
+     *
      * @param object
      *            the object to pass
      * @return the exactly same object as given
