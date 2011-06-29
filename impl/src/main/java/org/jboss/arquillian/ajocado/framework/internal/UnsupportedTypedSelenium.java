@@ -36,7 +36,7 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
  * @version $Revision$
  */
 public interface UnsupportedTypedSelenium {
-    
+
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
      * 
@@ -190,7 +190,7 @@ public interface UnsupportedTypedSelenium {
      *            new window (which might be relative to the current one, e.g., "_parent")
      * @return true if the new window is this code's window
      */
-    boolean getWhetherThisWindowMatchWindowExpression(String currentWindowString, String target);  
+    boolean getWhetherThisWindowMatchWindowExpression(String currentWindowString, String target);
 
     /**
      * Sets the per-session extension Javascript

@@ -88,6 +88,7 @@ public class CommandContextImpl implements CommandContext {
      *             if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in it's
      *             {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
+    @Override
     public Object invoke() throws CommandInterceptorException {
         invocations += 1;
         final int currentInvocations = invocations;
@@ -121,6 +122,7 @@ public class CommandContextImpl implements CommandContext {
      * 
      * @return the command
      */
+    @Override
     public String getCommand() {
         return command;
     }
@@ -130,6 +132,7 @@ public class CommandContextImpl implements CommandContext {
      * 
      * @return the arguments of the command
      */
+    @Override
     public String[] getArguments() {
         return args.clone();
     }

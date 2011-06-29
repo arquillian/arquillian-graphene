@@ -35,7 +35,7 @@ import org.jboss.arquillian.ajocado.browser.Browser;
  * @version $Revision$
  */
 public class SystemPropertiesConfiguration implements AjocadoConfiguration {
-    
+
     private static final long serialVersionUID = -660236743676985887L;
 
     /*

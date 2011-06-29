@@ -152,6 +152,7 @@ public class KeyCode implements SeleniumRepresentable {
         return code;
     }
 
+    @Override
     public String inSeleniumRepresentation() {
         return "\\" + code;
     }

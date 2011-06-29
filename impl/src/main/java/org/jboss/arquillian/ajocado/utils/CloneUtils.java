@@ -39,7 +39,8 @@ public final class CloneUtils {
      * 
      * @param <T>
      *            the cloneable object type
-     * @param type the type of cloneable object
+     * @param type
+     *            the type of cloneable object
      * @param objectToClone
      *            object to clone
      * @return the clone of object
@@ -59,6 +60,6 @@ public final class CloneUtils {
             throw new IllegalStateException("Unexpected exception during cloning of "
                 + objectToClone.getClass().getName(), e);
         }
-        return (T) clone;
+        return clone;
     }
 }

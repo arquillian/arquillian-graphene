@@ -48,6 +48,7 @@ public final class FrameRelativeLocator extends AbstractFrameLocator<FrameRelati
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
+    @Override
     public FrameLocationStrategy getLocationStrategy() {
         return FrameLocationStrategy.RELATIVE;
     }

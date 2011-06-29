@@ -120,6 +120,7 @@ public class SeleniumWaiting extends DefaultWaiting<SeleniumWaiting> {
         final Vector<T> vector = new Vector<T>(1);
 
         this.until(new SeleniumCondition() {
+            @Override
             public boolean isTrue() {
                 vector.add(0, retriever.retrieve());
                 if (oldValue == null) {

@@ -24,6 +24,7 @@ package org.jboss.arquillian.ajocado;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.WaitingProxy;
+import org.jboss.arquillian.ajocado.guard.RequestGuardFactory;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.CssLocator;
 import org.jboss.arquillian.ajocado.locator.DomLocator;
@@ -41,16 +42,15 @@ import org.jboss.arquillian.ajocado.waiting.conditions.AlertPresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.AttributeEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.AttributePresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.CountEquals;
+import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotPresent;
+import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotVisible;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementPresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.ElementVisible;
-import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotVisible;
-import org.jboss.arquillian.ajocado.waiting.conditions.ElementNotPresent;
 import org.jboss.arquillian.ajocado.waiting.conditions.StyleEquals;
 import org.jboss.arquillian.ajocado.waiting.conditions.TextEquals;
 import org.jboss.arquillian.ajocado.waiting.retrievers.AttributeRetriever;
 import org.jboss.arquillian.ajocado.waiting.retrievers.TextRetriever;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
-import org.jboss.arquillian.ajocado.guard.RequestGuardFactory;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -231,18 +231,28 @@ public final class Ajocado {
     public static XPathLocator xp(String xpath) {
         return new XPathLocator(xpath);
     }
-    
+
     /**
-     * <p>Prepares new locator from composition of locator with children.</p>
+     * <p>
+     * Prepares new locator from composition of locator with children.
+     * </p>
      * 
-     * <p>Syntactic shortcut for expressions like:</p>
+     * <p>
+     * Syntactic shortcut for expressions like:
+     * </p>
      * 
-     * <p> locator.getChild(child1).getChild(child2)</p>
+     * <p>
+     * locator.getChild(child1).getChild(child2)
+     * </p>
      * 
-     * @param <T> the type of compoundable locator
-     * @param locator locator base
-     * @param child the childr of base locator
-     * @param children sub-children of base locator
+     * @param <T>
+     *            the type of compoundable locator
+     * @param locator
+     *            locator base
+     * @param child
+     *            the childr of base locator
+     * @param children
+     *            sub-children of base locator
      * @return locator composition from base and its children
      */
     public static <T extends CompoundableLocator<T>> T child(T locator, T child, T... children) {

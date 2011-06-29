@@ -21,6 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.css.CssProperty;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -29,9 +32,6 @@ import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
-
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * 
@@ -76,6 +76,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
+    @Override
     public boolean isTrue() {
         validate();
         return selenium.getStyle(elementLocator, cssProperty).equals(value);
@@ -86,6 +87,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
+    @Override
     public JavaScript getJavaScriptCondition() {
         validate();
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
@@ -94,7 +96,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
         return js("selenium.isElementPresent('{0}') && (selenium.getStyle('{0}', '{1}') == '{2}')").parametrize(
             escapedLocator, escapedCssProperty, escapedText);
     }
-    
+
     private void validate() {
         Validate.notNull(elementLocator);
         Validate.notNull(cssProperty);

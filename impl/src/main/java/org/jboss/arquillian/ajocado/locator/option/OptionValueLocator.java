@@ -32,6 +32,7 @@ public class OptionValueLocator extends AbstractOptionLocator<OptionValueLocator
         super(value);
     }
 
+    @Override
     public OptionLocationStrategy getLocationStrategy() {
         return OptionLocationStrategy.VALUE;
     }

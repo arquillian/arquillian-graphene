@@ -33,5 +33,6 @@ import org.jboss.arquillian.ajocado.locator.Locator;
  * @version $Revision$
  */
 public interface WindowLocator<T extends WindowLocator<T>> extends Locator<T> {
+    @Override
     WindowLocationStrategy getLocationStrategy();
 }

@@ -77,7 +77,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @param elementLocator
      *            of element from what we want to get current style value
      * @param cssResolver
-     *            CSS style property resolver, see {@link CssResolver}}
+     *            CSS style property resolver, see {@link CssResolver}
      * @return current value of property if its element exists and has this property value set; null value otherwise
      * @throws IllegalStateException
      *             if is caught unrecognized throwable
@@ -142,6 +142,7 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
      * @see org.jboss.arquillian.ajocado.framework.DefaultTypedSelenium
      * #getCount(org.jboss.test.selenium.locator.IterableLocator )
      */
+    @Override
     int getCount(IterableLocator<?> locator);
 
     /**

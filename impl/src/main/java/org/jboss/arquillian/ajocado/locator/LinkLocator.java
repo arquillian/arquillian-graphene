@@ -24,7 +24,6 @@ package org.jboss.arquillian.ajocado.locator;
 import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
-
 /**
  * 
  * Locates the link (anchor) element which contains text matching the specified pattern.
@@ -37,6 +36,7 @@ public class LinkLocator extends AbstractElementLocator<LinkLocator> {
         super(linkText);
     }
 
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.LINK;
     }

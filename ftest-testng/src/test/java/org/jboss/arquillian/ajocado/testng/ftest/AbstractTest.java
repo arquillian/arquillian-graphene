@@ -44,11 +44,11 @@ public class AbstractTest extends Arquillian {
 
     protected static WebArchive createDeploymentForClass(Class<? extends AbstractTest> testClass) {
         WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "ftest-app.war")
-                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
-                .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
-                .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
-                        ArchivePaths.create("resources/script/jquery-min.js"));
+            .create(WebArchive.class, "ftest-app.war")
+            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
+            .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
+            .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
+                ArchivePaths.create("resources/script/jquery-min.js"));
 
         return war;
     }

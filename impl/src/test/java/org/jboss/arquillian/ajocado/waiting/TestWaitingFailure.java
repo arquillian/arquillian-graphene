@@ -40,6 +40,7 @@ public class TestWaitingFailure {
 
     private final SeleniumCondition failureCondition = new SeleniumCondition() {
 
+        @Override
         public boolean isTrue() {
             return false;
         }

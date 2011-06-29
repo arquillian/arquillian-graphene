@@ -51,7 +51,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    
+
     /** The element locator. */
     private ElementLocator<?> elementLocator;
 
@@ -66,6 +66,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
      * 
      * @see org.jboss.test.selenium.waiting.Condition#isTrue()
      */
+    @Override
     public boolean isTrue() {
         Validate.notNull(elementLocator);
 
@@ -77,6 +78,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
      * 
      * @see org.jboss.test.selenium.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
+    @Override
     public JavaScript getJavaScriptCondition() {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         return js(SimplifiedFormat.format("!selenium.isVisible('{0}')", escapedLocator));

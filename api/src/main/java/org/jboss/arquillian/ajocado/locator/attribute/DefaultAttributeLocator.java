@@ -67,6 +67,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getRawLocator()
      */
+    @Override
     public String getRawLocator() {
         return SimplifiedFormat.format("{0}@{1}", elementLocator.getRawLocator(), attribute.getAttributeName());
     }
@@ -76,6 +77,7 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
      * 
      * @see org.jboss.arquillian.ajocado.locator.AttributeLocator#getLocationStrategy()
      */
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return elementLocator.getLocationStrategy();
     }
@@ -85,10 +87,12 @@ public class DefaultAttributeLocator<E extends ElementLocator<E>> extends Abstra
      * 
      * @see org.jboss.arquillian.ajocado.locator.AttributeLocator#getAssociatedElement()
      */
+    @Override
     public ElementLocator<E> getAssociatedElement() {
         return elementLocator;
     }
 
+    @Override
     public Attribute getAttribute() {
         return attribute;
     }

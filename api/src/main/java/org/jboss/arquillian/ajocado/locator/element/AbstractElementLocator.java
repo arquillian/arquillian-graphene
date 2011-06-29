@@ -51,6 +51,7 @@ public abstract class AbstractElementLocator<T extends ElementLocator<T>> extend
     /**
      * Returns the default locator for attribute belongs to this locator.
      */
+    @Override
     public AttributeLocator<T> getAttribute(Attribute attribute) {
         return new DefaultAttributeLocator<T>(this, attribute);
     }

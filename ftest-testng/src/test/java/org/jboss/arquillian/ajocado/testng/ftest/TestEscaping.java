@@ -46,7 +46,8 @@ public class TestEscaping extends AbstractTest {
 
     JQueryLocator paragraph = jq("p:contains('" + paragraphText + "')");
     TextRetriever retrieveParagraphText = retrieveText.locator(paragraph);
-    AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph.getAttribute(Attribute.TITLE));
+    AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph
+        .getAttribute(Attribute.TITLE));
 
     @Deployment(testable = false)
     public static WebArchive createDeployment() {

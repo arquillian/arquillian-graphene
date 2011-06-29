@@ -60,6 +60,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getRawLocator()
      */
+    @Override
     public String getRawLocator() {
         return locator;
     }
@@ -69,11 +70,12 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#format(java.lang.Object[])
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Locator<T> format(Object... args) {
         String newLocator = SimplifiedFormat.format(locator, args);
         try {
-            return (T) this.getClass().getConstructor(String.class).newInstance(newLocator);
+            return this.getClass().getConstructor(String.class).newInstance(newLocator);
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
@@ -84,6 +86,7 @@ public abstract class AbstractLocator<T extends Locator<T>> implements Locator<T
      * 
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
+    @Override
     public String inSeleniumRepresentation() {
         final LocationStrategy locationStrategy = getLocationStrategy();
 

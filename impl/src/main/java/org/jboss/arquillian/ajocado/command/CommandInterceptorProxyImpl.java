@@ -29,8 +29,8 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.thoughtworks.selenium.CommandProcessor;
 
@@ -66,8 +66,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
     /**
      * The map of associated interceptors with keys of it's class
      */
-    private Map<Class<? extends CommandInterceptor>, CommandInterceptor> interceptors =
-        new LinkedHashMap<Class<? extends CommandInterceptor>, CommandInterceptor>();
+    private Map<Class<? extends CommandInterceptor>, CommandInterceptor> interceptors = new LinkedHashMap<Class<? extends CommandInterceptor>, CommandInterceptor>();
 
     /**
      * Constructs new proxy with associated command processor
@@ -85,7 +84,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      * @return the command processor proxied with functionality of all associated interceptors
      */
     @SuppressWarnings("unchecked")
-	public CommandProcessor getCommandProcessorProxy() {
+    public CommandProcessor getCommandProcessorProxy() {
         return (CommandProcessor) Proxy.newProxyInstance(commandProcessor.getClass().getClassLoader(), commandProcessor
             .getClass().getInterfaces(), this);
     }
@@ -96,18 +95,19 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      * </p>
      * 
      * <p>
-     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated interceptors
-     * before performing the actual invocation of method.
+     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated
+     * interceptors before performing the actual invocation of method.
      * </p>
      */
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         try {
             if (interceptedMethods.contains(method.getName())) {
                 String commandName = (String) args[0];
                 String[] arguments = (String[]) args[1];
-                CommandContextImpl context =
-                    new CommandContextImpl(commandName, arguments, commandProcessor, method, interceptors.values());
+                CommandContextImpl context = new CommandContextImpl(commandName, arguments, commandProcessor, method,
+                    interceptors.values());
                 try {
                     result = context.invoke();
                 } catch (CommandInterceptorException e) {
@@ -132,6 +132,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      * @param interceptor
      *            the interceptor implementation
      */
+    @Override
     public void registerInterceptor(CommandInterceptor interceptor) {
         interceptors.put(interceptor.getClass(), interceptor);
     }
@@ -143,6 +144,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      *            the instance of interceptor to remove
      * @return removed interceptor or null, if such interceptor ins't registered
      */
+    @Override
     public CommandInterceptor unregisterInterceptor(CommandInterceptor interceptor) {
         Class<? extends CommandInterceptor> typeToRemove = null;
         for (Entry<Class<? extends CommandInterceptor>, CommandInterceptor> entry : interceptors.entrySet()) {
@@ -161,9 +163,9 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      *            of interceptors which we want to unregister from this command processor
      * @return the removed interceptors
      */
+    @Override
     public Set<CommandInterceptor> unregisterInterceptorType(Class<? extends CommandInterceptor> type) {
-        Set<Class<? extends CommandInterceptor>> typesToRemove =
-            new LinkedHashSet<Class<? extends CommandInterceptor>>();
+        Set<Class<? extends CommandInterceptor>> typesToRemove = new LinkedHashSet<Class<? extends CommandInterceptor>>();
         for (Class<? extends CommandInterceptor> entryType : interceptors.keySet()) {
             if (entryType.isInstance(type)) {
                 typesToRemove.add(entryType);

@@ -32,6 +32,7 @@ public class OptionIndexLocator extends AbstractOptionLocator<OptionIndexLocator
         super(String.valueOf(index));
     }
 
+    @Override
     public OptionLocationStrategy getLocationStrategy() {
         return OptionLocationStrategy.INDEX;
     }

@@ -105,6 +105,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getPageExtensions()
      */
+    @Override
     public PageExtensions getPageExtensions() {
         return pageExtensions;
     }
@@ -114,6 +115,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getSeleniumExtensions()
      */
+    @Override
     public SeleniumExtensions getSeleniumExtensions() {
         return seleniumExtensions;
     }
@@ -133,6 +135,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * 
      * @see org.jboss.arquillian.ajocado.framework.AjaxSelenium#getInterceptionProxy()
      */
+    @Override
     public CommandInterceptorProxy getCommandInterceptionProxy() {
         return interceptionProxy;
     }

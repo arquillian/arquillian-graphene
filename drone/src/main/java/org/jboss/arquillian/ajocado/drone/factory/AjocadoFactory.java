@@ -16,6 +16,8 @@
  */
 package org.jboss.arquillian.ajocado.drone.factory;
 
+import java.lang.annotation.Annotation;
+
 import org.jboss.arquillian.ajocado.drone.configuration.ArquillianAjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -27,23 +29,22 @@ import org.jboss.arquillian.drone.spi.Configurator;
 import org.jboss.arquillian.drone.spi.Destructor;
 import org.jboss.arquillian.drone.spi.Instantiator;
 
-import java.lang.annotation.Annotation;
-
 /**
- * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado browser
- * object called {@link AjaxSelenium}.
+ * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado
+ * browser object called {@link AjaxSelenium}.
  * 
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
  * 
  */
 public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjocadoConfiguration>,
-        Instantiator<AjaxSelenium, ArquillianAjocadoConfiguration>, Destructor<AjaxSelenium> {
+    Instantiator<AjaxSelenium, ArquillianAjocadoConfiguration>, Destructor<AjaxSelenium> {
 
     /*
      * (non-Javadoc)
      * 
      * @see org.jboss.arquillian.selenium.spi.Instantiator#getPrecedence()
      */
+    @Override
     public int getPrecedence() {
         return 0;
     }
@@ -53,6 +54,7 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
      * 
      * @see org.jboss.arquillian.selenium.spi.Destructor#destroyInstance(java.lang .Object)
      */
+    @Override
     public void destroyInstance(AjaxSelenium instance) {
         AjaxSeleniumContext.set(null);
         if (instance instanceof AjocadoInitializator) {
@@ -65,9 +67,10 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
      * 
      * @see org.jboss.arquillian.selenium.spi.Instantiator#createInstance(java.lang .Object)
      */
+    @Override
     public AjaxSelenium createInstance(ArquillianAjocadoConfiguration configuration) {
-        AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(), configuration.getSeleniumPort(),
-                configuration.getBrowser(), configuration.getContextRoot());
+        AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(),
+            configuration.getSeleniumPort(), configuration.getBrowser(), configuration.getContextRoot());
         AjaxSeleniumContext.set(selenium);
 
         selenium.initializeBrowser();
@@ -84,8 +87,9 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
      * @see org.jboss.arquillian.selenium.spi.Configurator#createConfiguration(org
      * .jboss.arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
      */
+    @Override
     public ArquillianAjocadoConfiguration createConfiguration(ArquillianDescriptor descriptor,
-            Class<? extends Annotation> qualifier) {
+        Class<? extends Annotation> qualifier) {
         ArquillianAjocadoConfiguration configuration = new ArquillianAjocadoConfiguration();
         configuration.configure(descriptor, qualifier);
         AjocadoConfigurationContext.set(configuration);

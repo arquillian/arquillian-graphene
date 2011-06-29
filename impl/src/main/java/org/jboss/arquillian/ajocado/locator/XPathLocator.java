@@ -49,6 +49,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.XPATH;
     }
@@ -58,6 +59,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
      * 
      * @see org.jboss.arquillian.ajocado.locator.IterableLocator#getNthOccurence(int)
      */
+    @Override
     public XPathLocator get(int index) {
         return new XPathLocator(SimplifiedFormat.format("getLocator[{0}]", index - 1));
     }
@@ -68,6 +70,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator)
      */
+    @Override
     public XPathLocator getChild(XPathLocator elementLocator) {
         return new XPathLocator(SimplifiedFormat.format("{0}/{1}", getRawLocator(), elementLocator.getRawLocator()));
     }
@@ -78,10 +81,11 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getDescendant
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator)
      */
+    @Override
     public XPathLocator getDescendant(XPathLocator elementLocator) {
         return new XPathLocator(SimplifiedFormat.format("{0}//{1}", getRawLocator(), elementLocator.getRawLocator()));
     }
-    
+
     @Override
     public ExtendedLocator<XPathLocator> format(Object... args) {
         return (ExtendedLocator<XPathLocator>) super.format(args);

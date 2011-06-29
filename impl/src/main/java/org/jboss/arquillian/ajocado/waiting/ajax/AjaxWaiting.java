@@ -33,14 +33,12 @@ import com.thoughtworks.selenium.SeleniumException;
 
 /**
  * <p>
- * Implementation of waiting for satisfaction of conditions on page after the
- * Ajax request.
+ * Implementation of waiting for satisfaction of conditions on page after the Ajax request.
  * </p>
  * 
  * <p>
- * It uses custom JavaScript and
- * com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String)
- * to wait for satisfying given condition.
+ * It uses custom JavaScript and com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String) to wait
+ * for satisfying given condition.
  * </p>
  * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -48,146 +46,134 @@ import com.thoughtworks.selenium.SeleniumException;
  */
 public class AjaxWaiting extends DefaultWaiting<AjaxWaiting> {
 
-	/**
-	 * Proxy to local selenium instance
-	 */
-	private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    /**
+     * Proxy to local selenium instance
+     */
+    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
 
-	/**
-	 * Stars loop waiting to satisfy condition.
-	 * 
-	 * @param condition
-	 *            what wait for to be satisfied
-	 */
-	public void until(JavaScriptCondition condition) {
-		waitExpectingTimeout(condition.getJavaScriptCondition());
-	}
+    /**
+     * Stars loop waiting to satisfy condition.
+     * 
+     * @param condition
+     *            what wait for to be satisfied
+     */
+    public void until(JavaScriptCondition condition) {
+        waitExpectingTimeout(condition.getJavaScriptCondition());
+    }
 
-	/**
-	 * Waits until Retrieve's implementation doesn't retrieve value other than
-	 * oldValue.
-	 * 
-	 * @param <T>
-	 *            type of value what we are waiting for change
-	 * @param oldValue
-	 *            value that we are waiting for change
-	 * @param retriever
-	 *            implementation of retrieving actual value
-	 */
-	public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever) {
-		final JavaScript condition = prepareCondition(oldValue, retriever);
-		waitExpectingTimeout(condition);
-	}
+    /**
+     * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param oldValue
+     *            value that we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     */
+    public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever) {
+        final JavaScript condition = prepareCondition(oldValue, retriever);
+        waitExpectingTimeout(condition);
+    }
 
-	/**
-	 * <p>
-	 * Waits until Retrieve's implementation doesn't retrieve value other than
-	 * value stored by initialization in retriever.
-	 * </p>
-	 * 
-	 * <p>
-	 * After retrieving, new value will be associated with given Retriever.
-	 * </p>
-	 * 
-	 * 
-	 * <p>
-	 * Note that Retriever needs to be initialized first by one of methods
-	 * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()}
-	 * or
-	 * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}
-	 * .
-	 * </p>
-	 * 
-	 * @param <T>
-	 *            type of value what we are waiting for change
-	 * @param retriever
-	 *            implementation of retrieving actual value
-	 */
-	public <T> void waitForChange(JavaScriptRetriever<T> retriever) {
-		T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
-		retriever.setValue(retrieved);
-	}
+    /**
+     * <p>
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
+     * retriever.
+     * </p>
+     * 
+     * <p>
+     * After retrieving, new value will be associated with given Retriever.
+     * </p>
+     * 
+     * 
+     * <p>
+     * Note that Retriever needs to be initialized first by one of methods
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
+     * </p>
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     */
+    public <T> void waitForChange(JavaScriptRetriever<T> retriever) {
+        T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(retrieved);
+    }
 
-	/**
-	 * Waits until Retrieve's implementation doesn't retrieve value other than
-	 * oldValue and this new value returns.
-	 * 
-	 * @param <T>
-	 *            type of value what we are waiting for change
-	 * @param oldValue
-	 *            value that we are waiting for change
-	 * @param retriever
-	 *            implementation of retrieving actual value
-	 * @return new retrieved value
-	 */
-	public <T> T waitForChangeAndReturn(T oldValue,
-			JavaScriptRetriever<T> retriever) {
-		final JavaScript script = retriever.getJavaScriptRetrieve();
-		final JavaScript condition = prepareCondition(oldValue, retriever);
+    /**
+     * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param oldValue
+     *            value that we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     * @return new retrieved value
+     */
+    public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retriever) {
+        final JavaScript script = retriever.getJavaScriptRetrieve();
+        final JavaScript condition = prepareCondition(oldValue, retriever);
 
-		waitExpectingTimeout(condition);
-		String retrieved = selenium.getEval(script);
+        waitExpectingTimeout(condition);
+        String retrieved = selenium.getEval(script);
 
-		T converted = retriever.getConvertor().backwardConversion(retrieved);
-		return converted;
-	}
+        T converted = retriever.getConvertor().backwardConversion(retrieved);
+        return converted;
+    }
 
-	/**
-	 * <p>
-	 * Waits until Retrieve's implementation doesn't retrieve value other than
-	 * value stored by initialization in retriever.
-	 * </p>
-	 * 
-	 * <p>
-	 * After retrieving, new value will be associated with given Retriever.
-	 * </p>
-	 * 
-	 * 
-	 * <p>
-	 * Note that Retriever needs to be initialized first by one of methods
-	 * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()}
-	 * or
-	 * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}
-	 * .
-	 * </p>
-	 * 
-	 * @param <T>
-	 *            type of value what we are waiting for change
-	 * @param retriever
-	 *            implementation of retrieving actual value
-	 * @return new retrieved value
-	 */
-	public <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever) {
-		T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
-		retriever.setValue(retrieved);
-		return retrieved;
-	}
+    /**
+     * <p>
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
+     * retriever.
+     * </p>
+     * 
+     * <p>
+     * After retrieving, new value will be associated with given Retriever.
+     * </p>
+     * 
+     * 
+     * <p>
+     * Note that Retriever needs to be initialized first by one of methods
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
+     * </p>
+     * 
+     * @param <T>
+     *            type of value what we are waiting for change
+     * @param retriever
+     *            implementation of retrieving actual value
+     * @return new retrieved value
+     */
+    public <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever) {
+        T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(retrieved);
+        return retrieved;
+    }
 
-	private <T> JavaScript prepareCondition(T oldValue,
-			JavaScriptRetriever<T> retriever) {
-		final String scriptString = retriever.getJavaScriptRetrieve()
-				.getAsString();
-		final String oldValueString = retriever.getConvertor()
-				.forwardConversion(oldValue);
-		final String escapedOldValueString = StringEscapeUtils
-				.escapeJavaScript(oldValueString);
-		return js("{0} != '{1}'").parametrize(scriptString,
-				escapedOldValueString);
-	}
+    private <T> JavaScript prepareCondition(T oldValue, JavaScriptRetriever<T> retriever) {
+        final String scriptString = retriever.getJavaScriptRetrieve().getAsString();
+        final String oldValueString = retriever.getConvertor().forwardConversion(oldValue);
+        final String escapedOldValueString = StringEscapeUtils.escapeJavaScript(oldValueString);
+        return js("{0} != '{1}'").parametrize(scriptString, escapedOldValueString);
+    }
 
-	private void waitExpectingTimeout(JavaScript condition) {
-		try {
-			selenium.waitForCondition(condition, this.getTimeout());
-		} catch (SeleniumException e) {
-			if (isTimeoutException(e)) {
-				fail();
-				return;
-			}
-			throw e;
-		}
-	}
+    private void waitExpectingTimeout(JavaScript condition) {
+        try {
+            selenium.waitForCondition(condition, this.getTimeout());
+        } catch (SeleniumException e) {
+            if (isTimeoutException(e)) {
+                fail();
+                return;
+            }
+            throw e;
+        }
+    }
 
-	private boolean isTimeoutException(SeleniumException e) {
-		return e.getMessage().startsWith("Timed out after");
-	}
+    private boolean isTimeoutException(SeleniumException e) {
+        return e.getMessage().startsWith("Timed out after");
+    }
 }

@@ -16,12 +16,6 @@
  */
 package org.jboss.arquillian.ajocado.drone.configuration;
 
-import org.jboss.arquillian.ajocado.browser.Browser;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
-import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
-import org.jboss.arquillian.drone.spi.DroneConfiguration;
-
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
@@ -29,16 +23,23 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.jboss.arquillian.ajocado.browser.Browser;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
+import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
+import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
+import org.jboss.arquillian.drone.spi.DroneConfiguration;
+
 /**
- * Configuration for Arquillian Ajocado. This configuration can be fetched from Arquillian Descriptor and overridden by System
- * properties.
+ * Configuration for Arquillian Ajocado. This configuration can be fetched from Arquillian Descriptor and overridden by
+ * System properties.
  * 
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
  * @see ArquillianDescriptor
  * @see ConfigurationMapper
  * 
  */
-public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, DroneConfiguration<ArquillianAjocadoConfiguration> {
+public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
+    DroneConfiguration<ArquillianAjocadoConfiguration> {
     // serialVersionUID
     private static final long serialVersionUID = 5560505506114056625L;
 
@@ -90,7 +91,9 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
      * @see org.jboss.arquillian.selenium.spi.WebTestConfiguration#configure(org.jboss
      * .arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
      */
-    public ArquillianAjocadoConfiguration configure(ArquillianDescriptor descriptor, Class<? extends Annotation> qualifier) {
+    @Override
+    public ArquillianAjocadoConfiguration configure(ArquillianDescriptor descriptor,
+        Class<? extends Annotation> qualifier) {
         ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);
         return ConfigurationMapper.fromSystemConfiguration(this, qualifier);
     }
@@ -100,6 +103,7 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
      * 
      * @see org.jboss.arquillian.selenium.spi.WebTestConfiguration#getConfigurationName ()
      */
+    @Override
     public String getConfigurationName() {
         return CONFIGURATION_NAME;
     }
@@ -121,7 +125,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param contextRoot the contextRoot to set
+     * @param contextRoot
+     *            the contextRoot to set
      */
     public void setContextRoot(URL contextRoot) {
         this.contextRoot = contextRoot;
@@ -146,7 +151,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param contextPath the contextPath to set
+     * @param contextPath
+     *            the contextPath to set
      */
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
@@ -155,12 +161,14 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the browser
      */
+    @Override
     public Browser getBrowser() {
         return new Browser(browser);
     }
 
     /**
-     * @param browser the browser to set
+     * @param browser
+     *            the browser to set
      */
     public void setBrowser(String browser) {
         this.browser = browser;
@@ -174,7 +182,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param resourcesDirectory the resourcesDirectory to set
+     * @param resourcesDirectory
+     *            the resourcesDirectory to set
      */
     public void setResourcesDirectory(File resourcesDirectory) {
         this.resourcesDirectory = resourcesDirectory;
@@ -188,7 +197,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param buildDirectory the buildDirectory to set
+     * @param buildDirectory
+     *            the buildDirectory to set
      */
     public void setBuildDirectory(File buildDirectory) {
         this.buildDirectory = buildDirectory;
@@ -197,12 +207,14 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the seleniumHost
      */
+    @Override
     public String getSeleniumHost() {
         return seleniumHost;
     }
 
     /**
-     * @param seleniumHost the seleniumHost to set
+     * @param seleniumHost
+     *            the seleniumHost to set
      */
     public void setSeleniumHost(String seleniumHost) {
         this.seleniumHost = seleniumHost;
@@ -211,12 +223,14 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the seleniumPort
      */
+    @Override
     public int getSeleniumPort() {
         return seleniumPort;
     }
 
     /**
-     * @param seleniumPort the seleniumPort to set
+     * @param seleniumPort
+     *            the seleniumPort to set
      */
     public void setSeleniumPort(int seleniumPort) {
         this.seleniumPort = seleniumPort;
@@ -225,12 +239,14 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the seleniumMaximize
      */
+    @Override
     public boolean isSeleniumMaximize() {
         return seleniumMaximize;
     }
 
     /**
-     * @param seleniumMaximize the seleniumMaximize to set
+     * @param seleniumMaximize
+     *            the seleniumMaximize to set
      */
     public void setSeleniumMaximize(boolean seleniumMaximize) {
         this.seleniumMaximize = seleniumMaximize;
@@ -239,12 +255,14 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the seleniumSpeed
      */
+    @Override
     public int getSeleniumSpeed() {
         return seleniumSpeed;
     }
 
     /**
-     * @param seleniumSpeed the seleniumSpeed to set
+     * @param seleniumSpeed
+     *            the seleniumSpeed to set
      */
     public void setSeleniumSpeed(int seleniumSpeed) {
         this.seleniumSpeed = seleniumSpeed;
@@ -253,12 +271,14 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the seleniumNetworkTrafficEnabled
      */
+    @Override
     public boolean isSeleniumNetworkTrafficEnabled() {
         return seleniumNetworkTrafficEnabled;
     }
 
     /**
-     * @param seleniumNetworkTrafficEnabled the seleniumNetworkTrafficEnabled to set
+     * @param seleniumNetworkTrafficEnabled
+     *            the seleniumNetworkTrafficEnabled to set
      */
     public void setSeleniumNetworkTrafficEnabled(boolean seleniumNetworkTrafficEnabled) {
         this.seleniumNetworkTrafficEnabled = seleniumNetworkTrafficEnabled;
@@ -272,7 +292,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param seleniumTimeoutDefault the seleniumTimeoutDefault to set
+     * @param seleniumTimeoutDefault
+     *            the seleniumTimeoutDefault to set
      */
     public void setSeleniumTimeoutDefault(long seleniumTimeoutDefault) {
         this.seleniumTimeoutDefault = seleniumTimeoutDefault;
@@ -286,7 +307,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param seleniumTimeoutGui the seleniumTimeoutGui to set
+     * @param seleniumTimeoutGui
+     *            the seleniumTimeoutGui to set
      */
     public void setSeleniumTimeoutGui(long seleniumTimeoutGui) {
         this.seleniumTimeoutGui = seleniumTimeoutGui;
@@ -300,7 +322,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param seleniumTimeoutAjax the seleniumTimeoutAjax to set
+     * @param seleniumTimeoutAjax
+     *            the seleniumTimeoutAjax to set
      */
     public void setSeleniumTimeoutAjax(long seleniumTimeoutAjax) {
         this.seleniumTimeoutAjax = seleniumTimeoutAjax;
@@ -314,14 +337,16 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     }
 
     /**
-     * @param seleniumTimeoutModel the seleniumTimeoutModel to set
+     * @param seleniumTimeoutModel
+     *            the seleniumTimeoutModel to set
      */
     public void setSeleniumTimeoutModel(long seleniumTimeoutModel) {
         this.seleniumTimeoutModel = seleniumTimeoutModel;
     }
 
     /**
-     * @param seleniumDebug the seleniumDebug to set
+     * @param seleniumDebug
+     *            the seleniumDebug to set
      */
     public void setSeleniumDebug(boolean seleniumDebug) {
         this.seleniumDebug = seleniumDebug;
@@ -330,6 +355,7 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
     /**
      * @return the seleniumDebug
      */
+    @Override
     public boolean isSeleniumDebug() {
         return seleniumDebug;
     }
@@ -340,6 +366,7 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration, Dro
      * @see org.jboss.arquillian.ajocado.framework.AjocadoConfiguration#getTimeout
      * (org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType)
      */
+    @Override
     public long getTimeout(TimeoutType type) {
         switch (type) {
             case DEFAULT:

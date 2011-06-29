@@ -57,6 +57,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#isStarted()
      */
+    @Override
     public boolean isStarted() {
         return started;
     }
@@ -66,6 +67,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see org.jboss.arquillian.ajocado.framework.TypedSeleniumImpl#start()
      */
+    @Override
     public void start() {
         List<String> parameters = new LinkedList<String>();
         if (networkTrafficCapturingEnabled) {
@@ -80,6 +82,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see org.jboss.arquillian.ajocado.framework.TypedSeleniumImpl#stop()
      */
+    @Override
     public void stop() {
         super.stop();
         started = false;
@@ -90,6 +93,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#enableNetworkTrafficCapturing(boolean)
      */
+    @Override
     public void enableNetworkTrafficCapturing(boolean networkTrafficCapturingEnabled) {
         this.networkTrafficCapturingEnabled = networkTrafficCapturingEnabled;
     }
@@ -99,6 +103,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#isNetworkTrafficCapturingEnabled()
      */
+    @Override
     public boolean isNetworkTrafficCapturingEnabled() {
         return networkTrafficCapturingEnabled;
     }
@@ -109,8 +114,10 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium
      * #getStyle(org.jboss.test.selenium.locator.ElementLocator , org.jboss.arquillian.ajocado.css.CssProperty)
      */
+    @Override
     public <R, T extends CssResolver<R>> R getStyle(ElementLocator<?> elementLocator, T cssResolver) {
-        final String propertyValue = getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(), cssResolver.getPropertyName());
+        final String propertyValue = getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(),
+            cssResolver.getPropertyName());
         return cssResolver.resolveProperty(propertyValue);
     }
 
@@ -119,6 +126,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#scrollIntoView(org.jboss.arquillian.ajocado.locator.ElementLocator , boolean)
      */
+    @Override
     public void scrollIntoView(ElementLocator<?> elementLocator, boolean alignToTop) {
         getExtendedSelenium().scrollIntoView(elementLocator.inSeleniumRepresentation(), String.valueOf(alignToTop));
     }
@@ -129,6 +137,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * @see ExtendedTypedSelenium#mouseOverAt(org.jboss.arquillian.ajocado.locator.ElementLocator ,
      * org.jboss.arquillian.ajocado.geometry.Point)
      */
+    @Override
     public void mouseOverAt(ElementLocator<?> elementLocator, Point point) {
         getExtendedSelenium().mouseOverAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
@@ -140,6 +149,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator
      * , org.jboss.test.selenium.geometry.Point)
      */
+    @Override
     public void mouseOutAt(ElementLocator<?> elementLocator, Point point) {
         getExtendedSelenium().mouseOutAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
@@ -149,6 +159,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#belongsClass(org.jboss.arquillian.ajocado.locator.ElementLocator , java.lang.String)
      */
+    @Override
     public boolean belongsClass(ElementLocator<?> elementLocator, String className) {
         return getExtendedSelenium().belongsClass(elementLocator.inSeleniumRepresentation(), className);
     }
@@ -158,6 +169,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      * 
      * @see ExtendedTypedSelenium#isAttributePresent(org.jboss.arquillian.ajocado.locator. AttributeLocator)
      */
+    @Override
     public boolean isAttributePresent(AttributeLocator<?> attributeLocator) {
         final String elementLocator = attributeLocator.getAssociatedElement().inSeleniumRepresentation();
         final String attributeName = attributeLocator.getAttribute().getAttributeName();

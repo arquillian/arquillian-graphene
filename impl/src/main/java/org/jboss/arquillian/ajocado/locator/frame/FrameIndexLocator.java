@@ -30,6 +30,7 @@ public class FrameIndexLocator extends AbstractFrameLocator<FrameIndexLocator> {
         super(Integer.toString(index));
     }
 
+    @Override
     public FrameLocationStrategy getLocationStrategy() {
         return FrameLocationStrategy.INDEX;
     }

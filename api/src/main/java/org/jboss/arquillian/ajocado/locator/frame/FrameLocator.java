@@ -33,5 +33,6 @@ import org.jboss.arquillian.ajocado.locator.Locator;
  * @version $Revision$
  */
 public interface FrameLocator<T extends FrameLocator<T>> extends Locator<T> {
+    @Override
     FrameLocationStrategy getLocationStrategy();
 }

@@ -111,6 +111,7 @@ public class Point implements SeleniumRepresentable {
      * 
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
+    @Override
     public String inSeleniumRepresentation() {
         return x + "," + y;
     }

@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.ajocado.waiting.retrievers;
 
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
@@ -29,8 +31,6 @@ import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
-
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * Retrieves the text for given elementLocator
@@ -57,6 +57,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
     /**
      * Retrieves the text value from element given by elementLocator
      */
+    @Override
     public String retrieve() {
         Validate.notNull(elementLocator);
 
@@ -66,6 +67,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
     /**
      * JavaScript expression to retrieve text value from element given by elementLocator
      */
+    @Override
     public JavaScript getJavaScriptRetrieve() {
         String escapedLocator = StringEscapeUtils.escapeJavaScript(elementLocator.inSeleniumRepresentation());
         return js("selenium.getText('{0}')").parametrize(escapedLocator);
@@ -112,6 +114,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
     /**
      * Uses {@link PassOnConvertor} to pass the JavaScript result to result value.
      */
+    @Override
     public Convertor<String, String> getConvertor() {
         return new PassOnConvertor<String>();
     }

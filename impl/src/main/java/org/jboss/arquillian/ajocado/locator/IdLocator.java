@@ -24,7 +24,6 @@ package org.jboss.arquillian.ajocado.locator;
 import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
-
 /**
  * Locates the element with specified &#64;id attribute.
  * 
@@ -36,6 +35,7 @@ public class IdLocator extends AbstractElementLocator<IdLocator> {
         super(id);
     }
 
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.ID;
     }

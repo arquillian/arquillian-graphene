@@ -59,6 +59,7 @@ public class AlertPresent implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
+    @Override
     public boolean isTrue() {
         return selenium.isAlertPresent();
     }
@@ -68,6 +69,7 @@ public class AlertPresent implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
+    @Override
     public JavaScript getJavaScriptCondition() {
         return js("selenium.isAlertPresent()");
     }

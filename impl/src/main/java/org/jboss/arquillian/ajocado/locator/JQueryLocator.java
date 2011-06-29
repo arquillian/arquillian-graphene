@@ -64,6 +64,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.JQUERY;
     }
@@ -73,6 +74,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
      * 
      * @see org.jboss.arquillian.ajocado.locator.element.IterableLocator#get(int)
      */
+    @Override
     public JQueryLocator get(int index) {
         return new JQueryLocator(SimplifiedFormat.format("{0}:eq({1})", getRawLocator(), index - 1));
     }
@@ -84,6 +86,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
      * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
      * )
      */
+    @Override
     public JQueryLocator getChild(JQueryLocator elementLocator) {
         return new JQueryLocator(SimplifiedFormat.format("{0} > {1}", getRawLocator(), elementLocator.getRawLocator()));
     }
@@ -94,6 +97,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getDescendant
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator )
      */
+    @Override
     public JQueryLocator getDescendant(JQueryLocator elementLocator) {
         return new JQueryLocator(SimplifiedFormat.format("{0} {1}", getRawLocator(), elementLocator.getRawLocator()));
     }

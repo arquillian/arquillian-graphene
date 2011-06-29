@@ -29,8 +29,8 @@ import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
 import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
 
 /**
@@ -54,12 +54,12 @@ public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler 
 
     @Override
     public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-    	try {
-	    	Object target = waiting.timeout(configuration.getTimeout(timeoutType));
-	        return thisMethod.invoke(target, args);
+        try {
+            Object target = waiting.timeout(configuration.getTimeout(timeoutType));
+            return thisMethod.invoke(target, args);
         } catch (InvocationTargetException e) {
-			throw e.getTargetException();
-		}
+            throw e.getTargetException();
+        }
     }
 
     public static <T extends DefaultWaiting<T>> T create(T waiting, TimeoutType timeoutType) {
@@ -69,7 +69,7 @@ public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler 
 
         T newInstance;
         try {
-            newInstance = (T) c.newInstance();
+            newInstance = c.newInstance();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

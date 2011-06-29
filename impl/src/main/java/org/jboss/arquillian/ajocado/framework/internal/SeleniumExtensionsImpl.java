@@ -69,6 +69,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
      * @param resourceName
      *            the full path to resource
      */
+    @Override
     public void requireResource(String resourceName) {
         if (!containsScript(resourceName)) {
             loadScript(resourceName);
@@ -110,6 +111,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
      * @param resourceNames
      *            the list of full paths to resources
      */
+    @Override
     public void requireResources(List<String> resourceNames) {
         for (String resourceName : resourceNames) {
             requireResource(resourceName);
@@ -121,6 +123,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
      * the loading of extensions. That is reason why we must explicitly register it before the test after each start of
      * selenium.
      */
+    @Override
     public void registerCustomHandlers() {
         final JavaScript registerCustomHandlers = js("currentTest.commandFactory.registerAll(selenium)");
         selenium.getEval(registerCustomHandlers);

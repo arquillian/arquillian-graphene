@@ -39,14 +39,14 @@ public class TestFormattingLocators {
     public void testBackReference() {
         assertEquals(jq("input[id$=myId]").inSeleniumRepresentation(), "jquery=input[id$=myId]");
     }
-    
+
     @Test
     public void testSimpleFormatting() {
         JQueryLocator locator = jq("x{0}z");
         locator = locator.format("y");
         assertEquals(locator.inSeleniumRepresentation(), "jquery=xyz");
     }
-    
+
     @Test
     public void testDoubleFormatting() {
         JQueryLocator locator = jq("a{0}c{1}e");
@@ -54,7 +54,7 @@ public class TestFormattingLocators {
         locator = locator.format("d");
         assertEquals(locator.inSeleniumRepresentation(), "jquery=abcde");
     }
-    
+
     @Test
     public void testComplexFormatting() {
         JQueryLocator locator = jq("a{1}b{3}c{}{4}d{}e{}f");
@@ -63,7 +63,7 @@ public class TestFormattingLocators {
         locator = locator.format(4);
         assertEquals(locator.inSeleniumRepresentation(), "jquery=a1b3c04d1e2f");
     }
-    
+
     @Test
     public void testAttributeFormatting() {
         JQueryLocator locator = jq("x{0}z");

@@ -144,6 +144,7 @@ public class Browser implements SeleniumRepresentable {
      * @see Browser#Browser(String)
      * @return the string representation of browser
      */
+    @Override
     public String inSeleniumRepresentation() {
         StringBuilder builder = new StringBuilder(browserMode.inSeleniumRepresentation());
         if (executable != null) {

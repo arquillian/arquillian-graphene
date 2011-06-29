@@ -64,9 +64,9 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
      * @return domain to which is cookie bound
      */
     public T domain(String domain) {
-        T copy = (T) copy();
+        T copy = copy();
         copy.domain = domain;
-        return (T) copy;
+        return copy;
     }
 
     /**
@@ -76,9 +76,9 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
      * @return path to which is cookie bound
      */
     public T path(String path) {
-        T copy = (T) copy();
+        T copy = copy();
         copy.path = path;
-        return (T) copy;
+        return copy;
     }
 
     /**
@@ -104,6 +104,7 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
         return super.clone();
     }
 
+    @Override
     public String inSeleniumRepresentation() {
         StringBuffer result = new StringBuffer();
         if (domain != null) {
@@ -130,6 +131,6 @@ public abstract class CookieOptions<T extends CookieOptions<T>> implements Clone
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
         }
-        return (T) clone;
+        return clone;
     }
 }

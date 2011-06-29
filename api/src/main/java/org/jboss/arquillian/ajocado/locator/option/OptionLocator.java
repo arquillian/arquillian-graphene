@@ -33,5 +33,6 @@ import org.jboss.arquillian.ajocado.locator.Locator;
  * @version $Revision$
  */
 public interface OptionLocator<T extends OptionLocator<T>> extends Locator<T> {
+    @Override
     OptionLocationStrategy getLocationStrategy();
 }

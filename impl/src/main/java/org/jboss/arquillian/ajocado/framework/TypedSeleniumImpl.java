@@ -79,201 +79,249 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
         Integer.class) {
+        @Override
         public Integer transformation(String source) {
             return Integer.valueOf(source);
         }
     };
 
+    @Override
     public void addLocationStrategy(ElementLocationStrategy locationStrategy, JavaScript strategyDefinition) {
         selenium.addLocationStrategy(locationStrategy.getStrategyName(), strategyDefinition.toString());
     }
 
+    @Override
     public void addScript(JavaScript javaScript) {
         selenium.addScript(javaScript.getAsString(), javaScript.getIdentification());
     }
 
+    @Override
     public void addSelection(ElementLocator<?> elementLocator, OptionLocator<?> optionLocator) {
         selenium.addSelection(elementLocator.inSeleniumRepresentation(), optionLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public void allowNativeXpath(boolean allow) {
         selenium.allowNativeXpath(String.valueOf(allow));
     }
 
+    @Override
     public void altKeyDown() {
         selenium.altKeyDown();
     }
 
+    @Override
     public void altKeyUp() {
         selenium.altKeyUp();
     }
 
+    @Override
     public void answerOnNextPrompt(String answer) {
         selenium.answerOnNextPrompt(answer);
     }
 
+    @Override
     public IdLocator assignId(ElementLocator<?> elementLocator, String identifier) {
         selenium.assignId(elementLocator.inSeleniumRepresentation(), identifier);
         return new IdLocator(identifier);
     }
 
+    @Override
     public void attachFile(ElementLocator<?> fieldLocator, File fileLocator) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void attachFile(ElementLocator<?> fieldLocator, URL fileLocator) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void captureEntirePageScreenshot(File filename) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public BufferedImage captureEntirePageScreenshot() {
         return decodeBase64Screenshot(selenium.captureEntirePageScreenshotToString(""));
     }
 
+    @Override
     public NetworkTraffic captureNetworkTraffic(NetworkTrafficType type) {
         String traffic = selenium.captureNetworkTraffic(type.getType());
         return new NetworkTraffic(type, traffic);
     }
 
+    @Override
     public void captureScreenshot(File filename) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public BufferedImage captureScreenshot() {
         return decodeBase64Screenshot(selenium.captureScreenshotToString());
     }
 
+    @Override
     public void check(ElementLocator<?> elementLocator) {
         selenium.check(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public void chooseCancelOnNextConfirmation() {
         selenium.chooseCancelOnNextConfirmation();
     }
 
+    @Override
     public void chooseOkOnNextConfirmation() {
         selenium.chooseOkOnNextConfirmation();
     }
 
+    @Override
     public void click(ElementLocator<?> elementLocator) {
         selenium.click(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public void clickAt(ElementLocator<?> elementLocator, Point point) {
         selenium.clickAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
+    @Override
     public void close() {
         selenium.close();
     }
 
+    @Override
     public boolean containsScript(JavaScript javaScript) {
         final String identification = javaScript.getIdentification();
         String evaluated = selenium.getEval("document.getElementById('" + identification + "') ? true : false");
         return Boolean.valueOf(evaluated);
     }
 
+    @Override
     public void contextMenu(ElementLocator<?> elementLocator) {
         selenium.contextMenu(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public void contextMenuAt(ElementLocator<?> elementLocator, Point point) {
         selenium.contextMenuAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
+    @Override
     public void controlKeyDown() {
         selenium.controlKeyDown();
     }
 
+    @Override
     public void controlKeyUp() {
         selenium.controlKeyUp();
     }
 
+    @Override
     public void deleteAllVisibleCookies() {
         selenium.deleteAllVisibleCookies();
     }
 
+    @Override
     public void deselectPopUp() {
         selenium.deselectPopUp();
     }
 
+    @Override
     public void doubleClick(ElementLocator<?> elementLocator) {
         selenium.doubleClick(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public void doubleClickAt(ElementLocator<?> elementLocator, Point point) {
         selenium.doubleClickAt(elementLocator.inSeleniumRepresentation(), point.inSeleniumRepresentation());
     }
 
+    @Override
     public void dragAndDrop(ElementLocator<?> elementLocator, Offset offset) {
         selenium.dragAndDrop(elementLocator.inSeleniumRepresentation(), offset.inSeleniumRepresentation());
     }
 
+    @Override
     public void dragAndDropToObject(ElementLocator<?> elementLocatorOfObjectToBeDragged,
         ElementLocator<?> elementLocatorOfDragDestinationObject) {
         selenium.dragAndDropToObject(elementLocatorOfDragDestinationObject.inSeleniumRepresentation(),
             elementLocatorOfObjectToBeDragged.inSeleniumRepresentation());
     }
 
+    @Override
     public void fireEvent(ElementLocator<?> elementLocator, Event event) {
         selenium.fireEvent(elementLocator.inSeleniumRepresentation(), event.getEventName());
     }
 
+    @Override
     public void focus(ElementLocator<?> elementLocator) {
         selenium.focus(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public String getAlert() {
         return selenium.getAlert();
     }
 
+    @Override
     public List<ElementLocator<?>> getAllButtons() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public List<ElementLocator<?>> getAllFields() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public List<ElementLocator<?>> getAllLinks() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public List<WindowNameLocator> getAllWindowIds() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public List<String> getAllWindowNames() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public List<String> getAllWindowTitles() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public String getAttribute(AttributeLocator<?> attributeLocator) {
         return selenium.getAttribute(attributeLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public String getAttribute(ElementLocator<?> elementLocator, Attribute attribute) {
         return getAttribute(elementLocator.getAttribute(attribute));
     }
 
+    @Override
     public List<String> getAttributeFromAllWindows(Attribute attribute) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public String getBodyText() {
         return selenium.getBodyText();
     }
 
+    @Override
     public String getConfirmation() {
         return selenium.getConfirmation();
     }
 
+    @Override
     public int getCount(IterableLocator<?> locator) {
         if (locator.getLocationStrategy() != ElementLocationStrategy.XPATH) {
             throw new UnsupportedOperationException("Only XPath locators are supported for counting");
@@ -281,51 +329,63 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         return selenium.getXpathCount(locator.getRawLocator()).intValue();
     }
 
+    @Override
     public int getCursorPosition(ElementLocator<?> elementLocator) {
         return selenium.getCursorPosition(elementLocator.inSeleniumRepresentation()).intValue();
     }
 
+    @Override
     public Dimension getElementDimension(ElementLocator<?> elementLocator) {
         return new Dimension(getElementWidth(elementLocator), getElementHeight(elementLocator));
     }
 
+    @Override
     public int getElementHeight(ElementLocator<?> elementLocator) {
         return selenium.getElementHeight(elementLocator.inSeleniumRepresentation()).intValue();
     }
 
+    @Override
     public int getElementIndex(ElementLocator<?> elementLocator) {
         return selenium.getElementIndex(elementLocator.inSeleniumRepresentation()).intValue();
     }
 
+    @Override
     public Point getElementPosition(ElementLocator<?> elementLocator) {
         return new Point(getElementPositionLeft(elementLocator), getElementPositionTop(elementLocator));
     }
 
+    @Override
     public int getElementPositionLeft(ElementLocator<?> elementLocator) {
         return selenium.getElementPositionLeft(elementLocator.inSeleniumRepresentation()).intValue();
     }
 
+    @Override
     public int getElementPositionTop(ElementLocator<?> elementLocator) {
         return selenium.getElementPositionTop(elementLocator.inSeleniumRepresentation()).intValue();
     }
 
+    @Override
     public int getElementWidth(ElementLocator<?> elementLocator) {
         return selenium.getElementWidth(elementLocator.inSeleniumRepresentation()).intValue();
 
     }
 
+    @Override
     public String getEval(JavaScript script) {
         return selenium.getEval(script.toString());
     }
 
+    @Override
     public JavaScript getExpression(JavaScript expression) {
         throw new UnsupportedOperationException("not implemented yet");
     }
 
+    @Override
     public String getHtmlSource() {
         return selenium.getHtmlSource();
     }
 
+    @Override
     public URL getLocation() {
         try {
             return new URL(selenium.getLocation());
@@ -334,136 +394,169 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
         }
     }
 
+    @Override
     public int getMouseSpeed() {
         return selenium.getMouseSpeed().intValue();
     }
 
+    @Override
     public String getPrompt() {
         return selenium.getPrompt();
     }
 
+    @Override
     public List<String> getSelectOptions(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectOptions(selectLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public String getSelectedId(ElementLocator<?> selectLocator) {
         return selenium.getSelectedId(selectLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public List<String> getSelectedIds(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectedIds(selectLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public int getSelectedIndex(ElementLocator<?> selectLocator) {
         return Integer.valueOf(selenium.getSelectedIndex(selectLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public List<Integer> getSelectedIndexes(ElementLocator<?> selectLocator) {
         return Arrays.asList(transformArrayOfStringToInteger.transform(selenium.getSelectedIndexes(selectLocator
             .inSeleniumRepresentation())));
     }
 
+    @Override
     public String getSelectedLabel(ElementLocator<?> selectLocator) {
         return selenium.getSelectedLabel(selectLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public List<String> getSelectedLabels(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectedLabels(selectLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public String getSelectedValue(ElementLocator<?> selectLocator) {
         return selenium.getSelectedValue(selenium.getSelectedValue(selectLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public List<String> getSelectedValues(ElementLocator<?> selectLocator) {
         return Arrays.asList(selenium.getSelectedValues(selectLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public long getSpeed() {
         return Long.valueOf(selenium.getSpeed());
     }
 
+    @Override
     public String getText(ElementLocator<?> elementLocator) {
         return selenium.getText(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public String getTitle() {
         return selenium.getTitle();
     }
 
+    @Override
     public String getValue(ElementLocator<?> elementLocator) {
         return selenium.getValue(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public boolean getWhetherThisFrameMatchFrameExpression(String currentFrameString, String target) {
         return selenium.getWhetherThisFrameMatchFrameExpression(currentFrameString, target);
     }
 
+    @Override
     public boolean getWhetherThisWindowMatchWindowExpression(String currentWindowString, String target) {
         return selenium.getWhetherThisWindowMatchWindowExpression(currentWindowString, target);
     }
 
+    @Override
     public void goBack() {
         selenium.goBack();
     }
 
+    @Override
     public void highlight(ElementLocator<?> elementLocator) {
         selenium.highlight(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public void ignoreAttributesWithoutValue(boolean ignore) {
         selenium.ignoreAttributesWithoutValue(String.valueOf(ignore));
     }
 
+    @Override
     public boolean isAlertPresent() {
         return Boolean.valueOf(selenium.isAlertPresent());
     }
 
+    @Override
     public boolean isChecked(ElementLocator<?> elementLocator) {
         return Boolean.valueOf(selenium.isChecked(elementLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public boolean isConfirmationPresent() {
         return Boolean.valueOf(selenium.isConfirmationPresent());
     }
 
+    @Override
     public boolean isEditable(ElementLocator<?> elementLocator) {
         return Boolean.valueOf(selenium.isEditable(elementLocator.inSeleniumRepresentation()));
     }
 
+    @Override
     public boolean isElementPresent(ElementLocator<?> elementLocator) {
         return selenium.isElementPresent(elementLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public boolean isOrdered(ElementLocator<?> elementLocator1, ElementLocator<?> elementLocator2) {
         return selenium.isOrdered(elementLocator1.inSeleniumRepresentation(),
             elementLocator2.inSeleniumRepresentation());
     }
 
+    @Override
     public boolean isPromptPresent() {
         return selenium.isPromptPresent();
     }
 
+    @Override
     public boolean isSomethingSelected(ElementLocator<?> selectLocator) {
         return selenium.isSomethingSelected(selectLocator.inSeleniumRepresentation());
     }
 
+    @Override
     public boolean isTextPresent(String text) {
         return selenium.isTextPresent(text);
     }
 
+    @Override
     public boolean isVisible(ElementLocator<?> elementLocator) {
         return selenium.isVisible(elementLocator.inSeleniumRepresentation());
     }
-    
+
+    @Override
     public void keyDown(ElementLocator<?> elementLocator, char character) {
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), String.valueOf(character));
     }
-    
+
+    @Override
     public void keyDown(ElementLocator<?> elementLocator, KeyCode keyCode) {
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
 
+    @Override
     public void keyDownNative(int keycode) {
         selenium.keyDownNative(keyEventToNativeCode(keycode));
     }
@@ -471,7 +564,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void keyPress(ElementLocator<?> elementLocator, char character) {
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), String.valueOf(character));
     }
-    
+
     public void keyPress(ElementLocator<?> elementLocator, KeyCode keyCode) {
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
@@ -479,11 +572,11 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void keyPressNative(int keycode) {
         selenium.keyPressNative(keyEventToNativeCode(keycode));
     }
-    
+
     public void keyUp(ElementLocator<?> elementLocator, char character) {
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), String.valueOf(character));
     }
-    
+
     public void keyUp(ElementLocator<?> elementLocator, KeyCode keyCode) {
         selenium.keyPress(elementLocator.inSeleniumRepresentation(), keyCode.inSeleniumRepresentation());
     }
@@ -752,7 +845,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     public void addCustomRequestHeader(RequestHeader header) {
         selenium.addCustomRequestHeader(header.getName(), header.getValue());
     }
-    
+
     private static String keyEventToNativeCode(int event) {
         return Integer.toString(event);
     }

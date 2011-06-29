@@ -26,8 +26,8 @@ import static org.jboss.arquillian.ajocado.Ajocado.waitAjax;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.command.CommandContext;
-import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
@@ -44,17 +44,15 @@ import com.thoughtworks.selenium.SeleniumException;
  */
 public class AjaxAwareInterceptor implements CommandInterceptor {
 
-    private static final String[] PERMISSION_DENIED =
-        new String[]{
-            "ERROR: Threw an exception: Permission denied",
-            "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error"
-                + " details from the log window.  The error message is: Permission denied",
-            "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied",};
+    private static final String[] PERMISSION_DENIED = new String[] {
+        "ERROR: Threw an exception: Permission denied",
+        "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error"
+            + " details from the log window.  The error message is: Permission denied",
+        "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
 
     private final AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
-    
+
     private final Waiting<?> wait = waitAjax;
-    
 
     /**
      * <p>
@@ -69,6 +67,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
      * Prints the exception stack trace to help identify the problematic commands.
      * </p>
      */
+    @Override
     public void intercept(final CommandContext ctx) throws CommandInterceptorException {
         long end = System.currentTimeMillis() + configuration.getTimeout(TimeoutType.AJAX);
         boolean exceptionLogged = false;

@@ -43,7 +43,7 @@ package org.jboss.arquillian.ajocado.framework.internal;
  * @version $Revision$
  */
 public interface AjocadoInitializator {
-    
+
     /**
      * Initializes browser session and prepares it for further configuration
      */

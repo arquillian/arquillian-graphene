@@ -16,6 +16,15 @@
  */
 package org.jboss.arquillian.ajocado.drone.example;
 
+import static org.jboss.arquillian.ajocado.Ajocado.elementPresent;
+import static org.jboss.arquillian.ajocado.Ajocado.guardHttp;
+import static org.jboss.arquillian.ajocado.Ajocado.id;
+import static org.jboss.arquillian.ajocado.Ajocado.waitModel;
+import static org.jboss.arquillian.ajocado.Ajocado.xp;
+
+import java.io.File;
+import java.net.URL;
+
 import org.jboss.arquillian.ajocado.drone.example.webapp.Credentials;
 import org.jboss.arquillian.ajocado.drone.example.webapp.LoggedIn;
 import org.jboss.arquillian.ajocado.drone.example.webapp.Login;
@@ -34,11 +43,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.io.File;
-import java.net.URL;
-
-import static org.jboss.arquillian.ajocado.Ajocado.*;
 
 /**
  * Tests Arquillian Drone extension against Weld Login example.
@@ -74,17 +78,17 @@ public class AjocadoTestCase {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "weld-login.war")
-                .addClasses(Credentials.class, LoggedIn.class, Login.class, User.class, Users.class)
-                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/beans.xml"))
-                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/faces-config.xml"))
-                .addAsWebInfResource(new File("src/test/resources/import.sql"))
-                .addAsWebResource(new File("src/test/webapp/index.html"))
-                .addAsWebResource(new File("src/test/webapp/home.xhtml"))
-                .addAsWebResource(new File("src/test/webapp/template.xhtml"))
-                .addAsWebResource(new File("src/test/webapp/users.xhtml"))
-                .addAsResource(new File("src/test/resources/META-INF/persistence.xml"),
-                        ArchivePaths.create("META-INF/persistence.xml")).setWebXML(new File("src/test/webapp/WEB-INF/web.xml"));
+            .create(WebArchive.class, "weld-login.war")
+            .addClasses(Credentials.class, LoggedIn.class, Login.class, User.class, Users.class)
+            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/beans.xml"))
+            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/faces-config.xml"))
+            .addAsWebInfResource(new File("src/test/resources/import.sql"))
+            .addAsWebResource(new File("src/test/webapp/index.html"))
+            .addAsWebResource(new File("src/test/webapp/home.xhtml"))
+            .addAsWebResource(new File("src/test/webapp/template.xhtml"))
+            .addAsWebResource(new File("src/test/webapp/users.xhtml"))
+            .addAsResource(new File("src/test/resources/META-INF/persistence.xml"),
+                ArchivePaths.create("META-INF/persistence.xml")).setWebXML(new File("src/test/webapp/WEB-INF/web.xml"));
 
         // war.as(ZipExporter.class).exportTo(new File("weld-login.war"), true);
 

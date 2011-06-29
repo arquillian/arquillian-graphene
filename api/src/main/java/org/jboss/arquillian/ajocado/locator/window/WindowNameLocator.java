@@ -38,6 +38,7 @@ public class WindowNameLocator extends AbstractWindowLocator<WindowNameLocator> 
         super(name);
     }
 
+    @Override
     public WindowLocationStrategy getLocationStrategy() {
         return WindowLocationStrategy.NAME;
     }

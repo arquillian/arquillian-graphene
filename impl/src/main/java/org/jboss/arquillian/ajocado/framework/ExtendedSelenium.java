@@ -96,7 +96,7 @@ public class ExtendedSelenium extends DefaultSelenium {
     public void mouseOverAt(String locator, String coordString) {
         commandProcessor.doCommand("mouseOverAt", new String[] { locator, coordString });
     }
-    
+
     /**
      * Simulates a user hovering a mouse out of the specified element at specific coordinates relative to element.
      * 

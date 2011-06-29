@@ -57,6 +57,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
     /**
      * Retrieves the attribute value from element given by attributeLocator
      */
+    @Override
     public String retrieve() {
         Validate.notNull(attributeLocator);
 
@@ -66,6 +67,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
     /**
      * JavaScript expression to retrieve attribute value from element given by attributeLocator
      */
+    @Override
     public JavaScript getJavaScriptRetrieve() {
         String escapedLocator = StringEscapeUtils.escapeJavaScript(attributeLocator.inSeleniumRepresentation());
         return js("selenium.getAttribute('{0}')").parametrize(escapedLocator);
@@ -112,6 +114,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
     /**
      * Uses {@link PassOnConvertor} to pass the JavaScript result to result value.
      */
+    @Override
     public Convertor<String, String> getConvertor() {
         return new PassOnConvertor<String>();
     }

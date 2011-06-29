@@ -44,6 +44,7 @@ public abstract class AbstractLocationStrategy implements LocationStrategy {
     /**
      * Returns the name of strategy
      */
+    @Override
     public String getStrategyName() {
         return strategyName;
     }

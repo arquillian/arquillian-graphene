@@ -64,6 +64,7 @@ public class RequestGuardImpl implements RequestGuard {
      * @throws IllegalStateException
      *             when the unknown type of request was obtained
      */
+    @Override
     public RequestType getRequestDone() {
         String requestDone = selenium.getEval(GET_REQUEST_DONE);
         return parseRequest(requestDone);
@@ -82,6 +83,7 @@ public class RequestGuardImpl implements RequestGuard {
      * @throws IllegalStateException
      *             when the unknown type of request was obtained
      */
+    @Override
     public RequestType clearRequestDone() {
         String lastRequest = selenium.getEval(CLEAR_REQUEST_DONE);
         return parseRequest(lastRequest);
@@ -90,6 +92,7 @@ public class RequestGuardImpl implements RequestGuard {
     /**
      * Waits for change of RequestType indicated on the page from NONE to other value.
      */
+    @Override
     public void waitForRequest() {
         selenium.doCommand(WAIT_FOR_REQUEST, Long.toString(configuration.getTimeout(TimeoutType.AJAX)), null);
     }

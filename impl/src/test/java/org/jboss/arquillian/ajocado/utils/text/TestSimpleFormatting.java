@@ -21,11 +21,10 @@
  */
 package org.jboss.arquillian.ajocado.utils.text;
 
-import org.testng.Assert;
-
-import org.testng.annotations.Test;
-
 import static org.jboss.arquillian.ajocado.format.SimplifiedFormat.format;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>

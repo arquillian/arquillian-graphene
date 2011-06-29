@@ -204,6 +204,7 @@ public enum BrowserMode implements SeleniumRepresentable {
      * 
      * @return the mode
      */
+    @Override
     public String inSeleniumRepresentation() {
         return "*" + mode;
     }

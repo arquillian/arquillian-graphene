@@ -31,7 +31,6 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Before;
 
 public class SampleApplication {
 
@@ -43,11 +42,11 @@ public class SampleApplication {
 
     protected static WebArchive createDeploymentForClass(Class<? extends SampleApplication> testClass) {
         WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "ftest-app.war")
-                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
-                .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
-                .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
-                        ArchivePaths.create("resources/script/jquery-min.js"));
+            .create(WebArchive.class, "ftest-app.war")
+            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
+            .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
+            .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
+                ArchivePaths.create("resources/script/jquery-min.js"));
 
         return war;
     }

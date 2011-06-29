@@ -99,7 +99,7 @@ public class RequestGuardTestCase extends SampleApplication {
             Assert.fail("The HTTP request was observed, however NONE request was expected");
         } catch (RequestGuardException e) {
             Assert.assertTrue("NONE request expected, but " + e.getRequestDone() + " was done",
-                    e.getRequestDone() == RequestType.NONE);
+                e.getRequestDone() == RequestType.NONE);
         }
     }
 
@@ -111,7 +111,7 @@ public class RequestGuardTestCase extends SampleApplication {
             Assert.fail("The HTTP request was observed, however XHR request was expected");
         } catch (RequestGuardException e) {
             Assert.assertTrue("XHR request expected, but " + e.getRequestDone() + " was done",
-                    e.getRequestDone() == RequestType.XHR);
+                e.getRequestDone() == RequestType.XHR);
         }
     }
 

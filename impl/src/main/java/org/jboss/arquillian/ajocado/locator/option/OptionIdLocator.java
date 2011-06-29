@@ -32,6 +32,7 @@ public class OptionIdLocator extends AbstractOptionLocator<OptionIdLocator> {
         super(id);
     }
 
+    @Override
     public OptionLocationStrategy getLocationStrategy() {
         return OptionLocationStrategy.ID;
     }

@@ -46,9 +46,9 @@ public class Login implements Serializable {
     public void login() {
 
         List<User> results = userDatabase
-                .createQuery("select u from User u where u.username=:username and u.password=:password")
-                .setParameter("username", credentials.getUsername()).setParameter("password", credentials.getPassword())
-                .getResultList();
+            .createQuery("select u from User u where u.username=:username and u.password=:password")
+            .setParameter("username", credentials.getUsername()).setParameter("password", credentials.getPassword())
+            .getResultList();
 
         if (!results.isEmpty()) {
             currentUser = results.get(0);

@@ -25,7 +25,6 @@ import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.CompoundableLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
-
 /**
  * <p>
  * A element locator using CSS selectors.
@@ -54,6 +53,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.CSS;
     }
@@ -62,8 +62,10 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
      * (non-Javadoc)
      * 
      * @see
-     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator)
+     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
+     * )
      */
+    @Override
     public CssLocator getChild(CssLocator elementLocator) {
         throw new UnsupportedOperationException("not implemented yet");
     }
@@ -74,6 +76,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
      * @see org.jboss.arquillian.ajocado.locator.CompoundableLocator#getDescendant
      * (org.jboss.arquillian.ajocado.locator.CompoundableLocator)
      */
+    @Override
     public CssLocator getDescendant(CssLocator elementLocator) {
         throw new UnsupportedOperationException("not implemented yet");
     }

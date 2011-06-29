@@ -47,6 +47,7 @@ public interface IterableLocator<T extends IterableLocator<T>> extends ElementLo
      * 
      * @return the iterator through the occurrences of this locator
      */
+    @Override
     Iterator<T> iterator();
 
     /**

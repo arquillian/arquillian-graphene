@@ -90,8 +90,8 @@ public class TestRequestGuard extends AbstractTest {
             guardHttp(selenium).click(linkNoRequest);
             Assert.fail("The HTTP request was observed, however NONE request was expected");
         } catch (RequestGuardException e) {
-            Assert.assertTrue(e.getRequestDone() == RequestType.NONE, "NONE request expected, but " + e.getRequestDone()
-                    + " was done");
+            Assert.assertTrue(e.getRequestDone() == RequestType.NONE,
+                "NONE request expected, but " + e.getRequestDone() + " was done");
         }
     }
 
@@ -102,7 +102,7 @@ public class TestRequestGuard extends AbstractTest {
             Assert.fail("The HTTP request was observed, however XHR request was expected");
         } catch (RequestGuardException e) {
             Assert.assertTrue(e.getRequestDone() == RequestType.XHR, "XHR request expected, but " + e.getRequestDone()
-                    + " was done");
+                + " was done");
         }
     }
 

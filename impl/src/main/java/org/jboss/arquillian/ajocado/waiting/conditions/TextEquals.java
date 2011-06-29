@@ -21,6 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -28,9 +31,6 @@ import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
-
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * 
@@ -51,7 +51,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * Proxy to local selenium instance
      */
     private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
-    
+
     /** The element locator. */
     private ElementLocator<?> elementLocator;
 
@@ -69,6 +69,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
+    @Override
     public boolean isTrue() {
         Validate.notNull(elementLocator);
         Validate.notNull(text);
@@ -81,6 +82,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
+    @Override
     public JavaScript getJavaScriptCondition() {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         String escapedText = escapeJavaScript(this.text);

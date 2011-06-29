@@ -30,6 +30,7 @@ public class FrameDomLocator extends AbstractFrameLocator<FrameDomLocator> {
         super(domExpression);
     }
 
+    @Override
     public FrameLocationStrategy getLocationStrategy() {
         return FrameLocationStrategy.DOM;
     }

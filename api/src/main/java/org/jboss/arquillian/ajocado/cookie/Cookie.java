@@ -85,6 +85,7 @@ public final class Cookie implements SeleniumRepresentable, Cloneable, Serializa
      * 
      * @see org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable#inSeleniumRepresentation()
      */
+    @Override
     public String inSeleniumRepresentation() {
         return name + "=" + value;
     }

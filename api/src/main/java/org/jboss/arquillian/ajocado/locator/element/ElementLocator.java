@@ -49,6 +49,7 @@ public interface ElementLocator<T extends ElementLocator<T>> extends Locator<T> 
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#getLocationStrategy()
      */
+    @Override
     ElementLocationStrategy getLocationStrategy();
 
     /*
@@ -56,5 +57,6 @@ public interface ElementLocator<T extends ElementLocator<T>> extends Locator<T> 
      * 
      * @see org.jboss.arquillian.ajocado.locator.Locator#format(java.lang.Object[])
      */
+    @Override
     ElementLocator<T> format(Object... args);
 }

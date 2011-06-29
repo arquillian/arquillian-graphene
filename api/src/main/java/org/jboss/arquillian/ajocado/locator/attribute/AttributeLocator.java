@@ -49,5 +49,6 @@ public interface AttributeLocator<E extends ElementLocator<E>> extends Locator<A
      */
     Attribute getAttribute();
 
+    @Override
     public AttributeLocator<E> format(Object... args);
 }

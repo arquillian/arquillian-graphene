@@ -98,6 +98,7 @@ public final class AjocadoConfigurationContext implements InvocationHandler {
     /**
      * End point for handling invocations on proxy
      */
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         if (!isInitialized()) {

@@ -73,6 +73,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
+    @Override
     public boolean isTrue() {
         validate();
         return selenium.getCount(iterableLocator) == count;
@@ -83,6 +84,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
+    @Override
     public JavaScript getJavaScriptCondition() {
         validate();
         String escapedRawLocator = escapeJavaScript(this.iterableLocator.getRawLocator());

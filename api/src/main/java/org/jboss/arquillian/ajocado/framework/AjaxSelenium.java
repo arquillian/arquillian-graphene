@@ -82,7 +82,7 @@ public interface AjaxSelenium extends ExtendedTypedSelenium, Cloneable {
      * @return associated command interception proxy
      */
     CommandInterceptorProxy getCommandInterceptionProxy();
-    
+
     /**
      * <p>
      * Simulates restart of browser in order to be able get unpolluted browser session.

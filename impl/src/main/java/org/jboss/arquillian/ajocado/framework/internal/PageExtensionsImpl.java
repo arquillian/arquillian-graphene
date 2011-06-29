@@ -43,10 +43,9 @@ public class PageExtensionsImpl implements PageExtensions {
     JavaScript pageExtensions;
 
     /** Evaluates if the body is loaded */
-    final JavaScript isBodyLoaded =
-        js("(selenium.browserbot.getCurrentWindow() != null) "
-            + " && (selenium.browserbot.getCurrentWindow().document != null) "
-            + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
+    final JavaScript isBodyLoaded = js("(selenium.browserbot.getCurrentWindow() != null) "
+        + " && (selenium.browserbot.getCurrentWindow().document != null) "
+        + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
 
     /** Evalutes if the Ajocado object is undefined on the page */
     final JavaScript isAjocadoPageUndefined = js("Ajocado === undefined || Ajocado.getPage() === undefined");
@@ -57,6 +56,7 @@ public class PageExtensionsImpl implements PageExtensions {
     /**
      * Install.
      */
+    @Override
     public void install() {
         if (!isInstalled()) {
             waitForBodyLoaded();
@@ -69,6 +69,7 @@ public class PageExtensionsImpl implements PageExtensions {
      * 
      * @return true, if is installed
      */
+    @Override
     public boolean isInstalled() {
         return !Boolean.valueOf(selenium.getEval(isAjocadoPageUndefined));
     }
@@ -93,6 +94,7 @@ public class PageExtensionsImpl implements PageExtensions {
      * @param resourceNames
      *            the list of full paths to resources
      */
+    @Override
     public void loadFromResources(List<String> resourceNames) {
         JavaScript extensions = null;
         for (String resourceName : resourceNames) {

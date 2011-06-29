@@ -96,6 +96,7 @@ public class CssProperty implements CssResolver<String> {
         this.propertyName = propertyName;
     }
 
+    @Override
     public String getPropertyName() {
         return propertyName;
     }

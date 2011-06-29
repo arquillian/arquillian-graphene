@@ -38,6 +38,7 @@ public class OptionLabelLocator extends AbstractOptionLocator<OptionLabelLocator
         super(label);
     }
 
+    @Override
     public OptionLocationStrategy getLocationStrategy() {
         return OptionLocationStrategy.LABEL;
     }

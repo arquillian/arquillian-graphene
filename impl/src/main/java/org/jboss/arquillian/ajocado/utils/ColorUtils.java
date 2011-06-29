@@ -39,7 +39,7 @@ public final class ColorUtils {
     private static final int RGB_PARTS = 3;
     private static final short RED_COMPONENT = 0;
     private static final short GREEN_COMPONENT = 1;
-    private static final short BLUE_COMPONENT = 2; 
+    private static final short BLUE_COMPONENT = 2;
 
     private ColorUtils() {
     }

@@ -97,6 +97,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
          * 
          * @see java.util.Iterator#hasNext()
          */
+        @Override
         public boolean hasNext() {
             return index <= count;
         }
@@ -106,6 +107,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
          * 
          * @see java.util.Iterator#next()
          */
+        @Override
         public T next() {
             if (hasNext()) {
                 return get(index++);
@@ -121,6 +123,7 @@ public abstract class AbstractIterableLocator<T extends IterableLocator<T>> exte
          *             in every call
          * 
          */
+        @Override
         public void remove() {
             throw new UnsupportedOperationException(this.getClass().getCanonicalName() + " doesn't support remove()");
         }

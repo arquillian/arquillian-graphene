@@ -21,6 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
@@ -29,9 +32,6 @@ import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 
 import com.thoughtworks.selenium.SeleniumException;
-
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
-import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 /**
  * 
@@ -71,6 +71,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Condition#isTrue()
      */
+    @Override
     public boolean isTrue() {
         Validate.notNull(message);
 
@@ -93,6 +94,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      * 
      * @see org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition#getJavaScriptCondition()
      */
+    @Override
     public JavaScript getJavaScriptCondition() {
         Validate.notNull(message);
         String escapedMessage = escapeJavaScript(message);

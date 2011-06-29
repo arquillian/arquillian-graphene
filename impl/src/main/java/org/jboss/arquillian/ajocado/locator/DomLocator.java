@@ -46,6 +46,7 @@ public class DomLocator extends AbstractElementLocator<DomLocator> {
         super(javascriptExpression.getAsString());
     }
 
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.DOM;
     }

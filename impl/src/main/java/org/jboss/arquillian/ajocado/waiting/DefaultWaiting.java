@@ -92,6 +92,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#interval(long)
      */
+    @Override
     public T interval(long interval) {
         if (interval == this.interval) {
             return (T) this;
@@ -106,6 +107,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#timeout(long)
      */
+    @Override
     public T timeout(long timeout) {
         if (timeout == this.timeout) {
             return (T) this;
@@ -120,6 +122,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#failWith(java.lang.Exception)
      */
+    @Override
     public T failWith(Exception exception) {
         if (exception == null && this.failure == null) {
             return (T) this;
@@ -135,6 +138,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#failWith(java.lang.CharSequence, java.lang.Object[])
      */
+    @Override
     public T failWith(CharSequence failureMessage, Object... arguments) {
         T copy = this.copy();
         copy.failure = failureMessage;
@@ -147,6 +151,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#dontFail()
      */
+    @Override
     public T dontFail() {
         return failWith(null);
     }
@@ -156,6 +161,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#noDelay()
      */
+    @Override
     public T noDelay() {
         return withDelay(false);
     }
@@ -165,6 +171,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#withDelay(boolean)
      */
+    @Override
     public T withDelay(boolean isDelayed) {
         if (isDelayed == this.isDelayed) {
             return (T) this;
@@ -179,6 +186,7 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      * 
      * @see org.jboss.arquillian.ajocado.waiting.Waiting#waitForTimeout()
      */
+    @Override
     public void waitForTimeout() {
         try {
             Thread.sleep(timeout);

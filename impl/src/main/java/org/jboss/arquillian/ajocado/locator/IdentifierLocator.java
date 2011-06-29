@@ -24,7 +24,6 @@ package org.jboss.arquillian.ajocado.locator;
 import org.jboss.arquillian.ajocado.locator.element.AbstractElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy;
 
-
 /**
  * Locates the element with the specified &#64;id attribute. If no match is found, select the first element whose
  * &#64;name attribute is id.
@@ -37,6 +36,7 @@ public class IdentifierLocator extends AbstractElementLocator<IdentifierLocator>
         super(idOrName);
     }
 
+    @Override
     public ElementLocationStrategy getLocationStrategy() {
         return ElementLocationStrategy.IDENTIFIER;
     }

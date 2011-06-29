@@ -33,18 +33,21 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 public abstract class AbstractRetriever<T> implements RetrievedValueHolder<T> {
     private ThreadLocal<T> oldValue = new ThreadLocal<T>();
 
+    @Override
     public T getValue() {
         return oldValue.get();
     }
 
+    @Override
     public void initializeValue() {
         oldValue.set(retrieve());
     }
 
+    @Override
     public void setValue(T value) {
         oldValue.set(value);
     }
-    
+
     public boolean isValueChanged() {
         if (oldValue.get() == null) {
             return retrieve() != null;

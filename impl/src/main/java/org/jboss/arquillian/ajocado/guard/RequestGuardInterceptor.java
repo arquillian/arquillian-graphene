@@ -25,8 +25,8 @@ import static org.jboss.arquillian.ajocado.request.RequestType.HTTP;
 import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 
 import org.jboss.arquillian.ajocado.command.CommandContext;
-import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
+import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
@@ -78,6 +78,7 @@ public class RequestGuardInterceptor implements CommandInterceptor {
     /**
      * Enfolds the command with guarding code to detect request type
      */
+    @Override
     public void intercept(CommandContext ctx) throws CommandInterceptorException {
         final String command = ctx.getCommand();
 

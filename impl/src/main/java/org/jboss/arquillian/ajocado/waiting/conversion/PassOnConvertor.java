@@ -38,6 +38,7 @@ public class PassOnConvertor<T> implements Convertor<T, T> {
      *            the object to pass
      * @return the exactly same object as given
      */
+    @Override
     public T forwardConversion(T object) {
         return object;
     };
@@ -49,6 +50,7 @@ public class PassOnConvertor<T> implements Convertor<T, T> {
      *            the object to pass
      * @return the exactly same object as given
      */
+    @Override
     public T backwardConversion(T object) {
         return object;
     };
