@@ -24,7 +24,7 @@
         <module>testng</module>
         <module>junit</module>
         <module>ftest-testng</module>
-        <module>ftest-junit</module> 
+        <module>ftest-junit</module>
     </modules>
 
     <licenses>
@@ -175,29 +175,11 @@
         <dependencies>
             <!-- Arquillian dependencies -->
             <dependency>
-                <groupId>org.jboss.arquillian.core</groupId>
-                <artifactId>arquillian-core-spi</artifactId>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
                 <version>${version.arquillian.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.test</groupId>
-                <artifactId>arquillian-test-spi</artifactId>
-                <version>${version.arquillian.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.config</groupId>
-                <artifactId>arquillian-config-api</artifactId>
-                <version>${version.arquillian.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.junit</groupId>
-                <artifactId>arquillian-junit-container</artifactId>
-                <version>${version.arquillian.core}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.testng</groupId>
-                <artifactId>arquillian-testng-container</artifactId>
-                <version>${version.arquillian.core}</version>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
         
             <!-- Arquillian Drone dependencies and Selenium dependencies -->
@@ -208,33 +190,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-api</artifactId>
-                <version>${version.arquillian.drone}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-impl</artifactId>
-                <version>${version.arquillian.drone}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-spi</artifactId>
-                <version>${version.arquillian.drone}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-configuration</artifactId>
-                <version>${version.arquillian.drone}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-selenium-server</artifactId>
-                <version>${version.arquillian.drone}</version>
-            </dependency>
-
-            <!-- External dependencies -->
+            
             <!-- required until ARQ-488 is fixed -->
             <dependency>
                 <groupId>org.jboss.shrinkwrap</groupId>
