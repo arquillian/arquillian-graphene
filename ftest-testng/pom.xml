@@ -8,8 +8,8 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-ajocado-ftest</artifactId>
-    <name>Ajocado Functional Test</name>
+    <artifactId>arquillian-ajocado-ftest-testng</artifactId>
+    <name>Ajocado Functional Test for TestNG</name>
 
     <dependencies>		
 	  <!-- Arquillian Ajocado Test NG-->
