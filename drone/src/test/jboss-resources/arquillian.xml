@@ -2,11 +2,11 @@
 <arquillian>
   
   <!-- this configuration will be bound to Ajocado -->
-  <extension qualifier="ajocado">
-    <configuration>
+    <extension qualifier="ajocado">
+        <configuration>
       <!-- maximize window of the browser -->
-      <property name="seleniumMaximize">true</property>      
-    </configuration>
-  </extension>
-  
+            <property name="seleniumMaximize">true</property>
+        </configuration>
+    </extension>
+
 </arquillian>

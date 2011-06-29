@@ -1,88 +1,88 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.jboss.arquillian.ajocado</groupId>
-		<artifactId>arquillian-ajocado-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss.arquillian.ajocado</groupId>
+        <artifactId>arquillian-ajocado-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
-	<groupId>org.jboss.arquillian.ajocado</groupId>
-	<artifactId>arquillian-ajocado-impl</artifactId>
-	<packaging>jar</packaging>
-	<name>Ajocado Implementation</name>
-	<description>Testing Ajax with flavour of sexy type-safe API</description>
+    <groupId>org.jboss.arquillian.ajocado</groupId>
+    <artifactId>arquillian-ajocado-impl</artifactId>
+    <packaging>jar</packaging>
+    <name>Ajocado Implementation</name>
+    <description>Testing Ajax with flavour of sexy type-safe API</description>
 
-	<dependencies>
+    <dependencies>
 
 		<!-- Runtime dependencies -->
-		<dependency>
-			<groupId>org.jboss.arquillian.ajocado</groupId>
-			<artifactId>arquillian-ajocado-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-control</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javassist</groupId>
-			<artifactId>javassist</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.ajocado</groupId>
+            <artifactId>arquillian-ajocado-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-control</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
 
 		<!-- Test dependencies -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>${basedir}/src/main/javascript</directory>
-				<filtering>false</filtering>
-				<targetPath>${project.build.outputDirectory}/javascript</targetPath>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>src/main/javascript/selenium-extensions/goog/disposable/disposable.js</exclude>
-						<exclude>src/main/javascript/selenium-extensions/goog/base.js</exclude>
-						<exclude>src/main/javascript/selenium-extensions/jquery/jquery.js</exclude>
-						<exclude>src/main/javascript/page-extensions-order.txt</exclude>
-						<exclude>src/main/javascript/selenium-extensions-order.txt</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/javascript</directory>
+                <filtering>false</filtering>
+                <targetPath>${project.build.outputDirectory}/javascript</targetPath>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>src/main/javascript/selenium-extensions/goog/disposable/disposable.js</exclude>
+                        <exclude>src/main/javascript/selenium-extensions/goog/base.js</exclude>
+                        <exclude>src/main/javascript/selenium-extensions/jquery/jquery.js</exclude>
+                        <exclude>src/main/javascript/page-extensions-order.txt</exclude>
+                        <exclude>src/main/javascript/selenium-extensions-order.txt</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
