@@ -21,9 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import java.io.File;
 import java.io.Serializable;
-import java.net.URL;
 
 import org.jboss.arquillian.ajocado.browser.Browser;
 
@@ -36,39 +34,11 @@ import org.jboss.arquillian.ajocado.browser.Browser;
 public interface AjocadoConfiguration extends Cloneable, Serializable {
 
     /**
-     * Returns context root, the root URL for server instance.
-     * 
-     * @return context root, the root URL for server instance.
-     */
-    URL getContextRoot();
-
-    /**
-     * Returns context path, the URL for application context incl. context root ({@link #getContextRoot()}.
-     * 
-     * @return context path, the URL for application context incl. context root ({@link #getContextRoot()}.
-     */
-    URL getContextPath();
-
-    /**
      * Returns current browser implementation used in tests.
      * 
      * @return current browser implementation used in tests.
      */
     Browser getBrowser();
-
-    /**
-     * Returns current resources dir, such as images, XMLs, etc.
-     * 
-     * @return current resources dir, such as images, XMLs, etc.
-     */
-    File getResourcesDirectory();
-
-    /**
-     * Returns current project build (target) directory.
-     * 
-     * @return current project build (target) directory.
-     */
-    File getBuildDirectory();
 
     /**
      * Returns the host of Selenium Server

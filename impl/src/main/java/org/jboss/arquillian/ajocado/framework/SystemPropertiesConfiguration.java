@@ -25,12 +25,8 @@ import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asBoolean;
 import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asInteger;
 import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asLong;
 
-import java.io.File;
-import java.net.URL;
-
 import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.browser.Browser;
-import org.jboss.arquillian.ajocado.utils.URLUtils;
 
 /**
  * Exposing of test system properties.
@@ -39,29 +35,8 @@ import org.jboss.arquillian.ajocado.utils.URLUtils;
  * @version $Revision$
  */
 public class SystemPropertiesConfiguration implements AjocadoConfiguration {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getContextRoot()
-     */
-    @Override
-    public URL getContextRoot() {
-        String contextRoot = System.getProperty("context.root", "http://localhost:8080/");
-        Validate.notNull(contextRoot, "context.root system property should be set");
-        return URLUtils.buildUrl(contextRoot);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getContextPath()
-     */
-    @Override
-    public URL getContextPath() {
-        String contextPath = System.getProperty("context.path", "/");
-        Validate.notNull(contextPath, "context.path system property should be set");
-        return URLUtils.buildUrl(getContextRoot(), contextPath);
-    }
+    
+    private static final long serialVersionUID = -660236743676985887L;
 
     /*
      * (non-Javadoc)
@@ -73,26 +48,6 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
         String browser = System.getProperty("browser", "*firefox");
         Validate.notNull(browser, "browser system property should be set");
         return new Browser(browser);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getMavenResourcesDir()
-     */
-    @Override
-    public File getResourcesDirectory() {
-        return new File(System.getProperty("maven.resources.dir", "./target/test-classes/"));
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getMavenProjectBuildDirectory()
-     */
-    @Override
-    public File getBuildDirectory() {
-        return new File(System.getProperty("maven.project.build.directory", "./target/"));
     }
 
     /*
