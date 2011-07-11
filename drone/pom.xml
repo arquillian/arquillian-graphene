@@ -258,7 +258,7 @@
                                     <overwrite>true</overwrite>
                                     <resources>
                                         <resource>
-                                            <directory>${basedir}/../../qa/richfaces-arquillian-xml-property-resolver/target/classes</directory>
+                                            <directory>${basedir}/../../qa/richfaces-arquillian-xml-property-resolver/target/conf</directory>
                                         </resource>
                                     </resources>
                                 </configuration>
