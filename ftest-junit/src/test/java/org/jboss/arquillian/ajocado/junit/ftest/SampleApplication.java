@@ -24,6 +24,7 @@ package org.jboss.arquillian.ajocado.junit.ftest;
 import java.io.File;
 import java.net.URL;
 
+import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
 import org.jboss.arquillian.drone.api.annotation.Drone;
