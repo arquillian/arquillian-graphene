@@ -97,7 +97,10 @@ public class AjocadoTestCase {
 
     @Test
     public void testLoginAndLogout() {
-        Assert.assertNotNull("Path is not null", contextPath);
+        
+    	selenium.getCommandInterceptionProxy().registerInterceptor(new AjaxAwareInterceptor());
+    	
+    	Assert.assertNotNull("Path is not null", contextPath);
         Assert.assertNotNull("AjaxSelenium is not null", driver);
 
         driver.open(contextPath);

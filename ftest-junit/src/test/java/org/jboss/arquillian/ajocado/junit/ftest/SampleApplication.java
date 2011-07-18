@@ -54,6 +54,9 @@ public class SampleApplication {
     // ARQ-351
     // @Before
     protected void openContext() {
-        selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
+        
+    	selenium.getCommandInterceptionProxy().registerInterceptor(new AjaxAwareInterceptor());
+    	
+    	selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
     }
 }
