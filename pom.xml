@@ -80,9 +80,8 @@
         <useReleaseProfile>true</useReleaseProfile>
         
         <!-- Versioning -->
-        <version.arquillian.core>1.0.0.CR1</version.arquillian.core>
+        <version.arquillian.core>1.0.0.CR4</version.arquillian.core>
         <version.arquillian.drone>1.0.0.CR1</version.arquillian.drone>
-        <version.shrinkwrap>1.0.0-beta-3</version.shrinkwrap>
     </properties>
 
     <build>
@@ -166,6 +165,11 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>    
             </plugins>
         </pluginManagement>
     </build>
@@ -190,13 +194,6 @@
                 <scope>import</scope>
             </dependency>
             
-            <!-- required until ARQ-488 is fixed -->
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-impl-base</artifactId>
-                <version>${version.shrinkwrap}</version>
-            </dependency>
-
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>

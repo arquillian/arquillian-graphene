@@ -31,15 +31,15 @@
 
     <container qualifier="jboss" default="true">
         <configuration>
-            <property name="jbossHome">target/jboss-6.0.0.Final</property>
+            <property name="jbossHome">target/jboss-as-7.0.1.Final</property>
             <!-- <property name="javaHome">/usr/lib/jvm/java-6-openjdk/</property> -->
             <property name="bindAddress">127.0.0.1</property>
         </configuration>
+        <protocol type="Servlet 3.0">
+            <property name="host">localhost</property>
+            <property name="port">8080</property>
+        </protocol>
     </container>
-
-    <extension qualifier="selenium-server">
-        <property name="enable">true</property>
-    </extension>
 
     <extension qualifier="ajocado">
         <property name="browser">*firefox</property>

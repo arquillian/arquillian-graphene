@@ -87,10 +87,9 @@ public class AjocadoTestCase {
             .addAsWebResource(new File("src/test/webapp/home.xhtml"))
             .addAsWebResource(new File("src/test/webapp/template.xhtml"))
             .addAsWebResource(new File("src/test/webapp/users.xhtml"))
-            .addAsResource(new File("src/test/resources/META-INF/persistence.xml"),
-                ArchivePaths.create("META-INF/persistence.xml")).setWebXML(new File("src/test/webapp/WEB-INF/web.xml"));
-
-        // war.as(ZipExporter.class).exportTo(new File("weld-login.war"), true);
+            .addAsResource(new File("src/test/resources/META-INF/persistence.xml"), ArchivePaths.create("META-INF/persistence.xml"))
+            .addAsResource(new File("src/test/resources/import.sql"), ArchivePaths.create("import.sql"))
+            .setWebXML(new File("src/test/webapp/WEB-INF/web.xml"));
 
         return war;
     }
