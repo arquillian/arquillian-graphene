@@ -25,6 +25,7 @@ import static org.jboss.arquillian.ajocado.Ajocado.xp;
 import java.io.File;
 import java.net.URL;
 
+import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
 import org.jboss.arquillian.ajocado.drone.example.webapp.Credentials;
 import org.jboss.arquillian.ajocado.drone.example.webapp.LoggedIn;
 import org.jboss.arquillian.ajocado.drone.example.webapp.Login;
@@ -96,7 +97,10 @@ public class AjocadoTestCase {
 
     @Test
     public void testLoginAndLogout() {
-        Assert.assertNotNull("Path is not null", contextPath);
+        
+    	driver.getCommandInterceptionProxy().registerInterceptor(new AjaxAwareInterceptor());
+    	
+    	Assert.assertNotNull("Path is not null", contextPath);
         Assert.assertNotNull("AjaxSelenium is not null", driver);
 
         driver.open(contextPath);
