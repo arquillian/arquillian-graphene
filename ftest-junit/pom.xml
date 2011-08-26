@@ -11,11 +11,11 @@
     <name>Ajocado Functional Test for JUnit</name>
 
     <dependencies>		
-	    <!-- Arquillian Ajocado Test NG-->
+	    <!-- Arquillian Ajocado JUnit-->
         <dependency>
             <groupId>org.jboss.arquillian.ajocado</groupId>
             <artifactId>arquillian-ajocado-junit</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <type>pom</type>
             <scope>test</scope>
         </dependency>
@@ -61,23 +61,15 @@
 
             <properties>
                 <!-- versioning -->
-                <version.org.jboss.jbossas>6.0.0.Final</version.org.jboss.jbossas>
-                <version.arquillian.container.jboss>1.0.0.CR1</version.arquillian.container.jboss>
+                <version.org.jboss.as>7.0.1.Final</version.org.jboss.as>
             </properties>
 
             <dependencies>
                 <dependency>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-jbossas-managed-6</artifactId>
+                    <groupId>org.jboss.as</groupId>
+                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
                     <scope>test</scope>
-                    <version>${version.arquillian.container.jboss}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.jbossas</groupId>
-                    <artifactId>jboss-as-client</artifactId>
-                    <type>pom</type>
-                    <scope>test</scope>
-                    <version>${version.org.jboss.jbossas}</version>
+                    <version>${version.org.jboss.as}</version>
                 </dependency>
             </dependencies>
 
@@ -108,9 +100,9 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>org.jboss.jbossas</groupId>
-                                            <artifactId>jboss-as-distribution</artifactId>
-                                            <version>${version.org.jboss.jbossas}</version>
+                                            <groupId>org.jboss.as</groupId>
+                                            <artifactId>jboss-as-dist</artifactId>
+                                            <version>${version.org.jboss.as}</version>
                                             <type>zip</type>
                                             <overWrite>false</overWrite>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
