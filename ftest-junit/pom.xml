@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,8 +11,8 @@
     <artifactId>arquillian-ajocado-ftest-junit</artifactId>
     <name>Ajocado Functional Test for JUnit</name>
 
-    <dependencies>		
-	    <!-- Arquillian Ajocado Test NG-->
+    <dependencies>
+        <!-- Arquillian Ajocado Test NG -->
         <dependency>
             <groupId>org.jboss.arquillian.ajocado</groupId>
             <artifactId>arquillian-ajocado-junit</artifactId>
@@ -124,55 +125,16 @@
             </build>
 
         </profile>
+        
         <profile>
             <id>jenkins</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>enforce-files-exist</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireFilesExist>
-                                            <files>
-                                                <file>${basedir}/../../qa/richfaces-arquillian-xml-property-resolver/target/conf/arquillian.xml</file>
-                                            </files>
-                                            <message>Pre-prepared arquillian.xml must exists in ${basedir}/../../qa/richfaces-arquillian-xml-property-resolver/target/conf/ !</message>
-                                        </requireFilesExist>
-                                    </rules>
-                                    <fail>true</fail>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                     <plugin>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.5</version>
-                        <executions>
-                            <execution>
-                                <id>copy-resources</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${basedir}/src/test/resources</outputDirectory>
-                                    <overwrite>true</overwrite>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/../../qa/richfaces-arquillian-xml-property-resolver/target/conf</directory>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
