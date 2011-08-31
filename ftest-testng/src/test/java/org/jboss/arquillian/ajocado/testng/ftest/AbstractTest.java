@@ -56,9 +56,7 @@ public class AbstractTest extends Arquillian {
 
     @BeforeMethod
     protected void openContext() {
-        
-    	selenium.getCommandInterceptionProxy().registerInterceptor(new AjaxAwareInterceptor());
-    	
+
     	selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
     }
 }
