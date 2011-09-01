@@ -76,7 +76,7 @@
         <!-- Selenium dependencies -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-remote-control</artifactId>
+            <artifactId>selenium-java</artifactId>
             <scope>provided</scope>
         </dependency>
       
@@ -174,7 +174,7 @@
                 </dependency>
                 <dependency>
                     <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-remote-control</artifactId>
+                    <artifactId>selenium-java</artifactId>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
