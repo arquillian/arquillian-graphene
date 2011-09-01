@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.arquillian.ajocado</groupId>
@@ -81,7 +82,7 @@
         
         <!-- Versioning -->
         <version.arquillian.core>1.0.0.CR4</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.CR1</version.arquillian.drone>
+        <version.arquillian.drone>1.0.0.CR2</version.arquillian.drone>
     </properties>
 
     <build>
@@ -169,7 +170,7 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.9</version>
-                </plugin>    
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -193,7 +194,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
