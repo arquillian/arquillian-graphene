@@ -57,7 +57,9 @@ Ajocado.XHRWrapper.prototype.setRequestHeader = function(name, value) {
 };
 
 Ajocado.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
-	return this.onreadystatechange.call(this.xhr, event);
+	if (this.onreadystatechange) {
+		return this.onreadystatechange.call(this.xhr, event);
+	}
 }
 
 if (window.ActiveXObject) {
@@ -117,7 +119,7 @@ if (window.ActiveXObject) {
 				self.status       = this.status;
 				self.statusText   = this.statusText;
 			}
-			if (self.onreadystatechange) self.onreadystatechangeCallback(event);
+			self.onreadystatechangeCallback(event);
 		};
 	};
 
