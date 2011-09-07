@@ -30,6 +30,8 @@
         <version.cdi>1.0-SP1</version.cdi>
         <version.jsf>2.0.2-FCS</version.jsf>
         <version.el>2.2</version.el>
+        
+        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
     </properties>
 
     <!-- Dependencies -->

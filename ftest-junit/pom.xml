@@ -11,6 +11,10 @@
     <artifactId>arquillian-ajocado-ftest-junit</artifactId>
     <name>Ajocado Functional Test for JUnit</name>
 
+    <properties>
+        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+    </properties>
+
     <dependencies>
         <!-- Arquillian Ajocado Test NG -->
         <dependency>
@@ -125,7 +129,7 @@
             </build>
 
         </profile>
-        
+
         <profile>
             <id>jenkins</id>
             <build>
