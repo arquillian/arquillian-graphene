@@ -14,7 +14,7 @@
     <description>Starting point for integration Ajocado to JUnit test suites</description>
 
     <properties>
-        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <dependencies>

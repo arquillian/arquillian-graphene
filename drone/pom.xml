@@ -31,7 +31,7 @@
         <version.jsf>2.0.2-FCS</version.jsf>
         <version.el>2.2</version.el>
         
-        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <!-- Dependencies -->

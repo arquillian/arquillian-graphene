@@ -14,7 +14,7 @@
     <name>Ajocado TestNG Integration</name>
 
     <properties>
-        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <dependencies>

@@ -14,7 +14,7 @@
     <description>Interface for integrating and extending Ajocado by another projects</description>
 
     <properties>
-        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
     
     <build>

@@ -14,7 +14,7 @@
     <name>Ajocado Build Resources</name>
 
     <properties>
-        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+        <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <build>

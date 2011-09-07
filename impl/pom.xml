@@ -16,7 +16,7 @@
     <description>Testing Ajax with flavour of sexy type-safe API</description>
 
     <properties>
-        <topLevelProject.relativePath>../..</topLevelProject.relativePath>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <dependencies>
