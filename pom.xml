@@ -82,7 +82,7 @@
 
         <!-- Versioning -->
         <version.arquillian.core>1.0.0.CR1</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.CR1</version.arquillian.drone>
+        <version.arquillian.drone>1.0.0.CR2</version.arquillian.drone>
         <version.shrinkwrap>1.0.0-beta-3</version.shrinkwrap>
 
         <arquillian.conf.relativePath>qa/richfaces-arquillian-xml-property-resolver/target/conf</arquillian.conf.relativePath>

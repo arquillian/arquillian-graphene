@@ -38,8 +38,8 @@
     </container>
 
     <extension qualifier="selenium-server">
-        <property name="enable">true</property>
-    </extension>
+	<property name="browserSessionReuse">true</property>        
+   </extension>
 
     <extension qualifier="ajocado">
         <property name="browser">*firefox</property>

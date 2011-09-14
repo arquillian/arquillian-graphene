@@ -38,7 +38,7 @@
     </container>
 
     <extension qualifier="selenium-server">
-        <property name="enable">true</property>
+        <property name="browserSessionReuse">true</property>
     </extension>
 
     <extension qualifier="ajocado">
