@@ -81,7 +81,7 @@
         <useReleaseProfile>true</useReleaseProfile>
         
         <!-- Versioning -->
-        <version.arquillian.core>1.0.0.CR4</version.arquillian.core>
+        <version.arquillian.core>1.0.0.CR5</version.arquillian.core>
         <version.arquillian.drone>1.0.0.CR2</version.arquillian.drone>
     </properties>
 
