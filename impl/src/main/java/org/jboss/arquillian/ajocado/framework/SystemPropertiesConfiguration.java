@@ -132,4 +132,13 @@ public class SystemPropertiesConfiguration implements AjocadoConfiguration {
 
         return asLong(seleniumTimeout);
     }
+
+    /*
+     * (non-Javadoc)
+     * @see org.jboss.arquillian.ajocado.framework.AjocadoConfiguration#getStartParameters()
+     */
+    @Override
+    public String getStartParameters() {
+        return System.getProperty("selenium.start.parameters", null);
+    }
 }
