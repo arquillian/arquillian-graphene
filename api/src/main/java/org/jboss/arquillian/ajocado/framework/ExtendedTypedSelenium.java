@@ -45,27 +45,6 @@ public interface ExtendedTypedSelenium extends TypedSelenium {
     boolean isStarted();
 
     /**
-     * <p>
-     * Configures if the network traffic should be recorded for Selenium session.
-     * </p>
-     *
-     * <p>
-     * Have to be configured before the start of the Selenium session.
-     * </p>
-     *
-     * @param networkTrafficCapturingEnabled
-     *            whether the network traffic should be recorded or not
-     */
-    void enableNetworkTrafficCapturing(boolean networkTrafficCapturingEnabled);
-
-    /**
-     * Returns whether the network traffic should be recorded or not
-     *
-     * @return whether the network traffic should be recorded or not
-     */
-    boolean isNetworkTrafficCapturingEnabled();
-
-    /**
      * Get current style value of element given by locator.
      *
      * @param <R>

@@ -67,6 +67,8 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
     private boolean seleniumDebug = false;
 
     private boolean seleniumNetworkTrafficEnabled = false;
+    
+    private String startParameters;
 
     private int seleniumSpeed = 0;
 
@@ -285,6 +287,25 @@ public class ArquillianAjocadoConfiguration implements AjocadoConfiguration,
     }
 
     /**
+     * Returns the selenium startup parameters (as required by Selenium#start(String) method).
+     * 
+     * @return the selenium startup parameters (as required by Selenium#start(String) method).
+     */
+    @Override
+    public String getStartParameters() {
+    	return startParameters;
+    }
+    
+    /**
+     * Setups the selenium startup parameters (as required by Selenium#start(String) method).
+     * 
+     * @param startParameters selenium startup parameters (as required by Selenium#start(String) method).
+     */
+    public void setStartParameters(String startParameters) {
+		this.startParameters = startParameters;
+	}
+
+	/**
      * @return the seleniumTimeoutDefault
      */
     public long getSeleniumTimeoutDefault() {

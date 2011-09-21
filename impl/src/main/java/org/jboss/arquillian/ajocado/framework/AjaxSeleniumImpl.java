@@ -157,7 +157,6 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
 
     @Override
     public void initializeBrowser() {
-        this.enableNetworkTrafficCapturing(configuration.isSeleniumNetworkTrafficEnabled());
         this.start();
     }
 

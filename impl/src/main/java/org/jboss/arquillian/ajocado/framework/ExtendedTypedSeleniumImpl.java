@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.jboss.arquillian.ajocado.browser.BrowserType;
 import org.jboss.arquillian.ajocado.css.CssResolver;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
@@ -42,7 +43,6 @@ import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements ExtendedTypedSelenium {
 
     private boolean started = false;
-    private boolean networkTrafficCapturingEnabled = false;
 
     protected ExtendedSelenium getExtendedSelenium() {
         if (selenium instanceof ExtendedSelenium) {
@@ -69,12 +69,31 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
      */
     @Override
     public void start() {
-        List<String> parameters = new LinkedList<String>();
-        if (networkTrafficCapturingEnabled) {
-            parameters.add("captureNetworkTraffic=true");
-        }
+        List<String> parameters = getDerivedParameters();
         selenium.start(StringUtils.join(parameters, ","));
         started = true;
+    }
+
+    private List<String> getDerivedParameters() {
+        List<String> parameters = new LinkedList<String>();
+
+        // network traffic enabled
+        if (configuration.isSeleniumNetworkTrafficEnabled()) {
+            parameters.add("captureNetworkTraffic=true");
+        }
+
+        // browser is of type chrome (http://seleniumhq.org/docs/05_selenium_rc.html)
+        if (BrowserType.GOOGLE_CHROME == configuration.getBrowser().getType()) {
+            parameters.add("commandLineFlags=--disable-web-security");
+        }
+
+        // other user-defined start parameters
+        String startParameters = configuration.getStartParameters();
+        if (startParameters != null && !startParameters.isEmpty()) {
+            parameters.add(startParameters);
+        }
+
+        return parameters;
     }
 
     /*
@@ -86,26 +105,6 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     public void stop() {
         super.stop();
         started = false;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#enableNetworkTrafficCapturing(boolean)
-     */
-    @Override
-    public void enableNetworkTrafficCapturing(boolean networkTrafficCapturingEnabled) {
-        this.networkTrafficCapturingEnabled = networkTrafficCapturingEnabled;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#isNetworkTrafficCapturingEnabled()
-     */
-    @Override
-    public boolean isNetworkTrafficCapturingEnabled() {
-        return networkTrafficCapturingEnabled;
     }
 
     /*
