@@ -81,6 +81,11 @@ public interface AjocadoConfiguration extends Cloneable, Serializable {
      * @return if the network traffic should be captured during the selenium session.
      */
     boolean isSeleniumNetworkTrafficEnabled();
+    /**
+     * Returns the selenium startup parameters (as required by Selenium#start(String) method).
+     * @return the selenium startup parameters (as required by Selenium#start(String) method).
+     */
+    String getStartParameters();
 
     /**
      * Returns the predefined timeout for given type.
