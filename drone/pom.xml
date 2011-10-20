@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!-- Parent -->
     <parent>
@@ -29,10 +30,12 @@
         <version.cdi>1.0-SP1</version.cdi>
         <version.jsf>2.0.2-FCS</version.jsf>
         <version.el>2.2</version.el>
+        
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <!-- Dependencies -->
-    <dependencies>    
+    <dependencies>
         <!-- Ajocado dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.ajocado</groupId>
@@ -58,7 +61,7 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-configuration</artifactId>
         </dependency>
-  
+
         <!-- Arquillian dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>
@@ -72,14 +75,14 @@
             <groupId>org.jboss.arquillian.config</groupId>
             <artifactId>arquillian-config-api</artifactId>
         </dependency>
-      
+
         <!-- Selenium dependencies -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <scope>provided</scope>
         </dependency>
-      
+
         <!-- required to create selenium instances -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -226,10 +229,21 @@
                     </plugin>
                 </plugins>
             </build>
-
-
         </profile>
 
+        <profile>
+            <id>jenkins</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 </project>

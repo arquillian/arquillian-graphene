@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -14,9 +15,13 @@
     <name>Ajocado Implementation</name>
     <description>Testing Ajax with flavour of sexy type-safe API</description>
 
+    <properties>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
+    </properties>
+
     <dependencies>
 
-		<!-- Runtime dependencies -->
+        <!-- Runtime dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.ajocado</groupId>
             <artifactId>arquillian-ajocado-api</artifactId>
@@ -43,7 +48,7 @@
             <artifactId>javassist</artifactId>
         </dependency>
 
-		<!-- Test dependencies -->
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

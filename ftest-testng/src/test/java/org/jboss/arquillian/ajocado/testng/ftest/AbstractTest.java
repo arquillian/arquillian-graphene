@@ -24,6 +24,7 @@ package org.jboss.arquillian.ajocado.testng.ftest;
 import java.io.File;
 import java.net.URL;
 
+import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -55,6 +56,7 @@ public class AbstractTest extends Arquillian {
 
     @BeforeMethod
     protected void openContext() {
-        selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
+
+    	selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
     }
 }

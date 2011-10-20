@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,8 +11,12 @@
     <artifactId>arquillian-ajocado-ftest-junit</artifactId>
     <name>Ajocado Functional Test for JUnit</name>
 
-    <dependencies>		
-	    <!-- Arquillian Ajocado JUnit-->
+    <properties>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
+    </properties>
+
+    <dependencies>
+        <!-- Arquillian Ajocado JUnit -->
         <dependency>
             <groupId>org.jboss.arquillian.ajocado</groupId>
             <artifactId>arquillian-ajocado-junit</artifactId>
@@ -19,7 +24,6 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -115,6 +119,20 @@
                 </plugins>
             </build>
 
+        </profile>
+
+        <profile>
+            <id>jenkins</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
     </profiles>
