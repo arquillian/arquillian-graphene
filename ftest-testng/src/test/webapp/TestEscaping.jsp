@@ -28,5 +28,6 @@
 </head>
 <body>
     <p title="my paragraph's title">Tester's Paragraph</p>
+    <div id="foo:bar">Testers's div</div>
 </body>
 </html>
