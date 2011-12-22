@@ -48,6 +48,7 @@ public class EscapingTestCase extends SampleApplication {
     String paragraphTitle = "my paragraph's title";
 
     JQueryLocator paragraph = jq("p:contains('" + paragraphText + "')");
+    JQueryLocator div = jq("div[id=foo:bar]");
     TextRetriever retrieveParagraphText = retrieveText.locator(paragraph);
     AttributeRetriever retrieveParagraphTitle = retrieveAttribute.attributeLocator(paragraph
         .getAttribute(Attribute.TITLE));
@@ -69,5 +70,11 @@ public class EscapingTestCase extends SampleApplication {
         openContext();
         Assert.assertTrue(selenium.isElementPresent(paragraph));
         Assert.assertEquals(waitGui.waitForChangeAndReturn("unknown", retrieveParagraphTitle), paragraphTitle);
+    }
+    
+    @Test
+    public void testEscapingLocatorAttribute() {
+    	
+    	Assert.assertTrue("Wrong escaping of locator when using not permitted chars!", selenium.isElementPresent(div));
     }
 }
