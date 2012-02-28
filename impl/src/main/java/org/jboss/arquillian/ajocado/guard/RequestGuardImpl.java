@@ -23,11 +23,11 @@ package org.jboss.arquillian.ajocado.guard;
 
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
@@ -53,9 +53,9 @@ public class RequestGuardImpl implements RequestGuard {
     /**
      * Proxy for thread local context of AjaxSelenium
      */
-    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    private GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
-    private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    private GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
     /**
      * Obtains the done requestType from page.

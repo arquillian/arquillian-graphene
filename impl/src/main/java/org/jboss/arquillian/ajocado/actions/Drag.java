@@ -23,8 +23,8 @@ package org.jboss.arquillian.ajocado.actions;
 
 import static org.jboss.arquillian.ajocado.Ajocado.waitGui;
 
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Point;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
@@ -62,7 +62,7 @@ public class Drag {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    private GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
     /** The point. */
     private Point currentDelta;

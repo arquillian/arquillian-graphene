@@ -27,11 +27,11 @@ import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 import org.jboss.arquillian.ajocado.command.CommandContext;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -47,9 +47,9 @@ public class RequestGuardInterceptor implements CommandInterceptor {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    private GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
-    private AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    private GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
     /**
      * The request what is expected to be done

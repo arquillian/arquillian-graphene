@@ -26,9 +26,9 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
 
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
@@ -45,12 +45,12 @@ public class TestAjocado {
     private static final int LOOPS = 8;
 
     @Mock
-    AjocadoConfiguration configuration;
+    GrapheneConfiguration configuration;
 
     @BeforeMethod
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
-        AjocadoConfigurationContext.set(configuration);
+        GrapheneConfigurationContext.set(configuration);
     }
 
     @Test

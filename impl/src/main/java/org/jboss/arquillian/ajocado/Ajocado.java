@@ -21,8 +21,8 @@
  */
 package org.jboss.arquillian.ajocado;
 
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.WaitingProxy;
 import org.jboss.arquillian.ajocado.guard.RequestGuardFactory;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
@@ -104,7 +104,7 @@ public final class Ajocado {
      *            where should be registered no request guard
      * @return the selenium guarded to use no request during interaction
      */
-    public static AjaxSelenium guardNoRequest(AjaxSelenium selenium) {
+    public static GrapheneSelenium guardNoRequest(GrapheneSelenium selenium) {
         return RequestGuardFactory.guard(selenium, RequestType.NONE);
     }
 
@@ -115,7 +115,7 @@ public final class Ajocado {
      *            where should be registered regular HTTP request guard
      * @return the selenium guarded to use regular HTTP requests
      */
-    public static AjaxSelenium guardHttp(AjaxSelenium selenium) {
+    public static GrapheneSelenium guardHttp(GrapheneSelenium selenium) {
         return RequestGuardFactory.guard(selenium, RequestType.HTTP);
     }
 
@@ -126,7 +126,7 @@ public final class Ajocado {
      *            where should be registered XMLHttpRequest guard
      * @return the selenium guarded to use XMLHttpRequest
      */
-    public static AjaxSelenium guardXhr(AjaxSelenium selenium) {
+    public static GrapheneSelenium guardXhr(GrapheneSelenium selenium) {
         return RequestGuardFactory.guard(selenium, RequestType.XHR);
     }
 
@@ -137,7 +137,7 @@ public final class Ajocado {
      *            selenium where should be the guard registered
      * @return the selenium waitinf for interception of HTTP type request
      */
-    public static AjaxSelenium waitForHttp(AjaxSelenium selenium) {
+    public static GrapheneSelenium waitForHttp(GrapheneSelenium selenium) {
         return RequestGuardFactory.guardInterlayed(selenium, RequestType.HTTP);
     }
 
@@ -148,7 +148,7 @@ public final class Ajocado {
      *            where should be the guard registered
      * @return the selenium waiting for interception of XHR type request
      */
-    public static AjaxSelenium waitForXhr(AjaxSelenium selenium) {
+    public static GrapheneSelenium waitForXhr(GrapheneSelenium selenium) {
         return RequestGuardFactory.guardInterlayed(selenium, RequestType.XHR);
     }
 

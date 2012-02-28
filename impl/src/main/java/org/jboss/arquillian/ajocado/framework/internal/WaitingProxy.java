@@ -28,9 +28,9 @@ import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
 
 /**
@@ -42,7 +42,7 @@ import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
  */
 public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler {
 
-    AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
     T waiting;
     TimeoutType timeoutType;

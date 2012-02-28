@@ -31,7 +31,7 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorProxy;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorProxyImpl;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.AjocadoInitializator;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
@@ -56,7 +56,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxSelenium, AjocadoInitializator {
+public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, AjocadoInitializator {
 
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;
@@ -146,7 +146,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements AjaxS
      * @see java.lang.Object#clone()
      */
     @Override
-    public AjaxSelenium clone() {
+    public GrapheneSelenium clone() {
         AjaxSeleniumImpl copy = new AjaxSeleniumImpl();
         copy.pageExtensions = new PageExtensionsImpl();
         copy.seleniumExtensions = new SeleniumExtensionsImpl();

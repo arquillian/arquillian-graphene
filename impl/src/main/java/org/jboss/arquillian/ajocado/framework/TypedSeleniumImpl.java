@@ -41,7 +41,7 @@ import org.jboss.arquillian.ajocado.cookie.CookieDeleteOptions;
 import org.jboss.arquillian.ajocado.cookie.CookieOptions;
 import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.dom.Event;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.internal.UnsupportedTypedSelenium;
 import org.jboss.arquillian.ajocado.geometry.Dimension;
 import org.jboss.arquillian.ajocado.geometry.Offset;
@@ -75,7 +75,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     Selenium selenium;
 
-    AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
     private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
         Integer.class) {

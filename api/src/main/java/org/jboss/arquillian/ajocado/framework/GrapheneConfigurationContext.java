@@ -28,7 +28,7 @@ import java.lang.reflect.Proxy;
 
 /**
  * <p>
- * Context for keeping thread local context of {@link AjaxSelenium}.
+ * Context for keeping thread local context of {@link GrapheneConfiguration}.
  * </p>
  *
  * <p>
@@ -36,64 +36,63 @@ import java.lang.reflect.Proxy;
  * </p>
  *
  * <p>
- * Proxy specifically handles the situations when no context is set - in this situation, runtime exception with
- * IllegalStateException cause is thrown.
+ * All methods on returned proxy will be invoked on AjocadoConfiguration instance associated with current thread.
  * </p>
  *
  * <p>
- * Especially, the {@link AjaxSelenium#isStarted()} method is handled in that situation, it returns false instead of
- * throwing exception. Therefore it can be safely used for obtaining current status of Selenium initialization.
+ * Proxy specifically handles the situations when no context is set - in this situation, IllegalStateException is
+ * thrown.
  * </p>
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class AjaxSeleniumContext implements InvocationHandler {
+public final class GrapheneConfigurationContext implements InvocationHandler {
 
     /**
-     * The thread local context of AjaxSelenium
+     * The thread local context of AjocadoConfiguration
      */
-    private static final ThreadLocal<AjaxSelenium> REFERENCE = new ThreadLocal<AjaxSelenium>();
+    private static final ThreadLocal<GrapheneConfiguration> REFERENCE = new ThreadLocal<GrapheneConfiguration>();
 
-    private AjaxSeleniumContext() {
+    private GrapheneConfigurationContext() {
     }
 
     /**
-     * Sets the AjaxSelenium context for current thread
+     * Sets the AjocadoConfiguration context for current thread
      *
-     * @param selenium
-     *            the AjaxSelenium instance
+     * @param configuration
+     *            the AjocadoConfiguration instance
      */
-    public static void set(AjaxSelenium selenium) {
-        REFERENCE.set(selenium);
+    public static void set(GrapheneConfiguration configuration) {
+        REFERENCE.set(configuration);
     }
 
     /**
-     * Returns the context of AjaxSelenium for current thread
+     * Returns the context of AjocadoConfiguration for current thread
      *
-     * @return the context of AjaxSelenium for current thread
+     * @return the context of AjocadoConfiguration for current thread
      */
-    private static AjaxSelenium get() {
+    private static GrapheneConfiguration get() {
         return REFERENCE.get();
     }
 
     /**
-     * Returns true of the context is initialized
+     * Returns true if configuration context is associated with current thread.
      *
-     * @return true of the context is initialized
+     * @return true if configuration context is associated with current thread, false otherwise.
      */
     public static boolean isInitialized() {
         return get() != null;
     }
 
     /**
-     * Returns the instance of proxy to thread local context of AjaxSelenium
+     * Returns the instance of proxy to thread local context of AjocadoConfiguration
      *
-     * @return the instance of proxy to thread local context of AjaxSelenium
+     * @return the instance of proxy to thread local context of AjocadoConfiguration
      */
-    public static AjaxSelenium getProxy() {
-        return (AjaxSelenium) Proxy.newProxyInstance(AjaxSelenium.class.getClassLoader(),
-            new Class[] { AjaxSelenium.class }, new AjaxSeleniumContext());
+    public static GrapheneConfiguration getProxy() {
+        return (GrapheneConfiguration) Proxy.newProxyInstance(GrapheneConfigurationContext.class.getClassLoader(),
+            new Class[] { GrapheneConfiguration.class }, new GrapheneConfigurationContext());
     }
 
     /**
@@ -102,14 +101,10 @@ public final class AjaxSeleniumContext implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
+        if (!isInitialized()) {
+            throw new IllegalStateException("AjocadoConfigurationContext is not initialized");
+        }
         try {
-            if (!isInitialized()) {
-                if (method.getName().equals("isStarted")) {
-                    return false;
-                } else {
-                    throw new IllegalStateException("AjaxSeleniumContext is not initialized");
-                }
-            }
             result = method.invoke(get(), args);
         } catch (InvocationTargetException e) {
             throw e.getCause();

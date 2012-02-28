@@ -25,8 +25,8 @@ import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import java.util.List;
 
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.PageExtensions;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.Wait;
@@ -51,7 +51,7 @@ public class PageExtensionsImpl implements PageExtensions {
     final JavaScript isAjocadoPageUndefined = js("Ajocado === undefined || Ajocado.getPage() === undefined");
 
     /** The associated selenium object. */
-    AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
     /**
      * Install.

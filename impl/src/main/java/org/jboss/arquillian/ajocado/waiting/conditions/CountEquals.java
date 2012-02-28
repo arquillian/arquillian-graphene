@@ -27,8 +27,8 @@ import static org.jboss.arquillian.ajocado.locator.element.ElementLocationStrate
 import static org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy.XPATH;
 
 import org.apache.commons.lang.Validate;
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
@@ -52,7 +52,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
     /**
      * Proxy to local selenium instance
      */
-    private AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    private GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
     /** The element locator. */
     private IterableLocator<?> iterableLocator;

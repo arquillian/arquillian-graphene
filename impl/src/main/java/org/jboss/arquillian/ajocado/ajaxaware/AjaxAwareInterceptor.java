@@ -28,9 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.command.CommandContext;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.jboss.arquillian.ajocado.waiting.Waiting;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -50,7 +50,7 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
             + " details from the log window.  The error message is: Permission denied",
         "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
 
-    private final AjocadoConfiguration configuration = AjocadoConfigurationContext.getProxy();
+    private final GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
     private final Waiting<?> wait = waitAjax;
 

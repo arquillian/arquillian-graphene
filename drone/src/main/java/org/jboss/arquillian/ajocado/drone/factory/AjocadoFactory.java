@@ -19,10 +19,10 @@ package org.jboss.arquillian.ajocado.drone.factory;
 import java.lang.annotation.Annotation;
 
 import org.jboss.arquillian.ajocado.drone.configuration.ArquillianAjocadoConfiguration;
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
-import org.jboss.arquillian.ajocado.framework.AjocadoConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.jboss.arquillian.ajocado.framework.internal.AjocadoInitializator;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.spi.Configurator;
@@ -31,13 +31,13 @@ import org.jboss.arquillian.drone.spi.Instantiator;
 
 /**
  * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado
- * browser object called {@link AjaxSelenium}.
+ * browser object called {@link GrapheneSelenium}.
  *
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
  *
  */
-public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjocadoConfiguration>,
-    Instantiator<AjaxSelenium, ArquillianAjocadoConfiguration>, Destructor<AjaxSelenium> {
+public class AjocadoFactory implements Configurator<GrapheneSelenium, ArquillianAjocadoConfiguration>,
+    Instantiator<GrapheneSelenium, ArquillianAjocadoConfiguration>, Destructor<GrapheneSelenium> {
 
     /*
      * (non-Javadoc)
@@ -55,8 +55,8 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
      * @see org.jboss.arquillian.selenium.spi.Destructor#destroyInstance(java.lang .Object)
      */
     @Override
-    public void destroyInstance(AjaxSelenium instance) {
-        AjaxSeleniumContext.set(null);
+    public void destroyInstance(GrapheneSelenium instance) {
+        GrapheneSeleniumContext.set(null);
         if (instance instanceof AjocadoInitializator) {
             ((AjocadoInitializator) instance).finalizeBrowser();
         }
@@ -68,10 +68,10 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
      * @see org.jboss.arquillian.selenium.spi.Instantiator#createInstance(java.lang .Object)
      */
     @Override
-    public AjaxSelenium createInstance(ArquillianAjocadoConfiguration configuration) {
+    public GrapheneSelenium createInstance(ArquillianAjocadoConfiguration configuration) {
         AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(),
             configuration.getSeleniumPort(), configuration.getBrowser(), configuration.getContextRoot());
-        AjaxSeleniumContext.set(selenium);
+        GrapheneSeleniumContext.set(selenium);
 
         selenium.initializeBrowser();
         selenium.initializeSeleniumExtensions();
@@ -92,7 +92,7 @@ public class AjocadoFactory implements Configurator<AjaxSelenium, ArquillianAjoc
         Class<? extends Annotation> qualifier) {
         ArquillianAjocadoConfiguration configuration = new ArquillianAjocadoConfiguration();
         configuration.configure(descriptor, qualifier);
-        AjocadoConfigurationContext.set(configuration);
+        GrapheneConfigurationContext.set(configuration);
         return configuration;
     }
 

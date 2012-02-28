@@ -25,7 +25,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -38,7 +38,7 @@ import org.testng.annotations.BeforeMethod;
 public class AbstractTest extends Arquillian {
 
     @Drone
-    AjaxSelenium selenium;
+    GrapheneSelenium selenium;
 
     @ArquillianResource
     URL applicationPath;

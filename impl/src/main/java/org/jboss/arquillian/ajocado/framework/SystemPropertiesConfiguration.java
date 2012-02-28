@@ -34,7 +34,7 @@ import org.jboss.arquillian.ajocado.browser.Browser;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class SystemPropertiesConfiguration implements AjocadoConfiguration {
+public class SystemPropertiesConfiguration implements GrapheneConfiguration, AjocadoConfiguration {
 
     private static final long serialVersionUID = -660236743676985887L;
 

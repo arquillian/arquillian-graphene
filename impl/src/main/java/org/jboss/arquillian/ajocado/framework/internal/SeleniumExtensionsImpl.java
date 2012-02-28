@@ -26,8 +26,8 @@ import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import java.util.List;
 
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.SeleniumExtensions;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 
@@ -42,7 +42,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     /**
      * The associated AjaxSelenium object
      */
-    AjaxSelenium selenium = AjaxSeleniumContext.getProxy();
+    GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
     /*
      * JavaScript definitions for this object

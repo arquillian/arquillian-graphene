@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.guard;
 
-import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 /**
@@ -45,12 +45,12 @@ public final class RequestGuardFactory {
      *            type
      * @return the selenium guarded to use XMLHttpRequest
      */
-    public static AjaxSelenium guard(AjaxSelenium selenium, RequestType requestExpected) {
+    public static GrapheneSelenium guard(GrapheneSelenium selenium, RequestType requestExpected) {
         if (requestExpected == null) {
             return selenium;
         }
 
-        AjaxSelenium copy = selenium.clone();
+        GrapheneSelenium copy = selenium.clone();
         copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestGuardInterceptor.class);
         copy.getCommandInterceptionProxy().registerInterceptor(new RequestGuardInterceptor(requestExpected, false));
         return copy;
@@ -70,8 +70,8 @@ public final class RequestGuardFactory {
      *            the request type to be guarded
      * @return the selenium guarded to use XMLHttpRequest
      */
-    public static AjaxSelenium guardInterlayed(AjaxSelenium selenium, RequestType requestExpected) {
-        AjaxSelenium copy = selenium.clone();
+    public static GrapheneSelenium guardInterlayed(GrapheneSelenium selenium, RequestType requestExpected) {
+        GrapheneSelenium copy = selenium.clone();
         copy.getCommandInterceptionProxy().unregisterInterceptorType(RequestGuardInterceptor.class);
         copy.getCommandInterceptionProxy().registerInterceptor(new RequestGuardInterceptor(requestExpected, true));
         return copy;
