@@ -48,7 +48,7 @@ import org.junit.runner.RunWith;
 /**
  * Tests Arquillian Drone extension against Weld Login example.
  *
- * Uses Ajocado driver bound to Firefox browser.
+ * Uses Graphene driver bound to Firefox browser.
  *
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  *

@@ -30,7 +30,7 @@ import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
 import org.jboss.arquillian.drone.spi.DroneConfiguration;
 
 /**
- * Configuration for Arquillian Ajocado. This configuration can be fetched from Arquillian Descriptor and overridden by
+ * Configuration for Arquillian Graphene. This configuration can be fetched from Arquillian Descriptor and overridden by
  * System properties.
  *
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
@@ -81,7 +81,7 @@ public class ArquillianGrapheneConfiguration implements GrapheneConfiguration,
     private long seleniumTimeoutModel = 30000;
 
     /**
-     * Creates default Arquillian Ajocado Configuration
+     * Creates default Arquillian GrapheneConfiguration Configuration
      */
     public ArquillianGrapheneConfiguration() {
         initContextRoot();
@@ -384,8 +384,8 @@ public class ArquillianGrapheneConfiguration implements GrapheneConfiguration,
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.framework.AjocadoConfiguration#getTimeout
-     * (org.jboss.arquillian.ajocado.framework.AjocadoConfiguration.TimeoutType)
+     * @see org.jboss.arquillian.ajocado.framework.GrapheneConfiguration#getTimeout
+     * (org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType)
      */
     @Override
     public long getTimeout(TimeoutType type) {

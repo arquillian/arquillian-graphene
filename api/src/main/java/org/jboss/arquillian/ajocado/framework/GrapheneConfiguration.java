@@ -26,7 +26,7 @@ import java.io.Serializable;
 import org.jboss.arquillian.ajocado.browser.Browser;
 
 /**
- * The runtime configuration of Ajocado test.
+ * The runtime configuration of Graphene test.
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$

@@ -41,7 +41,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getBrowser()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#getBrowser()
      */
     @Override
     public Browser getBrowser() {
@@ -53,7 +53,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumHost()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#getSeleniumHost()
      */
     @Override
     public String getSeleniumHost() {
@@ -65,7 +65,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumPort()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#getSeleniumPort()
      */
     @Override
     public int getSeleniumPort() {
@@ -77,7 +77,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumMaximize()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#isSeleniumMaximize()
      */
     @Override
     public boolean isSeleniumMaximize() {
@@ -87,7 +87,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumDebug()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#isSeleniumDebug()
      */
     @Override
     public boolean isSeleniumDebug() {
@@ -97,7 +97,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumSpeed()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#getSeleniumSpeed()
      */
     @Override
     public int getSeleniumSpeed() {
@@ -107,7 +107,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#isSeleniumNetworkTrafficEnabled()
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#isSeleniumNetworkTrafficEnabled()
      */
     @Override
     public boolean isSeleniumNetworkTrafficEnabled() {
@@ -117,7 +117,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
     /*
      * (non-Javadoc)
      *
-     * @see org.jboss.arquillian.ajocado.AjocadoConfiguration#getSeleniumTimeout(org.jboss.arquillian.ajocado.
+     * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#getSeleniumTimeout(org.jboss.arquillian.ajocado.
      * AjocadoConfigurationImpl.SeleniumTimeoutType)
      */
     @Override
@@ -135,7 +135,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
 
     /*
      * (non-Javadoc)
-     * @see org.jboss.arquillian.ajocado.framework.AjocadoConfiguration#getStartParameters()
+     * @see org.jboss.arquillian.ajocado.framework.GrapheneConfiguration#getStartParameters()
      */
     @Override
     public String getStartParameters() {

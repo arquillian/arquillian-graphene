@@ -36,7 +36,7 @@ import java.lang.reflect.Proxy;
  * </p>
  *
  * <p>
- * All methods on returned proxy will be invoked on AjocadoConfiguration instance associated with current thread.
+ * All methods on returned proxy will be invoked on GrapheneConfiguration instance associated with current thread.
  * </p>
  *
  * <p>
@@ -50,7 +50,7 @@ import java.lang.reflect.Proxy;
 public final class GrapheneConfigurationContext implements InvocationHandler {
 
     /**
-     * The thread local context of AjocadoConfiguration
+     * The thread local context of GrapheneConfiguration
      */
     private static final ThreadLocal<GrapheneConfiguration> REFERENCE = new ThreadLocal<GrapheneConfiguration>();
 
@@ -58,19 +58,19 @@ public final class GrapheneConfigurationContext implements InvocationHandler {
     }
 
     /**
-     * Sets the AjocadoConfiguration context for current thread
+     * Sets the GrapheneConfiguration context for current thread
      *
      * @param configuration
-     *            the AjocadoConfiguration instance
+     *            the GrapheneConfiguration instance
      */
     public static void set(GrapheneConfiguration configuration) {
         REFERENCE.set(configuration);
     }
 
     /**
-     * Returns the context of AjocadoConfiguration for current thread
+     * Returns the context of GrapheneConfiguration for current thread
      *
-     * @return the context of AjocadoConfiguration for current thread
+     * @return the context of GrapheneConfiguration for current thread
      */
     private static GrapheneConfiguration get() {
         return REFERENCE.get();
@@ -86,9 +86,9 @@ public final class GrapheneConfigurationContext implements InvocationHandler {
     }
 
     /**
-     * Returns the instance of proxy to thread local context of AjocadoConfiguration
+     * Returns the instance of proxy to thread local context of GrapheneConfiguration
      *
-     * @return the instance of proxy to thread local context of AjocadoConfiguration
+     * @return the instance of proxy to thread local context of GrapheneConfiguration
      */
     public static GrapheneConfiguration getProxy() {
         return (GrapheneConfiguration) Proxy.newProxyInstance(GrapheneConfigurationContext.class.getClassLoader(),
@@ -102,7 +102,7 @@ public final class GrapheneConfigurationContext implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result;
         if (!isInitialized()) {
-            throw new IllegalStateException("AjocadoConfigurationContext is not initialized");
+            throw new IllegalStateException("GrapheneConfigurationContext is not initialized");
         }
         try {
             result = method.invoke(get(), args);

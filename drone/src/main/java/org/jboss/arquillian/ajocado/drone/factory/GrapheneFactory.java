@@ -30,7 +30,7 @@ import org.jboss.arquillian.drone.spi.Destructor;
 import org.jboss.arquillian.drone.spi.Instantiator;
 
 /**
- * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Ajocado
+ * Factory which combines {@link Configurator}, {@link Instantiator} and {@link Destructor} for Arquillian Graphene
  * browser object called {@link GrapheneSelenium}.
  *
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
