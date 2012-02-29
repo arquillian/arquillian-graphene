@@ -3,23 +3,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>arquillian-ajocado-parent</artifactId>
-        <groupId>org.jboss.arquillian.ajocado</groupId>
+        <artifactId>arquillian-graphene-parent</artifactId>
+        <groupId>org.jboss.arquillian.graphene</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-ajocado-ftest-junit</artifactId>
-    <name>Ajocado Functional Test for JUnit</name>
+    <artifactId>arquillian-graphene-ftest-junit</artifactId>
+    <name>Graphene Functional Test for JUnit</name>
 
     <properties>
          <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <dependencies>
-        <!-- Arquillian Ajocado JUnit -->
+        <!-- Arquillian Graphene JUnit -->
         <dependency>
-            <groupId>org.jboss.arquillian.ajocado</groupId>
-            <artifactId>arquillian-ajocado-junit</artifactId>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>arquillian-graphene-junit</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
             <scope>test</scope>
@@ -84,7 +84,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>ajocado-test</id>
+                                <id>graphene-test</id>
                                 <goals>
                                     <goal>test</goal>
                                 </goals>

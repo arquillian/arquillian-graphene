@@ -4,8 +4,8 @@
 
     <!-- Parent -->
     <parent>
-        <groupId>org.jboss.arquillian.ajocado</groupId>
-        <artifactId>arquillian-ajocado-parent</artifactId>
+        <groupId>org.jboss.arquillian.graphene</groupId>
+        <artifactId>arquillian-graphene-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -14,8 +14,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Artifact Configuration -->
-    <artifactId>arquillian-ajocado-drone</artifactId>
-    <name>Ajocado Support for Drone Extension</name>
+    <artifactId>arquillian-graphene-drone</artifactId>
+    <name>Graphene Support for Drone Extension</name>
 
     <developers>
         <developer>
@@ -36,15 +36,15 @@
 
     <!-- Dependencies -->
     <dependencies>
-        <!-- Ajocado dependencies -->
+        <!-- Graphene dependencies -->
         <dependency>
-            <groupId>org.jboss.arquillian.ajocado</groupId>
-            <artifactId>arquillian-ajocado-api</artifactId>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>arquillian-graphene-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.ajocado</groupId>
-            <artifactId>arquillian-ajocado-impl</artifactId>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>arquillian-graphene-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -195,7 +195,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>ajocado-test</id>
+                                <id>graphene-test</id>
                                 <goals>
                                     <goal>test</goal>
                                 </goals>

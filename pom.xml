@@ -2,11 +2,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.jboss.arquillian.ajocado</groupId>
-    <artifactId>arquillian-ajocado-parent</artifactId>
+    <groupId>org.jboss.arquillian.graphene</groupId>
+    <artifactId>arquillian-graphene-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Ajocado Parent</name>
+    <name>Graphene Parent</name>
     <description>Testing Ajax with flavour of sexy type-safe API</description>
     <url>http://community.jboss.org/en/arquillian/dev</url>
 
@@ -36,9 +36,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</connection>
-        <developerConnection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</developerConnection>
-        <url>https://github.com/arquillian/arquillian-ajocado</url>
+        <connection>scm:git:git@github.com:arquillian/arquillian-graphene.git</connection>
+        <developerConnection>scm:git:git@github.com:arquillian/arquillian-graphene.git</developerConnection>
+        <url>https://github.com/arquillian/arquillian-graphene</url>
     </scm>
 
     <issueManagement>
@@ -125,8 +125,8 @@
                     </executions>
                     <dependencies>
                         <dependency>
-                            <groupId>org.jboss.arquillian.ajocado</groupId>
-                            <artifactId>arquillian-ajocado-build-resources</artifactId>
+                            <groupId>org.jboss.arquillian.graphene</groupId>
+                            <artifactId>arquillian-graphene-build-resources</artifactId>
                             <version>${project.version}</version>
                         </dependency>
                     </dependencies>
@@ -137,7 +137,7 @@
                     <version>1.9.0</version>
                     <configuration>
                         <basedir>${basedir}</basedir>
-                        <header>licences/ajocado-license-header.txt</header>
+                        <header>licences/graphene-license-header.txt</header>
                         <quiet>false</quiet>
                         <failIfMissing>true</failIfMissing>
                         <strictCheck>true</strictCheck>
@@ -155,7 +155,7 @@
                     </configuration>
                     <executions>
                         <execution>
-                            <id>ajocado-license-check</id>
+                            <id>graphene-license-check</id>
                             <phase>process-sources</phase>
                             <goals>
                                 <goal>check</goal>
@@ -164,8 +164,8 @@
                     </executions>
                     <dependencies>
                         <dependency>
-                            <groupId>org.jboss.arquillian.ajocado</groupId>
-                            <artifactId>arquillian-ajocado-build-resources</artifactId>
+                            <groupId>org.jboss.arquillian.graphene</groupId>
+                            <artifactId>arquillian-graphene-build-resources</artifactId>
                             <version>${project.version}</version>
                         </dependency>
                     </dependencies>
