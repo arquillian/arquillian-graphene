@@ -34,6 +34,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 /**
+ * Tests for migration path from Ajocado specific objects to Graphene specific objects.
+ * 
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
@@ -51,12 +53,12 @@ public class TestAjocadoMigration {
     }
 
     @Test
-    public void impl_could_be_set_to_context() {
+    public void impl_can_be_set_to_context() {
         AjaxSeleniumContext.set(selenium);
     }
 
     @Test
-    public void impl_could_be_proxied() {
+    public void impl_can_be_proxied() {
         AjaxSeleniumContext.set(selenium);
         AjaxSeleniumContext.getProxy();
     }
@@ -74,12 +76,12 @@ public class TestAjocadoMigration {
     }
 
     @Test
-    public void configuration_could_be_set_to_context() {
+    public void configuration_can_be_set_to_context() {
         AjocadoConfigurationContext.set(configuration);
     }
 
     @Test
-    public void configuration_could_be_proxied() {
+    public void configuration_can_be_proxied() {
         AjocadoConfigurationContext.set(configuration);
         AjocadoConfigurationContext.getProxy();
     }
