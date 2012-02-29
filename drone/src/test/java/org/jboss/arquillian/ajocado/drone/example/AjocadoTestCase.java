@@ -30,7 +30,7 @@ import org.jboss.arquillian.ajocado.drone.example.webapp.LoggedIn;
 import org.jboss.arquillian.ajocado.drone.example.webapp.Login;
 import org.jboss.arquillian.ajocado.drone.example.webapp.User;
 import org.jboss.arquillian.ajocado.drone.example.webapp.Users;
-import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.locator.IdLocator;
 import org.jboss.arquillian.ajocado.locator.XPathLocator;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -53,10 +53,10 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(Arquillian.class)
-public class GrapheneTestCase {
+public class AjocadoTestCase {
     // load ajocado driver
     @Drone
-    GrapheneSelenium driver;
+    AjaxSelenium driver;
 
     @ArquillianResource
     URL contextPath;

@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.jboss.arquillian.ajocado.browser.Browser;
+import org.jboss.arquillian.ajocado.framework.AjocadoConfiguration;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
@@ -38,7 +39,7 @@ import org.jboss.arquillian.drone.spi.DroneConfiguration;
  * @see ConfigurationMapper
  *
  */
-public class ArquillianGrapheneConfiguration implements GrapheneConfiguration,
+public class ArquillianGrapheneConfiguration implements GrapheneConfiguration, AjocadoConfiguration,
     DroneConfiguration<ArquillianGrapheneConfiguration> {
     // serialVersionUID
     private static final long serialVersionUID = 5560505506114056625L;
