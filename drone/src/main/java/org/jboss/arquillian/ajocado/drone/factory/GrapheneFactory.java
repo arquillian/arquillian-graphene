@@ -18,12 +18,12 @@ package org.jboss.arquillian.ajocado.drone.factory;
 
 import java.lang.annotation.Annotation;
 
-import org.jboss.arquillian.ajocado.drone.configuration.ArquillianAjocadoConfiguration;
+import org.jboss.arquillian.ajocado.drone.configuration.ArquillianGrapheneConfiguration;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
-import org.jboss.arquillian.ajocado.framework.internal.AjocadoInitializator;
+import org.jboss.arquillian.ajocado.framework.internal.GrapheneInitializator;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.spi.Configurator;
 import org.jboss.arquillian.drone.spi.Destructor;
@@ -36,8 +36,8 @@ import org.jboss.arquillian.drone.spi.Instantiator;
  * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
  *
  */
-public class AjocadoFactory implements Configurator<GrapheneSelenium, ArquillianAjocadoConfiguration>,
-    Instantiator<GrapheneSelenium, ArquillianAjocadoConfiguration>, Destructor<GrapheneSelenium> {
+public class GrapheneFactory implements Configurator<GrapheneSelenium, ArquillianGrapheneConfiguration>,
+    Instantiator<GrapheneSelenium, ArquillianGrapheneConfiguration>, Destructor<GrapheneSelenium> {
 
     /*
      * (non-Javadoc)
@@ -57,8 +57,8 @@ public class AjocadoFactory implements Configurator<GrapheneSelenium, Arquillian
     @Override
     public void destroyInstance(GrapheneSelenium instance) {
         GrapheneSeleniumContext.set(null);
-        if (instance instanceof AjocadoInitializator) {
-            ((AjocadoInitializator) instance).finalizeBrowser();
+        if (instance instanceof GrapheneInitializator) {
+            ((GrapheneInitializator) instance).finalizeBrowser();
         }
     }
 
@@ -68,7 +68,7 @@ public class AjocadoFactory implements Configurator<GrapheneSelenium, Arquillian
      * @see org.jboss.arquillian.selenium.spi.Instantiator#createInstance(java.lang .Object)
      */
     @Override
-    public GrapheneSelenium createInstance(ArquillianAjocadoConfiguration configuration) {
+    public GrapheneSelenium createInstance(ArquillianGrapheneConfiguration configuration) {
         AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(),
             configuration.getSeleniumPort(), configuration.getBrowser(), configuration.getContextRoot());
         GrapheneSeleniumContext.set(selenium);
@@ -88,9 +88,9 @@ public class AjocadoFactory implements Configurator<GrapheneSelenium, Arquillian
      * .jboss.arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
      */
     @Override
-    public ArquillianAjocadoConfiguration createConfiguration(ArquillianDescriptor descriptor,
+    public ArquillianGrapheneConfiguration createConfiguration(ArquillianDescriptor descriptor,
         Class<? extends Annotation> qualifier) {
-        ArquillianAjocadoConfiguration configuration = new ArquillianAjocadoConfiguration();
+        ArquillianGrapheneConfiguration configuration = new ArquillianGrapheneConfiguration();
         configuration.configure(descriptor, qualifier);
         GrapheneConfigurationContext.set(configuration);
         return configuration;

@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.ajaxaware;
 
-import static org.jboss.arquillian.ajocado.Ajocado.waitAjax;
+import static org.jboss.arquillian.ajocado.Graphene.waitAjax;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;

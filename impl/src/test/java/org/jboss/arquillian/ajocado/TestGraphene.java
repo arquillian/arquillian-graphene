@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado;
 
-import static org.jboss.arquillian.ajocado.Ajocado.waitGui;
+import static org.jboss.arquillian.ajocado.Graphene.waitGui;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertTrue;
@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class TestAjocado {
+public class TestGraphene {
 
     private static final long TIMEOUT = 500L;
     private static final long TOLERANCE = 1000L;

@@ -56,7 +56,7 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public final class Ajocado {
+public final class Graphene {
     public static final int WAIT_GUI_INTERVAL = 100;
     public static final int WAIT_AJAX_INTERVAL = 500;
     public static final int WAIT_MODEL_INTERVAL = 1500;
@@ -94,7 +94,7 @@ public final class Ajocado {
     public static final TextRetriever retrieveText = TextRetriever.getInstance();
     public static final AttributeRetriever retrieveAttribute = AttributeRetriever.getInstance();
 
-    private Ajocado() {
+    private Graphene() {
     }
 
     /**

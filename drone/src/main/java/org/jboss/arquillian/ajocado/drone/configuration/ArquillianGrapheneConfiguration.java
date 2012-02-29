@@ -38,8 +38,8 @@ import org.jboss.arquillian.drone.spi.DroneConfiguration;
  * @see ConfigurationMapper
  *
  */
-public class ArquillianAjocadoConfiguration implements GrapheneConfiguration,
-    DroneConfiguration<ArquillianAjocadoConfiguration> {
+public class ArquillianGrapheneConfiguration implements GrapheneConfiguration,
+    DroneConfiguration<ArquillianGrapheneConfiguration> {
     // serialVersionUID
     private static final long serialVersionUID = 5560505506114056625L;
 
@@ -83,7 +83,7 @@ public class ArquillianAjocadoConfiguration implements GrapheneConfiguration,
     /**
      * Creates default Arquillian Ajocado Configuration
      */
-    public ArquillianAjocadoConfiguration() {
+    public ArquillianGrapheneConfiguration() {
         initContextRoot();
     }
 
@@ -94,7 +94,7 @@ public class ArquillianAjocadoConfiguration implements GrapheneConfiguration,
      * .arquillian.impl.configuration.api.ArquillianDescriptor, java.lang.Class)
      */
     @Override
-    public ArquillianAjocadoConfiguration configure(ArquillianDescriptor descriptor,
+    public ArquillianGrapheneConfiguration configure(ArquillianDescriptor descriptor,
         Class<? extends Annotation> qualifier) {
         ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);
         return ConfigurationMapper.fromSystemConfiguration(this, qualifier);

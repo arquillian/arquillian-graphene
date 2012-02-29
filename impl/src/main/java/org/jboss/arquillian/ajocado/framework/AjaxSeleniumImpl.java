@@ -32,7 +32,7 @@ import org.jboss.arquillian.ajocado.browser.Browser;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorProxy;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorProxyImpl;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
-import org.jboss.arquillian.ajocado.framework.internal.AjocadoInitializator;
+import org.jboss.arquillian.ajocado.framework.internal.GrapheneInitializator;
 import org.jboss.arquillian.ajocado.framework.internal.PageExtensionsImpl;
 import org.jboss.arquillian.ajocado.framework.internal.SeleniumExtensionsImpl;
 import org.jboss.arquillian.ajocado.guard.RequestGuard;
@@ -56,7 +56,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, AjocadoInitializator {
+public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, GrapheneInitializator {
 
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;

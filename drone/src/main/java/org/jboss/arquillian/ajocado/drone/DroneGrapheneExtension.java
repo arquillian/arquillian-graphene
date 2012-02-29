@@ -16,7 +16,7 @@
  */
 package org.jboss.arquillian.ajocado.drone;
 
-import org.jboss.arquillian.ajocado.drone.factory.AjocadoFactory;
+import org.jboss.arquillian.ajocado.drone.factory.GrapheneFactory;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.drone.spi.Configurator;
 import org.jboss.arquillian.drone.spi.Destructor;
@@ -25,11 +25,11 @@ import org.jboss.arquillian.drone.spi.Instantiator;
 /**
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
-public class DroneAjocadoExtension implements LoadableExtension {
+public class DroneGrapheneExtension implements LoadableExtension {
     @Override
     public void register(ExtensionBuilder builder) {
-        builder.service(Configurator.class, AjocadoFactory.class);
-        builder.service(Instantiator.class, AjocadoFactory.class);
-        builder.service(Destructor.class, AjocadoFactory.class);
+        builder.service(Configurator.class, GrapheneFactory.class);
+        builder.service(Instantiator.class, GrapheneFactory.class);
+        builder.service(Destructor.class, GrapheneFactory.class);
     }
 }

@@ -21,10 +21,10 @@
  */
 package org.jboss.arquillian.ajocado.junit.ftest;
 
-import static org.jboss.arquillian.ajocado.Ajocado.jq;
-import static org.jboss.arquillian.ajocado.Ajocado.retrieveAttribute;
-import static org.jboss.arquillian.ajocado.Ajocado.retrieveText;
-import static org.jboss.arquillian.ajocado.Ajocado.waitGui;
+import static org.jboss.arquillian.ajocado.Graphene.jq;
+import static org.jboss.arquillian.ajocado.Graphene.retrieveAttribute;
+import static org.jboss.arquillian.ajocado.Graphene.retrieveText;
+import static org.jboss.arquillian.ajocado.Graphene.waitGui;
 
 import org.jboss.arquillian.ajocado.dom.Attribute;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;

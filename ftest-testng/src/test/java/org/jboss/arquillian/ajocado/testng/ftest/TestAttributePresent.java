@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.testng.ftest;
 
-import static org.jboss.arquillian.ajocado.Ajocado.attributePresent;
+import static org.jboss.arquillian.ajocado.Graphene.attributePresent;
 import static org.jboss.arquillian.ajocado.locator.LocatorFactory.id;
 
 import java.net.MalformedURLException;

@@ -42,7 +42,7 @@ package org.jboss.arquillian.ajocado.framework.internal;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface AjocadoInitializator {
+public interface GrapheneInitializator {
 
     /**
      * Initializes browser session and prepares it for further configuration
