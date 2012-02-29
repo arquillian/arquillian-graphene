@@ -83,7 +83,6 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      *
      * @return the command processor proxied with functionality of all associated interceptors
      */
-    @SuppressWarnings("unchecked")
     public CommandProcessor getCommandProcessorProxy() {
         return (CommandProcessor) Proxy.newProxyInstance(commandProcessor.getClass().getClassLoader(), commandProcessor
             .getClass().getInterfaces(), this);

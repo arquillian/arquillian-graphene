@@ -56,6 +56,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
+@SuppressWarnings("deprecation")
 public class GrapheneSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, GrapheneInitializator {
 
     /** The JavaScript Extensions to tested page */

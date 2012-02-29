@@ -21,10 +21,10 @@
         <module>api</module>
         <module>impl</module>
         <module>drone</module>
-        <module>testng</module>
-        <module>junit</module>
-        <module>ftest-testng</module>
-        <module>ftest-junit</module>
+        <module>testng-container</module>
+        <module>junit-container</module>
+        <module>ftest-testng-container</module>
+        <module>ftest-junit-container</module>
     </modules>
 
     <licenses>

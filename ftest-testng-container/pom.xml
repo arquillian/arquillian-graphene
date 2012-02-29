@@ -8,18 +8,18 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-graphene-ftest-junit</artifactId>
-    <name>Graphene Functional Test for JUnit</name>
+    <artifactId>arquillian-graphene-ftest-testng</artifactId>
+    <name>Graphene Functional Test for TestNG</name>
 
     <properties>
          <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
     <dependencies>
-        <!-- Arquillian Graphene JUnit -->
+        <!-- Arquillian Graphene Test NG -->
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>arquillian-graphene-junit</artifactId>
+            <artifactId>arquillian-graphene-testng-container</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
             <scope>test</scope>
@@ -119,8 +119,8 @@
                 </plugins>
             </build>
 
-        </profile>
 
+        </profile>
         <profile>
             <id>jenkins</id>
             <build>
@@ -134,6 +134,5 @@
                 </plugins>
             </build>
         </profile>
-
     </profiles>
 </project>
