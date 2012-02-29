@@ -92,7 +92,7 @@ public final class GrapheneConfigurationContext implements InvocationHandler {
      */
     public static GrapheneConfiguration getProxy() {
         return (GrapheneConfiguration) Proxy.newProxyInstance(GrapheneConfigurationContext.class.getClassLoader(),
-            new Class[] { GrapheneConfiguration.class }, new GrapheneConfigurationContext());
+            new Class[] { GrapheneConfiguration.class, AjocadoConfiguration.class }, new GrapheneConfigurationContext());
     }
 
     /**
