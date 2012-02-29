@@ -56,7 +56,7 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, GrapheneInitializator {
+public class GrapheneSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, GrapheneInitializator {
 
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;
@@ -75,7 +75,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements Graph
     /**
      * Instantiates a new ajax selenium.
      */
-    private AjaxSeleniumImpl() {
+    private GrapheneSeleniumImpl() {
     }
 
     /**
@@ -90,7 +90,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements Graph
      * @param contextPathURL
      *            the context path url
      */
-    public AjaxSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
+    public GrapheneSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
         CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort,
             browser.inSeleniumRepresentation(), contextPathURL.toString());
         interceptionProxy = new CommandInterceptorProxyImpl(commandProcessor);
@@ -147,7 +147,7 @@ public class AjaxSeleniumImpl extends ExtendedTypedSeleniumImpl implements Graph
      */
     @Override
     public GrapheneSelenium clone() {
-        AjaxSeleniumImpl copy = new AjaxSeleniumImpl();
+        GrapheneSeleniumImpl copy = new GrapheneSeleniumImpl();
         copy.pageExtensions = new PageExtensionsImpl();
         copy.seleniumExtensions = new SeleniumExtensionsImpl();
         copy.interceptionProxy = this.interceptionProxy.immutableCopy();

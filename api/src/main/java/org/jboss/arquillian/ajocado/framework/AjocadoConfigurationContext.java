@@ -36,4 +36,15 @@ public class AjocadoConfigurationContext {
         return GrapheneConfigurationContext.isInitialized();
     }
 
+    @Deprecated
+    public static class TimeoutType {
+        public static org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType DEFAULT = org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType.DEFAULT;
+
+        public static org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType GUI = org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType.GUI;
+
+        public static org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType AJAX = org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType.AJAX;
+
+        public static org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType MODEL = org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType.MODEL;
+    }
+
 }

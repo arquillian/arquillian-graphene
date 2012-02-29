@@ -21,7 +21,7 @@ import java.lang.annotation.Annotation;
 import org.jboss.arquillian.ajocado.drone.configuration.ArquillianGrapheneConfiguration;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
-import org.jboss.arquillian.ajocado.framework.AjaxSeleniumImpl;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumImpl;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
 import org.jboss.arquillian.ajocado.framework.internal.GrapheneInitializator;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
@@ -69,7 +69,7 @@ public class GrapheneFactory implements Configurator<GrapheneSelenium, Arquillia
      */
     @Override
     public GrapheneSelenium createInstance(ArquillianGrapheneConfiguration configuration) {
-        AjaxSeleniumImpl selenium = new AjaxSeleniumImpl(configuration.getSeleniumHost(),
+        GrapheneSeleniumImpl selenium = new GrapheneSeleniumImpl(configuration.getSeleniumHost(),
             configuration.getSeleniumPort(), configuration.getBrowser(), configuration.getContextRoot());
         GrapheneSeleniumContext.set(selenium);
 
