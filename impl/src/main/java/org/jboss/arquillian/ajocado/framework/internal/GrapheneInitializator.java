@@ -50,12 +50,12 @@ public interface GrapheneInitializator {
     void initializeBrowser();
 
     /**
-     * Initializes Ajocado extentensions for Selenium
+     * Initializes Graphene extentensions for Selenium
      */
     void initializeSeleniumExtensions();
 
     /**
-     * Initializes Ajocado extentensions for application page
+     * Initializes Graphene extentensions for application page
      */
     void initializePageExtensions();
 

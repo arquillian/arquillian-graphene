@@ -19,21 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var Ajocado = Ajocado || {};
+var Graphene = Graphene || {};
 
-Ajocado.RequestInterceptor = Ajocado.RequestInterceptor || {};
+Graphene.RequestInterceptor = Graphene.RequestInterceptor || {};
 
-Ajocado.RequestInterceptor.getRequestDone = function() {
-	return (Ajocado.getPage() === undefined) ? 'HTTP' : Ajocado.getPage().RequestGuard.getRequestDone();
+Graphene.RequestInterceptor.getRequestDone = function() {
+	return (Graphene.getPage() === undefined) ? 'HTTP' : Graphene.getPage().RequestGuard.getRequestDone();
 };
 
-Ajocado.RequestInterceptor.clearRequestDone = function() {
+Graphene.RequestInterceptor.clearRequestDone = function() {
 	var result;
-	if (Ajocado.getPage() === undefined) {
+	if (Graphene.getPage() === undefined) {
 		selenium.doWaitForPageToLoad();
 		result = 'HTTP';
 	} else {
-		result = Ajocado.getPage().RequestGuard.clearRequestDone();
+		result = Graphene.getPage().RequestGuard.clearRequestDone();
 	};
 	return result;
 };
@@ -57,5 +57,5 @@ Selenium.prototype.makeRequestChangeCondition = function(timeout) {
 
 Selenium.prototype._isRequestChanged = function() {
 	var newPageLoaded = this.browserbot.isNewPageLoaded();
-	return (Ajocado.getPage() === undefined) ? newPageLoaded : Ajocado.getPage().RequestGuard.getRequestDone() != 'NONE' ;
+	return (Graphene.getPage() === undefined) ? newPageLoaded : Graphene.getPage().RequestGuard.getRequestDone() != 'NONE' ;
 };

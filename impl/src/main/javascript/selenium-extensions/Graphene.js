@@ -19,16 +19,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var Ajocado = Ajocado || {};
+var Graphene = Graphene || {};
 
 /**
- * Syntactic shortcut for accessing Ajocado.Page on the page.
+ * Syntactic shortcut for accessing Graphene.Page on the page.
  * 
- * @return the Ajocado.Page object defined in the current page.
+ * @return the Graphene.Page object defined in the current page.
  */
-Ajocado.getPage = function() {
-	if (selenium.browserbot.getCurrentWindow().Ajocado == undefined) {
+Graphene.getPage = function() {
+	if (selenium.browserbot.getCurrentWindow().Graphene == undefined) {
 		return undefined;
 	}
-	return selenium.browserbot.getCurrentWindow().Ajocado.Page;
+	return selenium.browserbot.getCurrentWindow().Graphene.Page;
 }

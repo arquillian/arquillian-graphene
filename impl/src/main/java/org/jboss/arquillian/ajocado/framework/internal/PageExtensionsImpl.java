@@ -47,8 +47,8 @@ public class PageExtensionsImpl implements PageExtensions {
         + " && (selenium.browserbot.getCurrentWindow().document != null) "
         + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
 
-    /** Evalutes if the Ajocado object is undefined on the page */
-    final JavaScript isAjocadoPageUndefined = js("Ajocado === undefined || Ajocado.getPage() === undefined");
+    /** Evalutes if the Graphene object is undefined on the page */
+    final JavaScript isGraphenePageUndefined = js("Graphene === undefined || Graphene.getPage() === undefined");
 
     /** The associated selenium object. */
     GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
@@ -71,7 +71,7 @@ public class PageExtensionsImpl implements PageExtensions {
      */
     @Override
     public boolean isInstalled() {
-        return !Boolean.valueOf(selenium.getEval(isAjocadoPageUndefined));
+        return !Boolean.valueOf(selenium.getEval(isGraphenePageUndefined));
     }
 
     /**

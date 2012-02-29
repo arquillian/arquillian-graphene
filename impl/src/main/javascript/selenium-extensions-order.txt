@@ -4,5 +4,5 @@ javascript/selenium-extensions/goog/disposable/disposable.js
 javascript/selenium-extensions/jquery/jquery.js
 javascript/selenium-extensions/jquery/jquery-selector-extensions.js
 javascript/selenium-extensions/extended-selenium.js
-javascript/selenium-extensions/Ajocado.js
-javascript/selenium-extensions/Ajocado.RequestInterceptor.js
+javascript/selenium-extensions/Graphene.js
+javascript/selenium-extensions/Graphene.RequestInterceptor.js

@@ -19,9 +19,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var Ajocado = Ajocado || {};
+var Graphene = Graphene || {};
 
-Ajocado.extend = function(child, parent) {
+Graphene.extend = function(child, parent) {
 	var F = function() {};
     F.prototype = parent.prototype;
     child.prototype = new F();
@@ -29,9 +29,9 @@ Ajocado.extend = function(child, parent) {
     child.prototype.constructor = child;
 };
 
-Ajocado.Page = Ajocado.Page || {};
+Graphene.Page = Graphene.Page || {};
 
-Ajocado.Page.RequestGuard = {
+Graphene.Page.RequestGuard = {
 	
 	requestDone : "HTTP",
 	

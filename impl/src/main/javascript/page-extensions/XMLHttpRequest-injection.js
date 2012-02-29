@@ -19,18 +19,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var Ajocado = Ajocado || {};
+var Graphene = Graphene || {};
 
-Ajocado.XHRWrapperInjection = {
-		onreadystatechangeCallback : Ajocado.XHRWrapper.prototype.onreadystatechangeCallback
+Graphene.XHRWrapperInjection = {
+		onreadystatechangeCallback : Graphene.XHRWrapper.prototype.onreadystatechangeCallback
 };
 
-Ajocado.XHRWrapper.prototype.onreadystatechangeCallback = function() {
+Graphene.XHRWrapper.prototype.onreadystatechangeCallback = function() {
 	try {
-		Ajocado.XHRWrapperInjection.onreadystatechangeCallback.call(this);
+		Graphene.XHRWrapperInjection.onreadystatechangeCallback.call(this);
 	} finally {
 		if (this.readyState == 4) {
-			Ajocado.Page.RequestGuard.setRequestDone("XHR");
+			Graphene.Page.RequestGuard.setRequestDone("XHR");
 		}
 	}
 }

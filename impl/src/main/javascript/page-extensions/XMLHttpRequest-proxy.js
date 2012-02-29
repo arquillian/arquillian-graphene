@@ -19,9 +19,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var Ajocado = Ajocado || {};
+var Graphene = Graphene || {};
 
-Ajocado.XHRWrapper = function() {
+Graphene.XHRWrapper = function() {
 	this.xhr;
 	this.responseText= "";
 	this.responseXml= null;
@@ -31,32 +31,32 @@ Ajocado.XHRWrapper = function() {
 	this.onreadystatechange= null;
 };
 	
-Ajocado.XHRWrapper.prototype.abort = function() {
+Graphene.XHRWrapper.prototype.abort = function() {
     return this.xhr.abort();
 };
 
-Ajocado.XHRWrapper.prototype.open = function(method, url, asyncFlag, userName, password) {
+Graphene.XHRWrapper.prototype.open = function(method, url, asyncFlag, userName, password) {
     asyncFlag = (asyncFlag !== false);
 	return this.xhr.open(method, url, asyncFlag, userName, password);
 };
 
-Ajocado.XHRWrapper.prototype.getAllResponseHeaders = function() {
+Graphene.XHRWrapper.prototype.getAllResponseHeaders = function() {
     return this.xhr.getAllResponseHeaders();
 };
 
-Ajocado.XHRWrapper.prototype.getResponseHeader = function(name) {
+Graphene.XHRWrapper.prototype.getResponseHeader = function(name) {
     return this.xhr.getResponseHeader(name);
 };
 
-Ajocado.XHRWrapper.prototype.send = function(content) {
+Graphene.XHRWrapper.prototype.send = function(content) {
 	return this.xhr.send(content);
 };
 
-Ajocado.XHRWrapper.prototype.setRequestHeader = function(name, value) {
+Graphene.XHRWrapper.prototype.setRequestHeader = function(name, value) {
 	return this.xhr.setRequestHeader(name, value);
 };
 
-Ajocado.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
+Graphene.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
 	if (this.onreadystatechange) {
 		return this.onreadystatechange.call(this.xhr, event);
 	}
@@ -64,10 +64,10 @@ Ajocado.XHRWrapper.prototype.onreadystatechangeCallback = function(event) {
 
 if (window.ActiveXObject) {
 	
-	Ajocado.ActiveXObject = window.ActiveXObject;
+	Graphene.ActiveXObject = window.ActiveXObject;
 	
-	Ajocado.XHRActiveXObject = function(xhr) {
-		Ajocado.XHRWrapper.call(this);
+	Graphene.XHRActiveXObject = function(xhr) {
+		Graphene.XHRWrapper.call(this);
 		this.xhr = xhr;
 		var proxy = this;
 		this.xhr.onreadystatechange = function() {
@@ -82,14 +82,14 @@ if (window.ActiveXObject) {
 	      };
 	};
 
-	Ajocado.extend(Ajocado.XHRActiveXObject, Ajocado.XHRWrapper);
+	Graphene.extend(Graphene.XHRActiveXObject, Graphene.XHRWrapper);
 
 	var ActiveXObject = function(type, location) {
-		var realActiveXObject = (location) ? new Ajocado.ActiveXObject(type, location) : new Ajocado.ActiveXObject(type);
+		var realActiveXObject = (location) ? new Graphene.ActiveXObject(type, location) : new Graphene.ActiveXObject(type);
 		
 		type = type.toLowerCase();
 		if (type == "msxml2.xmlhttp" || type == "microsoft.xmlhttp") {
-			var proxy = new Ajocado.XHRActiveXObject(realActiveXObject);
+			var proxy = new Graphene.XHRActiveXObject(realActiveXObject);
 		} else {
 			var proxy = realActiveXObject;
 		}
@@ -99,14 +99,14 @@ if (window.ActiveXObject) {
 	
 } else if (window.XMLHttpRequest) {
 	
-	Ajocado.XMLHttpRequest = window.XMLHttpRequest;
+	Graphene.XMLHttpRequest = window.XMLHttpRequest;
 	
 	var XMLHttpRequest = function() {
-		Ajocado.XHRWrapper.call(this);
-		this.xhr = new Ajocado.XMLHttpRequest();
+		Graphene.XHRWrapper.call(this);
+		this.xhr = new Graphene.XMLHttpRequest();
 	};
 
-	Ajocado.extend(XMLHttpRequest, Ajocado.XHRWrapper);
+	Graphene.extend(XMLHttpRequest, Graphene.XHRWrapper);
 	
 	XMLHttpRequest.prototype.onreadystatechangeWrapper = function() {
 		var self = this;
@@ -125,6 +125,6 @@ if (window.ActiveXObject) {
 
 	XMLHttpRequest.prototype.open = function(method, url, asyncFlag, userName, password) {
 		this.xhr.onreadystatechange = this.onreadystatechangeWrapper();
-		Ajocado.XHRWrapper.prototype.open.call(this, method, url, asyncFlag, userName, password);
+		Graphene.XHRWrapper.prototype.open.call(this, method, url, asyncFlag, userName, password);
 	}
 }

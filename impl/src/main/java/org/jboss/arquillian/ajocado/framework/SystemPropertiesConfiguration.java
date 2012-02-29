@@ -118,7 +118,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
      * (non-Javadoc)
      *
      * @see org.jboss.arquillian.ajocado.GrapheneConfiguration#getSeleniumTimeout(org.jboss.arquillian.ajocado.
-     * AjocadoConfigurationImpl.SeleniumTimeoutType)
+     * GrapheneConfigurationImpl.SeleniumTimeoutType)
      */
     @Override
     public long getTimeout(TimeoutType type) {

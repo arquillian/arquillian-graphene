@@ -47,8 +47,8 @@ import org.jboss.arquillian.ajocado.request.RequestType;
 public class RequestGuardImpl implements RequestGuard {
 
     private static final String WAIT_FOR_REQUEST = "waitForRequest";
-    private static final JavaScript CLEAR_REQUEST_DONE = js("Ajocado.RequestInterceptor.clearRequestDone()");
-    private static final JavaScript GET_REQUEST_DONE = js("Ajocado.RequestInterceptor.getRequestDone()");
+    private static final JavaScript CLEAR_REQUEST_DONE = js("Graphene.RequestInterceptor.clearRequestDone()");
+    private static final JavaScript GET_REQUEST_DONE = js("Graphene.RequestInterceptor.getRequestDone()");
 
     /**
      * Proxy for thread local context of AjaxSelenium
