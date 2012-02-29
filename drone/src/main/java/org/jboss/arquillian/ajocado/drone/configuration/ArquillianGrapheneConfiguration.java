@@ -46,7 +46,7 @@ public class ArquillianGrapheneConfiguration implements GrapheneConfiguration,
     /**
      * A name used to determine configuration from ArquillianDescriptor
      */
-    public static final String CONFIGURATION_NAME = "ajocado";
+    public static final String CONFIGURATION_NAME = "graphene";
 
     private URL contextRoot;
 

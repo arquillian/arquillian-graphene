@@ -41,7 +41,7 @@
         </protocol>
     </container>
 
-    <extension qualifier="ajocado">
+    <extension qualifier="graphene">
         <property name="browser">*firefox</property>
         <property name="seleniumTimeoutAjax">5000</property>
     </extension>
