@@ -21,8 +21,7 @@
         <module>api</module>
         <module>impl</module>
         <module>drone</module>
-        <module>testng-container</module>
-        <module>junit-container</module>
+        <module>depchain</module>
         <module>ftest-testng-container</module>
         <module>ftest-junit-container</module>
     </modules>
