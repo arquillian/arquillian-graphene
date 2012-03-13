@@ -16,12 +16,26 @@
     </properties>
 
     <dependencies>
-        <!-- Arquillian Graphene Test NG -->
+        <!-- Arquillian Graphene TestNG -->
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>arquillian-graphene-testng-container</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Arquillian TestNG -->
+        <dependency>
+            <groupId>org.jboss.arquillian.testng</groupId>
+            <artifactId>arquillian-testng-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- Arquillian -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
