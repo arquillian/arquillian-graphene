@@ -21,7 +21,15 @@
  */
 package org.jboss.arquillian.ajocado.waiting.ajax;
 
-import org.jboss.arquillian.ajocado.waiting.Waiting;
+import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
+import org.jboss.arquillian.ajocado.javascript.JavaScript;
+import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
+
+import com.thoughtworks.selenium.SeleniumException;
 
 /**
  * <p>
@@ -36,7 +44,12 @@ import org.jboss.arquillian.ajocado.waiting.Waiting;
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface AjaxWaiting extends Waiting<AjaxWaiting> {
+public class DefaultAjaxWaiting extends DefaultWaiting<AjaxWaiting> implements AjaxWaiting {
+
+    /**
+     * Proxy to local selenium instance
+     */
+    private GrapheneSelenium selenium = GrapheneSeleniumContext.getProxy();
 
     /**
      * Stars loop waiting to satisfy condition.
@@ -44,7 +57,9 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * @param condition
      *            what wait for to be satisfied
      */
-    void until(JavaScriptCondition condition);
+    public void until(JavaScriptCondition condition) {
+        waitExpectingTimeout(condition.getJavaScriptCondition());
+    }
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
@@ -56,7 +71,10 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * @param retriever
      *            implementation of retrieving actual value
      */
-    <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever);
+    public <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever) {
+        final JavaScript condition = prepareCondition(oldValue, retriever);
+        waitExpectingTimeout(condition);
+    }
 
     /**
      * <p>
@@ -80,7 +98,10 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * @param retriever
      *            implementation of retrieving actual value
      */
-    <T> void waitForChange(JavaScriptRetriever<T> retriever);
+    public <T> void waitForChange(JavaScriptRetriever<T> retriever) {
+        T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(retrieved);
+    }
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
@@ -93,7 +114,16 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retriever);
+    public <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retriever) {
+        final JavaScript script = retriever.getJavaScriptRetrieve();
+        final JavaScript condition = prepareCondition(oldValue, retriever);
+
+        waitExpectingTimeout(condition);
+        String retrieved = selenium.getEval(script);
+
+        T converted = retriever.getConvertor().backwardConversion(retrieved);
+        return converted;
+    }
 
     /**
      * <p>
@@ -118,5 +148,32 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever);
+    public <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever) {
+        T retrieved = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(retrieved);
+        return retrieved;
+    }
+
+    private <T> JavaScript prepareCondition(T oldValue, JavaScriptRetriever<T> retriever) {
+        final String scriptString = retriever.getJavaScriptRetrieve().getAsString();
+        final String oldValueString = retriever.getConvertor().forwardConversion(oldValue);
+        final String escapedOldValueString = StringEscapeUtils.escapeJavaScript(oldValueString);
+        return js("{0} != '{1}'").parametrize(scriptString, escapedOldValueString);
+    }
+
+    private void waitExpectingTimeout(JavaScript condition) {
+        try {
+            selenium.waitForCondition(condition, this.getTimeout());
+        } catch (SeleniumException e) {
+            if (isTimeoutException(e)) {
+                fail();
+                return;
+            }
+            throw e;
+        }
+    }
+
+    private boolean isTimeoutException(SeleniumException e) {
+        return e.getMessage().startsWith("Timed out after");
+    }
 }

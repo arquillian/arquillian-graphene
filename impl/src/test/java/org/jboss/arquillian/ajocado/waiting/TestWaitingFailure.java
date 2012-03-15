@@ -26,6 +26,7 @@ import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import org.jboss.arquillian.ajocado.waiting.selenium.DefaultSeleniumWaiting;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
 import org.testng.annotations.BeforeClass;
@@ -48,7 +49,7 @@ public class TestWaitingFailure {
 
     @BeforeClass
     public void setupSeleniumWaiting() {
-        seleniumWaiting = new SeleniumWaiting().timeout(1);
+        seleniumWaiting = new DefaultSeleniumWaiting().timeout(1);
     }
 
     @Test

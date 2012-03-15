@@ -22,6 +22,8 @@
 package org.jboss.arquillian.ajocado.waiting;
 
 import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
+import org.jboss.arquillian.ajocado.waiting.ajax.DefaultAjaxWaiting;
+import org.jboss.arquillian.ajocado.waiting.selenium.DefaultSeleniumWaiting;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumWaiting;
 
 /**
@@ -49,12 +51,12 @@ public final class Wait {
     /**
      * Provides instance of {@link AjaxWaiting}
      */
-    public static final AjaxWaiting waitAjax = new AjaxWaiting();
+    public static final AjaxWaiting waitAjax = new DefaultAjaxWaiting();
 
     /**
      * Provides instance of {@link SeleniumWaiting}
      */
-    public static final SeleniumWaiting waitSelenium = new SeleniumWaiting();
+    public static final SeleniumWaiting waitSelenium = new DefaultSeleniumWaiting();
 
     private Wait() {
     }

@@ -21,26 +21,29 @@
  */
 package org.jboss.arquillian.ajocado.framework.internal;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import javassist.util.proxy.MethodHandler;
-import javassist.util.proxy.ProxyFactory;
-import javassist.util.proxy.ProxyObject;
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
-import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
+import org.jboss.arquillian.ajocado.waiting.Waiting;
 
 /**
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  *
- * @param <T>
- *            type of waiting
+ * @param <T> type of waiting
  */
-public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler {
+public class WaitingProxy<T extends Waiting<T>> implements InvocationHandler {
 
     GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
@@ -52,28 +55,52 @@ public class WaitingProxy<T extends DefaultWaiting<T>> implements MethodHandler 
         this.timeoutType = timeoutType;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends Waiting<T>> T create(T waiting, TimeoutType timeoutType) {
+        InvocationHandler handler = new WaitingProxy<T>(waiting, timeoutType);
+        T proxy = (T) Proxy.newProxyInstance(WaitingProxy.class.getClassLoader(), getInterfaces(waiting.getClass()), handler);
+        return proxy;
+    }
+
     @Override
-    public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
             Object target = waiting.timeout(configuration.getTimeout(timeoutType));
-            return thisMethod.invoke(target, args);
+            return method.invoke(target, args);
         } catch (InvocationTargetException e) {
             throw e.getTargetException();
         }
     }
 
-    public static <T extends DefaultWaiting<T>> T create(T waiting, TimeoutType timeoutType) {
-        ProxyFactory f = new ProxyFactory();
-        f.setSuperclass(waiting.getClass());
-        Class<T> c = f.createClass();
+    private static Class<?>[] getInterfaces(Class<?> waitingClass) {
+        Set<Class<?>> set = new HashSet<Class<?>>();
+        Queue<Class<?>> queue = new LinkedList<Class<?>>();
+        List<Class<?>> interfaces = new LinkedList<Class<?>>();
 
-        T newInstance;
-        try {
-            newInstance = c.newInstance();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
+        queue.add(waitingClass);
+
+        while (!queue.isEmpty()) {
+            Class<?> clazz = queue.poll();
+
+            if (set.contains(clazz)) {
+                continue;
+            }
+
+            set.add(clazz);
+
+            queue.addAll(Arrays.asList(clazz.getInterfaces()));
+
+            if (clazz.getSuperclass() != null) {
+                queue.add(clazz.getSuperclass());
+            }
         }
-        ((ProxyObject) newInstance).setHandler(new WaitingProxy<T>(waiting, timeoutType));
-        return newInstance;
+
+        for (Class<?> clazz : set) {
+            if (clazz.isInterface()) {
+                interfaces.add(clazz);
+            }
+        }
+
+        return interfaces.toArray(new Class<?>[interfaces.size()]);
     }
 }

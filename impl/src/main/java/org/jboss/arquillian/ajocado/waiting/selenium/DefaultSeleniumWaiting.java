@@ -19,24 +19,22 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.ajocado.waiting.ajax;
+/*
+ *
+ */
+package org.jboss.arquillian.ajocado.waiting.selenium;
 
-import org.jboss.arquillian.ajocado.waiting.Waiting;
+import java.util.Vector;
+
+import org.jboss.arquillian.ajocado.waiting.DefaultWaiting;
 
 /**
- * <p>
- * Implementation of waiting for satisfaction of conditions on page after the Ajax request.
- * </p>
- *
- * <p>
- * It uses custom JavaScript and com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String) to wait
- * for satisfying given condition.
- * </p>
+ * Implementation of waiting for satisfaction of conditions on page using polling the Selenium API with given question.
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
-public interface AjaxWaiting extends Waiting<AjaxWaiting> {
+public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> implements SeleniumWaiting {
 
     /**
      * Stars loop waiting to satisfy condition.
@@ -44,7 +42,28 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * @param condition
      *            what wait for to be satisfied
      */
-    void until(JavaScriptCondition condition);
+    public void until(SeleniumCondition condition) {
+        long start = System.currentTimeMillis();
+        long end = start + this.getTimeout();
+        boolean delay = this.isDelayed();
+        while (System.currentTimeMillis() < end) {
+            if (!delay && condition.isTrue()) {
+                return;
+            }
+            delay = false;
+            try {
+                Thread.sleep(this.getInterval());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (System.currentTimeMillis() >= end) {
+                if (condition.isTrue()) {
+                    return;
+                }
+            }
+        }
+        fail();
+    }
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
@@ -56,7 +75,9 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * @param retriever
      *            implementation of retrieving actual value
      */
-    <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever);
+    public <T> void waitForChange(T oldValue, SeleniumRetriever<T> retriever) {
+        waitForChangeAndReturn(oldValue, retriever);
+    }
 
     /**
      * <p>
@@ -68,11 +89,10 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * After retrieving, new value will be associated with given Retriever.
      * </p>
      *
-     *
      * <p>
      * Note that Retriever needs to be initialized first by one of methods
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
-     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      *
      * @param <T>
@@ -80,7 +100,10 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * @param retriever
      *            implementation of retrieving actual value
      */
-    <T> void waitForChange(JavaScriptRetriever<T> retriever);
+    public <T> void waitForChange(SeleniumRetriever<T> retriever) {
+        T newValue = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(newValue);
+    }
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
@@ -93,7 +116,22 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retriever);
+    public <T> T waitForChangeAndReturn(final T oldValue, final SeleniumRetriever<T> retriever) {
+        final Vector<T> vector = new Vector<T>(1);
+
+        this.until(new SeleniumCondition() {
+            @Override
+            public boolean isTrue() {
+                vector.add(0, retriever.retrieve());
+                if (oldValue == null) {
+                    return vector.get(0) != null;
+                }
+                return !oldValue.equals(vector.get(0));
+            }
+        });
+
+        return vector.get(0);
+    }
 
     /**
      * <p>
@@ -105,11 +143,10 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * After retrieving, new value will be associated with given Retriever.
      * </p>
      *
-     *
      * <p>
      * Note that Retriever needs to be initialized first by one of methods
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#initializeValue()} or
-     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
+     * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      *
      * @param <T>
@@ -118,5 +155,9 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      *            implementation of retrieving actual value
      * @return new retrieved value
      */
-    <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever);
+    public <T> T waitForChangeAndReturn(final SeleniumRetriever<T> retriever) {
+        T newValue = waitForChangeAndReturn(retriever.getValue(), retriever);
+        retriever.setValue(newValue);
+        return newValue;
+    }
 }

@@ -21,10 +21,8 @@
  */
 package org.jboss.arquillian.ajocado.waiting;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotSame;
 import static org.testng.Assert.assertSame;
-import static org.testng.Assert.assertTrue;
 
 import org.jboss.arquillian.ajocado.waiting.ajax.AjaxWaiting;
 import org.testng.annotations.Test;
@@ -39,11 +37,9 @@ public class TestWaitingImmutability {
         final long timeout = Wait.DEFAULT_TIMEOUT + 1;
 
         AjaxWaiting waitAjax = Wait.waitAjax;
-        assertTrue(waitAjax.getTimeout() != timeout);
         assertNotSame(waitAjax, waitAjax.timeout(timeout));
 
         waitAjax = waitAjax.timeout(timeout);
-        assertEquals(waitAjax.getTimeout(), timeout);
         assertSame(waitAjax, waitAjax.timeout(timeout));
     }
 }

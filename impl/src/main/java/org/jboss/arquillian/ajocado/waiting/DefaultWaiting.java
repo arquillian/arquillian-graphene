@@ -31,7 +31,7 @@ package org.jboss.arquillian.ajocado.waiting;
  *            the end implementation of DefaultWaiting as the return type for setter methods
  */
 @SuppressWarnings("unchecked")
-public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Waiting<T>, Cloneable {
+public abstract class DefaultWaiting<T extends Waiting<T>> implements Waiting<T>, Cloneable {
 
     /**
      * Indicates when the first test for the condition should be delayed after waiting starts.
@@ -97,9 +97,9 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
         if (interval == this.interval) {
             return (T) this;
         }
-        T copy = this.copy();
+        DefaultWaiting copy = (DefaultWaiting) this.copy();
         copy.interval = interval;
-        return copy;
+        return (T) copy;
     }
 
     /*
@@ -112,9 +112,9 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
         if (timeout == this.timeout) {
             return (T) this;
         }
-        T copy = this.copy();
+        DefaultWaiting copy = (DefaultWaiting) this.copy();
         copy.timeout = timeout;
-        return copy;
+        return (T) copy;
     }
 
     /*
@@ -127,10 +127,10 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
         if (exception == null && this.failure == null) {
             return (T) this;
         }
-        T copy = this.copy();
+        DefaultWaiting copy = (DefaultWaiting) this.copy();
         copy.failure = exception;
         copy.failureArgs = null;
-        return copy;
+        return (T) copy;
     }
 
     /*
@@ -140,10 +140,10 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
      */
     @Override
     public T failWith(CharSequence failureMessage, Object... arguments) {
-        T copy = this.copy();
+        DefaultWaiting copy = (DefaultWaiting) this.copy();
         copy.failure = failureMessage;
         copy.failureArgs = arguments;
-        return copy;
+        return (T) copy;
     }
 
     /*
@@ -176,9 +176,9 @@ public abstract class DefaultWaiting<T extends DefaultWaiting<T>> implements Wai
         if (isDelayed == this.isDelayed) {
             return (T) this;
         }
-        T copy = this.copy();
+        DefaultWaiting copy = (DefaultWaiting) this.copy();
         copy.isDelayed = isDelayed;
-        return copy;
+        return (T) copy;
     }
 
     /*
