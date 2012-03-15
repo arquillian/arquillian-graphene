@@ -36,9 +36,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</connection>
-        <developerConnection>scm:git:git@github.com:arquillian/arquillian-ajocado.git</developerConnection>
-        <url>https://github.com/arquillian/arquillian-ajocado</url>
+        <connection>scm:git:git@github.com:arquillian/arquillian-graphene.git</connection>
+        <developerConnection>scm:git:git@github.com:arquillian/arquillian-graphene.git</developerConnection>
+        <url>https://github.com/arquillian/arquillian-graphene</url>
     </scm>
 
     <issueManagement>
