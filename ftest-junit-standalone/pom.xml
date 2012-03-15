@@ -4,7 +4,7 @@
     <parent>
         <artifactId>arquillian-graphene-parent</artifactId>
         <groupId>org.jboss.arquillian.graphene</groupId>
-        <version>1.0.0.CR3</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>arquillian-graphene-ftest-junit-standalone</artifactId>
