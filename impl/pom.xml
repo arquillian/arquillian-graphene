@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.jboss.arquillian.graphene</groupId>
     <artifactId>arquillian-graphene-impl</artifactId>
     <packaging>jar</packaging>
     <name>Graphene Implementation</name>

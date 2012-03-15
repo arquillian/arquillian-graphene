@@ -9,7 +9,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.jboss.arquillian.graphene</groupId>
     <artifactId>arquillian-graphene-build-resources</artifactId>
     <name>Graphene Build Resources</name>
 

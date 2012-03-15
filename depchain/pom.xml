@@ -31,10 +31,15 @@
             <artifactId>arquillian-graphene-drone</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-impl</artifactId>
+        </dependency>
+        
+        <!-- ARQ-793 FIXME it is required for standalone mode, but should not be required -->
+        <dependency>
+            <groupId>org.jboss.arquillian.config</groupId>
+            <artifactId>arquillian-config-impl-base</artifactId>
         </dependency>
 
         <!-- Support for Selenium Server -->

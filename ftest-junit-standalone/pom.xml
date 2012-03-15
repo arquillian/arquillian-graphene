@@ -8,8 +8,8 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-graphene-ftest-junit-container</artifactId>
-    <name>Graphene Functional Test for JUnit Container</name>
+    <artifactId>arquillian-graphene-ftest-junit-standalone</artifactId>
+    <name>Graphene Functional Test for JUnit Standalone</name>
 
     <properties>
          <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
@@ -28,7 +28,7 @@
         <!-- Arquillian JUnit -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
+            <artifactId>arquillian-junit-standalone</artifactId>
             <scope>test</scope>
         </dependency>
         
@@ -38,6 +38,7 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        
     </dependencies>
 
     <build>
@@ -77,20 +78,6 @@
         <profile>
             <id>ftest</id>
 
-            <properties>
-                <!-- versioning -->
-                <version.org.jboss.as>7.0.1.Final</version.org.jboss.as>
-            </properties>
-
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <scope>test</scope>
-                    <version>${version.org.jboss.as}</version>
-                </dependency>
-            </dependencies>
-
             <build>
                 <plugins>
                     <plugin>
@@ -102,31 +89,6 @@
                                 <goals>
                                     <goal>test</goal>
                                 </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.jboss.as</groupId>
-                                            <artifactId>jboss-as-dist</artifactId>
-                                            <version>${version.org.jboss.as}</version>
-                                            <type>zip</type>
-                                            <overWrite>false</overWrite>
-                                            <outputDirectory>${project.build.directory}</outputDirectory>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

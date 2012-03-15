@@ -8,7 +8,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.jboss.arquillian.graphene</groupId>
     <artifactId>arquillian-graphene-api</artifactId>
     <name>Graphene API</name>
     <description>Interface for integrating and extending Graphene by another projects</description>
