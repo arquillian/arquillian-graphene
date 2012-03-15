@@ -1,13 +1,15 @@
 package org.jboss.arquillian.graphene.context;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import java.lang.reflect.Method;
-
-import javax.swing.text.html.Option;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,85 +17,136 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriver.ImeHandler;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebDriver.TargetLocator;
+import org.openqa.selenium.WebDriver.Timeouts;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.Logs;
 
 public class TestGrapheneProxyHandler {
 
     private GrapheneProxyHandler handler;
 
-    private Answer isProxyable = new Answer() {
-        public Object answer(InvocationOnMock invocation) throws Throwable {
-            Method method = invocation.getMethod();
-            assertTrue(handler.returnsWebDriverApi(method, invocation.getArguments()));
-            return null;
-        }
-    };
+    private class IsProxyable implements Answer<Object> {
 
-    private Answer isNotProxyable = new Answer() {
+        List<Method> violations = new LinkedList<Method>();
+
         public Object answer(InvocationOnMock invocation) throws Throwable {
             Method method = invocation.getMethod();
-            assertFalse(handler.returnsWebDriverApi(method, invocation.getArguments()));
+            if (!handler.isProxyable(method, invocation.getArguments())) {
+                violations.add(method);
+            }
             return null;
         }
-    };
+
+        public List<Method> getViolations() {
+            return Collections.unmodifiableList(violations);
+        }
+    }
+
+    private class IsNotProxyable implements Answer<Object> {
+
+        List<Method> violations = new LinkedList<Method>();
+
+        public Object answer(InvocationOnMock invocation) throws Throwable {
+            Method method = invocation.getMethod();
+            if (handler.isProxyable(method, invocation.getArguments())) {
+                violations.add(method);
+            }
+            return null;
+        }
+
+        public List<Method> getViolations() {
+            return Collections.unmodifiableList(violations);
+        }
+    }
 
     @Before
     public void prepare() {
-        handler = new GrapheneProxyHandler();
+        handler = GrapheneProxyHandler.forTarget(null);
     }
 
     @Test
     public void test_webDriver_methods_which_should_not_return_proxy() {
+        IsNotProxyable isNotProxyable = new IsNotProxyable();
+
         // when
         WebDriver driver = Mockito.mock(WebDriver.class, isNotProxyable);
-        Options options;
-        Navigation navigation;
+        Options options = mock(Options.class, isNotProxyable);
+        Navigation navigation = mock(Navigation.class, isNotProxyable);
+        ImeHandler ime = mock(ImeHandler.class, isNotProxyable);
+        Logs logs = mock(Logs.class, isNotProxyable);
 
         // then
         try {
             driver.toString();
             driver.close();
             driver.equals(new Object());
-            driver.findElement(By.className(""));
-            driver.findElements(By.className(""));
             driver.get("");
             driver.getClass();
             driver.getCurrentUrl();
             driver.getPageSource();
             driver.getTitle();
             driver.getWindowHandle();
-            driver.getWindowHandles();
             driver.hashCode();
             driver.quit();
             driver.toString();
+
+            options.addCookie(mock(Cookie.class));
+            options.deleteAllCookies();
+            options.deleteCookie(mock(Cookie.class));
+            options.deleteCookieNamed("");
+            options.getCookieNamed("");
+
+            navigation.back();
+            navigation.forward();
+            navigation.to("");
+            navigation.to(new URL("http://localhost/"));
+
+            ime.activateEngine("");
+            ime.deactivate();
+            ime.getActiveEngine();
+            ime.isActivated();
+
+            logs.get("");
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        assertEquals(Arrays.asList(), isNotProxyable.getViolations());
     }
 
     @Test
     public void test_webDriver_methods_which_should_return_proxy() {
+        IsProxyable isProxyable = new IsProxyable();
+
         // when
         WebDriver driver = Mockito.mock(WebDriver.class, isProxyable);
         Options options = mock(Options.class, isProxyable);
         TargetLocator targetLocator = mock(TargetLocator.class, isProxyable);
-        Navigation navigation = mock(Navigation.class, isProxyable);
+        ImeHandler ime = mock(ImeHandler.class, isProxyable);
+        Timeouts timeouts = mock(Timeouts.class, isProxyable);
 
         // then
         try {
             driver.manage();
             driver.navigate();
             driver.switchTo();
+            driver.findElement(By.className(""));
+            driver.findElements(By.className(""));
+            driver.getWindowHandles();
 
             options.ime();
             options.logs();
             options.timeouts();
             options.window();
-            
+            options.getCookies();
+
             targetLocator.activeElement();
             targetLocator.alert();
             targetLocator.defaultContent();
@@ -101,8 +154,15 @@ public class TestGrapheneProxyHandler {
             targetLocator.frame("name");
             targetLocator.frame(mock(WebElement.class));
             targetLocator.window("name");
+
+            ime.getAvailableEngines();
+
+            timeouts.implicitlyWait(1L, TimeUnit.MICROSECONDS);
+            timeouts.setScriptTimeout(1L, TimeUnit.MICROSECONDS);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        assertEquals(Arrays.asList(), isProxyable.getViolations());
     }
 }

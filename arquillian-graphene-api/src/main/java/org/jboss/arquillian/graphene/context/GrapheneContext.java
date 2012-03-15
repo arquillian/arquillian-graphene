@@ -103,9 +103,10 @@ public final class GrapheneContext {
      */
     public static WebDriver getProxy() {
         return (WebDriver) Proxy.newProxyInstance(WebDriver.class.getClassLoader(), new Class[] { WebDriver.class },
-                new GrapheneProxyHandler());
+                GrapheneProxyHandler.forFuture(new FutureTarget() {
+                    public Object getTarget() {
+                        return get();
+                    }
+                }));
     }
-
-    
-
 }
