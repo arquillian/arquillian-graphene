@@ -84,7 +84,6 @@
         <!-- Versioning -->
         <version.arquillian.core>1.0.0.CR7</version.arquillian.core>
         <version.arquillian.drone>1.0.0.CR3</version.arquillian.drone>
-        <version.shrinkwrap>1.0.0-cr-2</version.shrinkwrap>
 
         <arquillian.conf.relativePath>qa/richfaces-arquillian-xml-property-resolver/target/conf</arquillian.conf.relativePath>
         <testsuite.basedir>${basedir}/..</testsuite.basedir>
@@ -236,13 +235,6 @@
                 <version>${version.arquillian.drone}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <!-- required until ARQ-488 is fixed -->
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-impl-base</artifactId>
-                <version>${version.shrinkwrap}</version>
             </dependency>
 
             <dependency>
