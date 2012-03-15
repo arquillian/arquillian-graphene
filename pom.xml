@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.jboss.arquillian.graphene</groupId>
+    <artifactId>arquillian-graphene-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!-- APIs -->
+        <version.selenium-api>2.18.0</version.selenium-api>
+        <!-- Tests -->
+        <version.junit>4.10</version.junit>
+        <version.mockito>1.9.0</version.mockito>
+    </properties>
+
+    <modules>
+        <module>arquillian-graphene-api</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- APIs -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${version.selenium-api}</version>
+            </dependency>
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${version.mockito}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
