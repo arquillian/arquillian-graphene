@@ -2,6 +2,8 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+    <artifactId>arquillian-graphene-impl</artifactId>
+    <name>Graphene Implementation</name>
 
     <parent>
         <groupId>org.jboss.arquillian.graphene</groupId>
@@ -9,10 +11,8 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-graphene-api</artifactId>
-
     <dependencies>
-        
+
         <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
