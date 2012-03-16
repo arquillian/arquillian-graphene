@@ -21,8 +21,7 @@
  */
 package org.jboss.arquillian.graphene.context;
 
-import java.lang.reflect.Proxy;
-
+import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -36,7 +35,7 @@ import org.openqa.selenium.WebDriver;
  * 
  * <p>
  * Proxy specifically handles the situations when no context is set - in this situation, runtime exception with
- * IllegalStateException cause is thrown.
+ * NullPointerException cause is thrown.
  * </p>
  * 
  * @author Lukas Fryc
@@ -66,8 +65,6 @@ public final class GrapheneContext {
 
     /**
      * Resets the WebDriver context for current thread
-     * 
-     * @param driver the WebDriver instance
      */
     public static void reset() {
         REFERENCE.set(null);
@@ -79,18 +76,18 @@ public final class GrapheneContext {
      * @return the context of WebDriver for current thread
      * @throws NullPointerException when context is null
      */
-    protected static WebDriver get() {
+    static WebDriver get() {
         WebDriver driver = REFERENCE.get();
         if (driver == null) {
-            throw new NullPointerException("context is null");
+            throw new NullPointerException("context is null - it needs to be setup before starting to use it");
         }
         return driver;
     }
 
     /**
-     * Returns true of the context is initialized
+     * Returns true if the context is initialized
      * 
-     * @return true of the context is initialized
+     * @return true if the context is initialized
      */
     public static boolean isInitialized() {
         return REFERENCE.get() != null;
@@ -102,11 +99,32 @@ public final class GrapheneContext {
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static WebDriver getProxy() {
-        return (WebDriver) Proxy.newProxyInstance(WebDriver.class.getClassLoader(), new Class[] { WebDriver.class },
-                GrapheneProxyHandler.forFuture(new FutureTarget() {
-                    public Object getTarget() {
-                        return get();
-                    }
-                }));
+        return GrapheneProxy.getProxyForFutureTarget(TARGET, new Class<?>[] { WebDriver.class });
     }
+
+    /**
+     * Returns the instance of proxy to thread local context of WebDriver, the proxy handles the same interfaces which
+     * implements provided class.
+     * 
+     * @return the instance of proxy to thread local context of WebDriver
+     */
+    public static <T extends WebDriver> T getProxyForDriver(Class<T> webDriverImplClass) {
+        return GrapheneProxy.getProxyForFutureTarget(TARGET, new Class<?>[] { webDriverImplClass });
+    }
+
+    /**
+     * Returns the instance of proxy to thread local context of WebDriver, the proxy handles all the interfaces provided as
+     * parameter.
+     * 
+     * @return the instance of proxy to thread local context of WebDriver
+     */
+    public static <T extends WebDriver> T getProxyForInterfaces(Class<?>... interfaces) {
+        return GrapheneProxy.getProxyForFutureTarget(TARGET, interfaces);
+    }
+
+    private static FutureTarget TARGET = new FutureTarget() {
+        public Object getTarget() {
+            return get();
+        }
+    };
 }
