@@ -21,14 +21,16 @@
  */
 package org.jboss.arquillian.graphene.context;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import javassist.util.proxy.MethodHandler;
+import javassist.util.proxy.ProxyFactory;
+import javassist.util.proxy.ProxyObject;
 
 import org.junit.Test;
-import org.openqa.selenium.SearchContext;
+import org.mockito.Mockito;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
@@ -38,38 +40,59 @@ import org.openqa.selenium.WebDriver;
 public class TestGrapheneProxy {
 
     @Test
-    public void test1() {
-        Set<Class<?>> actual = actual(WebDriver.class);
-        Set<Class<?>> expected = expected(WebDriver.class, SearchContext.class);
-        assertEquals(expected, actual);
+    public void test_createProxy_with_implementationClass() throws Exception {
+        // given
+        ProxyFactory factory = mock(ProxyFactory.class);
+        MethodHandler handler = mock(MethodHandler.class);
+        Class<ProxyObjectDriver> clazz = ProxyObjectDriver.class;
+
+        // when
+        when(factory.createClass()).thenReturn(clazz);
+        GrapheneProxy.createProxy(factory, handler, TestingDriverStub.class);
+
+        // then
+        verify(factory).setSuperclass(TestingDriverStub.class);
+        verify(factory).setInterfaces(new Class[] { GrapheneProxyInstance.class });
     }
 
     @Test
-    public void test2() {
-        Set<Class<?>> actual = actual(TestingDriver.class);
-        Set<Class<?>> expected = expected(TestingDriver.INTERFACES, TestingDriver.class, SearchContext.class);
-        assertEquals(expected, actual);
+    public void test_createProxy_without_implementationClass() throws Exception {
+        // given
+        ProxyFactory factory = mock(ProxyFactory.class);
+        MethodHandler handler = mock(MethodHandler.class);
+        Class<ProxyObjectDriver> clazz = ProxyObjectDriver.class;
+
+        // when
+        when(factory.createClass()).thenReturn(clazz);
+        GrapheneProxy.createProxy(factory, handler, null);
+
+        // then
+        verify(factory, never()).setSuperclass(Mockito.any(Class.class));
+        verify(factory).setInterfaces(new Class[] { GrapheneProxyInstance.class });
     }
 
     @Test
-    public void test3() {
-        Set<Class<?>> actual = actual(TestingDriver.class);
-        Set<Class<?>> expected = expected(TestingDriver.INTERFACES, TestingDriver.class, SearchContext.class,
-                TakesScreenshot.class);
-        assertEquals(expected, actual);
+    public void test_createProxy_with_interfaces() throws Exception {
+        // given
+        ProxyFactory factory = mock(ProxyFactory.class);
+        MethodHandler handler = mock(MethodHandler.class);
+        Class<ProxyObjectDriver> clazz = ProxyObjectDriver.class;
+
+        // when
+        when(factory.createClass()).thenReturn(clazz);
+        GrapheneProxy.createProxy(factory, handler, null, WebDriver.class, TakesScreenshot.class);
+
+        // then
+        verify(factory).setInterfaces(new Class[] { WebDriver.class, TakesScreenshot.class, GrapheneProxyInstance.class });
     }
 
-    private Set<Class<?>> actual(Class<?>... classes) {
-        return new HashSet<Class<?>>(Arrays.asList(GrapheneProxy.getInterfaces(classes)));
-    }
+    static class ProxyObjectDriver extends TestingDriverStub implements ProxyObject {
 
-    private Set<Class<?>> expected(Class<?>... classes) {
-        return new HashSet<Class<?>>(Arrays.asList(classes));
-    }
+        public void setHandler(MethodHandler mi) {
+        }
 
-    private Set<Class<?>> expected(Class<?>[] classes1, Class<?>... classes2) {
-        Set<Class<?>> set = new HashSet<Class<?>>(Arrays.asList(classes1));
-        set.addAll(Arrays.asList(classes2));
-        return set;
+        public MethodHandler getHandler() {
+            return null;
+        }
     }
 }

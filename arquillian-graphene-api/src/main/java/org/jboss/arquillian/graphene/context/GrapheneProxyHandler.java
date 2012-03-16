@@ -21,9 +21,10 @@
  */
 package org.jboss.arquillian.graphene.context;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import javassist.util.proxy.MethodHandler;
 
 import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
 
@@ -39,7 +40,7 @@ import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
  * 
  * @author Lukas Fryc
  */
-class GrapheneProxyHandler implements InvocationHandler {
+class GrapheneProxyHandler implements MethodHandler {
 
     private Object target;
     private FutureTarget future;
@@ -81,12 +82,12 @@ class GrapheneProxyHandler implements InvocationHandler {
      * {@link GrapheneProxyHandler} wrapping the result of invocation.
      * </p>
      */
-    public Object invoke(Object p, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
+        Object result = invokeReal(thisMethod, args);
 
-        Object result = invokeReal(method, args);
-
-        if (isProxyable(method, args)) {
-            return GrapheneProxy.getProxyForTarget(result);
+        if (isProxyable(thisMethod, args)) {
+            Class<?>[] interfaces = GrapheneProxyUtil.getInterfaces(result.getClass());
+            return GrapheneProxy.getProxyForTargetWithInterfaces(result, interfaces);
         }
 
         return result;
@@ -119,8 +120,9 @@ class GrapheneProxyHandler implements InvocationHandler {
      */
     Object invokeReal(Method method, Object[] args) throws Throwable {
         Object result;
+        Object target = getTarget();
         try {
-            result = method.invoke(getTarget(), args);
+            result = method.invoke(target, args);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         } catch (Exception e) {
@@ -138,4 +140,5 @@ class GrapheneProxyHandler implements InvocationHandler {
     Object getTarget() {
         return (future == null) ? target : future.getTarget();
     }
+
 }

@@ -21,22 +21,16 @@
  */
 package org.jboss.arquillian.graphene.context;
 
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-
-import org.openqa.selenium.WebDriver;
+import javassist.util.proxy.MethodHandler;
+import javassist.util.proxy.ProxyFactory;
+import javassist.util.proxy.ProxyObject;
 
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the proxy.
  * 
  * @author Lukas Fryc
  */
-class GrapheneProxy {
+final class GrapheneProxy {
 
     /**
      * <p>
@@ -44,7 +38,7 @@ class GrapheneProxy {
      * </p>
      * 
      * <p>
-     * The list of interfaces which should be extended in the proxy is automatically computer from provided instance.
+     * The list of interfaces which should be implemented by the proxy is automatically computer from provided instance.
      * </p>
      * 
      * 
@@ -54,7 +48,27 @@ class GrapheneProxy {
     @SuppressWarnings("unchecked")
     static <T> T getProxyForTarget(T target) {
         GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(target);
-        return (T) Proxy.newProxyInstance(WebDriver.class.getClassLoader(), getInterfaces(target.getClass()), handler);
+        return (T) createProxy(handler, target.getClass());
+    }
+
+    /**
+     * <p>
+     * Wraps the given target instance in the proxy.
+     * </p>
+     * 
+     * <p>
+     * The list of interfaces which should be implemented by the proxy needs to be provided.
+     * </p>
+     * 
+     * 
+     * @param target the target instance to be wrapped
+     * @param interfaces the list of interfaces which should be implemented by created proxy
+     * @return the proxy wrapping the target
+     */
+    @SuppressWarnings("unchecked")
+    static <T> T getProxyForTargetWithInterfaces(T target, Class<?>... interfaces) {
+        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(target);
+        return (T) createProxy(handler, null, interfaces);
     }
 
     /**
@@ -79,47 +93,63 @@ class GrapheneProxy {
      * @return the proxy wrapping the future target
      */
     @SuppressWarnings("unchecked")
-    static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?>... targetClasses) {
+    static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> implementationClass,
+            Class<?>... additionalInterfaces) {
         GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(futureTarget);
-        return (T) Proxy.newProxyInstance(WebDriver.class.getClassLoader(), getInterfaces(targetClasses), handler);
+        return (T) createProxy(handler, implementationClass, additionalInterfaces);
     }
 
     /**
-     * Transitively obtains the interfaces which are implemented by given classes.
+     * <p>
+     * Uses default {@link ProxyFactory} to create proxy new proxy for given implementation class or interfaces with the given
+     * method handler.
+     * </p>
      * 
-     * @param targetClasses the list of classes from which should be determined the list of interfaces that these classes
-     *        implement
-     * @return the list of interfaces which are implemented by given classes
+     * <p>
+     * See {@link #createProxy(ProxyFactory, MethodHandler, Class, Class...)} for more details.
+     * </p>
      */
-    static Class<?>[] getInterfaces(Class<?>... targetClasses) {
-        Set<Class<?>> classes = new HashSet<Class<?>>();
-        Queue<Class<?>> queue = new LinkedList<Class<?>>();
+    static <T> T createProxy(MethodHandler handler, Class<T> implementationClass, Class<?>... additionalInterfaces) {
+        ProxyFactory factory = new ProxyFactory();
+        return createProxy(factory, handler, implementationClass, additionalInterfaces);
+    }
 
-        queue.addAll(Arrays.asList(targetClasses));
+    /**
+     * <p>
+     * Uses given proxy factory to create new proxy for given implementation class or interfaces with the given method handler.
+     * </p>
+     * 
+     * <p>
+     * The returned proxy implements {@link GrapheneProxyInstance} by default.
+     * 
+     * @param factory the {@link ProxyFactory} which will be used to create proxy
+     * @param handler the {@link MethodHandler} for handling invocation
+     * @param implementationClass the class which will be used as superclass or null if the created proxy should not have
+     *        superclass
+     * @param additionalInterfaces additional interfaces which should a created proxy implement
+     * @return the proxy for given implementation class or interfaces with the given method handler.
+     */
+    static <T> T createProxy(ProxyFactory factory, MethodHandler handler, Class<T> implementationClass,
+            Class<?>... additionalInterfaces) {
 
-        while (!queue.isEmpty()) {
-            Class<?> clazz = queue.poll();
+        Class<?>[] interfaces = concat(additionalInterfaces, GrapheneProxyInstance.class);
 
-            if (classes.contains(clazz)) {
-                continue;
-            }
-
-            classes.add(clazz);
-            classes.addAll(Arrays.asList(clazz.getInterfaces()));
-            queue.addAll(Arrays.asList(clazz.getInterfaces()));
-            if (clazz.getSuperclass() != null) {
-                classes.add(clazz.getSuperclass());
-                queue.add(clazz.getSuperclass());
-            }
+        factory.setInterfaces(interfaces);
+        if (implementationClass != null) {
+            factory.setSuperclass(implementationClass);
         }
 
-        List<Class<?>> interfaces = new LinkedList<Class<?>>();
-        for (Class<?> clazz : classes) {
-            if (clazz.isInterface()) {
-                interfaces.add(clazz);
-            }
+        @SuppressWarnings("unchecked")
+        Class<T> c = (Class<T>) factory.createClass();
+
+        T newInstance;
+        try {
+            newInstance = c.newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
-        return interfaces.toArray(new Class<?>[interfaces.size()]);
+        ((ProxyObject) newInstance).setHandler(handler);
+        return newInstance;
     }
 
     /**
@@ -127,5 +157,13 @@ class GrapheneProxy {
      */
     interface FutureTarget {
         Object getTarget();
+    }
+
+    private static Class<?>[] concat(Class<?>[] interfaces, Class<?> clazz) {
+        int length = interfaces.length;
+        Class<?>[] out = new Class<?>[length + 1];
+        System.arraycopy(interfaces, 0, out, 0, length);
+        out[length] = clazz;
+        return out;
     }
 }

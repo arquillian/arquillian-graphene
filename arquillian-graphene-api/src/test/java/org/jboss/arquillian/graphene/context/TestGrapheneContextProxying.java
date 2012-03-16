@@ -28,8 +28,6 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Proxy;
-
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
@@ -44,11 +42,10 @@ public class TestGrapheneContextProxying {
     @Test
     public void context_provides_proxy_which_delegates_to_current_context() {
         // having
-        WebDriver driver = mock(WebDriver.class);
+        WebDriver driver = new DriverReturningSampleString();
 
         // when
         GrapheneContext.set(driver);
-        when(driver.toString()).thenReturn(SAMPLE_STRING);
 
         // then
         WebDriver proxy = GrapheneContext.getProxy();
@@ -68,9 +65,16 @@ public class TestGrapheneContextProxying {
         // then
         WebDriver driverProxy = GrapheneContext.getProxy();
         Navigation navigationProxy = driverProxy.navigate();
-        assertTrue(Proxy.isProxyClass(navigationProxy.getClass()));
+        assertTrue(navigationProxy instanceof GrapheneProxyInstance);
 
         // verify
         verify(driver, only()).navigate();
+    }
+    
+    private static class DriverReturningSampleString extends TestingDriverStub {
+        @Override
+        public String toString() {
+            return SAMPLE_STRING;
+        }
     }
 }
