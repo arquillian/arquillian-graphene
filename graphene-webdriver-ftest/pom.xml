@@ -8,7 +8,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-graphene-ftest</artifactId>
+    <artifactId>graphene-webdriver-ftest</artifactId>
     <name>Graphene WebDriver: Functional Test</name>
 
     <properties>
