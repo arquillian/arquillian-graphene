@@ -19,21 +19,21 @@ package org.jboss.arquillian.graphene.drone.factory;
 import org.jboss.arquillian.drone.spi.Configurator;
 import org.jboss.arquillian.drone.spi.Destructor;
 import org.jboss.arquillian.drone.spi.Instantiator;
-import org.jboss.arquillian.drone.webdriver.configuration.HtmlUnitDriverConfiguration;
 import org.jboss.arquillian.drone.webdriver.configuration.TypedWebDriverConfiguration;
-import org.jboss.arquillian.drone.webdriver.factory.HtmlUnitDriverFactory;
+import org.jboss.arquillian.drone.webdriver.configuration.WebDriverConfiguration;
+import org.jboss.arquillian.drone.webdriver.factory.WebDriverFactory;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.WebDriver;
 
 /**
- * Extends the {@link HtmlUnitDriverFactory} and provides the created instance to the {@link GrapheneContext}.
+ * Extends the {@link WebDriverFactory} and provides the created instance to the {@link GrapheneContext}.
  * 
  * @author Lukas Fryc
  * 
  */
-public class GrapheneHtmlUnitDriverFactory extends HtmlUnitDriverFactory implements
-        Configurator<HtmlUnitDriver, TypedWebDriverConfiguration<HtmlUnitDriverConfiguration>>,
-        Instantiator<HtmlUnitDriver, TypedWebDriverConfiguration<HtmlUnitDriverConfiguration>>, Destructor<HtmlUnitDriver> {
+public class GrapheneWebDriverFactory extends WebDriverFactory implements
+        Configurator<WebDriver, TypedWebDriverConfiguration<WebDriverConfiguration>>,
+        Instantiator<WebDriver, TypedWebDriverConfiguration<WebDriverConfiguration>>, Destructor<WebDriver> {
 
     /*
      * (non-Javadoc)
@@ -51,7 +51,7 @@ public class GrapheneHtmlUnitDriverFactory extends HtmlUnitDriverFactory impleme
      * @see org.jboss.arquillian.drone.spi.Destructor#destroyInstance(java.lang.Object)
      */
     @Override
-    public void destroyInstance(HtmlUnitDriver instance) {
+    public void destroyInstance(WebDriver instance) {
         try {
             super.destroyInstance(instance);
         } finally {
@@ -65,10 +65,11 @@ public class GrapheneHtmlUnitDriverFactory extends HtmlUnitDriverFactory impleme
      * @see org.jboss.arquillian.drone.spi.Instantiator#createInstance(org.jboss.arquillian.drone.spi.DroneConfiguration)
      */
     @Override
-    public HtmlUnitDriver createInstance(TypedWebDriverConfiguration<HtmlUnitDriverConfiguration> configuration) {
-        HtmlUnitDriver driver = super.createInstance(configuration);
-        HtmlUnitDriver proxy = GrapheneContext.getProxyForDriver(HtmlUnitDriver.class);
+    public WebDriver createInstance(TypedWebDriverConfiguration<WebDriverConfiguration> configuration) {
+        WebDriver driver = super.createInstance(configuration);
+        WebDriver proxy = GrapheneContext.getProxyForDriver(WebDriver.class);
         GrapheneContext.set(driver);
         return proxy;
     }
+
 }

@@ -20,20 +20,49 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.drone.spi.Configurator;
 import org.jboss.arquillian.drone.spi.Destructor;
 import org.jboss.arquillian.drone.spi.Instantiator;
+import org.jboss.arquillian.graphene.drone.factory.GrapheneAndroidDriverFactory;
+import org.jboss.arquillian.graphene.drone.factory.GrapheneChromeDriverFactory;
+import org.jboss.arquillian.graphene.drone.factory.GrapheneFirefoxDriverFactory;
 import org.jboss.arquillian.graphene.drone.factory.GrapheneHtmlUnitDriverFactory;
+import org.jboss.arquillian.graphene.drone.factory.GrapheneIPhoneDriverFactory;
+import org.jboss.arquillian.graphene.drone.factory.GrapheneInternetExplorerDriverFactory;
+import org.jboss.arquillian.graphene.drone.factory.GrapheneWebDriverFactory;
 
 /**
- * Arquillian Drone support for WebDriver
+ * Arquillian Drone support Graphene and WebDriver and its implementations
  * 
- * @author <a href="kpiwko@redhat.com>Karel Piwko</a>
- * 
+ * Lukas Fryc
  */
 public class DroneGrapheneExtension implements LoadableExtension {
 
     public void register(ExtensionBuilder builder) {
 
+        builder.service(Configurator.class, GrapheneAndroidDriverFactory.class);
+        builder.service(Instantiator.class, GrapheneAndroidDriverFactory.class);
+        builder.service(Destructor.class, GrapheneAndroidDriverFactory.class);
+
+        builder.service(Configurator.class, GrapheneChromeDriverFactory.class);
+        builder.service(Instantiator.class, GrapheneChromeDriverFactory.class);
+        builder.service(Destructor.class, GrapheneChromeDriverFactory.class);
+
+        builder.service(Configurator.class, GrapheneFirefoxDriverFactory.class);
+        builder.service(Instantiator.class, GrapheneFirefoxDriverFactory.class);
+        builder.service(Destructor.class, GrapheneFirefoxDriverFactory.class);
+
         builder.service(Configurator.class, GrapheneHtmlUnitDriverFactory.class);
         builder.service(Instantiator.class, GrapheneHtmlUnitDriverFactory.class);
         builder.service(Destructor.class, GrapheneHtmlUnitDriverFactory.class);
+
+        builder.service(Configurator.class, GrapheneInternetExplorerDriverFactory.class);
+        builder.service(Instantiator.class, GrapheneInternetExplorerDriverFactory.class);
+        builder.service(Destructor.class, GrapheneInternetExplorerDriverFactory.class);
+
+        builder.service(Configurator.class, GrapheneIPhoneDriverFactory.class);
+        builder.service(Instantiator.class, GrapheneIPhoneDriverFactory.class);
+        builder.service(Destructor.class, GrapheneIPhoneDriverFactory.class);
+
+        builder.service(Configurator.class, GrapheneWebDriverFactory.class);
+        builder.service(Instantiator.class, GrapheneWebDriverFactory.class);
+        builder.service(Destructor.class, GrapheneWebDriverFactory.class);
     }
 }
