@@ -19,10 +19,7 @@
         
         <!-- Arquillian -->
         <version.arquillian.core>1.0.0.CR7</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.CR3</version.arquillian.drone>
-        
-        <!-- APIs -->
-        <version.selenium>2.18.0</version.selenium>
+        <version.arquillian.drone>1.0.0.CR4</version.arquillian.drone>
         
         <!-- Runtime dependencies -->
         <version.javassist>3.12.1.GA</version.javassist>
@@ -65,13 +62,6 @@
                 <version>${version.arquillian.drone}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            
-            <!-- overriding versions from drone-bom -->
-            <dependency>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-api</artifactId>
-                <version>${version.selenium}</version>
             </dependency>
             
             <!-- runtime dependencies -->
