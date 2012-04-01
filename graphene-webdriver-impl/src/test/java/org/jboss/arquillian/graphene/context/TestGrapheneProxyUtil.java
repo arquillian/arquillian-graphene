@@ -29,7 +29,6 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -38,30 +37,29 @@ import org.openqa.selenium.WebDriver;
 public class TestGrapheneProxyUtil {
 
     @Test
-    public void test1() {
+    public void test_getInterface_with_WebDriver() {
         Set<Class<?>> actual = actual(WebDriver.class);
         Set<Class<?>> expected = expected(WebDriver.class, SearchContext.class);
         assertEquals(expected, actual);
     }
 
     @Test
-    public void test2() {
+    public void test_getInterface_with_interface_which_extends_another_interfaces() {
         Set<Class<?>> actual = actual(TestingDriver.class);
-        Set<Class<?>> expected = expected(TestingDriver.INTERFACES, TestingDriver.class, SearchContext.class);
+        Set<Class<?>> expected = expected(TestingDriver.INTERFACES, TestingDriver.class);
         assertEquals(expected, actual);
     }
 
     @Test
-    public void test3() {
-        Set<Class<?>> actual = actual(TestingDriver.class);
-        Set<Class<?>> expected = expected(TestingDriver.INTERFACES, TestingDriver.class, SearchContext.class,
-                TakesScreenshot.class);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void test4() {
+    public void test_getInterfaces_with_class_which_implements_wanted_interface() {
         Set<Class<?>> actual = actual(TestingDriverStub.class);
+        Set<Class<?>> expected = expected(TestingDriver.class);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_getInterfaces_with_class_extending_class_which_implements_wanted_interface() {
+        Set<Class<?>> actual = actual(TestingDriverStubExtension.class);
         Set<Class<?>> expected = expected(TestingDriver.class);
         assertEquals(expected, actual);
     }

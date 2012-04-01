@@ -44,6 +44,7 @@ final class GrapheneProxyUtil {
      */
     static Class<?>[] getInterfaces(Class<?>... targetClasses) {
         Set<Class<?>> classes = new HashSet<Class<?>>();
+        Set<Class<?>> inspected = new HashSet<Class<?>>();
         Queue<Class<?>> queue = new LinkedList<Class<?>>();
 
         queue.addAll(Arrays.asList(targetClasses));
@@ -51,10 +52,17 @@ final class GrapheneProxyUtil {
         while (!queue.isEmpty()) {
             Class<?> clazz = queue.poll();
 
-            if (classes.contains(clazz)) {
+            // if we already scanned the class, we can skip
+            if (inspected.contains(clazz)) {
+                continue;
+            }
+            
+            // if this is interface, we don't need to include all interfaces it extends, we can skip instead
+            if (clazz.isInterface() && classes.contains(clazz)) {
                 continue;
             }
 
+            inspected.add(clazz);
             classes.add(clazz);
             classes.addAll(Arrays.asList(clazz.getInterfaces()));
             queue.addAll(Arrays.asList(clazz.getInterfaces()));

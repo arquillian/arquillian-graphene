@@ -29,8 +29,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author Lukas Fryc
@@ -70,7 +72,47 @@ public class TestGrapheneContextProxying {
         // verify
         verify(driver, only()).navigate();
     }
-    
+
+    @Test
+    public void when_proxy_returns_result_of_invocation_with_arguments_then_returned_object_is_proxied() {
+        // having
+        WebDriver driver = mock(WebDriver.class);
+        WebElement webElement = mock(WebElement.class);
+        By byId = By.id("id");
+
+        // when
+        GrapheneContext.set(driver);
+        when(driver.findElement(byId)).thenReturn(webElement);
+
+        // then
+        WebDriver driverProxy = GrapheneContext.getProxy();
+        WebElement webElementProxy = driverProxy.findElement(byId);
+        assertTrue(webElementProxy instanceof GrapheneProxyInstance);
+
+        // verify
+        verify(driver, only()).findElement(byId);
+    }
+
+    @Test
+    public void when_proxy_returns_result_of_invocation_with_arguments_then_returned_object_can_be_invoked() {
+        // having
+        WebDriver driver = mock(WebDriver.class);
+        WebElement webElement = mock(WebElement.class);
+        By byId = By.id("id");
+
+        // when
+        GrapheneContext.set(driver);
+        when(driver.findElement(byId)).thenReturn(webElement);
+
+        // then
+        WebDriver driverProxy = GrapheneContext.getProxy();
+        WebElement webElementProxy = driverProxy.findElement(byId);
+        webElementProxy.clear();
+
+        // verify
+        verify(webElement, only()).clear();
+    }
+
     private static class DriverReturningSampleString extends TestingDriverStub {
         @Override
         public String toString() {
