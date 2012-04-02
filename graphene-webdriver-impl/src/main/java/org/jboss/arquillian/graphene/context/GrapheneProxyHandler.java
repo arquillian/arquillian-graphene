@@ -21,12 +21,13 @@
  */
 package org.jboss.arquillian.graphene.context;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javassist.util.proxy.MethodHandler;
-
 import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
+import org.mockito.cglib.proxy.MethodInterceptor;
+import org.mockito.cglib.proxy.MethodProxy;
 
 /**
  * <p>
@@ -40,7 +41,7 @@ import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
  * 
  * @author Lukas Fryc
  */
-class GrapheneProxyHandler implements MethodHandler {
+class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
 
     private Object target;
     private FutureTarget future;
@@ -82,15 +83,24 @@ class GrapheneProxyHandler implements MethodHandler {
      * {@link GrapheneProxyHandler} wrapping the result of invocation.
      * </p>
      */
-    public Object invoke(Object self, Method thisMethod, Method proceed, Object[] args) throws Throwable {
-        Object result = invokeReal(thisMethod, args);
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        Object result = invokeReal(method, args);
 
-        if (isProxyable(thisMethod, args)) {
+        if (isProxyable(method, args)) {
             Class<?>[] interfaces = GrapheneProxyUtil.getInterfaces(result.getClass());
             return GrapheneProxy.getProxyForTargetWithInterfaces(result, interfaces);
         }
 
         return result;
+    }
+
+    /**
+     * Delegates to {@link #invoke(Object, Method, Object[])} to serve as {@link MethodInterceptor}.
+     */
+    @Override
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        return invoke(proxy, method, args);
     }
 
     /**

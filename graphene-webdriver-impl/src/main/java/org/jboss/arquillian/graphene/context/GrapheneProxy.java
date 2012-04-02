@@ -21,13 +21,13 @@
  */
 package org.jboss.arquillian.graphene.context;
 
-import javassist.util.proxy.MethodHandler;
-import javassist.util.proxy.ProxyFactory;
-import javassist.util.proxy.ProxyObject;
+import java.lang.reflect.Proxy;
+
+import org.mockito.internal.creation.jmock.ClassImposterizer;
 
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the proxy.
- * 
+ *
  * @author Lukas Fryc
  */
 final class GrapheneProxy {
@@ -36,12 +36,12 @@ final class GrapheneProxy {
      * <p>
      * Wraps the given target instance in the proxy.
      * </p>
-     * 
+     *
      * <p>
      * The list of interfaces which should be implemented by the proxy is automatically computer from provided instance.
      * </p>
-     * 
-     * 
+     *
+     *
      * @param target the target instance to be wrapped
      * @return the proxy wrapping the target
      */
@@ -55,12 +55,12 @@ final class GrapheneProxy {
      * <p>
      * Wraps the given target instance in the proxy.
      * </p>
-     * 
+     *
      * <p>
      * The list of interfaces which should be implemented by the proxy needs to be provided.
      * </p>
-     * 
-     * 
+     *
+     *
      * @param target the target instance to be wrapped
      * @param interfaces the list of interfaces which should be implemented by created proxy
      * @return the proxy wrapping the target
@@ -75,19 +75,19 @@ final class GrapheneProxy {
      * <p>
      * Wraps the given future target instance in the proxy.
      * </p>
-     * 
+     *
      * <p>
      * Future target can be computed dynamically for each invocation of proxy.
      * </p>
-     * 
+     *
      * <p>
      * In this case interfaces which should the proxy implement needs to be provided.
      * </p>
-     * 
+     *
      * <p>
      * The list of any classes can be provided, the list of interfaces will be automatically computed.
      * </p>
-     * 
+     *
      * @param futureTarget the future target of invocation
      * @param targetClasses the list of classes from which should be determined what interfaces will returned proxy implement
      * @return the proxy wrapping the future target
@@ -101,62 +101,29 @@ final class GrapheneProxy {
 
     /**
      * <p>
-     * Uses default {@link ProxyFactory} to create proxy new proxy for given implementation class or interfaces with the given
-     * method handler.
-     * </p>
-     * 
-     * <p>
-     * See {@link #createProxy(ProxyFactory, MethodHandler, Class, Class...)} for more details.
-     * </p>
-     */
-    static <T> T createProxy(MethodHandler handler, Class<T> implementationClass, Class<?>... additionalInterfaces) {
-        ProxyFactory factory = new ProxyFactory();
-        return createProxy(factory, handler, implementationClass, additionalInterfaces);
-    }
-
-    /**
-     * <p>
      * Uses given proxy factory to create new proxy for given implementation class or interfaces with the given method handler.
      * </p>
-     * 
+     *
      * <p>
      * The returned proxy implements {@link GrapheneProxyInstance} by default.
-     * 
+     *
      * @param factory the {@link ProxyFactory} which will be used to create proxy
-     * @param handler the {@link MethodHandler} for handling invocation
+     * @param interceptor the {@link MethodHandler} for handling invocation
      * @param implementationClass the class which will be used as superclass or null if the created proxy should not have
      *        superclass
      * @param additionalInterfaces additional interfaces which should a created proxy implement
      * @return the proxy for given implementation class or interfaces with the given method handler.
      */
-    static <T> T createProxy(ProxyFactory factory, MethodHandler handler, Class<T> implementationClass,
-            Class<?>... additionalInterfaces) {
+    @SuppressWarnings("unchecked")
+    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<?> implementationClass, Class<?>... additionalInterfaces) {
 
-        Class<?>[] interfaces = concat(additionalInterfaces, GrapheneProxyInstance.class);
+        Class<?>[] ancillaryTypes = concat(additionalInterfaces, GrapheneProxyInstance.class);
 
-        factory.setInterfaces(interfaces);
         if (implementationClass != null) {
-            factory.setSuperclass(implementationClass);
+            return (T) ClassImposterizer.INSTANCE.imposterise(interceptor, implementationClass, ancillaryTypes);
+        } else {
+            return (T) Proxy.newProxyInstance(GrapheneProxy.class.getClassLoader(), ancillaryTypes, interceptor);
         }
-
-        @SuppressWarnings("unchecked")
-        Class<T> c = (Class<T>) factory.createClass();
-
-        T newInstance;
-        try {
-            newInstance = c.newInstance();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-        ((ProxyObject) newInstance).setHandler(handler);
-        return newInstance;
-    }
-
-    /**
-     * Interface for computation of future target of invocation by proxy.
-     */
-    interface FutureTarget {
-        Object getTarget();
     }
 
     private static Class<?>[] concat(Class<?>[] interfaces, Class<?> clazz) {
@@ -165,5 +132,12 @@ final class GrapheneProxy {
         System.arraycopy(interfaces, 0, out, 0, length);
         out[length] = clazz;
         return out;
+    }
+
+    /**
+     * Interface for computation of future target of invocation by proxy.
+     */
+    interface FutureTarget {
+        Object getTarget();
     }
 }
