@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.context;
 
+import java.lang.reflect.Type;
+
 import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
 import org.openqa.selenium.WebDriver;
 
@@ -54,13 +56,38 @@ public final class GrapheneContext {
      * Sets the WebDriver context for current thread
      * 
      * @param driver the WebDriver instance
-     * @throws IllegalArgumentException when provided WebDriver instance is null
+     * @throws IllegalArgumentException when provided WebDriver instance is null or a Proxy
      */
     public static void set(WebDriver driver) {
         if (driver == null) {
             throw new IllegalArgumentException("context instance can't be null");
         }
+        if (isDriverProxy(driver)) {
+            throw new IllegalArgumentException("context instance can't be a proxy");
+        }
+        
         REFERENCE.set(driver);
+    }
+    
+    /**
+     * Returns whether given <code>driver</code> is Proxy istance.
+     * 
+     * @param driver driver instance to check
+     * @return true when driver is a Proxy instance, false otherwise
+     */
+    private static boolean isDriverProxy(WebDriver driver) {
+        String PROXY_INTERFACE = "interface org.jboss.arquillian.graphene.context.GrapheneProxyInstance";
+        Class<?>[] interfaces = driver.getClass().getInterfaces();
+        
+        boolean result = false;
+        for(Class<?> i : interfaces) {
+            if( i.toString().equals(PROXY_INTERFACE) ) {
+                result = true;
+                break;
+            }
+        }
+        
+        return result;
     }
 
     /**

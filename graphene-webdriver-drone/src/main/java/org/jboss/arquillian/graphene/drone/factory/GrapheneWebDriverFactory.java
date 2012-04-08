@@ -68,8 +68,8 @@ public class GrapheneWebDriverFactory extends WebDriverFactory implements
     public WebDriver createInstance(TypedWebDriverConfiguration<WebDriverConfiguration> configuration) {
         WebDriver driver = super.createInstance(configuration);
         WebDriver proxy = GrapheneContext.getProxyForDriver(WebDriver.class);
-        GrapheneContext.set(driver);
-        return proxy;
+
+        return driver;
     }
 
 }
