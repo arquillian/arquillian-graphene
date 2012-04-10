@@ -1,132 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-    <!-- Parent -->
-    <parent>
-        <groupId>org.jboss.arquillian.graphene</groupId>
-        <artifactId>arquillian-graphene-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
-    <!-- Model Version -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Artifact Configuration -->
-    <artifactId>arquillian-graphene-drone</artifactId>
-    <name>Graphene Support for Drone Extension</name>
+    <parent>
+        <artifactId>graphene-selenium-parent</artifactId>
+        <groupId>org.jboss.arquillian.graphene</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-    <developers>
-        <developer>
-            <name>Karel Piwko</name>
-            <email>kpiwko@redhat.com</email>
-        </developer>
-    </developers>
+    <artifactId>graphene-selenium-ftest-junit-container</artifactId>
+    <name>Graphene Selenium: Functional Test for JUnit Container</name>
 
     <properties>
-        <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
+         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
     </properties>
 
-    <!-- Dependencies -->
     <dependencies>
-        <!-- Graphene dependencies -->
+        <!-- Arquillian Graphene -->
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>arquillian-graphene-api</artifactId>
+            <artifactId>arquillian-graphene</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>arquillian-graphene-impl</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <!-- Arquillian Drone -->
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-drone-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-drone-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-drone-configuration</artifactId>
-        </dependency>
-
-        <!-- Arquillian dependencies -->
-        <dependency>
-            <groupId>org.jboss.arquillian.core</groupId>
-            <artifactId>arquillian-core-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.test</groupId>
-            <artifactId>arquillian-test-spi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.config</groupId>
-            <artifactId>arquillian-config-api</artifactId>
-        </dependency>
-
-        <!-- Selenium dependencies -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- required to create selenium instances -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
-
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>org.jboss.arquillian.extension</groupId>
-            <artifactId>arquillian-drone-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
+        
+        <!-- Arquillian JUnit -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
-
+        
+        <!-- JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- we are using a Weld based example for testing -->
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>1.0-SP4</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.1_spec</artifactId>
-            <version>2.0.1.Final</version>
-            <scope>test</scope>
-        </dependency>       
-
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.1.Final</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -142,11 +60,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>src/test/webapp/resources/script/jquery-min.js</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
-
         <profile>
             <id>ftest</id>
 
@@ -156,22 +82,6 @@
             </properties>
 
             <dependencies>
-                <dependency>
-                    <groupId>org.jboss.arquillian.extension</groupId>
-                    <artifactId>arquillian-drone-selenium-server</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <!-- Selenium dependencies -->
-                <dependency>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-server</artifactId>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                    <scope>test</scope>
-                </dependency>
                 <dependency>
                     <groupId>org.jboss.as</groupId>
                     <artifactId>jboss-as-arquillian-container-managed</artifactId>
@@ -221,6 +131,7 @@
                     </plugin>
                 </plugins>
             </build>
+
         </profile>
 
         <profile>
@@ -236,7 +147,6 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
-
 </project>
-

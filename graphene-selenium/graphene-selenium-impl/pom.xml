@@ -3,14 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jboss.arquillian.graphene</groupId>
-        <artifactId>arquillian-graphene-parent</artifactId>
+        <artifactId>graphene-selenium-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>arquillian-graphene-impl</artifactId>
+    <artifactId>graphene-selenium-impl</artifactId>
     <packaging>jar</packaging>
-    <name>Graphene Implementation</name>
+    <name>Graphene Selenium: Implementation</name>
     <description>Testing Ajax with flavour of sexy type-safe API</description>
 
     <properties>
@@ -22,7 +21,7 @@
         <!-- Runtime dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>arquillian-graphene-api</artifactId>
+            <artifactId>graphene-selenium-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -3,13 +3,12 @@
 
     <parent>
         <groupId>org.jboss.arquillian.graphene</groupId>
-        <artifactId>arquillian-graphene-parent</artifactId>
+        <artifactId>graphene-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>arquillian-graphene-build-resources</artifactId>
-    <name>Graphene Build Resources</name>
+    <artifactId>graphene-build-resources</artifactId>
+    <name>Graphene: Build Resources</name>
 
     <properties>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>

@@ -1,11 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.arquillian.graphene</groupId>
-    <artifactId>arquillian-graphene-parent</artifactId>
+    <artifactId>graphene-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Graphene Parent</name>
+    <name>Graphene: Parent</name>
     <description>Testing Ajax with flavour of sexy type-safe API</description>
     <url>http://community.jboss.org/en/arquillian/dev</url>
 
@@ -17,14 +18,8 @@
 
     <modules>
         <module>build-resources</module>
-        <module>api</module>
-        <module>impl</module>
-        <module>drone</module>
-        <module>depchain</module>
-        <module>ftest-junit-container</module>
-        <module>ftest-junit-standalone</module>
-        <module>ftest-testng-container</module>
-        <module>ftest-testng-standalone</module>
+        <module>graphene-selenium</module>
+        <module>graphene-depchain</module>
     </modules>
 
     <licenses>
@@ -51,133 +46,11 @@
         <useReleaseProfile>true</useReleaseProfile>
 
         <!-- Versioning -->
-        <version.arquillian.core>1.0.0.CR7</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.CR3</version.arquillian.drone>
-
-        <arquillian.conf.relativePath>qa/richfaces-arquillian-xml-property-resolver/target/conf</arquillian.conf.relativePath>
-        <testsuite.basedir>${basedir}/..</testsuite.basedir>
+        <version.arquillian.core>1.0.0.Final</version.arquillian.core>
+        <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-            </plugin>
-        </plugins>
 
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.6</version>
-                    <configuration>
-                        <configLocation>code-style/checkstyle.xml</configLocation>
-                        <logViolationsToConsole>true</logViolationsToConsole>
-                        <violationSeverity>error</violationSeverity>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>checkstyle-report</id>
-                            <phase>process-sources</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.jboss.arquillian.graphene</groupId>
-                            <artifactId>arquillian-graphene-build-resources</artifactId>
-                            <version>${project.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>com.mycila.maven-license-plugin</groupId>
-                    <artifactId>maven-license-plugin</artifactId>
-                    <version>1.9.0</version>
-                    <configuration>
-                        <basedir>${basedir}</basedir>
-                        <header>licences/graphene-license-header.txt</header>
-                        <quiet>false</quiet>
-                        <failIfMissing>true</failIfMissing>
-                        <strictCheck>true</strictCheck>
-                        <aggregate>false</aggregate>
-                        <includes>
-                            <include>src/**</include>
-                            <include>**/test/**</include>
-                        </includes>
-                        <excludes>
-                            <exclude>.gitignore</exclude>
-                        </excludes>
-                        <properties>
-                            <year>2011</year>
-                        </properties>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>graphene-license-check</id>
-                            <phase>process-sources</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.jboss.arquillian.graphene</groupId>
-                            <artifactId>arquillian-graphene-build-resources</artifactId>
-                            <version>${project.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.9</version>
-                </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>com.mycila.maven-license-plugin</groupId>
-                                        <artifactId>maven-license-plugin</artifactId>
-                                        <versionRange>[1.9.0,)</versionRange>
-                                        <goals>
-                                            <goal>check</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-checkstyle-plugin</artifactId>
-                                        <versionRange>[2.6,)</versionRange>
-                                        <goals>
-                                            <goal>check</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -232,62 +105,124 @@
         </dependencies>
     </dependencyManagement>
 
-    <profiles>
-        <profile>
-            <id>jenkins</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-enforcer-plugin</artifactId>
-                            <version>1.0.1</version>
-                            <executions>
-                                <execution>
-                                    <id>enforce-files-exist</id>
-                                    <goals>
-                                        <goal>enforce</goal>
-                                    </goals>
-                                    <configuration>
-                                        <rules>
-                                            <requireFilesExist>
-                                                <files>
-                                                    <file>${testsuite.basedir}/${arquillian.conf.relativePath}/arquillian.xml</file>
-                                                </files>
-                                                <message>This file: ${testsuite.basedir}/${arquillian.conf.relativePath}/arquillian.xml must exists!</message>
-                                            </requireFilesExist>
-                                        </rules>
-                                        <fail>true</fail>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-resources-plugin</artifactId>
-                            <version>2.5</version>
-                            <executions>
-                                <execution>
-                                    <id>copy-resources</id>
-                                    <phase>validate</phase>
-                                    <goals>
-                                        <goal>copy-resources</goal>
-                                    </goals>
-                                    <configuration>
-                                        <outputDirectory>${basedir}/src/test/resources</outputDirectory>
-                                        <overwrite>true</overwrite>
-                                        <resources>
-                                            <resource>
-                                                <directory>${testsuite.basedir}/${arquillian.conf.relativePath}</directory>
-                                            </resource>
-                                        </resources>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.6</version>
+                    <configuration>
+                        <configLocation>code-style/checkstyle.xml</configLocation>
+                        <logViolationsToConsole>true</logViolationsToConsole>
+                        <violationSeverity>error</violationSeverity>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>checkstyle-report</id>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jboss.arquillian.graphene</groupId>
+                            <artifactId>graphene-build-resources</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>com.mycila.maven-license-plugin</groupId>
+                    <artifactId>maven-license-plugin</artifactId>
+                    <version>1.9.0</version>
+                    <configuration>
+                        <basedir>${basedir}</basedir>
+                        <header>licences/graphene-license-header.txt</header>
+                        <quiet>false</quiet>
+                        <failIfMissing>true</failIfMissing>
+                        <strictCheck>true</strictCheck>
+                        <aggregate>false</aggregate>
+                        <includes>
+                            <include>src/**</include>
+                            <include>**/test/**</include>
+                        </includes>
+                        <excludes>
+                            <exclude>.gitignore</exclude>
+                        </excludes>
+                        <properties>
+                            <year>2011</year>
+                        </properties>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>graphene-license-check</id>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jboss.arquillian.graphene</groupId>
+                            <artifactId>graphene-build-resources</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.mycila.maven-license-plugin</groupId>
+                                        <artifactId>maven-license-plugin</artifactId>
+                                        <versionRange>[1.9.0,)</versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-checkstyle-plugin</artifactId>
+                                        <versionRange>[2.6,)</versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

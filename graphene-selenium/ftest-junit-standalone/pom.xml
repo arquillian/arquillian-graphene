@@ -2,13 +2,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>arquillian-graphene-parent</artifactId>
+        <artifactId>graphene-selenium-parent</artifactId>
         <groupId>org.jboss.arquillian.graphene</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>arquillian-graphene-ftest-testng-standalone</artifactId>
-    <name>Graphene Functional Test for TestNG Standalone</name>
+    <artifactId>graphene-selenium-ftest-junit-standalone</artifactId>
+    <name>Graphene Selenium: Functional Test for JUnit Standalone</name>
 
     <properties>
          <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
@@ -24,17 +24,17 @@
             <scope>test</scope>
         </dependency>
         
-        <!-- Arquillian TestNG -->
+        <!-- Arquillian JUnit -->
         <dependency>
-            <groupId>org.jboss.arquillian.testng</groupId>
-            <artifactId>arquillian-testng-container</artifactId>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-standalone</artifactId>
             <scope>test</scope>
         </dependency>
         
-        <!-- TestNG -->
+        <!-- JUnit -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
         
