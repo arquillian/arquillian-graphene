@@ -18,8 +18,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!-- Arquillian -->
-        <version.arquillian.core>1.0.0.CR7</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.CR4</version.arquillian.drone>
+        <version.arquillian.core>1.0.0.Final</version.arquillian.core>
+        <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
         
         <!-- Runtime dependencies -->
         <version.javassist>3.12.1.GA</version.javassist>
