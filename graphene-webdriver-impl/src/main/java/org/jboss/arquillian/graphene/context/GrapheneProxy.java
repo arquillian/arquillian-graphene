@@ -24,14 +24,25 @@ package org.jboss.arquillian.graphene.context;
 import java.lang.reflect.Proxy;
 
 import org.mockito.internal.creation.jmock.ClassImposterizer;
+import org.openqa.selenium.WebDriver;
 
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the proxy.
  *
  * @author Lukas Fryc
  */
-final class GrapheneProxy {
+public final class GrapheneProxy {
 
+    /**
+     * Returns whether given <code>driver</code> is instance of context proxy.
+     * 
+     * @param driver driver instance to check
+     * @return true when driver is a Proxy instance, false otherwise
+     */
+    public static boolean isProxyInstance(WebDriver driver) {
+        return driver instanceof GrapheneProxyInstance;
+    }
+    
     /**
      * <p>
      * Wraps the given target instance in the proxy.

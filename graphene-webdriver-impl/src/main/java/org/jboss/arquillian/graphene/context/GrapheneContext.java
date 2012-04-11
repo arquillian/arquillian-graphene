@@ -60,6 +60,9 @@ public final class GrapheneContext {
         if (driver == null) {
             throw new IllegalArgumentException("context instance can't be null");
         }
+        if (GrapheneProxy.isProxyInstance(driver)) {
+            throw new IllegalArgumentException("instance of the proxy can't be set to the context");
+        }
         REFERENCE.set(driver);
     }
 
@@ -101,6 +104,8 @@ public final class GrapheneContext {
     public static WebDriver getProxy() {
         return GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class);
     }
+    
+    
 
     /**
      * Returns the instance of proxy to thread local context of WebDriver, the proxy handles the same interfaces which

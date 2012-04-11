@@ -40,6 +40,9 @@ public class TestGrapheneContextHolding {
     @Mock
     WebDriver driver;
 
+    @Mock(extraInterfaces = GrapheneProxyInstance.class)
+    WebDriver driverProxy;
+
     @Before
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
@@ -85,5 +88,10 @@ public class TestGrapheneContextHolding {
     @Test(expected = IllegalArgumentException.class)
     public void when_set_null_instance_to_context_then_context_throws_exception() {
         GrapheneContext.set(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void when_set_proxy_instance_to_context_then_context_throws_exception() {
+        GrapheneContext.set(driverProxy);
     }
 }

@@ -23,6 +23,7 @@ import org.jboss.arquillian.drone.webdriver.configuration.TypedWebDriverConfigur
 import org.jboss.arquillian.drone.webdriver.configuration.WebDriverConfiguration;
 import org.jboss.arquillian.drone.webdriver.factory.WebDriverFactory;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneProxy;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -67,6 +68,11 @@ public class GrapheneWebDriverFactory extends WebDriverFactory implements
     @Override
     public WebDriver createInstance(TypedWebDriverConfiguration<WebDriverConfiguration> configuration) {
         WebDriver driver = super.createInstance(configuration);
+        
+        if (GrapheneProxy.isProxyInstance(driver)) {
+            return driver;
+        }
+        
         WebDriver proxy = GrapheneContext.getProxyForDriver(WebDriver.class);
         GrapheneContext.set(driver);
         return proxy;
