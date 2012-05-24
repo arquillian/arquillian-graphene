@@ -1,13 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.arquillian.graphene</groupId>
-    <artifactId>graphene-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>Graphene: Parent</name>
-    <description>Testing Ajax with flavour of sexy type-safe API</description>
-    <url>http://community.jboss.org/en/arquillian/dev</url>
 
     <parent>
         <groupId>org.jboss</groupId>
@@ -15,11 +10,38 @@
         <version>8</version>
     </parent>
 
+    <artifactId>graphene-parent</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Graphene: Parent</name>
+    <description>Testing Ajax with flavour of sexy type-safe API</description>
+    <url>http://community.jboss.org/en/arquillian/dev</url>
+
     <modules>
         <module>build-resources</module>
         <module>graphene-selenium</module>
         <module>graphene-depchain</module>
+        <module>graphene-webdriver-impl</module>
+        <module>graphene-webdriver-drone</module>
+        <module>graphene-webdriver-depchain</module>
+        <module>graphene-webdriver-ftest</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <useReleaseProfile>true</useReleaseProfile>
+        
+        <!-- Arquillian -->
+        <version.arquillian.core>1.0.0.Final</version.arquillian.core>
+        <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
+        
+        <!-- Runtime dependencies -->
+        <version.javassist>3.12.1.GA</version.javassist>
+        
+        <!-- Tests -->
+        <version.junit>4.10</version.junit>
+        <version.mockito>1.9.0</version.mockito>
+    </properties>
 
     <licenses>
         <license>
@@ -40,17 +62,6 @@
         <url>https://issues.jboss.org/browse/ARQGRA</url>
     </issueManagement>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <useReleaseProfile>true</useReleaseProfile>
-
-        <!-- Versioning -->
-        <version.arquillian.core>1.0.0.Final</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
-    </properties>
-
-
-
     <dependencyManagement>
         <dependencies>
             <!-- Arquillian dependencies -->
@@ -58,8 +69,8 @@
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>${version.arquillian.core}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- Arquillian Drone dependencies and Selenium dependencies -->
@@ -91,15 +102,24 @@
                 <artifactId>testng</artifactId>
                 <version>5.14.6</version>
             </dependency>
+            
+            <!-- runtime dependencies -->
             <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>1.8.5</version>
+                <groupId>javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${version.javassist}</version>
             </dependency>
+            
+            <!-- Test dependencies -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.8.2</version>
+                <version>${version.junit}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${version.mockito}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -220,6 +240,26 @@
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+
                 </plugin>
             </plugins>
         </pluginManagement>
