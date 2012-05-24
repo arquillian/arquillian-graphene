@@ -32,10 +32,16 @@
         <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
         
         <!-- Runtime dependencies -->
+        <version.commons-lang>2.5</version.commons-lang>
+        <version.commons-io>1.4</version.commons-io>
+        <version.commons-codec>1.4</version.commons-codec>
         <version.javassist>3.12.1.GA</version.javassist>
+        <version.cglib>2.2.2</version.cglib>
+        <version.objenesis>1.2</version.objenesis>
         
         <!-- Tests -->
         <version.junit>4.10</version.junit>
+        <version.testng>5.14.6</version.testng>
         <version.mockito>1.9.0</version.mockito>
     </properties>
 
@@ -77,27 +83,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.5</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>5.14.6</version>
-            </dependency>
             
             <!-- runtime dependencies -->
             <dependency>
@@ -105,12 +90,43 @@
                 <artifactId>javassist</artifactId>
                 <version>${version.javassist}</version>
             </dependency>
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${version.cglib}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>${version.objenesis}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${version.commons-lang}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons-io}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${version.commons-codec}</version>
+            </dependency>
             
             <!-- Test dependencies -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${version.junit}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${version.testng}</version>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>

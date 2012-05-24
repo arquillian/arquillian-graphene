@@ -23,7 +23,6 @@ package org.jboss.arquillian.graphene.context;
 
 import java.lang.reflect.Proxy;
 
-import org.mockito.internal.creation.jmock.ClassImposterizer;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -100,14 +99,14 @@ public final class GrapheneProxy {
      * </p>
      *
      * @param futureTarget the future target of invocation
-     * @param targetClasses the list of classes from which should be determined what interfaces will returned proxy implement
+     * @param baseType the list of classes from which should be determined what interfaces will returned proxy implement
+     * @param additionalInterfaces additional interfaces which should a created proxy implement
      * @return the proxy wrapping the future target
      */
     @SuppressWarnings("unchecked")
-    static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> implementationClass,
-            Class<?>... additionalInterfaces) {
+    static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
         GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(futureTarget);
-        return (T) createProxy(handler, implementationClass, additionalInterfaces);
+        return (T) createProxy(handler, baseType, additionalInterfaces);
     }
 
     /**
@@ -120,21 +119,23 @@ public final class GrapheneProxy {
      *
      * @param factory the {@link ProxyFactory} which will be used to create proxy
      * @param interceptor the {@link MethodHandler} for handling invocation
-     * @param implementationClass the class which will be used as superclass or null if the created proxy should not have
-     *        superclass
+     * @param baseType the class or interface used as base type or null if additionalInterfaces list should be used instead
      * @param additionalInterfaces additional interfaces which should a created proxy implement
      * @return the proxy for given implementation class or interfaces with the given method handler.
      */
     @SuppressWarnings("unchecked")
-    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<?> implementationClass, Class<?>... additionalInterfaces) {
+    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<?> baseType, Class<?>... additionalInterfaces) {
 
         Class<?>[] ancillaryTypes = concat(additionalInterfaces, GrapheneProxyInstance.class);
 
-        if (implementationClass != null) {
-            return (T) ClassImposterizer.INSTANCE.imposterise(interceptor, implementationClass, ancillaryTypes);
-        } else {
+        if (baseType == null || baseType.isInterface()) {
+            if (baseType != null) {
+                ancillaryTypes = concat(ancillaryTypes, baseType);
+            }
             return (T) Proxy.newProxyInstance(GrapheneProxy.class.getClassLoader(), ancillaryTypes, interceptor);
         }
+
+        return (T) ClassImposterizer.INSTANCE.imposterise(interceptor, baseType, ancillaryTypes);
     }
 
     private static Class<?>[] concat(Class<?>[] interfaces, Class<?> clazz) {
