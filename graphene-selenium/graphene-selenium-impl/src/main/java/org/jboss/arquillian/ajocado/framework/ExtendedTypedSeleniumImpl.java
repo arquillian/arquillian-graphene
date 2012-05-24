@@ -88,7 +88,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
 
         // other user-defined start parameters
         String startParameters = configuration.getStartParameters();
-        if (startParameters != null && !startParameters.isEmpty()) {
+        if (startParameters != null && startParameters.length() != 0) {
             parameters.add(startParameters);
         }
 

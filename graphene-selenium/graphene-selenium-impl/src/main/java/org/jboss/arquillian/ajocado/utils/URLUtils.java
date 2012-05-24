@@ -23,6 +23,7 @@ package org.jboss.arquillian.ajocado.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -123,7 +124,13 @@ public final class URLUtils {
      */
     public static String encodeBase64Credentials(String username, String password) {
         String credentials = username + ":" + password;
-        byte[] encodedCredentials = Base64.encodeBase64(credentials.getBytes(Charset.defaultCharset()));
-        return new String(encodedCredentials, Charset.defaultCharset());
+        try {
+            String defaultCharsetName = Charset.defaultCharset().displayName();
+            byte[] credentialsAsBytes = credentials.getBytes(defaultCharsetName);
+            byte[] encodedCredentials = Base64.encodeBase64(credentialsAsBytes);
+            return new String(encodedCredentials, defaultCharsetName);
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 }
