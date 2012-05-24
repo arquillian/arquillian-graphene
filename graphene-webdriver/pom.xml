@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.arquillian.graphene</groupId>
+        <artifactId>graphene-parent</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>graphene-webdriver-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Graphene WebDriver: Parent</name>
+    <description>Testing Ajax with all the Goodness</description>
+    <url>http://community.jboss.org/en/arquillian/dev</url>
+
+    <modules>
+        <module>graphene-webdriver-api</module>
+        <module>graphene-webdriver-impl</module>
+        <module>graphene-webdriver-drone</module>
+        <module>graphene-webdriver-depchain</module>
+    </modules>
+
+</project>

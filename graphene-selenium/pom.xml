@@ -19,7 +19,7 @@
         <module>graphene-selenium-api</module>
         <module>graphene-selenium-impl</module>
         <module>graphene-selenium-drone</module>
-        <module>graphene-selenium</module>
+        <module>graphene-selenium-depchain</module>
         <module>ftest-junit-container</module>
         <module>ftest-junit-standalone</module>
         <module>ftest-testng-container</module>
