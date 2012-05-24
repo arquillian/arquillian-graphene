@@ -17,10 +17,10 @@
     <url>http://community.jboss.org/en/arquillian/dev</url>
 
     <modules>
-        <module>graphene-webdriver-api</module>
         <module>graphene-webdriver-impl</module>
         <module>graphene-webdriver-drone</module>
         <module>graphene-webdriver-depchain</module>
+        <module>graphene-webdriver-ftest</module>
     </modules>
 
 </project>
