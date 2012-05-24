@@ -30,8 +30,7 @@ package org.jboss.arquillian.ajocado.waiting;
  * Implementations should keep contract of immutability.
  * </p>
  *
- * @param <T>
- *            the end implementation of Waiting to return by methods on Waiting
+ * @param <T> the end implementation of Waiting to return by methods on Waiting
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -40,8 +39,7 @@ public interface Waiting<T extends Waiting<T>> {
     /**
      * Returns instance of waiting with same properties like this object and interval set to given interval.
      *
-     * @param interval
-     *            in milliseconds that will be preset to returned instance of Waiting
+     * @param interval in milliseconds that will be preset to returned instance of Waiting
      * @return Waiting instance configured with given interval
      */
     T interval(long interval);
@@ -49,8 +47,7 @@ public interface Waiting<T extends Waiting<T>> {
     /**
      * Returns instance of waiting with same properties like this object and timeout set to given timeout.
      *
-     * @param timeout
-     *            in milliseconds that will be preset to returned instance of Waiting
+     * @param timeout in milliseconds that will be preset to returned instance of Waiting
      * @return Waiting instance configured with given timeout
      */
     T timeout(long timeout);
@@ -65,17 +62,16 @@ public interface Waiting<T extends Waiting<T>> {
      * </p>
      *
      * <p>
-     * If the exception isn't instance of RuntimeException, the WaitingTimeoutException will be thrown with cause preset
-     * to the given Throwable.
+     * If the exception isn't instance of RuntimeException, the WaitingTimeoutException will be thrown with cause preset to the
+     * given Throwable.
      * </p>
      *
      * <p>
      * If failure is set to null, timeout will not result to failure!
      * </p>
      *
-     * @param exception
-     *            the instance of RuntimeException to be thrown or any other Exception when the WaitTimeoutException
-     *            should be thrown with this exception as cause
+     * @param exception the instance of RuntimeException to be thrown or any other Exception when the WaitTimeoutException
+     *        should be thrown with this exception as cause
      * @return Waiting instance configured with given exception as cause of waiting timeout
      */
     T failWith(Exception exception);
@@ -94,11 +90,9 @@ public interface Waiting<T extends Waiting<T>> {
      * If failure is set to null, timeout will not result to failure!
      * </p>
      *
-     * @param failureMessage
-     *            character sequence that will be used as message of exception thrown in case of waiting timeout or null
-     *            if waiting timeout shouldn't result to failure
-     * @param arguments
-     *            arguments to failureMessage which will be use in parametrization of failureMessage
+     * @param failureMessage character sequence that will be used as message of exception thrown in case of waiting timeout or
+     *        null if waiting timeout shouldn't result to failure
+     * @param arguments arguments to failureMessage which will be use in parametrization of failureMessage
      * @return Waiting instance initialized with given failureMessage and arguments
      */
     T failWith(CharSequence failureMessage, Object... arguments);
@@ -128,10 +122,9 @@ public interface Waiting<T extends Waiting<T>> {
      * The length of delay is one interval (see {@link #interval(long)}).
      * </p>
      *
-     * @param isDelayed
-     *            true if start of condition testing should be delayed; false otherwise
-     * @return Waiting instance initialized with the delay before start of testing conditions if isDelayed is set to
-     *         true; with no delay otherwise
+     * @param isDelayed true if start of condition testing should be delayed; false otherwise
+     * @return Waiting instance initialized with the delay before start of testing conditions if isDelayed is set to true; with
+     *         no delay otherwise
      */
     T withDelay(boolean isDelayed);
 

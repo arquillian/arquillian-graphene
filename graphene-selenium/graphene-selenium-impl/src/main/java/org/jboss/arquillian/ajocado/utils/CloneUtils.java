@@ -37,12 +37,9 @@ public final class CloneUtils {
     /**
      * Clones the cloneable object without need to check for exceptions.
      *
-     * @param <T>
-     *            the cloneable object type
-     * @param type
-     *            the type of cloneable object
-     * @param objectToClone
-     *            object to clone
+     * @param <T> the cloneable object type
+     * @param type the type of cloneable object
+     * @param objectToClone object to clone
      * @return the clone of object
      */
     @SuppressWarnings("unchecked")
@@ -57,8 +54,7 @@ public final class CloneUtils {
             clone = (T) method.invoke(objectToClone);
             method.setAccessible(false);
         } catch (Exception e) {
-            throw new IllegalStateException("Unexpected exception during cloning of "
-                + objectToClone.getClass().getName(), e);
+            throw new IllegalStateException("Unexpected exception during cloning of " + objectToClone.getClass().getName(), e);
         }
         return clone;
     }

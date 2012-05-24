@@ -24,7 +24,6 @@ package org.jboss.arquillian.ajocado.testng.ftest;
 import java.io.File;
 import java.net.URL;
 
-import org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.utils.URLUtils;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -45,11 +44,11 @@ public class AbstractTest extends Arquillian {
 
     protected static WebArchive createDeploymentForClass(Class<? extends AbstractTest> testClass) {
         WebArchive war = ShrinkWrap
-            .create(WebArchive.class, "ftest-app.war")
-            .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
-            .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
-            .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
-                ArchivePaths.create("resources/script/jquery-min.js"));
+                .create(WebArchive.class, "ftest-app.war")
+                .addAsWebInfResource(new File("src/test/webapp/WEB-INF/web.xml"))
+                .addAsWebResource(new File("src/test/webapp/" + testClass.getSimpleName() + ".jsp"))
+                .addAsWebResource(new File("src/test/webapp/resources/script/jquery-min.js"),
+                        ArchivePaths.create("resources/script/jquery-min.js"));
 
         return war;
     }
@@ -57,6 +56,6 @@ public class AbstractTest extends Arquillian {
     @BeforeMethod
     protected void openContext() {
 
-    	selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
+        selenium.open(URLUtils.buildUrl(applicationPath, this.getClass().getSimpleName() + ".jsp"));
     }
 }

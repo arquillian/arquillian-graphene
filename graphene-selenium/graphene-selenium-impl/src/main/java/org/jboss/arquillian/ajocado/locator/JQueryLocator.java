@@ -47,13 +47,12 @@ import org.jboss.arquillian.ajocado.locator.element.FilterableLocator;
  * @version $Revision$
  */
 public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implements ExtendedLocator<JQueryLocator>,
-    FilterableLocator<JQueryLocator> {
+        FilterableLocator<JQueryLocator> {
 
     /**
      * Instantiates a new jQuery locator.
      *
-     * @param jquerySelector
-     *            the jquery selector
+     * @param jquerySelector the jquery selector
      */
     public JQueryLocator(String jquerySelector) {
         super(jquerySelector);
@@ -83,8 +82,7 @@ public class JQueryLocator extends AbstractIterableLocator<JQueryLocator> implem
      * (non-Javadoc)
      *
      * @see
-     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
-     * )
+     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator )
      */
     @Override
     public JQueryLocator getChild(JQueryLocator elementLocator) {

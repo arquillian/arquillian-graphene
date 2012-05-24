@@ -50,13 +50,10 @@ public final class URLUtils {
     /**
      * Use URL context and one or more relocations to build end URL.
      *
-     * @param context
-     *            first URL used like a context root for all relocation changes
-     * @param relocations
-     *            array of relocation URLs
+     * @param context first URL used like a context root for all relocation changes
+     * @param relocations array of relocation URLs
      * @return end url after all changes made on context with relocations
-     * @throws AssertionError
-     *             when context or some of relocations are malformed URLs
+     * @throws AssertionError when context or some of relocations are malformed URLs
      */
     public static URL buildUrl(String context, String... relocations) {
         try {
@@ -69,13 +66,10 @@ public final class URLUtils {
     /**
      * Use URL context and one or more relocations to build end URL.
      *
-     * @param context
-     *            first URL used like a context root for all relocation changes
-     * @param relocations
-     *            array of relocation URLs
+     * @param context first URL used like a context root for all relocation changes
+     * @param relocations array of relocation URLs
      * @return end url after all changes made on context with relocations
-     * @throws AssertionError
-     *             when context or some of relocations are malformed URLs
+     * @throws AssertionError when context or some of relocations are malformed URLs
      */
     public static URL buildUrl(URL context, String... relocations) {
         URL url = context;
@@ -94,11 +88,9 @@ public final class URLUtils {
     /**
      * Gets a MD5 digest of some resource obtains as input stream from connection to URL given by URL string.
      *
-     * @param url
-     *            of the resource
+     * @param url of the resource
      * @return MD5 message digest of resource
-     * @throws IOException
-     *             when connection to URL fails
+     * @throws IOException when connection to URL fails
      */
     public static String resourceMd5Digest(String url) throws IOException {
         URLConnection connection = new URL(url).openConnection();
@@ -125,10 +117,8 @@ public final class URLUtils {
     /**
      * Encodes credentials using Base64 encoding, which can be used to build a header for HTTP Basic authorization
      *
-     * @param username
-     *            User name to be encoded
-     * @param password
-     *            Password to be encoded
+     * @param username User name to be encoded
+     * @param password Password to be encoded
      * @return A string {@code username:password} encoded with Base64
      */
     public static String encodeBase64Credentials(String username, String password) {

@@ -66,8 +66,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
      * If the JavaScript is already loaded but it's source has another checksum, it will be reloaded.
      * </p>
      *
-     * @param resourceName
-     *            the full path to resource
+     * @param resourceName the full path to resource
      */
     @Override
     public void requireResource(String resourceName) {
@@ -79,8 +78,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     }
 
     private boolean containsScript(String resourceName) {
-        return Boolean.valueOf(selenium.getEval(containsScriptWithResourceName
-            .parametrize(escapeJavaScript(resourceName))));
+        return Boolean.valueOf(selenium.getEval(containsScriptWithResourceName.parametrize(escapeJavaScript(resourceName))));
     }
 
     private void loadScript(String resourceName) {
@@ -108,8 +106,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     /**
      * Adds the JavaScript extensions by defining list of resource names.
      *
-     * @param resourceNames
-     *            the list of full paths to resources
+     * @param resourceNames the list of full paths to resources
      */
     @Override
     public void requireResources(List<String> resourceNames) {
@@ -119,9 +116,8 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     }
 
     /**
-     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered before
-     * the loading of extensions. That is reason why we must explicitly register it before the test after each start of
-     * selenium.
+     * The SeleniumExtensions specifies new custom handlers, but the registration in commandFactory are triggered before the
+     * loading of extensions. That is reason why we must explicitly register it before the test after each start of selenium.
      */
     @Override
     public void registerCustomHandlers() {

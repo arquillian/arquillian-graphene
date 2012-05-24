@@ -23,11 +23,11 @@ package org.jboss.arquillian.ajocado.guard;
 
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
-import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
@@ -61,8 +61,7 @@ public class RequestGuardImpl implements RequestGuard {
      * Obtains the done requestType from page.
      *
      * @return the RequestType what was done
-     * @throws IllegalStateException
-     *             when the unknown type of request was obtained
+     * @throws IllegalStateException when the unknown type of request was obtained
      */
     @Override
     public RequestType getRequestDone() {
@@ -80,8 +79,7 @@ public class RequestGuardImpl implements RequestGuard {
      * </p>
      *
      * @return the last RequestType done
-     * @throws IllegalStateException
-     *             when the unknown type of request was obtained
+     * @throws IllegalStateException when the unknown type of request was obtained
      */
     @Override
     public RequestType clearRequestDone() {

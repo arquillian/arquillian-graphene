@@ -21,8 +21,8 @@
  */
 package org.jboss.arquillian.ajocado;
 
-import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.internal.WaitingProxy;
 import org.jboss.arquillian.ajocado.guard.RequestGuardFactory;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
@@ -64,14 +64,13 @@ public final class Graphene {
     /*
      * Waitings
      */
-    public static final AjaxWaiting waitGui = WaitingProxy.create(Wait.waitAjax.interval(WAIT_GUI_INTERVAL),
-        TimeoutType.GUI);
+    public static final AjaxWaiting waitGui = WaitingProxy.create(Wait.waitAjax.interval(WAIT_GUI_INTERVAL), TimeoutType.GUI);
 
-    public static final AjaxWaiting waitAjax = WaitingProxy.create(Wait.waitAjax.interval(WAIT_AJAX_INTERVAL),
-        TimeoutType.AJAX);
+    public static final AjaxWaiting waitAjax = WaitingProxy
+            .create(Wait.waitAjax.interval(WAIT_AJAX_INTERVAL), TimeoutType.AJAX);
 
-    public static final SeleniumWaiting waitModel = WaitingProxy.create(
-        Wait.waitSelenium.interval(WAIT_MODEL_INTERVAL), TimeoutType.MODEL);
+    public static final SeleniumWaiting waitModel = WaitingProxy.create(Wait.waitSelenium.interval(WAIT_MODEL_INTERVAL),
+            TimeoutType.MODEL);
 
     /*
      * Wait Conditions
@@ -100,8 +99,7 @@ public final class Graphene {
     /**
      * Shortcut for registering a guard for no request on given selenium object.
      *
-     * @param selenium
-     *            where should be registered no request guard
+     * @param selenium where should be registered no request guard
      * @return the selenium guarded to use no request during interaction
      */
     public static GrapheneSelenium guardNoRequest(GrapheneSelenium selenium) {
@@ -111,8 +109,7 @@ public final class Graphene {
     /**
      * Shortcut for registering a regular HTTP request on given selenium object.
      *
-     * @param selenium
-     *            where should be registered regular HTTP request guard
+     * @param selenium where should be registered regular HTTP request guard
      * @return the selenium guarded to use regular HTTP requests
      */
     public static GrapheneSelenium guardHttp(GrapheneSelenium selenium) {
@@ -122,8 +119,7 @@ public final class Graphene {
     /**
      * Shortcut for registering a XMLHttpRequest on given selenium object.
      *
-     * @param selenium
-     *            where should be registered XMLHttpRequest guard
+     * @param selenium where should be registered XMLHttpRequest guard
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static GrapheneSelenium guardXhr(GrapheneSelenium selenium) {
@@ -133,8 +129,7 @@ public final class Graphene {
     /**
      * Shortcut for registering guard waiting for interception of HTTP type request
      *
-     * @param selenium
-     *            selenium where should be the guard registered
+     * @param selenium selenium where should be the guard registered
      * @return the selenium waitinf for interception of HTTP type request
      */
     public static GrapheneSelenium waitForHttp(GrapheneSelenium selenium) {
@@ -144,8 +139,7 @@ public final class Graphene {
     /**
      * Shortcut for registering guard waiting for interception of XHR type request
      *
-     * @param selenium
-     *            where should be the guard registered
+     * @param selenium where should be the guard registered
      * @return the selenium waiting for interception of XHR type request
      */
     public static GrapheneSelenium waitForXhr(GrapheneSelenium selenium) {
@@ -155,8 +149,7 @@ public final class Graphene {
     /**
      * Gets element locator finding elements using CSS selectors.
      *
-     * @param cssSelector
-     *            the <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
+     * @param cssSelector the <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
      * @return the locator for given CSS selector
      */
     public static CssLocator css(String cssSelector) {
@@ -167,8 +160,7 @@ public final class Graphene {
      * Find an element by evaluating the specified JavaScript expression.
      *
      * @see DomLocator
-     * @param javascriptExpression
-     *            the JavaScript expression
+     * @param javascriptExpression the JavaScript expression
      * @return the locator for given JavaScript expression
      */
     public static DomLocator dom(JavaScript javascriptExpression) {
@@ -178,8 +170,7 @@ public final class Graphene {
     /**
      * Locates the element with specified &#64;id attribute.
      *
-     * @param id
-     *            the &#64;id attribute's value
+     * @param id the &#64;id attribute's value
      * @return the locator with specified &#64;id attribute
      */
     public static IdLocator id(String id) {
@@ -189,8 +180,7 @@ public final class Graphene {
     /**
      * Locates the link (anchor) element which contains text matching the specified pattern.
      *
-     * @param linkText
-     *            the link (anchor) element's text
+     * @param linkText the link (anchor) element's text
      * @return the locator for given linkText
      */
     public static LinkLocator link(String linkText) {
@@ -200,8 +190,7 @@ public final class Graphene {
     /**
      * Locates the element using <a href="http://api.jquery.com/category/selectors/">JQuery Selector</a> syntax.
      *
-     * @param jquerySelector
-     *            the jquery selector
+     * @param jquerySelector the jquery selector
      * @return the j query locator
      * @see JQueryLocator
      */
@@ -212,8 +201,7 @@ public final class Graphene {
     /**
      * Locates the first element with the specified &#64;name attribute.
      *
-     * @param name
-     *            the &#64;name attribute's value
+     * @param name the &#64;name attribute's value
      * @return the locator for given &#64;name attribute
      */
     public static NameLocator name(String name) {
@@ -223,8 +211,7 @@ public final class Graphene {
     /**
      * Locates the element using <a href="http://www.w3.org/TR/xpath/">XPath expression</a>.
      *
-     * @param xpath
-     *            the xpath expression
+     * @param xpath the xpath expression
      * @return the xpath locator
      * @see XPathLocator
      */
@@ -245,14 +232,10 @@ public final class Graphene {
      * locator.getChild(child1).getChild(child2)
      * </p>
      *
-     * @param <T>
-     *            the type of compoundable locator
-     * @param locator
-     *            locator base
-     * @param child
-     *            the childr of base locator
-     * @param children
-     *            sub-children of base locator
+     * @param <T> the type of compoundable locator
+     * @param locator locator base
+     * @param child the childr of base locator
+     * @param children sub-children of base locator
      * @return locator composition from base and its children
      */
     public static <T extends CompoundableLocator<T>> T child(T locator, T child, T... children) {

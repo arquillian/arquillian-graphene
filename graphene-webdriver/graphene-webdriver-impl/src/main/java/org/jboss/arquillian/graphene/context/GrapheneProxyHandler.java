@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -33,12 +33,12 @@ import org.mockito.cglib.proxy.MethodProxy;
  * <p>
  * Invocation handler which wraps the given target for invocation (as the target instance for future computation of target).
  * </p>
- * 
+ *
  * <p>
  * This handlers determines whenever the result of invocation can be proxied and if yes, it recursively wraps it with proxy
  * using this invocation handler.
  * </p>
- * 
+ *
  * @author Lukas Fryc
  */
 class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
@@ -51,7 +51,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
 
     /**
      * Returns invocation handler which wraps the given target instance.
-     * 
+     *
      * @param target the target of invocation
      * @return invocation handler which wraps the given target instance
      */
@@ -63,7 +63,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
 
     /**
      * Returns invocation handler which wraps the target for future computation.
-     * 
+     *
      * @param future the future target
      * @return invocation handler which wraps the target for future computation
      */
@@ -77,7 +77,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      * <p>
      * End point for handling invocations on proxy.
      * </p>
-     * 
+     *
      * <p>
      * Decides whenever the result of invocation is proxyable and if yes, it returns the proxy using new instance of
      * {@link GrapheneProxyHandler} wrapping the result of invocation.
@@ -105,7 +105,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
 
     /**
      * Determines whenever the given invocation can be proxied.
-     * 
+     *
      * @param method the method which is invoked
      * @param args the arguments used for invocation
      * @return true if the given invocation can be proxied; false otherwise
@@ -119,11 +119,11 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      * <p>
      * Invokes the method on real target.
      * </p>
-     * 
+     *
      * <p>
      * The target of invocation is computed, using the {@link #getTarget()} method.
      * </p>
-     * 
+     *
      * @param method the method to be invoked
      * @param args the arguments used for invocation
      * @return the result of invocation on real target
@@ -144,7 +144,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
     /**
      * Computes the target for invocation - if future target is provided, it will be returned, othewise the target instance will
      * be returned.
-     * 
+     *
      * @return the real target for invocation
      */
     Object getTarget() {

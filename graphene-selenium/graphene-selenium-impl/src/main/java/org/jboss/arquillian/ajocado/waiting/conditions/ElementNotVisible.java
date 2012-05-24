@@ -96,8 +96,7 @@ public class ElementNotVisible implements SeleniumCondition, JavaScriptCondition
     /**
      * Returns the IsNotDisplayed instance with given elementLocator set.
      *
-     * @param elementLocator
-     *            the element locator
+     * @param elementLocator the element locator
      * @return the IsNotDisplayed instance
      */
     public ElementNotVisible locator(ElementLocator<?> elementLocator) {

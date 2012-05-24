@@ -38,11 +38,9 @@ public final class RequestGuardFactory {
     /**
      * Shortcut for registering a guard for specified request type on given selenium object.
      *
-     * @param selenium
-     *            where should be registered the given request type guard
-     * @param requestExpected
-     *            the request type to be guarded if the expected request is allowed to be preceeded by another request
-     *            type
+     * @param selenium where should be registered the given request type guard
+     * @param requestExpected the request type to be guarded if the expected request is allowed to be preceeded by another
+     *        request type
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static GrapheneSelenium guard(GrapheneSelenium selenium, RequestType requestExpected) {
@@ -64,10 +62,8 @@ public final class RequestGuardFactory {
      * <p>
      * This guard guards the right request type but allows interlaying of the request by another one of other type.
      *
-     * @param selenium
-     *            where should be registered the given request type guard
-     * @param requestExpected
-     *            the request type to be guarded
+     * @param selenium where should be registered the given request type guard
+     * @param requestExpected the request type to be guarded
      * @return the selenium guarded to use XMLHttpRequest
      */
     public static GrapheneSelenium guardInterlayed(GrapheneSelenium selenium, RequestType requestExpected) {

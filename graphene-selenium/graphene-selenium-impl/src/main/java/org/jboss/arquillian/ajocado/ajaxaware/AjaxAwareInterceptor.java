@@ -36,8 +36,8 @@ import org.jboss.arquillian.ajocado.waiting.Waiting;
 import com.thoughtworks.selenium.SeleniumException;
 
 /**
- * Class to use to extend functionality of command processors to catch Selenium exceptions and repeat the command for
- * specific issue types (like Permission denied in Internet Explorer).
+ * Class to use to extend functionality of command processors to catch Selenium exceptions and repeat the command for specific
+ * issue types (like Permission denied in Internet Explorer).
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -45,10 +45,10 @@ import com.thoughtworks.selenium.SeleniumException;
 public class AjaxAwareInterceptor implements CommandInterceptor {
 
     private static final String[] PERMISSION_DENIED = new String[] {
-        "ERROR: Threw an exception: Permission denied",
-        "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error"
-            + " details from the log window.  The error message is: Permission denied",
-        "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
+            "ERROR: Threw an exception: Permission denied",
+            "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error"
+                    + " details from the log window.  The error message is: Permission denied",
+            "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
 
     private final GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
@@ -96,8 +96,8 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
     }
 
     /**
-     * Thrown when the Selenium wasn't able in given interval to call the given command with no SeleniumException with
-     * type of Permission Denied catched.
+     * Thrown when the Selenium wasn't able in given interval to call the given command with no SeleniumException with type of
+     * Permission Denied catched.
      */
     public static class PermissionDeniedException extends RuntimeException {
         private static final long serialVersionUID = 501755400552888059L;

@@ -77,8 +77,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
-    private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(
-        Integer.class) {
+    private ArrayTransform<String, Integer> transformArrayOfStringToInteger = new ArrayTransform<String, Integer>(Integer.class) {
         @Override
         public Integer transformation(String source) {
             return Integer.valueOf(source);
@@ -246,9 +245,9 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     @Override
     public void dragAndDropToObject(ElementLocator<?> elementLocatorOfObjectToBeDragged,
-        ElementLocator<?> elementLocatorOfDragDestinationObject) {
+            ElementLocator<?> elementLocatorOfDragDestinationObject) {
         selenium.dragAndDropToObject(elementLocatorOfDragDestinationObject.inSeleniumRepresentation(),
-            elementLocatorOfObjectToBeDragged.inSeleniumRepresentation());
+                elementLocatorOfObjectToBeDragged.inSeleniumRepresentation());
     }
 
     @Override
@@ -427,7 +426,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
     @Override
     public List<Integer> getSelectedIndexes(ElementLocator<?> selectLocator) {
         return Arrays.asList(transformArrayOfStringToInteger.transform(selenium.getSelectedIndexes(selectLocator
-            .inSeleniumRepresentation())));
+                .inSeleniumRepresentation())));
     }
 
     @Override
@@ -522,8 +521,7 @@ public class TypedSeleniumImpl implements TypedSelenium, UnsupportedTypedSeleniu
 
     @Override
     public boolean isOrdered(ElementLocator<?> elementLocator1, ElementLocator<?> elementLocator2) {
-        return selenium.isOrdered(elementLocator1.inSeleniumRepresentation(),
-            elementLocator2.inSeleniumRepresentation());
+        return selenium.isOrdered(elementLocator1.inSeleniumRepresentation(), elementLocator2.inSeleniumRepresentation());
     }
 
     @Override

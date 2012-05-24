@@ -58,8 +58,7 @@ public final class ColorUtils {
      * <li><code>rgb(132, 5, 18)</code> - <b>decimal</b></li>
      * </ul>
      *
-     * @param colorValue
-     *            string represented in one of two formats
+     * @param colorValue string represented in one of two formats
      * @return integer value of color derived from string representation
      */
     public static int convertToInteger(String colorValue) {
@@ -98,8 +97,7 @@ public final class ColorUtils {
      * <li><code>rgb(132, 5, 18)</code> - <b>decimal</b></li>
      * </ul>
      *
-     * @param colorValue
-     *            string represented in one of two formats
+     * @param colorValue string represented in one of two formats
      * @return AWT's Color value representation of string-represented colorValue; if colorValue is null, returns null
      */
     public static Color convertToAWTColor(String colorValue) {

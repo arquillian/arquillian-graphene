@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -27,7 +27,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.concurrent.CountDownLatch;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 

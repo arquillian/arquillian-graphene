@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -30,14 +30,14 @@ import java.util.Set;
 
 /**
  * Utilities for handling with {@link GrapheneProxy} related tasks.
- * 
+ *
  * @author Lukas Fryc
  */
 final class GrapheneProxyUtil {
 
     /**
      * Transitively obtains the interfaces which are implemented by given classes.
-     * 
+     *
      * @param targetClasses the list of classes from which should be determined the list of interfaces that these classes
      *        implement
      * @return the list of interfaces which are implemented by given classes
@@ -56,7 +56,7 @@ final class GrapheneProxyUtil {
             if (inspected.contains(clazz)) {
                 continue;
             }
-            
+
             // if this is interface, we don't need to include all interfaces it extends, we can skip instead
             if (clazz.isInterface() && classes.contains(clazz)) {
                 continue;

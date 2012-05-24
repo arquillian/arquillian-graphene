@@ -37,10 +37,8 @@ public final class HeaderUtils {
     /**
      * Creates a header which corresponds to HTTP Basic authorization
      *
-     * @param username
-     *            User name to be encoded in header
-     * @param password
-     *            Password to be encoded in header
+     * @param username User name to be encoded in header
+     * @param password Password to be encoded in header
      *
      * @return Header which corresponds to HTTP Basic authorization for given credentials
      */

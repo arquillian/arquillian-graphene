@@ -38,8 +38,7 @@ public final class OptionLocatorFactory {
     /**
      * Locates the select option with specified id.
      *
-     * @param id
-     *            the id of select option
+     * @param id the id of select option
      * @return the locator for the select option with given id
      */
     public static OptionIdLocator optionId(String id) {
@@ -49,8 +48,7 @@ public final class OptionLocatorFactory {
     /**
      * Locates the select option based on its index (offset from zero).
      *
-     * @param index
-     *            the index of select option (offset from zero)
+     * @param index the index of select option (offset from zero)
      * @return the locator for the select option with given id
      */
     public static OptionIndexLocator optionIndex(int index) {
@@ -66,8 +64,7 @@ public final class OptionLocatorFactory {
      * Can be regular expression: "regexp:^[Oo]ther"
      * </p>
      *
-     * @param label
-     *            the label for the select options (visible text).
+     * @param label the label for the select options (visible text).
      * @return the locator for the select options matching given label
      */
     public static OptionLabelLocator optionLabel(String label) {
@@ -77,8 +74,7 @@ public final class OptionLocatorFactory {
     /**
      * Locates select options based on their values.
      *
-     * @param value
-     *            the value matching select options
+     * @param value the value matching select options
      * @return the locator for the select options matching given value
      */
     public static OptionValueLocator optionValue(String value) {

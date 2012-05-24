@@ -87,7 +87,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         String escapedText = escapeJavaScript(this.text);
         return js("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')").parametrize(escapedLocator,
-            escapedText);
+                escapedText);
     }
 
     /**
@@ -108,8 +108,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * From this locator will be obtained the text.
      * </p>
      *
-     * @param elementLocator
-     *            the element locator
+     * @param elementLocator the element locator
      * @return the TextEquals object with preset locator
      */
     public TextEquals locator(ElementLocator<?> elementLocator) {
@@ -130,8 +129,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * For equality with this text the condition will wait.
      * </p>
      *
-     * @param text
-     *            it should wait for equality
+     * @param text it should wait for equality
      * @return the TextEquals object with preset text
      */
     public TextEquals text(String text) {

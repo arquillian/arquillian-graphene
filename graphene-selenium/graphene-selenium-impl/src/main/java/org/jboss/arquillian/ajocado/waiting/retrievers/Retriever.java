@@ -27,8 +27,7 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumRetriever;
 /**
  * Composes all types able to retrieve typed object from page.
  *
- * @param <T>
- *            the type of object to retrieve from page
+ * @param <T> the type of object to retrieve from page
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$

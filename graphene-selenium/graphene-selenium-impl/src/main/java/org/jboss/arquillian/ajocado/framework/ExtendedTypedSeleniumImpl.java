@@ -34,8 +34,7 @@ import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 
 /**
- * Type-safe selenium wrapper for Selenium API with extension of some useful commands defined in
- * {@link ExtendedSelenium}
+ * Type-safe selenium wrapper for Selenium API with extension of some useful commands defined in {@link ExtendedSelenium}
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
@@ -116,7 +115,7 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     @Override
     public <R, T extends CssResolver<R>> R getStyle(ElementLocator<?> elementLocator, T cssResolver) {
         final String propertyValue = getExtendedSelenium().getStyle(elementLocator.inSeleniumRepresentation(),
-            cssResolver.getPropertyName());
+                cssResolver.getPropertyName());
         return cssResolver.resolveProperty(propertyValue);
     }
 
@@ -144,9 +143,8 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     /*
      * (non-Javadoc)
      *
-     * @see
-     * org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator
-     * , org.jboss.test.selenium.geometry.Point)
+     * @see org.jboss.test.selenium.framework.ExtendedTypedSelenium#mouseOutAt(org.jboss.test.selenium.locator.ElementLocator ,
+     * org.jboss.test.selenium.geometry.Point)
      */
     @Override
     public void mouseOutAt(ElementLocator<?> elementLocator, Point point) {
@@ -196,9 +194,8 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     /*
      * (non-Javadoc)
      *
-     * @see
-     * org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#check(org.jboss.test.selenium.locator.ElementLocator
-     * , boolean)
+     * @see org.jboss.arquillian.ajocado.framework.ExtendedTypedSelenium#check(org.jboss.test.selenium.locator.ElementLocator ,
+     * boolean)
      */
     @Override
     public void check(ElementLocator<?> locator, boolean checked) {

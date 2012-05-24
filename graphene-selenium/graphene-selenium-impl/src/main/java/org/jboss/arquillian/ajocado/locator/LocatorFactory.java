@@ -40,8 +40,7 @@ public final class LocatorFactory {
     /**
      * Gets element locator finding elements using CSS selectors.
      *
-     * @param cssSelector
-     *            the <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
+     * @param cssSelector the <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
      * @return the locator for given CSS selector
      */
     public static CssLocator css(String cssSelector) {
@@ -52,8 +51,7 @@ public final class LocatorFactory {
      * Find an element by evaluating the specified JavaScript expression.
      *
      * @see DomLocator
-     * @param javascriptExpression
-     *            the JavaScript expression
+     * @param javascriptExpression the JavaScript expression
      * @return the locator for given JavaScript expression
      */
     public static DomLocator dom(JavaScript javascriptExpression) {
@@ -63,8 +61,7 @@ public final class LocatorFactory {
     /**
      * Locates the element with specified &#64;id attribute.
      *
-     * @param id
-     *            the &#64;id attribute's value
+     * @param id the &#64;id attribute's value
      * @return the locator with specified &#64;id attribute
      */
     public static IdLocator id(String id) {
@@ -74,8 +71,7 @@ public final class LocatorFactory {
     /**
      * Locates the link (anchor) element which contains text matching the specified pattern.
      *
-     * @param linkText
-     *            the link (anchor) element's text
+     * @param linkText the link (anchor) element's text
      * @return the locator for given linkText
      */
     public static LinkLocator link(String linkText) {
@@ -85,8 +81,7 @@ public final class LocatorFactory {
     /**
      * Locates the element using <a href="http://api.jquery.com/category/selectors/">JQuery Selector</a> syntax.
      *
-     * @param jquerySelector
-     *            the jquery selector
+     * @param jquerySelector the jquery selector
      * @return the j query locator
      * @see JQueryLocator
      */
@@ -97,8 +92,7 @@ public final class LocatorFactory {
     /**
      * Locates the first element with the specified &#64;name attribute.
      *
-     * @param name
-     *            the &#64;name attribute's value
+     * @param name the &#64;name attribute's value
      * @return the locator for given &#64;name attribute
      */
     public static NameLocator name(String name) {
@@ -108,8 +102,7 @@ public final class LocatorFactory {
     /**
      * Locates the element using <a href="http://www.w3.org/TR/xpath/">XPath expression</a>.
      *
-     * @param xpath
-     *            the xpath expression
+     * @param xpath the xpath expression
      * @return the xpath locator
      * @see XPathLocator
      */

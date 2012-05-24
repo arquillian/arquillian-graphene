@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
 public class StandaloneModeInitializationTestCase {
 
     URL url = URLUtils.buildUrl("http://127.0.0.1:14444");
-    
+
     @Drone
     GrapheneSelenium selenium;
 

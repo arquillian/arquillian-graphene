@@ -35,8 +35,7 @@ public final class PrimitiveUtils {
     /**
      * Converts string to boolean
      *
-     * @param string
-     *            to convert
+     * @param string to convert
      * @return the boolean value of string
      */
     public static Boolean asBoolean(String string) {
@@ -46,8 +45,7 @@ public final class PrimitiveUtils {
     /**
      * Converts string to long
      *
-     * @param string
-     *            to convert
+     * @param string to convert
      * @return the long value of string
      */
     public static Long asLong(String string) {
@@ -57,8 +55,7 @@ public final class PrimitiveUtils {
     /**
      * Converts string to integer
      *
-     * @param string
-     *            to convert
+     * @param string to convert
      * @return the integer value of string
      */
     public static Integer asInteger(String string) {
@@ -68,8 +65,7 @@ public final class PrimitiveUtils {
     /**
      * Converts string to double
      *
-     * @param string
-     *            to convert
+     * @param string to convert
      * @return the double value of string
      */
     public static Double asDouble(String string) {
@@ -79,8 +75,7 @@ public final class PrimitiveUtils {
     /**
      * Converts string to float
      *
-     * @param string
-     *            to convert
+     * @param string to convert
      * @return the float value of string
      */
     public static Float asFloat(String string) {

@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -28,16 +28,16 @@ import org.openqa.selenium.WebDriver;
  * <p>
  * Class for keeping thread local context of {@link WebDriver}.
  * </p>
- * 
+ *
  * <p>
  * Provides {@link #getProxy()} method for accessing that context in model of your tests.
  * </p>
- * 
+ *
  * <p>
  * Proxy specifically handles the situations when no context is set - in this situation, runtime exception with
  * NullPointerException cause is thrown.
  * </p>
- * 
+ *
  * @author Lukas Fryc
  */
 public final class GrapheneContext {
@@ -52,7 +52,7 @@ public final class GrapheneContext {
 
     /**
      * Sets the WebDriver context for current thread
-     * 
+     *
      * @param driver the WebDriver instance
      * @throws IllegalArgumentException when provided WebDriver instance is null
      */
@@ -75,7 +75,7 @@ public final class GrapheneContext {
 
     /**
      * Returns the context of WebDriver for current thread
-     * 
+     *
      * @return the context of WebDriver for current thread
      * @throws NullPointerException when context is null
      */
@@ -89,7 +89,7 @@ public final class GrapheneContext {
 
     /**
      * Returns true if the context is initialized
-     * 
+     *
      * @return true if the context is initialized
      */
     public static boolean isInitialized() {
@@ -98,19 +98,17 @@ public final class GrapheneContext {
 
     /**
      * Returns the instance of proxy to thread local context of WebDriver
-     * 
+     *
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static WebDriver getProxy() {
         return GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class);
     }
-    
-    
 
     /**
      * Returns the instance of proxy to thread local context of WebDriver, the proxy handles the same interfaces which
      * implements provided class.
-     * 
+     *
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static <T extends WebDriver> T getProxyForDriver(Class<T> webDriverImplClass) {
@@ -120,7 +118,7 @@ public final class GrapheneContext {
     /**
      * Returns the instance of proxy to thread local context of WebDriver, the proxy handles all the interfaces provided as
      * parameter.
-     * 
+     *
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static <T extends WebDriver> T getProxyForInterfaces(Class<?>... interfaces) {

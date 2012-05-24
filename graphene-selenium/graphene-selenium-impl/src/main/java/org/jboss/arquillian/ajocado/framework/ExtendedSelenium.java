@@ -60,13 +60,10 @@ public class ExtendedSelenium extends DefaultSelenium {
      *
      * E.g.: use property "background-color" instead of "backgroundColor"
      *
-     * @param locator
-     *            of element from what we want to get current style value
-     * @param property
-     *            CSS style property what we can to recognize
+     * @param locator of element from what we want to get current style value
+     * @param property CSS style property what we can to recognize
      * @return current value of property if its element exists and has this property value set; null value otherwise
-     * @throws IllegalStateException
-     *             if is caught unrecognized throwable
+     * @throws IllegalStateException if is caught unrecognized throwable
      */
     public String getStyle(String locator, String property) {
         return commandProcessor.getString("getStyle", new String[] { locator, property });
@@ -75,10 +72,8 @@ public class ExtendedSelenium extends DefaultSelenium {
     /**
      * Aligns screen to top (resp. bottom) of element given by locator.
      *
-     * @param locator
-     *            of element which should be screen aligned to
-     * @param alignToTop
-     *            should be top border of screen aligned to top border of element
+     * @param locator of element which should be screen aligned to
+     * @param alignToTop should be top border of screen aligned to top border of element
      */
     public void scrollIntoView(String locator, String alignToTop) {
         commandProcessor.doCommand("scrollIntoView", new String[] { locator, alignToTop });
@@ -87,11 +82,9 @@ public class ExtendedSelenium extends DefaultSelenium {
     /**
      * Simulates a user hovering a mouse over the specified element at specific coordinates relative to element.
      *
-     * @param locator
-     *            element's locator
-     * @param coordString
-     *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
-     *            locator.
+     * @param locator element's locator
+     * @param coordString specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
+     *        locator.
      */
     public void mouseOverAt(String locator, String coordString) {
         commandProcessor.doCommand("mouseOverAt", new String[] { locator, coordString });
@@ -100,11 +93,9 @@ public class ExtendedSelenium extends DefaultSelenium {
     /**
      * Simulates a user hovering a mouse out of the specified element at specific coordinates relative to element.
      *
-     * @param locator
-     *            element's locator
-     * @param coordString
-     *            specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
-     *            locator.
+     * @param locator element's locator
+     * @param coordString specifies the x,y position (i.e. - 10,20) of the mouse event relative to the element returned by the
+     *        locator.
      */
     public void mouseOutAt(String locator, String coordString) {
         commandProcessor.doCommand("mouseOutAt", new String[] { locator, coordString });
@@ -113,10 +104,8 @@ public class ExtendedSelenium extends DefaultSelenium {
     /**
      * Checks if element given by locator is member of CSS class given by className.
      *
-     * @param className
-     *            name of CSS class
-     * @param locator
-     *            element's locator
+     * @param className name of CSS class
+     * @param locator element's locator
      * @return true if element given by locator is member of CSS class given by className
      */
     public boolean belongsClass(String locator, String className) {
@@ -133,10 +122,8 @@ public class ExtendedSelenium extends DefaultSelenium {
     /**
      * Verifies that the specified attribute is defined for the element.
      *
-     * @param elementLocator
-     *            an element locator
-     * @param attributeName
-     *            a name of an attribute
+     * @param elementLocator an element locator
+     * @param attributeName a name of an attribute
      * @return true if the element's attribute is present, false otherwise
      */
     public boolean isAttributePresent(String elementLocator, String attributeName) {
@@ -146,8 +133,7 @@ public class ExtendedSelenium extends DefaultSelenium {
     /**
      * Returns the number of elements with given jQuery locator.
      *
-     * @param jqueryLocator
-     *            jQuery locator of an element
+     * @param jqueryLocator jQuery locator of an element
      * @return number of found elements
      */
     public Number getJQueryCount(String jqueryLocator) {

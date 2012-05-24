@@ -49,15 +49,15 @@ import com.thoughtworks.selenium.HttpCommandProcessor;
  * </p>
  *
  * <p>
- * Internally using {@link org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor} and
- * {@link CommandInterceptorProxyImpl}.
+ * Internally using {@link org.jboss.arquillian.ajocado.ajaxaware.AjaxAwareInterceptor} and {@link CommandInterceptorProxyImpl}.
  * </p>
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
 @SuppressWarnings("deprecation")
-public class GrapheneSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium, GrapheneInitializator {
+public class GrapheneSeleniumImpl extends ExtendedTypedSeleniumImpl implements GrapheneSelenium, AjaxSelenium,
+        GrapheneInitializator {
 
     /** The JavaScript Extensions to tested page */
     PageExtensions pageExtensions;
@@ -82,18 +82,14 @@ public class GrapheneSeleniumImpl extends ExtendedTypedSeleniumImpl implements G
     /**
      * Instantiates a new ajax selenium.
      *
-     * @param serverHost
-     *            the server host
-     * @param serverPort
-     *            the server port
-     * @param browser
-     *            the browser
-     * @param contextPathURL
-     *            the context path url
+     * @param serverHost the server host
+     * @param serverPort the server port
+     * @param browser the browser
+     * @param contextPathURL the context path url
      */
     public GrapheneSeleniumImpl(String serverHost, int serverPort, Browser browser, URL contextPathURL) {
         CommandProcessor commandProcessor = new HttpCommandProcessor(serverHost, serverPort,
-            browser.inSeleniumRepresentation(), contextPathURL.toString());
+                browser.inSeleniumRepresentation(), contextPathURL.toString());
         interceptionProxy = new CommandInterceptorProxyImpl(commandProcessor);
         selenium = new ExtendedSelenium(interceptionProxy.getCommandProcessorProxy());
         pageExtensions = new PageExtensionsImpl();
@@ -220,8 +216,7 @@ public class GrapheneSeleniumImpl extends ExtendedTypedSeleniumImpl implements G
     /**
      * Loads the list of resource names from the given resource.
      *
-     * @param resourceName
-     *            the path to resource on classpath
+     * @param resourceName the path to resource on classpath
      * @return the list of resource names from the given resource.
      */
     @SuppressWarnings("unchecked")

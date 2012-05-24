@@ -85,8 +85,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
     /**
      * Gets a TextRetriever object preset with elementLocator to given value.
      *
-     * @param elementLocator
-     *            the element locator to preset
+     * @param elementLocator the element locator to preset
      * @return the TextRetriever preset with elementLocator of given value
      */
     public TextRetriever locator(ElementLocator<?> elementLocator) {

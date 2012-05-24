@@ -32,8 +32,8 @@ import com.thoughtworks.selenium.CommandProcessor;
 
 /**
  * <p>
- * This context holds the iterator over collection of interceptors, which will be triggered before the command will be
- * passed to commandProcessor to execute.
+ * This context holds the iterator over collection of interceptors, which will be triggered before the command will be passed to
+ * commandProcessor to execute.
  * </p>
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -51,20 +51,16 @@ public class CommandContextImpl implements CommandContext {
     private int invocations = 0;
 
     /**
-     * Creates new context of command, using command name, its args, command processor used to execute command and
-     * command interceptors, which will enfold the execution of command.
+     * Creates new context of command, using command name, its args, command processor used to execute command and command
+     * interceptors, which will enfold the execution of command.
      *
-     * @param command
-     *            the name of the command to trigger
-     * @param args
-     *            arguments of this command
-     * @param commandProcessor
-     *            the command processor used to execute command
-     * @param interceptors
-     *            enfolds the execution of command
+     * @param command the name of the command to trigger
+     * @param args arguments of this command
+     * @param commandProcessor the command processor used to execute command
+     * @param interceptors enfolds the execution of command
      */
     CommandContextImpl(String command, String[] args, CommandProcessor commandProcessor, Method method,
-        Collection<CommandInterceptor> interceptors) {
+            Collection<CommandInterceptor> interceptors) {
         this.command = command;
         this.method = method;
         this.args = args;
@@ -78,15 +74,14 @@ public class CommandContextImpl implements CommandContext {
      * </p>
      *
      * <p>
-     * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method
-     * body method {@link CommandContextImpl#invoke()} at least once. If not, this interceptor will raise
+     * Watch if the following interceptor call's in it's {@link CommandInterceptor#intercept(CommandContext)} method body method
+     * {@link CommandContextImpl#invoke()} at least once. If not, this interceptor will raise
      * {@link CommandInterceptorException}.
      * </p>
      *
      * @return the return value of executing the command on given commandProcessor
-     * @throws CommandInterceptorException
-     *             if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in it's
-     *             {@link CommandInterceptor#intercept(CommandContext)} method body.
+     * @throws CommandInterceptorException if the subsequent interceptor doesn't call {@link CommandContextImpl#invoke()} in
+     *         it's {@link CommandInterceptor#intercept(CommandContext)} method body.
      */
     @Override
     public Object invoke() throws CommandInterceptorException {

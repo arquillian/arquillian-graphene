@@ -71,8 +71,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
     /**
      * Constructs new proxy with associated command processor
      *
-     * @param commandProcessor
-     *            to associate with this proxy
+     * @param commandProcessor to associate with this proxy
      */
     public CommandInterceptorProxyImpl(CommandProcessor commandProcessor) {
         this.commandProcessor = commandProcessor;
@@ -85,7 +84,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      */
     public CommandProcessor getCommandProcessorProxy() {
         return (CommandProcessor) Proxy.newProxyInstance(commandProcessor.getClass().getClassLoader(), commandProcessor
-            .getClass().getInterfaces(), this);
+                .getClass().getInterfaces(), this);
     }
 
     /**
@@ -94,8 +93,8 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
      * </p>
      *
      * <p>
-     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated
-     * interceptors before performing the actual invocation of method.
+     * In case of {@link CommandProcessor#doCommand(String, String[])} method, it also executes all associated interceptors
+     * before performing the actual invocation of method.
      * </p>
      */
     @Override
@@ -106,7 +105,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
                 String commandName = (String) args[0];
                 String[] arguments = (String[]) args[1];
                 CommandContextImpl context = new CommandContextImpl(commandName, arguments, commandProcessor, method,
-                    interceptors.values());
+                        interceptors.values());
                 try {
                     result = context.invoke();
                 } catch (CommandInterceptorException e) {
@@ -128,8 +127,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
     /**
      * Registers the interceptor, only one interceptor can be registered for given class of interceptor.
      *
-     * @param interceptor
-     *            the interceptor implementation
+     * @param interceptor the interceptor implementation
      */
     @Override
     public void registerInterceptor(CommandInterceptor interceptor) {
@@ -139,8 +137,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
     /**
      * Removes and returns the interceptor instance, or null, if such instance isn't registered.
      *
-     * @param interceptor
-     *            the instance of interceptor to remove
+     * @param interceptor the instance of interceptor to remove
      * @return removed interceptor or null, if such interceptor ins't registered
      */
     @Override
@@ -158,8 +155,7 @@ public final class CommandInterceptorProxyImpl implements CommandInterceptorProx
     /**
      * Removes and returns all associated interceptors which of given type.
      *
-     * @param type
-     *            of interceptors which we want to unregister from this command processor
+     * @param type of interceptors which we want to unregister from this command processor
      * @return the removed interceptors
      */
     @Override

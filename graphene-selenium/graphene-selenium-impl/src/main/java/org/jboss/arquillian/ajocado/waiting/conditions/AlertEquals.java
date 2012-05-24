@@ -83,7 +83,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
 
         if (!message.equals(alertMessage)) {
             throw new SeleniumException("Alert has been displayed, but the message '" + message
-                + "' doesn't equal to the expected '" + alertMessage + "'");
+                    + "' doesn't equal to the expected '" + alertMessage + "'");
         }
 
         return true;
@@ -100,10 +100,10 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
         String escapedMessage = escapeJavaScript(message);
 
         return js(
-            "selenium.isAlertPresent() && ((alertMessage = selenium.getAlert()) == '{0}' "
-                + " || selenium.throwError('Alert has been displayed, "
-                + "but the message \\'' + alertMessage + '\\' doesn\\'t equal to the expected \\'{0}\\''))")
-            .parametrize(escapedMessage);
+                "selenium.isAlertPresent() && ((alertMessage = selenium.getAlert()) == '{0}' "
+                        + " || selenium.throwError('Alert has been displayed, "
+                        + "but the message \\'' + alertMessage + '\\' doesn\\'t equal to the expected \\'{0}\\''))")
+                .parametrize(escapedMessage);
     }
 
     /**
@@ -124,8 +124,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      * For equality with this text the condition will wait.
      * </p>
      *
-     * @param message
-     *            it should wait for equality
+     * @param message it should wait for equality
      * @return the AlertEquals object with preset text
      */
     public AlertEquals message(String message) {

@@ -37,8 +37,7 @@ public class XPathLocator extends AbstractIterableLocator<XPathLocator> implemen
     /**
      * Instantiates a new xpath locator.
      *
-     * @param xpath
-     *            the xpath
+     * @param xpath the xpath
      */
     public XPathLocator(String xpath) {
         super(xpath);

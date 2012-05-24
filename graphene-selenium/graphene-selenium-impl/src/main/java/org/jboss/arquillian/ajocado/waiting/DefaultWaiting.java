@@ -22,13 +22,12 @@
 package org.jboss.arquillian.ajocado.waiting;
 
 /**
- * Abstract implementation of immutable class with purpose of waiting with customizable timeout, interval, and failure
- * behaviour and delay on start of waiting.
+ * Abstract implementation of immutable class with purpose of waiting with customizable timeout, interval, and failure behaviour
+ * and delay on start of waiting.
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
- * @param <T>
- *            the end implementation of DefaultWaiting as the return type for setter methods
+ * @param <T> the end implementation of DefaultWaiting as the return type for setter methods
  */
 @SuppressWarnings("unchecked")
 public abstract class DefaultWaiting<T extends Waiting<T>> implements Waiting<T>, Cloneable {

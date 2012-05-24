@@ -79,8 +79,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement()
-            .inSeleniumRepresentation());
+        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
         String escapedAttributeName = escapeJavaScript(this.attributeLocator.getAttribute().getAttributeName());
         return js("selenium.isAttributePresent('{0}', '{1}')").parametrize(escapedElementLocator, escapedAttributeName);
     }
@@ -97,8 +96,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
     /**
      * Returns the AttributePresent instance with given attributeLocator set.
      *
-     * @param attributeLocator
-     *            the attribute locator
+     * @param attributeLocator the attribute locator
      * @return the attribute present
      */
     public AttributePresent locator(AttributeLocator<?> attributeLocator) {

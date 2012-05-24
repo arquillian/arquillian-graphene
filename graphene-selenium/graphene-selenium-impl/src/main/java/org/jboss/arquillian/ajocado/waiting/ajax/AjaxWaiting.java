@@ -29,8 +29,8 @@ import org.jboss.arquillian.ajocado.waiting.Waiting;
  * </p>
  *
  * <p>
- * It uses custom JavaScript and com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String) to wait
- * for satisfying given condition.
+ * It uses custom JavaScript and com.thoughtworks.selenium.Selenium.Selenium#waitForCondition(String, String) to wait for
+ * satisfying given condition.
  * </p>
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -41,27 +41,22 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
     /**
      * Stars loop waiting to satisfy condition.
      *
-     * @param condition
-     *            what wait for to be satisfied
+     * @param condition what wait for to be satisfied
      */
     void until(JavaScriptCondition condition);
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param oldValue
-     *            value that we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param oldValue value that we are waiting for change
+     * @param retriever implementation of retrieving actual value
      */
     <T> void waitForChange(T oldValue, JavaScriptRetriever<T> retriever);
 
     /**
      * <p>
-     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
-     * retriever.
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in retriever.
      * </p>
      *
      * <p>
@@ -75,30 +70,24 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
      * </p>
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param retriever implementation of retrieving actual value
      */
     <T> void waitForChange(JavaScriptRetriever<T> retriever);
 
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param oldValue
-     *            value that we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param oldValue value that we are waiting for change
+     * @param retriever implementation of retrieving actual value
      * @return new retrieved value
      */
     <T> T waitForChangeAndReturn(T oldValue, JavaScriptRetriever<T> retriever);
 
     /**
      * <p>
-     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
-     * retriever.
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in retriever.
      * </p>
      *
      * <p>
@@ -112,10 +101,8 @@ public interface AjaxWaiting extends Waiting<AjaxWaiting> {
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)} .
      * </p>
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param retriever implementation of retrieving actual value
      * @return new retrieved value
      */
     <T> T waitForChangeAndReturn(JavaScriptRetriever<T> retriever);

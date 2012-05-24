@@ -86,8 +86,7 @@
             <artifactId>arquillian-config-impl-base</artifactId>
             <scope>test</scope>
         </dependency>
-        
-        
+
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>
             <artifactId>arquillian-core-impl-base</artifactId>
@@ -113,10 +112,13 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
-
 </project>
 

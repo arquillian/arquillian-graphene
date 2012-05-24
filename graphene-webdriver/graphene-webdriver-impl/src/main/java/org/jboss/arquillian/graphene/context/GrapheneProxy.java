@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -35,14 +35,14 @@ public final class GrapheneProxy {
 
     /**
      * Returns whether given <code>driver</code> is instance of context proxy.
-     * 
+     *
      * @param driver driver instance to check
      * @return true when driver is a Proxy instance, false otherwise
      */
     public static boolean isProxyInstance(WebDriver driver) {
         return driver instanceof GrapheneProxyInstance;
     }
-    
+
     /**
      * <p>
      * Wraps the given target instance in the proxy.

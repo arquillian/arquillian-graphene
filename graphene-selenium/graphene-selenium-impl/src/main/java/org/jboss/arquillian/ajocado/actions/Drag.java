@@ -44,8 +44,8 @@ import org.jboss.arquillian.ajocado.waiting.Waiting;
  * </p>
  *
  * <p>
- * If we are calling following phase (e.g. drop, when no action was called), all phases preceding requested phase will
- * be done before requested phase can be done.
+ * If we are calling following phase (e.g. drop, when no action was called), all phases preceding requested phase will be done
+ * before requested phase can be done.
  * </p>
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
@@ -100,10 +100,8 @@ public class Drag {
     /**
      * Initiates Drag object, handled by given Selenium instance, instructing drag of itemToDrag to dropTarget object.
      *
-     * @param itemToDrag
-     *            item to drag
-     * @param dropTarget
-     *            target of item dragging
+     * @param itemToDrag item to drag
+     * @param dropTarget target of item dragging
      */
     public Drag(ElementLocator<?> itemToDrag, ElementLocator<?> dropTarget) {
         this.currentPhase = Phase.INITIAL;
@@ -115,8 +113,7 @@ public class Drag {
     public void setDropTarget(ElementLocator<?> dropTarget) {
         switch (currentPhase) {
             case INITIAL:
-                startMove = new Point(selenium.getElementWidth(itemToDrag) / 2,
-                    selenium.getElementHeight(itemToDrag) / 2);
+                startMove = new Point(selenium.getElementWidth(itemToDrag) / 2, selenium.getElementHeight(itemToDrag) / 2);
                 currentPosition = getCenterOfElement(itemToDrag);
                 endPosition = getCenterOfElement(dropTarget);
                 overallMove = endPosition.substract(currentPosition);
@@ -202,13 +199,13 @@ public class Drag {
      *
      * If some phase is called by its number, it will be recognized, that is possible to process this step.
      *
-     * Internally is used counter 'phase' which will be decreased when passed to a new phase. Switch condition breaks
-     * when will finished in requesting phase.
+     * Internally is used counter 'phase' which will be decreased when passed to a new phase. Switch condition breaks when will
+     * finished in requesting phase.
      */
     private void processUntilPhase(Phase requestedPhase) {
         if (requestedPhase.before(currentPhase)) {
             throw new IllegalArgumentException("Requested phase (" + requestedPhase + ") is before current phase ("
-                + currentPhase + ")");
+                    + currentPhase + ")");
         }
 
         while ((currentPhase.before(requestedPhase))) {
@@ -220,14 +217,13 @@ public class Drag {
     /**
      * Executes the instructions for given phase.
      *
-     * @param phase
-     *            the phase what should be executed
+     * @param phase the phase what should be executed
      */
     private void executePhase(Phase phase) {
         switch (phase) {
             case START:
                 currentDelta = startMove.add(new Point((overallMove.getX() < 0) ? FIRST_STEP : -FIRST_STEP,
-                    (overallMove.getY() < 0) ? FIRST_STEP : -FIRST_STEP));
+                        (overallMove.getY() < 0) ? FIRST_STEP : -FIRST_STEP));
                 selenium.mouseDownAt(itemToDrag, new Point(0, 0));
                 selenium.mouseMoveAt(itemToDrag, new Point(2, 2));
                 if (dragIndicator != null && selenium.isElementPresent(dragIndicator)) {
@@ -268,13 +264,17 @@ public class Drag {
      */
     public enum Phase {
 
-        INITIAL, START, MOUSE_OUT, MOVE, ENTER, DROP;
+        INITIAL,
+        START,
+        MOUSE_OUT,
+        MOVE,
+        ENTER,
+        DROP;
 
         /**
          * Compares given phase to this phase.
          *
-         * @param phase
-         *            the phase
+         * @param phase the phase
          * @return true, if given phase is before this phase; else otherwise
          */
         boolean before(Phase phase) {

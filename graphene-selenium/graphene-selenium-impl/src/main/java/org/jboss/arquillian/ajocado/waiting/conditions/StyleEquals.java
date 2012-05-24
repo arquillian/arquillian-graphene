@@ -36,8 +36,8 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 /**
  *
  * <p>
- * Implementation of Condition for waiting if element given by elementLocator has given CSS style property's value equal
- * to given value.
+ * Implementation of Condition for waiting if element given by elementLocator has given CSS style property's value equal to
+ * given value.
  * </p>
  *
  * <p>
@@ -93,8 +93,8 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
         String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
         String escapedCssProperty = escapeJavaScript(this.cssProperty.getPropertyName());
         String escapedText = escapeJavaScript(this.value);
-        return js("selenium.isElementPresent('{0}') && (selenium.getStyle('{0}', '{1}') == '{2}')").parametrize(
-            escapedLocator, escapedCssProperty, escapedText);
+        return js("selenium.isElementPresent('{0}') && (selenium.getStyle('{0}', '{1}') == '{2}')").parametrize(escapedLocator,
+                escapedCssProperty, escapedText);
     }
 
     private void validate() {
@@ -121,8 +121,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * From this locator will be obtained the CSS property.
      * </p>
      *
-     * @param elementLocator
-     *            the element locator
+     * @param elementLocator the element locator
      * @return the StyleEquals object with preset locator
      */
     public StyleEquals locator(ElementLocator<?> elementLocator) {
@@ -143,8 +142,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * This CSS property will be obtained in way to compare equality to given value.
      * </p>
      *
-     * @param cssProperty
-     *            the property to obtain
+     * @param cssProperty the property to obtain
      * @return the StyleEquals object with preset CSS property to obtain
      */
     public StyleEquals property(CssProperty cssProperty) {
@@ -165,8 +163,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * For equality with this value the condition will wait.
      * </p>
      *
-     * @param value
-     *            it should wait for equality
+     * @param value it should wait for equality
      * @return the StyleEquals object with preset value
      */
     public StyleEquals value(String value) {

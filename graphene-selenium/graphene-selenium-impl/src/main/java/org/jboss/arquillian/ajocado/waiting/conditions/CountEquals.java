@@ -123,8 +123,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * From this locator will be the count of elements.
      * </p>
      *
-     * @param iterableLocator
-     *            the element locator
+     * @param iterableLocator the element locator
      * @return the CountEquals object with preset locator
      */
     public CountEquals locator(IterableLocator<?> iterableLocator) {
@@ -149,8 +148,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * For this count of elements will condition wait.
      * </p>
      *
-     * @param count
-     *            it should wait for this element count
+     * @param count it should wait for this element count
      * @return the CountEquals object with preset value
      */
     public CountEquals count(int count) {

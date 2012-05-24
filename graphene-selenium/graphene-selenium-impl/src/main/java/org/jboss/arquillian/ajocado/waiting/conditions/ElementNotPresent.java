@@ -95,8 +95,7 @@ public class ElementNotPresent implements SeleniumCondition, JavaScriptCondition
     /**
      * Returns the ElementPresent instance with given elementLocator set.
      *
-     * @param elementLocator
-     *            the element locator
+     * @param elementLocator the element locator
      * @return the element present
      */
     public ElementNotPresent locator(ElementLocator<?> elementLocator) {

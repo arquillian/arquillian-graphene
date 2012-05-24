@@ -44,8 +44,8 @@ public class PageExtensionsImpl implements PageExtensions {
 
     /** Evaluates if the body is loaded */
     final JavaScript isBodyLoaded = js("(selenium.browserbot.getCurrentWindow() != null) "
-        + " && (selenium.browserbot.getCurrentWindow().document != null) "
-        + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
+            + " && (selenium.browserbot.getCurrentWindow().document != null) "
+            + " && (selenium.browserbot.getCurrentWindow().document.body != null)");
 
     /** Evalutes if the Graphene object is undefined on the page */
     final JavaScript isGraphenePageUndefined = js("Graphene === undefined || Graphene.getPage() === undefined");
@@ -91,8 +91,7 @@ public class PageExtensionsImpl implements PageExtensions {
     /**
      * Loads the page JS extensions from resources defined by list of resource names.
      *
-     * @param resourceNames
-     *            the list of full paths to resources
+     * @param resourceNames the list of full paths to resources
      */
     @Override
     public void loadFromResources(List<String> resourceNames) {

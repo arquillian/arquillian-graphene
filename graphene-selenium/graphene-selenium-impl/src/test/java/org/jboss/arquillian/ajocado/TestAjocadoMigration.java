@@ -35,10 +35,11 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * Tests for migration path from Ajocado specific objects to Graphene specific objects.
- * 
+ *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */
+@SuppressWarnings("deprecation")
 public class TestAjocadoMigration {
 
     @Mock

@@ -36,7 +36,7 @@ import org.testng.annotations.Test;
 public class StandaloneModeInitializationTestCase extends Arquillian {
 
     URL url = URLUtils.buildUrl("http://127.0.0.1:14444");
-    
+
     @Drone
     GrapheneSelenium selenium;
 

@@ -28,8 +28,7 @@ import org.jboss.arquillian.ajocado.waiting.retrievers.RetrievedValueHolder;
  *
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
- * @param <T>
- *            type of retrieved value
+ * @param <T> type of retrieved value
  */
 public interface SeleniumRetriever<T> extends RetrievedValueHolder<T> {
     /**

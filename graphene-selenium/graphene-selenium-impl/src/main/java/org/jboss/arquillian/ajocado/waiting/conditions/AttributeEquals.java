@@ -35,8 +35,7 @@ import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
 /**
  *
  * <p>
- * Implementation of Condition for waiting if element's attribute given by attributeLocator has value equal to given
- * value.
+ * Implementation of Condition for waiting if element's attribute given by attributeLocator has value equal to given value.
  * </p>
  *
  * <p>
@@ -85,12 +84,11 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement()
-            .inSeleniumRepresentation());
+        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
         String escapedAttributeLocator = escapeJavaScript(this.attributeLocator.inSeleniumRepresentation());
         String escapedValue = escapeJavaScript(this.value);
         return js("selenium.isElementPresent('{0}') && (selenium.getAttribute('{1}') == '{2}')").parametrize(
-            escapedElementLocator, escapedAttributeLocator, escapedValue);
+                escapedElementLocator, escapedAttributeLocator, escapedValue);
     }
 
     /**
@@ -111,8 +109,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      * From this element's attribute will be obtained the value.
      * </p>
      *
-     * @param attributeLocator
-     *            the attribute locator
+     * @param attributeLocator the attribute locator
      * @return the AttributeEquals object with preset locator
      */
     public AttributeEquals locator(AttributeLocator<?> attributeLocator) {
@@ -133,8 +130,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      * For equality with this value the condition will wait.
      * </p>
      *
-     * @param value
-     *            it should wait for equality
+     * @param value it should wait for equality
      * @return the AttributeEquals object with preset value
      */
     public AttributeEquals text(String value) {

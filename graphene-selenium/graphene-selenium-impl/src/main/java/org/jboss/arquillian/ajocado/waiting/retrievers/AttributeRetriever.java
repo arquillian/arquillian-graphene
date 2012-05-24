@@ -85,8 +85,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
     /**
      * Gets a AttributeRetriever object preset with attributeLocator to given value.
      *
-     * @param attributeLocator
-     *            the attribute locator to preset
+     * @param attributeLocator the attribute locator to preset
      * @return the AttributeRetriever preset with attributeLocator of given value
      */
     public AttributeRetriever attributeLocator(AttributeLocator<?> attributeLocator) {

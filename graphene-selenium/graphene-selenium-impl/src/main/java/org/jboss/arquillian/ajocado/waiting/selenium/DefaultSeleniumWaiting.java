@@ -39,8 +39,7 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
     /**
      * Stars loop waiting to satisfy condition.
      *
-     * @param condition
-     *            what wait for to be satisfied
+     * @param condition what wait for to be satisfied
      */
     public void until(SeleniumCondition condition) {
         long start = System.currentTimeMillis();
@@ -68,12 +67,9 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue.
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param oldValue
-     *            value that we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param oldValue value that we are waiting for change
+     * @param retriever implementation of retrieving actual value
      */
     public <T> void waitForChange(T oldValue, SeleniumRetriever<T> retriever) {
         waitForChangeAndReturn(oldValue, retriever);
@@ -81,8 +77,7 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
 
     /**
      * <p>
-     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
-     * retriever.
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in retriever.
      * </p>
      *
      * <p>
@@ -95,10 +90,8 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param retriever implementation of retrieving actual value
      */
     public <T> void waitForChange(SeleniumRetriever<T> retriever) {
         T newValue = waitForChangeAndReturn(retriever.getValue(), retriever);
@@ -108,12 +101,9 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
     /**
      * Waits until Retrieve's implementation doesn't retrieve value other than oldValue and this new value returns.
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param oldValue
-     *            value that we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param oldValue value that we are waiting for change
+     * @param retriever implementation of retrieving actual value
      * @return new retrieved value
      */
     public <T> T waitForChangeAndReturn(final T oldValue, final SeleniumRetriever<T> retriever) {
@@ -135,8 +125,7 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
 
     /**
      * <p>
-     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in
-     * retriever.
+     * Waits until Retrieve's implementation doesn't retrieve value other than value stored by initialization in retriever.
      * </p>
      *
      * <p>
@@ -149,10 +138,8 @@ public class DefaultSeleniumWaiting extends DefaultWaiting<SeleniumWaiting> impl
      * {@link org.jboss.arquillian.ajocado.waiting.retrievers.Retriever#setValue(Object)}.
      * </p>
      *
-     * @param <T>
-     *            type of value what we are waiting for change
-     * @param retriever
-     *            implementation of retrieving actual value
+     * @param <T> type of value what we are waiting for change
+     * @param retriever implementation of retrieving actual value
      * @return new retrieved value
      */
     public <T> T waitForChangeAndReturn(final SeleniumRetriever<T> retriever) {

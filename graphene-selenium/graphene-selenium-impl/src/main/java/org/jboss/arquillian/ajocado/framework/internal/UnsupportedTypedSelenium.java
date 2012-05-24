@@ -40,49 +40,41 @@ public interface UnsupportedTypedSelenium {
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
      *
-     * @param fieldLocator
-     *            an element locator
-     * @param fileLocator
-     *            a URL pointing to the specified file. Before the file can be set in the input field (fieldLocator),
-     *            Selenium RC may need to transfer the file to the local machine before attaching the file in a web page
-     *            form. This is common in selenium grid configurations where the RC server driving the browser is not
-     *            the same machine that started the test. Supported Browsers: Firefox ("*chrome") only.
+     * @param fieldLocator an element locator
+     * @param fileLocator a URL pointing to the specified file. Before the file can be set in the input field (fieldLocator),
+     *        Selenium RC may need to transfer the file to the local machine before attaching the file in a web page form. This
+     *        is common in selenium grid configurations where the RC server driving the browser is not the same machine that
+     *        started the test. Supported Browsers: Firefox ("*chrome") only.
      */
     void attachFile(ElementLocator<?> fieldLocator, File fileLocator);
 
     /**
      * Sets a file input (upload) field to the file listed in fileLocator
      *
-     * @param fieldLocator
-     *            an element locator
-     * @param fileLocator
-     *            a URL pointing to the specified file. Before the file can be set in the input field (fieldLocator),
-     *            Selenium RC may need to transfer the file to the local machine before attaching the file in a web page
-     *            form. This is common in selenium grid configurations where the RC server driving the browser is not
-     *            the same machine that started the test. Supported Browsers: Firefox ("*chrome") only.
+     * @param fieldLocator an element locator
+     * @param fileLocator a URL pointing to the specified file. Before the file can be set in the input field (fieldLocator),
+     *        Selenium RC may need to transfer the file to the local machine before attaching the file in a web page form. This
+     *        is common in selenium grid configurations where the RC server driving the browser is not the same machine that
+     *        started the test. Supported Browsers: Firefox ("*chrome") only.
      */
     void attachFile(ElementLocator<?> fieldLocator, URL fileLocator);
 
     /**
      * Captures a PNG screenshot to the specified file.
      *
-     * @param filename
-     *            the absolute path to the file to be written, e.g. "c:\blah\screenshot.png"
+     * @param filename the absolute path to the file to be written, e.g. "c:\blah\screenshot.png"
      */
     void captureScreenshot(File filename);
 
     /**
-     * Saves the entire contents of the current window canvas to a PNG file. Contrast this with the captureScreenshot
-     * command, which captures the contents of the OS viewport (i.e. whatever is currently being displayed on the
-     * monitor), and is implemented in the RC only. Currently this only works in Firefox when running in chrome mode,
-     * and in IE non-HTA using the EXPERIMENTAL "Snapsie" utility. The Firefox implementation is mostly borrowed from
-     * the Screengrab! Firefox extension. Please see http://www.screengrab.org and http://snapsie.sourceforge.net/ for
-     * details.
+     * Saves the entire contents of the current window canvas to a PNG file. Contrast this with the captureScreenshot command,
+     * which captures the contents of the OS viewport (i.e. whatever is currently being displayed on the monitor), and is
+     * implemented in the RC only. Currently this only works in Firefox when running in chrome mode, and in IE non-HTA using the
+     * EXPERIMENTAL "Snapsie" utility. The Firefox implementation is mostly borrowed from the Screengrab! Firefox extension.
+     * Please see http://www.screengrab.org and http://snapsie.sourceforge.net/ for details.
      *
-     * @param filename
-     *            the path to the file to persist the screenshot as. No filename extension will be appended by default.
-     *            Directories will not be created if they do not exist, and an exception will be thrown, possibly by
-     *            native code.
+     * @param filename the path to the file to persist the screenshot as. No filename extension will be appended by default.
+     *        Directories will not be created if they do not exist, and an exception will be thrown, possibly by native code.
      */
     void captureEntirePageScreenshot(File filename);
 
@@ -136,8 +128,7 @@ public interface UnsupportedTypedSelenium {
     /**
      * Returns every instance of some attribute from all known windows.
      *
-     * @param attribute
-     *            name of an attribute on the windows
+     * @param attribute name of an attribute on the windows
      * @return the set of values of this attribute from all known windows.
      */
     List<String> getAttributeFromAllWindows(Attribute attribute);
@@ -150,8 +141,7 @@ public interface UnsupportedTypedSelenium {
      * waitForExpression.
      * </p>
      *
-     * @param expression
-     *            the value to return
+     * @param expression the value to return
      * @return the value passed in
      */
     JavaScript getExpression(JavaScript expression);
@@ -161,15 +151,13 @@ public interface UnsupportedTypedSelenium {
      *
      * <p>
      * This is useful in proxy injection mode, where this code runs in every browser frame and window, and sometimes the
-     * selenium server needs to identify the "current" frame. In this case, when the test calls selectFrame, this
-     * routine is called for each frame to figure out which one has been selected. The selected frame will return true,
-     * while all others will return false.
+     * selenium server needs to identify the "current" frame. In this case, when the test calls selectFrame, this routine is
+     * called for each frame to figure out which one has been selected. The selected frame will return true, while all others
+     * will return false.
      * </p>
      *
-     * @param currentFrameString
-     *            starting frame
-     * @param target
-     *            new frame (which might be relative to the current one)
+     * @param currentFrameString starting frame
+     * @param target new frame (which might be relative to the current one)
      * @return true if the new frame is this code's window
      */
     boolean getWhetherThisFrameMatchFrameExpression(String currentFrameString, String target);
@@ -179,15 +167,13 @@ public interface UnsupportedTypedSelenium {
      *
      * <p>
      * This is useful in proxy injection mode, where this code runs in every browser frame and window, and sometimes the
-     * selenium server needs to identify the "current" window. In this case, when the test calls selectWindow, this
-     * routine is called for each window to figure out which one has been selected. The selected window will return
-     * true, while all others will return false.
+     * selenium server needs to identify the "current" window. In this case, when the test calls selectWindow, this routine is
+     * called for each window to figure out which one has been selected. The selected window will return true, while all others
+     * will return false.
      * </p>
      *
-     * @param currentWindowString
-     *            starting window
-     * @param target
-     *            new window (which might be relative to the current one, e.g., "_parent")
+     * @param currentWindowString starting window
+     * @param target new window (which might be relative to the current one, e.g., "_parent")
      * @return true if the new window is this code's window
      */
     boolean getWhetherThisWindowMatchWindowExpression(String currentWindowString, String target);

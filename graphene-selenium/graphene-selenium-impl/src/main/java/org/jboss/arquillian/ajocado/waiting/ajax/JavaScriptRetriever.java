@@ -28,8 +28,7 @@ import org.jboss.arquillian.ajocado.waiting.retrievers.RetrievedValueHolder;
 /**
  * JavaScript code obtaining the value convertable to <tt>T</tt> type.
  *
- * @param <T>
- *            object, which should be from string representation inside JavaScript converted to object representation
+ * @param <T> object, which should be from string representation inside JavaScript converted to object representation
  * @author <a href="mailto:lfryc@redhat.com">Lukas Fryc</a>
  * @version $Revision$
  */

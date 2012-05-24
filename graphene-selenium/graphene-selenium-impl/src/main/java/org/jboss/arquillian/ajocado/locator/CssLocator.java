@@ -41,8 +41,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
     /**
      * Initiates element locator by using CSS selectors.
      *
-     * @param cssSelector
-     *            <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
+     * @param cssSelector <a href="http://www.w3.org/TR/css3-selectors/">CSS selector</a>
      */
     public CssLocator(String cssSelector) {
         super(cssSelector);
@@ -62,8 +61,7 @@ public class CssLocator extends AbstractElementLocator<CssLocator> implements Co
      * (non-Javadoc)
      *
      * @see
-     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator
-     * )
+     * org.jboss.arquillian.ajocado.locator.CompoundableLocator#getChild(org.jboss.test.selenium.locator.CompoundableLocator )
      */
     @Override
     public CssLocator getChild(CssLocator elementLocator) {

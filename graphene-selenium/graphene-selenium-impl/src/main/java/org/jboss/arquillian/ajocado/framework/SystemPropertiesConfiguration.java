@@ -136,6 +136,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
 
     /*
      * (non-Javadoc)
+     *
      * @see org.jboss.arquillian.ajocado.framework.GrapheneConfiguration#getStartParameters()
      */
     @Override

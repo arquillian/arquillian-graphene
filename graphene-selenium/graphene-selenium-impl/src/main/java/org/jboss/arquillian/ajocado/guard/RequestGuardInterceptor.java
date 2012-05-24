@@ -27,11 +27,11 @@ import static org.jboss.arquillian.ajocado.request.RequestType.NONE;
 import org.jboss.arquillian.ajocado.command.CommandContext;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
-import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
-import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfiguration.TimeoutType;
 import org.jboss.arquillian.ajocado.framework.GrapheneConfigurationContext;
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.request.RequestType;
 
 import com.thoughtworks.selenium.SeleniumException;
@@ -64,10 +64,8 @@ public class RequestGuardInterceptor implements CommandInterceptor {
     /**
      * Constructs the guard with predefined expected RequestType
      *
-     * @param requestExpected
-     *            the RequestType which is expected to be done
-     * @param interlayed
-     *            indicates whenever the request can be interlayed by another request
+     * @param requestExpected the RequestType which is expected to be done
+     * @param interlayed indicates whenever the request can be interlayed by another request
      */
     public RequestGuardInterceptor(RequestType requestExpected, boolean interlayed) {
         super();
@@ -92,8 +90,8 @@ public class RequestGuardInterceptor implements CommandInterceptor {
     }
 
     /**
-     * Install the PageExtensions (which is used to figure out, what requestType was actually done) and clear the
-     * request type to NONE state.
+     * Install the PageExtensions (which is used to figure out, what requestType was actually done) and clear the request type
+     * to NONE state.
      */
     public void doBeforeCommand() {
         selenium.getPageExtensions().install();
@@ -109,8 +107,7 @@ public class RequestGuardInterceptor implements CommandInterceptor {
      * Then figure out what requestType was actually done and compare to expected one.
      * </p>
      *
-     * @throws RequestGuardException
-     *             when done requestType doesn't equal to expected one
+     * @throws RequestGuardException when done requestType doesn't equal to expected one
      */
     public void doAfterCommand() {
         final long end = System.currentTimeMillis() + configuration.getTimeout(TimeoutType.AJAX);
