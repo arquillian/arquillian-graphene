@@ -39,12 +39,6 @@
             <artifactId>arquillian-drone-webdriver</artifactId>
         </dependency>
         
-        <!-- ARQ-793 FIXME it is required for standalone mode, but should not be required -->
-        <dependency>
-            <groupId>org.jboss.arquillian.config</groupId>
-            <artifactId>arquillian-config-impl-base</artifactId>
-        </dependency>
-        
         <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

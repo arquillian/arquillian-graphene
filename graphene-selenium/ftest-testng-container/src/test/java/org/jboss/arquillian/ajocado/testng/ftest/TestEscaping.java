@@ -65,10 +65,10 @@ public class TestEscaping extends AbstractTest {
         Assert.assertTrue(selenium.isElementPresent(paragraph));
         Assert.assertEquals(waitGui.waitForChangeAndReturn("unknown", retrieveParagraphTitle), paragraphTitle);
     }
-    
+
     @Test
     public void testEscapingLocatorAttribute() {
-    	
-    	Assert.assertTrue(selenium.isElementPresent(div), "Wrong escaping of locator when using not permitted chars!");
+
+        Assert.assertTrue(selenium.isElementPresent(div), "Wrong escaping of locator when using not permitted chars!");
     }
 }

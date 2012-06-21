@@ -36,8 +36,8 @@ import org.jboss.arquillian.ajocado.selenium.SeleniumRepresentable;
  */
 public abstract class CookieOptions<T extends CookieOptions<T>> implements Cloneable, SeleniumRepresentable {
 
-    private String domain = null;
-    private String path = null;
+    protected String domain = null;
+    protected String path = null;
 
     /**
      * Creates options for creating cookies
