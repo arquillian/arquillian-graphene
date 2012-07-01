@@ -1,56 +1,171 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jboss.arquillian.graphene</groupId>
-        <artifactId>graphene-webdriver-parent</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.jboss.arquillian.graphene</groupId>
+		<artifactId>graphene-webdriver-parent</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
 
-    <artifactId>graphene-webdriver-ftest</artifactId>
-    <name>Graphene WebDriver: Functional Test</name>
+	<artifactId>graphene-webdriver-ftest</artifactId>
+	<name>Graphene WebDriver: Functional Test</name>
 
-    <properties>
-        <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
-    </properties>
+	<properties>
+		<testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
+		<shrinkwrap.descriptors.version>1.1.0-beta-1</shrinkwrap.descriptors.version>
+	</properties>
 
-    <dependencies>
-        <!-- Arquillian Graphene -->
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-            <scope>test</scope>
-        </dependency>
-        
-        <!-- Arquillian JUnit -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-standalone</artifactId>
-            <scope>test</scope>
-        </dependency>
-        
-        <!-- JUnit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+	<dependencies>
+		<!-- Arquillian Graphene -->
+		<dependency>
+			<groupId>org.jboss.arquillian.graphene</groupId>
+			<artifactId>graphene-webdriver</artifactId>
+			<version>${project.version}</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
 
-    </dependencies>
+		<!-- Arquillian JUnit -->
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-standalone</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Arquillian Drone -->
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-spi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-configuration</artifactId>
+		</dependency>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+		<!-- Arquillian dependencies -->
+		<dependency>
+			<groupId>org.jboss.arquillian.core</groupId>
+			<artifactId>arquillian-core-spi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.test</groupId>
+			<artifactId>arquillian-test-spi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.config</groupId>
+			<artifactId>arquillian-config-api</artifactId>
+		</dependency>
+
+		<!-- Arquillian Drone support in Arquillian tests -->
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-webdriver</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
+			<artifactId>shrinkwrap-descriptors-api</artifactId>
+			<version>${shrinkwrap.descriptors.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
+			<artifactId>shrinkwrap-descriptors-impl</artifactId>
+			<version>${shrinkwrap.descriptors.version}</version>
+		</dependency>
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/arquillian.xml</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>jbossas-managed-7</id>
+			<properties>
+				<version.jbossas7-1>7.1.1.Final</version.jbossas7-1>
+				<jboss7-1Home>${project.build.directory}/jboss-as-${version.jbossas7-1}</jboss7-1Home>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.jboss.as</groupId>
+					<artifactId>jboss-as-arquillian-container-managed</artifactId>
+					<version>${version.jbossas7-1}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>unpack</id>
+								<phase>process-test-classes</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>org.jboss.as</groupId>
+											<artifactId>jboss-as-dist</artifactId>
+											<version>${version.jbossas7-1}</version>
+											<type>zip</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<systemProperties>
+								<arquillian.launch>jbossas-managed-7</arquillian.launch>
+							</systemProperties>
+							<environmentVariables>
+								<JBOSS_HOME>${jboss7-1Home}</JBOSS_HOME>
+							</environmentVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

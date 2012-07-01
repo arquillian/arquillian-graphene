@@ -21,8 +21,8 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.net.URL;
@@ -33,20 +33,22 @@ import org.jboss.arquillian.graphene.enricher.page.TestPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.graphene.spi.components.common.AbstractComponentStub;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
 /**
  * @author Juraj Huska
  */
-public class TestInitializingComponent extends Arquillian {
+@RunWith(Arquillian.class)
+public class TestInitializingComponent {
 
     @FindBy(xpath = "//div[@id='rootElement']")
     private AbstractComponentStub abstractComponent;
@@ -73,26 +75,26 @@ public class TestInitializingComponent extends Arquillian {
             ArchivePaths.create("index.html"));
     }
 
-    @BeforeMethod
+    @Before
     public void loadPage() {
         selenium.get(contextRoot + "index.html");
     }
 
     @Test
     public void testComponentIsInitialized() {
-        assertNotNull(abstractComponent, "AbstractComponent should be initialised at this point!");
+        assertNotNull("AbstractComponent should be initialised at this point!", abstractComponent);
     }
 
     @Test
     public void testComponentHasSetRootCorrectly() {
-        assertEquals(abstractComponent.invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT,
-            "The root was not set correctly!");
+        assertEquals("The root was not set correctly!", abstractComponent.invokeMethodOnElementRefByXpath(),
+            EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testPageObjectInitialisedCorrectly() {
-        assertEquals(testPage.getAbstractComponent().invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT,
-            "The page component was not set correctly!");
+        assertEquals("The page component was not set correctly!", testPage.getAbstractComponent()
+            .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
@@ -100,7 +102,7 @@ public class TestInitializingComponent extends Arquillian {
         String EXPECTED_VALUE = "Gooseka";
         input.sendKeys(EXPECTED_VALUE);
 
-        assertEquals(input.getAttribute("value"), EXPECTED_VALUE,
-            "The value of the input is wrong, the element which represents it was not initialised correctly!");
+        assertEquals("The value of the input is wrong, the element which represents it was not initialised correctly!",
+            input.getAttribute("value"), EXPECTED_VALUE);
     }
 }
