@@ -17,81 +17,34 @@
 	</properties>
 
 	<dependencies>
-		<!-- Arquillian Graphene -->
+
+		<!-- Graphene WebDriver -->
 		<dependency>
 			<groupId>org.jboss.arquillian.graphene</groupId>
 			<artifactId>graphene-webdriver</artifactId>
 			<version>${project.version}</version>
 			<type>pom</type>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- Arquillian JUnit -->
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-standalone</artifactId>
+			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<!-- Arquillian Drone -->
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone-spi</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone-configuration</artifactId>
 		</dependency>
 
-		<!-- Arquillian dependencies -->
-		<dependency>
-			<groupId>org.jboss.arquillian.core</groupId>
-			<artifactId>arquillian-core-spi</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.test</groupId>
-			<artifactId>arquillian-test-spi</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.config</groupId>
-			<artifactId>arquillian-config-api</artifactId>
-		</dependency>
-
-		<!-- Arquillian Drone support in Arquillian tests -->
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone-impl</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.extension</groupId>
-			<artifactId>arquillian-drone-webdriver</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
-			<artifactId>shrinkwrap-descriptors-api</artifactId>
-			<version>${shrinkwrap.descriptors.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.shrinkwrap.descriptors</groupId>
-			<artifactId>shrinkwrap-descriptors-impl</artifactId>
-			<version>${shrinkwrap.descriptors.version}</version>
-		</dependency>
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 
+		<!-- Resolution of JAR libraries into WAR archive -->
+		<dependency>
+			<groupId>org.jboss.shrinkwrap.resolver</groupId>
+			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -103,11 +56,9 @@
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/arquillian.xml</exclude>
-					</excludes>
-				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
