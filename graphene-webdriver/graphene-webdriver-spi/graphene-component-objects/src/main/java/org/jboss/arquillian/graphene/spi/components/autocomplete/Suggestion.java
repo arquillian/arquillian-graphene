@@ -25,5 +25,12 @@ public interface Suggestion<T> {
 	 * 
 	 * @return
 	 */
-	List<String> getInput();
+	List<String> getInputs();
+	
+	/**
+	 * Sets input value for which this suggestion was returned.
+	 * 
+	 * @param value for which this suggestion was returned
+	 */
+	void setInput(String value);
 }
