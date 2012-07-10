@@ -161,7 +161,11 @@ public class Enricher implements TestEnricher {
             // initialise component
             Class implementationClass = componentField.getType();
             Object component = Factory.initializeComponent(implementationClass);
-
+             
+            //set webDriver object
+            WebDriver webDriver = GrapheneContext.getProxy();
+            ((AbstractComponent) component).setWebDriver(webDriver);
+            
             // sets the root of the component, retrieved from annotation
             FindBy findBy = componentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
