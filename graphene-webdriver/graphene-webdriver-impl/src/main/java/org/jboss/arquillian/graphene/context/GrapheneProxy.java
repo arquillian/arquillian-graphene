@@ -126,24 +126,16 @@ public final class GrapheneProxy {
     @SuppressWarnings("unchecked")
     static <T> T createProxy(GrapheneProxyHandler interceptor, Class<?> baseType, Class<?>... additionalInterfaces) {
 
-        Class<?>[] ancillaryTypes = concat(additionalInterfaces, GrapheneProxyInstance.class);
+        Class<?>[] ancillaryTypes = GrapheneProxyUtil.concatClasses(additionalInterfaces, GrapheneProxyInstance.class);
 
         if (baseType == null || baseType.isInterface()) {
             if (baseType != null) {
-                ancillaryTypes = concat(ancillaryTypes, baseType);
+                ancillaryTypes = GrapheneProxyUtil.concatClasses(ancillaryTypes, baseType);
             }
             return (T) Proxy.newProxyInstance(GrapheneProxy.class.getClassLoader(), ancillaryTypes, interceptor);
         }
 
         return (T) ClassImposterizer.INSTANCE.imposterise(interceptor, baseType, ancillaryTypes);
-    }
-
-    private static Class<?>[] concat(Class<?>[] interfaces, Class<?> clazz) {
-        int length = interfaces.length;
-        Class<?>[] out = new Class<?>[length + 1];
-        System.arraycopy(interfaces, 0, out, 0, length);
-        out[length] = clazz;
-        return out;
     }
 
     /**

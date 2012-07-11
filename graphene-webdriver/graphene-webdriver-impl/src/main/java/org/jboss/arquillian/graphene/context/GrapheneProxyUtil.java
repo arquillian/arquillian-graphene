@@ -80,4 +80,19 @@ final class GrapheneProxyUtil {
         }
         return interfaces.toArray(new Class<?>[interfaces.size()]);
     }
+
+    /**
+     * Adds clazz to the array of classes
+     *
+     * @param classes to be appended
+     * @param clazz to be added
+     * @return the array of classes with added clazz
+     */
+    static Class<?>[] concatClasses(Class<?>[] classes, Class<?> clazz) {
+        int length = classes.length;
+        Class<?>[] out = new Class<?>[length + 1];
+        System.arraycopy(classes, 0, out, 0, length);
+        out[length] = clazz;
+        return out;
+    }
 }
