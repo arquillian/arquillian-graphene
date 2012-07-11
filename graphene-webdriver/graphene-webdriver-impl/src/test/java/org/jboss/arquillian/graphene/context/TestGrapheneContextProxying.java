@@ -30,9 +30,11 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Locatable;
 
 /**
  * @author Lukas Fryc
@@ -111,6 +113,20 @@ public class TestGrapheneContextProxying {
 
         // verify
         verify(webElement, only()).clear();
+    }
+
+    @Test
+    public void context_provides_proxy_with_arbitrary_list_of_additional_interfaces_implemented() {
+        // having
+        WebDriver driver = new DriverReturningSampleString();
+
+        // when
+        GrapheneContext.set(driver);
+
+        // then
+        WebDriver proxy = GrapheneContext.getProxyForInterfaces(Locatable.class, HasInputDevices.class);
+        assertTrue(proxy instanceof HasInputDevices);
+        assertTrue(proxy instanceof Locatable);
     }
 
     private static class DriverReturningSampleString extends TestingDriverStub {
