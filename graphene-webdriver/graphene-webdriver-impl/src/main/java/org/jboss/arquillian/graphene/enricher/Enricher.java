@@ -35,12 +35,15 @@ import org.jboss.arquillian.graphene.spi.components.common.AbstractComponent;
 import org.jboss.arquillian.graphene.spi.components.common.Factory;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and <code>Component</code> objects.
+ * 
  * @author Juraj Huska
  */
 public class Enricher implements TestEnricher {
@@ -147,7 +150,7 @@ public class Enricher implements TestEnricher {
                 @Override
                 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-                    WebDriver driver = GrapheneContext.getProxy();
+                    WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
                     WebElement root = driver.findElement(by);
 
                     return (Object) method.invoke(root, args);
@@ -161,11 +164,11 @@ public class Enricher implements TestEnricher {
             // initialise component
             Class implementationClass = componentField.getType();
             Object component = Factory.initializeComponent(implementationClass);
-             
-            //set webDriver object
-            WebDriver webDriver = GrapheneContext.getProxy();
+
+            // set webDriver object
+            WebDriver webDriver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
             ((AbstractComponent) component).setWebDriver(webDriver);
-            
+
             // sets the root of the component, retrieved from annotation
             FindBy findBy = componentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
@@ -175,13 +178,12 @@ public class Enricher implements TestEnricher {
 
             setObjectToField(componentField, object, component);
         }
-
     }
 
     /**
      * It removes all components from given list which does not extend the
      * <code>cz.fi.muni.jhuska.bc.api.AbstractComponent</code>
-     *
+     * 
      * @param findByFields
      * @return
      */
