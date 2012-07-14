@@ -1,5 +1,7 @@
 package org.jboss.arquillian.graphene.spi.components.common;
 
+import javax.inject.Inject;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -7,6 +9,8 @@ import org.openqa.selenium.WebElement;
 public class AbstractComponent implements Component {
 	
     protected WebDriver webDriver;
+    
+    protected final int GUI_WAIT = 2;
     
 	private RootReference rootReference = new RootReference();
 	

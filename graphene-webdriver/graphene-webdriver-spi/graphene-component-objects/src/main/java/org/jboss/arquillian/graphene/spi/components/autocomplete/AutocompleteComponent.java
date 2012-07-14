@@ -52,7 +52,7 @@ public interface AutocompleteComponent<T> extends Component {
     /**
      * <p>
      * Returns the selected suggestions from the input, the way of suggestions separating is determined by the currently set
-     * separator.
+     * separator, the default one is space.
      * </p>
      * <p>
      * Note that it does not return the values of the input which was not filled in by choosing from the suggestion list. That
@@ -65,8 +65,8 @@ public interface AutocompleteComponent<T> extends Component {
     List<Suggestion<T>> getSelectedSuggestions();
 
     /**
-     * Returns the list of the input values, the values are separated according to the currently set separator, or when
-     * separator is not set, then the default one is space.
+     * Returns the list of the input values, the values are separated according to the currently set separator, default one is
+     * space.
      * 
      * @return
      * @see #setSeparator(String)
@@ -115,18 +115,32 @@ public interface AutocompleteComponent<T> extends Component {
 
     /**
      * <p>
-     * Types to the autocomplete input the provided string and returns the suggestions if provided.
+     * Types to the autocomplete input provided value and waits for suggestions. If there are no suggestions available nothing
+     * happen.
+     * <p>
+     * 
+     * <p>
+     * The wait timeout is determined by <code>GUI_WAIT</code>
+     * 
+     * @param value
+     */
+    void type(String value);
+
+    /**
+     * <p>
+     * Types to the autocomplete input the provided string and returns the suggestions if available.
      * </p>
      * <p>
-     * That is it types the whole string value of the param <code>string</code> to the input on which the autocomplete function
-     * is bound and returns all provided suggestions. If there are no suggestions, empty list is returned.
+     * That is it types the whole value of the param <code>string</code> to the input on which the autocomplete function is
+     * bound and returns all available suggestions. If there are no suggestions, empty list is returned.
      * </p>
      * 
      * 
-     * @param string the characters which are about to write to the autocomplete input
+     * @param value the characters which are about to write to the autocomplete input
+     * @param parser the parser which defines what is the structure of suggestions and how to retrieve them
      * @return list with all provided suggestions, if there are no suggestions after typing empty list is returned
      */
-    List<Suggestion<T>> typeString(String string);
+    List<Suggestion<T>> type(String value, SuggestionParser<T> parser);
 
     /**
      * <p>
