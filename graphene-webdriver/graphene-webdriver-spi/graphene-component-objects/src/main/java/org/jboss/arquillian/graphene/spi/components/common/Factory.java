@@ -9,6 +9,7 @@ import java.lang.reflect.Proxy;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
 
 
@@ -43,7 +44,7 @@ public class Factory {
 
                 if (j instanceof Root) {
                     WebElement rootElement = (WebElement) Proxy.newProxyInstance(WebElement.class.getClassLoader(),
-                        new Class<?>[] { WebElement.class }, new InvocationHandler() {
+                        new Class<?>[] { WebElement.class, Locatable.class }, new InvocationHandler() {
 
                             @Override
                             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -74,7 +75,7 @@ public class Factory {
                     final By findBy = getReferencedBy((FindBy) j);
 
                     WebElement referencedElement = (WebElement) Proxy.newProxyInstance(WebElement.class.getClassLoader(),
-                        new Class<?>[] { WebElement.class }, new InvocationHandler() {
+                        new Class<?>[] { WebElement.class, Locatable.class }, new InvocationHandler() {
 
                             @Override
                             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
