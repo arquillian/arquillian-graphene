@@ -43,7 +43,7 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and <code>Component</code> objects.
- * 
+ *
  * @author Juraj Huska
  */
 public class Enricher implements TestEnricher {
@@ -182,8 +182,8 @@ public class Enricher implements TestEnricher {
 
     /**
      * It removes all components from given list which does not extend the
-     * <code>cz.fi.muni.jhuska.bc.api.AbstractComponent</code>
-     * 
+     * <code>org.jboss.arquillian.graphene.spi.components.common.AbstractComponent</code>
+     *
      * @param findByFields
      * @return
      */
