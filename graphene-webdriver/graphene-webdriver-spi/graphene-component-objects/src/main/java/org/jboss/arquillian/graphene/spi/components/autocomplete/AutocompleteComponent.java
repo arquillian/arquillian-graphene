@@ -26,11 +26,14 @@ public interface AutocompleteComponent<T> extends Component {
     boolean areSuggestionsAvailable();
 
     /**
-     * Clears the input using of the method determined by the given parameter.
+     * <p>
+     * Clears the input. The method of clearing can be passed as argument to determine the way the input will be cleared
+     * </p>
      * 
      * @param clearType
+     * @throws IllegalArgumentException when there is illegal number of arguements passed
      */
-    void clear(ClearType clearType);
+    void clear(ClearType... clearType);
 
     /**
      * <p>
@@ -42,12 +45,12 @@ public interface AutocompleteComponent<T> extends Component {
 
     /**
      * Returns all suggestions available, also these which need to be scrolled down to be visible. The suggestions value are
-     * determined according to the parser object and its method parse.
+     * determined according to the parser object which need to be set prior of executing this method.
      * 
-     * @param parser suggestion parser which have implemented correctly parse method
-     * @return all suggestions
+     * @throws IllegalStateException if the suggestion parser was not set prior to execution of this method
+     * @return all suggestions or null if there are no suggestions
      */
-    List<Suggestion<T>> getAllSuggestions(SuggestionParser<T> parser);
+    List<Suggestion<T>> getAllSuggestions();
 
     /**
      * <p>
@@ -55,8 +58,7 @@ public interface AutocompleteComponent<T> extends Component {
      * separator, the default one is space.
      * </p>
      * <p>
-     * Note that it does not return the values of the input which was not filled in by choosing from the suggestion list. That
-     * is, it does not return the values filled in directly.
+     * Note that it does not return the values of the input which was filled in directly, not by choosing from suggestion list.
      * </p>
      * 
      * @return
@@ -82,17 +84,31 @@ public interface AutocompleteComponent<T> extends Component {
 
     /**
      * <p>
-     * Returns first n suggestions, that is the the first n most top suggestions, if there are some available.
+     * Sets the suggestion parser. The default one is StringSuggestionParser
      * </p>
      * <p>
-     * If there are no suggestions rendered, then empty list is returned.
+     * The suggestion parser determines how can be value of suggestion parsed and the suggestion object created
+     * </p>
+     * 
+     * @param parser
+     */
+    void setSuggestionParser(SuggestionParser<T> parser);
+
+    /**
+     * <p>
+     * Returns first n suggestions, that is the the first n most top suggestions, if there are some available. The suggestions
+     * are determined according to the suggestion parser, which was set prior of executing of this method.
+     * </p>
+     * <p>
+     * If there are no suggestions rendered null is returned.
      * </p>
      * <p>
      * If the requested number of suggestions is bigger than the actual number of suggestions, then only available suggestions
      * are returned.
      * </p>
      * 
-     * @return
+     * @throws IllegalStateException if the suggestion parser was not set prior to execution of this method
+     * @return the first n suggestions or null if there are no suggestions
      */
     List<Suggestion<T>> getFirstNSuggestions(int n);
 
@@ -100,16 +116,20 @@ public interface AutocompleteComponent<T> extends Component {
      * Returns the first suggestion if available, that is, the top suggestion from the list of suggestions. If there are no
      * suggestions, null is returned.
      * 
+     * @throws IllegalStateException if the suggestion parser was not set prior to execution of this method
      * @return the first suggestion from the list of suggestions, of no suggestions available null is returned
      */
     Suggestion<T> getFirstSuggestion();
 
     /**
      * Returns the suggestion which is in order determined by param <code>order</code>. If there is no so many suggestions, then
-     * null is returned. Note that the suggestions are ordered from the top of the suggestion list.
+     * null is returned. Note that the suggestions are ordered from the top of the suggestion list and the ordering begins from
+     * 1.
      * 
+     * @throws IllegalStateException if the suggestion parser was not set prior to execution of this method
      * @param order
-     * @return
+     * @return the suggestion which order is determined by the param <code>order</code> or null if there is not such a
+     *         suggestion
      */
     Suggestion<T> getNthSuggestion(int order);
 
@@ -132,15 +152,14 @@ public interface AutocompleteComponent<T> extends Component {
      * </p>
      * <p>
      * That is it types the whole value of the param <code>string</code> to the input on which the autocomplete function is
-     * bound and returns all available suggestions. If there are no suggestions, empty list is returned.
+     * bound and returns all available suggestions. If there are no suggestions, null is returned.
      * </p>
      * 
-     * 
      * @param value the characters which are about to write to the autocomplete input
-     * @param parser the parser which defines what is the structure of suggestions and how to retrieve them
-     * @return list with all provided suggestions, if there are no suggestions after typing empty list is returned
+     * @throws IllegalStateException if the suggestion parser was not set prior to execution of this method
+     * @return list with all provided suggestions, if there are no suggestions after typing null is returned
      */
-    List<Suggestion<T>> type(String value, SuggestionParser<T> parser);
+    List<Suggestion<T>> typeAndReturn(String value);
 
     /**
      * <p>
@@ -152,6 +171,7 @@ public interface AutocompleteComponent<T> extends Component {
      * </p>
      * 
      * @param sugg the suggestion, it will be autocompleted with
+     * @throws IllegalArgumentException when suggestion is null
      * @return true when it was successfully autocompleted by provided suggestion, false otherwise
      */
     boolean autocompleteWithSuggestion(Suggestion<T> sugg);
@@ -168,6 +188,7 @@ public interface AutocompleteComponent<T> extends Component {
      * 
      * @param sugg the suggestion, it will be autocompleted with
      * @param scrollingType the scrolling type of the suggestion selection
+     * @throws IllegalArgumentException if <code>sugg</code> or <code>scrollingType</code> is <code>null</code>
      * @return true when it was successfully autocompleted by provided suggestion, false otherwise
      */
     boolean autocompleteWithSuggestion(Suggestion<T> sugg, ScrollingType scrollingType);
