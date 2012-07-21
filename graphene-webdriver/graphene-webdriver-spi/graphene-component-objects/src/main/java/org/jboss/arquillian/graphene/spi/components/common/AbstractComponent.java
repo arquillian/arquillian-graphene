@@ -1,10 +1,7 @@
 package org.jboss.arquillian.graphene.spi.components.common;
 
-import javax.inject.Inject;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 
 public class AbstractComponent implements Component {
 	
@@ -34,5 +31,18 @@ public class AbstractComponent implements Component {
 	@Override
 	public WebElement getRoot() {
 		return rootReference.get();
+	}
+	
+	/**
+	 * Wait for the timeout determined by given argument <code>timeout</code>
+	 * 
+	 * @param timeout timeout in miliseconds
+	 */
+	protected void waitForTimeout(long timeout) {
+	    Long end = System.currentTimeMillis() + timeout;
+
+	    while(end > System.currentTimeMillis()) {
+	        
+	    }
 	}
 }
