@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -16,14 +17,17 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
+
         <!-- Arquillian -->
         <version.arquillian.core>1.0.0.Final</version.arquillian.core>
         <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
-        
+
         <!-- Runtime dependencies -->
         <version.javassist>3.12.1.GA</version.javassist>
-        
+
+        <!-- Other -->
+        <version.jboss.logging>3.1.1.GA</version.jboss.logging>
+
         <!-- Tests -->
         <version.junit>4.10</version.junit>
         <version.mockito>1.9.0</version.mockito>
@@ -63,14 +67,21 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
             <!-- runtime dependencies -->
             <dependency>
                 <groupId>javassist</groupId>
                 <artifactId>javassist</artifactId>
                 <version>${version.javassist}</version>
             </dependency>
-            
+
+            <!-- Other dependencies -->
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>${version.jboss.logging}</version>
+            </dependency>
+
             <!-- Test dependencies -->
             <dependency>
                 <groupId>junit</groupId>
