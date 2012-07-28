@@ -25,6 +25,13 @@
             <scope>test</scope>
         </dependency>
         
+        <!-- workaround for ARQ-1050 -->
+        <dependency>
+            <groupId>com.opera</groupId>
+            <artifactId>operadriver</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
         <!-- Arquillian JUnit -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>

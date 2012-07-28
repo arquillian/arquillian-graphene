@@ -42,6 +42,13 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-webdriver</artifactId>
         </dependency>
+        
+        <!-- workaround for ARQ-1050 -->
+        <dependency>
+            <groupId>com.opera</groupId>
+            <artifactId>operadriver</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Arquillian dependencies -->
         <dependency>
