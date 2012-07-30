@@ -70,10 +70,25 @@ public interface AutocompleteComponent<T> extends Component {
      * Returns the list of the input values, the values are separated according to the currently set separator, default one is
      * space.
      * 
-     * @return
      * @see #setSeparator(String)
+     * @return
      */
     List<String> getInputValues();
+    
+    /**
+     * Returns the current value of input
+     * 
+     * @return
+     */
+    String getInputValue();
+    
+    /**
+     * Returns the first input value, the values are separated according to the currently set separator, default one is space.
+     * 
+     * @see #setSeparator(String)
+     * @return
+     */
+    String getFirstInputValue();
 
     /**
      * Sets the separator of the input values. This separator is then used when retrieving input values.
