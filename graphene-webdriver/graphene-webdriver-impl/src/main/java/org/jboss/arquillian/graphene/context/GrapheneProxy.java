@@ -124,7 +124,7 @@ public final class GrapheneProxy {
      * @return the proxy for given implementation class or interfaces with the given method handler.
      */
     @SuppressWarnings("unchecked")
-    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<?> baseType, Class<?>... additionalInterfaces) {
+    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<T> baseType, Class<?>... additionalInterfaces) {
 
         Class<?>[] ancillaryTypes = GrapheneProxyUtil.concatClasses(additionalInterfaces, GrapheneProxyInstance.class);
 

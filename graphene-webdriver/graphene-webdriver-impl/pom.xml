@@ -29,6 +29,15 @@
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>11.0.2</version>
+        </dependency>
         
         <!-- Test dependencies -->
         <dependency>
@@ -44,6 +53,18 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/javascript</directory>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/javascript</directory>
+                <filtering>false</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

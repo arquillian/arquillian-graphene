@@ -126,6 +126,16 @@ public final class GrapheneContext {
         return GrapheneProxy.<T>getProxyForFutureTarget(TARGET, null, interfacesIncludingWebdriver);
     }
 
+    /**
+     * Returns true when the current context is the instance of provided class.
+     *
+     * @param clazz the class used to check current context
+     * @return true when the current context is the instance of provided class; false otherwise.
+     */
+    public static boolean holdsInstanceOf(Class<?> clazz) {
+        return clazz.isAssignableFrom(get().getClass());
+    }
+
     private static FutureTarget TARGET = new FutureTarget() {
         public Object getTarget() {
             return get();

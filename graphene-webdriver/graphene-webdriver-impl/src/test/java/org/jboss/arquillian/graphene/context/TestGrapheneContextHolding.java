@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -25,11 +25,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -46,11 +48,6 @@ public class TestGrapheneContextHolding {
     @Before
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
-    }
-
-    @After
-    public void resetContext() {
-        GrapheneContext.reset();
     }
 
     @Test
@@ -93,6 +90,18 @@ public class TestGrapheneContextHolding {
     @Test(expected = IllegalArgumentException.class)
     public void when_set_null_instance_to_context_then_context_throws_exception() {
         GrapheneContext.set(null);
+    }
+
+    @Test
+    public void context_should_determine_that_holds_instance_of_some_interface() {
+        GrapheneContext.set(new TestingDriverStub());
+        assertTrue(GrapheneContext.holdsInstanceOf(TakesScreenshot.class));
+    }
+
+    @Test
+    public void context_should_fail_when_checked_for_being_instance_of_non_implemented_class() {
+        GrapheneContext.set(new TestingDriverStub());
+        assertFalse(GrapheneContext.holdsInstanceOf(Collection.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
