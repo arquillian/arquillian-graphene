@@ -25,6 +25,10 @@
 <arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
+    <extension qualifier="webdriver">
+        <property name="useJavaScript">true</property>
+    </extension>
+
     <extension qualifier="graphene">
         <property name="browser">*firefox</property>
         <property name="seleniumTimeoutAjax">5000</property>
