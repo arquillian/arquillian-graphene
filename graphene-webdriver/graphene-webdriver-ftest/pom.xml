@@ -13,6 +13,9 @@
 
     <properties>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
+
+        <browser>htmlUnit</browser>
+        <remoteReusable>false</remoteReusable>
     </properties>
 
     <dependencies>
@@ -49,6 +52,12 @@
     </dependencies>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -60,4 +69,27 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>webdriver-chrome</id>
+            <properties>
+                <browser>chrome</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-firefox</id>
+            <properties>
+                <browser>firefox</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-remote-reusable</id>
+            <properties>
+                <remoteReusable>true</remoteReusable>
+            </properties>
+        </profile>
+    </profiles>
 </project>

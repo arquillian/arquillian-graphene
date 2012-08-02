@@ -37,8 +37,7 @@ public class TestParameters extends AbstractJavaScriptTest {
         // given
         MockitoAnnotations.initMocks(this);
         GrapheneContext.set(executor);
-        JSInterfaceFactory<TestingInterface> factory = JSInterfaceFactory.create(TestingInterface.class);
-        instance = factory.instantiate();
+        instance = JSInterfaceFactory.create(TestingInterface.class);
     }
 
     @Test

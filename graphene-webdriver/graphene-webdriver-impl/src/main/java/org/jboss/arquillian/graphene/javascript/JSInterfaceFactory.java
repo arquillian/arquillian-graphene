@@ -16,8 +16,8 @@ public class JSInterfaceFactory<T> {
 
     }
 
-    public static <T> JSInterfaceFactory<T> create(Class<T> jsInterface) {
-        return new JSInterfaceFactory<T>(jsInterface);
+    public static <T> T create(Class<T> jsInterface) {
+        return new JSInterfaceFactory<T>(jsInterface).instantiate();
     }
 
     @SuppressWarnings("unchecked")

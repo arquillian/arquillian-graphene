@@ -13,8 +13,7 @@ public class TestInstantiation {
 
     @Test
     public void factory_should_create_valid_instance_of_given_interface() {
-        JSInterfaceFactory<TestingInterface> factory = JSInterfaceFactory.create(TestingInterface.class);
-        TestingInterface instance = factory.instantiate();
+        TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
         assertTrue("instance should implement the provided interface", instance instanceof TestingInterface);
     }
 

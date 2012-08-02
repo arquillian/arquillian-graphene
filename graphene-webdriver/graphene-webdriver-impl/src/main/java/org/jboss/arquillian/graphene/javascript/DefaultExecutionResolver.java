@@ -1,6 +1,8 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Method;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -8,9 +10,22 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.openqa.selenium.JavascriptExecutor;
 
+import com.google.common.io.Resources;
+
 public class DefaultExecutionResolver implements ExecutionResolver {
 
-    static String CALL = "try '{' return {0}.{1}.apply({0}, arguments); '}' catch (e) '{' console.log(''exception thrown when executing command {0}.{1}: '' + e); '}' ";
+    static final String FUNCTION;
+
+    static final String CALL = "return invokeInterface({0}, \"{1}\", arguments);";
+
+    static {
+        try {
+            URL resource = JSInterfaceHandler.class.getResource("call.js");
+            FUNCTION = Resources.toString(resource, Charset.defaultCharset());
+        } catch (Throwable e) {
+            throw new IllegalStateException(e);
+        }
+    }
 
     private JavascriptExecutor browser = GrapheneContext.getProxyForInterfaces(JavascriptExecutor.class);
 
@@ -26,14 +41,14 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         Object castedResult = castResult(call, returnValue);
         return castedResult;
     }
-    
+
     protected Object executeScriptForCall(JSCall call) {
         String script = resolveScriptToExecute(call);
         Object[] arguments = castArguments(call.getArguments());
         Object returnValue = browser.executeScript(script, arguments);
         return returnValue;
     }
-    
+
     protected void ensureInterfaceDepdendenciesLoaded(JSTarget target) {
         for (JSTarget interfaceDependency : target.getJSInterfaceDependencies()) {
             ensureSourceDependenciesLoaded(interfaceDependency);
@@ -58,7 +73,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
             browser.executeScript(script.toString());
         }
     }
-    
+
     protected void ensureExtensionInstalled(JSTarget target) {
         if (target.isInstallable()) {
             JSMethod method = target.getJSMethod(InstallableJavaScript.INSTALL_METHOD);
@@ -114,7 +129,9 @@ public class DefaultExecutionResolver implements ExecutionResolver {
     }
 
     protected String resolveScriptToExecute(JSCall call) {
-        return MessageFormat.format(CALL, resolveTargetName(call.getTarget()), resolveMethodName(call));
+        String functionCall = MessageFormat.format(CALL, resolveTargetName(call.getTarget()), resolveMethodName(call));
+        String functionDefinitionWithCall = FUNCTION + functionCall;
+        return functionDefinitionWithCall;
     }
 
     protected String resolveTargetName(JSTarget target) {

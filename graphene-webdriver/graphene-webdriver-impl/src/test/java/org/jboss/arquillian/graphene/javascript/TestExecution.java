@@ -26,8 +26,7 @@ public class TestExecution extends AbstractJavaScriptTest {
 
         // when
         GrapheneContext.set(executor);
-        JSInterfaceFactory<TestingInterface> factory = JSInterfaceFactory.create(TestingInterface.class);
-        TestingInterface instance = factory.instantiate();
+        TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
         instance.method();
 
         // then
@@ -42,8 +41,7 @@ public class TestExecution extends AbstractJavaScriptTest {
 
         // when
         GrapheneContext.set(executor);
-        JSInterfaceFactory<TestingInterface> factory = JSInterfaceFactory.create(TestingInterface.class);
-        TestingInterface instance = factory.instantiate();
+        TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
         instance.namedMethod();
 
         // then
@@ -63,8 +61,7 @@ public class TestExecution extends AbstractJavaScriptTest {
 
         // when
         GrapheneContext.set(executor);
-        JSInterfaceFactory<TestingInterfaceWithBase> factory = JSInterfaceFactory.create(TestingInterfaceWithBase.class);
-        TestingInterfaceWithBase instance = factory.instantiate();
+        TestingInterfaceWithBase instance = JSInterfaceFactory.create(TestingInterfaceWithBase.class);
         instance.method();
 
         // then

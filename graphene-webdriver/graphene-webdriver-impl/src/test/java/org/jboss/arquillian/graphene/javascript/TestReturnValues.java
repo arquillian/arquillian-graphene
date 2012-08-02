@@ -42,8 +42,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
         // given
         MockitoAnnotations.initMocks(this);
         GrapheneContext.set(executor);
-        JSInterfaceFactory<TestingInterface> factory = JSInterfaceFactory.create(TestingInterface.class);
-        instance = factory.instantiate();
+        instance = JSInterfaceFactory.create(TestingInterface.class);
 
         when(executor.executeScript(Mockito.anyString())).then(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) throws Throwable {
