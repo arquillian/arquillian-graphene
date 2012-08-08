@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -19,7 +20,12 @@
             <artifactId>selenium-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-support</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Runtime Dependencies -->
         <dependency>
             <groupId>cglib</groupId>
@@ -29,6 +35,7 @@
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -38,7 +45,25 @@
             <artifactId>guava</artifactId>
             <version>11.0.2</version>
         </dependency>
-        
+
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.core</groupId>
+            <artifactId>arquillian-core-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.test</groupId>
+            <artifactId>arquillian-test-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.config</groupId>
+            <artifactId>arquillian-config-api</artifactId>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -56,6 +81,10 @@
         <resources>
             <resource>
                 <directory>${basedir}/src/main/javascript</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>

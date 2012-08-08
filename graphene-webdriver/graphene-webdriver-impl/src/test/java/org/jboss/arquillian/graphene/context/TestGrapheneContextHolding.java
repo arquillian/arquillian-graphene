@@ -84,6 +84,7 @@ public class TestGrapheneContextHolding {
 
     @Test(expected = NullPointerException.class)
     public void when_calling_get_on_not_initialized_context_then_context_throws_exception() {
+        GrapheneContext.reset();
         GrapheneContext.get();
     }
 
