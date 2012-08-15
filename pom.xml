@@ -26,11 +26,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <useReleaseProfile>true</useReleaseProfile>
-        
+
         <!-- Arquillian -->
-        <version.arquillian.core>1.0.1.Final</version.arquillian.core>
-        <version.arquillian.drone>1.0.0.Final</version.arquillian.drone>
-        
+        <version.arquillian.core>1.0.2.Final</version.arquillian.core>
+        <version.arquillian.drone>1.1.0.CR2</version.arquillian.drone>
+
         <!-- Runtime dependencies -->
         <version.commons-lang>2.5</version.commons-lang>
         <version.commons-io>1.4</version.commons-io>
@@ -38,7 +38,8 @@
         <version.javassist>3.12.1.GA</version.javassist>
         <version.cglib>2.2.2</version.cglib>
         <version.objenesis>1.2</version.objenesis>
-        
+        <version.jboss.logging>3.1.1.GA</version.jboss.logging>
+
         <!-- Tests -->
         <version.junit>4.10</version.junit>
         <version.testng>5.14.6</version.testng>
@@ -75,6 +76,14 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.jboss.arquillian.test</groupId>
+                <artifactId>arquillian-test-impl-base</artifactId>
+                <version>${version.arquillian.core}</version>
+                <classifier>tests</classifier>
+                <scope>test</scope>
+            </dependency>
+
             <!-- Arquillian Drone dependencies and Selenium dependencies -->
             <dependency>
                 <groupId>org.jboss.arquillian.extension</groupId>
@@ -83,7 +92,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            
+
+            <!-- provided dependencies -->
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>${version.jboss.logging}</version>
+            </dependency>
+
             <!-- runtime dependencies -->
             <dependency>
                 <groupId>javassist</groupId>
@@ -116,7 +132,7 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${version.commons-codec}</version>
             </dependency>
-            
+
             <!-- Test dependencies -->
             <dependency>
                 <groupId>junit</groupId>

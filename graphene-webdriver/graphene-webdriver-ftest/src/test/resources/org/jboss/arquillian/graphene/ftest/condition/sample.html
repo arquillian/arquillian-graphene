@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            var previousId = "header";
+            function updateHeader() {
+                var text = document.getElementById("textInput").value;
+                var id = document.getElementById("idInput").value;
+                var header = document.getElementById(previousId);
+                header.innerHTML = text;
+                header.setAttribute("id", id);
+                previousId = id;
+            }
+            function hideHeader() {
+                var header = document.getElementById(previousId);
+                header.setAttribute("style", "display: none");
+            }
+            function appearHeader() {
+                var header = document.getElementById(previousId);
+                header.removeAttribute("style");
+            }
+        </script>
+    </head>
+    <body>
+        <h1 id="header">Tested Header</h1>
+
+        <input type="text" value="Tested Header" id="textInput" />
+        <input type="id" id="idInput" value="header" />
+        <button id="submit" onclick="updateHeader()">Update</button>
+        <button id="hide" onclick="hideHeader()">Hide</button>
+        <button id="appear" onclick="appearHeader()">Appear</button>
+
+        <select id="select">
+            <option id="option1" value="1">option 1</option>
+            <option id="option2" value="2">option 2</option>
+        </select>
+    </body>
+</html>

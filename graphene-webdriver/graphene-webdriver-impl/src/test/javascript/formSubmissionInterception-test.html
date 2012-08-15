@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Form Submission Interception</title>
+<link rel="stylesheet" href="lib/qunit.css">
+<script src="lib/qunit.js"></script>
+<script src="lib/jquery.js"></script>
+<script src="../../main/javascript/formSubmissionInterception.js"></script>
+<script src="formSubmissionInterception-test.js"></script>
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+        <form id="form1" action="javascript:window.form1Submitted = true">
+            <input id="form1:submit" type="submit" />
+        </form>
+    </div>
+</body>
+</html>

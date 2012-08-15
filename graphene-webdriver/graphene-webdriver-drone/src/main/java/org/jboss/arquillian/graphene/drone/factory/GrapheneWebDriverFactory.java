@@ -29,6 +29,7 @@ import org.jboss.arquillian.drone.webdriver.configuration.WebDriverConfiguration
 import org.jboss.arquillian.drone.webdriver.factory.WebDriverFactory;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GrapheneProxy;
+import org.jboss.arquillian.graphene.context.GrapheneProxyInstance;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -59,7 +60,11 @@ public class GrapheneWebDriverFactory extends WebDriverFactory implements
     @Override
     public void destroyInstance(WebDriver instance) {
         try {
-            super.destroyInstance(instance);
+            if (GrapheneProxy.isProxyInstance(instance)) {
+                super.destroyInstance(((GrapheneProxyInstance) instance).<WebDriver>unwrap());
+            } else {
+                super.destroyInstance(instance);
+            }
         } finally {
             GrapheneContext.reset();
         }

@@ -23,8 +23,6 @@ package org.jboss.arquillian.graphene.context;
 
 import java.lang.reflect.Proxy;
 
-import org.openqa.selenium.WebDriver;
-
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the proxy.
  *
@@ -33,13 +31,13 @@ import org.openqa.selenium.WebDriver;
 public final class GrapheneProxy {
 
     /**
-     * Returns whether given <code>driver</code> is instance of context proxy.
+     * Returns whether given <code>object</code> is instance of context proxy.
      *
-     * @param driver driver instance to check
-     * @return true when driver is a Proxy instance, false otherwise
+     * @param target target instance to check
+     * @return true when target is a Proxy instance, false otherwise
      */
-    public static boolean isProxyInstance(WebDriver driver) {
-        return driver instanceof GrapheneProxyInstance;
+    public static boolean isProxyInstance(Object target) {
+        return target instanceof GrapheneProxyInstance;
     }
 
     /**
@@ -124,7 +122,7 @@ public final class GrapheneProxy {
      * @return the proxy for given implementation class or interfaces with the given method handler.
      */
     @SuppressWarnings("unchecked")
-    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<?> baseType, Class<?>... additionalInterfaces) {
+    static <T> T createProxy(GrapheneProxyHandler interceptor, Class<T> baseType, Class<?>... additionalInterfaces) {
 
         Class<?>[] ancillaryTypes = GrapheneProxyUtil.concatClasses(additionalInterfaces, GrapheneProxyInstance.class);
 

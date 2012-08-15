@@ -121,9 +121,20 @@ public final class GrapheneContext {
      *
      * @return the instance of proxy to thread local context of WebDriver
      */
-    public static <T extends WebDriver> T getProxyForInterfaces(Class<?>... interfaces) {
+
+    public static <T> T getProxyForInterfaces(Class<?>... interfaces) {
         Class<?>[] interfacesIncludingWebdriver = GrapheneProxyUtil.concatClasses(interfaces, WebDriver.class);
         return GrapheneProxy.<T>getProxyForFutureTarget(TARGET, null, interfacesIncludingWebdriver);
+    }
+
+    /**
+     * Returns true when the current context is the instance of provided class.
+     *
+     * @param clazz the class used to check current context
+     * @return true when the current context is the instance of provided class; false otherwise.
+     */
+    public static boolean holdsInstanceOf(Class<?> clazz) {
+        return clazz.isAssignableFrom(get().getClass());
     }
 
     private static FutureTarget TARGET = new FutureTarget() {
