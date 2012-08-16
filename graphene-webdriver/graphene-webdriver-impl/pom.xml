@@ -63,6 +63,13 @@
             <groupId>org.jboss.arquillian.config</groupId>
             <artifactId>arquillian-config-api</artifactId>
         </dependency>
+        
+        <!-- Component objects dependencies -->
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>component-objects-spi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>

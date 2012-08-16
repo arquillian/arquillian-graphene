@@ -12,12 +12,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
 
-
 /**
  * Factory class for initialising the particular <code>Component</code>.
  * 
  * @author jhuska
- *
+ * 
  */
 public class Factory {
 
