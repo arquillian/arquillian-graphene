@@ -28,10 +28,10 @@ import org.jboss.arquillian.graphene.condition.attribute.AttributeConditionFacto
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
-import org.jboss.arquillian.graphene.wait.ExtendedWebDriverWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -73,28 +73,28 @@ public class Graphene {
         return new ElementLocatorConditionFactory(locator);
     }
 
-    public static ExtendedWebDriverWait waitAjax() {
+    public static WebDriverWait waitAjax() {
         return waitAjax(GrapheneContext.getProxy());
     }
 
-    public static ExtendedWebDriverWait waitAjax(WebDriver driver) {
-        return new ExtendedWebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
+    public static WebDriverWait waitAjax(WebDriver driver) {
+        return new WebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
     }
 
-    public static ExtendedWebDriverWait waitGui() {
+    public static WebDriverWait waitGui() {
         return waitGui(GrapheneContext.getProxy());
     }
 
-    public static ExtendedWebDriverWait waitGui(WebDriver driver) {
-        return new ExtendedWebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
+    public static WebDriverWait waitGui(WebDriver driver) {
+        return new WebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
     }
 
-    public static ExtendedWebDriverWait waitModel() {
+    public static WebDriverWait waitModel() {
         return waitModel(GrapheneContext.getProxy());
     }
 
-    public static ExtendedWebDriverWait waitModel(WebDriver driver) {
-        return new ExtendedWebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
+    public static WebDriverWait waitModel(WebDriver driver) {
+        return new WebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
     }
 
 }
