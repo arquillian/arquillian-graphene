@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.proxy;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -33,7 +33,7 @@ import java.util.Set;
  *
  * @author Lukas Fryc
  */
-final class GrapheneProxyUtil {
+public final class GrapheneProxyUtil {
 
     /**
      * Transitively obtains the interfaces which are implemented by given classes.
@@ -42,7 +42,7 @@ final class GrapheneProxyUtil {
      *        implement
      * @return the list of interfaces which are implemented by given classes
      */
-    static Class<?>[] getInterfaces(Class<?>... targetClasses) {
+    public static Class<?>[] getInterfaces(Class<?>... targetClasses) {
         Set<Class<?>> classes = new HashSet<Class<?>>();
         Set<Class<?>> inspected = new HashSet<Class<?>>();
         Queue<Class<?>> queue = new LinkedList<Class<?>>();
@@ -88,7 +88,7 @@ final class GrapheneProxyUtil {
      * @param clazz to be added
      * @return the array of classes with added clazz
      */
-    static Class<?>[] concatClasses(Class<?>[] classes, Class<?> clazz) {
+    public static Class<?>[] concatClasses(Class<?>[] classes, Class<?> clazz) {
         int length = classes.length;
         Class<?>[] out = new Class<?>[length + 1];
         System.arraycopy(classes, 0, out, 0, length);

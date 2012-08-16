@@ -10,7 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
-class JSTarget {
+public class JSTarget {
 
     private Class<?> jsInterface;
     private JavaScript javascriptAnnotation;
@@ -34,7 +34,7 @@ class JSTarget {
 
     public String getName() {
         if ("".equals(javascriptAnnotation.value())) {
-            return null;
+            return getInterface().getSimpleName();
         }
         return javascriptAnnotation.value();
     }
@@ -46,7 +46,7 @@ class JSTarget {
         }
         return Arrays.asList(dependecyAnnotation.sources());
     }
-    
+
     @SuppressWarnings("unchecked")
     public Collection<JSTarget> getJSInterfaceDependencies() {
         if (dependecyAnnotation == null) {
@@ -59,7 +59,7 @@ class JSTarget {
             }
         });
     }
-    
+
     public JSMethod getJSMethod(String methodName, Object... arguments) {
         Class<?>[] types = new Class[arguments.length];
         for (int i = 0; i < arguments.length; i++) {
@@ -88,7 +88,7 @@ class JSTarget {
             throw new IllegalStateException("resolver " + annotation.methodResolver() + " can't be instantied", e);
         }
     }
-    
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

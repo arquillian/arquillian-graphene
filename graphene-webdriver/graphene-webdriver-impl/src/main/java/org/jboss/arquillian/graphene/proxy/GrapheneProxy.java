@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Proxy;
 
@@ -54,7 +54,7 @@ public final class GrapheneProxy {
      * @return the proxy wrapping the target
      */
     @SuppressWarnings("unchecked")
-    static <T> T getProxyForTarget(T target) {
+    public static <T> T getProxyForTarget(T target) {
         GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(target);
         return (T) createProxy(handler, target.getClass());
     }
@@ -102,7 +102,7 @@ public final class GrapheneProxy {
      * @return the proxy wrapping the future target
      */
     @SuppressWarnings("unchecked")
-    static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
+    public static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
         GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(futureTarget);
         return (T) createProxy(handler, baseType, additionalInterfaces);
     }
@@ -139,7 +139,7 @@ public final class GrapheneProxy {
     /**
      * Interface for computation of future target of invocation by proxy.
      */
-    interface FutureTarget {
+    public interface FutureTarget {
         Object getTarget();
     }
 }

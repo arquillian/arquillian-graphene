@@ -37,7 +37,7 @@ import org.jboss.arquillian.drone.spi.Instantiator;
 import org.jboss.arquillian.drone.webdriver.configuration.TypedWebDriverConfiguration;
 import org.jboss.arquillian.drone.webdriver.configuration.WebDriverConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.context.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.context.TestingDriver;
 import org.jboss.arquillian.graphene.drone.factory.GrapheneWebDriverFactory;
 import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;

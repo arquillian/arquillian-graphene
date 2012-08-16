@@ -28,8 +28,8 @@ import org.jboss.arquillian.drone.webdriver.configuration.TypedWebDriverConfigur
 import org.jboss.arquillian.drone.webdriver.configuration.WebDriverConfiguration;
 import org.jboss.arquillian.drone.webdriver.factory.WebDriverFactory;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.context.GrapheneProxy;
-import org.jboss.arquillian.graphene.context.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.WebDriver;
 
 /**

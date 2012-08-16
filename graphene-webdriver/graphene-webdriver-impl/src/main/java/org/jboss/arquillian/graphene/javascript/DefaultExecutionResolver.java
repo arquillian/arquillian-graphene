@@ -1,22 +1,48 @@
+/**
+ * JBoss, Home of Professional Open Source
+ * Copyright 2012, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.jboss.arquillian.graphene.javascript;
 
+import com.google.common.io.Resources;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
-
-import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
+import org.jboss.arquillian.graphene.page.extension.JavaScriptPageExtension;
 import org.openqa.selenium.JavascriptExecutor;
 
-import com.google.common.io.Resources;
-
+/**
+ * This resolver uses page extension mechanism to install needed JavaScript
+ * and other required extensions.
+ *
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ */
 public class DefaultExecutionResolver implements ExecutionResolver {
 
-    static final String FUNCTION;
+    public static final String FUNCTION;
 
-    static final String CALL = "return invokeInterface({0}, \"{1}\", arguments);";
+    public static final String CALL = "return invokeInterface({0}, \"{1}\", arguments);";
 
     static {
         try {
@@ -31,58 +57,22 @@ public class DefaultExecutionResolver implements ExecutionResolver {
 
     @Override
     public Object execute(JSCall call) {
-        checkBrowser();
+        // check name
         JSTarget target = call.getTarget();
-        ensureInterfaceDepdendenciesLoaded(target);
-        ensureSourceDependenciesLoaded(target);
-        ensureExtensionInstalled(target);
-
+        if (target.getName() == null) {
+            throw new IllegalStateException("Can't use " + this.getClass() + " for " + target.getInterface() + ", because the @JavaScript annotation doesn't define non empty value()");
+        }
+        // register page extension
+        registerExtension(target);
+        // install page extension
+        GraphenePageExtensionsContext.getInstallatorProviderProxy().installator(target.getName()).install();
+        // execute javascript
         Object returnValue = executeScriptForCall(call);
         Object castedResult = castResult(call, returnValue);
         return castedResult;
     }
 
-    protected Object executeScriptForCall(JSCall call) {
-        String script = resolveScriptToExecute(call);
-        Object[] arguments = castArguments(call.getArguments());
-        Object returnValue = browser.executeScript(script, arguments);
-        return returnValue;
-    }
-
-    protected void ensureInterfaceDepdendenciesLoaded(JSTarget target) {
-        for (JSTarget interfaceDependency : target.getJSInterfaceDependencies()) {
-            ensureSourceDependenciesLoaded(interfaceDependency);
-            ensureExtensionInstalled(interfaceDependency);
-        }
-    }
-
-    protected void ensureSourceDependenciesLoaded(JSTarget target) {
-        if (!target.getSourceDependencies().isEmpty()) {
-            StringBuilder script = new StringBuilder();
-            script.append("var scriptLoaded = false; try { scriptLoaded = !!" + target.getName() + "; } catch (e) {}");
-            script.append("if (!scriptLoaded) { ");
-            script.append("var head, script; head = document.getElementsByTagName('head')[0];");
-            for (String dependency : target.getSourceDependencies()) {
-                script.append("script = document.createElement('script');");
-                script.append("script.setAttribute('type', 'text/javascript');");
-                script.append("script.setAttribute('src', 'page-extensions/" + dependency + "');");
-                script.append("head.appendChild(script);");
-
-            }
-            script.append("}");
-            browser.executeScript(script.toString());
-        }
-    }
-
-    protected void ensureExtensionInstalled(JSTarget target) {
-        if (target.isInstallable()) {
-            JSMethod method = target.getJSMethod(InstallableJavaScript.INSTALL_METHOD);
-            JSCall call = new JSCall(method, new Object[] {});
-            executeScriptForCall(call);
-        }
-    }
-
-    private Object[] castArguments(Object[] arguments) {
+    protected Object[] castArguments(Object[] arguments) {
         Object[] result = Arrays.copyOf(arguments, arguments.length);
 
         for (int i = 0; i < result.length; i++) {
@@ -96,11 +86,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         return result;
     }
 
-    private Object castEnumToString(Object enumValue) {
-        return enumValue.toString();
-    }
-
-    private Object castResult(JSCall call, Object returnValue) {
+    protected Object castResult(JSCall call, Object returnValue) {
         Class<?> returnType = call.getMethod().getMethod().getReturnType();
 
         if (returnType.isEnum()) {
@@ -110,7 +96,11 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         return returnValue;
     }
 
-    private Object castStringToEnum(Class<?> returnType, Object returnValue) {
+    protected Object castEnumToString(Object enumValue) {
+        return enumValue.toString();
+    }
+
+    protected Object castStringToEnum(Class<?> returnType, Object returnValue) {
         try {
             Method method = returnType.getMethod("valueOf", String.class);
             return method.invoke(null, returnValue.toString());
@@ -119,34 +109,31 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         }
     }
 
-    private void checkBrowser() {
-        if (!GrapheneContext.isInitialized()) {
-            throw new IllegalStateException("current browser needs to be initialized; use GrapheneContext.set(browser)");
-        }
-        if (!GrapheneContext.holdsInstanceOf(JavascriptExecutor.class)) {
-            throw new IllegalStateException("current browser needs to be instance of JavascriptExecutor");
-        }
+    protected Object executeScriptForCall(JSCall call) {
+        String script = resolveScriptToExecute(call);
+        Object[] arguments = castArguments(call.getArguments());
+        Object returnValue = browser.executeScript(script, arguments);
+        return returnValue;
     }
 
     protected String resolveScriptToExecute(JSCall call) {
-        String functionCall = MessageFormat.format(CALL, resolveTargetName(call.getTarget()), resolveMethodName(call));
+        String functionCall = MessageFormat.format(CALL, call.getTarget().getName(), call.getMethod().getName());
         String functionDefinitionWithCall = FUNCTION + functionCall;
         return functionDefinitionWithCall;
     }
 
-    protected String resolveTargetName(JSTarget target) {
-        if (target.getName() != null) {
-            return target.getName();
+    protected <T> void registerExtension(JSTarget target) {
+        if (target.getName() == null || target.getName().isEmpty()) {
+            throw new IllegalArgumentException("The extension " + target.getInterface() + "has no mapping.");
         }
-        return resolveOverloadedInterfaceName(target);
-    }
-
-    protected String resolveMethodName(JSCall call) {
-        return call.getMethod().getName();
-    }
-
-    protected String resolveOverloadedInterfaceName(JSTarget target) {
-        return StringUtils.uncapitalize(target.getInterface().getSimpleName());
+        if (GraphenePageExtensionsContext.getRegistryProxy().getExtension(target.getName()) != null) {
+            return;
+        }
+        JavaScriptPageExtension extension = new JavaScriptPageExtension(target.getInterface());
+        GraphenePageExtensionsContext.getRegistryProxy().register(extension);
+        for (JSTarget dependency: target.getJSInterfaceDependencies()) {
+            registerExtension(dependency);
+        }
     }
 
 }

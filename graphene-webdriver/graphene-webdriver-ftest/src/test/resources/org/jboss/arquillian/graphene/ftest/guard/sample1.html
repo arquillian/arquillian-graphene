@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            var XMLHttpArray = [
+                    function() {return new XMLHttpRequest()},
+                    function() {return new ActiveXObject("Msxml2.XMLHTTP")},
+                    function() {return new ActiveXObject("Msxml2.XMLHTTP")},
+                    function() {return new ActiveXObject("Microsoft.XMLHTTP")}
+            ];
+            function createXMLHTTPObject(){
+                    var xmlhttp = false;
+                    for(var i=0; i<XMLHttpArray.length; i++){
+                            try{
+                                    xmlhttp = XMLHttpArray[i]();
+                            }catch(e){
+                                    continue;
+                            }
+                            break;
+                    }
+                    return xmlhttp;
+            }
+            function MakeRequst(uri){
+                var xmlhttp = createXMLHTTPObject();
+                xmlhttp.open("get", uri, true);
+                xmlhttp.send();
+                document.getElementById("status").innerHTML += "SEND ";
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+        <a href="sample2.html" id="http">HTTP</a> <br />
+        <a href="#" id="xhr" onclick="MakeRequst('sample2.html')">XHR</a>
+        <a href="#" id="none">NONE</a>
+        <div id="status"></div>
+    </body>
+</html>

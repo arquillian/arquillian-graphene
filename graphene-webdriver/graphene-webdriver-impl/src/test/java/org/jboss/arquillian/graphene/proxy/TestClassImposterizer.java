@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,15 +19,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.proxy;
+
+import org.jboss.arquillian.graphene.proxy.ClassImposterizer;
+import net.sf.cglib.proxy.MethodInterceptor;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 
 /**
- * <p>
- * Marker interface for all instances of proxies created by {@link GrapheneProxy}.
- * </p>
- *
  * @author Lukas Fryc
  */
-public interface GrapheneProxyInstance {
-    <T> T unwrap();
+@RunWith(MockitoJUnitRunner.class)
+public class TestClassImposterizer {
+
+    @Mock
+    MethodInterceptor interceptor;
+
+    @Test
+    public void test() {
+        ClassImposterizer.INSTANCE.imposterise(interceptor, TestingClass.class, new Class<?>[] {});
+    }
+
+    public static class TestingClass {
+    }
 }

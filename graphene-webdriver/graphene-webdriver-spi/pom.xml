@@ -11,14 +11,26 @@
 
     <artifactId>graphene-webdriver-spi</artifactId>
 
+    <name>Graphene Webdriver: SPI</name>
+
     <dependencies>
+        <!-- Runtime dependencies-->
+        <dependency>
+            <groupId>org.jboss.arquillian.core</groupId>
+            <artifactId>arquillian-core-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.test</groupId>
+            <artifactId>arquillian-test-spi</artifactId>
+        </dependency>
+
         <!-- Provided dependencies -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.testng</groupId>

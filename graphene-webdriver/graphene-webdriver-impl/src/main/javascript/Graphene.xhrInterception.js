@@ -19,12 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-var Graphene = Graphene || {};
+window.Graphene = window.Graphene || {};
 
 /**
  * The XMLHttpRequest injection providing ability to intercept requests.
  */
-Graphene.xhrInterception = (function() {
+window.Graphene.xhrInterception = (function() {
 
     /**
      * The backup of original XHR object after injection
@@ -42,7 +42,7 @@ Graphene.xhrInterception = (function() {
 
     /**
      * The prototype of injected XHR object.
-     * 
+     *
      * Delegates to intercepter chain.
      */
     var wrapperPrototype = {
@@ -74,7 +74,7 @@ Graphene.xhrInterception = (function() {
         original = window.XMLHttpRequest;
         window.XMLHttpRequest = createReplacement();
     }
-    
+
     /**
      * Reverts XHR wrapper for Firefox/Chromium/WebKit and similar browsers
      */
@@ -97,7 +97,7 @@ Graphene.xhrInterception = (function() {
 
     /**
      * onreadystatechange callback which is registered on true XHR instance.
-     * 
+     *
      * Delegates to intercepter chain.
      */
     var callback = function(wrapper) {
@@ -121,7 +121,7 @@ Graphene.xhrInterception = (function() {
             replaceXHR();
         }
     }
-    
+
     /**
      * Decides which injection is necessary for current browser
      */
@@ -141,9 +141,9 @@ Graphene.xhrInterception = (function() {
 
     /**
      * Starts the execution of interceptor chain.
-     * 
+     *
      * The method calls or the interceptors in the chain and once all of them are fired, calls original implementation.
-     * 
+     *
      * @param wrapper
      *            XHR wrapper instance
      * @param methodName
@@ -180,7 +180,7 @@ Graphene.xhrInterception = (function() {
 
     /**
      * Invokes original XHR implemention method.
-     * 
+     *
      * If onreadystatechange callback is processed, it is invoked on wrapper; otherwise method of the XHR instance is invoked.
      */
     var invokeRealMethod = function(wrapper, methodName, args) {
@@ -211,9 +211,9 @@ Graphene.xhrInterception = (function() {
         },
         /**
          * Registers intercepter for abort method.
-         * 
+         *
          * Interceptor is function with two params: context and args.
-         * 
+         *
          * Sample: function(context, args) { context.proceed(args); }
          */
         onAbort : function(interceptor) {
@@ -221,9 +221,9 @@ Graphene.xhrInterception = (function() {
         },
         /**
          * Registers intercepter for open method.
-         * 
+         *
          * Interceptor is function with two params: context and args.
-         * 
+         *
          * Sample: function(context, args) { context.proceed(args); }
          */
         onOpen : function(interceptor) {
@@ -231,9 +231,9 @@ Graphene.xhrInterception = (function() {
         },
         /**
          * Registers intercepter for getAllResponseHeaders method.
-         * 
+         *
          * Interceptor is function with two params: context and args.
-         * 
+         *
          * Sample: function(context, args) { context.proceed(args); }
          */
         onGetAllResponseHeaders : function(interceptor) {
@@ -241,9 +241,9 @@ Graphene.xhrInterception = (function() {
         },
         /**
          * Registers intercepter for send method.
-         * 
+         *
          * Interceptor is function with two params: context and args.
-         * 
+         *
          * Sample: function(context, args) { context.proceed(args); }
          */
         onSend : function(interceptor) {
@@ -251,9 +251,9 @@ Graphene.xhrInterception = (function() {
         },
         /**
          * Registers intercepter for setRequestHeader method.
-         * 
+         *
          * Interceptor is function with two params: context and args.
-         * 
+         *
          * Sample: function(context, args) { context.proceed(args); }
          */
         onSetRequestHeader : function(interceptor) {
@@ -261,9 +261,9 @@ Graphene.xhrInterception = (function() {
         },
         /**
          * Registers intercepter for onreadystatechange callback method.
-         * 
+         *
          * Interceptor is function with two params: context and args.
-         * 
+         *
          * Sample: function(context, args) { context.proceed(args); }
          */
         onreadystatechange : function(interceptor) {

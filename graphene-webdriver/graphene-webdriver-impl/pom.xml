@@ -28,6 +28,12 @@
 
         <!-- Runtime Dependencies -->
         <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver-spi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
         </dependency>

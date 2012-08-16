@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,30 +19,20 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.page.extension;
 
-import net.sf.cglib.proxy.MethodInterceptor;
+import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
+import org.jboss.arquillian.test.spi.TestClass;
 
 /**
+ * Returns the list of {@link PageExtension} known by the given module.
+ *
+ * Those extensions will be registered in the system, so they can be loaded from external locations if necessary.
+ *
  * @author Lukas Fryc
  */
-@RunWith(MockitoJUnitRunner.class)
-public class TestClassImposterizer {
+public interface PageExtensionProvider {
 
-    @Mock
-    MethodInterceptor interceptor;
-
-    @Test
-    public void test() {
-        ClassImposterizer.INSTANCE.imposterise(interceptor, TestingClass.class, new Class<?>[] {});
-    }
-
-    public static class TestingClass {
-    }
+    List<PageExtension> getPageExtensions(TestClass testClass);
 }
