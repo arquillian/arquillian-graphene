@@ -85,21 +85,6 @@ public class ConditionsTestCase {
     }
 
     @Test
-    public void testFailWith() {
-        try {
-            Graphene.waitGui().failWith("My message").until(new ExpectedCondition<Boolean>() {
-                @Override
-                public Boolean apply(WebDriver input) {
-                    return false;
-                }
-            });
-        } catch (Exception e) {
-            Assert.assertTrue("Waiting should fail with TimeoutException, but was " + e.getClass() + ".", e instanceof TimeoutException);
-            Assert.assertTrue("Fail message should contain 'My message', but was '" + e.getMessage() + "'.", e.getMessage().contains("My message"));
-        }
-    }
-
-    @Test
     public void testAttributeIsPresent() {
         loadPage();
         checkAttributeIsPresent(Graphene.attribute(header, "style"));
