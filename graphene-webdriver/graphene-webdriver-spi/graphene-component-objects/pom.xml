@@ -11,23 +11,14 @@
 
     <artifactId>component-objects-spi</artifactId>
 
-    <properties>
-        <joda.time.version>2.0</joda.time.version>
-        <version.selenium>2.0rc2</version.selenium>
-    </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda.time.version}</version>
-        </dependency>
+        <!-- Provided dependencies -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium</artifactId>
-            <version>${version.selenium}</version>
-            <type>pom</type>
+            <artifactId>selenium-java</artifactId>
+            <scope>provided</scope>
         </dependency>
+        
 		<!-- Test dependencies -->
         <dependency>
             <groupId>org.testng</groupId>
