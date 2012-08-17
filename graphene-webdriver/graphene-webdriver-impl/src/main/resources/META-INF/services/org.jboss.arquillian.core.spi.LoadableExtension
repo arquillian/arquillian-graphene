@@ -1,2 +1,1 @@
 org.jboss.arquillian.graphene.GrapheneExtension
-org.jboss.arquillian.graphene.enricher.ComponentObjectsExtension
