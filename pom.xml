@@ -21,6 +21,7 @@
         <module>graphene-selenium</module>
         <module>graphene-webdriver</module>
         <module>graphene-depchain</module>
+        <module>graphene-component-api</module>
     </modules>
 
     <properties>

@@ -121,6 +121,7 @@ public final class GrapheneContext {
      *
      * @return the instance of proxy to thread local context of WebDriver
      */
+
     public static <T> T getProxyForInterfaces(Class<?>... interfaces) {
         Class<?>[] interfacesIncludingWebdriver = GrapheneProxyUtil.concatClasses(interfaces, WebDriver.class);
         return GrapheneProxy.<T>getProxyForFutureTarget(TARGET, null, interfacesIncludingWebdriver);

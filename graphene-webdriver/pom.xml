@@ -21,9 +21,10 @@
         <module>graphene-webdriver-drone</module>
         <module>graphene-webdriver-depchain</module>
         <module>graphene-webdriver-ftest</module>
+        <module>graphene-webdriver-spi</module>
     </modules>
-    
-    
+
+
     <properties>
         <!-- TODO Skips compatibility, style and license checks during heavy development (ARQGRA-154) -->
         <checkstyle.skip>true</checkstyle.skip>

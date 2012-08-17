@@ -34,9 +34,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.By;
+import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Locatable;
 
 /**
  * @author Lukas Fryc
@@ -119,6 +121,7 @@ public class TestGrapheneContextProxying {
     }
 
     @Test
+
     public void test_that_context_can_be_unwrapped() {
         // having
         GrapheneContext.set(driver);
