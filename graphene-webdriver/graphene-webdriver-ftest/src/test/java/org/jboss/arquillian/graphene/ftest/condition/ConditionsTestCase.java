@@ -22,7 +22,7 @@
 package org.jboss.arquillian.graphene.ftest.condition;
 
 import java.net.URL;
-import junit.framework.Assert;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
@@ -31,13 +31,11 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 
 /**
@@ -49,15 +47,8 @@ public class ConditionsTestCase {
     @Drone
     private WebDriver browser;
 
-    private static final By BY_APPEAR_BUTTON = By.id("appear");
     private static final By BY_HEADER = By.id("header");
-    private static final By BY_HIDE_BUTTON = By.id("hide");
-    private static final By BY_ID_INPUT = By.id("idInput");
     private static final By BY_OPTION1 = By.id("option1");
-    private static final By BY_OPTION2 = By.id("option2");
-    private static final By BY_SELECT = By.id("select");
-    private static final By BY_TEXT_INPUT = By.id("textInput");
-    private static final By BY_UPDATE_BUTTON = By.id("submit");
 
     @FindBy(id="appear")
     private WebElement appearButton;
@@ -69,8 +60,6 @@ public class ConditionsTestCase {
     private WebElement idInput;
     @FindBy(id="option1")
     private WebElement option1;
-    @FindBy(id="option2")
-    private WebElement option2;
     @FindBy(id="select")
     private WebElement select;
     @FindBy(id="textInput")
