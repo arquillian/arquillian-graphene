@@ -27,6 +27,7 @@ import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.attribute.AttributeConditionFactoryImpl;
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -78,7 +79,7 @@ public class Graphene {
     }
 
     public static WebDriverWait waitAjax(WebDriver driver) {
-        return new WebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
+        return new WebDriverWait(driver, getConfiguration().getWaitAjaxInterval());
     }
 
     public static WebDriverWait waitGui() {
@@ -86,7 +87,7 @@ public class Graphene {
     }
 
     public static WebDriverWait waitGui(WebDriver driver) {
-        return new WebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
+        return new WebDriverWait(driver, getConfiguration().getWaitGuiInterval());
     }
 
     public static WebDriverWait waitModel() {
@@ -94,7 +95,11 @@ public class Graphene {
     }
 
     public static WebDriverWait waitModel(WebDriver driver) {
-        return new WebDriverWait(driver, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
+        return new WebDriverWait(driver, getConfiguration().getWaitModelInterval());
+    }
+    
+    private static GrapheneConfiguration getConfiguration() {
+        return GrapheneConfigurationContext.getProxy();
     }
 
 }

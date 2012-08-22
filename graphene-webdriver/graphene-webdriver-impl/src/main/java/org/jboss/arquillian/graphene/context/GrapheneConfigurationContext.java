@@ -53,7 +53,7 @@ public class GrapheneConfigurationContext {
     static GrapheneConfiguration get() {
         GrapheneConfiguration configuration = REFERENCE.get();
         if (configuration == null) {
-            throw new NullPointerException("context is null - it needs to be setup before starting to use it");
+            throw new NullPointerException("configuration is null - it needs to be setup before starting to use it");
         }
         return configuration;
     }
@@ -91,10 +91,10 @@ public class GrapheneConfigurationContext {
      */
     public static void set(GrapheneConfiguration configuration) {
         if (configuration == null) {
-            throw new IllegalArgumentException("context instance can't be null");
+            throw new IllegalArgumentException("configuration instance can't be null");
         }
         if (GrapheneProxy.isProxyInstance(configuration)) {
-            throw new IllegalArgumentException("instance of the proxy can't be set to the context");
+            throw new IllegalArgumentException("instance of the proxy can't be set to the configuration");
         }
         REFERENCE.set(configuration);
     }

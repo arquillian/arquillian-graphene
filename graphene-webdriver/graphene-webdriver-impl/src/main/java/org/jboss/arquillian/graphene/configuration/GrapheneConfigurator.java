@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
 import org.jboss.arquillian.core.api.Event;
@@ -38,8 +39,8 @@ import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.spi.event.GrapheneConfigured;
 import org.jboss.arquillian.graphene.spi.event.GrapheneUnconfigured;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
-import org.jboss.arquillian.test.spi.event.suite.AfterSuite;
-import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
+import org.jboss.arquillian.test.spi.event.suite.AfterClass;
+import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 import org.jboss.logging.Logger;
 
 /**
@@ -60,7 +61,7 @@ public class GrapheneConfigurator {
     @Inject
     private Event<GrapheneUnconfigured> unconfiguredEvent;
 
-    public void configureGraphene(@Observes BeforeSuite event, ArquillianDescriptor descriptor) {
+    public void configureGraphene(@Observes BeforeClass event, ArquillianDescriptor descriptor) {
         GrapheneConfiguration c = new GrapheneConfiguration();
         this.configuration.set(c);
         map(descriptor, c, "graphene");
@@ -69,7 +70,7 @@ public class GrapheneConfigurator {
         GrapheneConfigurationContext.set(c);
     }
 
-    public void unconfigureGraphene(@Observes AfterSuite event) {
+    public void unconfigureGraphene(@Observes AfterClass event) {
         GrapheneConfigurationContext.reset();
         unconfiguredEvent.fire(new GrapheneUnconfigured());
     }
@@ -114,29 +115,6 @@ public class GrapheneConfigurator {
                 throw new IllegalStateException("Can't map Graphene configuration for " + target.getClass().getName() + ".");
             }
         }
-    }
-
-    /**
-     * Maps a field name to a property.
-     *
-     * Replaces camel case with a dot ('.') and lower case character, all non digit and non letter characters are preserved.
-     *
-     * @param fieldName The name of field
-     * @return Corresponding property name
-     */
-    private static String keyTransform(String fieldName) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < fieldName.length(); i++) {
-            char c = fieldName.charAt(i);
-            if (Character.isUpperCase(c)) {
-                sb.append('.').append(Character.toLowerCase(c));
-            } else {
-                sb.append(c);
-            }
-        }
-
-        return sb.toString();
     }
 
     /**

@@ -21,26 +21,29 @@
  */
 package org.jboss.arquillian.graphene.configuration;
 
-import java.util.Map;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.HashMap;
-import org.junit.Before;
-import org.mockito.Mock;
 import java.util.List;
+import java.util.Map;
+
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.spi.event.GrapheneConfigured;
 import org.jboss.arquillian.graphene.spi.event.GrapheneUnconfigured;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
-import org.jboss.arquillian.test.spi.event.suite.AfterSuite;
-import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
+import org.jboss.arquillian.test.spi.event.suite.AfterClass;
+import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 import org.jboss.arquillian.test.test.AbstractTestTestBase;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -68,14 +71,14 @@ public class ConfigurationContextTestCase extends AbstractTestTestBase {
     @Test
     public void testConfigurationViaDescriptor() {
         getManager().bind(SuiteScoped.class, ArquillianDescriptor.class, descriptor);
-        fire(new BeforeSuite());
+        fire(new BeforeClass(Object.class));
         assertEventFired(GrapheneConfigured.class);
         assertNotNull("Configuration instance has to be available.", GrapheneConfigurationContext.getProxy());
         GrapheneConfigurationContext.getProxy().validate();
         assertEquals("'waitGuiInterval' should be 5", 5, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
         assertEquals("'waitAjaxInterval' should be 25", 25, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
         assertEquals("'waitModelInterval' should be 125", 125, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
-        fire(new AfterSuite());
+        fire(new AfterClass(Object.class));
         assertEventFired(GrapheneUnconfigured.class);
     }
 
@@ -87,14 +90,14 @@ public class ConfigurationContextTestCase extends AbstractTestTestBase {
             System.setProperty("arquillian.graphene.wait.gui.interval", "10");
             System.setProperty("arquillian.graphene.wait.ajax.interval", "100");
             System.setProperty("arquillian.graphene.wait.model.interval", "1000");
-            fire(new BeforeSuite());
+            fire(new BeforeClass(Object.class));
             assertEventFired(GrapheneConfigured.class);
             assertNotNull(getManager().resolve(GrapheneConfiguration.class));
             GrapheneConfigurationContext.getProxy().validate();
             assertEquals("'waitGuiInterval' should be 10", 10, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
             assertEquals("'waitAjaxInterval' should be 100", 100, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
             assertEquals("'waitModelInterval' should be 1000", 1000, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
-            fire(new AfterSuite());
+            fire(new AfterClass(Object.class));
             assertEventFired(GrapheneUnconfigured.class);
         } finally {
             System.clearProperty("arquillian.graphene.wait.gui.interval");
