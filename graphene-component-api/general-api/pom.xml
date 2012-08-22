@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>component-objects-spi</artifactId>
+            <artifactId>graphene-webdriver-spi</artifactId>
             <version>${project.version}</version>
         </dependency>
 

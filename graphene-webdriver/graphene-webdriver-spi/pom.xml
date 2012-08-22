@@ -9,10 +9,26 @@
         <relativePath>..</relativePath>
     </parent>
 
-    <artifactId>graphene-webdriver-spi-parent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>graphene-webdriver-spi</artifactId>
 
-    <modules>
-        <module>graphene-component-objects</module>
-    </modules>
+    <dependencies>
+        <!-- Provided dependencies -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
