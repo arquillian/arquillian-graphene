@@ -131,7 +131,7 @@ public class ComponentObjectsEnricher implements TestEnricher {
             field.set(objectWithField, object);
         } catch (Exception e) {
             // TODO more grained
-            throw new RuntimeException("The components fields can not be initialised!");
+            throw new RuntimeException("The components fields can not be initialised!", e);
         }
         if (!accessible) {
             field.setAccessible(false);
