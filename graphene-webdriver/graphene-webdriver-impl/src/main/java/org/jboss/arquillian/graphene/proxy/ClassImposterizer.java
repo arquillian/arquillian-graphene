@@ -1,15 +1,15 @@
 /**
  * Thanks to Mockito guys for some modifications. This class has been further modified for use in lambdaj
  * and then modified for use in Arquillian Graphene project.
- * 
+ *
  * Mockito License for redistributed, modified file.
- * 
+ *
 Copyright (c) 2007 Mockito contributors
 This program is made available under the terms of the MIT License.
- * 
- * 
+ *
+ *
  * jMock License for original distributed file
- * 
+ *
 Copyright (c) 2000-2007, jMock.org
 All rights reserved.
 
@@ -36,7 +36,7 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGE.
 */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -48,8 +48,8 @@ import org.objenesis.*;
 
 /**
  * Thanks to jMock guys for this handy class that wraps all the cglib magic.
- * In particular it workarounds a cglib limitation by allowing to proxy a class even if the misses a no args constructor. 
- * 
+ * In particular it workarounds a cglib limitation by allowing to proxy a class even if the misses a no args constructor.
+ *
  * @author Mario Fusco
  * @author Sebastian Jancke
  */
@@ -57,11 +57,11 @@ import org.objenesis.*;
 final class ClassImposterizer  {
 
     static final ClassImposterizer INSTANCE = new ClassImposterizer();
-    
+
     private ClassImposterizer() {}
-    
+
     private final Objenesis objenesis = new ObjenesisStd();
-    
+
     private static final NamingPolicy DEFAULT_POLICY = new DefaultNamingPolicy() {
         /**
          * {@inheritDoc}
@@ -71,7 +71,7 @@ final class ClassImposterizer  {
             return "CGLIB";
         }
     };
-    
+
     private static final NamingPolicy SIGNED_CLASSES_POLICY = new DefaultNamingPolicy() {
         /**
          * {@inheritDoc}
@@ -80,7 +80,7 @@ final class ClassImposterizer  {
         public String getClassName(String prefix, String source, Object key, Predicate names) {
             return "codegen." + super.getClassName(prefix, source, key, names);
         }
-        
+
         /**
          * {@inheritDoc}
          */
@@ -89,28 +89,28 @@ final class ClassImposterizer  {
             return "CGLIB";
         }
     };
-    
+
     private static final CallbackFilter IGNORE_BRIDGE_METHODS = new CallbackFilter() {
         public int accept(Method method) {
             return method.isBridge() ? 1 : 0;
         }
     };
-    
+
     <T> T imposterise(Callback callback, Class<T> mockedType, Class<?>... ancillaryTypes) {
         setConstructorsAccessible(mockedType, true);
         Class<?> proxyClass = createProxyClass(mockedType, ancillaryTypes);
         return mockedType.cast(createProxy(proxyClass, callback));
     }
-    
+
     private void setConstructorsAccessible(Class<?> mockedType, boolean accessible) {
         for (Constructor<?> constructor : mockedType.getDeclaredConstructors()) {
             constructor.setAccessible(accessible);
         }
     }
-    
+
     private Class<?> createProxyClass(Class<?> mockedType, Class<?>...interfaces) {
         if (mockedType == Object.class) mockedType = ClassWithSuperclassToWorkAroundCglibBug.class;
-        
+
         Enhancer enhancer = new ClassEnhancer();
         enhancer.setUseFactory(true);
         enhancer.setSuperclass(mockedType);
@@ -119,7 +119,7 @@ final class ClassImposterizer  {
         enhancer.setCallbackTypes(new Class[]{MethodInterceptor.class, NoOp.class});
         enhancer.setCallbackFilter(IGNORE_BRIDGE_METHODS);
         enhancer.setNamingPolicy(mockedType.getSigners() != null ? SIGNED_CLASSES_POLICY : DEFAULT_POLICY);
-        
+
         return enhancer.createClass();
     }
 
@@ -130,13 +130,13 @@ final class ClassImposterizer  {
         @Override
         protected void filterConstructors(Class sc, List constructors) { }
     }
-    
+
     private Object createProxy(Class<?> proxyClass, Callback callback) {
         Factory proxy = (Factory) objenesis.newInstance(proxyClass);
         proxy.setCallbacks(new Callback[] {callback, NoOp.INSTANCE});
         return proxy;
     }
-    
+
     /**
      * Class With Superclass To WorkAround Cglib Bug
      */

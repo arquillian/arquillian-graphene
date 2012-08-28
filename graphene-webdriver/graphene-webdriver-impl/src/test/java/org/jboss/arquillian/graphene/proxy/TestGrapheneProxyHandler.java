@@ -19,8 +19,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.proxy;
 
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 

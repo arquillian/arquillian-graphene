@@ -1,12 +1,15 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
 import org.jboss.arquillian.graphene.context.TestingDriverStub;
+import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistryImpl;
+import org.jboss.arquillian.graphene.page.extension.RemotePageExtensionInstallatorProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -42,6 +45,8 @@ public class TestReturnValues extends AbstractJavaScriptTest {
         // given
         MockitoAnnotations.initMocks(this);
         GrapheneContext.set(executor);
+        GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
+        GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
         instance = JSInterfaceFactory.create(TestingInterface.class);
 
         when(executor.executeScript(Mockito.anyString())).then(new Answer<Object>() {
@@ -49,6 +54,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
                 return answer;
             }
         });
+        when(executor.executeScript("return true;")).thenReturn(true);
     }
 
     @Test
@@ -57,7 +63,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
         instance.voidMethod();
 
         // then
-        verify(executor, only()).executeScript(invocation("base", "voidMethod"));
+        verify(executor, times(1)).executeScript(invocation("base", "voidMethod"));
     }
 
     @Test
@@ -68,7 +74,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
 
         // then
         assertEquals(answer, result);
-        verify(executor, only()).executeScript(invocation("base", "returnString"));
+        verify(executor, times(1)).executeScript(invocation("base", "returnString"));
     }
 
     @Test
@@ -79,7 +85,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
 
         // then
         assertEquals(answer, result);
-        verify(executor, only()).executeScript(invocation("base", "returnInteger"));
+        verify(executor, times(1)).executeScript(invocation("base", "returnInteger"));
     }
 
     @Test
@@ -90,7 +96,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
 
         // then
         assertEquals(answer, result);
-        verify(executor, only()).executeScript(invocation("base", "returnIntegerObject"));
+        verify(executor, times(1)).executeScript(invocation("base", "returnIntegerObject"));
     }
 
     @Test
@@ -101,7 +107,7 @@ public class TestReturnValues extends AbstractJavaScriptTest {
 
         // then
         assertEquals(answer, result);
-        verify(executor, only()).executeScript(invocation("base", "returnIntegerObject"));
+        verify(executor, times(1)).executeScript(invocation("base", "returnIntegerObject"));
     }
 
     @Test
@@ -112,6 +118,6 @@ public class TestReturnValues extends AbstractJavaScriptTest {
 
         // then
         assertEquals(TestingEnum.VALUE2, result);
-        verify(executor, only()).executeScript(invocation("base", "returnEnumValue"));
+        verify(executor, times(1)).executeScript(invocation("base", "returnEnumValue"));
     }
 }

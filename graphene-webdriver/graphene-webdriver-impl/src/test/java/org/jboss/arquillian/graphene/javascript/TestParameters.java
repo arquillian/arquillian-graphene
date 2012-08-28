@@ -1,11 +1,15 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
 import org.jboss.arquillian.graphene.context.TestingDriverStub;
+import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistryImpl;
+import org.jboss.arquillian.graphene.page.extension.RemotePageExtensionInstallatorProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -37,7 +41,10 @@ public class TestParameters extends AbstractJavaScriptTest {
         // given
         MockitoAnnotations.initMocks(this);
         GrapheneContext.set(executor);
+        GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
+        GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
         instance = JSInterfaceFactory.create(TestingInterface.class);
+        when(executor.executeScript("return true;")).thenReturn(true);
     }
 
     @Test
@@ -46,7 +53,7 @@ public class TestParameters extends AbstractJavaScriptTest {
         instance.stringParameters("test");
 
         // then
-        verify(executor, only()).executeScript(invocation("base", "stringParameters"), "test");
+        verify(executor, times(1)).executeScript(invocation("base", "stringParameters"), "test");
     }
 
     @Test
@@ -55,7 +62,7 @@ public class TestParameters extends AbstractJavaScriptTest {
         instance.integerParameters(2);
 
         // then
-        verify(executor, only()).executeScript(invocation("base", "integerParameters"), 2);
+        verify(executor, times(1)).executeScript(invocation("base", "integerParameters"), 2);
     }
 
     @Test
@@ -64,7 +71,7 @@ public class TestParameters extends AbstractJavaScriptTest {
         instance.integerObjectParameters(2);
 
         // then
-        verify(executor, only()).executeScript(invocation("base", "integerObjectParameters"), 2);
+        verify(executor, times(1)).executeScript(invocation("base", "integerObjectParameters"), 2);
     }
 
     @Test
@@ -75,7 +82,7 @@ public class TestParameters extends AbstractJavaScriptTest {
         instance.elementParameters(element);
 
         // then
-        verify(executor, only()).executeScript(invocation("base", "elementParameters"), element);
+        verify(executor, times(1)).executeScript(invocation("base", "elementParameters"), element);
     }
 
     @Test
@@ -84,6 +91,6 @@ public class TestParameters extends AbstractJavaScriptTest {
         instance.enumParameters(TestingEnum.VALUE2);
 
         // then
-        verify(executor, only()).executeScript(invocation("base", "enumParameters"), "VALUE2");
+        verify(executor, times(1)).executeScript(invocation("base", "enumParameters"), "VALUE2");
     }
 }

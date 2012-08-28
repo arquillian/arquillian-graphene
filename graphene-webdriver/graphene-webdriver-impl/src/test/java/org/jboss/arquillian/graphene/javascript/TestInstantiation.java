@@ -1,8 +1,6 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import static org.junit.Assert.assertTrue;
-
-import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.junit.Test;
 
 public class TestInstantiation {

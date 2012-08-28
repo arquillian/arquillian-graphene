@@ -19,12 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.context;
+package org.jboss.arquillian.graphene.proxy;
 
+import org.jboss.arquillian.graphene.context.TestingDriverStub;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
-import org.jboss.arquillian.graphene.context.GrapheneProxy.FutureTarget;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.junit.Test;
 
 public class TestGrapheneProxyInstantiation {

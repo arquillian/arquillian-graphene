@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.context;
 
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;

@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
 import org.jboss.arquillian.graphene.enricher.ComponentObjectsEnricher;
+import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
 import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
@@ -35,9 +36,10 @@ public class GrapheneExtension implements LoadableExtension {
     public void register(ExtensionBuilder builder) {
         /* Configurator */
         builder.observer(GrapheneConfigurator.class);
-        
         /* Component Objects */
         builder.service(TestEnricher.class, ComponentObjectsEnricher.class);
+        /** Page Extensions */
+        builder.observer(GraphenePageExtensionRegistrar.class);
     }
 
 }

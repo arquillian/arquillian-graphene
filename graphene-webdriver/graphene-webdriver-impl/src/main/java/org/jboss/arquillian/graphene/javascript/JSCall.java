@@ -1,12 +1,8 @@
 package org.jboss.arquillian.graphene.javascript;
 
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 
 public class JSCall {
 
@@ -29,7 +25,7 @@ public class JSCall {
     public Object[] getArguments() {
         return arguments;
     }
-    
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

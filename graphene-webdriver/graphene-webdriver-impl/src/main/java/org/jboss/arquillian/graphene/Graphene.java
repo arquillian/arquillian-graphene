@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.graphene;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.attribute.AttributeConditionFactoryImpl;
@@ -29,6 +28,9 @@ import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactor
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
+import org.jboss.arquillian.graphene.page.RequestType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -74,6 +76,45 @@ public class Graphene {
         return new ElementLocatorConditionFactory(locator);
     }
 
+    /**
+     * Returns the guarded object checking whether the HTTP request is done during
+     * each method invocation. If the request is not found,
+     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     *
+     * @param <T> type of the given target
+     * @param target object to be guarded
+     * @return the guarded object
+     */
+    public static <T> T guardHttp(T target) {
+        return RequestGuardFactory.guard(target, RequestType.HTTP);
+    }
+
+    /**
+     * Returns the guarded object checking that no request is done during
+     * each method invocation. If any request is found,
+     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     *
+     * @param <T> type of the given target
+     * @param target object to be guarded
+     * @return the guarded object
+     */
+    public static <T> T guardNoRequest(T target) {
+        return RequestGuardFactory.guard(target, RequestType.NONE);
+    }
+
+    /**
+     * Returns the guarded object checking whether the XHR (Ajax) request is done during
+     * each method invocation. If the request is not found,
+     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     *
+     * @param <T> type of the given target
+     * @param target object to be guarded
+     * @return the guarded object
+     */
+    public static <T> T guardXhr(T target) {
+        return RequestGuardFactory.guard(target, RequestType.XHR);
+    }
+
     public static WebDriverWait waitAjax() {
         return waitAjax(GrapheneContext.getProxy());
     }
@@ -97,7 +138,7 @@ public class Graphene {
     public static WebDriverWait waitModel(WebDriver driver) {
         return new WebDriverWait(driver, getConfiguration().getWaitModelInterval());
     }
-    
+
     private static GrapheneConfiguration getConfiguration() {
         return GrapheneConfigurationContext.getProxy();
     }

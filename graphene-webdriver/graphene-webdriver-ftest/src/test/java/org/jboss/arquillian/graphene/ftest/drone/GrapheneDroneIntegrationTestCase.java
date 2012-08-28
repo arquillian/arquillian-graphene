@@ -19,7 +19,7 @@ package org.jboss.arquillian.graphene.ftest.drone;
 import static org.junit.Assert.assertTrue;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.context.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
