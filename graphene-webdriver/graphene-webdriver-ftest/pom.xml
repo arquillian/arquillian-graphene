@@ -111,6 +111,13 @@
                 <browser>firefox</browser>
             </properties>
         </profile>
+        
+        <profile>
+            <id>webdriver-opera</id>
+            <properties>
+                <browser>opera</browser>
+            </properties>
+        </profile>
 
         <profile>
             <id>webdriver-remote-reusable</id>
