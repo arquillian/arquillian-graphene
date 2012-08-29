@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.graphene.drone.factory;
 
-import com.opera.core.systems.OperaDriver;
 import org.jboss.arquillian.drone.spi.Configurator;
 import org.jboss.arquillian.drone.spi.Destructor;
 import org.jboss.arquillian.drone.spi.Instantiator;
@@ -58,7 +57,7 @@ public class GrapheneRemoteWebDriverFactory extends RemoteWebDriverFactory imple
     @Override
     public RemoteWebDriver createInstance(TypedWebDriverConfiguration<RemoteReusableWebDriverConfiguration> configuration) {
         RemoteWebDriver driver = super.createInstance(configuration);
-        RemoteWebDriver proxy = GrapheneContext.getProxyForDriver(OperaDriver.class);
+        RemoteWebDriver proxy = GrapheneContext.getProxyForDriver(RemoteWebDriver.class);
         GrapheneContext.set(driver);
         return proxy;
     }
