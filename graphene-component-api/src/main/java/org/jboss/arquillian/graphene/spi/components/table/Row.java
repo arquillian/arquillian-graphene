@@ -19,19 +19,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.components.common;
+package org.jboss.arquillian.graphene.spi.components.table;
 
 import java.util.List;
 
 /**
- * ComponentsContainer represents a container for components, in other words a component which can contain other components,
- * which you can easily access.
+ * <p>
+ * Represents the row of the table.
+ * </p>
+ * <p>
+ * It should be possible to determine the particular row either by the header or footer, but most often by the order number.
+ * Rows are indexed from 0.
+ * </p>
+ * 
  * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface ComponentsContainer<T> {
+public interface Row {
 
-    List<NestedElements<T>> getContent();
+    List<Cell<?>> getAllCells();
 
+    <T> Cell<T> getCell(Column<T> column);
+
+    /**
+     * Sets the number of columns you want to have in this particular row. It is useful for tables with lot of columns.
+     * 
+     * @param numberOfColumns
+     */
+    void setNumberOfColumns(int numberOfColumns);
 }

@@ -27,9 +27,8 @@ import static org.junit.Assert.assertNotNull;
 import java.net.URL;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.page.TestPageObjectsInitialization;
+import org.jboss.arquillian.graphene.enricher.page.TestPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
-import org.jboss.arquillian.graphene.spi.components.common.AbstractComponentStub;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,31 +43,19 @@ import org.openqa.selenium.support.FindBy;
 public class TestInitializingComponentObjects {
 
     @FindBy(xpath = "//div[@id='rootElement']")
-    private AbstractComponentStub abstractComponent;
+    private AbstractComponentStub abstractComponentStub;
 
     @FindBy(xpath = "//input")
     private WebElement input;
 
     @Page
-    private TestPageObjectsInitialization testPage;
+    private TestPage testPage;
 
     private final String EXPECTED_NESTED_ELEMENT_TEXT = "Some Value";
 
     @Drone
     WebDriver selenium;
 
-    // @ArquillianResource
-    // protected URL contextRoot;
-
-    // private static final String WEB_APP_SRC = "src/test/webapp";
-
-    // @Deployment(testable = false)
-    // public static WebArchive deploy() {
-    // return ShrinkWrap.create(WebArchive.class, "drone-test.war").addAsWebResource(new File(WEB_APP_SRC + "/index.html"),
-    // ArchivePaths.create("index.html"));
-    // }
-
-    // @Before
     public void loadPage() {
         URL page = this.getClass().getClassLoader()
             .getResource("org/jboss/arquillian/graphene/ftest/componentObjectsEnricher/sample.html");
@@ -79,20 +66,20 @@ public class TestInitializingComponentObjects {
     @Test
     public void testComponentIsInitialized() {
         loadPage();
-        assertNotNull("AbstractComponent should be initialised at this point!", abstractComponent);
+        assertNotNull("AbstractComponent should be initialised at this point!", abstractComponentStub);
     }
 
     @Test
     public void testComponentHasSetRootCorrectly() {
         loadPage();
-        assertEquals("The root was not set correctly!", abstractComponent.invokeMethodOnElementRefByXpath(),
+        assertEquals("The root was not set correctly!", abstractComponentStub.invokeMethodOnElementRefByXpath(),
             EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testPageObjectInitialisedCorrectly() {
         loadPage();
-        assertEquals("The page component was not set correctly!", testPage.getAbstractComponent()
+        assertEquals("The page object was not set correctly!", testPage.getAbstractComponent()
             .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
     }
 

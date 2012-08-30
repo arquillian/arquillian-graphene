@@ -19,19 +19,19 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.components.common;
+package org.jboss.arquillian.graphene.spi.components.table;
 
-import java.util.List;
+import org.jboss.arquillian.graphene.spi.components.common.ComponentsContainer;
 
 /**
- * ComponentsContainer represents a container for components, in other words a component which can contain other components,
- * which you can easily access.
+ * Represents one particular cell of the table.
  * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface ComponentsContainer<T> {
+public interface Cell<T> extends ComponentsContainer<T> {
 
-    List<NestedElements<T>> getContent();
+    Row whichRow();
 
+    Column<T> whichColumn();
 }

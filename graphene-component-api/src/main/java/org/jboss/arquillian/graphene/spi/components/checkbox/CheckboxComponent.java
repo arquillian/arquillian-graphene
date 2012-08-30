@@ -19,19 +19,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.components.common;
-
-import java.util.List;
+package org.jboss.arquillian.graphene.spi.components.checkbox;
 
 /**
- * ComponentsContainer represents a container for components, in other words a component which can contain other components,
- * which you can easily access.
  * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface ComponentsContainer<T> {
+public interface CheckboxComponent {
 
-    List<NestedElements<T>> getContent();
+    void check();
 
+    void uncheck();
+
+    boolean isChecked();
 }

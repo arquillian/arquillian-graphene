@@ -19,19 +19,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.components.common;
-
-import java.util.List;
+package org.jboss.arquillian.graphene.spi.components.scrolling;
 
 /**
- * ComponentsContainer represents a container for components, in other words a component which can contain other components,
- * which you can easily access.
+ * Enum with different types of scrolling, that is the ways something can be done.
  * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface ComponentsContainer<T> {
-
-    List<NestedElements<T>> getContent();
-
+public enum ScrollingType {
+    BY_KEYS,
+    BY_MOUSE
 }

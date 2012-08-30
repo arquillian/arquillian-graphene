@@ -19,19 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.components.common;
+package org.jboss.arquillian.graphene.spi.components.calendar;
 
-import java.util.List;
+import org.joda.time.DateTime;
 
 /**
- * ComponentsContainer represents a container for components, in other words a component which can contain other components,
- * which you can easily access.
+ * Calendar component represents any type of calendar.
  * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
  */
-public interface ComponentsContainer<T> {
+public interface CalendarComponent {
 
-    List<NestedElements<T>> getContent();
+    /**
+     * Returns the set date, that is the date which is in input after date setting.
+     * 
+     * @return the set date
+     */
+    DateTime getDateTime();
 
+    /**
+     * Sets the <code>dateTime</code>, that is it selects that date and also sets to the input.
+     * 
+     * @param dateTime the date to set
+     */
+    void gotoDateTime(DateTime dateTime);
 }

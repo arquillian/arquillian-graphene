@@ -19,19 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.components.common;
+package org.jboss.arquillian.graphene.spi.components.autocomplete;
 
 import java.util.List;
 
 /**
- * ComponentsContainer represents a container for components, in other words a component which can contain other components,
- * which you can easily access.
+ * The suggestion provided by autocomplete function for particular input value.
  * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
  */
-public interface ComponentsContainer<T> {
+public interface Suggestion<T> {
 
-    List<NestedElements<T>> getContent();
+    /**
+     * Returns the value of this suggestion.
+     * 
+     * @return
+     */
+    T getValue();
 
+    /**
+     * <p>
+     * Returns the list of inputs values, for which this suggestion was offered.
+     * </p>
+     * 
+     * @return
+     */
+    List<String> getInputs();
+
+    /**
+     * Sets input value for which this suggestion was returned.
+     * 
+     * @param value for which this suggestion was returned
+     */
+    void setInput(String value);
 }

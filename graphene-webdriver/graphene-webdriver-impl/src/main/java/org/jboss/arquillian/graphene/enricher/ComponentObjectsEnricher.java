@@ -31,8 +31,6 @@ import java.util.List;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
-import org.jboss.arquillian.graphene.spi.components.common.AbstractComponent;
-import org.jboss.arquillian.graphene.spi.components.common.Factory;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.By;
 import org.openqa.selenium.HasInputDevices;
@@ -43,13 +41,13 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and <code>Component</code> objects.
  * 
- * @author Juraj Huska
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * 
  */
 public class ComponentObjectsEnricher implements TestEnricher {
 
     private static final String FIND_BY_ANNOTATION = "org.openqa.selenium.support.FindBy";
     private static final String PAGE_ANNOTATION = "org.jboss.arquillian.graphene.spi.annotations.Page";
-    private final String ABSTRACT_COMPONENT = "org.jboss.arquillian.graphene.spi.components.common.AbstractComponent";
 
     @Override
     public void enrich(Object testCase) {
@@ -160,20 +158,15 @@ public class ComponentObjectsEnricher implements TestEnricher {
     private void initComponentFields(List<Field> fields, Object object) {
         for (Field componentField : fields) {
 
-            // initialise component
-            Class implementationClass = componentField.getType();
-            Object component = Factory.initializeComponent(implementationClass);
-
-            // set webDriver object
-            WebDriver webDriver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
-            ((AbstractComponent) component).setWebDriver(webDriver);
-
             // sets the root of the component, retrieved from annotation
             FindBy findBy = componentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
             WebElement rootElement = setUpTheProxy(by);
-            ((AbstractComponent) component).setRoot(rootElement);
+
+            // initialise component
+            Class<?> implementationClass = componentField.getType();
+            Object component = Factory.initializeComponent(implementationClass, rootElement);
 
             setObjectToField(componentField, object, component);
         }
@@ -192,17 +185,9 @@ public class ComponentObjectsEnricher implements TestEnricher {
 
             Field field = i.next();
 
-            Class clazz = field.getType();
+            Class<?> fieldType = field.getType();
 
-            String superClass = null;
-            try {
-                superClass = (clazz.getGenericSuperclass().toString().split(" ")[1]);
-            } catch (NullPointerException ex) {
-                // it is ok in some cases, lets continue with other elements
-            }
-
-            if (superClass == null || !superClass.equals(ABSTRACT_COMPONENT)) {
-
+            if (fieldType.equals(WebElement.class)) {
                 i.remove();
             }
         }
