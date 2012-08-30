@@ -1,4 +1,25 @@
-package org.jboss.arquillian.graphene.spi.components.common;
+/**
+ * JBoss, Home of Professional Open Source
+ * Copyright 2012, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -13,9 +34,9 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Factory class for initialising the particular <code>Component</code>.
+ * Factory class for initializing the particular <code>Component</code>.
  * 
- * @author jhuska
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
 public class Factory {
@@ -26,16 +47,15 @@ public class Factory {
      * @return
      * @param <T> the final implementation of component
      */
-    public static <T extends AbstractComponent> T initializeComponent(Class<T> clazz) {
-        AbstractComponent component = instantiateComponent(clazz);
+    public static <T> T initializeComponent(Class<T> clazz, final WebElement root) {
+        if (root == null || clazz == null) {
+            throw new IllegalArgumentException("Non of the parameters can be null!");
+        }
 
-        // TODO read fields of component class and obtain root types and other elements
+        T component = instantiateComponent(clazz);
+
         Field[] declaredFields = clazz.getDeclaredFields();
 
-        // TODO initialize root
-        final RootReference rootReference = component.getRootReference();
-
-        // TODO initialize other elements
         for (Field i : declaredFields) {
 
             Annotation[] annotations = i.getAnnotations();
@@ -47,10 +67,6 @@ public class Factory {
 
                             @Override
                             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                                WebElement root = rootReference.get();
-                                if (root == null) {
-                                    throw new RuntimeException("The root has to be set correct");
-                                }
                                 return (Object) method.invoke(root, args);
                             }
                         });
@@ -78,11 +94,6 @@ public class Factory {
 
                             @Override
                             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                                WebElement root = rootReference.get();
-                                if (root == null) {
-                                    throw new RuntimeException("You have to set root element correctly!");
-                                }
-
                                 WebElement myElement = root.findElement(findBy);
 
                                 return method.invoke(myElement, args);
@@ -106,10 +117,10 @@ public class Factory {
             }
         }
 
-        return (T) component;
+        return component;
     }
 
-    public static <T extends AbstractComponent> T instantiateComponent(Class<T> clazz) {
+    public static <T> T instantiateComponent(Class<T> clazz) {
         try {
             return clazz.newInstance();
         } catch (Exception e) {

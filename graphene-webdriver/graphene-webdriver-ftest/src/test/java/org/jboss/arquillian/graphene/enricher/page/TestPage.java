@@ -21,14 +21,14 @@
  */
 package org.jboss.arquillian.graphene.enricher.page;
 
-import org.jboss.arquillian.graphene.spi.components.common.AbstractComponentStub;
+import org.jboss.arquillian.graphene.enricher.AbstractComponentStub;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * @author Juraj Huska
  */
-public class TestPageObjectsInitialization {
+public class TestPage {
 
     @FindBy(xpath = "//div[@id='rootElement']")
     private AbstractComponentStub abstractComponent;
