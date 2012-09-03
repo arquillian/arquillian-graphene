@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.page.extension;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 

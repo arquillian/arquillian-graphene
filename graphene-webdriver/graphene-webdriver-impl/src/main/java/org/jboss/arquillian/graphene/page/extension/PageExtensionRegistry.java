@@ -23,6 +23,8 @@ package org.jboss.arquillian.graphene.page.extension;
 
 import java.util.Collection;
 
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
+
 
 /**
  * Registry of {@link PageExtension}s required by the current test.

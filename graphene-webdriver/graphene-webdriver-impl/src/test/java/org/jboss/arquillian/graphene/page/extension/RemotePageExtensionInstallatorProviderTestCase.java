@@ -1,5 +1,7 @@
 package org.jboss.arquillian.graphene.page.extension;
 
+import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.junit.Before;
 import org.mockito.Mock;
 import java.util.Collections;

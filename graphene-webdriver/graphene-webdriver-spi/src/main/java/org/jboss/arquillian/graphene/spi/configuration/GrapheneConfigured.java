@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.spi.event;
+package org.jboss.arquillian.graphene.spi.configuration;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

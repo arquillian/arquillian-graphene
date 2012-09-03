@@ -23,6 +23,8 @@ package org.jboss.arquillian.graphene.page.extension;
 
 import java.util.Collection;
 import org.apache.commons.lang.Validate;
+import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

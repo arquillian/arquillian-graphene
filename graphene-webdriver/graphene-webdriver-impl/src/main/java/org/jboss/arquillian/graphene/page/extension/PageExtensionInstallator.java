@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.page.extension;
 
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
+
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */

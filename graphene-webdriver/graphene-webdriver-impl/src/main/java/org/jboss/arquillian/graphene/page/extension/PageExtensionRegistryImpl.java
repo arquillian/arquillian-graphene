@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
+
 
 /**
  * The implementation of {@link PageExtensionRegistry}

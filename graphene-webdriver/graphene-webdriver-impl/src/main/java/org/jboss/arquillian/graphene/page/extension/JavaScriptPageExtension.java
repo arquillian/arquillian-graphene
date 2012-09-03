@@ -28,6 +28,8 @@ import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JSMethod;
 import org.jboss.arquillian.graphene.javascript.JSTarget;
+import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

@@ -19,20 +19,40 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.page.extension;
+package org.jboss.arquillian.graphene.spi.page;
 
-import java.util.List;
+import java.util.Collection;
 
-import org.jboss.arquillian.test.spi.TestClass;
+import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
 
 /**
- * Returns the list of {@link PageExtension} known by the given module.
- *
- * Those extensions will be registered in the system, so they can be loaded from external locations if necessary.
+ * Denotes extension to be injected to the page
  *
  * @author Lukas Fryc
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface PageExtensionProvider {
+public interface PageExtension {
 
-    List<PageExtension> getPageExtensions(TestClass testClass);
+    /**
+     * Returns the name of the script that can uniquely identify this script
+     */
+    String getName();
+
+    /**
+     * Returns the source code of the script to be injected to the page
+     */
+    JavaScript getExtensionScript();
+
+    /**
+     * Returns the source code of the script which will be executed to check
+     * whether the extension is already installed. The script has to return
+     * boolean value.
+     */
+    JavaScript getInstallationDetectionScript();
+
+    /**
+     * Returns a collection of extension names required by this extension
+     */
+    Collection<String> getRequired();
+
 }

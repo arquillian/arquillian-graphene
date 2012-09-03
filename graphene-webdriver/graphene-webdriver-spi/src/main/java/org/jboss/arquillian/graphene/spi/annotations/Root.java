@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks the <tt>WebElement</tt> field where should be injected the root of the given page,
+ * This annotation marks the <tt>WebElement</tt> field where should be injected the root of the given fragment,
  * given by <tt>&#064;FindBy</tt> annotation on a injection point. 
  * 
  * <pre>

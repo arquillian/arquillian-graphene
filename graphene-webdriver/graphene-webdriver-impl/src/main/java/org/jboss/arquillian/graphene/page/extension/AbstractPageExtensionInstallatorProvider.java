@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene.page.extension;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.Validate;
+import org.jboss.arquillian.graphene.spi.page.PageExtension;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
