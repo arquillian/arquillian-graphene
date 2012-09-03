@@ -30,8 +30,8 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
-import org.jboss.arquillian.graphene.spi.page.GraphenePageExtensionsCleaned;
-import org.jboss.arquillian.graphene.spi.page.GraphenePageExtensionsReady;
+import org.jboss.arquillian.graphene.spi.page.PageExtensionsCleaned;
+import org.jboss.arquillian.graphene.spi.page.PageExtensionsReady;
 import org.jboss.arquillian.graphene.spi.page.PageExtensionProvider;
 import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.arquillian.test.spi.annotation.ClassScoped;
@@ -55,9 +55,9 @@ public class GraphenePageExtensionRegistrar {
     @Inject
     private Instance<ServiceLoader> serviceLoader;
     @Inject
-    private Event<GraphenePageExtensionsReady> pageExtensionsReady;
+    private Event<PageExtensionsReady> pageExtensionsReady;
     @Inject
-    private Event<GraphenePageExtensionsCleaned> pageExtensionsCleaned;
+    private Event<PageExtensionsCleaned> pageExtensionsCleaned;
 
     public void registerPageExtensionRegistry(@Observes BeforeClass event, TestClass testClass) {
         pageExtensionRegistry.set(new PageExtensionRegistryImpl());
@@ -65,13 +65,13 @@ public class GraphenePageExtensionRegistrar {
         GraphenePageExtensionsContext.setRegistry(pageExtensionRegistry.get());
         pageExtensionInstallatorProvider.set(new RemotePageExtensionInstallatorProvider(pageExtensionRegistry.get(), GrapheneContext.getProxy()));
         GraphenePageExtensionsContext.setInstallatorProvider(pageExtensionInstallatorProvider.get());
-        pageExtensionsReady.fire(new GraphenePageExtensionsReady());
+        pageExtensionsReady.fire(new PageExtensionsReady());
     }
 
     public void unregisterPageExtensionRegistry(@Observes AfterClass event) {
         pageExtensionRegistry.get().flush();
         GraphenePageExtensionsContext.reset();
-        pageExtensionsCleaned.fire(new GraphenePageExtensionsCleaned());
+        pageExtensionsCleaned.fire(new PageExtensionsCleaned());
     }
 
     protected void loadPageExtensions(TestClass testClass) {
