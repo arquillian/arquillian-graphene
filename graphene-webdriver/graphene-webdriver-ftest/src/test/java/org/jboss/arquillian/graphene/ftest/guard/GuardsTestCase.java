@@ -31,6 +31,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -38,12 +41,32 @@ import org.openqa.selenium.WebDriver;
 @RunWith(Arquillian.class)
 public class GuardsTestCase {
 
+    @FindBy(id="http")
+    private WebElement http;
+    @FindBy(id="none")
+    private WebElement none;
+    @FindBy(id="xhr")
+    private WebElement xhr;
+
+    private Page page;
+
+    private static class Page {
+        @FindBy(id="http")
+        private WebElement http;
+        @FindBy(id="none")
+        private WebElement none;
+        @FindBy(id="xhr")
+        private WebElement xhr;
+    }
+
     @Drone
     private WebDriver browser;
 
     public void loadPage() {
-        URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/guard/sample1.html");
-        browser.get(page.toString());
+        URL url = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/guard/sample1.html");
+        browser.get(url.toString());
+        page = new Page();
+        PageFactory.initElements(browser, page);
     }
 
     @Test
@@ -60,15 +83,51 @@ public class GuardsTestCase {
     }
 
     @Test
+    public void testGuardHttpInjectedByGraphene() {
+        loadPage();
+        Graphene.guardHttp(http).click();
+    }
+
+    @Test
+    public void testGuardHttpInjectedBySelenium() {
+        loadPage();
+        Graphene.guardHttp(page.http).click();
+    }
+
+    @Test
     public void testGuardNoRequest() {
         loadPage();
         Graphene.guardNoRequest(browser.findElement(By.id("none"))).click();
     }
 
     @Test
+    public void testGuardNoRequestInjectedByGraphene() {
+        loadPage();
+        Graphene.guardNoRequest(none).click();
+    }
+
+    @Test
+    public void testGuardNoRequestInjectedBySelenium() {
+        loadPage();
+        Graphene.guardNoRequest(page.none).click();
+    }
+
+    @Test
     public void testGuardXhr() {
         loadPage();
         Graphene.guardXhr(browser.findElement(By.id("xhr"))).click();
+    }
+
+    @Test
+    public void testGuardXhrInjectedByGraphene() {
+        loadPage();
+        Graphene.guardXhr(xhr).click();
+    }
+
+    @Test
+    public void testGuardXhrInjectedBySelenium() {
+        loadPage();
+        Graphene.guardXhr(page.xhr).click();
     }
 
     @Test(expected=RequestGuardException.class)

@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.guard;
 
+import java.lang.reflect.Modifier;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
@@ -51,10 +52,10 @@ public class RequestGuardFactory {
             throw new IllegalArgumentException("The paremeter [target] is null.");
         }
         GrapheneProxyInstance proxy;
-        if (!GrapheneProxy.isProxyInstance(target)) {
-            proxy = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(target);
-        } else {
+        if (GrapheneProxy.isProxyInstance(target)) {
             proxy = (GrapheneProxyInstance) ((GrapheneProxyInstance) target).copy();
+        } else {
+            proxy = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(target);
         }
         proxy.registerInterceptor(new Interceptor() {
             @Override

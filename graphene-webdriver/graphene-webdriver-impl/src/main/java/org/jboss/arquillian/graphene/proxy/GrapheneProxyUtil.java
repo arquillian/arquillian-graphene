@@ -89,6 +89,11 @@ public final class GrapheneProxyUtil {
      * @return the array of classes with added clazz
      */
     public static Class<?>[] concatClasses(Class<?>[] classes, Class<?> clazz) {
+        for (Class<?> c: classes) {
+            if (clazz.equals(c)) {
+                return classes;
+            }
+        }
         int length = classes.length;
         Class<?>[] out = new Class<?>[length + 1];
         System.arraycopy(classes, 0, out, 0, length);

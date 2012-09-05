@@ -5,8 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.anyString;
 
-import org.jboss.arquillian.graphene.enricher.AbstractComponentStub;
-import org.jboss.arquillian.graphene.enricher.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -54,7 +52,7 @@ public class TestFactoryClass {
         WebElement elemByClass = Mockito.mock(WebElement.class);
         when(elemByClass.getText()).thenReturn(REF_BY_CLASS_METHOD_RETURN_VAL);
         when(root.findElement(By.className(anyString()))).thenReturn(elemByClass);
-        
+
         return root;
     }
 

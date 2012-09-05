@@ -22,14 +22,13 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.By;
@@ -40,9 +39,9 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and <code>Component</code> objects.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class ComponentObjectsEnricher implements TestEnricher {
 
@@ -140,19 +139,16 @@ public class ComponentObjectsEnricher implements TestEnricher {
     }
 
     private WebElement setUpTheProxy(final By by) {
+        WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
 
-        return (WebElement) Proxy.newProxyInstance(WebElement.class.getClassLoader(), new Class<?>[] { WebElement.class },
-            new InvocationHandler() {
-
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-                    WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
-                    WebElement root = driver.findElement(by);
-
-                    return (Object) method.invoke(root, args);
-                }
-            });
+            @Override
+            public Object getTarget() {
+                WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
+                WebElement root = driver.findElement(by);
+                return root;
+            }
+        }, WebElement.class);
+        return e;
     }
 
     private void initComponentFields(List<Field> fields, Object object) {
@@ -175,7 +171,7 @@ public class ComponentObjectsEnricher implements TestEnricher {
     /**
      * It removes all components from given list which does not extend the
      * <code>org.jboss.arquillian.graphene.spi.components.common.AbstractComponent</code>
-     * 
+     *
      * @param findByFields
      * @return
      */
