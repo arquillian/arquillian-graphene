@@ -26,6 +26,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
@@ -35,14 +36,14 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Factory class for initializing the particular <code>Component</code>.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class Factory {
 
     /**
-     * 
+     *
      * @param clazz
      * @return
      * @param <T> the final implementation of component
@@ -62,14 +63,7 @@ public class Factory {
             for (Annotation j : annotations) {
 
                 if (j instanceof Root) {
-                    WebElement rootElement = (WebElement) Proxy.newProxyInstance(WebElement.class.getClassLoader(),
-                        new Class<?>[] { WebElement.class, Locatable.class }, new InvocationHandler() {
-
-                            @Override
-                            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                                return (Object) method.invoke(root, args);
-                            }
-                        });
+                    WebElement rootElement = GrapheneProxy.getProxyForTargetWithInterfaces(root, WebElement.class);
                     try {
                         boolean accessible = i.isAccessible();
                         if (!accessible) {
@@ -89,16 +83,12 @@ public class Factory {
 
                     final By findBy = getReferencedBy((FindBy) j);
 
-                    WebElement referencedElement = (WebElement) Proxy.newProxyInstance(WebElement.class.getClassLoader(),
-                        new Class<?>[] { WebElement.class, Locatable.class }, new InvocationHandler() {
-
-                            @Override
-                            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                                WebElement myElement = root.findElement(findBy);
-
-                                return method.invoke(myElement, args);
-                            }
-                        });
+                    WebElement referencedElement = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+                        @Override
+                        public Object getTarget() {
+                            return root.findElement(findBy);
+                        }
+                    }, WebElement.class);
 
                     try {
                         boolean accessible = i.isAccessible();

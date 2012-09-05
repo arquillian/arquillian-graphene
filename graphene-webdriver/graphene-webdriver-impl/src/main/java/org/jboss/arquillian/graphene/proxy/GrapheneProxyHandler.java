@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -120,7 +121,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
         if (method.equals(GrapheneProxyInstance.class.getMethod("copy"))) {
             GrapheneProxyInstance clone;
             if (this.future != null) {
-                clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForFutureTarget(this.future, this.getTarget().getClass());
+                clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(this.future.getTarget());
             } else {
                 clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(this.target);
             }
