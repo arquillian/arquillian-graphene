@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,27 +19,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene;
+package org.jboss.arquillian.graphene.component.object.api.table;
 
-import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
-import org.jboss.arquillian.graphene.enricher.PageFragmentsEnricher;
-import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
-import org.jboss.arquillian.test.spi.TestEnricher;
+import java.util.List;
 
 /**
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * <p>
+ * Represents the row of the table.
+ * </p>
+ * <p>
+ * It should be possible to determine the particular row either by the header or footer, but most often by the order number.
+ * Rows are indexed from 0.
+ * </p>
+ * 
+ * 
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * 
  */
-public class GrapheneExtension implements LoadableExtension {
+public interface Row {
 
-    @Override
-    public void register(ExtensionBuilder builder) {
-        /* Configurator */
-        builder.observer(GrapheneConfigurator.class);
-        /* Component Objects */
-        builder.service(TestEnricher.class, PageFragmentsEnricher.class);
-        /** Page Extensions */
-        builder.observer(GraphenePageExtensionRegistrar.class);
-    }
+    List<Cell<?>> getAllCells();
 
+    <T> Cell<T> getCell(Column<T> column);
+
+    /**
+     * Sets the number of columns you want to have in this particular row. It is useful for tables with lot of columns.
+     * 
+     * @param numberOfColumns
+     */
+    void setNumberOfColumns(int numberOfColumns);
 }

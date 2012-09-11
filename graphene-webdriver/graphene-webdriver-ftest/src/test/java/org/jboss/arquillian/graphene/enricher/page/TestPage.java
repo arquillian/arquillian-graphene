@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.graphene.enricher.page;
 
-import org.jboss.arquillian.graphene.enricher.AbstractComponentStub;
+import org.jboss.arquillian.graphene.enricher.AbstractPageFragmentStub;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -31,7 +31,7 @@ import org.openqa.selenium.support.FindBy;
 public class TestPage {
 
     @FindBy(xpath = "//div[@id='rootElement']")
-    private AbstractComponentStub abstractComponent;
+    private AbstractPageFragmentStub abstractPageFragment;
 
     @FindBy(xpath = "//div[@id='rootElement']")
     private WebElement element;
@@ -39,12 +39,12 @@ public class TestPage {
     @FindBy(xpath = "//input")
     private WebElement input;
 
-    public AbstractComponentStub getAbstractComponent() {
-        return abstractComponent;
+    public AbstractPageFragmentStub getAbstractPageFragment() {
+        return abstractPageFragment;
     }
 
-    public void setAbstractComponent(AbstractComponentStub abstractComponent) {
-        this.abstractComponent = abstractComponent;
+    public void setAbstractPageFragment(AbstractPageFragmentStub abstractPageFragment) {
+        this.abstractPageFragment = abstractPageFragment;
     }
 
     public WebElement getElement() {

@@ -35,25 +35,27 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Factory class for initializing the particular <code>Component</code>.
- *
+ * Factory class for initializing the particular <b>Page Fragment</b>.
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class Factory {
 
     /**
-     *
+     * Returns initialized Page Fragment of given type. It means that all fields annotated with <code>@FindBy</code> and
+     * <code>@Page</code> annotations are initialized properly.
+     * 
      * @param clazz
-     * @return
-     * @param <T> the final implementation of component
+     * @param <T> the implementation of Page Fragment
+     * @param the root element to set to the initialized Page Fragment
      */
-    public static <T> T initializeComponent(Class<T> clazz, final WebElement root) {
+    public static <T> T initializePageFragment(Class<T> clazz, final WebElement root) {
         if (root == null || clazz == null) {
             throw new IllegalArgumentException("Non of the parameters can be null!");
         }
 
-        T component = instantiateComponent(clazz);
+        T pageFragment = instantiatePageFragment(clazz);
 
         Field[] declaredFields = clazz.getDeclaredFields();
 
@@ -69,7 +71,7 @@ public class Factory {
                         if (!accessible) {
                             i.setAccessible(true);
                         }
-                        i.set(component, rootElement);
+                        i.set(pageFragment, rootElement);
                         if (!accessible) {
                             i.setAccessible(false);
                         }
@@ -95,7 +97,7 @@ public class Factory {
                         if (!accessible) {
                             i.setAccessible(true);
                         }
-                        i.set(component, referencedElement);
+                        i.set(pageFragment, referencedElement);
                         if (accessible) {
                             i.setAccessible(false);
                         }
@@ -107,10 +109,10 @@ public class Factory {
             }
         }
 
-        return component;
+        return pageFragment;
     }
 
-    public static <T> T instantiateComponent(Class<T> clazz) {
+    public static <T> T instantiatePageFragment(Class<T> clazz) {
         try {
             return clazz.newInstance();
         } catch (Exception e) {
