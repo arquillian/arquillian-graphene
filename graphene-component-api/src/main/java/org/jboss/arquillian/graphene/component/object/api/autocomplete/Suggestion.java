@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,27 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene;
+package org.jboss.arquillian.graphene.component.object.api.autocomplete;
 
-import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
-import org.jboss.arquillian.graphene.enricher.PageFragmentsEnricher;
-import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
-import org.jboss.arquillian.test.spi.TestEnricher;
+import java.util.List;
 
 /**
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * The suggestion provided by autocomplete function for particular input value.
+ * 
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class GrapheneExtension implements LoadableExtension {
+public interface Suggestion<T> {
 
-    @Override
-    public void register(ExtensionBuilder builder) {
-        /* Configurator */
-        builder.observer(GrapheneConfigurator.class);
-        /* Component Objects */
-        builder.service(TestEnricher.class, PageFragmentsEnricher.class);
-        /** Page Extensions */
-        builder.observer(GraphenePageExtensionRegistrar.class);
-    }
+    /**
+     * Returns the value of this suggestion.
+     * 
+     * @return
+     */
+    T getValue();
 
+    /**
+     * <p>
+     * Returns the list of inputs values, for which this suggestion was offered.
+     * </p>
+     * 
+     * @return
+     */
+    List<String> getInputs();
+
+    /**
+     * Sets input value for which this suggestion was returned.
+     * 
+     * @param value for which this suggestion was returned
+     */
+    void setInput(String value);
 }

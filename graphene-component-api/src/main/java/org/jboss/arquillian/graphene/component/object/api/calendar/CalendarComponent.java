@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,27 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene;
+package org.jboss.arquillian.graphene.component.object.api.calendar;
 
-import org.jboss.arquillian.core.spi.LoadableExtension;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
-import org.jboss.arquillian.graphene.enricher.PageFragmentsEnricher;
-import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
-import org.jboss.arquillian.test.spi.TestEnricher;
+import org.joda.time.DateTime;
 
 /**
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * Calendar component represents any type of calendar.
+ * 
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class GrapheneExtension implements LoadableExtension {
+public interface CalendarComponent {
 
-    @Override
-    public void register(ExtensionBuilder builder) {
-        /* Configurator */
-        builder.observer(GrapheneConfigurator.class);
-        /* Component Objects */
-        builder.service(TestEnricher.class, PageFragmentsEnricher.class);
-        /** Page Extensions */
-        builder.observer(GraphenePageExtensionRegistrar.class);
-    }
+    /**
+     * Returns the set date, that is the date which is in input after date setting.
+     * 
+     * @return the set date
+     */
+    DateTime getDateTime();
 
+    /**
+     * Sets the <code>dateTime</code>, that is it selects that date and also sets to the input.
+     * 
+     * @param dateTime the date to set
+     */
+    void gotoDateTime(DateTime dateTime);
 }

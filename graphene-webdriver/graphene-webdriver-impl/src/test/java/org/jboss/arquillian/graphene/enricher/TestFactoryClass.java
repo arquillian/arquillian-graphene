@@ -13,36 +13,36 @@ import org.openqa.selenium.WebElement;
 
 public class TestFactoryClass {
 
-    private AbstractComponentStub abstrComponentStub;
+    private AbstractPageFragmentStub abstrPageFragmentStub;
 
     private final String ROOT_METHOD_RETURN_VAL = "root";
     private final String REF_BY_CLASS_METHOD_RETURN_VAL = "refByClassName";
 
     @Before
     public void initializeMocks() {
-        abstrComponentStub = Factory.initializeComponent(AbstractComponentStub.class, createRoot());
+        abstrPageFragmentStub = Factory.initializePageFragment(AbstractPageFragmentStub.class, createRoot());
     }
 
     @Test
-    public void testInitializedComponentNotNull() {
-        assertNotNull("The initialized component can not be null!", abstrComponentStub);
+    public void testInitializedPageFragmentIsNotNull() {
+        assertNotNull("The initialized page fragment can not be null!", abstrPageFragmentStub);
     }
 
     @Test
     public void testIsRootInitialized() {
-        assertNotNull("Root should be initialized!", abstrComponentStub.getRootProxy());
+        assertNotNull("Root should be initialized!", abstrPageFragmentStub.getRootProxy());
     }
 
     @Test
     public void testMethodInvocationOnRoot() {
-        assertEquals("The return value of method invoked on root element is wrong!", abstrComponentStub.invokeMethodOnRoot(),
+        assertEquals("The return value of method invoked on root element is wrong!", abstrPageFragmentStub.invokeMethodOnRoot(),
             ROOT_METHOD_RETURN_VAL);
     }
 
     @Test
     public void testMethodInvocationOnReferencedElement() {
         assertEquals("The method onvoked on referenced element returned wrong value!",
-            abstrComponentStub.invokeMethodOnElementRefByClass(), REF_BY_CLASS_METHOD_RETURN_VAL);
+            abstrPageFragmentStub.invokeMethodOnElementRefByClass(), REF_BY_CLASS_METHOD_RETURN_VAL);
     }
 
     private WebElement createRoot() {
