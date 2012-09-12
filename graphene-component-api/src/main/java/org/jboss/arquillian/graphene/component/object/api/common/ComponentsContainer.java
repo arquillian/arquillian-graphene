@@ -30,8 +30,8 @@ import java.util.List;
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface ComponentsContainer<T> {
+public interface ComponentsContainer {
 
-    List<NestedElements<T>> getContent();
+    List<NestedElements<?>> getContent();
 
 }
