@@ -69,13 +69,6 @@
             <groupId>org.jboss.arquillian.config</groupId>
             <artifactId>arquillian-config-api</artifactId>
         </dependency>
-        
-        <!-- Page Fragments dependencies -->
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver-spi</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
