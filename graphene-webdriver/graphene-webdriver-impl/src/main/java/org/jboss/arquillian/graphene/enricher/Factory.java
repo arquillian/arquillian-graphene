@@ -35,34 +35,35 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Factory class for initializing the particular <b>Page Fragment</b>.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class Factory {
 
     /**
      * Returns initialized Page Fragment of given type. It means that all fields annotated with <code>@FindBy</code> and
      * <code>@Page</code> annotations are initialized properly.
-     *
+     * 
      * @param clazz
      * @param <T> the implementation of Page Fragment
      * @param the root element to set to the initialized Page Fragment
      */
     public static <T> T initializePageFragment(Class<T> clazz, final WebElement root) {
-        if (root == null || clazz == null) {
+        if (clazz == null) {
             throw new IllegalArgumentException("Non of the parameters can be null!");
         }
 
         T pageFragment = instantiatePageFragment(clazz);
 
         List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
-        if (fields.size() != 1) {
-            throw new IllegalArgumentException("The Page Fragment has to have exactly one field annotated with Root annotation!");
+        int fieldSize = fields.size();
+        if (fieldSize > 1) {
+            throw new IllegalArgumentException("The Page Fragment" + pageFragment.getClass()
+                + "can not have more than one field annotated with Root annotation! Your fields with @Root annotation: "
+                + fields);
         }
-
-        WebElement rootElement = GrapheneProxy.getProxyForTargetWithInterfaces(root, WebElement.class);
-        setObjectToField(fields.get(0), pageFragment, rootElement);
+        setObjectToField(fields.get(0), pageFragment, root);
 
         fields = ReflectionHelper.getFieldsWithAnnotation(clazz, FindBy.class);
         initNotPageFragmentsFields(fields, pageFragment, root);
@@ -80,9 +81,8 @@ public class Factory {
     }
 
     /**
-     * If the given root is null, the driver proxy is used for finding injected
-     * elements, otherwise the root element is used.
-     *
+     * If the given root is null, the driver proxy is used for finding injected elements, otherwise the root element is used.
+     * 
      * @param fields
      * @param object
      * @param root
@@ -111,10 +111,9 @@ public class Factory {
     }
 
     /**
-     * Sets up the proxy element for the given By instance. If the given root is
-     * null, driver proxy is used for finding the web element, otherwise the root
-     * element is used.
-     *
+     * Sets up the proxy element for the given By instance. If the given root is null, driver proxy is used for finding the web
+     * element, otherwise the root element is used.
+     * 
      * @param by
      * @param root
      * @return
