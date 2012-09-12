@@ -35,7 +35,7 @@ import org.jboss.arquillian.graphene.component.object.api.common.ComponentsConta
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface PopupComponent<T> extends ComponentsContainer<T> {
+public interface PopupComponent<T> extends ComponentsContainer {
 
     /**
      * Returns whether this popup is visible.
