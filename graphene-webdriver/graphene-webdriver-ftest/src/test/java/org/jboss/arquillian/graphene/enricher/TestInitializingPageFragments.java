@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
+import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.enricher.page.TestPage;
@@ -47,6 +48,9 @@ public class TestInitializingPageFragments {
 
     @FindBy(xpath = "//input")
     private WebElement input;
+
+    @FindBy(className = "divs")
+    private List<WebElement> divs;
 
     @Page
     private TestPage testPage;
@@ -91,5 +95,17 @@ public class TestInitializingPageFragments {
 
         assertEquals("The value of the input is wrong, the element which represents it was not initialised correctly!",
             input.getAttribute("value"), EXPECTED_VALUE);
+    }
+
+    @Test
+    public void testInitializeListOfWebElements() {
+        loadPage();
+        assertNotNull("The list of WebElements was not initialized correctly!", divs);
+
+        for (int i = 1; i <= 3; i++) {
+            WebElement div = divs.get(i - 1);
+            assertEquals("The WebElement number " + i + " from list was not initialized correctly!", String.valueOf(i),
+                div.getText());
+        }
     }
 }

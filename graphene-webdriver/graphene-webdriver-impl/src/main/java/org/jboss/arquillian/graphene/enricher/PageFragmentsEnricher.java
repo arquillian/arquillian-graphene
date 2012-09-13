@@ -39,9 +39,9 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class PageFragmentsEnricher implements TestEnricher {
 
@@ -113,9 +113,19 @@ public class PageFragmentsEnricher implements TestEnricher {
             FindBy findBy = i.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
-            WebElement element = setUpTheProxy(by);
-
-            setObjectToField(i, object, element);
+            Class<?> fieldType = i.getType();
+            
+            if (fieldType.equals(WebElement.class)) {
+                //it is plain WebElement field
+                WebElement element = setUpTheProxyForWebElement(by);
+                setObjectToField(i, object, element);
+                
+            } else if (fieldType.equals(List.class)) {
+                //it is List of WebElements
+                List<WebElement> elements = setUpTheProxyForListOfWebElements(by);
+                setObjectToField(i, object, elements);
+            }
+         
         }
     }
 
@@ -129,21 +139,35 @@ public class PageFragmentsEnricher implements TestEnricher {
             field.set(objectWithField, object);
         } catch (Exception e) {
             // TODO more grained
-            throw new RuntimeException("The Page Fragment field can not be initialised!", e);
+            throw new RuntimeException("The given object" + object + " can not be set to the field " + field
+                + " of the object which declares it: " + objectWithField + "!", e);
         }
         if (!accessible) {
             field.setAccessible(false);
         }
     }
 
-    private WebElement setUpTheProxy(final By by) {
+    private List<WebElement> setUpTheProxyForListOfWebElements(final By by) {
+        List<WebElement> elements = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+
+            @Override
+            public Object getTarget() {
+                WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
+                List<WebElement> elements = driver.findElements(by);
+                return elements;
+            }
+        }, List.class);
+        return elements;
+    }
+
+    private WebElement setUpTheProxyForWebElement(final By by) {
         WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
 
             @Override
             public Object getTarget() {
                 WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
-                WebElement root = driver.findElement(by);
-                return root;
+                WebElement element = driver.findElement(by);
+                return element;
             }
         }, WebElement.class);
         return e;
@@ -156,7 +180,7 @@ public class PageFragmentsEnricher implements TestEnricher {
             FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
-            WebElement rootElement = setUpTheProxy(by);
+            WebElement rootElement = setUpTheProxyForWebElement(by);
 
             // initialise Page Fragment
             Class<?> implementationClass = pageFragmentField.getType();
@@ -167,8 +191,8 @@ public class PageFragmentsEnricher implements TestEnricher {
     }
 
     /**
-     * It removes all fields with type <code>WebElement</code> from the given list of fields. 
-     *
+     * It removes all fields with type <code>WebElement</code> from the given list of fields.
+     * 
      * @param findByFields
      * @return
      */
@@ -181,6 +205,8 @@ public class PageFragmentsEnricher implements TestEnricher {
             Class<?> fieldType = field.getType();
 
             if (fieldType.equals(WebElement.class)) {
+                i.remove();
+            } else if (fieldType.equals(List.class)) {
                 i.remove();
             }
         }
