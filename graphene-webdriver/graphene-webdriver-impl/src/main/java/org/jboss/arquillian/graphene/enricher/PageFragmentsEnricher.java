@@ -90,7 +90,7 @@ public class PageFragmentsEnricher implements TestEnricher {
                 Class declaredClass = Class.forName(i.getGenericType().toString().split(" ")[1]);
                 Object page = declaredClass.newInstance();
 
-                initFieldsAnnotatedByFindBy(page);
+                enrich(page);
 
                 boolean accessible = i.isAccessible();
                 if (!accessible) {
