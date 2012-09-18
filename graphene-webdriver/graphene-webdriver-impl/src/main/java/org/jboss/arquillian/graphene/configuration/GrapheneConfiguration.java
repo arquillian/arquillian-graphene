@@ -21,10 +21,15 @@
  */
 package org.jboss.arquillian.graphene.configuration;
 
+import java.lang.annotation.Annotation;
+import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
+import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
+import org.jboss.arquillian.drone.spi.DroneConfiguration;
+
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class GrapheneConfiguration {
+public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfiguration> {
 
     private long waitAjaxInterval = 2;
 
@@ -54,6 +59,18 @@ public class GrapheneConfiguration {
         if (waitModelInterval <= 0) {
             throw new IllegalArgumentException("The waitModelInterval property has to be a positive number.");
         }
+    }
+
+    @Override
+    public String getConfigurationName() {
+        return "graphene";
+    }
+
+    @Override
+    public GrapheneConfiguration configure(ArquillianDescriptor descriptor, Class<? extends Annotation> qualifier) {
+        ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);
+        ConfigurationMapper.fromSystemConfiguration(this, qualifier);
+        return this;
     }
 
 }
