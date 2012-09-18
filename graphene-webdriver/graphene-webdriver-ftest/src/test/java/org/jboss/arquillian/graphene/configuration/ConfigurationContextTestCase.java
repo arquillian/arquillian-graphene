@@ -83,7 +83,7 @@ public class ConfigurationContextTestCase extends AbstractTestTestBase {
     }
 
     @Test
-    public void testConfigurationViaSystemProperties() {
+    public void testConfigurationViaDeprecatedSystemProperties() {
         try {
             getManager().bind(SuiteScoped.class, ArquillianDescriptor.class, descriptor);
             assertNotNull(getManager().resolve(ArquillianDescriptor.class));
