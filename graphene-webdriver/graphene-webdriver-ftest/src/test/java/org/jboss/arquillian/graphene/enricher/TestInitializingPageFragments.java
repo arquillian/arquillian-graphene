@@ -64,27 +64,27 @@ public class TestInitializingPageFragments {
         selenium.get(page.toExternalForm());
     }
 
-    //@Test
+    @Test
     public void testpageFragmentIsInitialized() {
         loadPage();
         assertNotNull("AbstractPageFragment should be initialised at this point!", abstractPageFragmentStub);
     }
 
-    //@Test
+    @Test
     public void testPageFragmentHasSetRootCorrectly() {
         loadPage();
         assertEquals("The root was not set correctly!", abstractPageFragmentStub.invokeMethodOnElementRefByXpath(),
             EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
-    //@Test
+    @Test
     public void testPageObjectInitialisedCorrectly() {
         loadPage();
         assertEquals("The page object was not set correctly!", testPage.getAbstractPageFragment()
             .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
-    //@Test
+    @Test
     public void testOtherWebElementsInitialisedCorrectly() {
         loadPage();
         String EXPECTED_VALUE = "Gooseka";
