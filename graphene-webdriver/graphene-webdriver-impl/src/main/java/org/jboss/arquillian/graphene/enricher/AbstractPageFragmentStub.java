@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import java.util.List;
+
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -58,6 +60,9 @@ public class AbstractPageFragmentStub {
 
     @FindBy(css = "cssSelectorRef")
     private WebElement locatorRefByCssSelector;
+    
+    @FindBy(className="divs")
+    private List<WebElement> divs;
 
     public String invokeMethodOnRoot() {
         return root.getText();
@@ -161,6 +166,14 @@ public class AbstractPageFragmentStub {
 
     public void setLocatorRefByCssSelector(WebElement locatorRefByCssSelector) {
         this.locatorRefByCssSelector = locatorRefByCssSelector;
+    }
+
+    public List<WebElement> getDivs() {
+        return divs;
+    }
+
+    public void setDivs(List<WebElement> divs) {
+        this.divs = divs;
     }
 
 }

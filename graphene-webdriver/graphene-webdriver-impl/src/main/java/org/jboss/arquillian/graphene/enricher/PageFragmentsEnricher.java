@@ -27,13 +27,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.By;
-import org.openqa.selenium.HasInputDevices;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -79,7 +75,7 @@ public class PageFragmentsEnricher implements TestEnricher {
 
         // initialize other non Page Fragment fields annotated with FindBy
         copy.removeAll(fields);
-        initNotPageFragmentsFields(copy, object);
+        Factory.initNotPageFragmentsFields(copy, object);
     }
 
     private void initializePageObjectFields(Object testCase, List<Field> fields) {
@@ -106,73 +102,6 @@ public class PageFragmentsEnricher implements TestEnricher {
         }
     }
 
-    private void initNotPageFragmentsFields(List<Field> fields, Object object) {
-
-        for (Field i : fields) {
-
-            FindBy findBy = i.getAnnotation(FindBy.class);
-            final By by = Factory.getReferencedBy(findBy);
-
-            Class<?> fieldType = i.getType();
-            
-            if (fieldType.equals(WebElement.class)) {
-                //it is plain WebElement field
-                WebElement element = setUpTheProxyForWebElement(by);
-                setObjectToField(i, object, element);
-                
-            } else if (fieldType.equals(List.class)) {
-                //it is List of WebElements
-                List<WebElement> elements = setUpTheProxyForListOfWebElements(by);
-                setObjectToField(i, object, elements);
-            }
-         
-        }
-    }
-
-    private void setObjectToField(Field field, Object objectWithField, Object object) {
-
-        boolean accessible = field.isAccessible();
-        if (!accessible) {
-            field.setAccessible(true);
-        }
-        try {
-            field.set(objectWithField, object);
-        } catch (Exception e) {
-            // TODO more grained
-            throw new RuntimeException("The given object" + object + " can not be set to the field " + field
-                + " of the object which declares it: " + objectWithField + "!", e);
-        }
-        if (!accessible) {
-            field.setAccessible(false);
-        }
-    }
-
-    private List<WebElement> setUpTheProxyForListOfWebElements(final By by) {
-        List<WebElement> elements = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
-
-            @Override
-            public Object getTarget() {
-                WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
-                List<WebElement> elements = driver.findElements(by);
-                return elements;
-            }
-        }, List.class);
-        return elements;
-    }
-
-    private WebElement setUpTheProxyForWebElement(final By by) {
-        WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
-
-            @Override
-            public Object getTarget() {
-                WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
-                WebElement element = driver.findElement(by);
-                return element;
-            }
-        }, WebElement.class);
-        return e;
-    }
-
     private void initPageFragmentsFields(List<Field> fields, Object object) {
         for (Field pageFragmentField : fields) {
 
@@ -180,13 +109,13 @@ public class PageFragmentsEnricher implements TestEnricher {
             FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
-            WebElement rootElement = setUpTheProxyForWebElement(by);
+            WebElement rootElement = Factory.setUpTheProxyForWebElement(by);
 
             // initialise Page Fragment
             Class<?> implementationClass = pageFragmentField.getType();
             Object pageFragment = Factory.initializePageFragment(implementationClass, rootElement);
 
-            setObjectToField(pageFragmentField, object, pageFragment);
+            Factory.setObjectToField(pageFragmentField, object, pageFragment);
         }
     }
 
