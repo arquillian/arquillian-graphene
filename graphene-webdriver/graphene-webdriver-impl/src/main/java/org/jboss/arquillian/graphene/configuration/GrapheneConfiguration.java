@@ -68,9 +68,7 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
 
     @Override
     public GrapheneConfiguration configure(ArquillianDescriptor descriptor, Class<? extends Annotation> qualifier) {
-        ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);
-        ConfigurationMapper.fromSystemConfiguration(this, qualifier);
-        return this;
+        return ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);
     }
 
 }

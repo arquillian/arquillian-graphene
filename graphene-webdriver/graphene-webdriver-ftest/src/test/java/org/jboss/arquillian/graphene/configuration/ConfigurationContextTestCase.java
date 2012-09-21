@@ -82,31 +82,6 @@ public class ConfigurationContextTestCase extends AbstractTestTestBase {
         assertEventFired(GrapheneUnconfigured.class);
     }
 
-    @Test
-    public void testConfigurationViaDeprecatedSystemProperties() {
-        try {
-            getManager().bind(SuiteScoped.class, ArquillianDescriptor.class, descriptor);
-            assertNotNull(getManager().resolve(ArquillianDescriptor.class));
-            System.setProperty("arquillian.graphene.wait.gui.interval", "10");
-            System.setProperty("arquillian.graphene.wait.ajax.interval", "100");
-            System.setProperty("arquillian.graphene.wait.model.interval", "1000");
-            fire(new BeforeClass(Object.class));
-            assertEventFired(GrapheneConfigured.class);
-            assertNotNull(getManager().resolve(GrapheneConfiguration.class));
-            GrapheneConfigurationContext.getProxy().validate();
-            assertEquals("'waitGuiInterval' should be 10", 10, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
-            assertEquals("'waitAjaxInterval' should be 100", 100, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
-            assertEquals("'waitModelInterval' should be 1000", 1000, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
-            fire(new AfterClass(Object.class));
-            assertEventFired(GrapheneUnconfigured.class);
-        } finally {
-            System.clearProperty("arquillian.graphene.wait.gui.interval");
-            System.clearProperty("arquillian.graphene.wait.ajax.interval");
-            System.clearProperty("arquillian.graphene.wait.model.interval");
-        }
-
-    }
-
     @Override
     protected void addExtensions(List<Class<?>> extensions) {
         extensions.add(GrapheneConfigurator.class);
