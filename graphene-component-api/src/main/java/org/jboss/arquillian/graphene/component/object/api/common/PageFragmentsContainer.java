@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.graphene.component.object.api.common;
 
-import java.util.List;
 
 /**
  * PageFragments represents a container for Page Fragments, in other words a page fragment which can contain other page
@@ -30,8 +29,8 @@ import java.util.List;
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface ComponentsContainer {
+public interface PageFragmentsContainer<T> {
 
-    List<NestedElements<?>> getContent();
+    T getContent();
 
 }

@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.graphene.component.object.api.table;
 
-import org.jboss.arquillian.graphene.component.object.api.common.ComponentsContainer;
+import org.jboss.arquillian.graphene.component.object.api.common.PageFragmentsContainer;
 
 /**
  * Represents one particular cell of the table.
@@ -29,7 +29,7 @@ import org.jboss.arquillian.graphene.component.object.api.common.ComponentsConta
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface Cell<T> extends ComponentsContainer {
+public interface Cell<T> extends PageFragmentsContainer<T> {
 
     Row whichRow();
 

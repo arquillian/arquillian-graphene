@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.graphene.component.object.api.popup;
 
-import org.jboss.arquillian.graphene.component.object.api.common.ComponentsContainer;
+import org.jboss.arquillian.graphene.component.object.api.common.PageFragmentsContainer;
 
 /**
  * <p>
@@ -35,7 +35,7 @@ import org.jboss.arquillian.graphene.component.object.api.common.ComponentsConta
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * 
  */
-public interface PopupComponent<T> extends ComponentsContainer {
+public interface PopupComponent<T> extends PageFragmentsContainer<T> {
 
     /**
      * Returns whether this popup is visible.
