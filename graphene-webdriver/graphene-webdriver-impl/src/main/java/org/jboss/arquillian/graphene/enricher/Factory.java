@@ -57,8 +57,8 @@ public class Factory {
         T pageFragment = instantiatePageFragment(clazz);
 
         List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
-        if (fields.size() > 1) {
-            throw new IllegalArgumentException("The Page Fragment can have only one field annotated with Root annotation!");
+        if (fields.size() != 1) {
+            throw new IllegalArgumentException("The Page Fragment has to have exactly one field annotated with Root annotation!");
         }
         
         WebElement rootElement = GrapheneProxy.getProxyForTargetWithInterfaces(root, WebElement.class);
