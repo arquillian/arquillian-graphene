@@ -25,16 +25,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
+import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.page.EmbeddedPage;
 import org.jboss.arquillian.graphene.enricher.page.TestPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -49,6 +53,9 @@ public class TestInitializingPageFragments {
     @FindBy(xpath = "//input")
     private WebElement input;
 
+    @FindBy(className = "divs")
+    private List<WebElement> divs;
+
     @Page
     private TestPage testPage;
 
@@ -59,7 +66,7 @@ public class TestInitializingPageFragments {
 
     public void loadPage() {
         URL page = this.getClass().getClassLoader()
-            .getResource("org/jboss/arquillian/graphene/ftest/pageFragmentsEnricher/sample.html");
+                .getResource("org/jboss/arquillian/graphene/ftest/pageFragmentsEnricher/sample.html");
 
         selenium.get(page.toExternalForm());
     }
@@ -74,14 +81,14 @@ public class TestInitializingPageFragments {
     public void testPageFragmentHasSetRootCorrectly() {
         loadPage();
         assertEquals("The root was not set correctly!", abstractPageFragmentStub.invokeMethodOnElementRefByXpath(),
-            EXPECTED_NESTED_ELEMENT_TEXT);
+                EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testPageObjectInitialisedCorrectly() {
         loadPage();
         assertEquals("The page object was not set correctly!", testPage.getAbstractPageFragment()
-            .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
+                .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
@@ -91,14 +98,55 @@ public class TestInitializingPageFragments {
         input.sendKeys(EXPECTED_VALUE);
 
         assertEquals("The value of the input is wrong, the element which represents it was not initialised correctly!",
-            input.getAttribute("value"), EXPECTED_VALUE);
+                input.getAttribute("value"), EXPECTED_VALUE);
     }
 
-    // this should be moved to TestInitializingPageObjects test class, which is already in another pull request
     @Test
     public void testEmbeddedPageObjectInitializedCorrectly() {
         loadPage();
         assertEquals("The embedded page was not initialized correctly!", EmbeddedPage.EXPECTED_TEXT_OF_EMBEDDED_ELEM, testPage
-            .getEmbeddedPage().invokeMethodOnEmbeddedElement());
+                .getEmbeddedPage().invokeMethodOnEmbeddedElement());
+    }
+
+    @Test
+    public void testInitializeListOfWebElementsInjectedToTests() {
+        loadPage();
+
+        checkInitializationOfWebElements(divs);
+    }
+
+    @Test
+    public void testInitializeListOfWebElementsInjectedToPageFragments() {
+        loadPage();
+
+        checkInitializationOfWebElements(abstractPageFragmentStub.getDivs());
+    }
+
+    private void checkInitializationOfWebElements(List<WebElement> webElements) {
+        assertNotNull("The list of WebElements was not initialized correctly!", webElements);
+
+        for (int i = 1; i <= 3; i++) {
+            WebElement webElement = webElements.get(i - 1);
+            assertEquals("The WebElement number " + i + " from list was not initialized correctly!", String.valueOf(i),
+                    webElement.getText());
+        }
+
+    }
+
+    @Test
+    public void testSupportForAdvancedActions() {
+        WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
+        Actions builder = new Actions(driver);
+
+        // following tests usage of Actions with injected plain WebElement
+        builder.click(input);
+        // following with List<WebElement>
+        builder.click(divs.get(0));
+        // following with WebElements from Page Fragments
+        builder.click(abstractPageFragmentStub.getLocatorRefByXPath());
+        // following with List of WebElements from Page Fragments
+        builder.click(abstractPageFragmentStub.getDivs().get(0));
+
+        builder.perform();
     }
 }

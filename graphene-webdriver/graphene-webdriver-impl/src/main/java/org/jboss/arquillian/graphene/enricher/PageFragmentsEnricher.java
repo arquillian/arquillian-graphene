@@ -27,21 +27,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.By;
-import org.openqa.selenium.HasInputDevices;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class PageFragmentsEnricher implements TestEnricher {
 
@@ -79,7 +75,7 @@ public class PageFragmentsEnricher implements TestEnricher {
 
         // initialize other non Page Fragment fields annotated with FindBy
         copy.removeAll(fields);
-        initNotPageFragmentsFields(copy, object);
+        Factory.initNotPageFragmentsFields(copy, object);
     }
 
     private void initializePageObjectFields(Object testCase, List<Field> fields) {
@@ -106,49 +102,6 @@ public class PageFragmentsEnricher implements TestEnricher {
         }
     }
 
-    private void initNotPageFragmentsFields(List<Field> fields, Object object) {
-
-        for (Field i : fields) {
-
-            FindBy findBy = i.getAnnotation(FindBy.class);
-            final By by = Factory.getReferencedBy(findBy);
-
-            WebElement element = setUpTheProxy(by);
-
-            setObjectToField(i, object, element);
-        }
-    }
-
-    private void setObjectToField(Field field, Object objectWithField, Object object) {
-
-        boolean accessible = field.isAccessible();
-        if (!accessible) {
-            field.setAccessible(true);
-        }
-        try {
-            field.set(objectWithField, object);
-        } catch (Exception e) {
-            // TODO more grained
-            throw new RuntimeException("The Page Fragment field can not be initialised!", e);
-        }
-        if (!accessible) {
-            field.setAccessible(false);
-        }
-    }
-
-    private WebElement setUpTheProxy(final By by) {
-        WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
-
-            @Override
-            public Object getTarget() {
-                WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
-                WebElement root = driver.findElement(by);
-                return root;
-            }
-        }, WebElement.class);
-        return e;
-    }
-
     private void initPageFragmentsFields(List<Field> fields, Object object) {
         for (Field pageFragmentField : fields) {
 
@@ -156,19 +109,19 @@ public class PageFragmentsEnricher implements TestEnricher {
             FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
-            WebElement rootElement = setUpTheProxy(by);
+            WebElement rootElement = Factory.setUpTheProxyForWebElement(by);
 
             // initialise Page Fragment
             Class<?> implementationClass = pageFragmentField.getType();
             Object pageFragment = Factory.initializePageFragment(implementationClass, rootElement);
 
-            setObjectToField(pageFragmentField, object, pageFragment);
+            Factory.setObjectToField(pageFragmentField, object, pageFragment);
         }
     }
 
     /**
-     * It removes all fields with type <code>WebElement</code> from the given list of fields. 
-     *
+     * It removes all fields with type <code>WebElement</code> from the given list of fields.
+     * 
      * @param findByFields
      * @return
      */
@@ -181,6 +134,8 @@ public class PageFragmentsEnricher implements TestEnricher {
             Class<?> fieldType = field.getType();
 
             if (fieldType.equals(WebElement.class)) {
+                i.remove();
+            } else if (fieldType.equals(List.class)) {
                 i.remove();
             }
         }

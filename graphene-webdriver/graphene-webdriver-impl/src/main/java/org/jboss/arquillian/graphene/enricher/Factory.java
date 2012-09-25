@@ -21,15 +21,14 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import java.util.List;
 
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
@@ -57,57 +56,16 @@ public class Factory {
 
         T pageFragment = instantiatePageFragment(clazz);
 
-        Field[] declaredFields = clazz.getDeclaredFields();
-
-        for (Field i : declaredFields) {
-
-            Annotation[] annotations = i.getAnnotations();
-            for (Annotation j : annotations) {
-
-                if (j instanceof Root) {
-                    WebElement rootElement = GrapheneProxy.getProxyForTargetWithInterfaces(root, WebElement.class);
-                    try {
-                        boolean accessible = i.isAccessible();
-                        if (!accessible) {
-                            i.setAccessible(true);
-                        }
-                        i.set(pageFragment, rootElement);
-                        if (!accessible) {
-                            i.setAccessible(false);
-                        }
-                    } catch (Exception e) {
-                        // TODO more detailed
-                        throw new IllegalStateException("cannot set root element");
-                    }
-                }
-
-                if (j instanceof FindBy) {
-
-                    final By findBy = getReferencedBy((FindBy) j);
-
-                    WebElement referencedElement = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
-                        @Override
-                        public Object getTarget() {
-                            return root.findElement(findBy);
-                        }
-                    }, WebElement.class);
-
-                    try {
-                        boolean accessible = i.isAccessible();
-                        if (!accessible) {
-                            i.setAccessible(true);
-                        }
-                        i.set(pageFragment, referencedElement);
-                        if (accessible) {
-                            i.setAccessible(false);
-                        }
-                    } catch (Exception e) {
-                        // TODO more detailed
-                        throw new IllegalStateException("cannot set referenced element!");
-                    }
-                }
-            }
+        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
+        if (fields.size() != 1) {
+            throw new IllegalArgumentException("The Page Fragment has to have exactly one field annotated with Root annotation!");
         }
+        
+        WebElement rootElement = GrapheneProxy.getProxyForTargetWithInterfaces(root, WebElement.class);
+        setObjectToField(fields.get(0), pageFragment, rootElement);
+        
+        fields = ReflectionHelper.getFieldsWithAnnotation(clazz, FindBy.class);
+        initNotPageFragmentsFields(fields, pageFragment);
 
         return pageFragment;
     }
@@ -119,6 +77,74 @@ public class Factory {
             // TODO: handle exception
             throw new IllegalArgumentException(e);
         }
+    }
+
+    public static void initNotPageFragmentsFields(List<Field> fields, Object object) {
+
+        for (Field i : fields) {
+
+            FindBy findBy = i.getAnnotation(FindBy.class);
+            final By by = Factory.getReferencedBy(findBy);
+
+            Class<?> fieldType = i.getType();
+
+            if (fieldType.equals(WebElement.class)) {
+                // it is plain WebElement field
+                WebElement element = setUpTheProxyForWebElement(by);
+                setObjectToField(i, object, element);
+
+            } else if (fieldType.equals(List.class)) {
+                // it is List of WebElements
+                List<WebElement> elements = setUpTheProxyForListOfWebElements(by);
+                setObjectToField(i, object, elements);
+            }
+
+        }
+    }
+
+    public static WebElement setUpTheProxyForWebElement(final By by) {
+        // proxy for WebElement should implement also Locatable.class to be usable with org.openqa.selenium.interactions.Actions
+        WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+
+            @Override
+            public Object getTarget() {
+                WebDriver driver = GrapheneContext.getProxy();
+                WebElement element = driver.findElement(by);
+                return element;
+            }
+        }, WebElement.class, Locatable.class);
+        return e;
+    }
+
+    public static void setObjectToField(Field field, Object objectWithField, Object object) {
+
+        boolean accessible = field.isAccessible();
+        if (!accessible) {
+            field.setAccessible(true);
+        }
+        try {
+            field.set(objectWithField, object);
+        } catch (Exception e) {
+            // TODO more grained
+            throw new RuntimeException("The given object" + object + " can not be set to the field " + field
+                + " of the object which declares it: " + objectWithField + "!", e);
+        }
+        if (!accessible) {
+            field.setAccessible(false);
+        }
+    }
+
+    public static List<WebElement> setUpTheProxyForListOfWebElements(final By by) {
+        List<WebElement> elements = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+
+            @Override
+            public Object getTarget() {
+                WebDriver driver = GrapheneContext.getProxy();
+                List<WebElement> elements = driver.findElements(by);
+                return elements;
+            }
+        }, List.class);
+        return elements;
     }
 
     /*
