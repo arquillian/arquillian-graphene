@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene.context;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyUtil;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
+import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -105,7 +106,7 @@ public final class GrapheneContext {
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static WebDriver getProxy() {
-        return GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class, JavascriptExecutor.class);
+        return GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class, JavascriptExecutor.class, HasInputDevices.class);
     }
 
     /**
