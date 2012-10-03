@@ -35,16 +35,16 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Factory class for initializing the particular <b>Page Fragment</b>.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class Factory {
 
     /**
      * Returns initialized Page Fragment of given type. It means that all fields annotated with <code>@FindBy</code> and
      * <code>@Page</code> annotations are initialized properly.
-     * 
+     *
      * @param clazz
      * @param <T> the implementation of Page Fragment
      * @param the root element to set to the initialized Page Fragment
@@ -60,12 +60,12 @@ public class Factory {
         if (fields.size() != 1) {
             throw new IllegalArgumentException("The Page Fragment has to have exactly one field annotated with Root annotation!");
         }
-        
+
         WebElement rootElement = GrapheneProxy.getProxyForTargetWithInterfaces(root, WebElement.class);
         setObjectToField(fields.get(0), pageFragment, rootElement);
-        
+
         fields = ReflectionHelper.getFieldsWithAnnotation(clazz, FindBy.class);
-        initNotPageFragmentsFields(fields, pageFragment);
+        initNotPageFragmentsFields(fields, pageFragment, root);
 
         return pageFragment;
     }
@@ -79,7 +79,15 @@ public class Factory {
         }
     }
 
-    public static void initNotPageFragmentsFields(List<Field> fields, Object object) {
+    /**
+     * If the given root is null, the driver proxy is used for finding injected
+     * elements, otherwise the root element is used.
+     *
+     * @param fields
+     * @param object
+     * @param root
+     */
+    public static void initNotPageFragmentsFields(List<Field> fields, Object object, WebElement root) {
 
         for (Field i : fields) {
 
@@ -90,7 +98,7 @@ public class Factory {
 
             if (fieldType.equals(WebElement.class)) {
                 // it is plain WebElement field
-                WebElement element = setUpTheProxyForWebElement(by);
+                WebElement element = setUpTheProxyForWebElement(by, root);
                 setObjectToField(i, object, element);
 
             } else if (fieldType.equals(List.class)) {
@@ -102,14 +110,23 @@ public class Factory {
         }
     }
 
-    public static WebElement setUpTheProxyForWebElement(final By by) {
+    /**
+     * Sets up the proxy element for the given By instance. If the given root is
+     * null, driver proxy is used for finding the web element, otherwise the root
+     * element is used.
+     *
+     * @param by
+     * @param root
+     * @return
+     */
+    public static WebElement setUpTheProxyForWebElement(final By by, final WebElement root) {
         // proxy for WebElement should implement also Locatable.class to be usable with org.openqa.selenium.interactions.Actions
         WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
 
             @Override
             public Object getTarget() {
                 WebDriver driver = GrapheneContext.getProxy();
-                WebElement element = driver.findElement(by);
+                WebElement element = root == null ? driver.findElement(by) : root.findElement(by);
                 return element;
             }
         }, WebElement.class, Locatable.class);
