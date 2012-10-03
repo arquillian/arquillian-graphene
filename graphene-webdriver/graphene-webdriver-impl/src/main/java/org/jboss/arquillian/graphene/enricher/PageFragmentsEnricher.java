@@ -35,9 +35,9 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class PageFragmentsEnricher implements TestEnricher {
 
@@ -75,7 +75,7 @@ public class PageFragmentsEnricher implements TestEnricher {
 
         // initialize other non Page Fragment fields annotated with FindBy
         copy.removeAll(fields);
-        Factory.initNotPageFragmentsFields(copy, object);
+        Factory.initNotPageFragmentsFields(copy, object, null);
     }
 
     private void initializePageObjectFields(Object testCase, List<Field> fields) {
@@ -109,7 +109,7 @@ public class PageFragmentsEnricher implements TestEnricher {
             FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
-            WebElement rootElement = Factory.setUpTheProxyForWebElement(by);
+            WebElement rootElement = Factory.setUpTheProxyForWebElement(by, null);
 
             // initialise Page Fragment
             Class<?> implementationClass = pageFragmentField.getType();
@@ -121,7 +121,7 @@ public class PageFragmentsEnricher implements TestEnricher {
 
     /**
      * It removes all fields with type <code>WebElement</code> from the given list of fields.
-     * 
+     *
      * @param findByFields
      * @return
      */
