@@ -23,7 +23,11 @@ package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -35,9 +39,9 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class PageFragmentsEnricher implements TestEnricher {
 
@@ -83,23 +87,61 @@ public class PageFragmentsEnricher implements TestEnricher {
         for (Field i : fields) {
 
             try {
-                Class declaredClass = Class.forName(i.getGenericType().toString().split(" ")[1]);
-                Object page = declaredClass.newInstance();
+                Type type = i.getGenericType();
+                Object page = null;
+
+                // check whether it is type variable e.g. T
+                if (type instanceof TypeVariable) {
+
+                    page = getActualType(i, testCase).newInstance();
+                } else {
+                    // no it is normal type, e.g. TestPage
+                    Class<?> declaredClass = i.getType();
+
+                    page = declaredClass.newInstance();
+                }
 
                 enrich(page);
 
-                boolean accessible = i.isAccessible();
-                if (!accessible) {
-                    i.setAccessible(true);
-                }
-                i.set(testCase, page);
-                if (!accessible) {
-                    i.setAccessible(false);
-                }
+                Factory.setObjectToField(i, testCase, page);
+
             } catch (Exception ex) {
                 throw new RuntimeException("Can not initialise Page Object!");
             }
         }
+    }
+
+    private Class<?> getActualType(Field i, Object testCase) {
+
+        // e.g. TestPage, HomePage
+        Type[] superClassActualTypeArguments = getSuperClassActualTypeArguments(testCase);
+        // e.g. T, E
+        TypeVariable<?>[] superClassTypeParameters = getSuperClassTypeParameters(testCase);
+
+        // the type parameter has the same index as the actual type
+        String fieldParameterTypeName = i.getGenericType().toString();
+
+        int index = Arrays.asList(superClassTypeParameters).indexOf(fieldParameterTypeName);
+        for (index = 0; index < superClassTypeParameters.length; index++) {
+            String superClassTypeParameterName = superClassTypeParameters[index].getName();
+            if (fieldParameterTypeName.equals(superClassTypeParameterName)) {
+                break;
+            }
+        }
+
+        return (Class<?>) superClassActualTypeArguments[index];
+    }
+
+    private Type[] getSuperClassActualTypeArguments(Object testCase) {
+        Type[] actualTypeArguemnts = ((ParameterizedType) testCase.getClass().getGenericSuperclass()).getActualTypeArguments();
+
+        return actualTypeArguemnts;
+    }
+
+    private TypeVariable<?>[] getSuperClassTypeParameters(Object testCase) {
+        TypeVariable<?>[] typeParameters = testCase.getClass().getSuperclass().getTypeParameters();
+
+        return typeParameters;
     }
 
     private void initPageFragmentsFields(List<Field> fields, Object object) {
@@ -121,7 +163,7 @@ public class PageFragmentsEnricher implements TestEnricher {
 
     /**
      * It removes all fields with type <code>WebElement</code> from the given list of fields.
-     *
+     * 
      * @param findByFields
      * @return
      */
