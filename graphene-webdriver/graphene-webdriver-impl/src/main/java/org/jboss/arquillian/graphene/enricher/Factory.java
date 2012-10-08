@@ -45,28 +45,31 @@ public class Factory {
      * Returns initialized Page Fragment of given type. It means that all fields annotated with <code>@FindBy</code> and
      * <code>@Page</code> annotations are initialized properly.
      * 
-     * @param clazz
-     * @param <T> the implementation of Page Fragment
-     * @param the root element to set to the initialized Page Fragment
+     * @param clazzOfPageFragment the class of concrete Page Fragment implementation which will be initialized
+     * @param rootOfPageFragment the root of the Page Fragment to reference its parts from it
+     * @return properly initialized page fragment
      */
-    public static <T> T initializePageFragment(Class<T> clazz, final WebElement root) {
-        if (clazz == null) {
-            throw new IllegalArgumentException("Non of the parameters can be null!");
+    public static <T> T initializePageFragment(Class<T> clazzOfPageFragment, final WebElement rootOfPageFragment) {
+        if (rootOfPageFragment == null || clazzOfPageFragment == null) {
+            throw new IllegalArgumentException("Non of the parameters can be null! Your parameters: " + clazzOfPageFragment
+                + ", " + rootOfPageFragment);
         }
 
-        T pageFragment = instantiatePageFragment(clazz);
+        T pageFragment = instantiatePageFragment(clazzOfPageFragment);
 
-        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
+        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(clazzOfPageFragment, Root.class);
         int fieldSize = fields.size();
         if (fieldSize > 1) {
-            throw new IllegalArgumentException("The Page Fragment" + pageFragment.getClass()
-                + "can not have more than one field annotated with Root annotation! Your fields with @Root annotation: "
+            throw new IllegalArgumentException("The Page Fragment " + pageFragment.getClass()
+                + " can not have more than one field annotated with Root annotation! Your fields with @Root annotation: "
                 + fields);
         }
-        setObjectToField(fields.get(0), pageFragment, root);
+        if (fieldSize == 1) {
+            setObjectToField(fields.get(0), pageFragment, rootOfPageFragment);
+        }
 
-        fields = ReflectionHelper.getFieldsWithAnnotation(clazz, FindBy.class);
-        initNotPageFragmentsFields(fields, pageFragment, root);
+        fields = ReflectionHelper.getFieldsWithAnnotation(clazzOfPageFragment, FindBy.class);
+        initNotPageFragmentsFields(fields, pageFragment, rootOfPageFragment);
 
         return pageFragment;
     }

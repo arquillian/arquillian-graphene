@@ -144,20 +144,34 @@ public class PageFragmentsEnricher implements TestEnricher {
         return typeParameters;
     }
 
-    private void initPageFragmentsFields(List<Field> fields, Object object) {
+    private void initPageFragmentsFields(List<Field> fields, Object objectToSetPageFragment) {
         for (Field pageFragmentField : fields) {
 
-            // sets the root of the Page Fragment, retrieved from annotation
+            Class<?> implementationClass = pageFragmentField.getType();
+
+            String errorMsgBegin = "The Page Fragment: " + implementationClass + " declared in "
+                + objectToSetPageFragment.getClass() + " can not be initialized properly. The possible reason is: ";
+
             FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
             final By by = Factory.getReferencedBy(findBy);
 
+            if (by == null) {
+                throw new IllegalArgumentException(errorMsgBegin
+                    + "Your declaration of Page Fragment in tests is annotated with @FindBy without any "
+                    + "parameters, in other words without reference to root of the particular Page Fragment on the page!");
+            }
+
             WebElement rootElement = Factory.setUpTheProxyForWebElement(by, null);
 
-            // initialise Page Fragment
-            Class<?> implementationClass = pageFragmentField.getType();
-            Object pageFragment = Factory.initializePageFragment(implementationClass, rootElement);
+            Object pageFragment = null;
+            try {
+                pageFragment = Factory.initializePageFragment(implementationClass, rootElement);
 
-            Factory.setObjectToField(pageFragmentField, object, pageFragment);
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalArgumentException(errorMsgBegin + ex.getMessage(), ex);
+            }
+
+            Factory.setObjectToField(pageFragmentField, objectToSetPageFragment, pageFragment);
         }
     }
 

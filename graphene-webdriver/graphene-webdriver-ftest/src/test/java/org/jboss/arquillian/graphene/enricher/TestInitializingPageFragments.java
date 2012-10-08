@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
 import org.jboss.arquillian.graphene.enricher.page.EmbeddedPage;
 import org.jboss.arquillian.graphene.enricher.page.TestPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
