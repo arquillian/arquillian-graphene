@@ -5,13 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.anyString;
 
+import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class TestFactoryClass {
+public class TestInitializePageFragment {
 
     private AbstractPageFragmentStub abstrPageFragmentStub;
 

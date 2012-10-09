@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.fragment;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class AbstractPageFragmentStub {
 
     @Root
     private WebElement root;
-
+    
     @FindBy(className = "classNameRef")
     private WebElement locatorRefByClassName;
 

@@ -1,6 +1,6 @@
 package org.jboss.arquillian.graphene.enricher.page;
 
-import org.jboss.arquillian.graphene.enricher.AbstractPageFragmentStub;
+import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
