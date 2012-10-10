@@ -47,6 +47,8 @@ public class GuardsTestCase {
     private WebElement none;
     @FindBy(id="xhr")
     private WebElement xhr;
+    @FindBy(id="xhr-delayed")
+    private WebElement xhrDelayed;
 
     private Page page;
 
@@ -57,6 +59,8 @@ public class GuardsTestCase {
         private WebElement none;
         @FindBy(id="xhr")
         private WebElement xhr;
+        @FindBy(id="xhr-delayed")
+        private WebElement xhrDelayed;
     }
 
     @Drone
@@ -67,6 +71,30 @@ public class GuardsTestCase {
         browser.get(url.toString());
         page = new Page();
         PageFactory.initElements(browser, page);
+    }
+
+    @Test(expected=RequestGuardException.class)
+    public void testDelayedGuardNoRequest() {
+        loadPage();
+        Graphene.guardNoRequest(browser.findElement(By.id("xhr-delayed"))).click();
+    }
+
+    @Test
+    public void testDelayedGuardXhr() {
+        loadPage();
+        Graphene.guardXhr(browser.findElement(By.id("xhr-delayed"))).click();
+    }
+
+    @Test
+    public void testDelayedGuardXhrInjectedByGraphene() {
+        loadPage();
+        Graphene.guardXhr(xhrDelayed).click();
+    }
+
+    @Test
+    public void testDelayedGuardXhrInjectedBySelenium() {
+        loadPage();
+        Graphene.guardXhr(page.xhrDelayed).click();
     }
 
     @Test
