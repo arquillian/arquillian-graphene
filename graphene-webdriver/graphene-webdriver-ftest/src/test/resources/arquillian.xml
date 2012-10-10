@@ -29,7 +29,7 @@
         <property name="browserCapabilities">${browser}</property>
         <property name="remoteReusable">${remoteReusable}</property>
         <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
-        <property name="useJavaScript">true</property>
+        <property name="javascriptEnabled">true</property>
     </extension>
 
 </arquillian>

@@ -37,8 +37,14 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
 
     private long waitModelInterval = 5;
 
+    private long waitGuardInterval = waitAjaxInterval;
+
     public long getWaitAjaxInterval() {
         return waitAjaxInterval;
+    }
+
+    public long getWaitGuardInterval() {
+        return waitGuardInterval;
     }
 
     public long getWaitGuiInterval() {
@@ -58,6 +64,9 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         }
         if (waitModelInterval <= 0) {
             throw new IllegalArgumentException("The waitModelInterval property has to be a positive number.");
+        }
+        if (waitGuardInterval <= 0) {
+            throw new IllegalArgumentException("The waitGuardInterval property has to be a positive number.");
         }
     }
 

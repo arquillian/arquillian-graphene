@@ -21,7 +21,8 @@
  */
 package org.jboss.arquillian.graphene.guard;
 
-import java.lang.reflect.Modifier;
+import java.util.concurrent.TimeUnit;
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
@@ -62,11 +63,30 @@ public class RequestGuardFactory {
             public Object intercept(InvocationContext context) throws Throwable {
                 RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
                 guard.clearRequestDone();
+                RequestType requestBefore = guard.getRequestDone();
                 Object result =  context.invoke();
-                if (!guard.getRequestDone().equals(requestExpected)) {
+                final long timeout = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(GrapheneConfigurationContext.getProxy().getWaitGuardInterval());
+                final long toSleep = Math.min(GrapheneConfigurationContext.getProxy().getWaitGuardInterval() * 100, 200);
+                while(System.currentTimeMillis() < timeout) {
+                    RequestType requestAfter = guard.getRequestDone();
+                    if (!requestAfter.equals(requestBefore)) {
+                        if (requestAfter.equals(requestExpected)) {
+                            return result;
+                        } else {
+                            throw new RequestGuardException(requestExpected, guard.getRequestDone());
+                        }
+                    } else {
+                        try {
+                            Thread.sleep(toSleep);
+                        } catch(InterruptedException ignored) {
+                        }
+                    }
+                }
+                if (requestExpected.equals(RequestType.NONE)) {
+                    return result;
+                } else {
                     throw new RequestGuardException(requestExpected, guard.getRequestDone());
                 }
-                return result;
             }
         });
         return (T) proxy;
