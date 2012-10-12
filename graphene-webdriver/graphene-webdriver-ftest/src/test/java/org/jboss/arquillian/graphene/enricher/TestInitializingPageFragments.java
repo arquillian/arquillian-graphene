@@ -23,6 +23,7 @@ package org.jboss.arquillian.graphene.enricher;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
 import org.jboss.arquillian.graphene.enricher.page.EmbeddedPage;
 import org.jboss.arquillian.graphene.enricher.page.TestPage;
+import org.jboss.arquillian.graphene.enricher.page.fragment.PageFragmentWithEmbeddedAnotherPageFragmentStub;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
@@ -51,6 +53,9 @@ public class TestInitializingPageFragments {
     @FindBy(xpath = "//div[@id='rootElement']")
     private AbstractPageFragmentStub abstractPageFragmentStub;
 
+    @FindBy(xpath = "//div[@id='rootElement']")
+    private PageFragmentWithEmbeddedAnotherPageFragmentStub pageFragmentWithEmbeddedAnotherPageFragment;
+
     @FindBy(xpath = "//input")
     private WebElement input;
 
@@ -63,11 +68,11 @@ public class TestInitializingPageFragments {
     private final String EXPECTED_NESTED_ELEMENT_TEXT = "Some Value";
 
     @Drone
-    WebDriver selenium;
+    private WebDriver selenium;
 
     public void loadPage() {
         URL page = this.getClass().getClassLoader()
-                .getResource("org/jboss/arquillian/graphene/ftest/pageFragmentsEnricher/sample.html");
+            .getResource("org/jboss/arquillian/graphene/ftest/pageFragmentsEnricher/sample.html");
 
         selenium.get(page.toExternalForm());
     }
@@ -82,14 +87,14 @@ public class TestInitializingPageFragments {
     public void testPageFragmentHasSetRootCorrectly() {
         loadPage();
         assertEquals("The root was not set correctly!", abstractPageFragmentStub.invokeMethodOnElementRefByXpath(),
-                EXPECTED_NESTED_ELEMENT_TEXT);
+            EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testPageObjectInitialisedCorrectly() {
         loadPage();
         assertEquals("The page object was not set correctly!", testPage.getAbstractPageFragment()
-                .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
+            .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
@@ -99,43 +104,41 @@ public class TestInitializingPageFragments {
         input.sendKeys(EXPECTED_VALUE);
 
         assertEquals("The value of the input is wrong, the element which represents it was not initialised correctly!",
-                input.getAttribute("value"), EXPECTED_VALUE);
+            input.getAttribute("value"), EXPECTED_VALUE);
     }
 
     @Test
     public void testEmbeddedPageObjectInitializedCorrectly() {
         loadPage();
         assertEquals("The embedded page was not initialized correctly!", EmbeddedPage.EXPECTED_TEXT_OF_EMBEDDED_ELEM, testPage
-                .getEmbeddedPage().invokeMethodOnEmbeddedElement());
+            .getEmbeddedPage().invokeMethodOnEmbeddedElement());
     }
 
     @Test
     public void testInitializeListOfWebElementsInjectedToTests() {
         loadPage();
 
-        checkInitializationOfWebElements(divs);
+        checkInitializationOfWebElements(divs, "Outside PageFragment");
     }
 
     @Test
     public void testInitializeListOfWebElementsInjectedToPageFragments() {
         loadPage();
 
-        checkInitializationOfWebElements(abstractPageFragmentStub.getDivs());
+        checkInitializationOfWebElements(abstractPageFragmentStub.getSpansInPageFragment(), "Inside PageFragment");
     }
 
-    private void checkInitializationOfWebElements(List<WebElement> webElements) {
-        assertNotNull("The list of WebElements was not initialized correctly!", webElements);
+    @Test
+    public void testInitializeListOfWebElementsInjectedToPageObject() {
+        loadPage();
 
-        for (int i = 1; i <= 3; i++) {
-            WebElement webElement = webElements.get(i - 1);
-            assertEquals("The WebElement number " + i + " from list was not initialized correctly!", String.valueOf(i),
-                    webElement.getText());
-        }
-
+        checkInitializationOfWebElements(testPage.getParagraphs(), "Inside PageObject");
     }
 
     @Test
     public void testSupportForAdvancedActions() {
+        loadPage();
+
         WebDriver driver = GrapheneContext.getProxyForInterfaces(HasInputDevices.class);
         Actions builder = new Actions(driver);
 
@@ -146,8 +149,34 @@ public class TestInitializingPageFragments {
         // following with WebElements from Page Fragments
         builder.click(abstractPageFragmentStub.getLocatorRefByXPath());
         // following with List of WebElements from Page Fragments
-        builder.click(abstractPageFragmentStub.getDivs().get(0));
+        builder.click(abstractPageFragmentStub.getSpansInPageFragment().get(0));
 
         builder.perform();
+    }
+
+    @Test
+    public void testInitializationOfEmbeddedPageFragmentsInOtherPageFragments() {
+        loadPage();
+
+        WebElement element = pageFragmentWithEmbeddedAnotherPageFragment.getEmbeddedPageFragment().getLocatorRefByClassName();
+
+        assertEquals("The Page Fragment ebmedded in another Page Fragment was not initialized correctly!", element.getText(),
+            "Value of element in embedded page fragment");
+    }
+
+    private void checkInitializationOfWebElements(List<WebElement> webElements, String expectedValueOfWebElements) {
+        assertNotNull("The list of WebElements was not initialized correctly!", webElements);
+
+        for (int i = 1; i <= 3; i++) {
+            WebElement webElement = null;
+            try {
+                webElement = webElements.get(i - 1);
+            } catch (IndexOutOfBoundsException ex) {
+                fail("The List<WebElement> was not initialized correclty! " + ex);
+                return;
+            }
+            assertEquals("The WebElement number " + i + " from list was not initialized correctly!", expectedValueOfWebElements
+                + " " + String.valueOf(i), webElement.getText());
+        }
     }
 }

@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.enricher.page;
 
+import java.util.List;
+
 import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.WebElement;
@@ -39,7 +41,10 @@ public class TestPage extends AbstractPage {
 
     @FindBy(xpath = "//input")
     private WebElement input;
-
+    
+    @FindBy(className="paragraphs")
+    private List<WebElement> paragraphs;
+    
     @Page
     private EmbeddedPage embeddedPage;
 
@@ -73,5 +78,13 @@ public class TestPage extends AbstractPage {
 
     public void setEmbeddedPage(EmbeddedPage embeddedPage) {
         this.embeddedPage = embeddedPage;
+    }
+
+    public List<WebElement> getParagraphs() {
+        return paragraphs;
+    }
+
+    public void setParagraphs(List<WebElement> paragraphs) {
+        this.paragraphs = paragraphs;
     }
 }
