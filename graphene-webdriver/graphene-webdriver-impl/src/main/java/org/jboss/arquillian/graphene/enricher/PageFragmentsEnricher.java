@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -68,14 +69,24 @@ public class PageFragmentsEnricher implements TestEnricher {
                 Type type = i.getGenericType();
                 Object page = null;
 
+                Class<?> declaredClass = null;
+
                 // check whether it is type variable e.g. T
                 if (type instanceof TypeVariable) {
+                    declaredClass = getActualType(i, testCase);
 
-                    page = getActualType(i, testCase).newInstance();
                 } else {
                     // no it is normal type, e.g. TestPage
-                    Class<?> declaredClass = i.getType();
+                    declaredClass = i.getType();
+                }
 
+                Class<?> outerClass = declaredClass.getDeclaringClass();
+
+                // check whether declared page object is not nested class
+                if (outerClass != null) {
+                    Constructor<?> construtor = declaredClass.getDeclaredConstructor(new Class[] { outerClass });
+                    page = construtor.newInstance(new Object[] { outerClass.newInstance() });
+                } else {
                     page = declaredClass.newInstance();
                 }
 
