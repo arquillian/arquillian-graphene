@@ -7,6 +7,13 @@
 <body>
     <div id="rootElement">
         <div class="refByXpath">Some Value</div>
+        <span class="spans">Inside PageFragment 1</span>
+    	<span class="spans">Inside PageFragment 2</span>
+    	<span class="spans">Inside PageFragment 3</span>
+    	
+    	<div class="rootOfEmbeddedPageFragment">
+    		<div class="classNameRef">Value of element in embedded page fragment</div>	
+    	</div>
     </div>
 
     <div class="refByXpath">Some value too</div>
@@ -16,10 +23,18 @@
     <div id="embeddedElement">This is embedded element</div>
 
     <input type="text" id="input" />
-
-    <div class="divs">1</div>
-    <div class="divs">2</div>
-    <div class="divs">3</div>
+	
+	<div class="rootOfEmbeddedPageFragment">
+    		<div class="classNameRef">Different value</div>	
+   	</div>
+   	
+    <div class="divs">Outside PageFragment 1</div>
+    <div class="divs">Outside PageFragment 2</div>
+    <div class="divs">Outside PageFragment 3</div>
+    
+    <p class="paragraphs">Inside PageObject 1</p>
+    <p class="paragraphs">Inside PageObject 2</p>
+    <p class="paragraphs">Inside PageObject 3</p>
 
 </body>
 </html>

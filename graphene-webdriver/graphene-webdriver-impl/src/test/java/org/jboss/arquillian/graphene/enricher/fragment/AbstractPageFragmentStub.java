@@ -61,8 +61,8 @@ public class AbstractPageFragmentStub {
     @FindBy(css = "cssSelectorRef")
     private WebElement locatorRefByCssSelector;
     
-    @FindBy(className="divs")
-    private List<WebElement> divs;
+    @FindBy(className="spans")
+    private List<WebElement> spansInPageFragment;
 
     public String invokeMethodOnRoot() {
         return root.getText();
@@ -168,12 +168,12 @@ public class AbstractPageFragmentStub {
         this.locatorRefByCssSelector = locatorRefByCssSelector;
     }
 
-    public List<WebElement> getDivs() {
-        return divs;
+    public List<WebElement> getSpansInPageFragment() {
+        return spansInPageFragment;
     }
 
-    public void setDivs(List<WebElement> divs) {
-        this.divs = divs;
+    public void setSpans(List<WebElement> divs) {
+        this.spansInPageFragment = divs;
     }
 
 }

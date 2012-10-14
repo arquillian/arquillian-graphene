@@ -21,21 +21,17 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.test.spi.TestEnricher;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
@@ -54,7 +50,7 @@ public class PageFragmentsEnricher implements TestEnricher {
         // at first initialize findBy annotations
         if (ReflectionHelper.isClassPresent(FIND_BY_ANNOTATION)) {
 
-            initFieldsAnnotatedByFindBy(testCase);
+            Factory.initFieldsAnnotatedByFindBy(testCase, null);
         }
         // initialize Page objects if there are any
         if (ReflectionHelper.isClassPresent(PAGE_ANNOTATION)) {
@@ -65,23 +61,6 @@ public class PageFragmentsEnricher implements TestEnricher {
         }
     }
 
-    private void initFieldsAnnotatedByFindBy(Object object) {
-
-        // gets all fields with findBy annotations and then removes these
-        // which are not Page Fragments
-        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(object.getClass(), FindBy.class);
-
-        List<Field> copy = new ArrayList<Field>();
-        copy.addAll(fields);
-
-        fields = removePlainFindBy(fields);
-        initPageFragmentsFields(fields, object);
-
-        // initialize other non Page Fragment fields annotated with FindBy
-        copy.removeAll(fields);
-        Factory.initNotPageFragmentsFields(copy, object, null);
-    }
-
     private void initializePageObjectFields(Object testCase, List<Field> fields) {
 
         for (Field i : fields) {
@@ -90,14 +69,24 @@ public class PageFragmentsEnricher implements TestEnricher {
                 Type type = i.getGenericType();
                 Object page = null;
 
+                Class<?> declaredClass = null;
+
                 // check whether it is type variable e.g. T
                 if (type instanceof TypeVariable) {
+                    declaredClass = getActualType(i, testCase);
 
-                    page = getActualType(i, testCase).newInstance();
                 } else {
                     // no it is normal type, e.g. TestPage
-                    Class<?> declaredClass = i.getType();
+                    declaredClass = i.getType();
+                }
 
+                Class<?> outerClass = declaredClass.getDeclaringClass();
+
+                // check whether declared page object is not nested class
+                if (outerClass != null) {
+                    Constructor<?> construtor = declaredClass.getDeclaredConstructor(new Class[] { outerClass });
+                    page = construtor.newInstance(new Object[] { outerClass.newInstance() });
+                } else {
                     page = declaredClass.newInstance();
                 }
 
@@ -142,61 +131,6 @@ public class PageFragmentsEnricher implements TestEnricher {
         TypeVariable<?>[] typeParameters = testCase.getClass().getSuperclass().getTypeParameters();
 
         return typeParameters;
-    }
-
-    private void initPageFragmentsFields(List<Field> fields, Object objectToSetPageFragment) {
-        for (Field pageFragmentField : fields) {
-
-            Class<?> implementationClass = pageFragmentField.getType();
-
-            String errorMsgBegin = "The Page Fragment: " + implementationClass + " declared in "
-                + objectToSetPageFragment.getClass() + " can not be initialized properly. The possible reason is: ";
-
-            FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
-            final By by = Factory.getReferencedBy(findBy);
-
-            if (by == null) {
-                throw new IllegalArgumentException(errorMsgBegin
-                    + "Your declaration of Page Fragment in tests is annotated with @FindBy without any "
-                    + "parameters, in other words without reference to root of the particular Page Fragment on the page!");
-            }
-
-            WebElement rootElement = Factory.setUpTheProxyForWebElement(by, null);
-
-            Object pageFragment = null;
-            try {
-                pageFragment = Factory.initializePageFragment(implementationClass, rootElement);
-
-            } catch (IllegalArgumentException ex) {
-                throw new IllegalArgumentException(errorMsgBegin + ex.getMessage(), ex);
-            }
-
-            Factory.setObjectToField(pageFragmentField, objectToSetPageFragment, pageFragment);
-        }
-    }
-
-    /**
-     * It removes all fields with type <code>WebElement</code> from the given list of fields.
-     * 
-     * @param findByFields
-     * @return
-     */
-    private List<Field> removePlainFindBy(List<Field> findByFields) {
-
-        for (Iterator<Field> i = findByFields.iterator(); i.hasNext();) {
-
-            Field field = i.next();
-
-            Class<?> fieldType = field.getType();
-
-            if (fieldType.equals(WebElement.class)) {
-                i.remove();
-            } else if (fieldType.equals(List.class)) {
-                i.remove();
-            }
-        }
-
-        return findByFields;
     }
 
     @Override

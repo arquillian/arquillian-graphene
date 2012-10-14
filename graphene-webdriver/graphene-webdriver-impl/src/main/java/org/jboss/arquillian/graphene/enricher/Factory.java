@@ -22,6 +22,8 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
@@ -68,10 +70,81 @@ public class Factory {
             setObjectToField(fields.get(0), pageFragment, rootOfPageFragment);
         }
 
-        fields = ReflectionHelper.getFieldsWithAnnotation(clazzOfPageFragment, FindBy.class);
-        initNotPageFragmentsFields(fields, pageFragment, rootOfPageFragment);
+        initFieldsAnnotatedByFindBy(pageFragment, rootOfPageFragment);
 
         return pageFragment;
+    }
+    
+    static void initFieldsAnnotatedByFindBy(Object object, WebElement root) {
+
+        // gets all fields with findBy annotations and then removes these
+        // which are not Page Fragments
+        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(object.getClass(), FindBy.class);
+
+        List<Field> copy = new ArrayList<Field>();
+        copy.addAll(fields);
+
+        fields = removePlainFindBy(fields);
+        initPageFragmentsFields(fields, object, root);
+
+        // initialize other non Page Fragment fields annotated with FindBy
+        copy.removeAll(fields);
+        Factory.initNotPageFragmentsFields(copy, object, root);
+    }
+    
+    /**
+     * It removes all fields with type <code>WebElement</code> from the given list of fields.
+     * 
+     * @param findByFields
+     * @return
+     */
+    private static List<Field> removePlainFindBy(List<Field> findByFields) {
+
+        for (Iterator<Field> i = findByFields.iterator(); i.hasNext();) {
+
+            Field field = i.next();
+
+            Class<?> fieldType = field.getType();
+
+            if (fieldType.equals(WebElement.class)) {
+                i.remove();
+            } else if (fieldType.equals(List.class)) {
+                i.remove();
+            }
+        }
+
+        return findByFields;
+    }
+    
+    private static void initPageFragmentsFields(List<Field> fields, Object objectToSetPageFragment, WebElement root) {
+        for (Field pageFragmentField : fields) {
+
+            Class<?> implementationClass = pageFragmentField.getType();
+
+            String errorMsgBegin = "The Page Fragment: " + implementationClass + " declared in "
+                + objectToSetPageFragment.getClass() + " can not be initialized properly. The possible reason is: ";
+
+            FindBy findBy = pageFragmentField.getAnnotation(FindBy.class);
+            final By by = Factory.getReferencedBy(findBy);
+
+            if (by == null) {
+                throw new IllegalArgumentException(errorMsgBegin
+                    + "Your declaration of Page Fragment in tests is annotated with @FindBy without any "
+                    + "parameters, in other words without reference to root of the particular Page Fragment on the page!");
+            }
+
+            WebElement rootElement = Factory.setUpTheProxyForWebElement(by, root);
+
+            Object pageFragment = null;
+            try {
+                pageFragment = Factory.initializePageFragment(implementationClass, rootElement);
+
+            } catch (IllegalArgumentException ex) {
+                throw new IllegalArgumentException(errorMsgBegin + ex.getMessage(), ex);
+            }
+
+            Factory.setObjectToField(pageFragmentField, objectToSetPageFragment, pageFragment);
+        }
     }
 
     public static <T> T instantiatePageFragment(Class<T> clazz) {
@@ -106,7 +179,7 @@ public class Factory {
 
             } else if (fieldType.equals(List.class)) {
                 // it is List of WebElements
-                List<WebElement> elements = setUpTheProxyForListOfWebElements(by);
+                List<WebElement> elements = setUpTheProxyForListOfWebElements(by, root);
                 setObjectToField(i, object, elements);
             }
 
@@ -153,13 +226,13 @@ public class Factory {
         }
     }
 
-    public static List<WebElement> setUpTheProxyForListOfWebElements(final By by) {
+    public static List<WebElement> setUpTheProxyForListOfWebElements(final By by, final WebElement root) {
         List<WebElement> elements = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
 
             @Override
             public Object getTarget() {
                 WebDriver driver = GrapheneContext.getProxy();
-                List<WebElement> elements = driver.findElements(by);
+                List<WebElement> elements = root == null ? driver.findElements(by) : root.findElements(by);
                 return elements;
             }
         }, List.class);
