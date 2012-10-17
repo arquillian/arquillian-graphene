@@ -8,8 +8,11 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ */
 @RunWith(Arquillian.class)
-public class TestInitializingPageObjects2 extends AbstractTest<TestPage, TestPage2> {
+public class TestInitializingGenericPageObjects2 extends AbstractTest<TestPage, TestPage2> {
 
     private final String EXPECTED_NESTED_ELEMENT_TEXT = "Some Value";
 

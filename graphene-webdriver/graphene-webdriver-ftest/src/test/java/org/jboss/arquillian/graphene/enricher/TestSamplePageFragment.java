@@ -75,7 +75,7 @@ public class TestSamplePageFragment {
     }
 
     public static class SamplePageFragment {
-
+        @SuppressWarnings("unused")
         @Root
         private WebElement root;
         @FindBy(tagName = "span")
