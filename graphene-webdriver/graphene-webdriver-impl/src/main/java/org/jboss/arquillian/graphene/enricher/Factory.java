@@ -37,16 +37,16 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Factory class for initializing the particular <b>Page Fragment</b>.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class Factory {
 
     /**
      * Returns initialized Page Fragment of given type. It means that all fields annotated with <code>@FindBy</code> and
      * <code>@Page</code> annotations are initialized properly.
-     * 
+     *
      * @param clazzOfPageFragment the class of concrete Page Fragment implementation which will be initialized
      * @param rootOfPageFragment the root of the Page Fragment to reference its parts from it
      * @return properly initialized page fragment
@@ -74,7 +74,7 @@ public class Factory {
 
         return pageFragment;
     }
-    
+
     static void initFieldsAnnotatedByFindBy(Object object, WebElement root) {
 
         // gets all fields with findBy annotations and then removes these
@@ -91,10 +91,10 @@ public class Factory {
         copy.removeAll(fields);
         Factory.initNotPageFragmentsFields(copy, object, root);
     }
-    
+
     /**
      * It removes all fields with type <code>WebElement</code> from the given list of fields.
-     * 
+     *
      * @param findByFields
      * @return
      */
@@ -115,7 +115,7 @@ public class Factory {
 
         return findByFields;
     }
-    
+
     private static void initPageFragmentsFields(List<Field> fields, Object objectToSetPageFragment, WebElement root) {
         for (Field pageFragmentField : fields) {
 
@@ -158,7 +158,7 @@ public class Factory {
 
     /**
      * If the given root is null, the driver proxy is used for finding injected elements, otherwise the root element is used.
-     * 
+     *
      * @param fields
      * @param object
      * @param root
@@ -178,9 +178,20 @@ public class Factory {
                 setObjectToField(i, object, element);
 
             } else if (fieldType.equals(List.class)) {
-                // it is List of WebElements
-                List<WebElement> elements = setUpTheProxyForListOfWebElements(by, root);
-                setObjectToField(i, object, elements);
+                try {
+                    // it is List of WebElements
+                    Class<?> listType = getListType(i);
+                    if (listType.isAssignableFrom(WebElement.class)) {
+                        List<WebElement> elements = setUpTheProxyForListOfWebElements(by, root);
+                        setObjectToField(i, object, elements);
+                    } else {
+                        List<?> pageFragments = setUpTheProxyForListOfPageFragments(by, root, listType);
+                        setObjectToField(i, object, pageFragments);
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalStateException("Can't inject a value to field '"+i.getName()+"' in '"+object.getClass().getName()+"'", e);
+                }
+
             }
 
         }
@@ -189,7 +200,7 @@ public class Factory {
     /**
      * Sets up the proxy element for the given By instance. If the given root is null, driver proxy is used for finding the web
      * element, otherwise the root element is used.
-     * 
+     *
      * @param by
      * @param root
      * @return
@@ -224,6 +235,23 @@ public class Factory {
         if (!accessible) {
             field.setAccessible(false);
         }
+    }
+
+    public static <PF> List<PF> setUpTheProxyForListOfPageFragments(final By by, final WebElement root, final Class<PF> pageFragmentClass) {
+        List<PF> result = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                WebDriver driver = GrapheneContext.getProxy();
+                List<WebElement> elements = root == null ? driver.findElements(by) : root.findElements(by);
+                List<PF> fragments = new ArrayList<PF>();
+                for (WebElement element: elements) {
+                    fragments.add(initializePageFragment(pageFragmentClass, element));
+                }
+                return fragments;
+            }
+
+        }, List.class);
+        return result;
     }
 
     public static List<WebElement> setUpTheProxyForListOfWebElements(final By by, final WebElement root) {
@@ -287,5 +315,9 @@ public class Factory {
         }
 
         return null;
+    }
+
+    private static Class<?> getListType(Field listField) throws ClassNotFoundException {
+        return Class.forName(listField.getGenericType().toString().split("<")[1].split(">")[0].split("<")[0]);
     }
 }
