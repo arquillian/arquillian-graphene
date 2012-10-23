@@ -24,11 +24,7 @@ package org.jboss.arquillian.graphene.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -121,7 +117,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
         if (method.equals(GrapheneProxyInstance.class.getMethod("copy"))) {
             GrapheneProxyInstance clone;
             if (this.future != null) {
-                clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(this.future.getTarget());
+                clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForFutureTarget(this.future, this.future.getTarget().getClass(), this.future.getTarget().getClass().getInterfaces());
             } else {
                 clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(this.target);
             }
@@ -135,7 +131,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
 
             @Override
             public Object invoke() throws Throwable {
-                Object result = invokeReal(method, args);
+                Object result = invokeReal(getTarget(), method, args);
                 if (result == null) {
                     return null;
                 }
@@ -160,6 +156,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
             public Object getTarget() {
                 return GrapheneProxyHandler.this.getTarget();
             }
+
         };
         for (Interceptor interceptor: interceptors.values()) {
             invocationContext = new InvocationContextImpl(interceptor, invocationContext);
@@ -192,23 +189,19 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      * Invokes the method on real target.
      * </p>
      *
-     * <p>
-     * The target of invocation is computed, using the {@link #getTarget()} method.
-     * </p>
-     *
+     * @param target the target to be invoked
      * @param method the method to be invoked
      * @param args the arguments used for invocation
      * @return the result of invocation on real target
      */
-    Object invokeReal(Method method, Object[] args) throws Throwable {
+    Object invokeReal(Object target, Method method, Object[] args) throws Throwable {
         Object result;
-        Object target = getTarget();
         try {
             result = method.invoke(target, args);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         } catch (Exception e) {
-            throw new RuntimeException("unexpected invocation exception: " + e.getMessage(), e);
+            throw new RuntimeException("unexpected invocation exception during invocation of "+target.getClass().getName()+"#"+method.getName()+"(), the method is declared in '"+method.getDeclaringClass().getName()+"': " + e.getMessage(), e);
         }
         return result;
     }

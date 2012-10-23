@@ -34,6 +34,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 /**
  * Factory class for initializing the particular <b>Page Fragment</b>.
@@ -206,14 +207,37 @@ public class Factory {
      * @return
      */
     public static WebElement setUpTheProxyForWebElement(final By by, final WebElement root) {
+        return setUpTheProxyForWebElement(new ElementLocator() {
+            @Override
+            public WebElement findElement() {
+                return root == null ? GrapheneContext.getProxy().findElement(by) : root.findElement(by);
+            }
+            @Override
+            public List<WebElement> findElements() {
+                return root == null ? GrapheneContext.getProxy().findElements(by) : root.findElements(by);
+            }
+        });
+    }
+
+    public static WebElement setUpTheProxyForWebElement(final By by, final WebElement root, final int indexInList) {
+        return setUpTheProxyForWebElement(new ElementLocator() {
+            @Override
+            public WebElement findElement() {
+                return root == null ? GrapheneContext.getProxy().findElements(by).get(indexInList) : root.findElements(by).get(indexInList);
+            }
+            @Override
+            public List<WebElement> findElements() {
+                return root == null ? GrapheneContext.getProxy().findElements(by) : root.findElements(by);
+            }
+        });
+    }
+
+    public static WebElement setUpTheProxyForWebElement(final ElementLocator locator) {
         // proxy for WebElement should implement also Locatable.class to be usable with org.openqa.selenium.interactions.Actions
         WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
-
             @Override
             public Object getTarget() {
-                WebDriver driver = GrapheneContext.getProxy();
-                WebElement element = root == null ? driver.findElement(by) : root.findElement(by);
-                return element;
+                return locator.findElement();
             }
         }, WebElement.class, Locatable.class);
         return e;
@@ -244,8 +268,8 @@ public class Factory {
                 WebDriver driver = GrapheneContext.getProxy();
                 List<WebElement> elements = root == null ? driver.findElements(by) : root.findElements(by);
                 List<PF> fragments = new ArrayList<PF>();
-                for (WebElement element: elements) {
-                    fragments.add(initializePageFragment(pageFragmentClass, element));
+                for (int i=0; i<elements.size(); i++) {
+                    fragments.add(initializePageFragment(pageFragmentClass, setUpTheProxyForWebElement(by, root, i)));
                 }
                 return fragments;
             }
@@ -260,8 +284,12 @@ public class Factory {
             @Override
             public Object getTarget() {
                 WebDriver driver = GrapheneContext.getProxy();
+                List<WebElement> result = new ArrayList<WebElement>();
                 List<WebElement> elements = root == null ? driver.findElements(by) : root.findElements(by);
-                return elements;
+                for (int i=0; i<elements.size(); i++) {
+                    result.add(setUpTheProxyForWebElement(by, root, i));
+                }
+                return result;
             }
         }, List.class);
         return elements;
