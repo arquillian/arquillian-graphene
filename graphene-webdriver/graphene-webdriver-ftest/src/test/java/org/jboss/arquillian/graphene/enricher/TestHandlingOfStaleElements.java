@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -22,7 +22,7 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.net.URL;
-import junit.framework.Assert;
+import java.util.List;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.jboss.arquillian.junit.Arquillian;
@@ -36,70 +36,76 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
-public class TestSamplePageFragment {
+public class TestHandlingOfStaleElements {
 
     @Drone
     private WebDriver browser;
 
     @FindBy(id="root")
-    private SamplePageFragment pageFragment;
+    private StaleElementPageFragment pageFragment;
 
     @FindBy(id="root")
-    private SamplePageFragmentWithRootAsTheLastField pageFragmentWithRootAsTheLastField;
+    private List<StaleElementPageFragment> pageFragments;
 
-    @FindBy(id="span")
-    private WebElement spanNotCorrect;
+    @FindBy(id="root")
+    private WebElement rootElement;
+    
+    @FindBy(id="root")
+    private List<WebElement> rootElements;
 
     public void loadPage() {
-        URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/enricher/sample.html");
+        URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/enricher/staleelements.html");
         browser.get(page.toString());
     }
 
     @Test
-    public void testRelativePath() {
+    public void testElement() throws Exception {
         loadPage();
-        Assert.assertEquals("Fields in page fragment are not initialized relatively to root element.", "correct", pageFragment.getText().toLowerCase().trim());
+        rootElement.isDisplayed();
+        pageFragment.makeStale();
+        rootElement.isDisplayed();
     }
 
     @Test
-    public void testNotStandardOrder() {
+    public void testListOfElements() throws Exception {
         loadPage();
-        Assert.assertEquals("pseudo root", pageFragmentWithRootAsTheLastField.getPseudoroot().getText().toLowerCase().trim());
-        Assert.assertTrue(pageFragmentWithRootAsTheLastField.getRoot().getText().toLowerCase().trim().contains("pseudo root"));
-        Assert.assertFalse(pageFragmentWithRootAsTheLastField.getRoot().getText().toLowerCase().trim().equals("pseudo root"));
+        WebElement e = rootElements.get(0);
+        e.isDisplayed();
+        pageFragment.makeStale();
+        e.isDisplayed();
     }
 
-    public void testCommonWebElement() {
+    @Test
+    public void testPageFragment() throws Exception {
         loadPage();
-        Assert.assertEquals("not correct", spanNotCorrect.getText().toLowerCase().trim());
+        pageFragment.root.isDisplayed();
+        pageFragment.makeStale();
+        pageFragment.root.isDisplayed();
     }
 
-    public static class SamplePageFragment {
+    @Test
+    public void testListOfPageFragments() throws Exception {
+        loadPage();
+        StaleElementPageFragment pf = pageFragments.get(0);
+        pf.root.isDisplayed();
+        pf.makeStale();
+        pf.root.isDisplayed();
+    }
+
+    public static class StaleElementPageFragment {
 
         @Root
         private WebElement root;
-        @FindBy(tagName = "span")
-        private WebElement span;
 
-        public String getText() {
-            return span.getText();
+        @FindBy(className="stale")
+        private WebElement stale;
+        @FindBy(className="make-stale")
+        private WebElement makeStale;
+
+        public void makeStale() {
+            makeStale.click();
         }
+
     }
 
-    public static class SamplePageFragmentWithRootAsTheLastField {
-
-        @FindBy(id = "pseudoroot")
-        private WebElement pseudoroot;
-
-        @Root
-        private WebElement root;
-
-        public WebElement getRoot() {
-            return root;
-        }
-
-        public WebElement getPseudoroot() {
-            return pseudoroot;
-        }
-    }
 }

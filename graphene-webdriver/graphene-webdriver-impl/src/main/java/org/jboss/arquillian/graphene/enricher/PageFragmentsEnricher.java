@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene.enricher;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -35,9 +36,9 @@ import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class PageFragmentsEnricher implements TestEnricher {
 
@@ -83,7 +84,7 @@ public class PageFragmentsEnricher implements TestEnricher {
                 Class<?> outerClass = declaredClass.getDeclaringClass();
 
                 // check whether declared page object is not nested class
-                if (outerClass != null) {
+                if (outerClass != null && !Modifier.isStatic(declaredClass.getModifiers())) {
                     Constructor<?> construtor = declaredClass.getDeclaredConstructor(new Class[] { outerClass });
                     page = construtor.newInstance(new Object[] { outerClass.newInstance() });
                 } else {
@@ -94,8 +95,8 @@ public class PageFragmentsEnricher implements TestEnricher {
 
                 Factory.setObjectToField(i, testCase, page);
 
-            } catch (Exception ex) {
-                throw new RuntimeException("Can not initialise Page Object!");
+            } catch (Exception e) {
+                throw new RuntimeException("Can not initialise Page Object!", e);
             }
         }
     }

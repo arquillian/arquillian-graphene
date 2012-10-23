@@ -34,19 +34,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.pagefactory.ElementLocator;
 
 /**
  * Factory class for initializing the particular <b>Page Fragment</b>.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class Factory {
 
     /**
      * Returns initialized Page Fragment of given type. It means that all fields annotated with <code>@FindBy</code> and
      * <code>@Page</code> annotations are initialized properly.
-     * 
+     *
      * @param clazzOfPageFragment the class of concrete Page Fragment implementation which will be initialized
      * @param rootOfPageFragment the root of the Page Fragment to reference its parts from it
      * @return properly initialized page fragment
@@ -74,7 +75,7 @@ public class Factory {
 
         return pageFragment;
     }
-    
+
     static void initFieldsAnnotatedByFindBy(Object object, WebElement root) {
 
         // gets all fields with findBy annotations and then removes these
@@ -91,10 +92,10 @@ public class Factory {
         copy.removeAll(fields);
         Factory.initNotPageFragmentsFields(copy, object, root);
     }
-    
+
     /**
      * It removes all fields with type <code>WebElement</code> from the given list of fields.
-     * 
+     *
      * @param findByFields
      * @return
      */
@@ -115,7 +116,7 @@ public class Factory {
 
         return findByFields;
     }
-    
+
     private static void initPageFragmentsFields(List<Field> fields, Object objectToSetPageFragment, WebElement root) {
         for (Field pageFragmentField : fields) {
 
@@ -158,7 +159,7 @@ public class Factory {
 
     /**
      * If the given root is null, the driver proxy is used for finding injected elements, otherwise the root element is used.
-     * 
+     *
      * @param fields
      * @param object
      * @param root
@@ -178,9 +179,20 @@ public class Factory {
                 setObjectToField(i, object, element);
 
             } else if (fieldType.equals(List.class)) {
-                // it is List of WebElements
-                List<WebElement> elements = setUpTheProxyForListOfWebElements(by, root);
-                setObjectToField(i, object, elements);
+                try {
+                    // it is List of WebElements
+                    Class<?> listType = getListType(i);
+                    if (listType.isAssignableFrom(WebElement.class)) {
+                        List<WebElement> elements = setUpTheProxyForListOfWebElements(by, root);
+                        setObjectToField(i, object, elements);
+                    } else {
+                        List<?> pageFragments = setUpTheProxyForListOfPageFragments(by, root, listType);
+                        setObjectToField(i, object, pageFragments);
+                    }
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalStateException("Can't inject a value to field '"+i.getName()+"' in '"+object.getClass().getName()+"'", e);
+                }
+
             }
 
         }
@@ -189,20 +201,43 @@ public class Factory {
     /**
      * Sets up the proxy element for the given By instance. If the given root is null, driver proxy is used for finding the web
      * element, otherwise the root element is used.
-     * 
+     *
      * @param by
      * @param root
      * @return
      */
     public static WebElement setUpTheProxyForWebElement(final By by, final WebElement root) {
+        return setUpTheProxyForWebElement(new ElementLocator() {
+            @Override
+            public WebElement findElement() {
+                return root == null ? GrapheneContext.getProxy().findElement(by) : root.findElement(by);
+            }
+            @Override
+            public List<WebElement> findElements() {
+                return root == null ? GrapheneContext.getProxy().findElements(by) : root.findElements(by);
+            }
+        });
+    }
+
+    public static WebElement setUpTheProxyForWebElement(final By by, final WebElement root, final int indexInList) {
+        return setUpTheProxyForWebElement(new ElementLocator() {
+            @Override
+            public WebElement findElement() {
+                return root == null ? GrapheneContext.getProxy().findElements(by).get(indexInList) : root.findElements(by).get(indexInList);
+            }
+            @Override
+            public List<WebElement> findElements() {
+                return root == null ? GrapheneContext.getProxy().findElements(by) : root.findElements(by);
+            }
+        });
+    }
+
+    public static WebElement setUpTheProxyForWebElement(final ElementLocator locator) {
         // proxy for WebElement should implement also Locatable.class to be usable with org.openqa.selenium.interactions.Actions
         WebElement e = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
-
             @Override
             public Object getTarget() {
-                WebDriver driver = GrapheneContext.getProxy();
-                WebElement element = root == null ? driver.findElement(by) : root.findElement(by);
-                return element;
+                return locator.findElement();
             }
         }, WebElement.class, Locatable.class);
         return e;
@@ -226,14 +261,35 @@ public class Factory {
         }
     }
 
+    public static <PF> List<PF> setUpTheProxyForListOfPageFragments(final By by, final WebElement root, final Class<PF> pageFragmentClass) {
+        List<PF> result = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                WebDriver driver = GrapheneContext.getProxy();
+                List<WebElement> elements = root == null ? driver.findElements(by) : root.findElements(by);
+                List<PF> fragments = new ArrayList<PF>();
+                for (int i=0; i<elements.size(); i++) {
+                    fragments.add(initializePageFragment(pageFragmentClass, setUpTheProxyForWebElement(by, root, i)));
+                }
+                return fragments;
+            }
+
+        }, List.class);
+        return result;
+    }
+
     public static List<WebElement> setUpTheProxyForListOfWebElements(final By by, final WebElement root) {
         List<WebElement> elements = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
 
             @Override
             public Object getTarget() {
                 WebDriver driver = GrapheneContext.getProxy();
+                List<WebElement> result = new ArrayList<WebElement>();
                 List<WebElement> elements = root == null ? driver.findElements(by) : root.findElements(by);
-                return elements;
+                for (int i=0; i<elements.size(); i++) {
+                    result.add(setUpTheProxyForWebElement(by, root, i));
+                }
+                return result;
             }
         }, List.class);
         return elements;
@@ -287,5 +343,9 @@ public class Factory {
         }
 
         return null;
+    }
+
+    private static Class<?> getListType(Field listField) throws ClassNotFoundException {
+        return Class.forName(listField.getGenericType().toString().split("<")[1].split(">")[0].split("<")[0]);
     }
 }

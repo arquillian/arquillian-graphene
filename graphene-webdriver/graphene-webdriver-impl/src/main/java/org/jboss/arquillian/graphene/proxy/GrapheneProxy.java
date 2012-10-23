@@ -107,7 +107,15 @@ public final class GrapheneProxy {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
+        if (baseType != null && !baseType.isInterface() && Modifier.isFinal(baseType.getModifiers())) {
+            if (additionalInterfaces.length > 0) {
+                return GrapheneProxy.getProxyForFutureTarget(futureTarget, additionalInterfaces[0], additionalInterfaces);
+            } else {
+                throw new IllegalStateException("Can't create a proxy for " + baseType + ", it's final and no additional interface has been given.");
+            }
+        }
         GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(futureTarget);
+
         return (T) createProxy(handler, baseType, additionalInterfaces);
     }
 
