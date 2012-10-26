@@ -29,7 +29,7 @@
 
         <!-- Arquillian -->
         <version.arquillian.core>1.0.3.Final</version.arquillian.core>
-        <version.arquillian.drone>1.1.0.CR3</version.arquillian.drone>
+        <version.arquillian.drone>1.1.0.Final</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
         <version.commons-lang>2.5</version.commons-lang>
