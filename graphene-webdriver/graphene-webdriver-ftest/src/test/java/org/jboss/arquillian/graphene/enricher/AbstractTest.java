@@ -7,6 +7,9 @@ import org.jboss.arquillian.graphene.enricher.page.AbstractPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ */
 public abstract class AbstractTest<T extends AbstractPage, E> {
 
     @Page

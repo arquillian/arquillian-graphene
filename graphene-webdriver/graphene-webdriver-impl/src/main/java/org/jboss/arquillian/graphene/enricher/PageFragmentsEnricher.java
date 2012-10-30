@@ -21,24 +21,23 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jboss.arquillian.graphene.enricher.exception.PageObjectInitializationException;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
  * Enricher is a class for injecting into fields initialised <code>WebElement</code> and Page Fragments instances.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class PageFragmentsEnricher implements TestEnricher {
 
@@ -46,58 +45,61 @@ public class PageFragmentsEnricher implements TestEnricher {
     private static final String PAGE_ANNOTATION = "org.jboss.arquillian.graphene.spi.annotations.Page";
 
     @Override
-    public void enrich(Object testCase) {
+    public void enrich(Object objectToEnrich) {
 
         // at first initialize findBy annotations
         if (ReflectionHelper.isClassPresent(FIND_BY_ANNOTATION)) {
 
-            Factory.initFieldsAnnotatedByFindBy(testCase, null);
+            Factory.initFieldsAnnotatedByFindBy(objectToEnrich, null);
         }
         // initialize Page objects if there are any
         if (ReflectionHelper.isClassPresent(PAGE_ANNOTATION)) {
 
-            List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(testCase.getClass(), Page.class);
+            List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(objectToEnrich.getClass(), Page.class);
 
-            initializePageObjectFields(testCase, fields);
+            initializePageObjectFields(objectToEnrich, fields);
         }
     }
 
-    private void initializePageObjectFields(Object testCase, List<Field> fields) {
+    private void initializePageObjectFields(Object objectWherePageObjectsAreDeclared, List<Field> pageObjectsFields) {
+        Class<?> declaredClass = null;
+        String errorMsgBegin = null;
 
-        for (Field i : fields) {
+        for (Field pageObjectField : pageObjectsFields) {
 
+            Object page = null;
             try {
-                Type type = i.getGenericType();
-                Object page = null;
-
-                Class<?> declaredClass = null;
+                Type type = pageObjectField.getGenericType();
 
                 // check whether it is type variable e.g. T
                 if (type instanceof TypeVariable) {
-                    declaredClass = getActualType(i, testCase);
+                    declaredClass = getActualType(pageObjectField, objectWherePageObjectsAreDeclared);
 
                 } else {
                     // no it is normal type, e.g. TestPage
-                    declaredClass = i.getType();
+                    declaredClass = pageObjectField.getType();
                 }
+                errorMsgBegin = "Can not instantiate Page Object " + Factory.NEW_LINE + declaredClass + Factory.NEW_LINE
+                    + " declared in: " + Factory.NEW_LINE + objectWherePageObjectsAreDeclared + Factory.NEW_LINE;
 
-                Class<?> outerClass = declaredClass.getDeclaringClass();
+                page = Factory.instantiateClass(declaredClass);
 
-                // check whether declared page object is not nested class
-                if (outerClass != null && !Modifier.isStatic(declaredClass.getModifiers())) {
-                    Constructor<?> construtor = declaredClass.getDeclaredConstructor(new Class[] { outerClass });
-                    page = construtor.newInstance(new Object[] { outerClass.newInstance() });
-                } else {
-                    page = declaredClass.newInstance();
-                }
-
-                enrich(page);
-
-                Factory.setObjectToField(i, testCase, page);
-
-            } catch (Exception e) {
-                throw new RuntimeException("Can not initialise Page Object!", e);
+            } catch (NoSuchMethodException ex) {
+                throw new PageObjectInitializationException(errorMsgBegin
+                    + " Check whether declared Page Object has no argument constructor!", ex);
+            } catch (IllegalAccessException ex) {
+                throw new PageObjectInitializationException(
+                    " Check whether declared Page Object has public no argument constructor!", ex);
+            } catch (InstantiationException ex) {
+                throw new PageObjectInitializationException(errorMsgBegin
+                    + " Check whether you did not declare Page Object with abstract type!", ex);
+            } catch (Exception ex) {
+                throw new PageObjectInitializationException(errorMsgBegin, ex);
             }
+
+            enrich(page);
+
+            Factory.setObjectToField(pageObjectField, objectWherePageObjectsAreDeclared, page);
         }
     }
 

@@ -35,7 +35,7 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
-public class TestInitializingPageObjects4 extends AbstractTest<TestPage, TestInitializingPageObjects4.InnerTestPage> {
+public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, TestInitializingGenericPageObjects4.InnerTestPage> {
 
     @Page
     private InnerTestPage innerTestPageNotGeneric;

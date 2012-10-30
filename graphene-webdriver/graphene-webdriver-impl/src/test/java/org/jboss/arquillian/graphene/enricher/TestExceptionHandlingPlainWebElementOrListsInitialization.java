@@ -19,26 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher.fragment;
+package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.spi.annotations.Root;
+import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class WrongPageFragmentTooManyRoots {
+public class TestExceptionHandlingPlainWebElementOrListsInitialization extends AbstractTest {
+
+    private String errorMsgEmptyFindBy = "is annotated with empty @FindBy annotation, in other words it should contain parameter which will define the strategy for referencing that element.";
 
     @SuppressWarnings("unused")
-    @Root
-    private WebElement root1;
-    
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root2;
-    
-    @SuppressWarnings("unused")
-    @FindBy(className="randomClassName")
-    private WebElement foo;
+    @FindBy(id = "foo")
+    private WrongPageFragmentEmptyFindBy wrongPageFragmentEmptyFindBy;
+
+    @Test
+    public void testWebElementWithEmptyFindByNotInitialized() {
+        thrown.expect(PageFragmentInitializationException.class);
+        thrown.expectMessage(errorMsgEmptyFindBy);
+
+        enricher.enrich(this);
+    }
+
+    public static class WrongPageFragmentEmptyFindBy {
+
+        @SuppressWarnings("unused")
+        @FindBy
+        private WebElement wrongWebElem;
+    }
+
 }

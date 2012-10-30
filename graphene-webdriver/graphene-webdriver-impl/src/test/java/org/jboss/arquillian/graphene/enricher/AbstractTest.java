@@ -19,26 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher.fragment;
+package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.spi.annotations.Root;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.jboss.arquillian.graphene.enricher.PageFragmentsEnricher;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class WrongPageFragmentTooManyRoots {
+public class AbstractTest {
 
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root1;
+    protected PageFragmentsEnricher enricher;
     
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root2;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     
-    @SuppressWarnings("unused")
-    @FindBy(className="randomClassName")
-    private WebElement foo;
+    @Before
+    public void setUp() {
+        enricher = new PageFragmentsEnricher();
+    }
 }

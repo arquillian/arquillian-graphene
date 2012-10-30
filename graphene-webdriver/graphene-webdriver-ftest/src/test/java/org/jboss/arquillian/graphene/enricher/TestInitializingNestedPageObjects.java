@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2011, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,26 +19,42 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher.fragment;
+package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.spi.annotations.Root;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import static org.junit.Assert.assertNotNull;
+
+import org.jboss.arquillian.graphene.spi.annotations.Page;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class WrongPageFragmentTooManyRoots {
+@RunWith(Arquillian.class)
+public class TestInitializingNestedPageObjects {
 
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root1;
-    
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root2;
-    
-    @SuppressWarnings("unused")
-    @FindBy(className="randomClassName")
-    private WebElement foo;
+    @Page
+    private InnerPageObject innerPageObject;
+
+    @Page
+    private NestedStaticPageObject nestedStaticPageObject;
+
+    @Test
+    public void testInitializingInnerPageObjects() {
+        assertNotNull("The inner page object should be already initialized!", innerPageObject);
+    }
+
+    @Test
+    public void testInitializingNesteStaticClasses() {
+        assertNotNull("The nested static page object should be already initialized!", nestedStaticPageObject);
+    }
+
+    public class InnerPageObject {
+
+    }
+
+    public static class NestedStaticPageObject {
+
+    }
 }

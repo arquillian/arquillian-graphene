@@ -21,24 +21,12 @@
  */
 package org.jboss.arquillian.graphene.enricher.fragment;
 
-import org.jboss.arquillian.graphene.spi.annotations.Root;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
 /**
- * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author Juraj Huska
  */
-public class WrongPageFragmentTooManyRoots {
+public class WrongPageFragmentMissingNoArgConstructor {
 
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root1;
-    
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root2;
-    
-    @SuppressWarnings("unused")
-    @FindBy(className="randomClassName")
-    private WebElement foo;
+    public WrongPageFragmentMissingNoArgConstructor(int foo) {
+        
+    }
 }
