@@ -29,9 +29,9 @@ import java.util.List;
 
 /**
  * SecurityActions
- * 
+ *
  * A set of privileged actions that are not to leak out of this package
- * 
+ *
  * @author <a href="mailto:andrew.rubinger@jboss.org">ALR</a>
  * @version $Revision: $
  */
@@ -61,7 +61,7 @@ public final class ReflectionHelper {
 
     /**
      * Obtains the Constructor specified from the given Class and argument types
-     * 
+     *
      * @param clazz
      * @param argumentTypes
      * @return
@@ -71,6 +71,7 @@ public final class ReflectionHelper {
         throws NoSuchMethodException {
         try {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<Constructor<?>>() {
+                @Override
                 public Constructor<?> run() throws NoSuchMethodException {
                     return clazz.getConstructor(argumentTypes);
                 }
@@ -98,7 +99,7 @@ public final class ReflectionHelper {
     /**
      * Create a new instance by finding a constructor that matches the argumentTypes signature using the arguments for
      * instantiation.
-     * 
+     *
      * @param className Full classname of class to create
      * @param argumentTypes The constructor argument types
      * @param arguments The constructor arguments
@@ -151,6 +152,7 @@ public final class ReflectionHelper {
 
     public static List<Field> getFieldsWithAnnotation(final Class<?> source, final Class<? extends Annotation> annotationClass) {
         List<Field> declaredAccessableFields = AccessController.doPrivileged(new PrivilegedAction<List<Field>>() {
+            @Override
             public List<Field> run() {
                 List<Field> foundFields = new ArrayList<Field>();
                 Class<?> nextSource = source;
@@ -173,6 +175,7 @@ public final class ReflectionHelper {
 
     public static List<Method> getMethodsWithAnnotation(final Class<?> source, final Class<? extends Annotation> annotationClass) {
         List<Method> declaredAccessableMethods = AccessController.doPrivileged(new PrivilegedAction<List<Method>>() {
+            @Override
             public List<Method> run() {
                 List<Method> foundMethods = new ArrayList<Method>();
                 for (Method method : source.getDeclaredMethods()) {
@@ -199,6 +202,7 @@ public final class ReflectionHelper {
     private enum GetTcclAction implements PrivilegedAction<ClassLoader> {
         INSTANCE;
 
+        @Override
         public ClassLoader run() {
             return Thread.currentThread().getContextClassLoader();
         }

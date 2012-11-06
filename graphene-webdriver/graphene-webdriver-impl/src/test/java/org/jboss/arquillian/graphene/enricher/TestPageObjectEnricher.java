@@ -21,35 +21,51 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
+import org.jboss.arquillian.graphene.enricher.exception.PageObjectInitializationException;
+import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class TestExceptionHandlingPlainWebElementOrListsInitialization extends AbstractTest {
-
-    private String errorMsgEmptyFindBy = "is annotated with empty @FindBy annotation, in other words it should contain parameter which will define the strategy for referencing that element.";
-
-    @SuppressWarnings("unused")
-    @FindBy(id = "foo")
-    private WrongPageFragmentEmptyFindBy wrongPageFragmentEmptyFindBy;
+public class TestPageObjectEnricher extends AbstractGrapheneEnricherTest  {
 
     @Test
-    public void testWebElementWithEmptyFindByNotInitialized() {
-        thrown.expect(PageFragmentInitializationException.class);
-        thrown.expectMessage(errorMsgEmptyFindBy);
-
-        enricher.enrich(this);
+    public void testNoArgConstructor() {
+        thrown.expect(PageObjectInitializationException.class);
+        getGrapheneEnricher().enrich(new NoArgConstructorTest());
     }
 
-    public static class WrongPageFragmentEmptyFindBy {
+    @Test
+    public void testAbstractType() {
+        thrown.expect(PageObjectInitializationException.class);
+        getGrapheneEnricher().enrich(new AbstractTypeTest());
+    }
 
+
+    public class AbstractTypeTest {
         @SuppressWarnings("unused")
-        @FindBy
-        private WebElement wrongWebElem;
+        @Page
+        private AbstractPageType wrongPage;
+
+    }
+
+    public static class NoArgConstructorTest {
+        @SuppressWarnings("unused")
+        @Page
+        private WrongPageObject wrongPage;
+
+        public static class WrongPageObject {
+
+            public WrongPageObject(int foo) {
+
+            }
+        }
+    }
+
+    public abstract class AbstractPageType {
+
     }
 
 }

@@ -21,23 +21,35 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.enricher.PageFragmentsEnricher;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
+import java.lang.reflect.Method;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.core.spi.ServiceLoader;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.test.spi.TestEnricher;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class AbstractTest {
+public class GrapheneEnricher implements TestEnricher {
 
-    protected PageFragmentsEnricher enricher;
-    
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-    
-    @Before
-    public void setUp() {
-        enricher = new PageFragmentsEnricher();
+    @Inject
+    private Instance<ServiceLoader> serviceLoader;
+
+    @Override
+    public void enrich(Object o) {
+        final WebDriver driver = GrapheneContext.getProxy();
+        for (SearchContextTestEnricher enricher: serviceLoader.get().all(SearchContextTestEnricher.class)) {
+            enricher.enrich(driver, o);
+        }
     }
+
+    @Override
+    public Object[] resolve(Method method) {
+        return new Object[method.getParameterTypes().length];
+    }
+
 }

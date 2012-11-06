@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,32 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher.page.fragment;
+package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
-import org.jboss.arquillian.graphene.spi.annotations.Root;
+import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
+import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * @author Juraj Huska
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class PageFragmentWithEmbeddedAnotherPageFragmentStub {
+public class TestWebElementEnricher extends AbstractGrapheneEnricherTest {
 
-    @SuppressWarnings("unused")
-    @Root
-    private WebElement root;
-
-    @FindBy(className="rootOfEmbeddedPageFragment")
-    private AbstractPageFragmentStub embeddedPageFragment;
-
-    public AbstractPageFragmentStub getEmbeddedPageFragment() {
-        return embeddedPageFragment;
+    @Test
+    public void testEmptyFindBy() {
+        thrown.expect(GrapheneTestEnricherException.class);
+        getGrapheneEnricher().enrich(new EmptyFindByTest());
     }
 
-    public void setEmbeddedPageFragment(AbstractPageFragmentStub embeddedPageFragment) {
-        this.embeddedPageFragment = embeddedPageFragment;
-    }
+    public static class EmptyFindByTest {
 
+        @SuppressWarnings("unused")
+        @FindBy
+        private WebElement wrongWebElem;
+    }
 
 }
