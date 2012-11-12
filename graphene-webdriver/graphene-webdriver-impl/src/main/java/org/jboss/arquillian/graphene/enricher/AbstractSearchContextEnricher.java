@@ -40,16 +40,29 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.support.FindBy;
 
 /**
+ * This class should help you to implement {@link SearchContextTestEnricher}.
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public abstract class AbstractSearchContextEnricher implements SearchContextTestEnricher {
 
+    /**
+     * Constant containing new line separator dependent on the environment.
+     */
     protected static final String NEW_LINE = System.getProperty("line.separator");
 
     @Inject
     private Instance<ServiceLoader> serviceLoader;
 
+    /**
+     * Performs further enrichment on the given instance with the given search context.
+     * That means all instances {@link TestEnricher} and {@link SearchContextTestEnricher}
+     * are invoked.
+     *
+     * @param searchContext
+     * @param target
+     */
     protected final void enrichRecursively(SearchContext searchContext, Object target) {
         for (TestEnricher enricher: serviceLoader.get().all(TestEnricher.class)) {
             if (!enricher.getClass().equals(GrapheneEnricher.class)) {
@@ -61,7 +74,17 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         }
     }
 
-    protected final Class<?> getActualType(Field i, Object testCase) {
+    /**
+     * It loads a real type of a field defined by parametric type. It searches
+     * in declaring class and super class. E. g. if a field is declared as 'A fieldName',
+     * It tries to find type parameter called 'A' in super class declaration
+     * and its evaluation in the class declaring the given field.
+     *
+     * @param field
+     * @param testCase
+     * @return type of the given field
+     */
+    protected final Class<?> getActualType(Field field, Object testCase) {
 
         // e.g. TestPage, HomePage
         Type[] superClassActualTypeArguments = getSuperClassActualTypeArguments(testCase);
@@ -69,7 +92,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         TypeVariable<?>[] superClassTypeParameters = getSuperClassTypeParameters(testCase);
 
         // the type parameter has the same index as the actual type
-        String fieldParameterTypeName = i.getGenericType().toString();
+        String fieldParameterTypeName = field.getGenericType().toString();
 
         int index = Arrays.asList(superClassTypeParameters).indexOf(fieldParameterTypeName);
         for (index = 0; index < superClassTypeParameters.length; index++) {
@@ -82,6 +105,12 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         return (Class<?>) superClassActualTypeArguments[index];
     }
 
+    /**
+     * It loads the concrete type of list items. E.g. for List<String>, String is returned.
+     * @param listField
+     * @return
+     * @throws ClassNotFoundException
+     */
     protected final Class<?> getListType(Field listField) throws ClassNotFoundException {
         return Class.forName(listField.getGenericType().toString().split("<")[1].split(">")[0].split("<")[0]);
     }

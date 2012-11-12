@@ -30,6 +30,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 
 /**
+ * This class should help you to implement {@link org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher}
+ * working with {@link WebElement} instances.
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */

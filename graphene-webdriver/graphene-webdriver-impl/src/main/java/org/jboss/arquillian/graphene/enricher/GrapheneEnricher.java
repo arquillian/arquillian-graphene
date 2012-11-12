@@ -31,6 +31,9 @@ import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.WebDriver;
 
 /**
+ * Graphene enricher calls all {@link SearchContextTestEnricher} instances to start
+ * their enrichment.
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */

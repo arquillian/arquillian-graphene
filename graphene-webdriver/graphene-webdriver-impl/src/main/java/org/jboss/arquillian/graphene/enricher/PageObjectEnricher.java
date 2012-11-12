@@ -33,6 +33,8 @@ import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.SearchContext;
 
 /**
+ * Enricher injecting page objects to the fields of the given object.
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */

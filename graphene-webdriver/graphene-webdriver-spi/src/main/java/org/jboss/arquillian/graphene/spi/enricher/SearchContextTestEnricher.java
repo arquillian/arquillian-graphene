@@ -24,11 +24,21 @@ package org.jboss.arquillian.graphene.spi.enricher;
 import org.openqa.selenium.SearchContext;
 
 /**
+ * The test enricher taking account there is {@link SearchContext} linked
+ * to the enriched object. Usually the {@link SearchContext} is given by {@link org.openqa.selenium.WebDriver}
+ * or {@link org.openqa.selenium.WebElement} instance.
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public interface SearchContextTestEnricher {
 
+    /**
+     * Performs enrichment on the given object with the given {@link SearchContext}.
+     *
+     * @param searchContext the context which should be used for enrichment
+     * @param target instance to be enriched
+     */
     public void enrich(SearchContext searchContext, Object target);
 
 }
