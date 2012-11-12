@@ -35,16 +35,16 @@ public class TestPage extends AbstractPage {
 
     @FindBy(xpath = "//div[@id='rootElement']")
     private AbstractPageFragmentStub abstractPageFragment;
-    
+
     @FindBy(xpath = "//div[@id='rootElement']")
     private WebElement element;
 
     @FindBy(xpath = "//input")
     private WebElement input;
-    
+
     @FindBy(className="paragraphs")
     private List<WebElement> paragraphs;
-    
+
     @Page
     private EmbeddedPage embeddedPage;
 

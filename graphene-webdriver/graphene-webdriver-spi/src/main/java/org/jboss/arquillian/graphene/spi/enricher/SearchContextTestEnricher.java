@@ -19,25 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.spi.enricher;
 
-import org.jboss.arquillian.graphene.enricher.PageFragmentsEnricher;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import org.openqa.selenium.SearchContext;
 
 /**
+ * The test enricher taking account there is {@link SearchContext} linked
+ * to the enriched object. Usually the {@link SearchContext} is given by {@link org.openqa.selenium.WebDriver}
+ * or {@link org.openqa.selenium.WebElement} instance.
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class AbstractTest {
+public interface SearchContextTestEnricher {
 
-    protected PageFragmentsEnricher enricher;
-    
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-    
-    @Before
-    public void setUp() {
-        enricher = new PageFragmentsEnricher();
-    }
+    /**
+     * Performs enrichment on the given object with the given {@link SearchContext}.
+     *
+     * @param searchContext the context which should be used for enrichment
+     * @param target instance to be enriched
+     */
+    public void enrich(SearchContext searchContext, Object target);
+
 }

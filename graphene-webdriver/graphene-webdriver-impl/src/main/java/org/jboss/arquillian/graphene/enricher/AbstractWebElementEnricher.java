@@ -1,0 +1,78 @@
+/**
+ * JBoss, Home of Professional Open Source
+ * Copyright 2012, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.jboss.arquillian.graphene.enricher;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.Locatable;
+
+/**
+ * This class should help you to implement {@link org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher}
+ * working with {@link WebElement} instances.
+ *
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ */
+public abstract class AbstractWebElementEnricher extends AbstractSearchContextEnricher {
+
+    protected final WebElement createWebElement(final By by, final SearchContext searchContext) {
+        return createWebElement(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                return searchContext.findElement(by);
+            }
+        });
+    }
+
+    protected final WebElement createWebElement(final By by, final SearchContext searchContext, final int indexInList) {
+        return createWebElement(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                return searchContext.findElements(by).get(indexInList);
+            }
+        });
+    }
+
+    protected final WebElement createWebElement(GrapheneProxy.FutureTarget target) {
+        // proxy for WebElement should implement also Locatable.class to be usable with org.openqa.selenium.interactions.Actions
+        return GrapheneProxy.getProxyForFutureTarget(target, WebElement.class, Locatable.class);
+    }
+
+    public List<WebElement> createWebElements(final By by, final SearchContext searchContext) {
+        return GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                List<WebElement> result = new ArrayList<WebElement>();
+                List<WebElement> elements = searchContext.findElements(by);
+                for (int i = 0; i < elements.size(); i++) {
+                    result.add(createWebElement(by, searchContext, i));
+                }
+                return result;
+            }
+        }, List.class);
+    }
+
+}
