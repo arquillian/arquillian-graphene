@@ -27,10 +27,12 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.logging.Logger;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
 import org.jboss.arquillian.graphene.page.extension.JavaScriptPageExtension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 
 /**
  * This resolver uses page extension mechanism to install needed JavaScript
@@ -44,6 +46,8 @@ public class DefaultExecutionResolver implements ExecutionResolver {
 
     public static final String CALL = "return invokeInterface({0}, \"{1}\", arguments);";
 
+    protected static final Logger LOGGER = Logger.getLogger(DefaultExecutionResolver.class.getName());
+
     static {
         try {
             URL resource = JSInterfaceHandler.class.getResource("call.js");
@@ -56,7 +60,13 @@ public class DefaultExecutionResolver implements ExecutionResolver {
     private JavascriptExecutor browser = GrapheneContext.getProxyForInterfaces(JavascriptExecutor.class);
 
     @Override
-    public Object execute(JSCall call) {
+    public Object execute(WebDriver driver, JSCall call) {
+        if (driver == null) {
+            throw new IllegalArgumentException("Driver can't be null.");
+        }
+        if (!(driver instanceof JavascriptExecutor)) {
+            throw new IllegalArgumentException("The executor can be used only for drivers implementing " + JavascriptExecutor.class.getName());
+        }
         // check name
         JSTarget target = call.getTarget();
         if (target.getName() == null) {
