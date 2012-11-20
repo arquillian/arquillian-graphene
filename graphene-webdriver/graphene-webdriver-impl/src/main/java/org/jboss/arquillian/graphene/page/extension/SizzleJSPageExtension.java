@@ -39,12 +39,12 @@ public class SizzleJSPageExtension implements PageExtension {
 
     @Override
     public JavaScript getExtensionScript() {
-        return JavaScript.fromResource("com/sizzlejs/sizzle.js");
+        return JavaScript.fromResource("com/jquery/jquery-1.2.6.min.js");
     }
 
     @Override
     public JavaScript getInstallationDetectionScript() {
-        return JavaScript.fromString("return ((typeof window.Sizzle != 'undefined') && (window.Sizzle() != null))");
+        return JavaScript.fromString("return ((typeof $ != 'undefined') && ($() != null))");
     }
 
     @Override

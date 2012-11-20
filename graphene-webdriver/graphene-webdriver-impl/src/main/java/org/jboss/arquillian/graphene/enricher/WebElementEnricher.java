@@ -24,8 +24,8 @@ package org.jboss.arquillian.graphene.enricher;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.jboss.arquillian.graphene.enricher.annotation.FindByUtilities;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
+import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
