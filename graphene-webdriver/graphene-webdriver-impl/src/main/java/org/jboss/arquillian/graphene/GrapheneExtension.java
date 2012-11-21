@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene;
 
 import org.jboss.arquillian.core.spi.LoadableExtension;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfigurationResourceProvider;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
 import org.jboss.arquillian.graphene.enricher.GrapheneEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
@@ -30,6 +31,7 @@ import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
 import org.jboss.arquillian.test.spi.TestEnricher;
+import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -45,8 +47,10 @@ public class GrapheneExtension implements LoadableExtension {
         builder.service(SearchContextTestEnricher.class, WebElementEnricher.class);
         builder.service(SearchContextTestEnricher.class, PageFragmentEnricher.class);
         builder.service(SearchContextTestEnricher.class, PageObjectEnricher.class);
-        /** Page Extensions */
+        /* Page Extensions */
         builder.observer(GraphenePageExtensionRegistrar.class);
+        /* Resource Providers */
+        builder.service(ResourceProvider.class, GrapheneConfigurationResourceProvider.class);
     }
 
 }
