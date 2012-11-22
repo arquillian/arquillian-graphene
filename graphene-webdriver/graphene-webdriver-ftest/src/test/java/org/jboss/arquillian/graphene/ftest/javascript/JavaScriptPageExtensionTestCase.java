@@ -47,7 +47,7 @@ public class JavaScriptPageExtensionTestCase {
 
     public void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/javascript/sample.html");
-        browser.get(page.toString());
+        browser.navigate().to(page);
     }
 
     @Test
@@ -114,14 +114,14 @@ public class JavaScriptPageExtensionTestCase {
         }
     }
 
-    @JavaScript(value = "Document.helloworld")
+    @JavaScript(value = "document.helloworld")
     @Dependency(sources = {"org/jboss/arquillian/graphene/ftest/javascript/hello-world.js"})
     public interface HelloWorld extends InstallableJavaScript {
 
         String hello();
     }
 
-    @JavaScript(value = "Document.helloworld2")
+    @JavaScript(value = "document.helloworld2")
     @Dependency(sources = {"org/jboss/arquillian/graphene/ftest/javascript/hello-world2.js"}, interfaces=HelloWorld.class)
     public interface HelloWorld2 {
 

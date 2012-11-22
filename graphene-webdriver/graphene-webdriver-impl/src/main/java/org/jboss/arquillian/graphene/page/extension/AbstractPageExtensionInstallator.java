@@ -51,7 +51,7 @@ public abstract class AbstractPageExtensionInstallator implements PageExtensionI
         }
         installWithoutRequirements();
         if (!isInstalled()) {
-            throw new IllegalStateException("The page extension '"+extension.getClass()+"' can't be installed.");
+            throw new IllegalStateException("The page extension '"+extension.getName()+"' can't be installed.");
         }
     }
 

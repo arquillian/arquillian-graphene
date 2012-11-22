@@ -1,4 +1,4 @@
-Document.helloworld2 = {};
-Document.helloworld2.hello = function() {
-    return Document.helloworld.hello();
-}
+document.helloworld2 = {};
+document.helloworld2.hello = function() {
+    return document.helloworld.hello();
+};

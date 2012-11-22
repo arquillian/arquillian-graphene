@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.page.extension;
 
 import org.apache.commons.lang.Validate;
+import org.jboss.arquillian.graphene.javascript.JavaScriptUtils;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -50,12 +51,12 @@ public class RemotePageExtensionInstallatorProvider extends AbstractPageExtensio
         return new AbstractPageExtensionInstallator(extension, this) {
             @Override
             protected void installWithoutRequirements() {
-                ((JavascriptExecutor) driver).executeScript(extension.getExtensionScript().getSourceCode());
+                JavaScriptUtils.execute((JavascriptExecutor) driver, extension.getExtensionScript());
             }
 
             @Override
             public boolean isInstalled() {
-                Object result = ((JavascriptExecutor) driver).executeScript(extension.getInstallationDetectionScript().getSourceCode());
+                Object result = JavaScriptUtils.execute((JavascriptExecutor) driver, extension.getInstallationDetectionScript());
                 if (!(result instanceof Boolean)) {
                     throw new IllegalStateException("The result of installation detection script is not boolean as expected, " + result + " given.");
                 }
