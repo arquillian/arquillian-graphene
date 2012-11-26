@@ -21,18 +21,20 @@
  */
 package org.jboss.arquillian.graphene.javascript;
 
-import com.google.common.io.Resources;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.logging.Logger;
+
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
 import org.jboss.arquillian.graphene.page.extension.JavaScriptPageExtension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+
+import com.google.common.io.Resources;
 
 /**
  * This resolver uses page extension mechanism to install needed JavaScript

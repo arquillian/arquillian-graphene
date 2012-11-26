@@ -25,44 +25,45 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
+import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher injecting page fragments ({@link FindBy} annotation is used) to the fields of the given object.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class PageFragmentEnricher extends AbstractWebElementEnricher {
-
+    
+    @SuppressWarnings("unused")
     @Inject
     private Instance<ServiceLoader> serviceLoader;
 
     @Override
     public void enrich(SearchContext searchContext, Object target) {
-        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBy.class);
+        List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
         for (Field field : fields) {
             // Page fragment
             if (isPageFragmentClass(field.getType())) {
                 setupPageFragment(searchContext, target, field);
-            // List<Page fragment>
+                // List<Page fragment>
             } else {
                 try {
                     if (field.getType().isAssignableFrom(List.class) && isPageFragmentClass(getListType(field))) {
                         setupPageFragmentList(searchContext, target, field);
                     }
-                } catch(ClassNotFoundException e) {
+                } catch (ClassNotFoundException e) {
                     throw new PageFragmentInitializationException(e.getMessage(), e);
                 }
             }
@@ -77,7 +78,6 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
         List<T> result = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                WebDriver driver = GrapheneContext.getProxy();
                 List<WebElement> elements = searchContext.findElements(rootBy);
                 List<T> fragments = new ArrayList<T>();
                 for (int i = 0; i < elements.size(); i++) {
@@ -92,12 +92,12 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
 
     protected final <T> T createPageFragment(Class<T> clazz, WebElement root) {
         try {
-            T pageFragment =  instantiate(clazz);
+            T pageFragment = instantiate(clazz);
             List<Field> roots = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
             if (roots.size() > 1) {
-                throw new PageFragmentInitializationException("The Page Fragment " + NEW_LINE + pageFragment.getClass() + NEW_LINE
-                        + " can not have more than one field annotated with Root annotation!" + "Your fields with @Root annotation: "
-                        + roots + NEW_LINE);
+                throw new PageFragmentInitializationException("The Page Fragment " + NEW_LINE + pageFragment.getClass()
+                    + NEW_LINE + " can not have more than one field annotated with Root annotation!"
+                    + "Your fields with @Root annotation: " + roots + NEW_LINE);
             }
             if (roots.size() == 1) {
                 setValue(roots.get(0), pageFragment, root);
@@ -106,37 +106,38 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
             return pageFragment;
         } catch (NoSuchMethodException ex) {
             throw new PageFragmentInitializationException(" Check whether declared Page Fragment has no argument constructor!",
-                    ex);
+                ex);
         } catch (IllegalAccessException ex) {
             throw new PageFragmentInitializationException(
-                    " Check whether declared Page Fragment has public no argument constructor!", ex);
+                " Check whether declared Page Fragment has public no argument constructor!", ex);
         } catch (InstantiationException ex) {
             throw new PageFragmentInitializationException(
-                    " Check whether you did not declare Page Fragment with abstract type!", ex);
+                " Check whether you did not declare Page Fragment with abstract type!", ex);
         } catch (Exception ex) {
             throw new PageFragmentInitializationException(ex);
         }
     }
 
-    protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field) throws ClassNotFoundException {
-        By rootBy = getReferencedBy(field.getAnnotation(FindBy.class));
+    protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)
+        throws ClassNotFoundException {
+        By rootBy = FindByUtilities.getCorrectBy(field);
         if (rootBy == null) {
-            throw new PageFragmentInitializationException(
-                    "Your declaration of Page Fragment in test "+field.getDeclaringClass().getName()+" is annotated with @FindBy without any "
-                    + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
-                    + NEW_LINE);
+            throw new PageFragmentInitializationException("Your declaration of Page Fragment in test "
+                + field.getDeclaringClass().getName() + " is annotated with @FindBy without any "
+                + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
+                + NEW_LINE);
         }
         List<?> pageFragments = createPageFragmentList(getListType(field), searchContext, rootBy);
         setValue(field, target, pageFragments);
     }
 
     protected final void setupPageFragment(SearchContext searchContext, Object target, Field field) {
-        By rootBy = getReferencedBy(field.getAnnotation(FindBy.class));
+        By rootBy = FindByUtilities.getCorrectBy(field);
         if (rootBy == null) {
-            throw new PageFragmentInitializationException(
-                    "Your declaration of Page Fragment in test "+field.getDeclaringClass().getName()+" is annotated with @FindBy without any "
-                    + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
-                    + NEW_LINE);
+            throw new PageFragmentInitializationException("Your declaration of Page Fragment in test "
+                + field.getDeclaringClass().getName() + " is annotated with @FindBy without any "
+                + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
+                + NEW_LINE);
         }
         WebElement root = createWebElement(rootBy, searchContext);
         Object pageFragment = createPageFragment(field.getType(), root);

@@ -40,6 +40,7 @@ import org.openqa.selenium.SearchContext;
  */
 public class PageObjectEnricher extends AbstractSearchContextEnricher {
 
+    @SuppressWarnings("unused")
     @Inject
     private Instance<ServiceLoader> serviceLoader;
 
