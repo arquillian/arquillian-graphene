@@ -2,18 +2,21 @@ package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import org.openqa.selenium.WebDriver;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 public class JSInterfaceHandler implements MethodInterceptor {
 
-    private JSTarget target;
+    private final JSTarget target;
+    private final WebDriver driver;
 
-    public JSInterfaceHandler(JSTarget jsTarget) {
+    public JSInterfaceHandler(WebDriver driver, JSTarget jsTarget) {
         this.target = jsTarget;
+        this.driver = driver;
     }
-    
+
     public JSTarget getTarget() {
         return target;
     }
@@ -27,6 +30,6 @@ public class JSInterfaceHandler implements MethodInterceptor {
         }
         args = (args != null) ? args : new Object[]{};
         JSCall call = new JSCall(new JSMethod(target, method), args);
-        return target.getResolver().execute(call);
+        return target.getResolver().execute(driver, call);
     }
 }
