@@ -39,7 +39,7 @@ public class SizzleJSPageExtension implements PageExtension {
 
     @Override
     public JavaScript getExtensionScript() {
-        return JavaScript.fromResource("com/jquery/jquery-1.2.6.min.js");
+        return JavaScript.fromResource("com/jquery/jquery-1.7.2.min.js");
     }
 
     @Override
