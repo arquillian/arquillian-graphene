@@ -32,6 +32,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -77,6 +78,13 @@ public class JavaScriptPageExtensionTestCase {
         loadPage();
         JSInterfaceFactory.create(Document2.class).getTitle();
     }
+    
+    @Test
+    public void testAbstractClass() {
+        loadPage();
+        Document3 document = JSInterfaceFactory.create(Document3.class);
+        Assert.assertEquals(browser.findElement(By.tagName("h1")), document.getHeader());
+    }
 
     @JavaScript("document")
     public static interface Document {
@@ -91,17 +99,31 @@ public class JavaScriptPageExtensionTestCase {
     public static interface Document2 {
         String getTitle();
     }
+    
+    @JavaScript("document")
+    public abstract class Document3 {
+
+        public abstract List<WebElement> getElementsByTagName(String tagName);
+
+        public WebElement getHeader() {
+            List<WebElement> elements = getElementsByTagName("h1");
+            if (elements.iterator().hasNext()) {
+                return elements.iterator().next();
+            }
+            return null;
+        }
+    }
 
     @JavaScript(value = "Document.helloworld")
     @Dependency(sources = {"org/jboss/arquillian/graphene/ftest/javascript/hello-world.js"})
-    private interface HelloWorld extends InstallableJavaScript {
+    public interface HelloWorld extends InstallableJavaScript {
 
         String hello();
     }
 
     @JavaScript(value = "Document.helloworld2")
     @Dependency(sources = {"org/jboss/arquillian/graphene/ftest/javascript/hello-world2.js"}, interfaces=HelloWorld.class)
-    private interface HelloWorld2 {
+    public interface HelloWorld2 {
 
         String hello();
     }

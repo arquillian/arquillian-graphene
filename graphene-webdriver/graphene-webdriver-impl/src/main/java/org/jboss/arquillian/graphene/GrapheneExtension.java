@@ -48,5 +48,4 @@ public class GrapheneExtension implements LoadableExtension {
         /** Page Extensions */
         builder.observer(GraphenePageExtensionRegistrar.class);
     }
-
 }

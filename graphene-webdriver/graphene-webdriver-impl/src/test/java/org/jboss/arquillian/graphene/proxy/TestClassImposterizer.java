@@ -21,14 +21,13 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
-import org.jboss.arquillian.graphene.proxy.ClassImposterizer;
+import static org.junit.Assert.assertTrue;
 import net.sf.cglib.proxy.MethodInterceptor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 
 /**
  * @author Lukas Fryc
@@ -40,10 +39,45 @@ public class TestClassImposterizer {
     MethodInterceptor interceptor;
 
     @Test
-    public void test() {
-        ClassImposterizer.INSTANCE.imposterise(interceptor, TestingClass.class, new Class<?>[] {});
+    public void testClass() {
+        Object object = ClassImposterizer.INSTANCE.imposterise(interceptor, TestingClass.class);
+        assertTrue(object instanceof TestingClass);
+    }
+
+    @Test
+    public void testInterface() {
+        Object object = ClassImposterizer.INSTANCE.imposterise(interceptor, TestingInterface.class);
+        assertTrue(object instanceof TestingInterface);
+    }
+
+    @Test
+    public void testAbstractClass() {
+        Object object = ClassImposterizer.INSTANCE.imposterise(interceptor, TestingAbstractClass.class);
+        assertTrue(object instanceof TestingAbstractClass);
+    }
+
+    @Test
+    public void testClassAndInterface() {
+        Object object = ClassImposterizer.INSTANCE.imposterise(interceptor, TestingClass.class, TestingInterface.class);
+        assertTrue(object instanceof TestingClass);
+        assertTrue(object instanceof TestingInterface);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrivateInterface() {
+        Object object = ClassImposterizer.INSTANCE.imposterise(interceptor, TestingPrivateInterface.class);
+        assertTrue(object instanceof TestingPrivateInterface);
     }
 
     public static class TestingClass {
+    }
+
+    public static class TestingAbstractClass {
+    }
+
+    public static interface TestingInterface {
+    }
+    
+    private static interface TestingPrivateInterface {
     }
 }

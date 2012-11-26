@@ -24,7 +24,6 @@ package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
 
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the

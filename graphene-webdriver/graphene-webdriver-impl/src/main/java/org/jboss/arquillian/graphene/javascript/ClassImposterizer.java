@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.proxy;
+package org.jboss.arquillian.graphene.javascript;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 
