@@ -3,3 +3,4 @@ test-output
 .classpath
 .settings
 .project
+chromedriver.log

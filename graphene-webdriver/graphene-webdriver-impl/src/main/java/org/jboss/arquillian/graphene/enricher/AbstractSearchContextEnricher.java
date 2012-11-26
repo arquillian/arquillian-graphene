@@ -29,19 +29,18 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
-import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.support.FindBy;
 
 /**
  * This class should help you to implement {@link SearchContextTestEnricher}.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
@@ -56,30 +55,28 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     private Instance<ServiceLoader> serviceLoader;
 
     /**
-     * Performs further enrichment on the given instance with the given search context.
-     * That means all instances {@link TestEnricher} and {@link SearchContextTestEnricher}
-     * are invoked.
-     *
+     * Performs further enrichment on the given instance with the given search context. That means all instances
+     * {@link TestEnricher} and {@link SearchContextTestEnricher} are invoked.
+     * 
      * @param searchContext
      * @param target
      */
     protected final void enrichRecursively(SearchContext searchContext, Object target) {
-        for (TestEnricher enricher: serviceLoader.get().all(TestEnricher.class)) {
+        for (TestEnricher enricher : serviceLoader.get().all(TestEnricher.class)) {
             if (!enricher.getClass().equals(GrapheneEnricher.class)) {
                 enricher.enrich(target);
             }
         }
-        for (SearchContextTestEnricher enricher: serviceLoader.get().all(SearchContextTestEnricher.class)) {
+        for (SearchContextTestEnricher enricher : serviceLoader.get().all(SearchContextTestEnricher.class)) {
             enricher.enrich(searchContext, target);
         }
     }
 
     /**
-     * It loads a real type of a field defined by parametric type. It searches
-     * in declaring class and super class. E. g. if a field is declared as 'A fieldName',
-     * It tries to find type parameter called 'A' in super class declaration
-     * and its evaluation in the class declaring the given field.
-     *
+     * It loads a real type of a field defined by parametric type. It searches in declaring class and super class. E. g. if a
+     * field is declared as 'A fieldName', It tries to find type parameter called 'A' in super class declaration and its
+     * evaluation in the class declaring the given field.
+     * 
      * @param field
      * @param testCase
      * @return type of the given field
@@ -107,6 +104,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
     /**
      * It loads the concrete type of list items. E.g. for List<String>, String is returned.
+     * 
      * @param listField
      * @return
      * @throws ClassNotFoundException
@@ -115,57 +113,9 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         return Class.forName(listField.getGenericType().toString().split("<")[1].split(">")[0].split("<")[0]);
     }
 
-   /*
-     * can I do it in better way ?to iterate over all annotations methods and invoke them on what ?obviously it is not possible
-     * to invoke it on annotation, since it can not be instantiated
-     */
-    protected final By getReferencedBy(FindBy findByAnnotation) {
-        String value = findByAnnotation.className().trim();
-        if (!value.isEmpty()) {
-            return By.className(value);
-        }
-
-        value = findByAnnotation.css().trim();
-        if (!value.isEmpty()) {
-            return By.cssSelector(value);
-        }
-
-        value = findByAnnotation.id().trim();
-        if (!value.isEmpty()) {
-            return By.id(value);
-        }
-
-        value = findByAnnotation.xpath().trim();
-        if (!value.isEmpty()) {
-            return By.xpath(value);
-        }
-
-        value = findByAnnotation.name().trim();
-        if (!value.isEmpty()) {
-            return By.name(value);
-        }
-
-        value = findByAnnotation.tagName().trim();
-        if (!value.isEmpty()) {
-            return By.tagName(value);
-        }
-
-        value = findByAnnotation.linkText().trim();
-        if (!value.isEmpty()) {
-            return By.linkText(value);
-        }
-
-        value = findByAnnotation.partialLinkText().trim();
-        if (!value.isEmpty()) {
-            return By.partialLinkText(value);
-        }
-
-        return null;
-    }
-
     /**
      * Initialize given class.
-     *
+     * 
      * @param clazz to be initialized
      * @throws IllegalAccessException
      * @throws InstantiationException
@@ -174,8 +124,8 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @throws SecurityException
      * @throws NoSuchMethodException
      */
-    protected final <T> T instantiate(Class<T> clazz) throws NoSuchMethodException, SecurityException,
-            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected final <T> T instantiate(Class<T> clazz) throws NoSuchMethodException, SecurityException, InstantiationException,
+        IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         Class<?> outerClass = clazz.getDeclaringClass();
 
@@ -188,7 +138,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
             Object outerObject = instantiate(outerClass);
 
-            return construtor.newInstance(new Object[]{outerObject});
+            return construtor.newInstance(new Object[] { outerObject });
 
         } else {
             Constructor<T> construtor = clazz.getDeclaredConstructor();

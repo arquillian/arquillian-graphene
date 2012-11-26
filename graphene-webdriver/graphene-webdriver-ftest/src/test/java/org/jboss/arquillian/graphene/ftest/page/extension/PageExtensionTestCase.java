@@ -21,12 +21,16 @@
  */
 package org.jboss.arquillian.graphene.ftest.page.extension;
 
-import java.util.Collection;
-import java.util.List;
+import static org.mockito.Mockito.when;
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+
 import junit.framework.Assert;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistry;
@@ -37,7 +41,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.openqa.selenium.WebDriver;
-import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
