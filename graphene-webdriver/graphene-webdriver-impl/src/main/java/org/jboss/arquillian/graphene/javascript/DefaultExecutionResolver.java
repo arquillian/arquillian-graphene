@@ -124,7 +124,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
     protected Object executeScriptForCall(JSCall call) {
         String script = resolveScriptToExecute(call);
         Object[] arguments = castArguments(call.getArguments());
-        Object returnValue = browser.executeScript(script, arguments);
+        Object returnValue = JavaScriptUtils.execute(browser, script, arguments);
         return returnValue;
     }
 

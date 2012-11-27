@@ -1,8 +1,8 @@
-Document.helloworld = {};
+document.helloworld = {};
 
-Document.helloworld.install = function() {
-    Document.helloworld.hellovar = "Hello World!";
-}
-Document.helloworld.hello = function() {
-    return Document.helloworld.hellovar;
-}
+document.helloworld.install = function() {
+    document.helloworld.hellovar = "Hello World!";
+};
+document.helloworld.hello = function() {
+    return document.helloworld.hellovar;
+};

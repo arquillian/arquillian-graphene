@@ -73,7 +73,7 @@ window.Graphene.xhrInterception = (function() {
     var replaceXHR = function() {
         original = window.XMLHttpRequest;
         window.XMLHttpRequest = createReplacement();
-    }
+    };
 
     /**
      * Reverts XHR wrapper for Firefox/Chromium/WebKit and similar browsers
@@ -81,7 +81,7 @@ window.Graphene.xhrInterception = (function() {
     var revertXHR = function() {
         window.XMLHttpRequest = original;
         original = undefined;
-    }
+    };
 
     /**
      * Creates XHR wrapper for replacement of original XHR object
@@ -93,7 +93,7 @@ window.Graphene.xhrInterception = (function() {
         };
         Replacement.prototype = wrapperPrototype;
         return Replacement;
-    }
+    };
 
     /**
      * onreadystatechange callback which is registered on true XHR instance.
@@ -111,7 +111,7 @@ window.Graphene.xhrInterception = (function() {
             }
             invokeInterceptorChain(wrapper, 'onreadystatechange', [ wrapper ]);
         };
-    }
+    };
 
     /**
      * Decides which injection is necessary for current browser
@@ -120,7 +120,7 @@ window.Graphene.xhrInterception = (function() {
         if (isXHR) {
             replaceXHR();
         }
-    }
+    };
 
     /**
      * Decides which injection is necessary for current browser
@@ -129,7 +129,7 @@ window.Graphene.xhrInterception = (function() {
         if (isXHR) {
             revertXHR();
         }
-    }
+    };
 
     /**
      * Registers intercepter in the chain of intercepters.
@@ -137,7 +137,7 @@ window.Graphene.xhrInterception = (function() {
     var registerInterceptor = function(methodName, interceptor) {
         interceptors[methodName] = interceptors[methodName] || [];
         interceptors[methodName].push(interceptor);
-    }
+    };
 
     /**
      * Starts the execution of interceptor chain.
@@ -161,7 +161,7 @@ window.Graphene.xhrInterception = (function() {
         } else {
             return invokeRealMethod(wrapper, methodName, args);
         }
-    }
+    };
 
     /**
      * Invokes next intercepter in the chain
@@ -176,7 +176,7 @@ window.Graphene.xhrInterception = (function() {
         };
         var interceptor = interceptors[methodName][i];
         return interceptor.call(wrapper, context, args);
-    }
+    };
 
     /**
      * Invokes original XHR implemention method.
@@ -188,9 +188,9 @@ window.Graphene.xhrInterception = (function() {
         if (xhr[methodName]) {
             return xhr[methodName].apply(xhr, args);
         }
-    }
+    };
 
-    // PUBLIC METHODS
+    /* PUBLIC METHODS */
     return {
         /**
          * Ensures the interceptor is installed properly
