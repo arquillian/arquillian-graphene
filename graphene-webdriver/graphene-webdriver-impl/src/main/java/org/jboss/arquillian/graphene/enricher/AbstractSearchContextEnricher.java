@@ -167,9 +167,33 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     }
 
     private Type[] getSuperClassActualTypeArguments(Object testCase) {
-        Type[] actualTypeArguemnts = ((ParameterizedType) testCase.getClass().getGenericSuperclass()).getActualTypeArguments();
+        ParameterizedType parameterizedType = getParametrizedTypeIfExists(testCase.getClass());
+        if(parameterizedType == null) {
+            throw new IllegalStateException("Cannot obtain actual type arguments of the declared page object!");
+        }
+        return parameterizedType.getActualTypeArguments();
+    }
 
-        return actualTypeArguemnts;
+    /**
+     * Returns parameterized type of the given param <code>clazz</code>, <code>null</code> otherwise.
+     * 
+     * @param clazz
+     * @return
+     */
+    private ParameterizedType getParametrizedTypeIfExists(Class<?> clazz) {
+        if (clazz == null) {
+            return null;
+        }
+        Type type = clazz.getGenericSuperclass();
+        if(type == null) {
+            return null;
+        }
+
+        if (type instanceof ParameterizedType) {
+            return (ParameterizedType) type;
+        } else {
+            return getParametrizedTypeIfExists(clazz.getSuperclass());
+        }
     }
 
     private TypeVariable<?>[] getSuperClassTypeParameters(Object testCase) {
