@@ -21,7 +21,9 @@
  */
 package org.jboss.arquillian.graphene.javascript;
 
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.android.AndroidDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -37,9 +39,12 @@ public final class JavaScriptUtils {
 
     public static Object execute(JavascriptExecutor executor, String javaScript, Object... args) {
         try {
-            return executor.executeScript(javaScript.replace("\n", ""), args);
+            if ((executor instanceof AndroidDriver) || (executor instanceof GrapheneProxyInstance && ((GrapheneProxyInstance) executor).unwrap() instanceof AndroidDriver)) {
+                return executor.executeScript(javaScript.replace("\n", ""), args);
+            } else {
+                return executor.executeScript(javaScript, args);
+            }
         } catch(Exception e) {
-            System.out.println(javaScript.replace("\n", ""));
             throw new RuntimeException(e);
         }
     }
