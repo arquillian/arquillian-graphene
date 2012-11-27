@@ -29,12 +29,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class AttributeConditionFactoryImpl extends AbstractBooleanConditionFactory<AttributeConditionFactory> implements AttributeConditionFactory {
+public class ElementAttributeConditionFactory extends AbstractBooleanConditionFactory<AttributeConditionFactory> implements AttributeConditionFactory {
 
     private WebElement element;
     private String attribute;
 
-    public AttributeConditionFactoryImpl(WebElement element, String attribute) {
+    public ElementAttributeConditionFactory(WebElement element, String attribute) {
         if (element == null) {
             throw new IllegalArgumentException("The element can't be null.");
         }
@@ -52,19 +52,29 @@ public class AttributeConditionFactoryImpl extends AbstractBooleanConditionFacto
 
     @Override
     public ExpectedCondition<Boolean> valueContains(String expected) {
-        return new AttributeValueContains(element, attribute, expected, getNegation());
+        return contains(expected);
     }
 
     @Override
     public ExpectedCondition<Boolean> valueEquals(String expected) {
-        return new AttributeValueEquals(element, attribute, expected, getNegation());
+        return equalTo(expected);
     }
 
     @Override
-    protected AttributeConditionFactoryImpl copy() {
-        AttributeConditionFactoryImpl copy = new AttributeConditionFactoryImpl(element, attribute);
+    protected ElementAttributeConditionFactory copy() {
+        ElementAttributeConditionFactory copy = new ElementAttributeConditionFactory(element, attribute);
         copy.setNegation(getNegation());
         return copy;
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> contains(String expected) {
+        return new AttributeValueContains(element, attribute, expected, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> equalTo(String expected) {
+        return new AttributeValueEquals(element, attribute, expected, getNegation());
     }
 
 }

@@ -19,33 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.condition;
-
-import org.openqa.selenium.support.ui.ExpectedCondition;
+package org.jboss.arquillian.graphene.wait;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeConditionFactory extends BasicConditionFactory<AttributeConditionFactory>, StringConditionFactory<AttributeConditionFactory> {
+public interface StringMatcher<Fluent> {
 
     /**
-     * Returns a condition holding if and only if the attribute value contains
-     * the given string.
-     *
-     * @param expected
-     * @return
+     * Checks whether the text contains the given string.
      */
-    @Deprecated
-    ExpectedCondition<Boolean> valueContains(String expected);
+    Fluent contains(String expected);
 
     /**
-     * Returns a condition holding if and only if the attribute value equals to
-     * the given string.
-     *
-     * @param expected
-     * @return
+     * Checks whether the text is equal to the given string.
      */
-    @Deprecated
-    ExpectedCondition<Boolean> valueEquals(String expected);
+    Fluent equalTo(String expected);
 
 }

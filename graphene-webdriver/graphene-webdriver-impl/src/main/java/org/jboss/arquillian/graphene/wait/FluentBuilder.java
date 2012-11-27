@@ -19,33 +19,26 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.condition;
+package org.jboss.arquillian.graphene.wait;
 
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeConditionFactory extends BasicConditionFactory<AttributeConditionFactory>, StringConditionFactory<AttributeConditionFactory> {
+public interface FluentBuilder<Fluent> {
 
     /**
-     * Returns a condition holding if and only if the attribute value contains
-     * the given string.
-     *
-     * @param expected
-     * @return
+     * Returns an element condition builder which can be used to formulate
+     * conditions related to the given element.
      */
-    @Deprecated
-    ExpectedCondition<Boolean> valueContains(String expected);
+    ElementBuilder<Fluent> element(WebElement element);
 
     /**
-     * Returns a condition holding if and only if the attribute value equals to
-     * the given string.
-     *
-     * @param expected
-     * @return
+     * Returns an element condition factory which can be used to formulate
+     * conditions related to the element determined by the given locater.
      */
-    @Deprecated
-    ExpectedCondition<Boolean> valueEquals(String expected);
+    ElementBuilder<Fluent> element(By element);
 
 }

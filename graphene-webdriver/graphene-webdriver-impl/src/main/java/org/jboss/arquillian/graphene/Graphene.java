@@ -23,7 +23,7 @@ package org.jboss.arquillian.graphene;
 
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
-import org.jboss.arquillian.graphene.condition.attribute.AttributeConditionFactoryImpl;
+import org.jboss.arquillian.graphene.condition.attribute.ElementAttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
@@ -31,10 +31,11 @@ import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
+import org.jboss.arquillian.graphene.wait.WebDriverWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 /**
  *
@@ -51,7 +52,7 @@ public class Graphene {
      * @return
      */
     public static AttributeConditionFactory attribute(WebElement element, String attribute) {
-        return new AttributeConditionFactoryImpl(element, attribute);
+        return new ElementAttributeConditionFactory(element, attribute);
     }
 
     /**
@@ -120,7 +121,7 @@ public class Graphene {
     }
 
     public static WebDriverWait waitAjax(WebDriver driver) {
-        return new WebDriverWait(driver, getConfiguration().getWaitAjaxInterval());
+        return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitAjaxInterval());
     }
 
     public static WebDriverWait waitGui() {
@@ -128,7 +129,7 @@ public class Graphene {
     }
 
     public static WebDriverWait waitGui(WebDriver driver) {
-        return new WebDriverWait(driver, getConfiguration().getWaitGuiInterval());
+        return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitGuiInterval());
     }
 
     public static WebDriverWait waitModel() {
@@ -136,7 +137,7 @@ public class Graphene {
     }
 
     public static WebDriverWait waitModel(WebDriver driver) {
-        return new WebDriverWait(driver, getConfiguration().getWaitModelInterval());
+        return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitModelInterval());
     }
 
     private static GrapheneConfiguration getConfiguration() {
