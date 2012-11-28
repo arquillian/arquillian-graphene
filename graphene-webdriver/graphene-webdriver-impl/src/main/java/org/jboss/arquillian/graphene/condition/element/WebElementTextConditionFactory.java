@@ -19,33 +19,38 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.condition;
+package org.jboss.arquillian.graphene.condition.element;
 
+import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
+import org.jboss.arquillian.graphene.condition.StringConditionFactory;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeConditionFactory extends BasicConditionFactory<AttributeConditionFactory>, StringConditionFactory<AttributeConditionFactory> {
+public class WebElementTextConditionFactory extends AbstractBooleanConditionFactory<StringConditionFactory> implements StringConditionFactory<StringConditionFactory> {
 
-    /**
-     * Returns a condition holding if and only if the attribute value contains
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueContains(String expected);
+    private final WebElement element;
 
-    /**
-     * Returns a condition holding if and only if the attribute value equals to
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueEquals(String expected);
+    public WebElementTextConditionFactory(WebElement element, boolean negation) {
+        this.element = element;
+        this.setNegation(negation);
+    }
+
+    @Override
+    protected StringConditionFactory copy() {
+        return new WebElementTextConditionFactory(element, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> contains(String expected) {
+        return new ElementTextContains(element, expected, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> equalTo(String expected) {
+        return new ElementTextEquals(element, expected, getNegation());
+    }
 
 }

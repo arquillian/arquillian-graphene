@@ -19,33 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.condition;
-
-import org.openqa.selenium.support.ui.ExpectedCondition;
+package org.jboss.arquillian.graphene.wait;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeConditionFactory extends BasicConditionFactory<AttributeConditionFactory>, StringConditionFactory<AttributeConditionFactory> {
+public abstract class AbstractNegatable<T> implements Negatable<T> {
 
-    /**
-     * Returns a condition holding if and only if the attribute value contains
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueContains(String expected);
+    private boolean negation = false;
 
-    /**
-     * Returns a condition holding if and only if the attribute value equals to
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueEquals(String expected);
+    @Override
+    public T not() {
+        AbstractNegatable copy = (AbstractNegatable) copy();
+        copy.setNegation(!this.getNegation());
+        return (T) copy;
+    }
+
+    protected final boolean getNegation() {
+        return negation;
+    }
+
+    protected final void setNegation(boolean negation) {
+        this.negation = negation;
+    }
+
+    abstract protected T copy();
 
 }

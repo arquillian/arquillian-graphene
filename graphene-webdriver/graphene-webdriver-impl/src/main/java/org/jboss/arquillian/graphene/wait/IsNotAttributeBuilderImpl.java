@@ -19,33 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.condition;
+package org.jboss.arquillian.graphene.wait;
 
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
+import org.jboss.arquillian.graphene.fluent.FluentBase;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeConditionFactory extends BasicConditionFactory<AttributeConditionFactory>, StringConditionFactory<AttributeConditionFactory> {
+public class IsNotAttributeBuilderImpl<Fluent> extends AbstractNegatable<IsAttributeBuilder<Fluent>> implements IsNotAttributeBuilder<Fluent> {
 
-    /**
-     * Returns a condition holding if and only if the attribute value contains
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueContains(String expected);
+    private final AttributeConditionFactory factory;
+    private final FluentBase<Fluent> fluentBase;
 
-    /**
-     * Returns a condition holding if and only if the attribute value equals to
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueEquals(String expected);
+    public IsNotAttributeBuilderImpl(AttributeConditionFactory factory, FluentBase<Fluent> fluentBase) {
+        this.factory = factory;
+        this.fluentBase = fluentBase;
+    }
+
+    @Override
+    public Fluent present() {
+        return fluentBase.commit(getNegation() ? factory.not().isPresent() : factory.isPresent());
+    }
+
+    @Override
+    protected IsAttributeBuilder<Fluent> copy() {
+        return new IsNotAttributeBuilderImpl<Fluent>(factory, fluentBase);
+    }
 
 }

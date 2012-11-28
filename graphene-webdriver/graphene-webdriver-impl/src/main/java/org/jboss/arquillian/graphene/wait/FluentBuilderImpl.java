@@ -19,33 +19,33 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.condition;
+package org.jboss.arquillian.graphene.wait;
 
-import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
+import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
+import org.jboss.arquillian.graphene.fluent.FluentBase;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeConditionFactory extends BasicConditionFactory<AttributeConditionFactory>, StringConditionFactory<AttributeConditionFactory> {
+public class FluentBuilderImpl<Fluent> implements FluentBuilder<Fluent> {
 
-    /**
-     * Returns a condition holding if and only if the attribute value contains
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueContains(String expected);
+    private final FluentBase<Fluent> fluentBase;
 
-    /**
-     * Returns a condition holding if and only if the attribute value equals to
-     * the given string.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> valueEquals(String expected);
+    public FluentBuilderImpl(FluentBase<Fluent> fluentBase) {
+        this.fluentBase = fluentBase;
+    }
+
+    @Override
+    public ElementBuilder<Fluent> element(WebElement element) {
+        return new ElementBuilderImpl<Fluent>(new WebElementConditionFactory(element), fluentBase);
+    }
+
+    @Override
+    public ElementBuilder<Fluent> element(By element) {
+        return new ElementBuilderImpl<Fluent>(new ElementLocatorConditionFactory(element), fluentBase);
+    }
 
 }

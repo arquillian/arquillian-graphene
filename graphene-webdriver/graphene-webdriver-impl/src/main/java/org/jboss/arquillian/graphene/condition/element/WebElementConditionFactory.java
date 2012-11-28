@@ -22,8 +22,11 @@
 package org.jboss.arquillian.graphene.condition.element;
 
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
+import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.BooleanConditionWrapper;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
+import org.jboss.arquillian.graphene.condition.StringConditionFactory;
+import org.jboss.arquillian.graphene.condition.attribute.ElementAttributeConditionFactory;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -44,6 +47,11 @@ public class WebElementConditionFactory extends AbstractBooleanConditionFactory<
     }
 
     @Override
+    public AttributeConditionFactory attribute(String attribute) {
+        return new ElementAttributeConditionFactory(element, attribute);
+    }
+
+    @Override
     public ExpectedCondition<Boolean> isPresent() {
         return new ElementIsPresent(element, getNegation());
     }
@@ -59,13 +67,18 @@ public class WebElementConditionFactory extends AbstractBooleanConditionFactory<
     }
 
     @Override
+    public StringConditionFactory text() {
+        return new WebElementTextConditionFactory(element, getNegation());
+    }
+
+    @Override
     public ExpectedCondition<Boolean> textContains(String expected) {
-        return new ElementTextContains(element, expected, getNegation());
+        return text().contains(expected);
     }
 
     @Override
     public ExpectedCondition<Boolean> textEquals(String expected) {
-        return new ElementTextEquals(element, expected, getNegation());
+        return text().equalTo(expected);
     }
 
     @Override
