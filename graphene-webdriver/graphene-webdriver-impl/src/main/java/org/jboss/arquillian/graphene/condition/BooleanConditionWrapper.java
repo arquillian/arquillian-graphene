@@ -83,4 +83,9 @@ public class BooleanConditionWrapper implements ExpectedCondition<Boolean> {
         }
     }
 
+    @Override
+    public String toString() {
+        return (negation ? "negated: " : "wrapped: ") + wrapped.toString();
+    }
+
 }

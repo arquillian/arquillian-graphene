@@ -28,8 +28,12 @@ import org.jboss.arquillian.graphene.condition.BooleanConditionWrapper;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.StringConditionFactory;
 import org.jboss.arquillian.graphene.condition.attribute.LocatorAttributeConditionFactory;
+import org.jboss.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -39,6 +43,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class ElementLocatorConditionFactory extends AbstractBooleanConditionFactory<ElementConditionFactory> implements ElementConditionFactory {
 
     private final By locator;
+
+    protected static final Logger LOGGER = Logger.getLogger(ElementLocatorConditionFactory.class);
 
     public ElementLocatorConditionFactory(By locator) {
         if (locator == null) {
@@ -74,7 +80,22 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
 
     @Override
     public ExpectedCondition<Boolean> textEquals(final String expected) {
-        return text().equalTo(expected);
+        if (expected == null) {
+            throw new IllegalArgumentException("The expected string is null.");
+        }
+        return new BooleanConditionWrapper(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                String elementText = findElement(locator, driver).getText();
+                return expected.equals(elementText);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("text ('%s') to be equal to text  in element found by %s", expected, locator);
+            }
+
+        }, getNegation());
     }
 
     @Override
@@ -88,5 +109,16 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
     @Override
     public AttributeConditionFactory attribute(String attribute) {
         return new LocatorAttributeConditionFactory(locator, attribute);
+    }
+
+    private static WebElement findElement(By by, WebDriver driver) {
+        try {
+            return driver.findElement(by);
+        } catch (NoSuchElementException e) {
+            throw e;
+        } catch (WebDriverException e) {
+            LOGGER.debug(String.format("WebDriverException thrown by findElement(%s)", by), e);
+            throw e;
+        }
     }
 }
