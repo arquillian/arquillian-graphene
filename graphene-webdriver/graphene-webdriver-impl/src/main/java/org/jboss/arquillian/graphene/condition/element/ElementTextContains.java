@@ -42,4 +42,9 @@ public class ElementTextContains extends AbstractElementAndTextBooleanCondition 
         return getElement().getText().contains(getText());
     }
 
+    @Override
+    public String toString() {
+        return String.format("text ('%s') to be present in element %s", getText(), getElement().toString());
+    }
+
 }

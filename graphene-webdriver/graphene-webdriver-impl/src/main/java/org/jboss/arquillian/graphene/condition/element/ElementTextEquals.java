@@ -42,4 +42,9 @@ public class ElementTextEquals extends AbstractElementAndTextBooleanCondition {
         return getElement().getText().equals(getText());
     }
 
+    @Override
+    public String toString() {
+        return String.format("text ('%s') to be equal to text in element %s", getText(), getElement().toString());
+    }
+
 }
