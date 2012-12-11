@@ -28,7 +28,8 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -83,23 +84,70 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      */
     protected final Class<?> getActualType(Field field, Object testCase) {
 
-        // e.g. TestPage, HomePage
-        Type[] superClassActualTypeArguments = getSuperClassActualTypeArguments(testCase);
-        // e.g. T, E
-        TypeVariable<?>[] superClassTypeParameters = getSuperClassTypeParameters(testCase);
+        List<List<Object>> typeParametersOfWholeTestHierarchy = new ArrayList<List<Object>>();
+        getTypeParameters(testCase.getClass(), field.getDeclaringClass(), typeParametersOfWholeTestHierarchy);
 
-        // the type parameter has the same index as the actual type
-        String fieldParameterTypeName = field.getGenericType().toString();
-
-        int index = Arrays.asList(superClassTypeParameters).indexOf(fieldParameterTypeName);
-        for (index = 0; index < superClassTypeParameters.length; index++) {
-            String superClassTypeParameterName = superClassTypeParameters[index].getName();
-            if (fieldParameterTypeName.equals(superClassTypeParameterName)) {
-                break;
-            }
+        for (List<Object> i : typeParametersOfWholeTestHierarchy) {
+            System.out.println(i);
+            System.out.println();
         }
 
-        return (Class<?>) superClassActualTypeArguments[index];
+        List<List<Object>> actulParametersOfWholeTestHierarchy = new ArrayList<List<Object>>();
+        getActualTypes(testCase.getClass(), field.getDeclaringClass(), actulParametersOfWholeTestHierarchy);
+
+        for (List<Object> i : actulParametersOfWholeTestHierarchy) {
+            System.out.println();
+            System.out.println(i);
+            System.out.println();
+        }
+
+        return null;
+
+    }
+
+    private void getActualTypes(Class<?> startingClass, Class<?> terminatingClass,
+        List<List<Object>> actualTypesOfWholeHierarchy) {
+        if (!terminatingClass.isAssignableFrom(startingClass)) {
+            throw new IllegalArgumentException(
+                "Terminating class is after starting class in the class hierarchy! It should be other way round!");
+        }
+
+        List<Object> actualTypes = new ArrayList<Object>();
+        Type type = startingClass.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            for (Type i : ((ParameterizedType) type).getActualTypeArguments()) {
+                actualTypes.add(i);
+            }
+        }
+        actualTypesOfWholeHierarchy.add(actualTypes);
+
+        if (startingClass.equals(terminatingClass)) {
+            return;
+        }
+
+        getActualTypes(startingClass.getSuperclass(), terminatingClass, actualTypesOfWholeHierarchy);
+    }
+
+    private void getTypeParameters(Class<?> startingClass, Class<?> terminatingClass,
+        List<List<Object>> typeParametersOfWholeHierarchy) {
+        if (!terminatingClass.isAssignableFrom(startingClass)) {
+            throw new IllegalArgumentException(
+                "Terminating class is after starting class in the class hierarchy! It should be other way round!");
+        }
+
+        List<Object> typeParamOfStartingClass = new ArrayList<Object>();
+        for (Object i : startingClass.getTypeParameters()) {
+            typeParamOfStartingClass.add(i);
+        }
+
+        typeParametersOfWholeHierarchy.add(typeParamOfStartingClass);
+
+        if (startingClass.equals(terminatingClass)) {
+
+            return;
+        }
+
+        getTypeParameters(startingClass.getSuperclass(), terminatingClass, typeParametersOfWholeHierarchy);
     }
 
     /**
@@ -167,9 +215,33 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     }
 
     private Type[] getSuperClassActualTypeArguments(Object testCase) {
-        Type[] actualTypeArguemnts = ((ParameterizedType) testCase.getClass().getGenericSuperclass()).getActualTypeArguments();
+        ParameterizedType parameterizedType = getParametrizedTypeIfExists(testCase.getClass());
+        if (parameterizedType == null) {
+            throw new IllegalStateException("Cannot obtain actual type arguments of the declared page object!");
+        }
+        return parameterizedType.getActualTypeArguments();
+    }
 
-        return actualTypeArguemnts;
+    /**
+     * Returns parameterized type of the given param <code>clazz</code>, <code>null</code> otherwise.
+     * 
+     * @param clazz
+     * @return
+     */
+    private ParameterizedType getParametrizedTypeIfExists(Class<?> clazz) {
+        if (clazz == null) {
+            return null;
+        }
+        Type type = clazz.getGenericSuperclass();
+        if (type == null) {
+            return null;
+        }
+
+        if (type instanceof ParameterizedType) {
+            return (ParameterizedType) type;
+        } else {
+            return getParametrizedTypeIfExists(clazz.getSuperclass());
+        }
     }
 
     private TypeVariable<?>[] getSuperClassTypeParameters(Object testCase) {

@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.List;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
@@ -55,7 +56,6 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
                 // check whether it is type variable e.g. T
                 if (type instanceof TypeVariable) {
                     declaredClass = getActualType(field, target);
-
                 } else {
                     // no it is normal type, e.g. TestPage
                     declaredClass = field.getType();

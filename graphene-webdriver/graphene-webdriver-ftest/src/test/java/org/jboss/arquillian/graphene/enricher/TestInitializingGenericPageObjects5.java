@@ -35,10 +35,10 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
-public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, TestInitializingGenericPageObjects4.NestedStaticTestPage> {
+public class TestInitializingGenericPageObjects5 extends AbstractTest<TestPage, TestInitializingGenericPageObjects5.InnerTestPage> {
 
     @Page
-    private NestedStaticTestPage innerTestPageNotGeneric;
+    private InnerTestPage innerTestPageNotGeneric;
 
     @Test
     public void testInitializingPageObjectsDeclaredAsInnerClassesGeneric() {
@@ -56,7 +56,7 @@ public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, 
             actual);
     }
 
-    protected static class NestedStaticTestPage {
+    protected static class InnerTestPage {
 
         @FindBy(xpath = "//div[@id='rootElement']")
         private AbstractPageFragmentStub abstractPageFragment;
