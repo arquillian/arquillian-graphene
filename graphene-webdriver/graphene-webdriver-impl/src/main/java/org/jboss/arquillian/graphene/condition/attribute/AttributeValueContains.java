@@ -45,6 +45,11 @@ public class AttributeValueContains extends AbstractAttributeAndValueBooleanCond
 
     @Override
     public String toString() {
-        return String.format("text ('%s') to be contained by attribute ('%s') in element %s", getValue(), getAttribute(), getElement().toString());
+        return String.format("text ('%s')%s to be contained by value ('%s') of attribute ('%s') in element %s",
+                getValue(),
+                (getNegation() ? " not" : ""),
+                getElement().getAttribute(getAttribute()),
+                getAttribute(),
+                getElement().toString());
     }
 }

@@ -32,7 +32,7 @@ import org.openqa.selenium.WebElement;
  */
 public abstract class AbstractElementBooleanCondition extends AbstractElementCondition<Boolean> {
 
-    private boolean negation;
+    private final boolean negation;
 
     public AbstractElementBooleanCondition(WebElement element) {
         this(element, false);
@@ -55,6 +55,10 @@ public abstract class AbstractElementBooleanCondition extends AbstractElementCon
             LOGGER.log(Level.WARNING, "The element is stale.", ignored);
             return null;
         }
+    }
+
+    protected boolean getNegation() {
+        return negation;
     }
 
 }

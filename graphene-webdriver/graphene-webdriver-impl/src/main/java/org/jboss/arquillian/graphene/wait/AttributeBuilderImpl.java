@@ -49,7 +49,7 @@ public class AttributeBuilderImpl<Fluent> extends AbstractNegatable<StringMatche
 
     @Override
     public Fluent equalTo(final String expected) {
-        return fluentBase.commit(getNegation() ? factory.not().contains(expected) : factory.contains(expected));
+        return fluentBase.commit(getNegation() ? factory.not().equalTo(expected) : factory.equalTo(expected));
     }
 
     @Override

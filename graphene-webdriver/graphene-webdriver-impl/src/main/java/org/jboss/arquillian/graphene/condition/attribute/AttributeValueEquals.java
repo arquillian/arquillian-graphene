@@ -45,6 +45,11 @@ public class AttributeValueEquals extends AbstractAttributeAndValueBooleanCondit
 
     @Override
     public String toString() {
-        return String.format("text ('%s') to be equal to value of attribute ('%s') in element %s", getValue(), getAttribute(), getElement().toString());
+        return String.format("text ('%s')%s to be equal to value ('%s') of attribute ('%s') in element %s",
+                getValue(),
+                (getNegation() ? " not" : ""),
+                getElement().getAttribute(getAttribute()),
+                getAttribute(),
+                getElement().toString());
     }
 }

@@ -57,6 +57,14 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
             public Boolean apply(WebDriver driver) {
                 return new AttributeIsPresent(driver.findElement(locator), attribute, getNegation()).apply(driver);
             }
+
+            @Override
+            public String toString() {
+                return String.format("attribute ('%s')%s to be present in element %s",
+                        attribute,
+                        getNegation() ? " not" : "",
+                        locator.toString());
+            }
         };
     }
 
@@ -67,6 +75,15 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
             public Boolean apply(WebDriver driver) {
                 return new AttributeValueContains(driver.findElement(locator), attribute, expected, getNegation()).apply(driver);
             }
+
+            @Override
+            public String toString() {
+                return String.format("text ('%s')%s to be contained by value of attribute ('%s') in element %s",
+                    expected,
+                    (getNegation() ? " not" : ""),
+                    attribute,
+                    locator.toString());
+            }
         };
     }
 
@@ -76,6 +93,15 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
             @Override
             public Boolean apply(WebDriver driver) {
                 return new AttributeValueEquals(driver.findElement(locator), attribute, expected, getNegation()).apply(driver);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("text ('%s')%s to be equal to value of attribute ('%s') in element %s",
+                    expected,
+                    (getNegation() ? " not" : ""),
+                    attribute,
+                    locator.toString());
             }
         };
     }

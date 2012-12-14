@@ -42,7 +42,10 @@ public class AttributeIsPresent extends AbstractAttributeBooleanCondition {
 
     @Override
     public String toString() {
-        return String.format("attribute ('%s') to be present in element %s", getAttribute(), getElement().toString());
+        return String.format("attribute ('%s')%s to be present in element %s",
+                getAttribute(),
+                getNegation() ? " not" : "",
+                getElement().toString());
     }
 
 }
