@@ -55,19 +55,6 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
-
-<!--         <dependency> -->
-<!--             <groupId>org.jboss.shrinkwrap</groupId> -->
-<!--             <artifactId>shrinkwrap-depchain</artifactId> -->
-<!--             <version>${version.shrinkwrap}</version> -->
-<!--             <type>pom</type> -->
-<!--         </dependency> -->
-        
-<!--         <dependency> -->
-<!--             <groupId>org.jboss.arquillian.junit</groupId> -->
-<!--             <artifactId>arquillian-junit-container</artifactId> -->
-<!--             <scope>test</scope> -->
-<!--         </dependency> -->
     </dependencies>
 
     <build>
