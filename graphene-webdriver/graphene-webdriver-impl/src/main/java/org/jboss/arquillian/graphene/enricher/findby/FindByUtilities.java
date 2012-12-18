@@ -41,7 +41,7 @@ public class FindByUtilities {
         if (field.getAnnotation(FindBy.class) != null) {
             by = getReferencedBy(field.getAnnotation(FindBy.class));
         } else {
-            by = getReferencedBy(field.getAnnotation(org.jboss.arquillian.graphene.spi.annotations.FindBy.class));
+            by = getReferencedBy(field.getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class));
         }
 
         return by;
@@ -49,7 +49,7 @@ public class FindByUtilities {
     
     public static List<Field> getListOfFieldsAnnotatedWithFindBys(Object target) {
         List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBy.class);
-        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.spi.annotations.FindBy.class));
+        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.enricher.findby.FindBy.class));
         return fields;
     }
 
@@ -97,7 +97,7 @@ public class FindByUtilities {
         return null;
     }
 
-    private static final By getReferencedBy(org.jboss.arquillian.graphene.spi.annotations.FindBy findByAnnotation) {
+    private static final By getReferencedBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findByAnnotation) {
         String value = findByAnnotation.className().trim();
         if (!value.isEmpty()) {
             return By.className(value);
