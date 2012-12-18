@@ -22,7 +22,8 @@
 package org.jboss.arquillian.graphene.page.extension;
 
 import java.util.Collection;
-import org.apache.commons.lang.Validate;
+
+import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 
@@ -35,8 +36,8 @@ public abstract class AbstractPageExtensionInstallator implements PageExtensionI
     private final PageExtension extension;
 
     public AbstractPageExtensionInstallator(PageExtension extension, PageExtensionInstallatorProvider installatorProvider) {
-        Validate.notNull(extension);
-        Validate.notNull(installatorProvider);
+        Validate.notNull(extension, "extension should not be null");
+        Validate.notNull(installatorProvider, "installationProvider should not be null");
         this.extension = extension;
         this.installatorProvider = installatorProvider;
     }

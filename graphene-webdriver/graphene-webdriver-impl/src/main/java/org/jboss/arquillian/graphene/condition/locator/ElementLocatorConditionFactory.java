@@ -22,13 +22,15 @@
  */
 package org.jboss.arquillian.graphene.condition.locator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.BooleanConditionWrapper;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.StringConditionFactory;
 import org.jboss.arquillian.graphene.condition.attribute.LocatorAttributeConditionFactory;
-import org.jboss.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -44,7 +46,7 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
 
     private final By locator;
 
-    protected static final Logger LOGGER = Logger.getLogger(ElementLocatorConditionFactory.class);
+    protected static final Logger LOGGER = Logger.getLogger(ElementLocatorConditionFactory.class.getName());
 
     public ElementLocatorConditionFactory(By locator) {
         if (locator == null) {
@@ -117,7 +119,7 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
         } catch (NoSuchElementException e) {
             throw e;
         } catch (WebDriverException e) {
-            LOGGER.debug(String.format("WebDriverException thrown by findElement(%s)", by), e);
+            LOGGER.log(Level.FINE, String.format("WebDriverException thrown by findElement(%s)", by), e);
             throw e;
         }
     }

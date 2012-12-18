@@ -33,13 +33,9 @@
         <version.arquillian.drone>1.1.0.Final</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.commons-lang>2.5</version.commons-lang>
-        <version.commons-io>1.4</version.commons-io>
-        <version.commons-codec>1.4</version.commons-codec>
         <version.javassist>3.12.1.GA</version.javassist>
         <version.cglib>2.2.2</version.cglib>
         <version.objenesis>1.2</version.objenesis>
-        <version.jboss.logging>3.1.1.GA</version.jboss.logging>
 
         <!-- Tests -->
         <version.junit>4.10</version.junit>
@@ -116,22 +112,6 @@
                 <groupId>org.objenesis</groupId>
                 <artifactId>objenesis</artifactId>
                 <version>${version.objenesis}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${version.commons-lang}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${version.commons-io}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${version.commons-codec}</version>
             </dependency>
 
             <!-- Test dependencies -->

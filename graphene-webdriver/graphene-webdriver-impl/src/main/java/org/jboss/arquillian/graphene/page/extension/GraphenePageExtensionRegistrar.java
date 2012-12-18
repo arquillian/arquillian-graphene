@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.page.extension;
 
 import java.util.Collection;
+
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
@@ -30,21 +31,18 @@ import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
+import org.jboss.arquillian.graphene.spi.page.PageExtensionProvider;
 import org.jboss.arquillian.graphene.spi.page.PageExtensionsCleaned;
 import org.jboss.arquillian.graphene.spi.page.PageExtensionsReady;
-import org.jboss.arquillian.graphene.spi.page.PageExtensionProvider;
 import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.arquillian.test.spi.annotation.ClassScoped;
 import org.jboss.arquillian.test.spi.event.suite.AfterClass;
 import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
-import org.jboss.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class GraphenePageExtensionRegistrar {
-
-    private static final Logger LOGGER = Logger.getLogger(GraphenePageExtensionRegistrar.class);
 
     @Inject
     @ClassScoped

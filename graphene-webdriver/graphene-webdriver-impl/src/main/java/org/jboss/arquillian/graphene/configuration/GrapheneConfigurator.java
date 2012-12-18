@@ -34,15 +34,12 @@ import org.jboss.arquillian.graphene.spi.configuration.GrapheneUnconfigured;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
 import org.jboss.arquillian.test.spi.event.suite.AfterClass;
 import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
-import org.jboss.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  * @author <a href="mailto:kpiwko@redhat.com">Karel Piwko</a>
  */
 public class GrapheneConfigurator {
-
-    private static final Logger LOGGER = Logger.getLogger(GrapheneConfigurator.class);
 
     @Inject
     @SuiteScoped

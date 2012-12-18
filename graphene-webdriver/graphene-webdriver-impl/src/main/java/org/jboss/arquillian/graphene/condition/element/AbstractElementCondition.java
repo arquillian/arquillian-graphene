@@ -21,11 +21,13 @@
  */
 package org.jboss.arquillian.graphene.condition.element;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.jboss.logging.Logger;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -33,7 +35,7 @@ import org.jboss.logging.Logger;
 public abstract class AbstractElementCondition<R> implements ExpectedCondition<R> {
 
     private WebElement element;
-    protected static final Logger LOGGER = Logger.getLogger(AbstractElementCondition.class);
+    protected static final Logger LOGGER = Logger.getLogger(AbstractElementCondition.class.getName());
 
     public AbstractElementCondition(WebElement element) {
         if (element == null) {
@@ -47,7 +49,7 @@ public abstract class AbstractElementCondition<R> implements ExpectedCondition<R
         try {
             return check(driver);
         } catch(StaleElementReferenceException ignored) {
-            LOGGER.debug("The element is stale.", ignored);
+            LOGGER.log(Level.FINE, "The element is stale.", ignored);
             return null;
         }
     }

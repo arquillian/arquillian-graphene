@@ -24,7 +24,9 @@ package org.jboss.arquillian.graphene.condition;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import org.jboss.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -38,7 +40,7 @@ public class BooleanConditionWrapper implements ExpectedCondition<Boolean> {
     private final boolean negation;
     private final Set<Class<? extends RuntimeException>> ignoredExceptions = new HashSet<Class<? extends RuntimeException>>();
 
-    protected static final Logger LOGGER = Logger.getLogger(BooleanConditionWrapper.class);
+    protected static final Logger LOGGER = Logger.getLogger(BooleanConditionWrapper.class.getName());
 
     public BooleanConditionWrapper(ExpectedCondition<?> wrapped, Class<? extends RuntimeException>... ignoredExceptions) {
         this(wrapped, false, ignoredExceptions);
@@ -71,11 +73,11 @@ public class BooleanConditionWrapper implements ExpectedCondition<Boolean> {
                 }
             }
         } catch(StaleElementReferenceException ignored) {
-            LOGGER.debug("The element is stale.", ignored);
+            LOGGER.log(Level.FINE, "The element is stale.", ignored);
             return false;
         } catch(RuntimeException e) {
             if (ignoredExceptions.contains(e.getClass())) {
-                LOGGER.debug("Exception ignored, returning " + negation + ".", e);
+                LOGGER.log(Level.FINE, "Exception ignored, returning " + negation + ".", e);
                 return negation;
             } else {
                 throw e;

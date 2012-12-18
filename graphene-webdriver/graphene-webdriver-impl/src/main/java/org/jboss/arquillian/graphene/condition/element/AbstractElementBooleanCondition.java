@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.condition.element;
 
+import java.util.logging.Level;
+
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -50,7 +52,7 @@ public abstract class AbstractElementBooleanCondition extends AbstractElementCon
                 return check(driver);
             }
         } catch(StaleElementReferenceException ignored) {
-            LOGGER.warn("The element is stale.", ignored);
+            LOGGER.log(Level.WARNING, "The element is stale.", ignored);
             return null;
         }
     }

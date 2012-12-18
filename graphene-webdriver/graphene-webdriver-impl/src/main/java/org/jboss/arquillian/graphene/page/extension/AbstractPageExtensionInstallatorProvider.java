@@ -23,7 +23,8 @@ package org.jboss.arquillian.graphene.page.extension;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.Validate;
+
+import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 
 /**
@@ -34,7 +35,7 @@ public abstract class AbstractPageExtensionInstallatorProvider implements PageEx
     private final PageExtensionRegistry registry;
 
     public AbstractPageExtensionInstallatorProvider(PageExtensionRegistry registry) {
-        Validate.notNull(registry);
+        Validate.notNull(registry, "registry should not be null");
         this.registry = registry;
     }
 

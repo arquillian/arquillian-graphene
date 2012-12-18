@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
@@ -91,6 +89,6 @@ public class JSTarget {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "JSTarget [jsInterface=" + jsInterface.getName() + "]";
     }
 }

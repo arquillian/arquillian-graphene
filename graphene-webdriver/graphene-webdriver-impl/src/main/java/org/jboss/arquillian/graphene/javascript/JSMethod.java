@@ -2,9 +2,6 @@ package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Method;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 public class JSMethod {
 
     private JSTarget target;
@@ -33,15 +30,15 @@ public class JSMethod {
     private String resolveName(Method method) {
         MethodName annotation = method.getAnnotation(MethodName.class);
 
-        if (annotation != null && !StringUtils.isEmpty(annotation.value())) {
+        if (annotation != null && !"".equals(annotation.value())) {
             return annotation.value();
         }
 
         return method.getName();
     }
-    
+
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "JSMethod [method=" + method.getName() + ", name=" + name + ", target=" + target + "]";
     }
 }

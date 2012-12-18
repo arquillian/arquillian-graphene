@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.graphene.page.extension;
 
-import org.apache.commons.lang.Validate;
+import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.javascript.JavaScriptUtils;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -39,7 +39,7 @@ public class RemotePageExtensionInstallatorProvider extends AbstractPageExtensio
 
     public RemotePageExtensionInstallatorProvider(PageExtensionRegistry registry, WebDriver driver) {
         super(registry);
-        Validate.notNull(driver);
+        Validate.notNull(driver, "driver should not be null");
         this.driver = driver;
         if (!(driver instanceof JavascriptExecutor)) {
             throw new IllegalStateException("Can't use the given driver to execute javascript, because it doesn't implement " + JavascriptExecutor.class + " interface.");

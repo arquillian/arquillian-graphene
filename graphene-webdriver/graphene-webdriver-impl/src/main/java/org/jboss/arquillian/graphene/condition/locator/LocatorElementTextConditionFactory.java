@@ -21,10 +21,12 @@
  */
 package org.jboss.arquillian.graphene.condition.locator;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
 import org.jboss.arquillian.graphene.condition.BooleanConditionWrapper;
 import org.jboss.arquillian.graphene.condition.StringConditionFactory;
-import org.jboss.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -40,7 +42,7 @@ public class LocatorElementTextConditionFactory extends AbstractBooleanCondition
 
     private final By locator;
 
-    protected static final Logger LOGGER = Logger.getLogger(LocatorElementTextConditionFactory.class);
+    protected static final Logger LOGGER = Logger.getLogger(LocatorElementTextConditionFactory.class.getName());
 
     public LocatorElementTextConditionFactory(By locator) {
         this.locator = locator;
@@ -79,7 +81,7 @@ public class LocatorElementTextConditionFactory extends AbstractBooleanCondition
         } catch (NoSuchElementException e) {
             throw e;
         } catch (WebDriverException e) {
-            LOGGER.debug(String.format("WebDriverException thrown by findElement(%s)", by), e);
+            LOGGER.log(Level.FINE, String.format("WebDriverException thrown by findElement(%s)", by), e);
             throw e;
         }
     }

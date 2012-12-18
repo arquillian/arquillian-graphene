@@ -1,8 +1,6 @@
 package org.jboss.arquillian.graphene.javascript;
 
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-
+import java.util.Arrays;
 
 public class JSCall {
 
@@ -28,6 +26,6 @@ public class JSCall {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "JSCall [arguments=" + Arrays.toString(arguments) + ", method=" + method + "]";
     }
 }
