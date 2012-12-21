@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.ftest.guard;
 
+import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URL;
@@ -33,8 +34,9 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -44,6 +46,13 @@ public class RequestGuardTestCase {
 
     @Drone
     private WebDriver browser;
+
+    @FindBy(id = "xhr")
+    private WebElement xhr;
+    @FindBy(id = "http")
+    private WebElement http;
+    @FindBy(id = "status")
+    private WebElement status;
 
     @Before
     public void loadPage() {
@@ -57,7 +66,8 @@ public class RequestGuardTestCase {
         assertEquals(RequestType.HTTP, guard.getRequestDone());
         guard.clearRequestDone();
         assertEquals(RequestType.NONE, guard.getRequestDone());
-        browser.findElement(By.id("xhr")).click();
+        xhr.click();
+        waitAjax().until().element(status).text().contains("DONE");
         assertEquals(RequestType.XHR, guard.getRequestDone());
     }
 
@@ -67,7 +77,7 @@ public class RequestGuardTestCase {
         assertEquals(RequestType.HTTP, guard.getRequestDone());
         guard.clearRequestDone();
         assertEquals(RequestType.NONE, guard.getRequestDone());
-        browser.findElement(By.id("http")).click();
+        http.click();
         assertEquals(RequestType.HTTP, guard.getRequestDone());
     }
 

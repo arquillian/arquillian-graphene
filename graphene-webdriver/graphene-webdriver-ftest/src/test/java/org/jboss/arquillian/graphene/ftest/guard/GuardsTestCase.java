@@ -66,12 +66,10 @@ public class GuardsTestCase {
 
     @Before
     public void loadPage() {
-        System.out.println("before");
         URL url = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/guard/sample1.html");
         browser.get(url.toString());
     }
 
-    // TODO this is rather unit test
     @Test
     public void testGuardType() {
         Assert.assertTrue(guardXhr(browser) instanceof WebDriver);
