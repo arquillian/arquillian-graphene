@@ -21,24 +21,35 @@
  */
 package org.jboss.arquillian.graphene.guard;
 
+import static org.jboss.arquillian.graphene.Graphene.waitModel;
+
 import java.util.concurrent.TimeUnit;
+
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
+import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
+import org.openqa.selenium.WebDriver;
+
+import com.google.common.base.Predicate;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class RequestGuardFactory {
 
+    private static RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
+    private static Document document = JSInterfaceFactory.create(Document.class);
+
+    private static DocumentReady documentReady = new DocumentReady();
+
     /**
-     * Returns the guarded object checking whether the request of the given type
-     * is done during each method invocation. If the request is not found, the
-     * {@link RequestGuardException} is thrown.
+     * Returns the guarded object checking whether the request of the given type is done during each method invocation. If the
+     * request is not found, the {@link RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded
@@ -61,16 +72,22 @@ public class RequestGuardFactory {
         proxy.registerInterceptor(new Interceptor() {
             @Override
             public Object intercept(InvocationContext context) throws Throwable {
-                RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
+
                 guard.clearRequestDone();
-                RequestType requestBefore = guard.getRequestDone();
-                Object result =  context.invoke();
-                final long timeout = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(GrapheneConfigurationContext.getProxy().getWaitGuardInterval());
+
+                Object result = context.invoke();
+
+                final long timeout = System.currentTimeMillis()
+                        + TimeUnit.SECONDS.toMillis(GrapheneConfigurationContext.getProxy().getWaitGuardInterval());
                 final long toSleep = Math.min(GrapheneConfigurationContext.getProxy().getWaitGuardInterval() * 100, 200);
-                while(System.currentTimeMillis() < timeout) {
-                    RequestType requestAfter = guard.getRequestDone();
-                    if (!requestAfter.equals(requestBefore)) {
-                        if (requestAfter.equals(requestExpected)) {
+
+                while (System.currentTimeMillis() < timeout) {
+                    RequestType requestDone = guard.getRequestDone();
+                    if (!requestDone.equals(RequestType.NONE)) {
+                        if (requestDone.equals(requestExpected)) {
+                            if (requestDone.equals(RequestType.HTTP)) {
+                                waitModel().withMessage("Document didn't become ready").until(documentReady);
+                            }
                             return result;
                         } else {
                             throw new RequestGuardException(requestExpected, guard.getRequestDone());
@@ -78,10 +95,11 @@ public class RequestGuardFactory {
                     } else {
                         try {
                             Thread.sleep(toSleep);
-                        } catch(InterruptedException ignored) {
+                        } catch (InterruptedException ignored) {
                         }
                     }
                 }
+
                 if (requestExpected.equals(RequestType.NONE)) {
                     return result;
                 } else {
@@ -92,4 +110,9 @@ public class RequestGuardFactory {
         return (T) proxy;
     }
 
+    private static class DocumentReady implements Predicate<WebDriver> {
+        public boolean apply(WebDriver arg0) {
+            return "complete".equals(document.getReadyState());
+        }
+    }
 }

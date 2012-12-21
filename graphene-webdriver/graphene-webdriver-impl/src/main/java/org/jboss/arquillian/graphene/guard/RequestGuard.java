@@ -20,5 +20,4 @@ public interface RequestGuard extends InstallableJavaScript {
      * @return the last request type
      */
     RequestType clearRequestDone();
-
 }
