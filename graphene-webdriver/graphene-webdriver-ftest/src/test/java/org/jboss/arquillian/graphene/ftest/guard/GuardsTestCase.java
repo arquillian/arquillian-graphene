@@ -21,19 +21,23 @@
  */
 package org.jboss.arquillian.graphene.ftest.guard;
 
+import static org.jboss.arquillian.graphene.Graphene.guardHttp;
+import static org.jboss.arquillian.graphene.Graphene.guardNoRequest;
+import static org.jboss.arquillian.graphene.Graphene.guardXhr;
+import static org.junit.Assert.assertTrue;
+
 import java.net.URL;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.guard.RequestGuardException;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -41,140 +45,91 @@ import org.openqa.selenium.support.PageFactory;
 @RunWith(Arquillian.class)
 public class GuardsTestCase {
 
-    @FindBy(id="http")
+    @FindBy(id = "http")
     private WebElement http;
-    @FindBy(id="none")
+    @FindBy(id = "none")
     private WebElement none;
-    @FindBy(id="xhr")
+    @FindBy(id = "xhr")
     private WebElement xhr;
-    @FindBy(id="xhr-delayed")
-    private WebElement xhrDelayed;
+    @FindBy(id = "xhr-delayed-trigerring")
+    private WebElement xhrDelayedTrigerring;
+    @FindBy(id = "xhr-delayed-processing")
+    private WebElement xhrDelayedProcessing;
+    @FindBy(id = "xhr-delayed-processing-with-code-arg")
+    private WebElement xhrDelayedProcessingWithCodeArgument;
 
-    private Page page;
-
-    private static class Page {
-        @FindBy(id="http")
-        private WebElement http;
-        @FindBy(id="none")
-        private WebElement none;
-        @FindBy(id="xhr")
-        private WebElement xhr;
-        @FindBy(id="xhr-delayed")
-        private WebElement xhrDelayed;
-    }
+    @FindBy(id = "status")
+    private WebElement status;
 
     @Drone
     private WebDriver browser;
 
+    @Before
     public void loadPage() {
+        System.out.println("before");
         URL url = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/guard/sample1.html");
         browser.get(url.toString());
-        page = new Page();
-        PageFactory.initElements(browser, page);
     }
 
-    @Test(expected=RequestGuardException.class)
-    public void testDelayedGuardNoRequest() {
-        loadPage();
-        Graphene.guardNoRequest(browser.findElement(By.id("xhr-delayed"))).click();
-    }
-
-    @Test
-    public void testDelayedGuardXhr() {
-        loadPage();
-        Graphene.guardXhr(browser.findElement(By.id("xhr-delayed"))).click();
-    }
-
-    @Test
-    public void testDelayedGuardXhrInjectedByGraphene() {
-        loadPage();
-        Graphene.guardXhr(xhrDelayed).click();
-    }
-
-    @Test
-    public void testDelayedGuardXhrInjectedBySelenium() {
-        loadPage();
-        Graphene.guardXhr(page.xhrDelayed).click();
-    }
-
+    // TODO this is rather unit test
     @Test
     public void testGuardType() {
-        Assert.assertTrue(Graphene.guardXhr(browser) instanceof WebDriver);
-        Assert.assertTrue(Graphene.guardHttp(browser) instanceof WebDriver);
-        Assert.assertTrue(Graphene.guardNoRequest(browser) instanceof WebDriver);
+        Assert.assertTrue(guardXhr(browser) instanceof WebDriver);
+        Assert.assertTrue(guardHttp(browser) instanceof WebDriver);
+        Assert.assertTrue(guardNoRequest(browser) instanceof WebDriver);
     }
 
     @Test
     public void testGuardHttp() {
-        loadPage();
-        Graphene.guardHttp(browser.findElement(By.id("http"))).click();
-    }
-
-    @Test
-    public void testGuardHttpInjectedByGraphene() {
-        loadPage();
-        Graphene.guardHttp(http).click();
-    }
-
-    @Test
-    public void testGuardHttpInjectedBySelenium() {
-        loadPage();
-        Graphene.guardHttp(page.http).click();
+        guardHttp(http).click();
     }
 
     @Test
     public void testGuardNoRequest() {
-        loadPage();
-        Graphene.guardNoRequest(browser.findElement(By.id("none"))).click();
-    }
-
-    @Test
-    public void testGuardNoRequestInjectedByGraphene() {
-        loadPage();
-        Graphene.guardNoRequest(none).click();
-    }
-
-    @Test
-    public void testGuardNoRequestInjectedBySelenium() {
-        loadPage();
-        Graphene.guardNoRequest(page.none).click();
+        guardNoRequest(none).click();
     }
 
     @Test
     public void testGuardXhr() {
-        loadPage();
-        Graphene.guardXhr(browser.findElement(By.id("xhr"))).click();
+        guardXhr(xhr).click();
+        assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
-    public void testGuardXhrInjectedByGraphene() {
-        loadPage();
-        Graphene.guardXhr(xhr).click();
+    public void testGuardDelayedXhr() {
+        guardXhr(xhrDelayedTrigerring).click();
+        assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
-    public void testGuardXhrInjectedBySelenium() {
-        loadPage();
-        Graphene.guardXhr(page.xhr).click();
+    public void testGuardDelayedXhrProcessing() {
+        guardXhr(xhrDelayedProcessing).click();
+        assertTrue(status.getText().contains("DONE"));
     }
 
-    @Test(expected=RequestGuardException.class)
+    @Test
+    public void testGuardDelayedXhrProcessingWithCodeArgument() {
+        guardXhr(xhrDelayedProcessingWithCodeArgument).click();
+        assertTrue(status.getText().contains("DONE"));
+    }
+
+    @Test(expected = RequestGuardException.class)
     public void testGuardHttpFailure() {
-        loadPage();
-        Graphene.guardHttp(browser.findElement(By.id("xhr"))).click();
+        guardHttp(xhr).click();
     }
 
-    @Test(expected=RequestGuardException.class)
+    @Test(expected = RequestGuardException.class)
     public void testGuardNoRequestFailure() {
-        loadPage();
-        Graphene.guardNoRequest(browser.findElement(By.id("http"))).click();
+        guardNoRequest(http).click();
     }
 
-    @Test(expected=RequestGuardException.class)
+    @Test(expected = RequestGuardException.class)
     public void testGuardXhrFailure() {
-        loadPage();
-        Graphene.guardXhr(browser.findElement(By.id("http"))).click();
+        guardXhr(http).click();
     }
 
-
+    @Test(expected = RequestGuardException.class)
+    public void testDelayedGuardNoRequest() {
+        guardNoRequest(xhrDelayedTrigerring).click();
+    }
 }

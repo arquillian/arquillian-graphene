@@ -21,13 +21,16 @@
  */
 package org.jboss.arquillian.graphene.ftest.guard;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.URL;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.guard.RequestGuard;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -42,6 +45,7 @@ public class RequestGuardTestCase {
     @Drone
     private WebDriver browser;
 
+    @Before
     public void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/guard/sample1.html");
         browser.get(page.toString());
@@ -49,24 +53,22 @@ public class RequestGuardTestCase {
 
     @Test
     public void testXhr() throws InterruptedException {
-        loadPage();
         RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
-        Assert.assertEquals(RequestType.HTTP, guard.getRequestDone());
+        assertEquals(RequestType.HTTP, guard.getRequestDone());
         guard.clearRequestDone();
-        Assert.assertEquals(RequestType.NONE, guard.getRequestDone());
+        assertEquals(RequestType.NONE, guard.getRequestDone());
         browser.findElement(By.id("xhr")).click();
-        Assert.assertEquals(RequestType.XHR, guard.getRequestDone());
+        assertEquals(RequestType.XHR, guard.getRequestDone());
     }
 
     @Test
     public void testHttp() {
-        loadPage();
         RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
-        Assert.assertEquals(RequestType.HTTP, guard.getRequestDone());
+        assertEquals(RequestType.HTTP, guard.getRequestDone());
         guard.clearRequestDone();
-        Assert.assertEquals(RequestType.NONE, guard.getRequestDone());
+        assertEquals(RequestType.NONE, guard.getRequestDone());
         browser.findElement(By.id("http")).click();
-        Assert.assertEquals(RequestType.HTTP, guard.getRequestDone());
+        assertEquals(RequestType.HTTP, guard.getRequestDone());
     }
 
 }

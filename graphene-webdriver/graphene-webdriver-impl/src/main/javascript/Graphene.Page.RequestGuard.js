@@ -23,30 +23,73 @@ window.Graphene = window.Graphene || {};
 
 window.Graphene.Page = window.Graphene.Page || {};
 
-window.Graphene.Page.RequestGuard = {
+window.Graphene.Page.RequestGuard = (function() {
 
-	requestDone : "HTTP",
-
-	getRequestDone : function() {
-		return this.requestDone;
-	},
-
-	setRequestDone : function(requestType) {
-		this.requestDone = requestType;
-	},
-
-	clearRequestDone : function() {
-		var result = this.requestDone;
-		this.requestDone = "NONE";
-		return result;
-	},
-
-    install: function() {
-        window.Graphene.xhrInterception.onreadystatechange(
-            function(context, args) {
-                window.Graphene.Page.RequestGuard.requestDone = "XHR";
-                context.proceed(args);
+    var requestDone = "HTTP";
+    
+    var originalTimeout;
+    
+    var latch = 0;
+    
+    var timeoutWrapper = function(originalCallback, timeout) {
+        latch += 1;
+        var callbackArguments = [];
+        for (var i = 0; i < arguments.length; i++) {
+            if (i >= 2) {
+                callbackArguments.push(arguments[i]);
             }
-        );
+        }
+        
+        originalTimeout(function() {
+            try {
+                if (typeof(originalCallback) == 'string') {
+                    window.eval(originalCallback);
+                } else {
+                    originalCallback(callbackArguments);
+                }
+            } finally {
+                latch -= 1;
+                tryFinish();
+            }
+        }, timeout);
     }
-};
+    
+    var tryFinish = function() {
+        if (latch == 0) {
+            requestDone = "XHR";
+        }
+    }
+    
+    return {
+
+    	getRequestDone : function() {
+    		return requestDone;
+    	},
+    
+    	clearRequestDone : function() {
+    		var result = requestDone;
+    		requestDone = "NONE";
+    		return result;
+    	},
+    
+        install: function() {
+            window.Graphene.xhrInterception.onreadystatechange(
+                function(context, args) {
+                    if(this.readyState == 4) {
+                        try {
+                            originalTimeout = window.setTimeout;
+                            window.setTimeout = timeoutWrapper;
+                            context.proceed(args);
+                        } finally {
+                            window.setTimeout = originalTimeout;
+                            tryFinish();
+                        }
+                    } else {
+                        context.proceed(args);
+                    }
+                }
+            );
+        }
+    }
+
+})();

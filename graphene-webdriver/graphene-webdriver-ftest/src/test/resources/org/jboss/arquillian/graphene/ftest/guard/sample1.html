@@ -20,21 +20,49 @@
                     }
                     return xmlhttp;
             }
-            function MakeRequst(uri){
+            function MakeRequst(callback){
+                var callback = callback || defaultCallback;
                 var xmlhttp = createXMLHTTPObject();
-                xmlhttp.open("get", uri, true);
+                xmlhttp.onreadystatechange = function() {
+                    if(this.readyState == 4) {
+                        callback();
+                    }
+                }
+                xmlhttp.open("get", "sample2.html", true);
                 xmlhttp.send();
                 document.getElementById("status").innerHTML += "SEND ";
                 return true;
+            }
+            function defaultCallback() {
+                document.getElementById("status").innerHTML += "DONE ";
+            }
+            function xhrDelayedTrigerring() {
+                setTimeout(function() {
+                    MakeRequst()
+                }, 1000);
+            }
+            function xhrDelayedProcessing() {
+                MakeRequst(function() {
+                   window.setTimeout(function(arg1) {
+                       document.getElementById("status").innerHTML += arg1 + " ";
+                   }, 1000, "DONE"); 
+                });
+            }
+            function xhrDelayedProcessingWithCodeArg() {
+                MakeRequst(function() {
+                   window.setTimeout('document.getElementById("status").innerHTML += "DONE ";', 1000);
+                });
             }
         </script>
     </head>
     <body>
         <h1>Hello World!</h1>
         <a href="sample2.html" id="http">HTTP</a> <br />
-        <a href="#" id="xhr" onclick="MakeRequst('sample2.html')">XHR</a>
+        <a href="#" id="xhr" onclick="MakeRequst()">XHR</a>
         <a href="#" id="none">NONE</a>
-        <a href="#" id="xhr-delayed" onclick="setTimeout(function() {MakeRequst('sample2.html')}, 1000)">XHR (delayed)</a>
+        <a href="#" id="xhr-delayed-trigerring" onclick="xhrDelayedTrigerring()">XHR (delayed trigerring)</a>
+        <a href="#" id="xhr-delayed-processing" onclick="xhrDelayedProcessing()">XHR (delayed processing)</a>
+        <a href="#" id="xhr-delayed-processing-with-code-arg" onclick="xhrDelayedProcessingWithCodeArg()">XHR (delayed processing - with string code as setTimeout argument)</a>
         <div id="status"></div>
     </body>
 </html>
