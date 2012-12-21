@@ -23,14 +23,14 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Retrieves the text for given elementLocator
@@ -59,7 +59,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
      */
     @Override
     public String retrieve() {
-        Validate.notNull(elementLocator);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
 
         return selenium.getText(elementLocator);
     }
@@ -69,7 +69,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
      */
     @Override
     public JavaScript getJavaScriptRetrieve() {
-        String escapedLocator = StringEscapeUtils.escapeJavaScript(elementLocator.inSeleniumRepresentation());
+        String escapedLocator = StringEscapeUtils.escapeEcmaScript(elementLocator.inSeleniumRepresentation());
         return js("selenium.getText('{0}')").parametrize(escapedLocator);
     }
 
@@ -89,7 +89,7 @@ public class TextRetriever extends AbstractRetriever<String> implements Retrieve
      * @return the TextRetriever preset with elementLocator of given value
      */
     public TextRetriever locator(ElementLocator<?> elementLocator) {
-        Validate.notNull(elementLocator);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
 
         TextRetriever copy = copy();
         copy.elementLocator = elementLocator;

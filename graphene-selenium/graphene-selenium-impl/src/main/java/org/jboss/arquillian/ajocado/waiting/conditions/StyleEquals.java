@@ -21,10 +21,9 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.css.CssProperty;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
@@ -32,6 +31,7 @@ import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  *
@@ -90,17 +90,17 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
     @Override
     public JavaScript getJavaScriptCondition() {
         validate();
-        String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
-        String escapedCssProperty = escapeJavaScript(this.cssProperty.getPropertyName());
-        String escapedText = escapeJavaScript(this.value);
+        String escapedLocator = escapeEcmaScript(this.elementLocator.inSeleniumRepresentation());
+        String escapedCssProperty = escapeEcmaScript(this.cssProperty.getPropertyName());
+        String escapedText = escapeEcmaScript(this.value);
         return js("selenium.isElementPresent('{0}') && (selenium.getStyle('{0}', '{1}') == '{2}')").parametrize(escapedLocator,
                 escapedCssProperty, escapedText);
     }
 
     private void validate() {
-        Validate.notNull(elementLocator);
-        Validate.notNull(cssProperty);
-        Validate.notNull(value);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
+        Validate.notNull(cssProperty, "cssProperty should not be null");
+        Validate.notNull(value, "value should not be null");
     }
 
     /**
@@ -125,7 +125,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the StyleEquals object with preset locator
      */
     public StyleEquals locator(ElementLocator<?> elementLocator) {
-        Validate.notNull(elementLocator);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
 
         StyleEquals copy = copy();
         copy.elementLocator = elementLocator;
@@ -146,7 +146,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the StyleEquals object with preset CSS property to obtain
      */
     public StyleEquals property(CssProperty cssProperty) {
-        Validate.notNull(cssProperty);
+        Validate.notNull(cssProperty, "cssProperty should not be null");
 
         StyleEquals copy = copy();
         copy.cssProperty = cssProperty;
@@ -167,7 +167,7 @@ public class StyleEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the StyleEquals object with preset value
      */
     public StyleEquals value(String value) {
-        Validate.notNull(value);
+        Validate.notNull(value, "value should not be null");
 
         StyleEquals copy = copy();
         copy.value = value;

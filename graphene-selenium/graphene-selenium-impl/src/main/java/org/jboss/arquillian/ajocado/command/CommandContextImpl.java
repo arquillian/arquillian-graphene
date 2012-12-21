@@ -23,10 +23,9 @@ package org.jboss.arquillian.ajocado.command;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.thoughtworks.selenium.CommandProcessor;
 
@@ -132,13 +131,8 @@ public class CommandContextImpl implements CommandContext {
         return args.clone();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("commandName", command).append("args", args).toString();
+        return "CommandContextImpl [command=" + command + ", args=" + Arrays.toString(args) + "]";
     }
 }

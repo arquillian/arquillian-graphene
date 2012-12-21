@@ -23,14 +23,14 @@ package org.jboss.arquillian.ajocado.waiting.retrievers;
 
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.waiting.conversion.Convertor;
 import org.jboss.arquillian.ajocado.waiting.conversion.PassOnConvertor;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Retrieves the attribute with given attributeLocator.
@@ -59,7 +59,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
      */
     @Override
     public String retrieve() {
-        Validate.notNull(attributeLocator);
+        Validate.notNull(attributeLocator, "attributeLocator should not be null");
 
         return selenium.getAttribute(attributeLocator);
     }
@@ -69,7 +69,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
      */
     @Override
     public JavaScript getJavaScriptRetrieve() {
-        String escapedLocator = StringEscapeUtils.escapeJavaScript(attributeLocator.inSeleniumRepresentation());
+        String escapedLocator = StringEscapeUtils.escapeEcmaScript(attributeLocator.inSeleniumRepresentation());
         return js("selenium.getAttribute('{0}')").parametrize(escapedLocator);
     }
 
@@ -89,7 +89,7 @@ public class AttributeRetriever extends AbstractRetriever<String> implements Ret
      * @return the AttributeRetriever preset with attributeLocator of given value
      */
     public AttributeRetriever attributeLocator(AttributeLocator<?> attributeLocator) {
-        Validate.notNull(attributeLocator);
+        Validate.notNull(attributeLocator, "attributeLocator should not be null");
 
         AttributeRetriever copy = copy();
         copy.attributeLocator = attributeLocator;

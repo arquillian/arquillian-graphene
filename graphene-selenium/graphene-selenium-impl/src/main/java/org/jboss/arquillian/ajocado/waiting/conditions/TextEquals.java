@@ -21,16 +21,16 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  *
@@ -71,8 +71,8 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public boolean isTrue() {
-        Validate.notNull(elementLocator);
-        Validate.notNull(text);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
+        Validate.notNull(text, "text should not be null");
 
         return selenium.getText(elementLocator).equals(text);
     }
@@ -84,8 +84,8 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
-        String escapedText = escapeJavaScript(this.text);
+        String escapedLocator = escapeEcmaScript(this.elementLocator.inSeleniumRepresentation());
+        String escapedText = escapeEcmaScript(this.text);
         return js("selenium.isElementPresent('{0}') && (selenium.getText('{0}') == '{1}')").parametrize(escapedLocator,
                 escapedText);
     }
@@ -112,7 +112,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the TextEquals object with preset locator
      */
     public TextEquals locator(ElementLocator<?> elementLocator) {
-        Validate.notNull(elementLocator);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
 
         TextEquals copy = copy();
         copy.elementLocator = elementLocator;
@@ -133,7 +133,7 @@ public class TextEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the TextEquals object with preset text
      */
     public TextEquals text(String text) {
-        Validate.notNull(text);
+        Validate.notNull(text, "text should not be null");
 
         TextEquals copy = copy();
         copy.text = text;

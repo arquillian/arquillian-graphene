@@ -23,8 +23,9 @@ package org.jboss.arquillian.ajocado.ajaxaware;
 
 import static org.jboss.arquillian.ajocado.Graphene.waitAjax;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jboss.arquillian.ajocado.command.CommandContext;
 import org.jboss.arquillian.ajocado.command.CommandInterceptor;
 import org.jboss.arquillian.ajocado.command.CommandInterceptorException;
@@ -44,11 +45,11 @@ import com.thoughtworks.selenium.SeleniumException;
  */
 public class AjaxAwareInterceptor implements CommandInterceptor {
 
-    private static final String[] PERMISSION_DENIED = new String[] {
+    private static final List<String> PERMISSION_DENIED = Arrays.asList(
             "ERROR: Threw an exception: Permission denied",
             "ERROR: Command execution failure. Please search the forum at http://clearspace.openqa.org for error"
                     + " details from the log window.  The error message is: Permission denied",
-            "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied", };
+            "ERROR: Threw an exception: Error executing strategy function jquery: Permission denied");
 
     private final GrapheneConfiguration configuration = GrapheneConfigurationContext.getProxy();
 
@@ -76,9 +77,9 @@ public class AjaxAwareInterceptor implements CommandInterceptor {
                 ctx.invoke();
                 return;
             } catch (SeleniumException e) {
-                final String message = StringUtils.defaultString(e.getMessage());
+                final String message = e.getMessage() == null ? "" : e.getMessage();
 
-                if (ArrayUtils.contains(PERMISSION_DENIED, message)) {
+                if (PERMISSION_DENIED.contains(message)) {
                     System.err.println(message);
                     if (!exceptionLogged) {
                         exceptionLogged = true;

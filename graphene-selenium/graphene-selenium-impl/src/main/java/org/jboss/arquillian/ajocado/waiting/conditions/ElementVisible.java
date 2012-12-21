@@ -21,16 +21,16 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.ElementLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * <p>
@@ -67,7 +67,7 @@ public class ElementVisible implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public boolean isTrue() {
-        Validate.notNull(elementLocator);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
 
         return selenium.isVisible(elementLocator);
     }
@@ -79,7 +79,7 @@ public class ElementVisible implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        String escapedLocator = escapeJavaScript(this.elementLocator.inSeleniumRepresentation());
+        String escapedLocator = escapeEcmaScript(this.elementLocator.inSeleniumRepresentation());
         return js("selenium.isVisible('{0}')").parametrize(escapedLocator);
     }
 
@@ -99,7 +99,7 @@ public class ElementVisible implements SeleniumCondition, JavaScriptCondition {
      * @return the element present
      */
     public ElementVisible locator(ElementLocator<?> elementLocator) {
-        Validate.notNull(elementLocator);
+        Validate.notNull(elementLocator, "elementLocator should not be null");
 
         ElementVisible copy = copy();
         copy.elementLocator = elementLocator;

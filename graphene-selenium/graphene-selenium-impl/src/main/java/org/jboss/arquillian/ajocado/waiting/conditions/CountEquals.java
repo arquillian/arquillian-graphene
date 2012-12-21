@@ -21,18 +21,18 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 import static org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy.JQUERY;
 import static org.jboss.arquillian.ajocado.locator.element.ElementLocationStrategy.XPATH;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.element.IterableLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  *
@@ -87,7 +87,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
     @Override
     public JavaScript getJavaScriptCondition() {
         validate();
-        String escapedRawLocator = escapeJavaScript(this.iterableLocator.getRawLocator());
+        String escapedRawLocator = escapeEcmaScript(this.iterableLocator.getRawLocator());
         String countFunction;
 
         if (iterableLocator.getLocationStrategy() == JQUERY) {
@@ -101,8 +101,8 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
     }
 
     private void validate() {
-        Validate.notNull(iterableLocator);
-        Validate.notNull(count);
+        Validate.notNull(iterableLocator, "iterableLocator should not be null");
+        Validate.notNull(count, "count should not be null");
     }
 
     /**
@@ -127,7 +127,7 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the CountEquals object with preset locator
      */
     public CountEquals locator(IterableLocator<?> iterableLocator) {
-        Validate.notNull(iterableLocator);
+        Validate.notNull(iterableLocator, "iterableLocator should not be null");
 
         if (iterableLocator.getLocationStrategy() != JQUERY && iterableLocator.getLocationStrategy() != XPATH) {
             throw new IllegalArgumentException("Only XPath and JQuery locators are supported for counting");
@@ -152,8 +152,6 @@ public class CountEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the CountEquals object with preset value
      */
     public CountEquals count(int count) {
-        Validate.notNull(count);
-
         CountEquals copy = copy();
         copy.count = count;
 

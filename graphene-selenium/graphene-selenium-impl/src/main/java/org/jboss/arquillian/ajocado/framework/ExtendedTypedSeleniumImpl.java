@@ -24,7 +24,6 @@ package org.jboss.arquillian.ajocado.framework;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.ajocado.browser.BrowserType;
 import org.jboss.arquillian.ajocado.css.CssResolver;
 import org.jboss.arquillian.ajocado.geometry.Point;
@@ -69,7 +68,14 @@ public class ExtendedTypedSeleniumImpl extends TypedSeleniumImpl implements Exte
     @Override
     public void start() {
         List<String> parameters = getDerivedParameters();
-        selenium.start(StringUtils.join(parameters, ","));
+        StringBuffer parametersString = new StringBuffer();
+        for (String parameter : parameters) {
+            if (parametersString.length() > 0) {
+                parametersString.append(',');
+            }
+            parametersString.append(parameter);
+        }
+        selenium.start(parametersString.toString());
         started = true;
     }
 

@@ -25,8 +25,8 @@ import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asBoolean;
 import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asInteger;
 import static org.jboss.arquillian.ajocado.utils.PrimitiveUtils.asLong;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.browser.Browser;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * Exposing of test system properties.
@@ -123,7 +123,7 @@ public class SystemPropertiesConfiguration implements GrapheneConfiguration, Ajo
      */
     @Override
     public long getTimeout(TimeoutType type) {
-        Validate.notNull(type);
+        Validate.notNull(type, "type should not be null");
 
         String seleniumTimeout = System.getProperty("selenium.timeout." + type.toString().toLowerCase());
 

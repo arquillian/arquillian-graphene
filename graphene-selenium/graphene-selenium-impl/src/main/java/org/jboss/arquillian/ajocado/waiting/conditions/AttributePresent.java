@@ -21,16 +21,16 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  * <p>
@@ -67,7 +67,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      */
     @Override
     public boolean isTrue() {
-        Validate.notNull(attributeLocator);
+        Validate.notNull(attributeLocator, "attributeLocator should not be null");
 
         return selenium.isAttributePresent(attributeLocator);
     }
@@ -79,8 +79,8 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
-        String escapedAttributeName = escapeJavaScript(this.attributeLocator.getAttribute().getAttributeName());
+        String escapedElementLocator = escapeEcmaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
+        String escapedAttributeName = escapeEcmaScript(this.attributeLocator.getAttribute().getAttributeName());
         return js("selenium.isAttributePresent('{0}', '{1}')").parametrize(escapedElementLocator, escapedAttributeName);
     }
 
@@ -100,7 +100,7 @@ public class AttributePresent implements SeleniumCondition, JavaScriptCondition 
      * @return the attribute present
      */
     public AttributePresent locator(AttributeLocator<?> attributeLocator) {
-        Validate.notNull(attributeLocator);
+        Validate.notNull(attributeLocator, "attributeLocator should not be null");
 
         AttributePresent copy = copy();
         copy.attributeLocator = attributeLocator;

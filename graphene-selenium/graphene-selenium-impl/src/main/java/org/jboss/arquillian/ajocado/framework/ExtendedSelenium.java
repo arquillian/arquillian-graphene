@@ -21,8 +21,8 @@
  */
 package org.jboss.arquillian.ajocado.framework;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.format.SimplifiedFormat;
+import org.jboss.arquillian.core.spi.Validate;
 
 import com.thoughtworks.selenium.CommandProcessor;
 import com.thoughtworks.selenium.DefaultSelenium;
@@ -109,8 +109,8 @@ public class ExtendedSelenium extends DefaultSelenium {
      * @return true if element given by locator is member of CSS class given by className
      */
     public boolean belongsClass(String locator, String className) {
-        Validate.notNull(className);
-        Validate.notNull(locator);
+        Validate.notNull("className should not be null", className);
+        Validate.notNull("locator should not be null", locator);
 
         String classLocator = SimplifiedFormat.format("{0}@class", locator);
         String classNames = getAttribute(classLocator);

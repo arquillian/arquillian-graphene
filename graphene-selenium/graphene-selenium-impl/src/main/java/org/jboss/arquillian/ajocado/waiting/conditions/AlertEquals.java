@@ -21,15 +21,15 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 import com.thoughtworks.selenium.SeleniumException;
 
@@ -73,7 +73,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public boolean isTrue() {
-        Validate.notNull(message);
+        Validate.notNull(message, "message should not be null");
 
         if (!selenium.isAlertPresent()) {
             return false;
@@ -96,8 +96,8 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        Validate.notNull(message);
-        String escapedMessage = escapeJavaScript(message);
+        Validate.notNull(message, "message should not be null");
+        String escapedMessage = escapeEcmaScript(message);
 
         return js(
                 "selenium.isAlertPresent() && ((alertMessage = selenium.getAlert()) == '{0}' "
@@ -128,7 +128,7 @@ public class AlertEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the AlertEquals object with preset text
      */
     public AlertEquals message(String message) {
-        Validate.notNull(message);
+        Validate.notNull(message, "message should not be null");
 
         AlertEquals copy = copy();
         copy.message = message;

@@ -21,16 +21,16 @@
  */
 package org.jboss.arquillian.ajocado.waiting.conditions;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.Validate;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
 import org.jboss.arquillian.ajocado.locator.attribute.AttributeLocator;
 import org.jboss.arquillian.ajocado.waiting.ajax.JavaScriptCondition;
 import org.jboss.arquillian.ajocado.waiting.selenium.SeleniumCondition;
+import org.jboss.arquillian.core.spi.Validate;
 
 /**
  *
@@ -71,8 +71,8 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public boolean isTrue() {
-        Validate.notNull(attributeLocator);
-        Validate.notNull(value);
+        Validate.notNull(attributeLocator, "attributeLocator should not be null");
+        Validate.notNull(value, "message should not be null");
 
         return selenium.getAttribute(attributeLocator).equals(value);
     }
@@ -84,9 +84,9 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      */
     @Override
     public JavaScript getJavaScriptCondition() {
-        String escapedElementLocator = escapeJavaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
-        String escapedAttributeLocator = escapeJavaScript(this.attributeLocator.inSeleniumRepresentation());
-        String escapedValue = escapeJavaScript(this.value);
+        String escapedElementLocator = escapeEcmaScript(this.attributeLocator.getAssociatedElement().inSeleniumRepresentation());
+        String escapedAttributeLocator = escapeEcmaScript(this.attributeLocator.inSeleniumRepresentation());
+        String escapedValue = escapeEcmaScript(this.value);
         return js("selenium.isElementPresent('{0}') && (selenium.getAttribute('{1}') == '{2}')").parametrize(
                 escapedElementLocator, escapedAttributeLocator, escapedValue);
     }
@@ -113,7 +113,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the AttributeEquals object with preset locator
      */
     public AttributeEquals locator(AttributeLocator<?> attributeLocator) {
-        Validate.notNull(attributeLocator);
+        Validate.notNull(attributeLocator, "attributeLocator should not be null");
 
         AttributeEquals copy = copy();
         copy.attributeLocator = attributeLocator;
@@ -134,7 +134,7 @@ public class AttributeEquals implements SeleniumCondition, JavaScriptCondition {
      * @return the AttributeEquals object with preset value
      */
     public AttributeEquals text(String value) {
-        Validate.notNull(value);
+        Validate.notNull(value, "value should not be null");
 
         AttributeEquals copy = copy();
         copy.value = value;

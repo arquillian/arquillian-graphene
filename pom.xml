@@ -36,6 +36,7 @@
         <version.javassist>3.12.1.GA</version.javassist>
         <version.cglib>2.2.2</version.cglib>
         <version.objenesis>1.2</version.objenesis>
+        <version.commons.lang>3.1</version.commons.lang>
 
         <!-- Tests -->
         <version.junit>4.10</version.junit>
@@ -98,6 +99,11 @@
             </dependency>
 
             <!-- runtime dependencies -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons.lang}</version>
+            </dependency>
             <dependency>
                 <groupId>javassist</groupId>
                 <artifactId>javassist</artifactId>

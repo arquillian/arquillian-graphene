@@ -23,7 +23,7 @@ package org.jboss.arquillian.ajocado.waiting.ajax;
 
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
 import org.jboss.arquillian.ajocado.framework.GrapheneSeleniumContext;
 import org.jboss.arquillian.ajocado.javascript.JavaScript;
@@ -144,7 +144,7 @@ public class DefaultAjaxWaiting extends DefaultWaiting<AjaxWaiting> implements A
     private <T> JavaScript prepareCondition(T oldValue, JavaScriptRetriever<T> retriever) {
         final String scriptString = retriever.getJavaScriptRetrieve().getAsString();
         final String oldValueString = retriever.getConvertor().forwardConversion(oldValue);
-        final String escapedOldValueString = StringEscapeUtils.escapeJavaScript(oldValueString);
+        final String escapedOldValueString = StringEscapeUtils.escapeEcmaScript(oldValueString);
         return js("{0} != '{1}'").parametrize(scriptString, escapedOldValueString);
     }
 

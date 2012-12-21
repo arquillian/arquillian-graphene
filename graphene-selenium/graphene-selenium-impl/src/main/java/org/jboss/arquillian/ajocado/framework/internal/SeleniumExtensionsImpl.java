@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.ajocado.framework.internal;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeJavaScript;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript;
 import static org.jboss.arquillian.ajocado.javascript.JavaScript.js;
 
 import java.util.List;
@@ -78,13 +78,13 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     }
 
     private boolean containsScript(String resourceName) {
-        return Boolean.valueOf(selenium.getEval(containsScriptWithResourceName.parametrize(escapeJavaScript(resourceName))));
+        return Boolean.valueOf(selenium.getEval(containsScriptWithResourceName.parametrize(escapeEcmaScript(resourceName))));
     }
 
     private void loadScript(String resourceName) {
         JavaScript extension = JavaScript.fromResource(resourceName);
         String identification = extension.getIdentification();
-        String escapedResourceName = escapeJavaScript(resourceName);
+        String escapedResourceName = escapeEcmaScript(resourceName);
         selenium.addScript(extension);
         selenium.getEval(setResourceNameForId.parametrize(identification, escapedResourceName));
     }
@@ -92,7 +92,7 @@ public class SeleniumExtensionsImpl implements SeleniumExtensions {
     private void refreshScript(String resourceName) {
         JavaScript extension = JavaScript.fromResource(resourceName);
         String identification = extension.getIdentification();
-        String escapedResourceName = escapeJavaScript(resourceName);
+        String escapedResourceName = escapeEcmaScript(resourceName);
 
         String scriptId = selenium.getEval(getIdForScriptWithResourceName.parametrize(escapedResourceName));
 
