@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+	var jQuery = "way different";
+	var $ = "something different than JQuery object";
+ </script>
+</head>
+<body>
+	<h1>Hello World!</h1>
+	<div class="foo">Outer div with foo class.</div>
+	<div id="root">
+		<div>Hello jquery selectors!</div>
+		<div class="foo">Nested div with foo class.</div>
+	</div>
+	Variables $ and jQuery values:
+	<div id="placeholder"></div>
+
+	<input type="button"
+		onclick="document.getElementById('placeholder').innerHTML = $;"
+		value="Click me and I show you value of $ object!" />
+	<input type="button"
+		onclick="document.getElementById('placeholder').innerHTML = jQuery;"
+		value="Click me and I show you the value of jQuery object!" />
+
+</body>
+</html>

@@ -72,9 +72,9 @@ public class ByJQuery extends By {
             // the element is referenced from parent web element
             if (context instanceof WebElement) {
                 elements = (List<WebElement>) executor.executeScript(
-                    "return $(\"" + jquerySelector + "\", arguments[0]).get()", (WebElement) context);
+                    "return Graphene.jQuery(\"" + jquerySelector + "\", arguments[0]).get()", (WebElement) context);
             } else if (context instanceof WebDriver) { // element is not referenced from parent
-                elements = (List<WebElement>) executor.executeScript("return $(\"" + jquerySelector + "\").get()");
+                elements = (List<WebElement>) executor.executeScript("return Graphene.jQuery(\"" + jquerySelector + "\").get()");
             } else { // other unknown case
                 Logger
                     .getLogger(this.getClass().getName())
