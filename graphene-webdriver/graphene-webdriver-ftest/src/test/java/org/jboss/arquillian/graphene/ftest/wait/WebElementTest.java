@@ -21,6 +21,21 @@ public class WebElementTest extends AbstractWaitTest {
     }
 
     @Test
+    public void testElementIsVisible() {
+        loadPage();
+        checkElementIsVisible(Graphene.waitModel().until().element(header));
+    }
+
+    @Test
+    public void testElementIsVisibleDirectly() {
+        loadPage();
+        hideButton.click();
+        Graphene.waitModel().until().element(header).is().not().visible();
+        appearButton.click();
+        Graphene.waitModel().until().element(header).is().visible();
+    }
+
+    @Test
     public void testElementTextContains() {
         loadPage();
         checkElementTextContains(Graphene.waitModel().until().element(header));

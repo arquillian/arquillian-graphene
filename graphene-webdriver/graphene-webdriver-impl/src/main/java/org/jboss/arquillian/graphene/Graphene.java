@@ -116,27 +116,27 @@ public class Graphene {
         return RequestGuardFactory.guard(target, RequestType.XHR);
     }
 
-    public static WebDriverWait waitAjax() {
+    public static WebDriverWait<Void> waitAjax() {
         return waitAjax(GrapheneContext.getProxy());
     }
 
-    public static WebDriverWait waitAjax(WebDriver driver) {
+    public static WebDriverWait<Void> waitAjax(WebDriver driver) {
         return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitAjaxInterval());
     }
 
-    public static WebDriverWait waitGui() {
+    public static WebDriverWait<Void> waitGui() {
         return waitGui(GrapheneContext.getProxy());
     }
 
-    public static WebDriverWait waitGui(WebDriver driver) {
+    public static WebDriverWait<Void> waitGui(WebDriver driver) {
         return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitGuiInterval());
     }
 
-    public static WebDriverWait waitModel() {
+    public static WebDriverWait<Void> waitModel() {
         return waitModel(GrapheneContext.getProxy());
     }
 
-    public static WebDriverWait waitModel(WebDriver driver) {
+    public static WebDriverWait<Void> waitModel(WebDriver driver) {
         return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitModelInterval());
     }
 

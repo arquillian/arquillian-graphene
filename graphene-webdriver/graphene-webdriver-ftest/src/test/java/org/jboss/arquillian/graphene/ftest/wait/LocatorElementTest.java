@@ -21,6 +21,21 @@ public class LocatorElementTest extends AbstractWaitTest {
     }
 
     @Test
+    public void testElementIsVisible() {
+        loadPage();
+        checkElementIsVisible(Graphene.waitModel().until().element(BY_HEADER));
+    }
+
+    @Test
+    public void testElementIsVisibleDirectly() {
+        loadPage();
+        hideButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).is().not().visible();
+        appearButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).is().visible();
+    }
+
+    @Test
     public void testElementTextContains() {
         loadPage();
         checkElementTextContains(Graphene.waitModel().until().element(BY_HEADER));

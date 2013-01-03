@@ -15,6 +15,15 @@ public class LocatorAttributeTest extends AbstractWaitTest {
     }
 
     @Test
+    public void testAttributeIsPresentDirectly() {
+        loadPage();
+        hideButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).attribute("style").is().present();
+        appearButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).attribute("style").is().not().present();
+    }
+
+    @Test
     public void testAttributeValueContains() {
         loadPage();
         checkAttributeValueContains(Graphene.waitModel().until().element(BY_TEXT_INPUT).attribute("value"));
