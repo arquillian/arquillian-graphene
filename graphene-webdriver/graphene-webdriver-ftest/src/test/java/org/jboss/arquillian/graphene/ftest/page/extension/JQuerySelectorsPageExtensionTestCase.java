@@ -58,12 +58,18 @@ public class JQuerySelectorsPageExtensionTestCase {
     @FindBy(jquery = "div:eq(1)")
     private List<JQuerySelectorTestPageFragment> listOfJQueryPageFragments;
 
+    @FindBy(jquery = "#nonExistingId")
+    private WebElement notExistingElement;
+
+    @FindBy(jquery = "#nonExistingId")
+    private List<WebElement> notExistingElements;
+
     @Drone
     private WebDriver browser;
 
     private static String EXPECTED_JQUERY_TEXT_1 = "Hello jquery selectors!";
     private static String EXPECTED_JQUERY_TEXT_2 = "Nested div with foo class.";
-    private static String EXPECTED_NO_SUCH_EL_EX_MSG = "Cannot locate elements using";
+    private static String EXPECTED_NO_SUCH_EL_EX_MSG = "Cannot locate element using";
     private static String EXPECTED_WRONG_SELECTOR_MSG = "Check out whether it is correct!";
 
     public void loadPage() {
@@ -161,6 +167,21 @@ public class JQuerySelectorsPageExtensionTestCase {
 
         assertNotNull(listOfJQueryPageFragments);
         assertEquals(EXPECTED_JQUERY_TEXT_1, listOfJQueryPageFragments.get(0).getJQueryLocator().getText());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testFindNotExistingWebElement() {
+        loadPage();
+
+        @SuppressWarnings("unused")
+        String text = notExistingElement.getText();
+    }
+
+    @Test
+    public void testFindNonExistingWebElements() {
+        loadPage();
+
+        assertEquals("When locating not existing elements an empty list should be returned!", 0, notExistingElements.size());
     }
 
     /* *************
