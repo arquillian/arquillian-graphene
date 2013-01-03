@@ -39,12 +39,13 @@ public class SizzleJSPageExtension implements PageExtension {
 
     @Override
     public JavaScript getExtensionScript() {
-        return JavaScript.fromResource("com/jquery/jquery-1.7.2.min.js");
+        return JavaScript.fromResource("com/jquery/jquery-1.7.2.min.js").append("window.Graphene = window.Graphene || {}; window.Graphene.jQuery = jQuery.noConflict(true);");
     }
 
     @Override
     public JavaScript getInstallationDetectionScript() {
-        return JavaScript.fromString("return ((typeof $ != 'undefined') && ($() != null))");
+        return JavaScript.fromString("return ((typeof window.Graphene != 'undefined') && (typeof window.Graphene.jQuery != 'undefined') && "
+            + "(typeof window.Graphene.jQuery == 'function') && (typeof window.Graphene.jQuery != null))");
     }
 
     @Override

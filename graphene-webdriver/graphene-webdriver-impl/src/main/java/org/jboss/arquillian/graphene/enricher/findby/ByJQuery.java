@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.enricher.findby;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,15 +67,14 @@ public class ByJQuery extends By {
     public List<WebElement> findElements(SearchContext context) {
         installSizzleJSExtension();
 
-        List<WebElement> elements = null;
-
+        List<WebElement> elements = new ArrayList<WebElement>();
         try {
             // the element is referenced from parent web element
             if (context instanceof WebElement) {
                 elements = (List<WebElement>) executor.executeScript(
-                    "return $(\"" + jquerySelector + "\", arguments[0]).get()", (WebElement) context);
+                    "return Graphene.jQuery(\"" + jquerySelector + "\", arguments[0]).get()", (WebElement) context);
             } else if (context instanceof WebDriver) { // element is not referenced from parent
-                elements = (List<WebElement>) executor.executeScript("return $(\"" + jquerySelector + "\").get()");
+                elements = (List<WebElement>) executor.executeScript("return Graphene.jQuery(\"" + jquerySelector + "\").get()");
             } else { // other unknown case
                 Logger
                     .getLogger(this.getClass().getName())
@@ -87,11 +87,6 @@ public class ByJQuery extends By {
             throw new WebDriverException("Can not locate element using selector " + jquerySelector
                 + " Check out whether it is correct!", ex);
         }
-
-        if (elements == null || elements.size() == 0) {
-            throw new NoSuchElementException("Cannot locate elements using: " + jquerySelector);
-        }
-
         return elements;
     }
 
@@ -99,7 +94,11 @@ public class ByJQuery extends By {
     public WebElement findElement(SearchContext context) {
         installSizzleJSExtension();
 
-        return this.findElements(context).get(0);
+        List<WebElement> elements = findElements(context); 
+        if (elements == null || elements.size() == 0) {
+            throw new NoSuchElementException("Cannot locate element using: " + jquerySelector);
+        }
+        return elements.get(0);
     }
 
     private void installSizzleJSExtension() {
