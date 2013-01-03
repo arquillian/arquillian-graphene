@@ -24,6 +24,6 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface NotStringMatcher<Fluent> extends Negatable<StringMatcher<Fluent>>, StringMatcher<Fluent> {
+public interface NotStringMatcher<FLUENT> extends Negatable<StringMatcher<FLUENT>>, StringMatcher<FLUENT> {
 
 }

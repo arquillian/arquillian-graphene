@@ -27,18 +27,18 @@ import org.openqa.selenium.WebElement;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface FluentBuilder<Fluent> {
+public interface FluentBuilder<FLUENT> {
 
     /**
      * Returns an element condition builder which can be used to formulate
      * conditions related to the given element.
      */
-    ElementBuilder<Fluent> element(WebElement element);
+    ElementBuilder<FLUENT> element(WebElement element);
 
     /**
      * Returns an element condition factory which can be used to formulate
      * conditions related to the element determined by the given locater.
      */
-    ElementBuilder<Fluent> element(By element);
+    ElementBuilder<FLUENT> element(By element);
 
 }

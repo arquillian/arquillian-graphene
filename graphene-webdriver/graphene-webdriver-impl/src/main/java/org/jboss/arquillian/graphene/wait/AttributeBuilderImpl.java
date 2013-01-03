@@ -27,12 +27,12 @@ import org.jboss.arquillian.graphene.fluent.FluentBase;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class AttributeBuilderImpl<Fluent> extends AbstractNegatable<StringMatcher<Fluent>> implements AttributeBuilder<Fluent> {
+public class AttributeBuilderImpl<FLUENT> extends AbstractNegatable<StringMatcher<FLUENT>> implements AttributeBuilder<FLUENT> {
 
     private final AttributeConditionFactory factory;
-    private FluentBase<Fluent> fluentBase;
+    private FluentBase<FLUENT> fluentBase;
 
-    public AttributeBuilderImpl(AttributeConditionFactory factory, FluentBase<Fluent> fluentBase) {
+    public AttributeBuilderImpl(AttributeConditionFactory factory, FluentBase<FLUENT> fluentBase) {
         this.factory = factory;
         this.fluentBase = fluentBase;
     }
@@ -43,18 +43,18 @@ public class AttributeBuilderImpl<Fluent> extends AbstractNegatable<StringMatche
     }
 
     @Override
-    public Fluent contains(final String expected) {
+    public FLUENT contains(final String expected) {
         return fluentBase.commit(getNegation() ? factory.not().contains(expected) : factory.contains(expected));
     }
 
     @Override
-    public Fluent equalTo(final String expected) {
+    public FLUENT equalTo(final String expected) {
         return fluentBase.commit(getNegation() ? factory.not().equalTo(expected) : factory.equalTo(expected));
     }
 
     @Override
-    public IsNotAttributeBuilder<Fluent> is() {
-        return new IsNotAttributeBuilderImpl<Fluent>(factory, fluentBase);
+    public IsNotAttributeBuilder<FLUENT> is() {
+        return new IsNotAttributeBuilderImpl<FLUENT>(factory, fluentBase);
     }
 
 }

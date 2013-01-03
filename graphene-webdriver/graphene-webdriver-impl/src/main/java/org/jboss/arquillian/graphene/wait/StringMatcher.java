@@ -24,16 +24,16 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface StringMatcher<Fluent> {
+public interface StringMatcher<FLUENT> {
 
     /**
      * Checks whether the text contains the given string.
      */
-    Fluent contains(String expected);
+    FLUENT contains(String expected);
 
     /**
      * Checks whether the text is equal to the given string.
      */
-    Fluent equalTo(String expected);
+    FLUENT equalTo(String expected);
 
 }

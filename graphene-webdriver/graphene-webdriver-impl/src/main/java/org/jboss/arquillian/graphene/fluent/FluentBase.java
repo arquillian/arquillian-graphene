@@ -24,8 +24,8 @@ package org.jboss.arquillian.graphene.fluent;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface FluentBase<Outer> {
+public interface FluentBase<OUTER> {
 
-    <Action> Outer commit(Action action);
+    <ACTION> OUTER commit(ACTION action);
 
 }

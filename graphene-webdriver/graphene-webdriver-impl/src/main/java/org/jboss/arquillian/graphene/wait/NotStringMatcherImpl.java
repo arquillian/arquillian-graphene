@@ -27,29 +27,29 @@ import org.jboss.arquillian.graphene.fluent.FluentBase;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class NotStringMatcherImpl<Fluent> extends AbstractNegatable<StringMatcher<Fluent>> implements NotStringMatcher<Fluent> {
+public class NotStringMatcherImpl<FLUENT> extends AbstractNegatable<StringMatcher<FLUENT>> implements NotStringMatcher<FLUENT> {
 
     private final StringConditionFactory<StringConditionFactory> factory;
-    private final FluentBase<Fluent> fluentBase;
+    private final FluentBase<FLUENT> fluentBase;
 
-    public NotStringMatcherImpl(StringConditionFactory<StringConditionFactory> factory, FluentBase<Fluent> fluentBase) {
+    public NotStringMatcherImpl(StringConditionFactory<StringConditionFactory> factory, FluentBase<FLUENT> fluentBase) {
         this.factory = factory;
         this.fluentBase = fluentBase;
     }
 
     @Override
-    public Fluent contains(String expected) {
+    public FLUENT contains(String expected) {
         return fluentBase.commit(getNegation() ? factory.not().contains(expected) : factory.contains(expected));
     }
 
     @Override
-    public Fluent equalTo(String expected) {
+    public FLUENT equalTo(String expected) {
         return fluentBase.commit(getNegation() ? factory.not().equalTo(expected) : factory.equalTo(expected));
     }
 
     @Override
-    protected StringMatcher<Fluent> copy() {
-        return new NotStringMatcherImpl<Fluent>(factory, fluentBase);
+    protected StringMatcher<FLUENT> copy() {
+        return new NotStringMatcherImpl<FLUENT>(factory, fluentBase);
     }
 
 }

@@ -27,34 +27,34 @@ import org.jboss.arquillian.graphene.fluent.FluentBase;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class IsNotElementBuilderImpl<Fluent> extends AbstractNegatable<IsElementBuilder<Fluent>> implements IsNotElementBuilder<Fluent> {
+public class IsNotElementBuilderImpl<FLUENT> extends AbstractNegatable<IsElementBuilder<FLUENT>> implements IsNotElementBuilder<FLUENT> {
 
     private final ElementConditionFactory factory;
-    private final FluentBase<Fluent> fluentBase;
+    private final FluentBase<FLUENT> fluentBase;
 
-    public IsNotElementBuilderImpl(ElementConditionFactory factory, FluentBase<Fluent> fluentBase) {
+    public IsNotElementBuilderImpl(ElementConditionFactory factory, FluentBase<FLUENT> fluentBase) {
         this.factory = factory;
         this.fluentBase = fluentBase;
     }
 
     @Override
-    public Fluent present() {
+    public FLUENT present() {
         return fluentBase.commit(getNegation() ? factory.not().isPresent() : factory.isPresent());
     }
 
     @Override
-    public Fluent selected() {
+    public FLUENT selected() {
         return fluentBase.commit(getNegation() ? factory.not().isSelected() : factory.isSelected());
     }
 
     @Override
-    public Fluent visible() {
+    public FLUENT visible() {
         return fluentBase.commit(getNegation() ? factory.not().isVisible() : factory.isVisible());
     }
 
     @Override
-    protected IsElementBuilder<Fluent> copy() {
-        return new IsNotElementBuilderImpl<Fluent>(factory, fluentBase);
+    protected IsElementBuilder<FLUENT> copy() {
+        return new IsNotElementBuilderImpl<FLUENT>(factory, fluentBase);
     }
 
 }

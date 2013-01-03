@@ -27,24 +27,24 @@ import org.jboss.arquillian.graphene.fluent.FluentBase;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class IsNotAttributeBuilderImpl<Fluent> extends AbstractNegatable<IsAttributeBuilder<Fluent>> implements IsNotAttributeBuilder<Fluent> {
+public class IsNotAttributeBuilderImpl<FLUENT> extends AbstractNegatable<IsAttributeBuilder<FLUENT>> implements IsNotAttributeBuilder<FLUENT> {
 
     private final AttributeConditionFactory factory;
-    private final FluentBase<Fluent> fluentBase;
+    private final FluentBase<FLUENT> fluentBase;
 
-    public IsNotAttributeBuilderImpl(AttributeConditionFactory factory, FluentBase<Fluent> fluentBase) {
+    public IsNotAttributeBuilderImpl(AttributeConditionFactory factory, FluentBase<FLUENT> fluentBase) {
         this.factory = factory;
         this.fluentBase = fluentBase;
     }
 
     @Override
-    public Fluent present() {
+    public FLUENT present() {
         return fluentBase.commit(getNegation() ? factory.not().isPresent() : factory.isPresent());
     }
 
     @Override
-    protected IsAttributeBuilder<Fluent> copy() {
-        return new IsNotAttributeBuilderImpl<Fluent>(factory, fluentBase);
+    protected IsAttributeBuilder<FLUENT> copy() {
+        return new IsNotAttributeBuilderImpl<FLUENT>(factory, fluentBase);
     }
 
 }

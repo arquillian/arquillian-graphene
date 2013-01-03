@@ -24,11 +24,11 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface AttributeBuilder<Fluent> extends NotStringMatcher<Fluent> {
+public interface AttributeBuilder<FLUENT> extends NotStringMatcher<FLUENT> {
 
     /**
      * Returns the condition builder for conditions with "is" prefix.
      */
-    IsNotAttributeBuilder<Fluent> is();
+    IsNotAttributeBuilder<FLUENT> is();
 
 }

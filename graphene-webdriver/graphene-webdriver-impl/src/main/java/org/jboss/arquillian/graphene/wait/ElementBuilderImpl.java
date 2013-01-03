@@ -27,12 +27,12 @@ import org.jboss.arquillian.graphene.fluent.FluentBase;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class ElementBuilderImpl<Fluent> extends AbstractNegatable<ElementBuilder> implements ElementBuilder<Fluent> {
+public class ElementBuilderImpl<FLUENT> extends AbstractNegatable<ElementBuilder> implements ElementBuilder<FLUENT> {
 
     private final ElementConditionFactory factory;
-    private final FluentBase<Fluent> fluentBase;
+    private final FluentBase<FLUENT> fluentBase;
 
-    public ElementBuilderImpl(ElementConditionFactory factory, FluentBase<Fluent> fluentBase) {
+    public ElementBuilderImpl(ElementConditionFactory factory, FluentBase<FLUENT> fluentBase) {
         this.factory = factory;
         this.fluentBase = fluentBase;
     }
@@ -43,18 +43,18 @@ public class ElementBuilderImpl<Fluent> extends AbstractNegatable<ElementBuilder
     }
 
     @Override
-    public AttributeBuilder<Fluent> attribute(String attribute) {
-        return new AttributeBuilderImpl<Fluent>(factory.attribute(attribute), fluentBase);
+    public AttributeBuilder<FLUENT> attribute(String attribute) {
+        return new AttributeBuilderImpl<FLUENT>(factory.attribute(attribute), fluentBase);
     }
 
     @Override
-    public IsNotElementBuilder<Fluent> is() {
-        return new IsNotElementBuilderImpl<Fluent>(factory, fluentBase);
+    public IsNotElementBuilder<FLUENT> is() {
+        return new IsNotElementBuilderImpl<FLUENT>(factory, fluentBase);
     }
 
     @Override
-    public NotStringMatcher<Fluent> text() {
-        return new NotStringMatcherImpl<Fluent>(factory.text(), fluentBase);
+    public NotStringMatcher<FLUENT> text() {
+        return new NotStringMatcherImpl<FLUENT>(factory.text(), fluentBase);
     }
 
 }

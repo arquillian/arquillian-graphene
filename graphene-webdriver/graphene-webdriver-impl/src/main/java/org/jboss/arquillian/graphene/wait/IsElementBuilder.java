@@ -24,21 +24,21 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface IsElementBuilder<Fluent> {
+public interface IsElementBuilder<FLUENT> {
 
     /**
      * Checks whether the element is present.
      */
-    Fluent present();
+    FLUENT present();
 
     /**
      * Checks whether the element is selected.
      */
-    Fluent selected();
+    FLUENT selected();
 
     /**
      * Checks whether the element is visible.
      */
-    Fluent visible();
+    FLUENT visible();
 
 }

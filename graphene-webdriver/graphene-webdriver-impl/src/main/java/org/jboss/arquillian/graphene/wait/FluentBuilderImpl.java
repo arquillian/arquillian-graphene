@@ -30,22 +30,22 @@ import org.openqa.selenium.WebElement;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class FluentBuilderImpl<Fluent> implements FluentBuilder<Fluent> {
+public class FluentBuilderImpl<FLUENT> implements FluentBuilder<FLUENT> {
 
-    private final FluentBase<Fluent> fluentBase;
+    private final FluentBase<FLUENT> fluentBase;
 
-    public FluentBuilderImpl(FluentBase<Fluent> fluentBase) {
+    public FluentBuilderImpl(FluentBase<FLUENT> fluentBase) {
         this.fluentBase = fluentBase;
     }
 
     @Override
-    public ElementBuilder<Fluent> element(WebElement element) {
-        return new ElementBuilderImpl<Fluent>(new WebElementConditionFactory(element), fluentBase);
+    public ElementBuilder<FLUENT> element(WebElement element) {
+        return new ElementBuilderImpl<FLUENT>(new WebElementConditionFactory(element), fluentBase);
     }
 
     @Override
-    public ElementBuilder<Fluent> element(By element) {
-        return new ElementBuilderImpl<Fluent>(new ElementLocatorConditionFactory(element), fluentBase);
+    public ElementBuilder<FLUENT> element(By element) {
+        return new ElementBuilderImpl<FLUENT>(new ElementLocatorConditionFactory(element), fluentBase);
     }
 
 }

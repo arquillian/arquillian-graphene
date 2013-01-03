@@ -29,16 +29,16 @@ import org.openqa.selenium.WebDriver;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class WebDriverWait<Fluent> extends org.openqa.selenium.support.ui.WebDriverWait implements FluentBase<Fluent> {
+public class WebDriverWait<FLUENT> extends org.openqa.selenium.support.ui.WebDriverWait implements FluentBase<FLUENT> {
 
-    private final Fluent fluent;
+    private final FLUENT fluent;
 
-    public WebDriverWait(Fluent fluent, WebDriver driver, long timeOutInSeconds) {
+    public WebDriverWait(FLUENT fluent, WebDriver driver, long timeOutInSeconds) {
         super(driver, timeOutInSeconds);
         this.fluent = fluent;
     }
 
-    public WebDriverWait(Fluent fluent, WebDriver driver, long timeOutInSeconds, long sleepInMillis) {
+    public WebDriverWait(FLUENT fluent, WebDriver driver, long timeOutInSeconds, long sleepInMillis) {
         super(driver, timeOutInSeconds, sleepInMillis);
         this.fluent = fluent;
     }
@@ -47,7 +47,7 @@ public class WebDriverWait<Fluent> extends org.openqa.selenium.support.ui.WebDri
      * Returns the fluent condition builder. The builder automatically calls {@link WebDriverWait#commit(java.lang.Object)}
      * which calls {@link WebDriverWait#until(com.google.common.base.Predicate) }.
      */
-    public FluentBuilder<Fluent> until() {
+    public FluentBuilder<FLUENT> until() {
         return new FluentBuilderImpl(this);
     }
 
@@ -57,12 +57,12 @@ public class WebDriverWait<Fluent> extends org.openqa.selenium.support.ui.WebDri
      *
      * @param failMessage message used when the waiting fails
      */
-    public FluentBuilder<Fluent> until(String failMessage) {
-        return new FluentBuilderImpl<Fluent>((WebDriverWait<Fluent>) this.withMessage(failMessage));
+    public FluentBuilder<FLUENT> until(String failMessage) {
+        return new FluentBuilderImpl<FLUENT>((WebDriverWait<FLUENT>) this.withMessage(failMessage));
     }
 
     @Override
-    public <Action> Fluent commit(Action action) {
+    public <ACTION> FLUENT commit(ACTION action) {
         if (action instanceof Predicate) {
             until((Predicate) action);
         } else if (action instanceof Function) {

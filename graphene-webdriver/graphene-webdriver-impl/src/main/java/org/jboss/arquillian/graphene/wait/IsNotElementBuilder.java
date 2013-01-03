@@ -24,6 +24,6 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface IsNotElementBuilder<Fluent> extends Negatable<IsElementBuilder<Fluent>>, IsElementBuilder<Fluent> {
+public interface IsNotElementBuilder<FLUENT> extends Negatable<IsElementBuilder<FLUENT>>, IsElementBuilder<FLUENT> {
 
 }

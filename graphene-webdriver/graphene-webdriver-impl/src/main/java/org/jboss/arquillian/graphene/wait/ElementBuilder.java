@@ -24,22 +24,22 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface ElementBuilder<Fluent> {
+public interface ElementBuilder<FLUENT> {
 
     /**
      * Returns an attribute condition builder which can be used to formulate
      * conditions related to the given attribute.
      */
-    AttributeBuilder<Fluent> attribute(String attribute);
+    AttributeBuilder<FLUENT> attribute(String attribute);
 
     /**
      * Returns a condition builder for conditions with "is" prefix.
      */
-    IsNotElementBuilder<Fluent> is();
+    IsNotElementBuilder<FLUENT> is();
 
     /**
      * Returns a string matcher for the text inside the element.
      */
-    NotStringMatcher<Fluent> text();
+    NotStringMatcher<FLUENT> text();
 
 }

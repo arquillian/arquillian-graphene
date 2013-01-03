@@ -24,6 +24,6 @@ package org.jboss.arquillian.graphene.wait;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface IsNotAttributeBuilder<Fluent> extends Negatable<IsAttributeBuilder<Fluent>>, IsAttributeBuilder<Fluent> {
+public interface IsNotAttributeBuilder<FLUENT> extends Negatable<IsAttributeBuilder<FLUENT>>, IsAttributeBuilder<FLUENT> {
 
 }
