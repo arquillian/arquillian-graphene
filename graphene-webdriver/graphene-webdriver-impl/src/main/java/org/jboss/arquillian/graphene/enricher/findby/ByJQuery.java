@@ -65,7 +65,7 @@ public class ByJQuery extends By {
     @SuppressWarnings("unchecked")
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        installSizzleJSExtension();
+        installJQueryExtension();
 
         List<WebElement> elements = new ArrayList<WebElement>();
         try {
@@ -92,16 +92,16 @@ public class ByJQuery extends By {
 
     @Override
     public WebElement findElement(SearchContext context) {
-        installSizzleJSExtension();
+        installJQueryExtension();
 
-        List<WebElement> elements = findElements(context); 
+        List<WebElement> elements = findElements(context);
         if (elements == null || elements.size() == 0) {
             throw new NoSuchElementException("Cannot locate element using: " + jquerySelector);
         }
         return elements.get(0);
     }
 
-    private void installSizzleJSExtension() {
+    private void installJQueryExtension() {
         JQueryPageExtension pageExtension = new JQueryPageExtension();
         GraphenePageExtensionsContext.getRegistryProxy().register(pageExtension);
         GraphenePageExtensionsContext.getInstallatorProviderProxy().installator(pageExtension.getName()).install();
