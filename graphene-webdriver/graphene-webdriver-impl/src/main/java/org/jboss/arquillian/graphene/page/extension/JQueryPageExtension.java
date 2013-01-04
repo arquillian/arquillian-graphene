@@ -30,7 +30,7 @@ import org.jboss.arquillian.graphene.spi.page.PageExtension;
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class SizzleJSPageExtension implements PageExtension {
+public class JQueryPageExtension implements PageExtension {
 
     @Override
     public String getName() {

@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
-import org.jboss.arquillian.graphene.page.extension.SizzleJSPageExtension;
+import org.jboss.arquillian.graphene.page.extension.JQueryPageExtension;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -102,7 +102,7 @@ public class ByJQuery extends By {
     }
 
     private void installSizzleJSExtension() {
-        SizzleJSPageExtension pageExtension = new SizzleJSPageExtension();
+        JQueryPageExtension pageExtension = new JQueryPageExtension();
         GraphenePageExtensionsContext.getRegistryProxy().register(pageExtension);
         GraphenePageExtensionsContext.getInstallatorProviderProxy().installator(pageExtension.getName()).install();
     }
