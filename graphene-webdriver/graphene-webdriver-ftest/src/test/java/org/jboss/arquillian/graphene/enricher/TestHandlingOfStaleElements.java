@@ -21,13 +21,20 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import static org.junit.Assert.fail;
+
 import java.net.URL;
 import java.util.List;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -41,26 +48,54 @@ public class TestHandlingOfStaleElements {
     @Drone
     private WebDriver browser;
 
-    @FindBy(id="root")
+    @ArquillianResource
+    private JavascriptExecutor executor;
+
+    @FindBy(id = "root")
     private StaleElementPageFragment pageFragment;
 
-    @FindBy(id="root")
+    @FindBy(id = "root")
     private List<StaleElementPageFragment> pageFragments;
-
-    @FindBy(id="root")
+    @FindBy(id = "root")
     private WebElement rootElement;
-    
-    @FindBy(id="root")
+
+    @FindBy(id = "root")
     private List<WebElement> rootElements;
 
+    @FindBy(tagName = "body")
+    private WebElement body;
+
+    @Before
     public void loadPage() {
-        URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/enricher/staleelements.html");
+        URL page = this.getClass().getClassLoader()
+                .getResource("org/jboss/arquillian/graphene/ftest/enricher/staleelements.html");
         browser.get(page.toString());
     }
 
     @Test
+    public void testDeletion() {
+        rootElement.isDisplayed();
+        executor.executeScript("return arguments[0].parentNode.removeChild(arguments[0])", rootElement);
+        try {
+            rootElement.isDisplayed();
+            fail("rootElement should not be found");
+        } catch (NoSuchElementException e) {
+        }
+    }
+
+    @Test
+    public void testReplacement() {
+        rootElement.isDisplayed();
+        executor.executeScript("return arguments[0].parentNode.removeChild(arguments[0])", rootElement);
+        try {
+            rootElement.isDisplayed();
+            fail("rootElement should not be found");
+        } catch (NoSuchElementException e) {
+        }
+    }
+
+    @Test
     public void testElement() throws Exception {
-        loadPage();
         rootElement.isDisplayed();
         pageFragment.makeStale();
         rootElement.isDisplayed();
@@ -68,7 +103,6 @@ public class TestHandlingOfStaleElements {
 
     @Test
     public void testListOfElements() throws Exception {
-        loadPage();
         WebElement e = rootElements.get(0);
         e.isDisplayed();
         pageFragment.makeStale();
@@ -77,7 +111,6 @@ public class TestHandlingOfStaleElements {
 
     @Test
     public void testPageFragment() throws Exception {
-        loadPage();
         pageFragment.root.isDisplayed();
         pageFragment.makeStale();
         pageFragment.root.isDisplayed();
@@ -85,7 +118,6 @@ public class TestHandlingOfStaleElements {
 
     @Test
     public void testListOfPageFragments() throws Exception {
-        loadPage();
         StaleElementPageFragment pf = pageFragments.get(0);
         pf.root.isDisplayed();
         pf.makeStale();
@@ -97,9 +129,9 @@ public class TestHandlingOfStaleElements {
         @Root
         private WebElement root;
 
-        @FindBy(className="stale")
+        @FindBy(className = "stale")
         private WebElement stale;
-        @FindBy(className="make-stale")
+        @FindBy(className = "make-stale")
         private WebElement makeStale;
 
         public void makeStale() {

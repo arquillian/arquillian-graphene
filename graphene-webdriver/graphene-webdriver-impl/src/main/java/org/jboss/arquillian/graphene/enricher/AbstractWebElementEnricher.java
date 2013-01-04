@@ -23,11 +23,18 @@ package org.jboss.arquillian.graphene.enricher;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.proxy.Interceptor;
+import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  * This class should help you to implement {@link org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher}
@@ -39,7 +46,7 @@ import org.openqa.selenium.internal.Locatable;
 public abstract class AbstractWebElementEnricher extends AbstractSearchContextEnricher {
 
     protected final WebElement createWebElement(final By by, final SearchContext searchContext) {
-        return createWebElement(new GrapheneProxy.FutureTarget() {
+        return createWebElement(new FutureTarget() {
             @Override
             public Object getTarget() {
                 return searchContext.findElement(by);
@@ -48,7 +55,7 @@ public abstract class AbstractWebElementEnricher extends AbstractSearchContextEn
     }
 
     protected final WebElement createWebElement(final By by, final SearchContext searchContext, final int indexInList) {
-        return createWebElement(new GrapheneProxy.FutureTarget() {
+        return createWebElement(new FutureTarget() {
             @Override
             public Object getTarget() {
                 return searchContext.findElements(by).get(indexInList);
@@ -56,13 +63,27 @@ public abstract class AbstractWebElementEnricher extends AbstractSearchContextEn
         });
     }
 
-    protected final WebElement createWebElement(GrapheneProxy.FutureTarget target) {
-        // proxy for WebElement should implement also Locatable.class to be usable with org.openqa.selenium.interactions.Actions
-        return GrapheneProxy.getProxyForFutureTarget(target, WebElement.class, Locatable.class);
+    protected final WebElement createWebElement(final FutureTarget target) {
+        WebElement result = GrapheneProxy.getProxyForFutureTarget(target, WebElement.class, Locatable.class, WrapsElement.class);
+
+        final GrapheneProxyInstance proxy = (GrapheneProxyInstance) result;
+
+        Interceptor wrapsElementInterceptor = new Interceptor() {
+            public Object intercept(InvocationContext context) throws Throwable {
+                return proxy.unwrap();
+            }
+        };
+
+        InterceptorBuilder interceptorBuilder = new InterceptorBuilder();
+        interceptorBuilder.interceptInvocation(WrapsElement.class, wrapsElementInterceptor).getWrappedElement();
+
+        proxy.registerInterceptor(interceptorBuilder.build());
+
+        return result;
     }
 
     public List<WebElement> createWebElements(final By by, final SearchContext searchContext) {
-        return GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+        return GrapheneProxy.getProxyForFutureTarget(new FutureTarget() {
             @Override
             public Object getTarget() {
                 List<WebElement> result = new ArrayList<WebElement>();

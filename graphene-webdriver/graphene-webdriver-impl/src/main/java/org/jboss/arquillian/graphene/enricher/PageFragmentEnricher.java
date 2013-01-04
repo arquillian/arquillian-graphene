@@ -32,6 +32,7 @@ import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -40,12 +41,12 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher injecting page fragments ({@link FindBy} annotation is used) to the fields of the given object.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class PageFragmentEnricher extends AbstractWebElementEnricher {
-    
+
     @SuppressWarnings("unused")
     @Inject
     private Instance<ServiceLoader> serviceLoader;
@@ -75,7 +76,7 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
     }
 
     protected final <T> List<T> createPageFragmentList(final Class<T> clazz, final SearchContext searchContext, final By rootBy) {
-        List<T> result = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+        List<T> result = GrapheneProxy.getProxyForFutureTarget(new FutureTarget() {
             @Override
             public Object getTarget() {
                 List<WebElement> elements = searchContext.findElements(rootBy);

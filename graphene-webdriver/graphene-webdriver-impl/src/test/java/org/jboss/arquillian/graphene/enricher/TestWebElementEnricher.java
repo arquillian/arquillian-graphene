@@ -21,9 +21,19 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -32,10 +42,31 @@ import org.openqa.selenium.support.FindBy;
  */
 public class TestWebElementEnricher extends AbstractGrapheneEnricherTest {
 
+    @Mock
+    WebDriver driver;
+
+    @Mock
+    WebElement element;
+
     @Test
     public void testEmptyFindBy() {
         thrown.expect(GrapheneTestEnricherException.class);
         getGrapheneEnricher().enrich(new EmptyFindByTest());
+    }
+
+    @Test
+    public void generated_webelement_implements_WrapsElement_interface() {
+        TestPage page = new TestPage();
+        getGrapheneEnricher().enrich(page);
+
+        assertTrue(page.element instanceof WrapsElement);
+
+        GrapheneContext.set(driver);
+        when(driver.findElement(Mockito.any(By.class))).thenReturn(element);
+        WebElement wrappedElement = ((WrapsElement) page.element).getWrappedElement();
+        GrapheneContext.reset();
+
+        assertEquals(element, wrappedElement);
     }
 
     public static class EmptyFindByTest {
@@ -43,6 +74,11 @@ public class TestWebElementEnricher extends AbstractGrapheneEnricherTest {
         @SuppressWarnings("unused")
         @FindBy
         private WebElement wrongWebElem;
+    }
+
+    public static class TestPage {
+        @FindBy(id = "id")
+        private WebElement element;
     }
 
 }
