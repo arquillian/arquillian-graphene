@@ -64,13 +64,20 @@ public class JQuerySelectorsPageExtensionTestCase {
     @FindBy(jquery = "#nonExistingId")
     private List<WebElement> notExistingElements;
 
+    private static final String contentOfSpecialCharacters = "special chars '\"$";
+    @FindBy(jquery = "p:contains(\"" + contentOfSpecialCharacters + "\")")
+    private WebElement escapedDoubleQuotes;
+
+    @FindBy(jquery = "div[id=\"foo:bar\"]")
+    private WebElement escapedDoubleQuotes2;
+
     @Drone
     private WebDriver browser;
 
-    private static String EXPECTED_JQUERY_TEXT_1 = "Hello jquery selectors!";
-    private static String EXPECTED_JQUERY_TEXT_2 = "Nested div with foo class.";
-    private static String EXPECTED_NO_SUCH_EL_EX_MSG = "Cannot locate element using";
-    private static String EXPECTED_WRONG_SELECTOR_MSG = "Check out whether it is correct!";
+    private static final String EXPECTED_JQUERY_TEXT_1 = "Hello jquery selectors!";
+    private static final String EXPECTED_JQUERY_TEXT_2 = "Nested div with foo class.";
+    private static final String EXPECTED_NO_SUCH_EL_EX_MSG = "Cannot locate element using";
+    private static final String EXPECTED_WRONG_SELECTOR_MSG = "Check out whether it is correct!";
 
     public void loadPage() {
         URL page = this.getClass().getClassLoader()
@@ -182,6 +189,22 @@ public class JQuerySelectorsPageExtensionTestCase {
         loadPage();
 
         assertEquals("When locating not existing elements an empty list should be returned!", 0, notExistingElements.size());
+    }
+
+    @Test
+    public void testEscapedDoubleQuotesSelector() {
+        loadPage();
+
+        String actual = escapedDoubleQuotes.getText().trim();
+        assertEquals("WebElement referenced by ecaped locator was not found correctly!", contentOfSpecialCharacters, actual);
+    }
+
+    @Test
+    public void testEscapedColonSelector() {
+        loadPage();
+
+        String actual = escapedDoubleQuotes2.getText().trim();
+        assertEquals("WebElement with locator containing escaped colon not located correctly!", "Some content", actual);
     }
 
     /* *************

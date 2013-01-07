@@ -47,7 +47,7 @@ public class ByJQuery extends By {
     private JavascriptExecutor executor = GrapheneContext.getProxyForInterfaces(JavascriptExecutor.class);
 
     public ByJQuery(String jquerySelector) {
-        this.jquerySelector = jquerySelector;
+        this.jquerySelector = jquerySelector.replaceAll("\\\"", "\\\\\"");
     }
 
     public static ByJQuery jquerySelector(String selector) {
@@ -71,10 +71,11 @@ public class ByJQuery extends By {
         try {
             // the element is referenced from parent web element
             if (context instanceof WebElement) {
-                elements = (List<WebElement>) executor.executeScript(
-                    "return Graphene.jQuery(\"" + jquerySelector + "\", arguments[0]).get()", (WebElement) context);
+                elements = (List<WebElement>) executor.executeScript("return Graphene.jQuery(\"" + jquerySelector
+                    + "\", arguments[0]).get()", (WebElement) context);
             } else if (context instanceof WebDriver) { // element is not referenced from parent
-                elements = (List<WebElement>) executor.executeScript("return Graphene.jQuery(\"" + jquerySelector + "\").get()");
+                elements = (List<WebElement>) executor
+                    .executeScript("return Graphene.jQuery(\"" + jquerySelector + "\").get()");
             } else { // other unknown case
                 Logger
                     .getLogger(this.getClass().getName())
