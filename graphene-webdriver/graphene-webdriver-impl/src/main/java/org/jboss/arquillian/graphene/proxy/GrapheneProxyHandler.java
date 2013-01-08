@@ -203,6 +203,9 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
     Object invokeReal(Object target, Method method, Object[] args) throws Throwable {
         Object result;
         try {
+            if (target instanceof GrapheneProxyInstance) {
+                target = ((GrapheneProxyInstance) target).unwrap();
+            }
             result = method.invoke(target, args);
         } catch (InvocationTargetException e) {
             throw e.getCause();

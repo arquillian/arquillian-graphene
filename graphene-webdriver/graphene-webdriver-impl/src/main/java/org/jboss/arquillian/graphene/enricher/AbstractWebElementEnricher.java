@@ -28,8 +28,6 @@ import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
-import org.jboss.arquillian.graphene.proxy.Interceptor;
-import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -37,8 +35,8 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**
- * This class should help you to implement {@link org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher}
- * working with {@link WebElement} instances.
+ * This class should help you to implement {@link org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher} working
+ * with {@link WebElement} instances.
  *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -64,22 +62,17 @@ public abstract class AbstractWebElementEnricher extends AbstractSearchContextEn
     }
 
     protected final WebElement createWebElement(final FutureTarget target) {
-        WebElement result = GrapheneProxy.getProxyForFutureTarget(target, WebElement.class, Locatable.class, WrapsElement.class);
+        final WebElement element = GrapheneProxy.getProxyForFutureTarget(target, WebElement.class, Locatable.class,
+                WrapsElement.class);
+        final GrapheneProxyInstance elementProxy = (GrapheneProxyInstance) element;
 
-        final GrapheneProxyInstance proxy = (GrapheneProxyInstance) result;
+        InterceptorBuilder b = new InterceptorBuilder();
+        b.interceptInvocation(WrapsElement.class, new WrapsElementInterceptor(elementProxy)).getWrappedElement();
 
-        Interceptor wrapsElementInterceptor = new Interceptor() {
-            public Object intercept(InvocationContext context) throws Throwable {
-                return proxy.unwrap();
-            }
-        };
+        elementProxy.registerInterceptor(b.build());
+        elementProxy.registerInterceptor(new StaleElementInterceptor());
 
-        InterceptorBuilder interceptorBuilder = new InterceptorBuilder();
-        interceptorBuilder.interceptInvocation(WrapsElement.class, wrapsElementInterceptor).getWrappedElement();
-
-        proxy.registerInterceptor(interceptorBuilder.build());
-
-        return result;
+        return element;
     }
 
     public List<WebElement> createWebElements(final By by, final SearchContext searchContext) {
@@ -95,5 +88,4 @@ public abstract class AbstractWebElementEnricher extends AbstractSearchContextEn
             }
         }, List.class);
     }
-
 }

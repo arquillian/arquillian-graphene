@@ -21,10 +21,15 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import static org.mockito.Mockito.when;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.spi.ServiceLoader;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.junit.Before;
@@ -32,7 +37,6 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
@@ -78,6 +82,7 @@ public abstract class AbstractGrapheneEnricherTest {
             serviceLoaderField.set(o, serviceLoaderInstance);
         }
 
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
     }
 
     protected final TestEnricher getGrapheneEnricher() {
