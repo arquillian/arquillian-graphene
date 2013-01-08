@@ -9,7 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.jboss.arquillian.graphene</groupId>
     <artifactId>graphene-parent</artifactId>
-    <version>2.0.0.Alpha3</version>
+    <version>2.0.0.Beta1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Graphene: Parent</name>
     <description>Testing Ajax with flavour of sexy type-safe API</description>
