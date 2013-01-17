@@ -26,11 +26,11 @@ window.Graphene.Page = window.Graphene.Page || {};
 window.Graphene.Page.RequestGuard = (function() {
 
     var requestDone = "HTTP";
-    
+
     var originalTimeout;
-    
+
     var latch = 0;
-    
+
     var timeoutWrapper = function(originalCallback, timeout) {
         latch += 1;
         var callbackArguments = [];
@@ -39,7 +39,7 @@ window.Graphene.Page.RequestGuard = (function() {
                 callbackArguments.push(arguments[i]);
             }
         }
-        
+
         originalTimeout(function() {
             try {
                 if (typeof(originalCallback) == 'string') {
@@ -52,26 +52,26 @@ window.Graphene.Page.RequestGuard = (function() {
                 tryFinish();
             }
         }, timeout);
-    }
-    
+    };
+
     var tryFinish = function() {
         if (latch == 0) {
             requestDone = "XHR";
         }
-    }
-    
+    };
+
     return {
 
     	getRequestDone : function() {
     		return requestDone;
     	},
-    
+
     	clearRequestDone : function() {
     		var result = requestDone;
     		requestDone = "NONE";
     		return result;
     	},
-    
+
         install: function() {
             window.Graphene.xhrInterception.onreadystatechange(
                 function(context, args) {
