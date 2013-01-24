@@ -44,6 +44,9 @@ public class EnrichmentTestCase {
     @JavaScript
     private Document document;
 
+    @JavaScript
+    private Screen screen;
+
     public void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/javascript/sample.html");
         browser.get(page.toString());
@@ -52,12 +55,20 @@ public class EnrichmentTestCase {
     @Test
     public void testNotNull() {
         Assert.assertNotNull(document);
+        Assert.assertNotNull(screen);
     }
 
     @Test
-    public void testMethods() {
+    public void testDocumentMethods() {
         loadPage();
         Assert.assertEquals("Hello World!", document.getElementsByTagName("h1").get(0).getText());
+    }
+
+    @Test
+    public void testScreenMethods() {
+        loadPage();
+        Assert.assertNotNull(screen.getHeight());
+        Assert.assertNotNull(screen.getWidth());
     }
 
     @JavaScript("document")
@@ -66,6 +77,12 @@ public class EnrichmentTestCase {
         String getTitle();
 
         List<WebElement> getElementsByTagName(String tagName);
+    }
+
+    @JavaScript("window.screen")
+    public static interface Screen {
+        Long getWidth();
+        Long getHeight();
     }
 
 }
