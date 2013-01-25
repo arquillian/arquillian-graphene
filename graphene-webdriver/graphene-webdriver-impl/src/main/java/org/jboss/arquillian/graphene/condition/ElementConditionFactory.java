@@ -54,7 +54,7 @@ public interface ElementConditionFactory extends BasicConditionFactory<ElementCo
      *
      * @return
      */
-    StringConditionFactory text();
+    StringConditionFactory<StringConditionFactory> text();
 
     /**
      * Returns a condition holding if and only if the element contains the given text.

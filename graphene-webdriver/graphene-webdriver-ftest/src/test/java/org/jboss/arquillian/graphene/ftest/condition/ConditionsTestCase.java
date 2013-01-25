@@ -28,6 +28,7 @@ import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -105,13 +106,13 @@ public class ConditionsTestCase {
 
     @Test
     public void testElementIsSelected() {
-        loadPage();;
+        loadPage();
         checkElementIsSelected(Graphene.element(option1));
     }
 
     @Test
     public void testElementIsSelectedWithBy() {
-        loadPage();;
+        loadPage();
         checkElementIsSelected(Graphene.element(BY_OPTION1));
     }
 
@@ -159,18 +160,33 @@ public class ConditionsTestCase {
     }
 
     protected void checkAttributeValueContains(AttributeConditionFactory textInputValueAttributeFactory) {
+        // deprecated
         textInput.clear();
         Graphene.waitModel().until(textInputValueAttributeFactory.not().valueContains("Tested"));
         textInput.sendKeys("Tested Header");
         Graphene.waitModel().until(textInputValueAttributeFactory.valueContains("Tested"));
+        // current
+        textInput.clear();
+        Graphene.waitModel().until(textInputValueAttributeFactory.not().contains("Tested"));
+        Assert.assertTrue(textInputValueAttributeFactory.not().contains("Tested").apply(browser));
+        textInput.sendKeys("Tested Header");
+        Graphene.waitModel().until(textInputValueAttributeFactory.contains("Tested"));
     }
 
     protected void checkAttributeValueEquals(AttributeConditionFactory textInputValueAttributeFactory) {
+        // deprecated
         textInput.clear();
         textInput.sendKeys("Tested");
         Graphene.waitModel().until(textInputValueAttributeFactory.not().valueEquals("Tested Header"));
         textInput.sendKeys(" Header");
         Graphene.waitModel().until(textInputValueAttributeFactory.valueEquals("Tested Header"));
+        // current
+        textInput.clear();
+        textInput.sendKeys("Tested");
+        Graphene.waitModel().until(textInputValueAttributeFactory.not().equalTo("Tested Header"));
+        Assert.assertTrue(textInputValueAttributeFactory.not().equalTo("Tested Header").apply(browser));
+        textInput.sendKeys(" Header");
+        Graphene.waitModel().until(textInputValueAttributeFactory.equalTo("Tested Header"));
     }
 
     protected void checkElementIsPresent(ElementConditionFactory headerElementFactory) {
@@ -192,6 +208,7 @@ public class ConditionsTestCase {
     }
 
     protected void checkElementTextContains(ElementConditionFactory headerElementFactory) {
+        // deprecated
         textInput.clear();
         textInput.sendKeys("florence and the machine");
         updateButton.click();
@@ -200,9 +217,20 @@ public class ConditionsTestCase {
         textInput.sendKeys("Tested Header");
         updateButton.click();
         Graphene.waitModel().until(headerElementFactory.not().textContains("machine"));
+        // current
+        textInput.clear();
+        textInput.sendKeys("florence and the machine");
+        updateButton.click();
+        Graphene.waitModel().until(headerElementFactory.text().contains("machine"));
+        Assert.assertTrue(headerElementFactory.text().contains("machine").apply(browser));
+        textInput.clear();
+        textInput.sendKeys("Tested Header");
+        updateButton.click();
+        Graphene.waitModel().until(headerElementFactory.text().not().contains("machine"));
     }
 
     protected void checkElementTextEquals(ElementConditionFactory headerElementFactory) {
+        // deprecated
         textInput.clear();
         textInput.sendKeys("florence and the machine");
         updateButton.click();
@@ -210,6 +238,15 @@ public class ConditionsTestCase {
         textInput.sendKeys("Tested Header");
         updateButton.click();
         Graphene.waitModel().until(headerElementFactory.not().textEquals("florence and the machine"));
+        // current
+        textInput.clear();
+        textInput.sendKeys("florence and the machine");
+        updateButton.click();
+        Graphene.waitModel().until(headerElementFactory.text().equalTo("florence and the machine"));
+        Assert.assertTrue(headerElementFactory.text().equalTo("florence and the machine").apply(browser));
+        textInput.sendKeys("Tested Header");
+        updateButton.click();
+        Graphene.waitModel().until(headerElementFactory.text().not().equalTo("florence and the machine"));
     }
 
     protected void checkElementIsVisible(ElementConditionFactory headerElementFactory) {
