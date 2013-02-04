@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
         return result;
     }
 
-    protected final <T> T createPageFragment(Class<T> clazz, WebElement root) {
+    public static final <T> T createPageFragment(Class<T> clazz, WebElement root) {
         try {
             T pageFragment = instantiate(clazz);
             List<Field> roots = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
