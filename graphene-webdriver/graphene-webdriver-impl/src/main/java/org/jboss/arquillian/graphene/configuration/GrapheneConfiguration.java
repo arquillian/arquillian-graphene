@@ -39,6 +39,8 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
 
     private long waitGuardInterval = waitAjaxInterval;
 
+    private long javascriptInstallationLimit = 5;
+
     public long getWaitAjaxInterval() {
         return waitAjaxInterval;
     }
@@ -55,6 +57,10 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         return waitModelInterval;
     }
 
+    public long getJavascriptInstallationLimit() {
+        return javascriptInstallationLimit;
+    }
+
     public void validate() {
         if (waitAjaxInterval <= 0) {
             throw new IllegalArgumentException("The waitAjaxInterval property has to be a positive number.");
@@ -67,6 +73,9 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         }
         if (waitGuardInterval <= 0) {
             throw new IllegalArgumentException("The waitGuardInterval property has to be a positive number.");
+        }
+        if (javascriptInstallationLimit <= 0) {
+            throw new IllegalArgumentException("The javascriptInstallationLimut property has to a positive number.");
         }
     }
 

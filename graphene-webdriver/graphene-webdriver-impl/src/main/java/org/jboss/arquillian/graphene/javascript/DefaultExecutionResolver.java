@@ -35,6 +35,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.io.Resources;
+import java.util.logging.Level;
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 
 /**
  * This resolver uses page extension mechanism to install needed JavaScript
@@ -76,12 +78,30 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         }
         // register page extension
         registerExtension(target);
-        // install page extension
-        GraphenePageExtensionsContext.getInstallatorProviderProxy().installator(target.getName()).install();
-        // execute javascript
-        Object returnValue = executeScriptForCall(call);
-        Object castedResult = castResult(call, returnValue);
-        return castedResult;
+        // try to execute javascript, if fails install the extension
+        final long LIMIT = GrapheneConfigurationContext.getProxy().getJavascriptInstallationLimit();
+        for (long i=1; i<=5; i++) {
+            try {
+                // execute javascript
+                Object returnValue = executeScriptForCall(call);
+                Object castedResult = castResult(call, returnValue);
+                return castedResult;
+            } catch (RuntimeException e) {
+                // if the limit is reached -> FAIL
+                if (i == LIMIT) {
+                    throw new IllegalStateException("Can't invoke the javacript " + call.getTarget().getInterface().getName() + "#" + call.getMethod().getMethod().getName() + "()", e);
+                // try to install the extension
+                } else {
+                    try {
+                        GraphenePageExtensionsContext.getInstallatorProviderProxy().installator(target.getName()).install();
+                    } catch (RuntimeException ex) {
+                        LOGGER.log(Level.WARNING, "Installation of page extension for " + call.getTarget().getInterface().getName() + " javascript interface failed.", ex);
+                    }
+                }
+            }
+        }
+        // this situation shouldn't happen
+        throw new IllegalStateException("Can't invoke the javacript " + call.getTarget().getInterface().getName() + "#" + call.getMethod().getMethod().getName() + "()");
     }
 
     protected Object[] castArguments(Object[] arguments) {

@@ -16,10 +16,9 @@ function invokeInterface (target, method, args) {
             if (typeof(target[method]) == "function") {
                 return target[method].apply(target, args);
             }
+        } else {
+            throw "target object of invocation is not defined"
         }
-
-        /* nothing */
-        return null;
     } catch (e) {
         console.log('exception thrown when executing method ' + method + ': ' + e);
         throw e;

@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene.ftest.javascript;
 import java.net.URL;
 import java.util.List;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
@@ -46,6 +47,9 @@ public class EnrichmentTestCase {
 
     @JavaScript
     private Screen screen;
+
+    @JavaScript
+    private Unstable unstable;
 
     public void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/javascript/sample.html");
@@ -71,6 +75,18 @@ public class EnrichmentTestCase {
         Assert.assertNotNull(screen.getWidth());
     }
 
+    @Test
+    public void testUnstable() {
+        loadPage();
+        try {
+            Assert.assertNotNull("The return value can't be null.", unstable.simple());
+            Assert.assertNotNull("The return value can't be null.", unstable.simple());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Assert.fail("Can't invoke unstable javascript extension: " + e.getMessage());
+        }
+    }
+
     @JavaScript("document")
     public static interface Document {
 
@@ -83,6 +99,12 @@ public class EnrichmentTestCase {
     public static interface Screen {
         Long getWidth();
         Long getHeight();
+    }
+
+    @JavaScript("document.unstable")
+    @Dependency(sources = {"org/jboss/arquillian/graphene/ftest/javascript/unstable.js"})
+    public static interface Unstable {
+        Long simple();
     }
 
 }
