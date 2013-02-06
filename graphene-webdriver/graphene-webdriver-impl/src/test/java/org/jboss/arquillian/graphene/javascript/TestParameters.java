@@ -1,5 +1,7 @@
 package org.jboss.arquillian.graphene.javascript;
 
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,6 +43,7 @@ public class TestParameters extends AbstractJavaScriptTest {
         // given
         MockitoAnnotations.initMocks(this);
         GrapheneContext.set(executor);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
         GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
         instance = JSInterfaceFactory.create(TestingInterface.class);

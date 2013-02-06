@@ -1,5 +1,7 @@
 package org.jboss.arquillian.graphene.javascript;
 
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
 import org.jboss.arquillian.graphene.context.TestingDriverStub;
@@ -31,6 +33,7 @@ public class TestExecution extends AbstractJavaScriptTest {
 
         // when
         GrapheneContext.set(executor);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
         GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
         TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
@@ -49,6 +52,7 @@ public class TestExecution extends AbstractJavaScriptTest {
 
         // when
         GrapheneContext.set(executor);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
         GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
         TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
@@ -72,6 +76,7 @@ public class TestExecution extends AbstractJavaScriptTest {
 
         // when
         GrapheneContext.set(executor);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
         GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
         TestingInterfaceWithBase instance = JSInterfaceFactory.create(TestingInterfaceWithBase.class);
