@@ -23,42 +23,81 @@ package org.jboss.arquillian.graphene.wait;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import org.jboss.arquillian.graphene.fluent.FluentBase;
+import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class WebDriverWait<FLUENT> extends org.openqa.selenium.support.ui.WebDriverWait implements FluentBase<FLUENT> {
+public class WebDriverWait<FLUENT> implements FluentWait<WebDriver, FLUENT> {
 
+    private final org.openqa.selenium.support.ui.WebDriverWait wait;
     private final FLUENT fluent;
 
+    protected WebDriverWait(org.openqa.selenium.support.ui.WebDriverWait wait, FLUENT fluent) {
+        this.wait = wait;
+        this.fluent = fluent;
+    }
+
     public WebDriverWait(FLUENT fluent, WebDriver driver, long timeOutInSeconds) {
-        super(driver, timeOutInSeconds);
-        this.fluent = fluent;
+        this(new org.openqa.selenium.support.ui.WebDriverWait(driver, timeOutInSeconds) , fluent);
     }
 
-    public WebDriverWait(FLUENT fluent, WebDriver driver, long timeOutInSeconds, long sleepInMillis) {
-        super(driver, timeOutInSeconds, sleepInMillis);
-        this.fluent = fluent;
+    @Override
+    public FluentWait<WebDriver, FLUENT> withMessage(String message) {
+        wait.withMessage(message);
+        return this;
     }
 
-    /**
-     * Returns the fluent condition builder. The builder automatically calls {@link WebDriverWait#commit(java.lang.Object)}
-     * which calls {@link WebDriverWait#until(com.google.common.base.Predicate) }.
-     */
+    @Override
+    public FluentWait<WebDriver, FLUENT> withTimeout(long duration, TimeUnit unit) {
+        wait.withTimeout(duration, unit);
+        return this;
+    }
+
+    @Override
+    public FluentWait<WebDriver, FLUENT> pollingEvery(long duration, TimeUnit unit) {
+        wait.pollingEvery(duration, unit);
+        return this;
+    }
+
+    @Override
+    public <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoreAll(Collection<Class<? extends K>> types) {
+        wait.ignoreAll(types);
+        return this;
+    }
+
+    @Override
+    public <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoring(Class<? extends Throwable> exceptionType) {
+        wait.ignoring(exceptionType);
+        return this;
+    }
+
+    @Override
+    public <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoring(Class<? extends Throwable> firstType, Class<? extends Throwable> secondType) {
+        wait.ignoring(firstType, secondType);
+        return this;
+    }
+
+    @Override
+    public void until(Predicate<WebDriver> isTrue) {
+        wait.until(isTrue);
+    }
+
+    @Override
     public FluentBuilder<FLUENT> until() {
-        return new FluentBuilderImpl(this);
+        return new FluentBuilderImpl<FLUENT>((WebDriverWait<FLUENT>) this);
     }
 
-    /**
-     * Returns the fluent condition builder. The builder automatically calls {@link WebDriverWait#commit(java.lang.Object)}
-     * which calls {@link WebDriverWait#until(com.google.common.base.Predicate) }.
-     *
-     * @param failMessage message used when the waiting fails
-     */
+    @Override
     public FluentBuilder<FLUENT> until(String failMessage) {
-        return new FluentBuilderImpl<FLUENT>((WebDriverWait<FLUENT>) this.withMessage(failMessage));
+        return new FluentBuilderImpl<FLUENT>((WebDriverWait<FLUENT>) withMessage(failMessage));
+    }
+
+    @Override
+    public <T> T until(Function<? super WebDriver, T> isTrue) {
+        return wait.until(isTrue);
     }
 
     @Override
@@ -72,7 +111,5 @@ public class WebDriverWait<FLUENT> extends org.openqa.selenium.support.ui.WebDri
         }
         return fluent;
     }
-
-
 
 }
