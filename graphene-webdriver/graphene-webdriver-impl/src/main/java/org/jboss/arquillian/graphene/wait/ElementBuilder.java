@@ -42,4 +42,11 @@ public interface ElementBuilder<FLUENT> {
      */
     NotStringMatcher<FLUENT> text();
 
+    /**
+     * Returns an attribute condition builder for 'value' attribute'
+     *
+     * @see ElementBuilder#attribute(java.lang.String)
+     */
+    AttributeBuilder<FLUENT> value();
+
 }

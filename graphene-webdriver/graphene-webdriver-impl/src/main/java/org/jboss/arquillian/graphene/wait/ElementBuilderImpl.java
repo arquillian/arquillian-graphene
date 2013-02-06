@@ -57,4 +57,9 @@ public class ElementBuilderImpl<FLUENT> extends AbstractNegatable<ElementBuilder
         return new NotStringMatcherImpl<FLUENT>(factory.text(), fluentBase);
     }
 
+    @Override
+    public AttributeBuilder<FLUENT> value() {
+        return attribute("value");
+    }
+
 }

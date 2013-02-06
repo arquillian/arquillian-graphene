@@ -35,4 +35,18 @@ public class LocatorAttributeTest extends AbstractWaitTest {
         checkAttributeValueEquals(Graphene.waitModel().until().element(BY_TEXT_INPUT).attribute("value"));
     }
 
+    // shortcuts
+
+    @Test
+    public void testValueContains() {
+        loadPage();
+        checkAttributeValueContains(Graphene.waitModel().until().element(BY_TEXT_INPUT).value());
+    }
+
+    @Test
+    public void testValueEquals() {
+        loadPage();
+        checkAttributeValueEquals(Graphene.waitModel().until().element(BY_TEXT_INPUT).value());
+    }
+
 }

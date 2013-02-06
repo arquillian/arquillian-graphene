@@ -35,4 +35,17 @@ public class WebElementAttributeTest extends AbstractWaitTest {
         checkAttributeValueEquals(Graphene.waitModel().until().element(textInput).attribute("value"));
     }
 
+    // shortcuts
+
+    @Test
+    public void testValueContains() {
+        loadPage();
+        checkAttributeValueContains(Graphene.waitModel().until().element(textInput).value());
+    }
+
+    @Test
+    public void testValueEquals() {
+        loadPage();
+        checkAttributeValueEquals(Graphene.waitModel().until().element(textInput).value());
+    }
 }
