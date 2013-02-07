@@ -25,6 +25,7 @@ import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -93,6 +94,34 @@ public final class ReflectionHelper {
                     throw new RuntimeException("Obtained unchecked Exception; this code should never be reached", t);
                 }
             }
+        }
+    }
+
+    public static <T> Constructor<T> getAssignableConstructor(final Class<T> clazz, final Class<?>... argumentTypes) throws NoSuchMethodException {
+        for (Constructor constructor: clazz.getDeclaredConstructors()) {
+            if (constructor.getParameterTypes().length != argumentTypes.length) {
+                continue;
+            }
+            boolean found = true;
+            for (int i=0; i<argumentTypes.length; i++) {
+                if (!constructor.getParameterTypes()[i].isAssignableFrom(argumentTypes[i])) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                return constructor;
+            }
+        }
+        throw new NoSuchMethodException("There is no constructor in class " + clazz.getName() + " with arguments " + Arrays.toString(argumentTypes));
+    }
+
+    public static boolean hasConstructor(final Class<?> clazz, final Class<?>... argumentTypes) {
+        try {
+            clazz.getDeclaredConstructor(argumentTypes);
+            return true;
+        } catch(NoSuchMethodException ignored) {
+            return false;
         }
     }
 

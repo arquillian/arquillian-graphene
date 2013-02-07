@@ -33,6 +33,7 @@ import java.util.Arrays;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
+import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
@@ -40,7 +41,7 @@ import org.openqa.selenium.SearchContext;
 
 /**
  * This class should help you to implement {@link SearchContextTestEnricher}.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
@@ -57,7 +58,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     /**
      * Performs further enrichment on the given instance with the given search context. That means all instances
      * {@link TestEnricher} and {@link SearchContextTestEnricher} are invoked.
-     * 
+     *
      * @param searchContext
      * @param target
      */
@@ -76,7 +77,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * It loads a real type of a field defined by parametric type. It searches in declaring class and super class. E. g. if a
      * field is declared as 'A fieldName', It tries to find type parameter called 'A' in super class declaration and its
      * evaluation in the class declaring the given field.
-     * 
+     *
      * @param field
      * @param testCase
      * @return type of the given field
@@ -104,7 +105,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
     /**
      * It loads the concrete type of list items. E.g. for List<String>, String is returned.
-     * 
+     *
      * @param listField
      * @return
      * @throws ClassNotFoundException
@@ -115,7 +116,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
     /**
      * Initialize given class.
-     * 
+     *
      * @param clazz to be initialized
      * @throws IllegalAccessException
      * @throws InstantiationException
@@ -124,29 +125,43 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @throws SecurityException
      * @throws NoSuchMethodException
      */
-    protected final <T> T instantiate(Class<T> clazz) throws NoSuchMethodException, SecurityException, InstantiationException,
+    protected final <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException,
         IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         Class<?> outerClass = clazz.getDeclaringClass();
 
+        // load constructor and rea; arguments
         // check whether declared page object is not nested class
-        if (outerClass != null && !Modifier.isStatic(clazz.getModifiers())) {
-            Constructor<T> construtor = clazz.getDeclaredConstructor(outerClass);
-            if (!construtor.isAccessible()) {
-                construtor.setAccessible(true);
+        Class<?>[] argTypes;
+        Object[] realArgs;
+        if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
+            argTypes = new Class<?>[args.length];
+            realArgs = args;
+            for (int i=0; i<args.length; i++) {
+                argTypes[i] = args[i].getClass();
             }
-
-            Object outerObject = instantiate(outerClass);
-
-            return construtor.newInstance(new Object[] { outerObject });
-
         } else {
-            Constructor<T> construtor = clazz.getDeclaredConstructor();
-            if (!construtor.isAccessible()) {
-                construtor.setAccessible(true);
+            argTypes = new Class<?>[args.length + 1];
+            realArgs = new Object[args.length + 1];
+            argTypes[0] = outerClass;
+            realArgs[0] = instantiate(outerClass);
+            for (int i=0; i<args.length; i++) {
+                argTypes[i+1] = args[i].getClass();
+                realArgs[i+1] = args[i];
             }
-            return construtor.newInstance();
         }
+        Constructor<T> construtor;
+        if (ReflectionHelper.hasConstructor(clazz, argTypes)) {
+            construtor = clazz.getDeclaredConstructor(argTypes);
+        } else {
+            construtor = ReflectionHelper.getAssignableConstructor(clazz, argTypes);
+        }
+        // instantiate
+        if (!construtor.isAccessible()) {
+            construtor.setAccessible(true);
+        }
+
+        return construtor.newInstance(realArgs);
     }
 
     protected final void setValue(Field field, Object target, Object value) {

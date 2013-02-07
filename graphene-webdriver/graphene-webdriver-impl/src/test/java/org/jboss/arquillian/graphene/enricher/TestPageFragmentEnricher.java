@@ -1,8 +1,3 @@
-package org.jboss.arquillian.graphene.enricher;
-
-import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
-import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
-import org.jboss.arquillian.graphene.enricher.fragment.WrongPageFragmentMissingNoArgConstructor;
 /**
  * JBoss, Home of Professional Open Source
  * Copyright 2012, Red Hat, Inc. and individual contributors
@@ -24,6 +19,12 @@ import org.jboss.arquillian.graphene.enricher.fragment.WrongPageFragmentMissingN
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.jboss.arquillian.graphene.enricher;
+
+import junit.framework.Assert;
+import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
+import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
+import org.jboss.arquillian.graphene.enricher.fragment.WrongPageFragmentMissingNoArgConstructor;
 import org.jboss.arquillian.graphene.enricher.fragment.WrongPageFragmentTooManyRoots;
 import org.junit.Test;
 import org.openqa.selenium.support.FindBy;
@@ -36,8 +37,9 @@ public class TestPageFragmentEnricher extends AbstractGrapheneEnricherTest {
 
     @Test
     public void testMissingNoArgConstructor() {
-        thrown.expect(PageFragmentInitializationException.class);
-        getGrapheneEnricher().enrich(new NoArgConstructorTest());
+        NoArgConstructorTest target = new NoArgConstructorTest();
+        getGrapheneEnricher().enrich(target);
+        Assert.assertNull(target.pageFragment);
     }
 
     @Test
@@ -54,8 +56,9 @@ public class TestPageFragmentEnricher extends AbstractGrapheneEnricherTest {
 
     @Test
     public void testAbstractType() {
-        thrown.expect(PageFragmentInitializationException.class);
-        getGrapheneEnricher().enrich(new AbstractTypeTest());
+        AbstractTypeTest target = new AbstractTypeTest();
+        getGrapheneEnricher().enrich(target);
+        Assert.assertNull(target.pageFragment);
     }
 
     public static class NoArgConstructorTest {

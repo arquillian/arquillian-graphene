@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -72,7 +73,20 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
     }
 
     protected final boolean isPageFragmentClass(Class<?> clazz) {
-        return !clazz.isInterface() && !Modifier.isFinal(clazz.getModifiers()) && !Modifier.isInterface(clazz.getModifiers());
+        // check whether it isn't interface or final class
+        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isFinal(clazz.getModifiers()) || Modifier.isAbstract(clazz.getModifiers())) {
+            return false;
+        }
+
+        Class<?> outerClass = clazz.getDeclaringClass();
+
+        // check whether there is an empty constructor
+        if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
+            return ReflectionHelper.hasConstructor(clazz);
+        // check whether there is an empty constructor with outer class
+        } else {
+            return ReflectionHelper.hasConstructor(clazz, outerClass);
+        }
     }
 
     protected final <T> List<T> createPageFragmentList(final Class<T> clazz, final SearchContext searchContext, final By rootBy) {
