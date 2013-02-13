@@ -33,7 +33,6 @@ import java.util.Arrays;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
-import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
@@ -53,7 +52,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     protected static final String NEW_LINE = System.getProperty("line.separator");
 
     @Inject
-    private Instance<ServiceLoader> serviceLoader;
+    private static Instance<ServiceLoader> serviceLoader;
 
     /**
      * Performs further enrichment on the given instance with the given search context. That means all instances
@@ -62,7 +61,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @param searchContext
      * @param target
      */
-    protected final void enrichRecursively(SearchContext searchContext, Object target) {
+    protected static final void enrichRecursively(SearchContext searchContext, Object target) {
         for (TestEnricher enricher : serviceLoader.get().all(TestEnricher.class)) {
             if (!enricher.getClass().equals(GrapheneEnricher.class)) {
                 enricher.enrich(target);
@@ -125,9 +124,8 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @throws SecurityException
      * @throws NoSuchMethodException
      */
-    protected final <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException,
+    protected static final <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException,
         IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
         Class<?> outerClass = clazz.getDeclaringClass();
 
         // load constructor and rea; arguments
@@ -164,7 +162,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         return construtor.newInstance(realArgs);
     }
 
-    protected final void setValue(Field field, Object target, Object value) {
+    protected static final void setValue(Field field, Object target, Object value) {
 
         boolean accessible = field.isAccessible();
         if (!accessible) {

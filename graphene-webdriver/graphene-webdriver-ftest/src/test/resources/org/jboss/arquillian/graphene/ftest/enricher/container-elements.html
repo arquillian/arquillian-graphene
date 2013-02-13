@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+.tabpanel-tab-act {
+	color: red;
+}
+
+.tabpanel-tab-inact {
+	color: #A8A8A8;
+}
+
+.tabpanel-cnt {
+	border: 2px solid;
+}
+</style>
+</head>
+<body>
+	<div class="tabpanel">
+		<div class="tabpanel-hdr">
+			<table class="tabpanel-tabs">
+				<tr>
+					<td class="tabpanel-tab-inact defaultHidden" style="display: none;">First
+						tab</td>
+					<td class="tabpanel-tab-act defaultVisible">First tab</td>
+					<td class="tabpanel-tab-inact">Second tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Second tab</td>
+					<td class="tabpanel-tab-inact">Third tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Third tab</td>
+					<td class="tabpanel-tab-inact">Fourth tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Fourth tab</td>
+					<td class="tabpanel-tab-inact">Fifth tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Fifth tab</td>
+					<td class="tabpanel-tab-inact">Sixth tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Sixth tab</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tabpanel-cnt">
+			<div class="tabpanel-tab defaultVisiblePanel">
+				<span class="tab-text">Content of the tab 1</span>
+			</div>
+			<div class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 2</span>
+			</div>
+			<div class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 3</span>
+			</div>
+			<div class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 4</span>
+			</div>
+			<div class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 5</span>
+			</div>
+			<div class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 6</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var previousHidden = document.getElementsByClassName('defaultHidden');
+		var previousActive = document.getElementsByClassName('defaultVisible');
+		var previousActivePanel = document
+				.getElementsByClassName('defaultVisiblePanel');
+
+		var g = document.getElementsByClassName('tabpanel-tab-inact');
+		var e = null;
+		for ( var i = 0, len = g.length; i < len; i++) {
+			(function(index) {
+				g[i].onclick = function(e) {
+					e = e || window.event;
+					e = e.target || e.srcElement;
+
+					previousHidden[0].style.display = 'inline';
+					previousActive[0].style.display = 'none';
+
+					e.style.display = 'none';
+					e.nextSibling.nextSibling.style.display = 'inline';
+
+					previousHidden = new Array(e);
+					previousActive = new Array(e.nextSibling.nextSibling);
+
+					previousActivePanel[0].style.display = 'none';
+					var currentPanel = document
+							.getElementsByClassName('tabpanel-tab')[index];
+					currentPanel.style.display = 'block';
+					previousActivePanel = new Array(currentPanel);
+				}
+			})(i);
+
+		}
+	</script>
+</body>
+</html>

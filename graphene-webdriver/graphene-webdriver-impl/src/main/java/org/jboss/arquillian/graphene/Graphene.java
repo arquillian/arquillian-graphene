@@ -29,13 +29,13 @@ import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFa
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
 import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.wait.WebDriverWait;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 
 /**
  *
@@ -138,6 +138,10 @@ public class Graphene {
 
     public static WebDriverWait<Void> waitModel(WebDriver driver) {
         return new WebDriverWait<Void>(null, driver, getConfiguration().getWaitModelInterval());
+    }
+
+    public static <T> T createPageFragment(Class<T> clazz, WebElement root) {
+        return PageFragmentEnricher.createPageFragment(clazz, root);
     }
 
     private static GrapheneConfiguration getConfiguration() {
