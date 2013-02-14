@@ -109,8 +109,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
 
         for (int i = 0; i < result.length; i++) {
             Object arg = result[i];
-
-            if (arg.getClass().isEnum()) {
+            if (arg != null && arg.getClass().isEnum()) {
                 result[i] = castEnumToString(arg);
             }
         }

@@ -1,12 +1,10 @@
 package org.jboss.arquillian.graphene.ftest.page.extension;
 
-import static org.junit.Assert.assertEquals;
-
 import java.net.URL;
-
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.enricher.findby.FindBy;
 import org.jboss.arquillian.junit.Arquillian;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;

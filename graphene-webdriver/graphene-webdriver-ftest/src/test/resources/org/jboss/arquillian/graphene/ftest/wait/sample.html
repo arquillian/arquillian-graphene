@@ -19,6 +19,9 @@
                 var header = document.getElementById(previousId);
                 header.removeAttribute("style");
             }
+            function goOutside() {
+                window.location = 'outside.html';
+            }
         </script>
     </head>
     <body>
@@ -34,5 +37,7 @@
             <option id="option1" value="1">option 1</option>
             <option id="option2" value="2">option 2</option>
         </select>
+
+        <a href="#" onclick="setTimeout(goOutside, 50)" id="outside">Go Outside</a>
     </body>
 </html>

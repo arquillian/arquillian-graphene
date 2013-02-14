@@ -2,15 +2,13 @@ package org.jboss.arquillian.graphene.ftest.wait;
 
 import java.net.URL;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.enricher.findby.FindBy;
 import org.jboss.arquillian.graphene.wait.AttributeBuilder;
 import org.jboss.arquillian.graphene.wait.ElementBuilder;
 import org.jboss.arquillian.graphene.wait.IsNotElementBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class AbstractWaitTest {
@@ -42,7 +40,6 @@ public class AbstractWaitTest {
     protected void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/wait/sample.html");
         browser.get(page.toString());
-        PageFactory.initElements(new DefaultElementLocatorFactory(browser), this);
     }
 
     protected void checkAttributeIsPresent(AttributeBuilder<?> headerStyle) {
