@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -45,6 +46,9 @@ public class TestWebElementWrapper {
 
     @FindBy(css="#root span")
     private Wrapper2 wrapper2;
+
+    @FindBy(tagName="select")
+    private Select select;
 
     public void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/enricher/sample.html");
@@ -65,7 +69,15 @@ public class TestWebElementWrapper {
         Assert.assertEquals("correct", wrapper2.getText());
     }
 
-    private static class Wrapper1 {
+    @Test
+    public void testSelect() {
+        loadPage();
+        Assert.assertEquals(3, select.getOptions().size());
+        select.selectByIndex(0);
+        Assert.assertEquals("one", select.getFirstSelectedOption().getText());
+    }
+
+    public static class Wrapper1 {
         private final WebElement element;
 
         public Wrapper1(WebElement element) {
@@ -77,7 +89,7 @@ public class TestWebElementWrapper {
         }
     }
 
-    private class Wrapper2 {
+    public class Wrapper2 {
         private final WebElement element;
 
         public Wrapper2(WebElement element) {

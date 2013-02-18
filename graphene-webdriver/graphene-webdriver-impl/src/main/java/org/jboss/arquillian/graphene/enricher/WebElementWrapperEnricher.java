@@ -5,10 +5,14 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -19,13 +23,25 @@ import org.openqa.selenium.WebElement;
 public class WebElementWrapperEnricher extends AbstractWebElementEnricher {
 
     @Override
-    public void enrich(SearchContext searchContext, Object target) {
+    public void enrich(final SearchContext searchContext, Object target) {
         List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
         for (Field field: fields) {
+            final Field finalField = field;
             if (isValidClass(field.getType())) {
-                By rootBy = FindByUtilities.getCorrectBy(field);
+                final By rootBy = FindByUtilities.getCorrectBy(field);
                 try {
-                    Object component = instantiate(field.getType(), createWebElement(rootBy, searchContext));
+                    Object component = GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+                        @Override
+                        public Object getTarget() {
+                            try {
+                                return instantiate(finalField.getType(), createWebElement(rootBy, searchContext));
+                            } catch (Exception e) {
+                                throw new IllegalStateException("Can't instantiate the " + finalField.getType());
+                            }
+                        }
+                    }, field.getType());
+
+
                     setValue(field, target, component);
                 } catch (Exception e) {
                     throw new GrapheneTestEnricherException("Can't set a value to the " + target.getClass() + "." + field.getName() + ".", e);
