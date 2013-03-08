@@ -5,11 +5,8 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
@@ -20,7 +17,7 @@ import org.openqa.selenium.WebElement;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class WebElementWrapperEnricher extends AbstractWebElementEnricher {
+public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
 
     @Override
     public void enrich(final SearchContext searchContext, Object target) {
@@ -34,7 +31,7 @@ public class WebElementWrapperEnricher extends AbstractWebElementEnricher {
                         @Override
                         public Object getTarget() {
                             try {
-                                return instantiate(finalField.getType(), createWebElement(rootBy, searchContext));
+                                return instantiate(finalField.getType(), WebElementUtils.findElementLazily(rootBy, searchContext));
                             } catch (Exception e) {
                                 throw new IllegalStateException("Can't instantiate the " + finalField.getType());
                             }

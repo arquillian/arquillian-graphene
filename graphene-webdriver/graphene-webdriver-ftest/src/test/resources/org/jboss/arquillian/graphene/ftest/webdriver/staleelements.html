@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+            function make_stale() {
+                var old = document.getElementById("root");
+                old.parentNode.removeChild(old);
+                var root = document.createElement("div");
+                root.id="root";
+                root.setAttribute("class", "made-stale");
+                document.getElementById("body").appendChild(root);
+                var stale = document.createElement("span");
+                stale.id="stale";
+                stale.setAttribute("class", "stale");
+                stale.innerHTML="stale";
+                document.getElementById("root").appendChild(stale);
+            }
+        </script>
+    </head>
+    <body id="body">
+        <div id="root">
+            <button class="make-stale" id="make-stale" onclick="make_stale()">make stale</button>
+            <span class="stale" id="stale">stale</span>
+        </div>
+
+    </body>
+</html>

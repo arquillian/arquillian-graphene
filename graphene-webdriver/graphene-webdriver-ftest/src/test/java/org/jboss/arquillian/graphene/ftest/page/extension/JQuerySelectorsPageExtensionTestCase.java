@@ -89,11 +89,8 @@ public class JQuerySelectorsPageExtensionTestCase {
     public void testFindByWrongSelector() {
         loadPage();
 
-        @SuppressWarnings("unused")
-        WebElement element = null;
-
         try {
-            element = browser.findElement(ByJQuery.jquerySelector(":notExistingSelector"));
+            browser.findElement(ByJQuery.jquerySelector(":notExistingSelector"));
         } catch (WebDriverException ex) {
             // desired state
             assertTrue("The exception thrown after locating element by non existing selector is wrong!", ex.getMessage()
@@ -109,8 +106,7 @@ public class JQuerySelectorsPageExtensionTestCase {
         loadPage();
 
         try {
-            @SuppressWarnings("unused")
-            WebElement nonExistingElement = browser.findElement(ByJQuery.jquerySelector(":contains('non existing string')"));
+            browser.findElement(ByJQuery.jquerySelector(":contains('non existing string')"));
         } catch (NoSuchElementException ex) {
             // this is desired state
             assertTrue("Error message of NoSuchElementException is wrong!", ex.getMessage()

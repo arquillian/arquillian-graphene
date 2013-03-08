@@ -34,7 +34,7 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class WebElementEnricher extends AbstractWebElementEnricher {
+public class WebElementEnricher extends AbstractSearchContextEnricher {
 
     @Override
     public void enrich(SearchContext searchContext, Object target) {
@@ -51,7 +51,7 @@ public class WebElementEnricher extends AbstractWebElementEnricher {
                     if (by == null) {
                         throw new GrapheneTestEnricherException(message);
                     }
-                    WebElement element = createWebElement(by, searchContext);
+                    WebElement element = WebElementUtils.findElementLazily(by, searchContext);
                     setValue(field, target, element);
                     // List<WebElement>
                 } else if (field.getType().isAssignableFrom(List.class)
@@ -59,7 +59,7 @@ public class WebElementEnricher extends AbstractWebElementEnricher {
                     if (by == null) {
                         throw new GrapheneTestEnricherException(message);
                     }
-                    List<WebElement> elements = createWebElements(by, searchContext);
+                    List<WebElement> elements = WebElementUtils.findElementsLazily(by, searchContext);
                     setValue(field, target, elements);
                 }
             }

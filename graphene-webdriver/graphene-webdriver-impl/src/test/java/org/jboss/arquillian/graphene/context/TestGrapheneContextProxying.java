@@ -21,25 +21,24 @@
  */
 package org.jboss.arquillian.graphene.context;
 
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.only;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.By;
-import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.Locatable;
 
 /**
  * @author Lukas Fryc
@@ -59,6 +58,7 @@ public class TestGrapheneContextProxying {
 
         // when
         GrapheneContext.set(driver);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
 
         // then
         WebDriver proxy = GrapheneContext.getProxy();
@@ -72,6 +72,7 @@ public class TestGrapheneContextProxying {
 
         // when
         GrapheneContext.set(driver);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         when(driver.navigate()).thenReturn(navigation);
 
         // then
@@ -91,11 +92,13 @@ public class TestGrapheneContextProxying {
 
         // when
         GrapheneContext.set(driver);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         when(driver.findElement(byId)).thenReturn(webElement);
 
         // then
         WebDriver driverProxy = GrapheneContext.getProxy();
         WebElement webElementProxy = driverProxy.findElement(byId);
+        webElementProxy.clear();
         assertTrue(webElementProxy instanceof GrapheneProxyInstance);
 
         // verify
@@ -110,6 +113,7 @@ public class TestGrapheneContextProxying {
 
         // when
         GrapheneContext.set(driver);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         when(driver.findElement(byId)).thenReturn(webElement);
 
         // then
@@ -126,6 +130,7 @@ public class TestGrapheneContextProxying {
     public void test_that_context_can_be_unwrapped() {
         // having
         GrapheneContext.set(driver);
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
         WebDriver driverProxy = GrapheneContext.getProxy();
 
         // when

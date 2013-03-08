@@ -45,7 +45,7 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class PageFragmentEnricher extends AbstractWebElementEnricher {
+public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     @SuppressWarnings("unused")
     @Inject
@@ -95,7 +95,7 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
                 List<WebElement> elements = searchContext.findElements(rootBy);
                 List<T> fragments = new ArrayList<T>();
                 for (int i = 0; i < elements.size(); i++) {
-                    fragments.add(createPageFragment(clazz, createWebElement(rootBy, searchContext, i)));
+                    fragments.add(createPageFragment(clazz, WebElementUtils.findElementLazily(rootBy, searchContext, i)));
                 }
                 return fragments;
             }
@@ -153,7 +153,7 @@ public class PageFragmentEnricher extends AbstractWebElementEnricher {
                 + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
                 + NEW_LINE);
         }
-        WebElement root = createWebElement(rootBy, searchContext);
+        WebElement root = WebElementUtils.findElementLazily(rootBy, searchContext);
         Object pageFragment = createPageFragment(field.getType(), root);
         setValue(field, target, pageFragment);
     }

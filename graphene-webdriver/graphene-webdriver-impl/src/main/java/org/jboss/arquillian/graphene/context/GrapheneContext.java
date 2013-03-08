@@ -21,9 +21,11 @@
  */
 package org.jboss.arquillian.graphene.context;
 
+import org.jboss.arquillian.graphene.enricher.SearchContextInterceptor;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyUtil;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -106,7 +108,9 @@ public final class GrapheneContext {
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static WebDriver getProxy() {
-        return GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class, JavascriptExecutor.class, HasInputDevices.class);
+        WebDriver result = GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class, JavascriptExecutor.class, HasInputDevices.class);
+        ((GrapheneProxyInstance) result).registerInterceptor(new SearchContextInterceptor());
+        return result;
     }
 
     /**
@@ -116,7 +120,9 @@ public final class GrapheneContext {
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static <T extends WebDriver> T getProxyForDriver(Class<T> webDriverImplClass) {
-        return GrapheneProxy.<T>getProxyForFutureTarget(TARGET, webDriverImplClass);
+        T result = GrapheneProxy.<T>getProxyForFutureTarget(TARGET, webDriverImplClass);
+        ((GrapheneProxyInstance) result).registerInterceptor(new SearchContextInterceptor());
+        return result;
     }
 
     /**
@@ -128,7 +134,9 @@ public final class GrapheneContext {
 
     public static <T> T getProxyForInterfaces(Class<?>... interfaces) {
         Class<?>[] interfacesIncludingWebdriver = GrapheneProxyUtil.concatClasses(interfaces, WebDriver.class);
-        return GrapheneProxy.<T>getProxyForFutureTarget(TARGET, null, interfacesIncludingWebdriver);
+        T result = GrapheneProxy.<T>getProxyForFutureTarget(TARGET, null, interfacesIncludingWebdriver);
+        ((GrapheneProxyInstance) result).registerInterceptor(new SearchContextInterceptor());
+        return result;
     }
 
     /**
@@ -142,6 +150,7 @@ public final class GrapheneContext {
     }
 
     private static FutureTarget TARGET = new FutureTarget() {
+        @Override
         public Object getTarget() {
             return get();
         }

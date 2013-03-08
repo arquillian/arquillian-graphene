@@ -12,6 +12,7 @@ public class WrapsElementInterceptor implements Interceptor {
         this.elementProxy = elementProxy;
     }
 
+    @Override
     public Object intercept(InvocationContext context) throws Throwable {
         return elementProxy.unwrap();
     }
