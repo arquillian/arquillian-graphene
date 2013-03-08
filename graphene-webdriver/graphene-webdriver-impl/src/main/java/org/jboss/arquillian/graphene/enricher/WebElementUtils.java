@@ -79,11 +79,7 @@ public final class WebElementUtils {
         return findElement(new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                if (searchContext instanceof GrapheneProxyInstance) {
-                    return ((SearchContext)((GrapheneProxyInstance) searchContext).unwrap()).findElement(by);
-                } else {
-                    return searchContext.findElement(by);
-                }
+                return searchContext.findElement(by);
             }
         });
     }
@@ -111,7 +107,6 @@ public final class WebElementUtils {
         b.interceptInvocation(WrapsElement.class, new WrapsElementInterceptor(elementProxy)).getWrappedElement();
 
         elementProxy.registerInterceptor(b.build());
-        elementProxy.registerInterceptor(new SearchContextInterceptor());
         elementProxy.registerInterceptor(new StaleElementInterceptor());
         return element;
     }

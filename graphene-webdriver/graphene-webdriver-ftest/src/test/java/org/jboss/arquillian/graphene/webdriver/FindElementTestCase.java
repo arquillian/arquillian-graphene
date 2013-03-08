@@ -26,6 +26,7 @@ import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -37,6 +38,7 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@Ignore
 public class FindElementTestCase {
 
     @Drone
@@ -71,7 +73,6 @@ public class FindElementTestCase {
     @Test
     public void testFindStaleElementOnWebElement() {
         WebElement stale = browser.findElement(By.tagName("body")).findElement(By.className("stale"));
-        Assert.assertTrue(stale.isDisplayed());
         makeStale.click();
         Assert.assertTrue(stale.isDisplayed());
     }
@@ -79,9 +80,23 @@ public class FindElementTestCase {
     @Test
     public void testFindStaleElementsOnWebElement() {
         WebElement stale = browser.findElement(By.tagName("body")).findElements(By.className("stale")).get(0);
-        Assert.assertTrue(stale.isDisplayed());
         makeStale.click();
         Assert.assertTrue(stale.isDisplayed());
+    }
+
+    @Test
+    public void testFindElementOnStaleWebElement() {
+        WebElement inStale = browser.findElement(By.className("stale")).findElement(By.className("in-stale"));
+        makeStale.click();
+        Assert.assertTrue(inStale.isDisplayed());
+    }
+
+    @Test
+    public void testFindElementsOnStaleWebElement() {
+        WebElement inStale = browser.findElement(By.className("stale")).findElements(By.className("in-stale")).get(0);
+        Assert.assertTrue(inStale.isDisplayed());
+        makeStale.click();
+        Assert.assertTrue(inStale.isDisplayed());
     }
 
 }

@@ -12,15 +12,22 @@
                 var stale = document.createElement("span");
                 stale.id="stale";
                 stale.setAttribute("class", "stale");
-                stale.innerHTML="stale";
                 document.getElementById("root").appendChild(stale);
+                var inStale = document.createElement("span");
+                inStale.setAttribute("class", "in-stale");
+                inStale.innerHTML="stale";
+                stale.appendChild(inStale);
             }
         </script>
     </head>
     <body id="body">
         <div id="root">
             <button class="make-stale" id="make-stale" onclick="make_stale()">make stale</button>
-            <span class="stale" id="stale">stale</span>
+            <span class="stale" id="stale">
+                <span class="in-stale">
+                    stale
+                </span>
+            </span>
         </div>
 
     </body>
