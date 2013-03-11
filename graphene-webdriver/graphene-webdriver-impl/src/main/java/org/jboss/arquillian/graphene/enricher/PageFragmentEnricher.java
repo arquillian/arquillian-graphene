@@ -73,7 +73,8 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     protected final boolean isPageFragmentClass(Class<?> clazz) {
         // check whether it isn't interface or final class
-        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isFinal(clazz.getModifiers()) || Modifier.isAbstract(clazz.getModifiers())) {
+        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isFinal(clazz.getModifiers())
+                || Modifier.isAbstract(clazz.getModifiers())) {
             return false;
         }
 
@@ -82,7 +83,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         // check whether there is an empty constructor
         if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
             return ReflectionHelper.hasConstructor(clazz);
-        // check whether there is an empty constructor with outer class
+            // check whether there is an empty constructor with outer class
         } else {
             return ReflectionHelper.hasConstructor(clazz, outerClass);
         }
@@ -110,8 +111,8 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
             List<Field> roots = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
             if (roots.size() > 1) {
                 throw new PageFragmentInitializationException("The Page Fragment " + NEW_LINE + pageFragment.getClass()
-                    + NEW_LINE + " can not have more than one field annotated with Root annotation!"
-                    + "Your fields with @Root annotation: " + roots + NEW_LINE);
+                        + NEW_LINE + " can not have more than one field annotated with Root annotation!"
+                        + "Your fields with @Root annotation: " + roots + NEW_LINE);
             }
             if (roots.size() == 1) {
                 setValue(roots.get(0), pageFragment, root);
@@ -120,39 +121,29 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
             return pageFragment;
         } catch (NoSuchMethodException ex) {
             throw new PageFragmentInitializationException(" Check whether declared Page Fragment has no argument constructor!",
-                ex);
+                    ex);
         } catch (IllegalAccessException ex) {
             throw new PageFragmentInitializationException(
-                " Check whether declared Page Fragment has public no argument constructor!", ex);
+                    " Check whether declared Page Fragment has public no argument constructor!", ex);
         } catch (InstantiationException ex) {
             throw new PageFragmentInitializationException(
-                " Check whether you did not declare Page Fragment with abstract type!", ex);
+                    " Check whether you did not declare Page Fragment with abstract type!", ex);
         } catch (Exception ex) {
             throw new PageFragmentInitializationException(ex);
         }
     }
 
     protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)
-        throws ClassNotFoundException {
+            throws ClassNotFoundException {
+        //the by retrieved in this way is never null, by default it is ByIdOrName using field name
         By rootBy = FindByUtilities.getCorrectBy(field);
-        if (rootBy == null) {
-            throw new PageFragmentInitializationException("Your declaration of Page Fragment in test "
-                + field.getDeclaringClass().getName() + " is annotated with @FindBy without any "
-                + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
-                + NEW_LINE);
-        }
         List<?> pageFragments = createPageFragmentList(getListType(field), searchContext, rootBy);
         setValue(field, target, pageFragments);
     }
 
     protected final void setupPageFragment(SearchContext searchContext, Object target, Field field) {
+        //the by retrieved in this way is never null, by default it is ByIdOrName using field name
         By rootBy = FindByUtilities.getCorrectBy(field);
-        if (rootBy == null) {
-            throw new PageFragmentInitializationException("Your declaration of Page Fragment in test "
-                + field.getDeclaringClass().getName() + " is annotated with @FindBy without any "
-                + "parameters, in other words without reference to root of the particular Page Fragment on the page!"
-                + NEW_LINE);
-        }
         WebElement root = WebElementUtils.findElementLazily(rootBy, searchContext);
         Object pageFragment = createPageFragment(field.getType(), root);
         setValue(field, target, pageFragment);

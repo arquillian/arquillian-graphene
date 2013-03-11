@@ -24,7 +24,6 @@ package org.jboss.arquillian.graphene.enricher;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -41,24 +40,15 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
         try {
             List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
             for (Field field : fields) {
+                //by should never by null, by default it is ByIdOrName using field name
                 By by = FindByUtilities.getCorrectBy(field);
-                String message = "Your @FindBy annotation over field " + NEW_LINE + field.getName() + NEW_LINE
-                    + " declared in: " + NEW_LINE + field.getDeclaringClass().getName() + NEW_LINE
-                    + " is annotated with empty @FindBy annotation, in other words it "
-                    + "should contain parameter which will define the strategy for referencing that element.";
                 // WebElement
                 if (field.getType().isAssignableFrom(WebElement.class)) {
-                    if (by == null) {
-                        throw new GrapheneTestEnricherException(message);
-                    }
                     WebElement element = WebElementUtils.findElementLazily(by, searchContext);
                     setValue(field, target, element);
                     // List<WebElement>
                 } else if (field.getType().isAssignableFrom(List.class)
                     && getListType(field).isAssignableFrom(WebElement.class)) {
-                    if (by == null) {
-                        throw new GrapheneTestEnricherException(message);
-                    }
                     List<WebElement> elements = WebElementUtils.findElementsLazily(by, searchContext);
                     setValue(field, target, elements);
                 }

@@ -14,35 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 /**
- * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
- * by the @authors tag. See the copyright.txt in the distribution for a
- * full listing of individual contributors.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
-/**
- * Utility class originally copied from WebDriver. The differences are:
+ * <p>
+ * Utility class originally copied from WebDriver. It main purpose is to retrieve correct 
+ * <code>By</code> instance according to the field on which <code>@Find</code> annotation is.</p> 
+ * 
+ * <p>The differences are:
  * <ul>
  *  <li>this class supports also Graphene <code>@FindBy</code> with JQuery locators support</li>
- *  <li></li>
+ *  <li>it is able to return default locating strategy according to the <code>GrapheneConfiguration</code></li>
  * </ul>
- *  
+ *  </p>
  * 
- * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * <p>Altered by <a href="mailto:jhuska@redhat.com">Juraj Huska</a></p>.
  */
 package org.jboss.arquillian.graphene.enricher.findby;
 
@@ -50,6 +33,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.CacheLookup;
@@ -69,12 +53,12 @@ public class Annotations {
     }
 
     public By buildBy() {
-        //un-comment once FindBys is supported
         //    assertValidAnnotations();
 
         By ans = null;
 
-        //FindBys is not supported for now, that is why it is commented
+        ans = checkAndProcessEmptyFindBy();
+
         //    FindBys findBys = field.getAnnotation(FindBys.class);
         //    if (ans == null && findBys != null) {
         //      ans = buildByFromFindBys(findBys);
@@ -102,8 +86,35 @@ public class Annotations {
         return ans;
     }
 
+    private By checkAndProcessEmptyFindBy() {
+        By result = null;
+
+        FindBy findBy = field.getAnnotation(FindBy.class);
+        if (findBy != null) {
+            int numberOfValues = assertValidFindBy(findBy);
+            if (numberOfValues == 0) {
+                result = buildByFromDefault();
+            }
+        }
+
+        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
+                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
+        if (grapheneFindBy != null) {
+            int numberOfValues = assertValidFindBy(grapheneFindBy);
+            if (numberOfValues == 0) {
+                result = buildByFromDefault();
+            }
+        }
+
+        return result;
+    }
+
     protected By buildByFromDefault() {
-        return new ByIdOrName(field.getName());
+        org.jboss.arquillian.graphene.enricher.findby.How how = org.jboss.arquillian.graphene.enricher.findby.How
+                .valueOf(GrapheneConfigurationContext.getProxy().getDefaultElementLocatingStrategy().toUpperCase());
+
+        String using = field.getName();
+        return getByFromGrapheneHow(how, using);
     }
 
     //  protected By buildByFromFindBys(FindBys findBys) {
@@ -182,7 +193,10 @@ public class Annotations {
     protected By buildByFromLongFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
         org.jboss.arquillian.graphene.enricher.findby.How how = findBy.how();
         String using = findBy.using();
+        return getByFromGrapheneHow(how, using);
+    }
 
+    private By getByFromGrapheneHow(org.jboss.arquillian.graphene.enricher.findby.How how, String using) {
         switch (how) {
             case CLASS_NAME:
                 return By.className(using);
@@ -210,7 +224,7 @@ public class Annotations {
 
             case XPATH:
                 return By.xpath(using);
-                
+
             case JQUERY:
                 return ByJQuery.jquerySelector(using);
 
@@ -274,7 +288,7 @@ public class Annotations {
 
         if (!"".equals(findBy.xpath()))
             return By.xpath(findBy.xpath());
-        
+
         if (!"".equals(findBy.jquery()))
             return ByJQuery.jquerySelector((findBy.jquery()));
 
@@ -282,17 +296,17 @@ public class Annotations {
         return null;
     }
 
-//    private void assertValidAnnotations() {
-//        FindBys findBys = field.getAnnotation(FindBys.class);
-//        FindBy findBy = field.getAnnotation(FindBy.class);
-//        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
-//                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
-//
-//        if (findBys != null && (findBy != null || grapheneFindBy != null)) {
-//            throw new IllegalArgumentException("If you use a '@FindBys' annotation, "
-//                    + "you must not also use a '@FindBy' annotation");
-//        }
-//    }
+    //    private void assertValidAnnotations() {
+    //        FindBys findBys = field.getAnnotation(FindBys.class);
+    //        FindBy findBy = field.getAnnotation(FindBy.class);
+    //        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
+    //                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
+    //
+    //        if (findBys != null && (findBy != null || grapheneFindBy != null)) {
+    //            throw new IllegalArgumentException("If you use a '@FindBys' annotation, "
+    //                    + "you must not also use a '@FindBy' annotation");
+    //        }
+    //    }
 
     //  private void assertValidFindBys(FindBys findBys) {
     //    for (FindBy findBy : findBys.value()) {
@@ -300,7 +314,7 @@ public class Annotations {
     //    }
     //  }
 
-    private void assertValidFindBy(FindBy findBy) {
+    private int assertValidFindBy(FindBy findBy) {
         if (findBy.how() != null) {
             if (findBy.using() == null) {
                 throw new IllegalArgumentException("If you set the 'how' property, you must also set 'using'");
@@ -333,9 +347,11 @@ public class Annotations {
                     String.format("You must specify at most one location strategy. Number found: %d (%s)", finders.size(),
                             finders.toString()));
         }
+
+        return finders.size();
     }
 
-    private void assertValidFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
+    private int assertValidFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
         if (findBy.how() != null) {
             if (findBy.using() == null) {
                 throw new IllegalArgumentException("If you set the 'how' property, you must also set 'using'");
@@ -370,5 +386,7 @@ public class Annotations {
                     String.format("You must specify at most one location strategy. Number found: %d (%s)", finders.size(),
                             finders.toString()));
         }
+
+        return finders.size();
     }
 }

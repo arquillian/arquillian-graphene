@@ -25,6 +25,7 @@ import java.lang.annotation.Annotation;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
 import org.jboss.arquillian.drone.spi.DroneConfiguration;
+import org.jboss.arquillian.graphene.enricher.findby.How;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -40,6 +41,12 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
     private long waitGuardInterval = waitAjaxInterval;
 
     private long javascriptInstallationLimit = 5;
+
+    private String defaultElementLocatingStrategy = How.ID_OR_NAME.toString().toLowerCase();
+
+    public String getDefaultElementLocatingStrategy() {
+        return defaultElementLocatingStrategy;
+    }
 
     public long getWaitAjaxInterval() {
         return waitAjaxInterval;
@@ -76,6 +83,17 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         }
         if (javascriptInstallationLimit <= 0) {
             throw new IllegalArgumentException("The javascriptInstallationLimut property has to a positive number.");
+        }
+        try {
+            How.valueOf(defaultElementLocatingStrategy.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            String values = "";
+            for(How value : How.values()) {
+                values += value.toString().toLowerCase() + ", ";
+            }
+            throw new IllegalArgumentException(
+                    "The defaultElementLocatingStrategy property has to be one of the: " + values + " and was: "
+                            + ((defaultElementLocatingStrategy.length() != 0) ? defaultElementLocatingStrategy : "empty"), ex);
         }
     }
 

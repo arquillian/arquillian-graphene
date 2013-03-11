@@ -23,19 +23,28 @@ package org.jboss.arquillian.graphene.enricher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.support.ByIdOrName;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public final class WebElementUtils {
+
+    private final static Logger LOGGER = Logger.getLogger(WebElementUtils.class.getName());
+    private final static String EMPTY_FIND_BY_WARNING = " Be aware of the fact that fields anotated with empty "
+            + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
 
     private WebElementUtils() {
     }
@@ -53,7 +62,7 @@ public final class WebElementUtils {
             public Object getTarget() {
                 if (element == null) {
                     if (searchContext instanceof GrapheneProxyInstance) {
-                        return ((SearchContext)((GrapheneProxyInstance) searchContext).unwrap()).findElement(by);
+                        return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElement(by);
                     } else {
                         return searchContext.findElement(by);
                     }
@@ -79,7 +88,12 @@ public final class WebElementUtils {
         return findElement(new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                return searchContext.findElement(by);
+                try {
+                    return searchContext.findElement(by);
+                } catch (NoSuchElementException ex) {
+                    throw new NoSuchElementException((by instanceof ByIdOrName ? EMPTY_FIND_BY_WARNING : "") + ex.getMessage(),
+                            ex);
+                }
             }
         });
     }
@@ -90,6 +104,9 @@ public final class WebElementUtils {
             public Object getTarget() {
                 List<WebElement> result = new ArrayList<WebElement>();
                 List<WebElement> elements = searchContext.findElements(by);
+                if ((by instanceof ByIdOrName) && (elements.size() == 0)) {
+                    LOGGER.log(Level.WARNING, EMPTY_FIND_BY_WARNING);
+                }
                 for (int i = 0; i < elements.size(); i++) {
                     result.add(findElementLazily(by, searchContext, i));
                 }

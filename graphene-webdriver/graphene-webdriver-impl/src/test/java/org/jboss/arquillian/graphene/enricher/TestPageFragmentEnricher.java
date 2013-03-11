@@ -42,11 +42,6 @@ public class TestPageFragmentEnricher extends AbstractGrapheneEnricherTest {
         Assert.assertNull(target.pageFragment);
     }
 
-    @Test
-    public void testNoReference() {
-        thrown.expect(PageFragmentInitializationException.class);
-        getGrapheneEnricher().enrich(new NoReferenceTest());
-    }
 
     @Test
     public void testTooManyRoots() {
@@ -64,11 +59,6 @@ public class TestPageFragmentEnricher extends AbstractGrapheneEnricherTest {
     public static class NoArgConstructorTest {
         @FindBy(id="blah")
         private WrongPageFragmentMissingNoArgConstructor pageFragment;
-    }
-
-    public static class NoReferenceTest {
-        @FindBy
-        private AbstractPageFragmentStub pageFragment;
     }
 
     public static class TooManyRootsTest {
