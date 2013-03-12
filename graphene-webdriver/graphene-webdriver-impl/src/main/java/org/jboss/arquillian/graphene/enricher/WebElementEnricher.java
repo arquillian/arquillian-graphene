@@ -42,7 +42,7 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
             List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
             for (Field field : fields) {
                 By by = FindByUtilities.getCorrectBy(field);
-                String message = "Your @FindBy annotation over field " + NEW_LINE + field.getClass() + NEW_LINE
+                String message = "Your @FindBy annotation over field " + NEW_LINE + field.getName() + NEW_LINE
                     + " declared in: " + NEW_LINE + field.getDeclaringClass().getName() + NEW_LINE
                     + " is annotated with empty @FindBy annotation, in other words it "
                     + "should contain parameter which will define the strategy for referencing that element.";
