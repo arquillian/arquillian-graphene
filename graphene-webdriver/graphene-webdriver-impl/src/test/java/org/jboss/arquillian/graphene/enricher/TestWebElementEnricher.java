@@ -49,12 +49,6 @@ public class TestWebElementEnricher extends AbstractGrapheneEnricherTest {
     WebElement element;
 
     @Test
-    public void testEmptyFindBy() {
-        thrown.expect(GrapheneTestEnricherException.class);
-        getGrapheneEnricher().enrich(new EmptyFindByTest());
-    }
-
-    @Test
     public void generated_webelement_implements_WrapsElement_interface() {
         TestPage page = new TestPage();
         getGrapheneEnricher().enrich(page);
@@ -67,13 +61,6 @@ public class TestWebElementEnricher extends AbstractGrapheneEnricherTest {
         GrapheneContext.reset();
 
         assertEquals(element, wrappedElement);
-    }
-
-    public static class EmptyFindByTest {
-
-        @SuppressWarnings("unused")
-        @FindBy
-        private WebElement wrongWebElem;
     }
 
     public static class TestPage {

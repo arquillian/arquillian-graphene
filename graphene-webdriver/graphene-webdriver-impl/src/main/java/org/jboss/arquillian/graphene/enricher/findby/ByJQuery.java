@@ -53,7 +53,6 @@ public class ByJQuery extends By {
         return "By.jquerySelector " + jquerySelector;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public List<WebElement> findElements(SearchContext context) {
         List<WebElement> elements;
