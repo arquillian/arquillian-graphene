@@ -51,7 +51,8 @@ public class GrapheneConfigurator {
     @Inject
     private Event<GrapheneUnconfigured> unconfiguredEvent;
 
-    public void configureGraphene(@Observes BeforeClass event, ArquillianDescriptor descriptor) {
+    // graphene has to be configured before the drone factory creates the webdriver
+    public void configureGraphene(@Observes(precedence=100) BeforeClass event, ArquillianDescriptor descriptor) {
         GrapheneConfiguration c = new GrapheneConfiguration();
         c.configure(descriptor, Default.class).validate();
         this.configuration.set(c);
@@ -59,7 +60,8 @@ public class GrapheneConfigurator {
         GrapheneConfigurationContext.set(c);
     }
 
-    public void unconfigureGraphene(@Observes AfterClass event) {
+    // configuration has to be dropped after the drone factory destroy the webdriver
+    public void unconfigureGraphene(@Observes(precedence=-100) AfterClass event) {
         GrapheneConfigurationContext.reset();
         unconfiguredEvent.fire(new GrapheneUnconfigured());
     }

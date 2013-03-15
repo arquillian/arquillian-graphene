@@ -53,6 +53,8 @@ public class TestHandlingOfStaleElements {
 
     @FindBy(id = "root")
     private StaleElementPageFragment pageFragment;
+    @FindBy(id = "stale")
+    private StaleRootPageFragment rootPageFragment;
 
     @FindBy(id = "root")
     private List<StaleElementPageFragment> pageFragments;
@@ -117,6 +119,13 @@ public class TestHandlingOfStaleElements {
     }
 
     @Test
+    public void testPageFragmentWithStaleRoot() {
+        rootPageFragment.inStale.isDisplayed();
+        pageFragment.makeStale();
+        rootPageFragment.inStale.isDisplayed();
+    }
+
+    @Test
     public void testListOfPageFragments() throws Exception {
         StaleElementPageFragment pf = pageFragments.get(0);
         pf.root.isDisplayed();
@@ -137,6 +146,13 @@ public class TestHandlingOfStaleElements {
         public void makeStale() {
             makeStale.click();
         }
+
+    }
+
+    public static class StaleRootPageFragment {
+
+        @FindBy(className = "in-stale")
+        private WebElement inStale;
 
     }
 

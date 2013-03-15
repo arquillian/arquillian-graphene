@@ -49,28 +49,40 @@ public final class WebElementUtils {
     private WebElementUtils() {
     }
 
-    public static WebElement findElement(final By by, final SearchContext searchContext) {
+    public static WebElement findElement(final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
         // Here the web element has to be found to ensure that SearchContext throws
         // NoSuchElementException if there is no element with the given By locator.
-        // The found element is dropped after the first invocation.
-        final WebElement firstFound = searchContext.findElement(by);
+        dropProxyAndFindElement(by, (SearchContext) searchContextFuture.getTarget());
         return findElement(new GrapheneProxy.FutureTarget() {
-
-            private WebElement element = firstFound;
-
             @Override
             public Object getTarget() {
-                if (element == null) {
-                    if (searchContext instanceof GrapheneProxyInstance) {
-                        return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElement(by);
-                    } else {
-                        return searchContext.findElement(by);
-                    }
-                } else {
-                    WebElement toReturn = element;
-                    element = null;
-                    return toReturn;
+                return dropProxyAndFindElement(by, (SearchContext) searchContextFuture.getTarget());
+            }
+        });
+    }
+
+    public static List<WebElement> findElementsLazily(final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
+        return GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                List<WebElement> result = new ArrayList<WebElement>();
+                List<WebElement> elements = dropProxyAndFindElements(by, (SearchContext) searchContextFuture.getTarget());
+                if ((by instanceof ByIdOrName) && (elements.isEmpty())) {
+                    LOGGER.log(Level.WARNING, EMPTY_FIND_BY_WARNING);
                 }
+                for (int i = 0; i < elements.size(); i++) {
+                    result.add(findElementLazily(by, searchContextFuture, i));
+                }
+                return result;
+            }
+        }, List.class);
+    }
+
+    public static WebElement findElementLazily(final By by, final GrapheneProxy.FutureTarget searchContextFuture, final int indexInList) {
+        return findElement(new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                return dropProxyAndFindElements(by, (SearchContext) searchContextFuture.getTarget()).get(indexInList);
             }
         });
     }
@@ -79,7 +91,7 @@ public final class WebElementUtils {
         return findElement(new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                return searchContext.findElements(by).get(indexInList);
+                return dropProxyAndFindElements(by, searchContext).get(indexInList);
             }
         });
     }
@@ -89,7 +101,7 @@ public final class WebElementUtils {
             @Override
             public Object getTarget() {
                 try {
-                    return searchContext.findElement(by);
+                    return dropProxyAndFindElement(by, searchContext);
                 } catch (NoSuchElementException ex) {
                     throw new NoSuchElementException((by instanceof ByIdOrName ? EMPTY_FIND_BY_WARNING : "") + ex.getMessage(),
                             ex);
@@ -99,20 +111,12 @@ public final class WebElementUtils {
     }
 
     public static List<WebElement> findElementsLazily(final By by, final SearchContext searchContext) {
-        return GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+        return findElementsLazily(by, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                List<WebElement> result = new ArrayList<WebElement>();
-                List<WebElement> elements = searchContext.findElements(by);
-                if ((by instanceof ByIdOrName) && (elements.size() == 0)) {
-                    LOGGER.log(Level.WARNING, EMPTY_FIND_BY_WARNING);
-                }
-                for (int i = 0; i < elements.size(); i++) {
-                    result.add(findElementLazily(by, searchContext, i));
-                }
-                return result;
+                return searchContext;
             }
-        }, List.class);
+        });
     }
 
     protected static WebElement findElement(final GrapheneProxy.FutureTarget target) {
@@ -125,7 +129,24 @@ public final class WebElementUtils {
 
         elementProxy.registerInterceptor(b.build());
         elementProxy.registerInterceptor(new StaleElementInterceptor());
+        elementProxy.registerInterceptor(new SearchContextInterceptor());
         return element;
+    }
+
+    protected static WebElement dropProxyAndFindElement(By by, SearchContext searchContext) {
+        if (searchContext instanceof GrapheneProxyInstance) {
+            return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElement(by);
+        } else {
+            return searchContext.findElement(by);
+        }
+    }
+
+    protected static List<WebElement> dropProxyAndFindElements(By by, SearchContext searchContext) {
+        if (searchContext instanceof GrapheneProxyInstance) {
+            return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElements(by);
+        } else {
+            return searchContext.findElements(by);
+        }
     }
 
 }

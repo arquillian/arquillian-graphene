@@ -30,6 +30,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.atLeastOnce;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -102,7 +103,7 @@ public class TestGrapheneContextProxying {
         assertTrue(webElementProxy instanceof GrapheneProxyInstance);
 
         // verify
-        verify(driver, only()).findElement(byId);
+        verify(driver, atLeastOnce()).findElement(byId);
     }
 
     @Test

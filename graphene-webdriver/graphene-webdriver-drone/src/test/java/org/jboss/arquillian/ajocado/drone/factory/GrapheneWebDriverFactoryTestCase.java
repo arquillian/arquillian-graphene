@@ -36,6 +36,8 @@ import org.jboss.arquillian.drone.spi.Destructor;
 import org.jboss.arquillian.drone.spi.Instantiator;
 import org.jboss.arquillian.drone.webdriver.configuration.TypedWebDriverConfiguration;
 import org.jboss.arquillian.drone.webdriver.configuration.WebDriverConfiguration;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.context.TestingDriver;
@@ -75,6 +77,7 @@ public class GrapheneWebDriverFactoryTestCase extends AbstractDroneTestCase {
         injector.get().inject(factory);
         addAllServices(Instantiator.class, factory, testingFactory);
         getManager().fire(new BeforeSuite());
+        GrapheneConfigurationContext.set(new GrapheneConfiguration());
     }
 
     @Test

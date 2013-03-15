@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface InvocationContext {
+public interface InvocationContext extends GrapheneProxy.FutureTarget {
 
     /**
      * Method for invocation of the original method in interception mechanism.

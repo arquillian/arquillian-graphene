@@ -35,9 +35,9 @@ public class SearchContextInterceptor implements Interceptor {
     @Override
     public Object intercept(InvocationContext context) throws Throwable {
         if (methodsEqual(context.getMethod(), SearchContext.class.getDeclaredMethod("findElement", By.class))) {
-            return WebElementUtils.findElement((By) context.getArguments()[0], (SearchContext) context.getTarget());
+            return WebElementUtils.findElement((By) context.getArguments()[0], context);
         } else if (methodsEqual(context.getMethod(), SearchContext.class.getDeclaredMethod("findElements", By.class))) {
-            return WebElementUtils.findElementsLazily((By) context.getArguments()[0], (SearchContext) context.getTarget());
+            return WebElementUtils.findElementsLazily((By) context.getArguments()[0], context);
         } else {
             return context.invoke();
         }
