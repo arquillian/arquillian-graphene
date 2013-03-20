@@ -21,31 +21,17 @@
  */
 package org.jboss.arquillian.graphene.enricher.findby;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import org.jboss.arquillian.graphene.enricher.ReflectionHelper;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class FindByUtilities {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+public @interface FindBys {
 
-    public static By getCorrectBy(Field field) {
-        Annotations annotations = new Annotations(field);
-        By by = annotations.buildBy();
-        
-        return by;
-    }
-    
-    public static List<Field> getListOfFieldsAnnotatedWithFindBys(Object target) {
-        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBy.class);
-        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.enricher.findby.FindBy.class));
-        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBys.class));
-        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.enricher.findby.FindBys.class));
-        return fields;
-    }
+    FindBy[] value();
 }
