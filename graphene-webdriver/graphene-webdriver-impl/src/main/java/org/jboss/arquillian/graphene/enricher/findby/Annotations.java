@@ -16,7 +16,7 @@ limitations under the License.
 /**
  * <p>
  * Utility class originally copied from WebDriver. It main purpose is to retrieve correct 
- * <code>By</code> instance according to the field on which <code>@Find</code> annotation is.</p> 
+ * <code>By</code> instance according to the field on which <code>@FindBy</code> or <code>@FinfBys</code> annotation is.</p> 
  * 
  * <p>The differences are:
  * <ul>
@@ -39,6 +39,7 @@ import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.pagefactory.ByChained;
 
 public class Annotations {
 
@@ -53,16 +54,22 @@ public class Annotations {
     }
 
     public By buildBy() {
-        //    assertValidAnnotations();
+        assertValidAnnotations();
 
         By ans = null;
 
         ans = checkAndProcessEmptyFindBy();
 
-        //    FindBys findBys = field.getAnnotation(FindBys.class);
-        //    if (ans == null && findBys != null) {
-        //      ans = buildByFromFindBys(findBys);
-        //    }
+        FindBys grapheneFindBys = field.getAnnotation(FindBys.class);
+        if (ans == null && grapheneFindBys != null) {
+            ans = buildByFromGrapheneFindBys(grapheneFindBys);
+        }
+
+        org.openqa.selenium.support.FindBys webDriverFindBys = 
+                field.getAnnotation(org.openqa.selenium.support.FindBys.class);
+        if (ans == null && webDriverFindBys != null) {
+            ans = buildByFromWebDriverFindBys(webDriverFindBys);
+        }
 
         FindBy findBy = field.getAnnotation(FindBy.class);
         if (ans == null && findBy != null) {
@@ -117,17 +124,29 @@ public class Annotations {
         return getByFromGrapheneHow(how, using);
     }
 
-    //  protected By buildByFromFindBys(FindBys findBys) {
-    //    assertValidFindBys(findBys);
-    //
-    //    FindBy[] findByArray = findBys.value();
-    //    By[] byArray = new By[findByArray.length];
-    //    for (int i = 0; i < findByArray.length; i++) {
-    //      byArray[i] = buildByFromFindBy(findByArray[i]);
-    //    }
-    //
-    //    return new ByChained(byArray);
-    //  }
+    protected By buildByFromGrapheneFindBys(FindBys grapheneFindBys) {
+        assertValidGrapheneFindBys(grapheneFindBys);
+
+        org.jboss.arquillian.graphene.enricher.findby.FindBy[] findByArray = grapheneFindBys.value();
+        By[] byArray = new By[findByArray.length];
+        for (int i = 0; i < findByArray.length; i++) {
+            byArray[i] = buildByFromFindBy(findByArray[i]);
+        }
+
+        return new ByChained(byArray);
+    }
+
+    protected By buildByFromWebDriverFindBys(org.openqa.selenium.support.FindBys webDriverFindBys) {
+        assertValidWebDriverFindBys(webDriverFindBys);
+
+        FindBy[] findByArray = webDriverFindBys.value();
+        By[] byArray = new By[findByArray.length];
+        for (int i = 0; i < findByArray.length; i++) {
+            byArray[i] = buildByFromFindBy(findByArray[i]);
+        }
+
+        return new ByChained(byArray);
+    }
 
     protected By buildByFromFindBy(FindBy findBy) {
         assertValidFindBy(findBy);
@@ -296,23 +315,33 @@ public class Annotations {
         return null;
     }
 
-    //    private void assertValidAnnotations() {
-    //        FindBys findBys = field.getAnnotation(FindBys.class);
-    //        FindBy findBy = field.getAnnotation(FindBy.class);
-    //        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
-    //                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
-    //
-    //        if (findBys != null && (findBy != null || grapheneFindBy != null)) {
-    //            throw new IllegalArgumentException("If you use a '@FindBys' annotation, "
-    //                    + "you must not also use a '@FindBy' annotation");
-    //        }
-    //    }
+    private void assertValidAnnotations() {
+        FindBys grapheneFindBys = field.getAnnotation(FindBys.class);
 
-    //  private void assertValidFindBys(FindBys findBys) {
-    //    for (FindBy findBy : findBys.value()) {
-    //      assertValidFindBy(findBy);
-    //    }
-    //  }
+        org.openqa.selenium.support.FindBys webDriverFindBys = field.getAnnotation(org.openqa.selenium.support.FindBys.class);
+
+        FindBy webDriverFindBy = field.getAnnotation(FindBy.class);
+
+        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
+                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
+
+        if ((grapheneFindBys != null || webDriverFindBys != null) && (webDriverFindBy != null || grapheneFindBy != null)) {
+            throw new IllegalArgumentException("If you use a '@FindBys' annotation, "
+                    + "you must not also use a '@FindBy' annotation");
+        }
+    }
+
+    private void assertValidGrapheneFindBys(FindBys grapheneFindBys) {
+        for (org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy : grapheneFindBys.value()) {
+            assertValidFindBy(grapheneFindBy);
+        }
+    }
+
+    private void assertValidWebDriverFindBys(org.openqa.selenium.support.FindBys webDriverFindBys) {
+        for (FindBy webDriverFindBy : webDriverFindBys.value()) {
+            assertValidFindBy(webDriverFindBy);
+        }
+    }
 
     private int assertValidFindBy(FindBy findBy) {
         if (findBy.how() != null) {
