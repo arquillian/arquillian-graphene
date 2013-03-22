@@ -37,6 +37,11 @@
             <artifactId>selenium-support</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- Arquillian Drone -->
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-impl</artifactId>
+        </dependency>
 
         <!-- Runtime Dependencies -->
         <dependency>
@@ -76,7 +81,7 @@
             <groupId>org.jboss.arquillian.config</groupId>
             <artifactId>arquillian-config-api</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>
             <artifactId>arquillian-core-impl-base</artifactId>

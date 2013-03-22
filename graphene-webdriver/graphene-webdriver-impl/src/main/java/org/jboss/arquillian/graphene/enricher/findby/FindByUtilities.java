@@ -34,13 +34,13 @@ import org.openqa.selenium.support.FindBys;
  */
 public class FindByUtilities {
 
-    public static By getCorrectBy(Field field) {
-        Annotations annotations = new Annotations(field);
+    public static By getCorrectBy(Field field, How defaultElementLocatingStrategy) {
+        Annotations annotations = new Annotations(field, defaultElementLocatingStrategy);
         By by = annotations.buildBy();
-        
+
         return by;
     }
-    
+
     public static List<Field> getListOfFieldsAnnotatedWithFindBys(Object target) {
         List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBy.class);
         fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.enricher.findby.FindBy.class));

@@ -28,10 +28,9 @@ import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfigured;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneUnconfigured;
-import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
+import org.jboss.arquillian.test.spi.annotation.ClassScoped;
 import org.jboss.arquillian.test.spi.event.suite.AfterClass;
 import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 
@@ -42,7 +41,7 @@ import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 public class GrapheneConfigurator {
 
     @Inject
-    @SuiteScoped
+    @ClassScoped
     private InstanceProducer<GrapheneConfiguration> configuration;
 
     @Inject
@@ -57,12 +56,10 @@ public class GrapheneConfigurator {
         c.configure(descriptor, Default.class).validate();
         this.configuration.set(c);
         this.configuredEvent.fire(new GrapheneConfigured());
-        GrapheneConfigurationContext.set(c);
     }
 
     // configuration has to be dropped after the drone factory destroy the webdriver
     public void unconfigureGraphene(@Observes(precedence=-100) AfterClass event) {
-        GrapheneConfigurationContext.reset();
         unconfiguredEvent.fire(new GrapheneUnconfigured());
     }
 

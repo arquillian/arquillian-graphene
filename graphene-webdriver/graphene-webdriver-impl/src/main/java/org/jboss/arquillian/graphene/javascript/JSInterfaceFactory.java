@@ -1,31 +1,21 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Modifier;
-
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 public class JSInterfaceFactory<T> {
 
-    private JSInterfaceHandler handler;
+    private final JSInterfaceHandler handler;
 
-    private JSInterfaceFactory(WebDriver driver, Class<T> jsInterface) {
-
+    public JSInterfaceFactory(GrapheneContext context, Class<T> jsInterface) {
         if (!jsInterface.isInterface() && !Modifier.isAbstract(jsInterface.getModifiers())) {
             throw new IllegalArgumentException("interface or abstract class must be provided :" + jsInterface);
         }
-
-        this.handler = new JSInterfaceHandler(driver, new JSTarget(jsInterface));
-
+        this.handler = new JSInterfaceHandler(new JSTarget(jsInterface), context);
     }
 
-    public static <T> T create(Class<T> jsInterface) {
-        return create((WebDriver) GrapheneContext.getProxyForInterfaces(JavascriptExecutor.class), jsInterface);
-    }
-
-    public static <T> T create(WebDriver driver, Class<T> jsInterface) {
-        return new JSInterfaceFactory<T>(driver, jsInterface).instantiate();
+    public static <T> T create(GrapheneContext context, Class<T> jsInterface) {
+        return new JSInterfaceFactory<T>(context, jsInterface).instantiate();
     }
 
     @SuppressWarnings("unchecked")

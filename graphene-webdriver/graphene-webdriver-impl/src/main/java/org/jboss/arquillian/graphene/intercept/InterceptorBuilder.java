@@ -10,6 +10,7 @@ import java.util.Map;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
@@ -92,6 +93,11 @@ public class InterceptorBuilder {
                             }
 
                             @Override
+                            public Object getProxy() {
+                                return originalContext.getProxy();
+                            }
+
+                            @Override
                             public Method getMethod() {
                                 return originalContext.getMethod();
                             }
@@ -99,6 +105,11 @@ public class InterceptorBuilder {
                             @Override
                             public Object[] getArguments() {
                                 return originalContext.getArguments();
+                            }
+
+                            @Override
+                            public GrapheneContext getGrapheneContext() {
+                                return originalContext.getGrapheneContext();
                             }
                         });
                     }

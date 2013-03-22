@@ -1,23 +1,24 @@
 /**
- * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
- * by the @authors tag. See the copyright.txt in the distribution for a
- * full listing of individual contributors.
+ * JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. and
+ * individual contributors by the
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * @authors tag. See the copyright.txt in the distribution for a full listing of
+ * individual contributors.
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * This is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this software; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
+ * site: http://www.fsf.org.
  */
 package org.jboss.arquillian.graphene.enricher;
 
@@ -25,14 +26,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
-import org.jboss.arquillian.core.spi.ServiceLoader;
+
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -40,29 +44,45 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Enricher injecting page fragments ({@link FindBy} annotation is used) to the fields of the given object.
+ * Enricher injecting page fragments ({@link FindBy} annotation is used) to the
+ * fields of the given object.
  *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
-    @SuppressWarnings("unused")
     @Inject
-    private Instance<ServiceLoader> serviceLoader;
+    private Instance<GrapheneConfiguration> configuration;
+
+    public PageFragmentEnricher() {
+    }
+
+    // because of testing
+    public PageFragmentEnricher(Instance<GrapheneConfiguration> configuration) {
+        this.configuration = configuration;
+    }
 
     @Override
-    public void enrich(SearchContext searchContext, Object target) {
+    public void enrich(final SearchContext searchContext, Object target) {
         List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
         for (Field field : fields) {
+            GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+            final SearchContext localSearchContext;
+            if (grapheneContext == null) {
+                grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
+                localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
+            } else {
+                localSearchContext = searchContext;
+            }
             // Page fragment
             if (isPageFragmentClass(field.getType())) {
-                setupPageFragment(searchContext, target, field);
+                setupPageFragment(localSearchContext, target, field);
                 // List<Page fragment>
             } else {
                 try {
                     if (field.getType().isAssignableFrom(List.class) && isPageFragmentClass(getListType(field))) {
-                        setupPageFragmentList(searchContext, target, field);
+                        setupPageFragmentList(localSearchContext, target, field);
                     }
                 } catch (ClassNotFoundException e) {
                     throw new PageFragmentInitializationException(e.getMessage(), e);
@@ -90,7 +110,8 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     }
 
     protected final <T> List<T> createPageFragmentList(final Class<T> clazz, final SearchContext searchContext, final By rootBy) {
-        List<T> result = GrapheneProxy.getProxyForFutureTarget(new FutureTarget() {
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
+        List<T> result = GrapheneProxy.getProxyForFutureTarget(grapheneContext, new FutureTarget() {
             @Override
             public Object getTarget() {
                 List<WebElement> elements = searchContext.findElements(rootBy);
@@ -100,13 +121,13 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                 }
                 return fragments;
             }
-
         }, List.class);
         return result;
     }
 
-    public static final <T> T createPageFragment(Class<T> clazz, WebElement root) {
+    public static <T> T createPageFragment(Class<T> clazz, WebElement root) {
         try {
+            GrapheneContext grapheneContext = ((GrapheneProxyInstance) root).getContext();
             T pageFragment = instantiate(clazz);
             List<Field> roots = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
             if (roots.size() > 1) {
@@ -118,7 +139,9 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                 setValue(roots.get(0), pageFragment, root);
             }
             enrichRecursively(root, pageFragment);
-            return pageFragment;
+            T proxy = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forTarget(grapheneContext, pageFragment), clazz);
+            enrichRecursively(root, proxy); // because of possibility of direct access to attributes from test class
+            return proxy;
         } catch (NoSuchMethodException ex) {
             throw new PageFragmentInitializationException(" Check whether declared Page Fragment has no argument constructor!",
                     ex);
@@ -135,15 +158,17 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)
             throws ClassNotFoundException {
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
         //the by retrieved in this way is never null, by default it is ByIdOrName using field name
-        By rootBy = FindByUtilities.getCorrectBy(field);
+        By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
         List<?> pageFragments = createPageFragmentList(getListType(field), searchContext, rootBy);
         setValue(field, target, pageFragments);
     }
 
     protected final void setupPageFragment(SearchContext searchContext, Object target, Field field) {
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
         //the by retrieved in this way is never null, by default it is ByIdOrName using field name
-        By rootBy = FindByUtilities.getCorrectBy(field);
+        By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
         WebElement root = WebElementUtils.findElementLazily(rootBy, searchContext);
         Object pageFragment = createPageFragment(field.getType(), root);
         setValue(field, target, pageFragment);

@@ -27,6 +27,8 @@ import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.drone.api.annotation.Qualifier;
 
 /**
  * SecurityActions
@@ -179,6 +181,23 @@ public final class ReflectionHelper {
         }
     }
 
+    public static List<Field> getFields(final Class<?> source) {
+        return AccessController.doPrivileged(new PrivilegedAction<List<Field>>() {
+            @Override
+            public List<Field> run() {
+                List<Field> foundFields = new ArrayList<Field>();
+                Class<?> nextSource = source;
+                while (nextSource != Object.class) {
+                    for (Field field : nextSource.getDeclaredFields()) {
+                        foundFields.add(field);
+                    }
+                    nextSource = nextSource.getSuperclass();
+                }
+                return foundFields;
+            }
+        });
+    }
+
     public static List<Field> getFieldsWithAnnotation(final Class<?> source, final Class<? extends Annotation> annotationClass) {
         List<Field> declaredAccessableFields = AccessController.doPrivileged(new PrivilegedAction<List<Field>>() {
             @Override
@@ -219,6 +238,31 @@ public final class ReflectionHelper {
             }
         });
         return declaredAccessableMethods;
+    }
+
+    // method from Drone, SecurityActions
+    public static Class<?> getQualifier(Annotation[] annotations) {
+
+        if (annotations == null) {
+            return Default.class;
+        }
+
+        List<Class<? extends Annotation>> candidates = new ArrayList<Class<? extends Annotation>>();
+
+        for (Annotation a : annotations) {
+            if (a.annotationType().isAnnotationPresent(Qualifier.class)) {
+                candidates.add(a.annotationType());
+            }
+        }
+
+        if (candidates.isEmpty()) {
+            return Default.class;
+        } else if (candidates.size() == 1) {
+            return candidates.get(0);
+        }
+
+        throw new IllegalStateException("Unable to determine Qualifier, multiple (" + candidates.size()
+                + ") Qualifier annotations were present");
     }
 
     // -------------------------------------------------------------------------------||

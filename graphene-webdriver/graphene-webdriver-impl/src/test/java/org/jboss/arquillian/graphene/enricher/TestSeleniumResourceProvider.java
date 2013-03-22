@@ -1,17 +1,22 @@
 package org.jboss.arquillian.graphene.enricher;
 
+import java.util.Arrays;
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.ActionsProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.KeyboardProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.MouseProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.WebDriverProvider;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +26,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keyboard;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.Mouse;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.internal.Coordinates;
 
 /**
  * @author Lukas Fryc
@@ -36,12 +43,65 @@ public class TestSeleniumResourceProvider {
 
     @Before
     public void setUp() {
-        GrapheneContext.set(driver);
+        when(((HasInputDevices) driver).getKeyboard()).thenReturn(new Keyboard() {
+            @Override
+            public void sendKeys(CharSequence... keysToSend) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void pressKey(Keys keyToPress) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void releaseKey(Keys keyToRelease) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+        when(((HasInputDevices) driver).getMouse()).thenReturn(new Mouse() {
+
+            @Override
+            public void click(Coordinates where) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void doubleClick(Coordinates where) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseDown(Coordinates where) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseUp(Coordinates where) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseMove(Coordinates where) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void mouseMove(Coordinates where, long xOffset, long yOffset) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void contextClick(Coordinates where) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+        GrapheneContext.setContextFor(new GrapheneConfiguration(), driver, Default.class);
     }
 
     @After
     public void tearDown() {
-        GrapheneContext.reset();
+        GrapheneContext.removeContextFor(Default.class);
     }
 
     @Test
@@ -79,7 +139,9 @@ public class TestSeleniumResourceProvider {
         // when
         Object object = provider.lookup(null, null);
         // then
+        assertNotNull(object);
         assertTrue(object instanceof Keyboard);
+        assertTrue(object instanceof GrapheneProxyInstance);
     }
 
     @Test
@@ -89,7 +151,9 @@ public class TestSeleniumResourceProvider {
         // when
         Object object = provider.lookup(null, null);
         // then
+        assertNotNull(object);
         assertTrue(object instanceof Mouse);
+        assertTrue(object instanceof GrapheneProxyInstance);
     }
 
     @Test

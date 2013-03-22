@@ -1,5 +1,8 @@
 package org.jboss.arquillian.graphene.intercept;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,6 +38,8 @@ public class TestInterceptorBuilder {
     @Mock
     By by;
 
+    GrapheneContext context;
+
     @Before
     public void before() throws Throwable {
         Answer invoke = new Answer<Object>() {
@@ -46,6 +51,7 @@ public class TestInterceptorBuilder {
 
         when(interceptor1.intercept(Mockito.any(InvocationContext.class))).thenAnswer(invoke);
         when(interceptor2.intercept(Mockito.any(InvocationContext.class))).thenAnswer(invoke);
+        context = GrapheneContext.setContextFor(new GrapheneConfiguration(), driver, Default.class);
     }
 
     @Test
@@ -55,7 +61,7 @@ public class TestInterceptorBuilder {
         builder.interceptInvocation(WebDriver.class, interceptor2).findElement(Interceptors.any(By.class));
         Interceptor builtInterceptor = builder.build();
 
-        WebDriver driverProxy = GrapheneProxy.getProxyForTargetWithInterfaces(driver, WebDriver.class);
+        WebDriver driverProxy = GrapheneProxy.getProxyForTargetWithInterfaces(context, driver, WebDriver.class);
         GrapheneProxyInstance proxy = (GrapheneProxyInstance) driverProxy;
 
         proxy.registerInterceptor(builtInterceptor);

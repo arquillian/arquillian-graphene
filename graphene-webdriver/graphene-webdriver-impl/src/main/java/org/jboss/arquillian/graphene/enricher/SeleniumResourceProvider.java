@@ -1,17 +1,12 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import org.jboss.arquillian.core.spi.LoadableExtension.ExtensionBuilder;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
+import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
-import org.jboss.arquillian.graphene.proxy.Interceptor;
-import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 import org.openqa.selenium.Capabilities;
@@ -133,11 +128,12 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
         return type == this.returnType;
     }
 
-    protected <BASE> BASE base() {
-        return GrapheneContext.getProxyForInterfaces(mediatorType);
+    protected <BASE> BASE base(Annotation[] annotations) {
+        WebDriver webdriver = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(annotations)).getWebDriver(mediatorType);
+        return (BASE) webdriver;
     }
 
-    protected Class<?> getTypeArgument(int i) {
+    protected final Class<?> getTypeArgument(int i) {
         ParameterizedType superType = (ParameterizedType) getClass().getGenericSuperclass();
         Type[] typeArguments = superType.getActualTypeArguments();
         return (Class<?>) typeArguments[i];
@@ -152,7 +148,7 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
 
         @Override
         public T lookup(ArquillianResource resource, Annotation... qualifiers) {
-            return base();
+            return base(qualifiers);
         }
     }
 
@@ -170,38 +166,8 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
 
         @Override
         public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
-            final M base = base();
-
-            // this interceptor is created just to create future target of invocation
-            Interceptor interceptor = new Interceptor() {
-
-                @Override
-                public Object intercept(final InvocationContext context) throws Throwable {
-                    final Method method = context.getMethod();
-                    if (method.getDeclaringClass() == mediatorType) {
-                        return GrapheneProxy.getProxyForFutureTarget(new FutureTarget() {
-                            public Object getTarget() {
-                                try {
-                                    M unwrappedBase = ((GrapheneProxyInstance) base).unwrap();
-                                    return method.invoke(unwrappedBase, context.getArguments());
-                                } catch (Exception e) {
-                                    throw new IllegalStateException(e);
-                                }
-                            }
-                        }, method.getReturnType());
-                    } else {
-                        throw new IllegalStateException("You cannot invoke method " + method + " on the " + mediatorType);
-                    }
-                }
-            };
-
-            ((GrapheneProxyInstance) base).registerInterceptor(interceptor);
-
-            Object futureTargetProxy = invoke(base);
-
-            ((GrapheneProxyInstance) base).unregisterInterceptor(interceptor);
-
-            return futureTargetProxy;
+            final M base = base(qualifiers);
+            return invoke(base);
         }
 
         public abstract T invoke(M mediator);

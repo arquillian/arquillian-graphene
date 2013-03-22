@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
+import org.jboss.arquillian.graphene.GrapheneContext;
+
 
 /**
  * <p>
@@ -40,4 +42,6 @@ public interface GrapheneProxyInstance {
     <T> T copy();
 
     <T> T unwrap();
+
+    GrapheneContext getContext();
 }

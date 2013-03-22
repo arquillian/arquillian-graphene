@@ -32,7 +32,6 @@ import java.util.Map;
 
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfigured;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneUnconfigured;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
@@ -73,11 +72,12 @@ public class ConfigurationContextTestCase extends AbstractTestTestBase {
         getManager().bind(SuiteScoped.class, ArquillianDescriptor.class, descriptor);
         fire(new BeforeClass(Object.class));
         assertEventFired(GrapheneConfigured.class);
-        assertNotNull("Configuration instance has to be available.", GrapheneConfigurationContext.getProxy());
-        GrapheneConfigurationContext.getProxy().validate();
-        assertEquals("'waitGuiInterval' should be 5", 5, GrapheneConfigurationContext.getProxy().getWaitGuiInterval());
-        assertEquals("'waitAjaxInterval' should be 25", 25, GrapheneConfigurationContext.getProxy().getWaitAjaxInterval());
-        assertEquals("'waitModelInterval' should be 125", 125, GrapheneConfigurationContext.getProxy().getWaitModelInterval());
+        GrapheneConfiguration configuration = getManager().resolve(GrapheneConfiguration.class);
+        assertNotNull("Configuration instance has to be available.", configuration);
+        configuration.validate();
+        assertEquals("'waitGuiInterval' should be 5", 5, configuration.getWaitGuiInterval());
+        assertEquals("'waitAjaxInterval' should be 25", 25, configuration.getWaitAjaxInterval());
+        assertEquals("'waitModelInterval' should be 125", 125, configuration.getWaitModelInterval());
         fire(new AfterClass(Object.class));
         assertEventFired(GrapheneUnconfigured.class);
     }

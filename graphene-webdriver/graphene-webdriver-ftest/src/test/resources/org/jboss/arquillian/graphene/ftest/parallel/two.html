@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>Page 2</title>
+        <script>
+            var XMLHttpArray = [
+                    function() {return new XMLHttpRequest()},
+                    function() {return new ActiveXObject("Msxml2.XMLHTTP")},
+                    function() {return new ActiveXObject("Msxml2.XMLHTTP")},
+                    function() {return new ActiveXObject("Microsoft.XMLHTTP")}
+            ];
+            function createXMLHTTPObject(){
+                    var xmlhttp = false;
+                    for(var i=0; i<XMLHttpArray.length; i++){
+                            try{
+                                    xmlhttp = XMLHttpArray[i]();
+                            }catch(e){
+                                    continue;
+                            }
+                            break;
+                    }
+                    return xmlhttp;
+            }
+            function MakeRequst(){
+                var xmlhttp = createXMLHTTPObject();
+                xmlhttp.onreadystatechange = function() {
+                    if(this.readyState == 4) {
+                        callback();
+                    }
+                }
+                xmlhttp.open("get", "ourside.html", true);
+                xmlhttp.send();
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Page 2</h1>
+        <a href="outside.html" id="http">HTTP request</a><br/>
+        <a href="#" id="xhr" onclick="MakeRequst()">XHR request</a>
+    </body>
+</html>

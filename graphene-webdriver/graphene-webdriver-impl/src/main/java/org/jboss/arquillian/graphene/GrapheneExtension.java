@@ -25,15 +25,16 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.drone.spi.Enhancer;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurationResourceProvider;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
+import org.jboss.arquillian.graphene.enricher.GrapheneContextProvider;
 import org.jboss.arquillian.graphene.enricher.GrapheneEnricher;
 import org.jboss.arquillian.graphene.enricher.JavaScriptEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
 import org.jboss.arquillian.graphene.enricher.PageObjectEnricher;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider;
+import org.jboss.arquillian.graphene.enricher.FieldAccessValidatorEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
 import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
-import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
@@ -54,11 +55,11 @@ public class GrapheneExtension implements LoadableExtension {
         builder.service(SearchContextTestEnricher.class, PageFragmentEnricher.class);
         builder.service(SearchContextTestEnricher.class, PageObjectEnricher.class);
         builder.service(SearchContextTestEnricher.class, WebElementWrapperEnricher.class);
+        builder.service(SearchContextTestEnricher.class, FieldAccessValidatorEnricher.class);
         /** Javascript enrichment */
-        builder.service(TestEnricher.class, JavaScriptEnricher.class);
-        /** Page Extensions */
-        builder.observer(GraphenePageExtensionRegistrar.class);
+        builder.service(SearchContextTestEnricher.class, JavaScriptEnricher.class);
         /* Resource Providers */
+        builder.service(ResourceProvider.class, GrapheneContextProvider.class);
         builder.service(ResourceProvider.class, GrapheneConfigurationResourceProvider.class);
         SeleniumResourceProvider.registerAllProviders(builder);
     }

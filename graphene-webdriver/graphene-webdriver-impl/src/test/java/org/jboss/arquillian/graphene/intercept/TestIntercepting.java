@@ -12,10 +12,11 @@ public class TestIntercepting {
     public void testInterceptorCalling() {
         // having
         MyObject target = new MyObject();
-        MyObject proxy = GrapheneProxy.getProxyForTarget(target);
+        MyObject proxy = GrapheneProxy.getProxyForTarget(null, target);
 
         // when
         ((GrapheneProxyInstance) proxy).registerInterceptor(new Interceptor() {
+            @Override
             public Object intercept(InvocationContext context) throws Throwable {
                 return context.invoke();
             }

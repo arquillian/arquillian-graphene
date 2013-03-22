@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
+import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -99,5 +100,26 @@ public final class GrapheneProxyUtil {
         System.arraycopy(classes, 0, out, 0, length);
         out[length] = clazz;
         return out;
+    }
+
+    public static boolean isProxy(Class<?> clazz) {
+        if (clazz.equals(Object.class)) {
+            return false;
+        }
+        if (net.sf.cglib.proxy.Proxy.isProxyClass(clazz) || Proxy.isProxyClass(clazz)) {
+            return true;
+        } else {
+            for (Class<?> interfaze: clazz.getInterfaces()) {
+                if (interfaze.getName().endsWith(".cglib.proxy.Factory")) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public static boolean isProxy(Object target) {
+        return isProxy(target.getClass());
+
     }
 }

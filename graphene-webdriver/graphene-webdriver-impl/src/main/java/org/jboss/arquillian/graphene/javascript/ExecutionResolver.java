@@ -1,9 +1,9 @@
 package org.jboss.arquillian.graphene.javascript;
 
-import org.openqa.selenium.WebDriver;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 public interface ExecutionResolver {
 
-    Object execute(WebDriver driver, JSCall call);
+    Object execute(GrapheneContext context, JSCall call);
 
 }

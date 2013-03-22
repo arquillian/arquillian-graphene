@@ -44,8 +44,8 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
 
     private String defaultElementLocatingStrategy = How.ID_OR_NAME.toString().toLowerCase();
 
-    public String getDefaultElementLocatingStrategy() {
-        return defaultElementLocatingStrategy;
+    public How getDefaultElementLocatingStrategy() {
+        return How.valueOf(defaultElementLocatingStrategy.toUpperCase());
     }
 
     public long getWaitAjaxInterval() {

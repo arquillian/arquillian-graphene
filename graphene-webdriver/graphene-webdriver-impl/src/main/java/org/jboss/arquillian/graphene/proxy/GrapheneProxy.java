@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 import net.sf.cglib.proxy.Enhancer;
 
@@ -58,16 +59,16 @@ public final class GrapheneProxy {
      * @return the proxy wrapping the target
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getProxyForTarget(T target) {
+    public static <T> T getProxyForTarget(GrapheneContext context, T target) {
         if (Modifier.isFinal(target.getClass().getModifiers())) {
             if (target.getClass().getInterfaces().length > 0) {
-                return GrapheneProxy.getProxyForTargetWithInterfaces(target, target.getClass().getInterfaces());
+                return GrapheneProxy.getProxyForTargetWithInterfaces(context, target, target.getClass().getInterfaces());
             } else {
                 throw new IllegalStateException("Can't create a proxy for " + target.getClass()
                         + ", it's final and id doesn't implement any interface.");
             }
         }
-        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(target);
+        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(context, target);
         return (T) createProxy(handler, target.getClass());
     }
 
@@ -86,8 +87,8 @@ public final class GrapheneProxy {
      * @return the proxy wrapping the target
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getProxyForTargetWithInterfaces(T target, Class<?>... interfaces) {
-        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(target);
+    public static <T> T getProxyForTargetWithInterfaces(GrapheneContext context, T target, Class<?>... interfaces) {
+        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(context, target);
         return (T) createProxy(handler, null, interfaces);
     }
 
@@ -114,18 +115,16 @@ public final class GrapheneProxy {
      * @return the proxy wrapping the future target
      */
     @Deprecated
-    public static <T> T getProxyForFutureTarget(FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
+    public static <T> T getProxyForFutureTarget(GrapheneContext context, FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
         if (baseType != null && !baseType.isInterface() && Modifier.isFinal(baseType.getModifiers())) {
             if (additionalInterfaces.length > 0) {
-                return GrapheneProxy.getProxyForFutureTarget(futureTarget, additionalInterfaces[0], additionalInterfaces);
+                return GrapheneProxy.getProxyForFutureTarget(context, futureTarget, additionalInterfaces[0], additionalInterfaces);
             } else {
                 throw new IllegalStateException("Can't create a proxy for " + baseType
                         + ", it's final and no additional interface has been given.");
             }
         }
-
-        GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(futureTarget);
-
+        GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(context, futureTarget);
         return getProxyForHandler(handler, baseType, additionalInterfaces);
     }
 
@@ -175,5 +174,20 @@ public final class GrapheneProxy {
     public interface FutureTarget {
 
         Object getTarget();
+    }
+
+    public static class ConstantFutureTarget implements FutureTarget {
+
+        private final Object target;
+
+        public ConstantFutureTarget(Object target) {
+            this.target = target;
+        }
+
+        @Override
+        public Object getTarget() {
+            return target;
+        }
+
     }
 }

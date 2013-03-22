@@ -1,23 +1,24 @@
 /**
- * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
- * by the @authors tag. See the copyright.txt in the distribution for a
- * full listing of individual contributors.
+ * JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. and
+ * individual contributors by the
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
+ * @authors tag. See the copyright.txt in the distribution for a full listing of
+ * individual contributors.
  *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
+ * This is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this software; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
+ * site: http://www.fsf.org.
  */
 package org.jboss.arquillian.graphene.enricher;
 
@@ -28,13 +29,12 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
-
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
+import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.SearchContext;
 
@@ -50,18 +50,18 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * Constant containing new line separator dependent on the environment.
      */
     protected static final String NEW_LINE = System.getProperty("line.separator");
-
     @Inject
     private static Instance<ServiceLoader> serviceLoader;
 
     /**
-     * Performs further enrichment on the given instance with the given search context. That means all instances
-     * {@link TestEnricher} and {@link SearchContextTestEnricher} are invoked.
+     * Performs further enrichment on the given instance with the given search
+     * context. That means all instances {@link TestEnricher} and
+     * {@link SearchContextTestEnricher} are invoked.
      *
      * @param searchContext
      * @param target
      */
-    protected static final void enrichRecursively(SearchContext searchContext, Object target) {
+    protected static void enrichRecursively(SearchContext searchContext, Object target) {
         for (TestEnricher enricher : serviceLoader.get().all(TestEnricher.class)) {
             if (!enricher.getClass().equals(GrapheneEnricher.class)) {
                 enricher.enrich(target);
@@ -73,9 +73,10 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     }
 
     /**
-     * It loads a real type of a field defined by parametric type. It searches in declaring class and super class. E. g. if a
-     * field is declared as 'A fieldName', It tries to find type parameter called 'A' in super class declaration and its
-     * evaluation in the class declaring the given field.
+     * It loads a real type of a field defined by parametric type. It searches
+     * in declaring class and super class. E. g. if a field is declared as 'A
+     * fieldName', It tries to find type parameter called 'A' in super class
+     * declaration and its evaluation in the class declaring the given field.
      *
      * @param field
      * @param testCase
@@ -91,7 +92,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         // the type parameter has the same index as the actual type
         String fieldParameterTypeName = field.getGenericType().toString();
 
-        int index = Arrays.asList(superClassTypeParameters).indexOf(fieldParameterTypeName);
+        int index;
         for (index = 0; index < superClassTypeParameters.length; index++) {
             String superClassTypeParameterName = superClassTypeParameters[index].getName();
             if (fieldParameterTypeName.equals(superClassTypeParameterName)) {
@@ -103,7 +104,8 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     }
 
     /**
-     * It loads the concrete type of list items. E.g. for List<String>, String is returned.
+     * It loads the concrete type of list items. E.g. for List<String>, String
+     * is returned.
      *
      * @param listField
      * @return
@@ -124,8 +126,8 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @throws SecurityException
      * @throws NoSuchMethodException
      */
-    protected static final <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException,
-        IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected static <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Class<?> outerClass = clazz.getDeclaringClass();
 
         // load constructor and rea; arguments
@@ -135,7 +137,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
             argTypes = new Class<?>[args.length];
             realArgs = args;
-            for (int i=0; i<args.length; i++) {
+            for (int i = 0; i < args.length; i++) {
                 argTypes[i] = args[i].getClass();
             }
         } else {
@@ -143,9 +145,9 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
             realArgs = new Object[args.length + 1];
             argTypes[0] = outerClass;
             realArgs[0] = instantiate(outerClass);
-            for (int i=0; i<args.length; i++) {
-                argTypes[i+1] = args[i].getClass();
-                realArgs[i+1] = args[i];
+            for (int i = 0; i < args.length; i++) {
+                argTypes[i + 1] = args[i].getClass();
+                realArgs[i + 1] = args[i];
             }
         }
         Constructor<T> construtor;
@@ -162,7 +164,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         return construtor.newInstance(realArgs);
     }
 
-    protected static final void setValue(Field field, Object target, Object value) {
+    protected static void setValue(Field field, Object target, Object value) {
 
         boolean accessible = field.isAccessible();
         if (!accessible) {
@@ -172,7 +174,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
             field.set(target, value);
         } catch (Exception ex) {
             throw new GrapheneTestEnricherException("During enriching of " + NEW_LINE + target.getClass() + NEW_LINE
-                + " the field " + NEW_LINE + field + " was not able to be set! Check the cause!", ex);
+                    + " the field " + NEW_LINE + field + " was not able to be set! Check the cause!", ex);
         }
         if (!accessible) {
             field.setAccessible(false);

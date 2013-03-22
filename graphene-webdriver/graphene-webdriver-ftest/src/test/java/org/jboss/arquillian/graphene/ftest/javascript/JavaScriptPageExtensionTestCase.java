@@ -25,11 +25,14 @@ import java.net.URL;
 import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -47,6 +50,9 @@ public class JavaScriptPageExtensionTestCase {
     @Drone
     private WebDriver browser;
 
+    @ArquillianResource
+    private GrapheneContext context;
+
     public void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/javascript/sample.html");
         browser.navigate().to(page);
@@ -55,7 +61,7 @@ public class JavaScriptPageExtensionTestCase {
     @Test
     public void testWithoutSources() {
         loadPage();
-        Document document = JSInterfaceFactory.create(Document.class);
+        Document document = JSInterfaceFactory.create(context, Document.class);
         List<WebElement> elements = document.getElementsByTagName("html");
         Assert.assertNotNull(elements);
         Assert.assertEquals(1, elements.size());
@@ -65,27 +71,27 @@ public class JavaScriptPageExtensionTestCase {
 
     public void testWithSources() {
         loadPage();
-        HelloWorld helloWorld = JSInterfaceFactory.create(HelloWorld.class);
+        HelloWorld helloWorld = JSInterfaceFactory.create(context, HelloWorld.class);
         Assert.assertEquals("Hello World!", helloWorld.hello());
     }
 
     @Test
     public void testWithInterfaceDependencies() {
         loadPage();
-        HelloWorld2 helloWorld = JSInterfaceFactory.create(HelloWorld2.class);
+        HelloWorld2 helloWorld = JSInterfaceFactory.create(context, HelloWorld2.class);
         Assert.assertEquals("Hello World!", helloWorld.hello());
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testWithoutSourceAndWithInterfaceDependencies() {
         loadPage();
-        JSInterfaceFactory.create(Document2.class).getTitle();
+        JSInterfaceFactory.create(context, Document2.class).getTitle();
     }
 
     @Test
     public void testAbstractClass() {
         loadPage();
-        Document3 document = JSInterfaceFactory.create(Document3.class);
+        Document3 document = JSInterfaceFactory.create(context, Document3.class);
         Assert.assertEquals(browser.findElement(By.tagName("h1")), document.getHeader());
     }
 
