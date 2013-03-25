@@ -44,35 +44,68 @@ import org.openqa.selenium.WebElement;
 public class Graphene {
 
     /**
+     * <p>
+     * DEPRECATED: use fluent API instead ({@link #waitAjax()} / {@link #waitGui()} / {@link #waitModel()}
+     * and {@link WebDriverWait#until() }). For example:
+     *
+     * </p>
+     * <pre>
+     * Graphene.waitAjax().until().element(...).attribute(...).is().present();
+     * </pre>
+     * <p>
      * Returns an attribute condition factory which can be used to formulate
      * conditions related to the given attribute.
+     * </p>
      *
      * @param element element which the attribute belongs to
      * @param attribute attribute name
-     * @return
+     * @see org.jboss.arquillian.graphene.wait.ElementBuilder#attribute(java.lang.String)
      */
+    @Deprecated
     public static AttributeConditionFactory attribute(WebElement element, String attribute) {
         return new ElementAttributeConditionFactory(element, attribute);
     }
 
     /**
+     * <p>
+     * DEPRECATED: use fluent API instead ({@link #waitAjax()} / {@link #waitGui()} / {@link #waitModel()}
+     * and {@link WebDriverWait#until() }). For example:
+     *
+     * </p>
+     * <pre>
+     * Graphene.waitAjax().until().element(...).is().present();
+     * </pre>
+     * <p>
      * Returns an element condition factory which can be used to formulate
      * conditions related to the given element.
+     * </p>
      *
      * @param element
-     * @return
+     * @see org.jboss.arquillian.graphene.wait.FluentBuilder#element(org.openqa.selenium.WebElement)
      */
+    @Deprecated
     public static ElementConditionFactory element(WebElement element) {
         return new WebElementConditionFactory(element);
     }
 
     /**
+     * <p>
+     * DEPRECATED: use fluent API instead ({@link #waitAjax()} / {@link #waitGui()} / {@link #waitModel()}
+     * and {@link WebDriverWait#until() }). For example:
+     *
+     * </p>
+     * <pre>
+     * Graphene.waitAjax().until().element(...).is().present();
+     * </pre>
+     * <p>
      * Returns an element condition factory which can be used to formulate
      * conditions related to the element determined by the given locater.
+     * </p>
      *
      * @param locator
-     * @return
+     * @see org.jboss.arquillian.graphene.wait.FluentBuilder#element(org.openqa.selenium.By)
      */
+    @Deprecated
     public static ElementConditionFactory element(By locator) {
         return new ElementLocatorConditionFactory(locator);
     }
