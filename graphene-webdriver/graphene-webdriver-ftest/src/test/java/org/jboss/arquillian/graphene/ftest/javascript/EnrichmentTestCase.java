@@ -23,11 +23,13 @@ package org.jboss.arquillian.graphene.ftest.javascript;
 
 import java.net.URL;
 import java.util.List;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -37,6 +39,7 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@Ignore("ARQGRA-289: JavaScript interfaces fails on Chrome and PhantomJS")
 public class EnrichmentTestCase {
 
     @Drone

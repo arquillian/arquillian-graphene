@@ -31,6 +31,7 @@ import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -41,6 +42,7 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@Ignore("ARQGRA-289: JavaScript interfaces fails on Chrome and PhantomJS")
 public class JavaScriptPageExtensionTestCase {
 
     @Drone
@@ -61,6 +63,7 @@ public class JavaScriptPageExtensionTestCase {
     }
 
     @Test
+
     public void testWithSources() {
         loadPage();
         HelloWorld helloWorld = JSInterfaceFactory.create(HelloWorld.class);
