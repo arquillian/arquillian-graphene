@@ -156,7 +156,8 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
         public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
             final M base = base();
 
-            ((GrapheneProxyInstance) base).registerInterceptor(new Interceptor() {
+            // this interceptor is created just to create future target of invocation
+            Interceptor interceptor = new Interceptor() {
 
                 @Override
                 public Object intercept(final InvocationContext context) throws Throwable {
@@ -176,9 +177,15 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
                         throw new IllegalStateException("You cannot invoke method " + method + " on the " + mediatorType);
                     }
                 }
-            });
+            };
 
-            return invoke(base);
+            ((GrapheneProxyInstance) base).registerInterceptor(interceptor);
+
+            Object futureTargetProxy = invoke(base);
+
+            ((GrapheneProxyInstance) base).unregisterInterceptor(interceptor);
+
+            return futureTargetProxy;
         }
 
         public abstract T invoke(M mediator);

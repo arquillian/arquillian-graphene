@@ -23,13 +23,19 @@
 
 -->
 <arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
     <extension qualifier="webdriver">
         <property name="browserCapabilities">${browser}</property>
         <property name="remoteReusable">${remoteReusable}</property>
         <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
         <property name="javascriptEnabled">true</property>
+    </extension>
+
+
+    <extension qualifier="graphene">
+        <property name="waitAjaxInterval">1</property>
+        <property name="waitModelInterval">1</property>
     </extension>
 
 </arquillian>

@@ -38,6 +38,7 @@ import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.arquillian.test.spi.annotation.ClassScoped;
 import org.jboss.arquillian.test.spi.event.suite.AfterClass;
 import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
+import org.openqa.selenium.JavascriptExecutor;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -61,7 +62,7 @@ public class GraphenePageExtensionRegistrar {
         pageExtensionRegistry.set(new PageExtensionRegistryImpl());
         loadPageExtensions(testClass);
         GraphenePageExtensionsContext.setRegistry(pageExtensionRegistry.get());
-        pageExtensionInstallatorProvider.set(new RemotePageExtensionInstallatorProvider(pageExtensionRegistry.get(), GrapheneContext.getProxy()));
+        pageExtensionInstallatorProvider.set(new RemotePageExtensionInstallatorProvider(pageExtensionRegistry.get(), GrapheneContext.<JavascriptExecutor>getProxyForInterfaces(JavascriptExecutor.class)));
         GraphenePageExtensionsContext.setInstallatorProvider(pageExtensionInstallatorProvider.get());
         pageExtensionsReady.fire(new PageExtensionsReady());
     }

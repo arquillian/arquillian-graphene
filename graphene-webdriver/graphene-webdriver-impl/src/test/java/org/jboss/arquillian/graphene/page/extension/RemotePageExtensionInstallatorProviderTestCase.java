@@ -1,18 +1,20 @@
 package org.jboss.arquillian.graphene.page.extension;
 
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+
+import junit.framework.Assert;
+
 import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.junit.Before;
-import org.mockito.Mock;
-import java.util.Collections;
-import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -20,13 +22,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class RemotePageExtensionInstallatorProviderTestCase {
 
-    @Mock(extraInterfaces={JavascriptExecutor.class})
-    private WebDriver driver;
+    @Mock
+    private JavascriptExecutor executor;
 
     @Before
     public void prepareDriver() {
-        when(((JavascriptExecutor) driver).executeScript("install")).thenReturn(null);
-        when(((JavascriptExecutor) driver).executeScript("check")).thenReturn(false, true, true);
+        when((executor).executeScript("install")).thenReturn(null);
+        when((executor).executeScript("check")).thenReturn(false, true, true);
     }
 
     @Test
@@ -41,7 +43,7 @@ public class RemotePageExtensionInstallatorProviderTestCase {
         PageExtensionRegistry registry = new PageExtensionRegistryImpl();
         registry.register(pageExtensionMock);
         // tests
-        PageExtensionInstallatorProvider provider = new RemotePageExtensionInstallatorProvider(registry, driver);
+        PageExtensionInstallatorProvider provider = new RemotePageExtensionInstallatorProvider(registry, executor);
         Assert.assertFalse(provider.installator(pageExtensionMock.getName()).isInstalled());
         provider.installator(pageExtensionMock.getName()).install();
         Assert.assertTrue(provider.installator(pageExtensionMock.getName()).isInstalled());
