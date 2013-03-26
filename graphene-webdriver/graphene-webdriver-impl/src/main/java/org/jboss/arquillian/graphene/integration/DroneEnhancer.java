@@ -48,6 +48,8 @@ public class DroneEnhancer implements Enhancer<WebDriver> {
             return ((GrapheneProxyInstance) enhancedDriver).unwrap();
         }
 
+        GrapheneContext.reset();
+
         return enhancedDriver;
     }
 

@@ -24,9 +24,10 @@ package org.jboss.arquillian.graphene.context;
 import org.jboss.arquillian.graphene.enricher.SearchContextInterceptor;
 import org.jboss.arquillian.graphene.enricher.StaleElementInterceptor;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyUtil;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyUtil;
 import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -50,12 +51,27 @@ import org.openqa.selenium.WebDriver;
 public final class GrapheneContext {
 
     /**
-     * The thread local context of AjaxSelenium
+     * The thread local context of WebDriver
      */
     private static final ThreadLocal<WebDriver> REFERENCE = new ThreadLocal<WebDriver>();
 
+    /**
+     * The thread local context of {@link GrapheneProxyHandler}
+     */
+    private static final ThreadLocal<GrapheneProxyHandler> HANDLER = new ThreadLocal<GrapheneProxyHandler>() {
+        protected GrapheneProxyHandler initialValue() {
+            return GrapheneProxyHandler.forFuture(TARGET);
+        };
+    };
+
     private GrapheneContext() {
     }
+
+    private static FutureTarget TARGET = new FutureTarget() {
+        public Object getTarget() {
+            return get();
+        }
+    };
 
     /**
      * Sets the WebDriver context for current thread
@@ -70,6 +86,7 @@ public final class GrapheneContext {
         if (GrapheneProxy.isProxyInstance(driver)) {
             throw new IllegalArgumentException("instance of the proxy can't be set to the context");
         }
+
         REFERENCE.set(driver);
     }
 
@@ -78,6 +95,7 @@ public final class GrapheneContext {
      */
     public static void reset() {
         REFERENCE.set(null);
+        HANDLER.get().resetInterceptors();
     }
 
     /**
@@ -109,11 +127,24 @@ public final class GrapheneContext {
      * @return the instance of proxy to thread local context of WebDriver
      */
     public static WebDriver getProxy() {
-        WebDriver webdriver = GrapheneProxy.getProxyForFutureTarget(TARGET, null, WebDriver.class, JavascriptExecutor.class, HasInputDevices.class);
+        WebDriver webdriver = GrapheneProxy.getProxyForHandler(HANDLER.get(), null, WebDriver.class, JavascriptExecutor.class, HasInputDevices.class);
         GrapheneProxyInstance proxy = (GrapheneProxyInstance) webdriver;
         proxy.registerInterceptor(new SearchContextInterceptor());
         proxy.registerInterceptor(new StaleElementInterceptor());
         return webdriver;
+    }
+
+    /**
+     * Returns the proxy for current thread local context of WebDriver which implements all interfaces as the current instance
+     * in the context.
+     *
+     * @return the instance of proxy to thread local context of WebDriver
+     */
+    public static WebDriver getAugmentedProxy() {
+        WebDriver currentDriver = REFERENCE.get();
+        Class<?>[] interfaces = GrapheneProxyUtil.getInterfaces(currentDriver.getClass());
+        WebDriver augmentedProxy = GrapheneContext.getProxyForInterfaces(interfaces);
+        return augmentedProxy;
     }
 
     /**
@@ -122,8 +153,8 @@ public final class GrapheneContext {
      *
      * @return the instance of proxy to thread local context of WebDriver
      */
-    public static <T extends WebDriver> T getProxyForDriver(Class<T> webDriverImplClass) {
-        T webdriver = GrapheneProxy.<T>getProxyForFutureTarget(TARGET, webDriverImplClass);
+    public static <T extends WebDriver> T getProxyForDriver(Class<T> webDriverImplClass, Class<?>... additionalInterfaces) {
+        T webdriver = GrapheneProxy.<T>getProxyForHandler(HANDLER.get(), webDriverImplClass, additionalInterfaces);
         GrapheneProxyInstance proxy = (GrapheneProxyInstance) webdriver;
         proxy.registerInterceptor(new SearchContextInterceptor());
         proxy.registerInterceptor(new StaleElementInterceptor());
@@ -139,7 +170,7 @@ public final class GrapheneContext {
 
     public static <T> T getProxyForInterfaces(Class<?>... interfaces) {
         Class<?>[] interfacesIncludingWebdriver = GrapheneProxyUtil.concatClasses(interfaces, WebDriver.class);
-        T webdriver = GrapheneProxy.<T>getProxyForFutureTarget(TARGET, null, interfacesIncludingWebdriver);
+        T webdriver = GrapheneProxy.<T>getProxyForHandler(HANDLER.get(), null, interfacesIncludingWebdriver);
         GrapheneProxyInstance proxy = (GrapheneProxyInstance) webdriver;
         proxy.registerInterceptor(new SearchContextInterceptor());
         proxy.registerInterceptor(new StaleElementInterceptor());
@@ -155,11 +186,4 @@ public final class GrapheneContext {
     public static boolean holdsInstanceOf(Class<?> clazz) {
         return clazz.isAssignableFrom(get().getClass());
     }
-
-    private static FutureTarget TARGET = new FutureTarget() {
-        @Override
-        public Object getTarget() {
-            return get();
-        }
-    };
 }

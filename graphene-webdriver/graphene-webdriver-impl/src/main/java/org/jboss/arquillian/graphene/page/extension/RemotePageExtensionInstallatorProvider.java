@@ -25,7 +25,6 @@ import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.javascript.JavaScriptUtils;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Provider for {@link PageExtensionInstallator}s using {@link org.openqa.selenium.JavascriptExecutor#executeScript(java.lang.String, java.lang.Object[]) }
@@ -35,13 +34,13 @@ import org.openqa.selenium.WebDriver;
  */
 public class RemotePageExtensionInstallatorProvider extends AbstractPageExtensionInstallatorProvider {
 
-    private final WebDriver driver;
+    private final JavascriptExecutor executor;
 
-    public RemotePageExtensionInstallatorProvider(PageExtensionRegistry registry, WebDriver driver) {
+    public RemotePageExtensionInstallatorProvider(PageExtensionRegistry registry, JavascriptExecutor executor) {
         super(registry);
-        Validate.notNull(driver, "driver should not be null");
-        this.driver = driver;
-        if (!(driver instanceof JavascriptExecutor)) {
+        Validate.notNull(executor, "executor should not be null");
+        this.executor = executor;
+        if (!(executor instanceof JavascriptExecutor)) {
             throw new IllegalStateException("Can't use the given driver to execute javascript, because it doesn't implement " + JavascriptExecutor.class + " interface.");
         }
     }
@@ -51,12 +50,12 @@ public class RemotePageExtensionInstallatorProvider extends AbstractPageExtensio
         return new AbstractPageExtensionInstallator(extension, this) {
             @Override
             protected void installWithoutRequirements() {
-                JavaScriptUtils.execute((JavascriptExecutor) driver, extension.getExtensionScript());
+                JavaScriptUtils.execute(executor, extension.getExtensionScript());
             }
 
             @Override
             public boolean isInstalled() {
-                Object result = JavaScriptUtils.execute((JavascriptExecutor) driver, extension.getInstallationDetectionScript());
+                Object result = JavaScriptUtils.execute(executor, extension.getInstallationDetectionScript());
                 if (!(result instanceof Boolean)) {
                     throw new IllegalStateException("The result of installation detection script is not boolean as expected, " + result + " given.");
                 }

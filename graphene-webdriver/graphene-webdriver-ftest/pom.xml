@@ -29,6 +29,14 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver-impl</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Arquillian JUnit -->
         <dependency>
@@ -41,13 +49,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.test</groupId>
-            <artifactId>arquillian-test-impl-base</artifactId>
-            <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
 
@@ -93,6 +94,13 @@
             <id>webdriver-chrome</id>
             <properties>
                 <browser>chrome</browser>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>webdriver-phantomjs</id>
+            <properties>
+                <browser>phantomjs</browser>
             </properties>
         </profile>
 
