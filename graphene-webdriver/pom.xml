@@ -18,7 +18,6 @@
 
     <modules>
         <module>graphene-webdriver-impl</module>
-        <module>graphene-webdriver-drone</module>
         <module>graphene-webdriver-depchain</module>
         <module>graphene-webdriver-ftest</module>
         <module>graphene-webdriver-spi</module>
