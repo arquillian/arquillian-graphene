@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.enricher.page;
+package org.jboss.arquillian.graphene.enricher.pageObjects.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

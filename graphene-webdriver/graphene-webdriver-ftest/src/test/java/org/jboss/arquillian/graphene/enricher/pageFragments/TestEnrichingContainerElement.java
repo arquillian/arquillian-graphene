@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.pageFragments;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,8 +27,8 @@ import java.net.URL;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.enricher.findby.FindBy;
-import org.jboss.arquillian.graphene.enricher.page.fragment.Panel;
-import org.jboss.arquillian.graphene.enricher.page.fragment.TabPanel;
+import org.jboss.arquillian.graphene.enricher.pageFragments.fragments.Panel;
+import org.jboss.arquillian.graphene.enricher.pageFragments.fragments.TabPanel;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Before;
 import org.junit.Test;

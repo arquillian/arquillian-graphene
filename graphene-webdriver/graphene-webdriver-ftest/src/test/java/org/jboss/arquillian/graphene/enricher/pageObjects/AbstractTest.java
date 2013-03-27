@@ -1,9 +1,9 @@
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.pageObjects;
 
 import java.net.URL;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.page.AbstractPage;
+import org.jboss.arquillian.graphene.enricher.pageObjects.pages.AbstractPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.WebDriver;
 

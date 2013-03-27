@@ -1,6 +1,6 @@
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.pageObjects;
 
-import org.jboss.arquillian.graphene.enricher.page.AbstractPage;
+import org.jboss.arquillian.graphene.enricher.pageObjects.pages.AbstractPage;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
