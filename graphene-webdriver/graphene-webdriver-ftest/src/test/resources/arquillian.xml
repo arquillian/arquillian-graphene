@@ -25,17 +25,30 @@
 <arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
+    <extension qualifier="graphene">
+        <property name="waitAjaxInterval">1</property>
+        <property name="waitModelInterval">1</property>
+    </extension>
+
     <extension qualifier="webdriver">
         <property name="browserCapabilities">${browser}</property>
         <property name="remoteReusable">${remoteReusable}</property>
         <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
         <property name="javascriptEnabled">true</property>
+        <property name="chromeDriverBinary">/opt/google/chrome/chromedriver</property>
+    </extension>
+    
+    <!-- Set a different remote address then default for RemoteReusableTesting -->
+    <extension qualifier="webdriver-reusable">
+        <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
+        <property name="remoteReusable">true</property>
+        <property name="browserCapabilities">htmlUnit</property>
     </extension>
 
-
-    <extension qualifier="graphene">
-        <property name="waitAjaxInterval">1</property>
-        <property name="waitModelInterval">1</property>
+    <extension qualifier="selenium-server">
+        <property name="port">4444</property>
+        <property name="enable">true</property>
     </extension>
+
 
 </arquillian>
