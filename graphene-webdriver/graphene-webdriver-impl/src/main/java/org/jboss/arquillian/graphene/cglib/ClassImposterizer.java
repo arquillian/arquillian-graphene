@@ -68,6 +68,8 @@ import org.objenesis.ObjenesisStd;
 @SuppressWarnings("rawtypes")
 public class ClassImposterizer  {
 
+    private static final String TAG = "ByGraphene";
+
     protected ClassImposterizer() {}
 
     private final Objenesis objenesis = new ObjenesisStd();
@@ -78,7 +80,7 @@ public class ClassImposterizer  {
          */
         @Override
         protected String getTag() {
-            return "CGLIB";
+            return TAG;
         }
     };
 
@@ -96,7 +98,7 @@ public class ClassImposterizer  {
          */
         @Override
         protected String getTag() {
-            return "CGLIB";
+            return TAG;
         }
     };
 
@@ -113,7 +115,7 @@ public class ClassImposterizer  {
             return imposteriseClass(interceptor, mockedType, ancillaryTypes);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     protected <T> T imposteriseClass(MethodInterceptor interceptor, Class<?> mockedType, Class<?>... ancillaryTypes) {
         setConstructorsAccessible(mockedType, true);
@@ -122,14 +124,14 @@ public class ClassImposterizer  {
     }
 
     protected <T> T imposteriseInterface(MethodInterceptor interceptor, Class<?> mockedInterface, Class<?>... ancillaryTypes) {
-        
+
         if (!Modifier.isPublic(mockedInterface.getModifiers())) {
             throw new IllegalArgumentException("Imposterized interface must be public: " + mockedInterface);
         }
-        
+
         List<Class<?>> list = new ArrayList<Class<?>>(Arrays.asList(ancillaryTypes));
         list.add(mockedInterface);
-        
+
         Class<?>[] interfaces = list.toArray(new Class<?>[list.size()]);
 
         return imposteriseClass(interceptor, Object.class, interfaces);

@@ -64,6 +64,12 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-selenium-server</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

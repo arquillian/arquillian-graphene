@@ -32,7 +32,7 @@ import org.jboss.arquillian.graphene.enricher.PageObjectEnricher;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
-import org.jboss.arquillian.graphene.integration.DroneEnhancer;
+import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
 import org.jboss.arquillian.graphene.page.extension.GraphenePageExtensionRegistrar;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
@@ -45,7 +45,7 @@ public class GrapheneExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
-        builder.service(Enhancer.class, DroneEnhancer.class);
+        builder.service(Enhancer.class, GrapheneEnhancer.class);
         /* Configurator */
         builder.observer(GrapheneConfigurator.class);
         /* Component Objects */
