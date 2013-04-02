@@ -4,9 +4,20 @@ import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 @RunWith(Arquillian.class)
 public class LocatorAttributeTest extends AbstractWaitTest {
+
+    @FindBy
+    WebElement inputWithEmptyStyle;
+
+    @FindBy
+    WebElement inputWithEmptyStyleWhiteSpaces;
+
+    @FindBy
+    WebElement inputWitNoStyleDefined;
 
     @Test
     public void testAttributeIsPresent() {
@@ -35,6 +46,16 @@ public class LocatorAttributeTest extends AbstractWaitTest {
         checkAttributeValueEquals(Graphene.waitModel().until().element(BY_TEXT_INPUT).attribute("value"));
     }
 
+    @Test
+    public void testEmptyAttribute() {
+        loadPage();
+        Graphene.waitModel().until().element(inputWithEmptyStyle).attribute("style").is().not().present();
+
+        Graphene.waitModel().until().element(inputWitNoStyleDefined).attribute("style").is().not().present();
+
+        Graphene.waitModel().until().element(inputWithEmptyStyleWhiteSpaces).attribute("style").is().not().present();
+    }
+
     // shortcuts
 
     @Test
@@ -48,5 +69,4 @@ public class LocatorAttributeTest extends AbstractWaitTest {
         loadPage();
         checkAttributeValueEquals(Graphene.waitModel().until().element(BY_TEXT_INPUT).value());
     }
-
 }

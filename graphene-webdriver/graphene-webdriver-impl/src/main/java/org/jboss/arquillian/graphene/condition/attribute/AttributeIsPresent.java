@@ -21,14 +21,13 @@
  */
 package org.jboss.arquillian.graphene.condition.attribute;
 
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class AttributeIsPresent extends AbstractAttributeBooleanCondition {
 
     public AttributeIsPresent(WebElement element, String attribute) {
-        this(element, attribute,  false);
+        this(element, attribute, false);
     }
 
     public AttributeIsPresent(WebElement element, String attribute, boolean negation) {
@@ -37,14 +36,13 @@ public class AttributeIsPresent extends AbstractAttributeBooleanCondition {
 
     @Override
     public Boolean check(WebDriver driver) {
-        return getElement().getAttribute(getAttribute()) != null;
+        String attributeValue = getElement().getAttribute(getAttribute());
+        return attributeValue != null && attributeValue.trim().length() != 0;
     }
 
     @Override
     public String toString() {
-        return String.format("attribute ('%s')%s to be present in element %s",
-                getAttribute(),
-                getNegation() ? " not" : "",
+        return String.format("attribute ('%s')%s to be present in element %s", getAttribute(), getNegation() ? " not" : "",
                 getElement().toString());
     }
 
