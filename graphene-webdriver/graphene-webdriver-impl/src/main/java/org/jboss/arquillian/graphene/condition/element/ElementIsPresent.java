@@ -50,7 +50,8 @@ public class ElementIsPresent extends AbstractElementBooleanCondition {
 
     @Override
     public String toString() {
-        return String.format("element %s to be present", getElement().toString());
+        return String.format("element %s%s to be present",
+                getElement().toString(),
+                (getNegation() ? " not" : ""));
     }
-
 }
