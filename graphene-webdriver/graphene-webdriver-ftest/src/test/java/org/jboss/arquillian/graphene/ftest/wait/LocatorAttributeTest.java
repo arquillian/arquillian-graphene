@@ -4,20 +4,9 @@ import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 @RunWith(Arquillian.class)
 public class LocatorAttributeTest extends AbstractWaitTest {
-
-    @FindBy
-    WebElement inputWithEmptyStyle;
-
-    @FindBy
-    WebElement inputWithEmptyStyleWhiteSpaces;
-
-    @FindBy
-    WebElement inputWitNoStyleDefined;
 
     @Test
     public void testAttributeIsPresent() {
@@ -49,11 +38,11 @@ public class LocatorAttributeTest extends AbstractWaitTest {
     @Test
     public void testEmptyAttribute() {
         loadPage();
-        Graphene.waitModel().until().element(inputWithEmptyStyle).attribute("style").is().not().present();
 
-        Graphene.waitModel().until().element(inputWitNoStyleDefined).attribute("style").is().not().present();
-
-        Graphene.waitModel().until().element(inputWithEmptyStyleWhiteSpaces).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(BY_INPUT_WITH_EMPTY_STYLE).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(BY_INPUT_WITH_NO_STYLE_DEFINED).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(BY_INPUT_WITH_EMPTY_STYLE_WHITE_SPACES).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(BY_INPUT_WITH_EMPTY_READONLY).attribute("readonly").is().present();
     }
 
     // shortcuts

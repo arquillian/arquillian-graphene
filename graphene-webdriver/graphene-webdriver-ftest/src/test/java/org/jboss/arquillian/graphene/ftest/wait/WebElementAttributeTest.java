@@ -35,6 +35,16 @@ public class WebElementAttributeTest extends AbstractWaitTest {
         checkAttributeValueEquals(Graphene.waitModel().until().element(textInput).attribute("value"));
     }
 
+    @Test
+    public void testEmptyAttribute() {
+        loadPage();
+
+        Graphene.waitModel().until().element(inputWithEmptyStyle).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(inputWithNoStyleDefined).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(inputWithEmptyStyleWhiteSpaces).attribute("style").is().not().present();
+        Graphene.waitModel().until().element(inputWithEmptyReadonly).attribute("readonly").is().present();
+    }
+
     // shortcuts
 
     @Test

@@ -19,6 +19,10 @@ public class AbstractWaitTest {
     protected static final By BY_HEADER = By.id("header");
     protected static final By BY_OPTION1 = By.id("option1");
     protected static final By BY_TEXT_INPUT = By.id("textInput");
+    protected static final By BY_INPUT_WITH_EMPTY_STYLE = By.id("inputWithEmptyStyle");
+    protected static final By BY_INPUT_WITH_EMPTY_STYLE_WHITE_SPACES = By.id("inputWithEmptyStyleWhiteSpaces");
+    protected static final By BY_INPUT_WITH_NO_STYLE_DEFINED = By.id("inputWithNoStyleDefined");
+    protected static final By BY_INPUT_WITH_EMPTY_READONLY = By.id("inputWithEmptyReadonly");
 
     @FindBy(id="appear")
     protected WebElement appearButton;
@@ -36,6 +40,14 @@ public class AbstractWaitTest {
     protected WebElement textInput;
     @FindBy(id="submit")
     protected WebElement updateButton;
+    @FindBy
+    protected WebElement inputWithEmptyStyle;
+    @FindBy
+    protected WebElement inputWithEmptyStyleWhiteSpaces;
+    @FindBy
+    protected WebElement inputWithNoStyleDefined;
+    @FindBy
+    protected WebElement inputWithEmptyReadonly;
 
     protected void loadPage() {
         URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/wait/sample.html");
