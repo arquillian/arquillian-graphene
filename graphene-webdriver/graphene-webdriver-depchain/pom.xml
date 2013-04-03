@@ -22,11 +22,6 @@
             <artifactId>graphene-webdriver-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-webdriver-drone</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <!-- Arquillian Drone -->
         <dependency>

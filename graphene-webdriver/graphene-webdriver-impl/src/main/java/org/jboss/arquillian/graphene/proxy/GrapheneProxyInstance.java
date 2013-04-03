@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
+
 /**
  * <p>
  * Marker interface for all instances of proxies created by {@link GrapheneProxy}.
@@ -33,6 +34,8 @@ public interface GrapheneProxyInstance {
     void registerInterceptor(Interceptor interceptor);
 
     Interceptor unregisterInterceptor(Interceptor interceptor);
+
+    GrapheneProxyHandler getHandler();
 
     <T> T copy();
 

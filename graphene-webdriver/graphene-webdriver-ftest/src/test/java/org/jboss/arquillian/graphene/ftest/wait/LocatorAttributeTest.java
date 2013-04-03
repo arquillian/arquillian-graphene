@@ -11,7 +11,7 @@ public class LocatorAttributeTest extends AbstractWaitTest {
     @Test
     public void testAttributeIsPresent() {
         loadPage();
-        checkAttributeIsPresent(Graphene.waitModel().until().element(BY_HEADER).attribute("style"));
+        checkAttributeIsPresent(Graphene.waitAjax().until().element(BY_HEADER).attribute("style"));
     }
 
     @Test

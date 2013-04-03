@@ -29,7 +29,8 @@
 
         <!-- Arquillian -->
         <version.arquillian.core>1.0.3.Final</version.arquillian.core>
-        <version.arquillian.drone>1.1.0.Final</version.arquillian.drone>
+        <version.arquillian.drone>1.2.0.Final-SNAPSHOT</version.arquillian.drone>
+        <version.selenium>2.31.0</version.selenium>
 
         <!-- Runtime dependencies -->
         <version.javassist>3.12.1.GA</version.javassist>
@@ -85,7 +86,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian.selenium</groupId>
                 <artifactId>selenium-bom</artifactId>
-                <version>2.28.0</version>
+                <version>${version.selenium}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

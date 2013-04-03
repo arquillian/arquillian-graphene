@@ -44,7 +44,7 @@ import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
  *
  * @author Lukas Fryc
  */
-class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
+public class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
 
     private Object target;
     private FutureTarget future;
@@ -59,7 +59,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      * @param target the target of invocation
      * @return invocation handler which wraps the given target instance
      */
-    static GrapheneProxyHandler forTarget(Object target) {
+    public static GrapheneProxyHandler forTarget(Object target) {
         GrapheneProxyHandler handler = new GrapheneProxyHandler();
         handler.target = target;
         return handler;
@@ -71,7 +71,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      * @param future the future target
      * @return invocation handler which wraps the target for future computation
      */
-    static GrapheneProxyHandler forFuture(FutureTarget future) {
+    public static GrapheneProxyHandler forFuture(FutureTarget future) {
         GrapheneProxyHandler handler = new GrapheneProxyHandler();
         handler.future = future;
         return handler;
@@ -92,7 +92,7 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      * invocation.
      */
     @Override
-    public Object invoke(Object proxy, final Method method, final Object[] args) throws Throwable {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         // handle the GrapheneProxyInstance's method unwrap
         if (method.equals(GrapheneProxyInstance.class.getMethod("unwrap"))) {
             Object target = getTarget();
@@ -132,6 +132,10 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
             }
             return clone;
         }
+        // handle GrapheneProxyInstance's method copy
+        if (method.equals(GrapheneProxyInstance.class.getMethod("getHandler"))) {
+            return this;
+        }
 
         InvocationContext invocationContext = new InvocationContext() {
 
@@ -143,7 +147,11 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
                 }
                 if (isProxyable(method, args) && !(result instanceof GrapheneProxyInstance)) {
                     Class<?>[] interfaces = GrapheneProxyUtil.getInterfaces(result.getClass());
-                    return GrapheneProxy.getProxyForTargetWithInterfaces(result, interfaces);
+                    Object newProxy = GrapheneProxy.getProxyForTargetWithInterfaces(result, interfaces);
+
+//                    List<Interceptor> inheritingInterceptors = ((GrapheneProxyInstance)proxy).getInheritingInterceptors();
+
+                    return newProxy;
                 }
                 return result;
             }
@@ -225,6 +233,13 @@ class GrapheneProxyHandler implements MethodInterceptor, InvocationHandler {
      */
     Object getTarget() {
         return (future == null) ? target : future.getTarget();
+    }
+
+    /**
+     * Resets the interceptors
+     */
+    public void resetInterceptors() {
+        interceptors.clear();
     }
 
 }

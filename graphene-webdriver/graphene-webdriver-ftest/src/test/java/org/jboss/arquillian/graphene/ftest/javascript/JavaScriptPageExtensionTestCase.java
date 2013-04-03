@@ -23,14 +23,16 @@ package org.jboss.arquillian.graphene.ftest.javascript;
 
 import java.net.URL;
 import java.util.List;
+
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -40,6 +42,7 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@Ignore("ARQGRA-289: JavaScript interfaces fails on Chrome and PhantomJS")
 public class JavaScriptPageExtensionTestCase {
 
     @Drone
@@ -60,6 +63,7 @@ public class JavaScriptPageExtensionTestCase {
     }
 
     @Test
+
     public void testWithSources() {
         loadPage();
         HelloWorld helloWorld = JSInterfaceFactory.create(HelloWorld.class);
@@ -78,7 +82,7 @@ public class JavaScriptPageExtensionTestCase {
         loadPage();
         JSInterfaceFactory.create(Document2.class).getTitle();
     }
-    
+
     @Test
     public void testAbstractClass() {
         loadPage();
@@ -99,7 +103,7 @@ public class JavaScriptPageExtensionTestCase {
     public static interface Document2 {
         String getTitle();
     }
-    
+
     @JavaScript("document")
     public abstract class Document3 {
 
