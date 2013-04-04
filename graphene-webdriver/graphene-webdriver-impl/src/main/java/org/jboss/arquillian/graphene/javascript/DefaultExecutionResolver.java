@@ -144,6 +144,9 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         String script = resolveScriptToExecute(call);
         Object[] arguments = castArguments(call.getArguments());
         Object returnValue = JavaScriptUtils.execute(browser, script, arguments);
+        if (returnValue instanceof String && ((String) returnValue).startsWith("GRAPHENE ERROR: ")) {
+            throw new IllegalStateException("exception thrown when executing method '" + call.getMethod().getName() + "': " + ((String) returnValue).substring(16));
+        }
         return returnValue;
     }
 

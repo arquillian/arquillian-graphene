@@ -42,7 +42,6 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
-@Ignore("ARQGRA-289: JavaScript interfaces fails on Chrome and PhantomJS")
 public class JavaScriptPageExtensionTestCase {
 
     @Drone

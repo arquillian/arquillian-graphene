@@ -21,6 +21,10 @@ function invokeInterface (target, method, args) {
         }
     } catch (e) {
         console.log('exception thrown when executing method ' + method + ': ' + e);
-        throw e;
+        /*
+         * here an exception should be thrown, but it can't be because of
+         * 'ARQGRA-289: JavaScript interfaces fails on Chrome and PhantomJS'
+         */
+        return 'GRAPHENE ERROR: ' + e;
     }
 };
