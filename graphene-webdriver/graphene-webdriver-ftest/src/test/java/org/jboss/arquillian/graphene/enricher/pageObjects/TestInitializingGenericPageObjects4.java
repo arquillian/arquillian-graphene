@@ -19,24 +19,23 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
-
-import static org.junit.Assert.assertEquals;
+package org.jboss.arquillian.graphene.enricher.pageObjects;
 
 import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
-import org.jboss.arquillian.graphene.enricher.page.TestPage;
+import org.jboss.arquillian.graphene.enricher.pageObjects.pages.TestPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
-public class TestInitializingGenericPageObjects3 extends AbstractTest<TestPage, TestInitializingGenericPageObjects3.InnerTestPage> {
+public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, TestInitializingGenericPageObjects4.InnerTestPage> {
 
     @Page
     private InnerTestPage innerTestPageNotGeneric;
@@ -57,7 +56,7 @@ public class TestInitializingGenericPageObjects3 extends AbstractTest<TestPage, 
             actual);
     }
 
-    protected class InnerTestPage {
+    protected static class InnerTestPage {
 
         @FindBy(xpath = "//div[@id='rootElement']")
         private AbstractPageFragmentStub abstractPageFragment;
@@ -93,4 +92,5 @@ public class TestInitializingGenericPageObjects3 extends AbstractTest<TestPage, 
         }
 
     }
+
 }

@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.pageFragments;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,9 +31,9 @@ import java.util.List;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
-import org.jboss.arquillian.graphene.enricher.page.EmbeddedPage;
-import org.jboss.arquillian.graphene.enricher.page.TestPage;
-import org.jboss.arquillian.graphene.enricher.page.fragment.PageFragmentWithEmbeddedAnotherPageFragmentStub;
+import org.jboss.arquillian.graphene.enricher.pageFragments.fragments.PageFragmentWithEmbeddedAnotherPageFragmentStub;
+import org.jboss.arquillian.graphene.enricher.pageObjects.pages.EmbeddedPage;
+import org.jboss.arquillian.graphene.enricher.pageObjects.pages.TestPage;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;

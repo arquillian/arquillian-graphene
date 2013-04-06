@@ -19,42 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.pageFragments.fragments;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
+import org.jboss.arquillian.graphene.spi.annotations.Root;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * @author Juraj Huska
  */
-@RunWith(Arquillian.class)
-public class TestInitializeNestedPageFragments {
+public class PageFragmentWithEmbeddedAnotherPageFragmentStub {
 
-    @FindBy(id = "foo")
-    private InnerPageFragment innerPageFragment;
+    @SuppressWarnings("unused")
+    @Root
+    private WebElement root;
 
-    @FindBy(id = "foo")
-    private NestedStaticPageFragment nestedStaticPageFragment;
+    @FindBy(className="rootOfEmbeddedPageFragment")
+    private AbstractPageFragmentStub embeddedPageFragment;
 
-    @Test
-    public void testInnerPageFragmentInitialized() {
-        assertNotNull("The inner page fragment should be already initialized!", innerPageFragment);
+    public AbstractPageFragmentStub getEmbeddedPageFragment() {
+        return embeddedPageFragment;
     }
 
-    @Test
-    public void testNestedStaticPageFragmentInitialized() {
-        assertNotNull("The nested static page fragment should be already initialized!", nestedStaticPageFragment);
+    public void setEmbeddedPageFragment(AbstractPageFragmentStub embeddedPageFragment) {
+        this.embeddedPageFragment = embeddedPageFragment;
     }
 
-    public class InnerPageFragment {
 
-    }
-
-    public static class NestedStaticPageFragment {
-
-    }
 }

@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.enricher.page;
+package org.jboss.arquillian.graphene.enricher.pageObjects.pages;
 
 import org.jboss.arquillian.graphene.enricher.fragment.AbstractPageFragmentStub;
 import org.jboss.arquillian.graphene.spi.annotations.Page;

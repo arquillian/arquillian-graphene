@@ -27,9 +27,11 @@ import java.lang.reflect.TypeVariable;
 import java.util.List;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.enricher.exception.PageObjectInitializationException;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
+import org.jboss.arquillian.test.spi.event.suite.Before;
 import org.openqa.selenium.SearchContext;
 
 /**
@@ -62,7 +64,8 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
                 }
 
                 errorMsgBegin = "Can not instantiate Page Object " + NEW_LINE + declaredClass + NEW_LINE
-                    + " declared in: " + NEW_LINE + target.getClass().getName() + NEW_LINE;
+                    + " declared in: "
+                        + NEW_LINE + target.getClass().getName() + NEW_LINE;
 
                 Object page = instantiate(declaredClass);
 
@@ -83,5 +86,9 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
             }
 
         }
+    }
+
+    public void loadPageObjectWithLocation(@Observes Before event) {
+        System.out.println("################################################# Haloooooooooooooooo!");
     }
 }

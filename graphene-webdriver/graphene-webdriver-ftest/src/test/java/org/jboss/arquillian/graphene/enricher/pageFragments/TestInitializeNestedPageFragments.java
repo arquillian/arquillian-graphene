@@ -19,42 +19,42 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.enricher.pageFragments;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.support.FindBy;
 
 /**
- * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ * @author Juraj Huska
  */
 @RunWith(Arquillian.class)
-public class TestInitializingNestedPageObjects {
+public class TestInitializeNestedPageFragments {
 
-    @Page
-    private InnerPageObject innerPageObject;
+    @FindBy(id = "foo")
+    private InnerPageFragment innerPageFragment;
 
-    @Page
-    private NestedStaticPageObject nestedStaticPageObject;
-
-    @Test
-    public void testInitializingInnerPageObjects() {
-        assertNotNull("The inner page object should be already initialized!", innerPageObject);
-    }
+    @FindBy(id = "foo")
+    private NestedStaticPageFragment nestedStaticPageFragment;
 
     @Test
-    public void testInitializingNesteStaticClasses() {
-        assertNotNull("The nested static page object should be already initialized!", nestedStaticPageObject);
+    public void testInnerPageFragmentInitialized() {
+        assertNotNull("The inner page fragment should be already initialized!", innerPageFragment);
     }
 
-    public class InnerPageObject {
+    @Test
+    public void testNestedStaticPageFragmentInitialized() {
+        assertNotNull("The nested static page fragment should be already initialized!", nestedStaticPageFragment);
+    }
+
+    public class InnerPageFragment {
 
     }
 
-    public static class NestedStaticPageObject {
+    public static class NestedStaticPageFragment {
 
     }
 }
