@@ -55,6 +55,8 @@ public class GuardsTestCase {
     private WebElement xhrDelayedTrigerring;
     @FindBy(id = "xhr-delayed-processing")
     private WebElement xhrDelayedProcessing;
+    @FindBy(id = "xhr-delayed-trigerring-and-processing")
+    private WebElement xhrDelayedTrigerringAndProcessing;
     @FindBy(id = "xhr-delayed-processing-with-code-arg")
     private WebElement xhrDelayedProcessingWithCodeArgument;
 
@@ -102,6 +104,12 @@ public class GuardsTestCase {
     @Test
     public void testGuardDelayedAjaxProcessing() {
         guardAjax(xhrDelayedProcessing).click();
+        assertTrue(status.getText().contains("DONE"));
+    }
+
+    @Test
+    public void testGuardDelayedTrigerringAndProcessing() {
+        guardAjax(xhrDelayedTrigerringAndProcessing).click();
         assertTrue(status.getText().contains("DONE"));
     }
 

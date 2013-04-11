@@ -63,22 +63,22 @@ public class RequestGuardTestCase {
     @Test
     public void testXhr() throws InterruptedException {
         RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
-        assertEquals(RequestType.HTTP, guard.getRequestDone());
+        assertEquals(RequestType.HTTP, guard.getRequestType());
         guard.clearRequestDone();
-        assertEquals(RequestType.NONE, guard.getRequestDone());
+        assertEquals(RequestType.NONE, guard.getRequestType());
         xhr.click();
         waitAjax().until().element(status).text().contains("DONE");
-        assertEquals(RequestType.XHR, guard.getRequestDone());
+        assertEquals(RequestType.XHR, guard.getRequestType());
     }
 
     @Test
     public void testHttp() {
         RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
-        assertEquals(RequestType.HTTP, guard.getRequestDone());
+        assertEquals(RequestType.HTTP, guard.getRequestType());
         guard.clearRequestDone();
-        assertEquals(RequestType.NONE, guard.getRequestDone());
+        assertEquals(RequestType.NONE, guard.getRequestType());
         http.click();
-        assertEquals(RequestType.HTTP, guard.getRequestDone());
+        assertEquals(RequestType.HTTP, guard.getRequestType());
     }
 
 }

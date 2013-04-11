@@ -25,7 +25,8 @@ window.Graphene.Page = window.Graphene.Page || {};
 
 window.Graphene.Page.RequestGuard = (function() {
 
-    var requestDone = "HTTP";
+    var requestType = "HTTP";
+    var requestState = "DONE";
 
     var originalTimeout;
 
@@ -57,23 +58,36 @@ window.Graphene.Page.RequestGuard = (function() {
     var tryFinish = function() {
         if (latch == 0) {
             window.setTimeout = originalTimeout;
-            requestDone = "XHR";
+            requestType = "XHR";
+            requestState = "DONE";
         }
     };
 
     return {
 
-    	getRequestDone : function() {
-    		return requestDone;
+    	getRequestType : function() {
+    		return requestType;
+    	},
+
+    	getRequestState : function() {
+    	    return requestState;
     	},
 
     	clearRequestDone : function() {
-    		var result = requestDone;
-    		requestDone = "NONE";
+    		var result = requestType;
+    		requestType = "NONE";
+    		requestState = "NONE"
     		return result;
     	},
 
         install: function() {
+            window.Graphene.xhrInterception.onOpen(
+                function(context, args) {
+                    requestType = "XHR";
+                    requestState = "IN_PROGRESS";
+                    context.proceed(args);
+                }
+            );
             window.Graphene.xhrInterception.onreadystatechange(
                 function(context, args) {
                     if(this.readyState == 4) {
@@ -86,6 +100,8 @@ window.Graphene.Page.RequestGuard = (function() {
                             tryFinish();
                         }
                     } else {
+                        requestType = "XHR";
+                        requestState = "IN_PROGRESS";
                         context.proceed(args);
                     }
                 }

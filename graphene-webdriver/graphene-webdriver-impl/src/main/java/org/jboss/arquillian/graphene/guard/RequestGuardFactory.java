@@ -21,20 +21,24 @@
  */
 package org.jboss.arquillian.graphene.guard;
 
-import static org.jboss.arquillian.graphene.Graphene.waitModel;
+import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 
 import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
+import org.jboss.arquillian.graphene.page.RequestState;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
+import org.jboss.arquillian.graphene.wait.FluentWait;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
@@ -46,6 +50,12 @@ public class RequestGuardFactory {
     private static Document document = JSInterfaceFactory.create(Document.class);
 
     private static DocumentReady documentReady = new DocumentReady();
+    private static RequestIsDone requestIsDone = new RequestIsDone();
+    private static RequestStarted requestStarted = new RequestStarted();
+
+    private static FluentWait<WebDriver, Void> waitGuard = waitAjax()
+            .withTimeout(GrapheneConfigurationContext.getProxy().getWaitGuardInterval(), TimeUnit.SECONDS)
+            .pollingEvery(Math.min(GrapheneConfigurationContext.getProxy().getWaitGuardInterval() * 100, 200), TimeUnit.MILLISECONDS);
 
     /**
      * Returns the guarded object checking whether the request of the given type is done during each method invocation. If the
@@ -77,33 +87,38 @@ public class RequestGuardFactory {
 
                 Object result = context.invoke();
 
-                final long timeout = System.currentTimeMillis()
-                        + TimeUnit.SECONDS.toMillis(GrapheneConfigurationContext.getProxy().getWaitGuardInterval());
-                final long toSleep = Math.min(GrapheneConfigurationContext.getProxy().getWaitGuardInterval() * 100, 200);
+                RequestType requestType = waitForRequestStarted();
 
-                while (System.currentTimeMillis() < timeout) {
-                    RequestType requestDone = guard.getRequestDone();
-                    if (!requestDone.equals(RequestType.NONE)) {
-                        if (requestDone.equals(requestExpected)) {
-                            if (requestDone.equals(RequestType.HTTP)) {
-                                waitModel().withMessage("Document didn't become ready").until(documentReady);
-                            }
-                            return result;
-                        } else {
-                            throw new RequestGuardException(requestExpected, guard.getRequestDone());
-                        }
-                    } else {
-                        try {
-                            Thread.sleep(toSleep);
-                        } catch (InterruptedException ignored) {
-                        }
-                    }
+                if (requestType.equals(requestExpected)) {
+                    waitForRequestFinished();
+                } else {
+                    throw new RequestGuardException(requestExpected, requestType);
                 }
 
-                if (requestExpected.equals(RequestType.NONE)) {
-                    return result;
-                } else {
-                    throw new RequestGuardException(requestExpected, guard.getRequestDone());
+                return result;
+            }
+
+            private RequestType waitForRequestStarted() {
+                try {
+                    return waitGuard.until(requestStarted);
+                } catch (TimeoutException e) {
+                    return RequestType.NONE;
+                }
+            }
+
+            private void waitForRequestFinished() {
+                switch (requestExpected) {
+
+                    case HTTP:
+                        waitGuard.withMessage("Document didn't become ready").until(documentReady);
+                        return;
+
+                    case XHR:
+                        waitGuard.until(requestIsDone);
+                        return;
+
+                    case NONE:
+                        return;
                 }
             }
         });
@@ -111,8 +126,22 @@ public class RequestGuardFactory {
     }
 
     private static class DocumentReady implements Predicate<WebDriver> {
-        public boolean apply(WebDriver arg0) {
+        public boolean apply(WebDriver driver) {
             return "complete".equals(document.getReadyState());
+        }
+    }
+
+    private static class RequestIsDone implements Predicate<WebDriver> {
+        public boolean apply(WebDriver driver) {
+            RequestState state = guard.getRequestState();
+            return RequestState.DONE.equals(state);
+        }
+    }
+
+    private static class RequestStarted implements Function<WebDriver, RequestType> {
+        public RequestType apply(WebDriver driver) {
+            RequestType type = guard.getRequestType();
+            return (RequestType.NONE.equals(type)) ? null : type;
         }
     }
 }

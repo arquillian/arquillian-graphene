@@ -30,7 +30,8 @@ module("RequestGuard");
         guard.install();
         
         // then
-        equal(guard.getRequestDone(), "HTTP");
+        equal(guard.getRequestType(), "HTTP");
+        equal(guard.getRequestState(), "DONE");
     });
     
     test("readyState changes", function() {
@@ -50,21 +51,50 @@ module("RequestGuard");
         ok(instance);
 
         guard.clearRequestDone();
-        equal(guard.getRequestDone(), "NONE");
+        equal(guard.getRequestType(), "NONE");
 
         for (var rs in [1,2,3]) {
             instance.readyState = rs;
             instance.onreadystatechange();
-            equal(guard.getRequestDone(), "NONE");
+            equal(guard.getRequestType(), "XHR");
+            equal(guard.getRequestState(), "IN_PROGRESS");
         }
         
         instance.readyState = 4;
         instance.onreadystatechange();
         
-        equal(guard.getRequestDone(), "XHR");
+        equal(guard.getRequestType(), "XHR");
+        equal(guard.getRequestState(), "DONE");
         
         guard.clearRequestDone();
-        equal(guard.getRequestDone(), "NONE");
+        equal(guard.getRequestType(), "NONE");
+    });
+    
+    test("request in progress", function() {
+        
+        // having
+        var interactive = false;
+        var instances = replaceXHRPrototype({
+            open: function() {
+                interactive = true;
+            }
+        });
+        
+        // when
+        inj.install();
+        guard.install();
+
+        var xhr = new window.XMLHttpRequest();
+        var instance = instances[0];
+        ok(instance);
+        
+        guard.clearRequestDone();
+        equal(guard.getRequestType(), "NONE");
+        equal(guard.getRequestState(), "NONE");
+        
+        xhr.open("url");
+        equal(guard.getRequestType(), "XHR");
+        equal(guard.getRequestState(), "IN_PROGRESS");
     });
     
     test("setTimeout in onreadystatechange callback", function() {
@@ -74,9 +104,9 @@ module("RequestGuard");
         // having
         var instances = replaceXHRPrototype();
         window.setTimeout = function(callback, interval) {
-            equal(guard.getRequestDone(), "NONE");
+            equal(guard.getRequestType(), "NONE");
             callback();
-            equal(guard.getRequestDone(), "XHR");
+            equal(guard.getRequestType(), "XHR");
             window.setTimeout = originalSetTimeout;
         };
         
@@ -85,7 +115,7 @@ module("RequestGuard");
         guard.install();
         
         guard.clearRequestDone();
-        equal(guard.getRequestDone(), "NONE");
+        equal(guard.getRequestType(), "NONE");
 
         var xhr = new window.XMLHttpRequest();
         xhr.onreadystatechange = function() {
@@ -97,7 +127,7 @@ module("RequestGuard");
         instance.readyState = 4;
         instance.onreadystatechange();
         
-        equal(guard.getRequestDone(), "XHR");
+        equal(guard.getRequestType(), "XHR");
     });
     
     asyncTest("multiple nested setTimeout calls in onreadystatechange callback", function() {
@@ -110,14 +140,14 @@ module("RequestGuard");
 
         var testingSetTimeout = function(callback, timeout) {
             originalSetTimeout(function() {
-                equal(guard.getRequestDone(), "NONE");
+                equal(guard.getRequestType(), "NONE");
                 callback();
                 calls += 1;
                 if (calls == 3) {
-                    equal(guard.getRequestDone(), "XHR");
+                    equal(guard.getRequestType(), "XHR");
                     cleanup();
                 } else {
-                    equal(guard.getRequestDone(), "NONE");
+                    equal(guard.getRequestType(), "NONE");
                 }
             }, timeout);
         };
@@ -141,18 +171,18 @@ module("RequestGuard");
         guard.install();
         
         guard.clearRequestDone();
-        equal(guard.getRequestDone(), "NONE");
+        equal(guard.getRequestType(), "NONE");
 
         var xhr = new window.XMLHttpRequest();
         xhr.onreadystatechange = function() {
             setTimeout(function timeout1() {
-                equal(guard.getRequestDone(), "NONE");
+                equal(guard.getRequestType(), "NONE");
             }, 20);
             setTimeout(function timeout2() {
                 setTimeout(function timeout3() {
                     cleanup();
                 }, 30);
-                equal(guard.getRequestDone(), "NONE");
+                equal(guard.getRequestType(), "NONE");
             }, 30);
         }
         var instance = instances[0];

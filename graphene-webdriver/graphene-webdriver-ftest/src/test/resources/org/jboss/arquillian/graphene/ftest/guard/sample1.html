@@ -34,21 +34,35 @@
                 return true;
             }
             function defaultCallback() {
+                document.getElementById("status").innerHTML += "CLICKED ";
                 document.getElementById("status").innerHTML += "DONE ";
             }
             function xhrDelayedTrigerring() {
+                document.getElementById("status").innerHTML += "CLICK ";
                 setTimeout(function() {
                     MakeRequst()
                 }, 1000);
             }
             function xhrDelayedProcessing() {
+                document.getElementById("status").innerHTML += "CLICK ";
                 MakeRequst(function() {
                    window.setTimeout(function(arg1) {
                        document.getElementById("status").innerHTML += arg1 + " ";
-                   }, 1000, "DONE"); 
+                   }, 1000, "DONE");
                 });
             }
+            function xhrDelayedTrigerringAndProcessing() {
+                document.getElementById("status").innerHTML += "CLICK ";
+                setTimeout(function() {
+                    MakeRequst(function() {
+                       window.setTimeout(function(arg1) {
+                           document.getElementById("status").innerHTML += arg1 + " ";
+                       }, 1200, "DONE");
+                    });
+                }, 1200);
+            }
             function xhrDelayedProcessingWithCodeArg() {
+                document.getElementById("status").innerHTML += "CLICK ";
                 MakeRequst(function() {
                    window.setTimeout('document.getElementById("status").innerHTML += "DONE ";', 1000);
                 });
@@ -62,6 +76,7 @@
         <a href="#" id="none">NONE</a>
         <a href="#" id="xhr-delayed-trigerring" onclick="xhrDelayedTrigerring()">XHR (delayed trigerring)</a>
         <a href="#" id="xhr-delayed-processing" onclick="xhrDelayedProcessing()">XHR (delayed processing)</a>
+        <a href="#" id="xhr-delayed-trigerring-and-processing" onclick="xhrDelayedTrigerringAndProcessing()">XHR (delayed triggering and processing)</a>
         <a href="#" id="xhr-delayed-processing-with-code-arg" onclick="xhrDelayedProcessingWithCodeArg()">XHR (delayed processing - with string code as setTimeout argument)</a>
         <div id="status"></div>
     </body>

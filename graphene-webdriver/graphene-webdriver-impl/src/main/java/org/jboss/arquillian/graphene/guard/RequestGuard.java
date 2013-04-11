@@ -3,6 +3,7 @@ package org.jboss.arquillian.graphene.guard;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
+import org.jboss.arquillian.graphene.page.RequestState;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.page.interception.XhrInterception;
 
@@ -13,7 +14,12 @@ public interface RequestGuard extends InstallableJavaScript {
     /**
      * @return the last request type
      */
-    RequestType getRequestDone();
+    RequestType getRequestType();
+
+    /**
+     * @return the state of last request
+     */
+    RequestState getRequestState();
 
     /**
      * Clears the request type cache and returns the last request type
