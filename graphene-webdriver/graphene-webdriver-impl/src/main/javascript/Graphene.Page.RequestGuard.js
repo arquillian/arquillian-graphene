@@ -56,6 +56,7 @@ window.Graphene.Page.RequestGuard = (function() {
 
     var tryFinish = function() {
         if (latch == 0) {
+            window.setTimeout = originalTimeout;
             requestDone = "XHR";
         }
     };
@@ -77,11 +78,11 @@ window.Graphene.Page.RequestGuard = (function() {
                 function(context, args) {
                     if(this.readyState == 4) {
                         try {
+                            latch = 0;
                             originalTimeout = window.setTimeout;
                             window.setTimeout = timeoutWrapper;
                             context.proceed(args);
                         } finally {
-                            window.setTimeout = originalTimeout;
                             tryFinish();
                         }
                     } else {
