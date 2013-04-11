@@ -21,9 +21,9 @@
  */
 package org.jboss.arquillian.graphene.ftest.guard;
 
+import static org.jboss.arquillian.graphene.Graphene.guardAjax;
 import static org.jboss.arquillian.graphene.Graphene.guardHttp;
 import static org.jboss.arquillian.graphene.Graphene.guardNoRequest;
-import static org.jboss.arquillian.graphene.Graphene.guardXhr;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
@@ -72,7 +72,7 @@ public class GuardsTestCase {
 
     @Test
     public void testGuardType() {
-        Assert.assertTrue(guardXhr(browser) instanceof WebDriver);
+        Assert.assertTrue(guardAjax(browser) instanceof WebDriver);
         Assert.assertTrue(guardHttp(browser) instanceof WebDriver);
         Assert.assertTrue(guardNoRequest(browser) instanceof WebDriver);
     }
@@ -88,26 +88,26 @@ public class GuardsTestCase {
     }
 
     @Test
-    public void testGuardXhr() {
-        guardXhr(xhr).click();
+    public void testGuardAjax() {
+        guardAjax(xhr).click();
         assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
-    public void testGuardDelayedXhr() {
-        guardXhr(xhrDelayedTrigerring).click();
+    public void testGuardDelayedAjax() {
+        guardAjax(xhrDelayedTrigerring).click();
         assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
-    public void testGuardDelayedXhrProcessing() {
-        guardXhr(xhrDelayedProcessing).click();
+    public void testGuardDelayedAjaxProcessing() {
+        guardAjax(xhrDelayedProcessing).click();
         assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
-    public void testGuardDelayedXhrProcessingWithCodeArgument() {
-        guardXhr(xhrDelayedProcessingWithCodeArgument).click();
+    public void testGuardDelayedAjaxProcessingWithCodeArgument() {
+        guardAjax(xhrDelayedProcessingWithCodeArgument).click();
         assertTrue(status.getText().contains("DONE"));
     }
 
@@ -122,8 +122,8 @@ public class GuardsTestCase {
     }
 
     @Test(expected = RequestGuardException.class)
-    public void testGuardXhrFailure() {
-        guardXhr(http).click();
+    public void testGuardAjaxFailure() {
+        guardAjax(http).click();
     }
 
     @Test(expected = RequestGuardException.class)

@@ -21,8 +21,8 @@
  */
 package org.jboss.arquillian.graphene.enricher.page.fragment;
 
+import static org.jboss.arquillian.graphene.Graphene.guardAjax;
 import static org.jboss.arquillian.graphene.Graphene.guardHttp;
-import static org.jboss.arquillian.graphene.Graphene.guardXhr;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class TabPanel implements SwitchableComponent {
 
     @FindBy(jquery = ".tabpanel-tab:visible")
     private Panel actualTab;
-    
+
     private SwitchType switchType = SwitchType.CLIENT;
 
     public enum SwitchType {
@@ -58,7 +58,7 @@ public class TabPanel implements SwitchableComponent {
                 Graphene.waitGui();
                 break;
             case AJAX:
-                guardXhr(tabs.get(i)).click();
+                guardAjax(tabs.get(i)).click();
                 break;
             case HTTP:
                 guardHttp(tabs.get(i)).click();

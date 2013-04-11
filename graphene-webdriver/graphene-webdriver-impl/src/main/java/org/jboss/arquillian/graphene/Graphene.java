@@ -144,8 +144,24 @@ public class Graphene {
      * @param <T> type of the given target
      * @param target object to be guarded
      * @return the guarded object
+     *
+     * @deprecated use {@link #guardAjax(Object)} instead
      */
+    @Deprecated
     public static <T> T guardXhr(T target) {
+        return RequestGuardFactory.guard(target, RequestType.XHR);
+    }
+
+    /**
+     * Returns the guarded object checking whether the Ajax (XHR) request is done during
+     * each method invocation. If the request is not found,
+     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     *
+     * @param <T> type of the given target
+     * @param target object to be guarded
+     * @return the guarded object
+     */
+    public static <T> T guardAjax(T target) {
         return RequestGuardFactory.guard(target, RequestType.XHR);
     }
 

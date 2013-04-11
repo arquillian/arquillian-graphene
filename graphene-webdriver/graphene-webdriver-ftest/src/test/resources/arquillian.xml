@@ -42,7 +42,7 @@
 
     <extension qualifier="selenium-server">
         <property name="port">4444</property>
-        <property name="enable">true</property>
+        <property name="skip">false</property>
     </extension>
 
 
