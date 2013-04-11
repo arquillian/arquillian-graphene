@@ -51,7 +51,7 @@ public class RequestGuardFactory {
 
     private static DocumentReady documentReady = new DocumentReady();
     private static RequestIsDone requestIsDone = new RequestIsDone();
-    private static RequestStarted requestStarted = new RequestStarted();
+    private static RequestChange requestChange = new RequestChange();
 
     private static FluentWait<WebDriver, Void> waitGuard = waitAjax()
             .withTimeout(GrapheneConfigurationContext.getProxy().getWaitGuardInterval(), TimeUnit.SECONDS)
@@ -64,9 +64,10 @@ public class RequestGuardFactory {
      * @param <T> type of the given target
      * @param target object to be guarded
      * @param requestExpected the request type being checked after each method invocation
+     * @param strict indicates that the expected request type can be interleaved by another type
      * @return the guarded object
      */
-    public static <T> T guard(T target, final RequestType requestExpected) {
+    public static <T> T guard(T target, final RequestType requestExpected, final boolean strict) {
         if (requestExpected == null) {
             throw new IllegalArgumentException("The paremeter [requestExpected] is null.");
         }
@@ -87,7 +88,13 @@ public class RequestGuardFactory {
 
                 Object result = context.invoke();
 
-                RequestType requestType = waitForRequestStarted();
+                RequestType requestType;
+
+                if (strict) {
+                    requestType = waitForRequestChange();
+                } else {
+                    requestType = waitForRequestType(requestExpected);
+                }
 
                 if (requestType.equals(requestExpected)) {
                     waitForRequestFinished();
@@ -98,11 +105,19 @@ public class RequestGuardFactory {
                 return result;
             }
 
-            private RequestType waitForRequestStarted() {
+            private RequestType waitForRequestChange() {
                 try {
-                    return waitGuard.until(requestStarted);
+                    return waitGuard.until(requestChange);
                 } catch (TimeoutException e) {
                     return RequestType.NONE;
+                }
+            }
+
+            private RequestType waitForRequestType(RequestType requestType) {
+                try {
+                    return waitGuard.until(new RequestTypeDone(requestExpected));
+                } catch (TimeoutException e) {
+                    return guard.getRequestType();
                 }
             }
 
@@ -138,10 +153,27 @@ public class RequestGuardFactory {
         }
     }
 
-    private static class RequestStarted implements Function<WebDriver, RequestType> {
+    private static class RequestChange implements Function<WebDriver, RequestType> {
         public RequestType apply(WebDriver driver) {
             RequestType type = guard.getRequestType();
             return (RequestType.NONE.equals(type)) ? null : type;
+        }
+    }
+
+    private static class RequestTypeDone implements Function<WebDriver, RequestType> {
+
+        private RequestType requestExpected;
+
+        public RequestTypeDone(RequestType requestExpected) {
+            this.requestExpected = requestExpected;
+        }
+
+        public RequestType apply(WebDriver driver) {
+            RequestType type = guard.getRequestType();
+            if (!requestExpected.equals(type)) {
+                return null;
+            }
+            return type;
         }
     }
 }

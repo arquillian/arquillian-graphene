@@ -120,7 +120,7 @@ public class Graphene {
      * @return the guarded object
      */
     public static <T> T guardHttp(T target) {
-        return RequestGuardFactory.guard(target, RequestType.HTTP);
+        return RequestGuardFactory.guard(target, RequestType.HTTP, true);
     }
 
     /**
@@ -133,7 +133,7 @@ public class Graphene {
      * @return the guarded object
      */
     public static <T> T guardNoRequest(T target) {
-        return RequestGuardFactory.guard(target, RequestType.NONE);
+        return RequestGuardFactory.guard(target, RequestType.NONE, true);
     }
 
     /**
@@ -149,7 +149,7 @@ public class Graphene {
      */
     @Deprecated
     public static <T> T guardXhr(T target) {
-        return RequestGuardFactory.guard(target, RequestType.XHR);
+        return RequestGuardFactory.guard(target, RequestType.XHR, true);
     }
 
     /**
@@ -162,7 +162,11 @@ public class Graphene {
      * @return the guarded object
      */
     public static <T> T guardAjax(T target) {
-        return RequestGuardFactory.guard(target, RequestType.XHR);
+        return RequestGuardFactory.guard(target, RequestType.XHR, true);
+    }
+
+    public static <T> T waitForHttp(T target) {
+        return RequestGuardFactory.guard(target, RequestType.HTTP, false);
     }
 
     public static WebDriverWait<Void> waitAjax() {

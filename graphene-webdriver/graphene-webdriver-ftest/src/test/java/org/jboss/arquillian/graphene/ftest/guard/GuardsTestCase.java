@@ -24,17 +24,20 @@ package org.jboss.arquillian.graphene.ftest.guard;
 import static org.jboss.arquillian.graphene.Graphene.guardAjax;
 import static org.jboss.arquillian.graphene.Graphene.guardHttp;
 import static org.jboss.arquillian.graphene.Graphene.guardNoRequest;
+import static org.jboss.arquillian.graphene.Graphene.waitForHttp;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.guard.RequestGuardException;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -119,6 +122,12 @@ public class GuardsTestCase {
         assertTrue(status.getText().contains("DONE"));
     }
 
+    @Test
+    public void testGuardAjaxWithRelocation() throws Exception {
+        Activity relocation = new XhrAndRelocationActivity();
+        waitForHttp(relocation).perform();
+    }
+
     @Test(expected = RequestGuardException.class)
     public void testGuardHttpFailure() {
         guardHttp(xhr).click();
@@ -137,5 +146,19 @@ public class GuardsTestCase {
     @Test(expected = RequestGuardException.class)
     public void testDelayedGuardNoRequest() {
         guardNoRequest(xhrDelayedTrigerring).click();
+    }
+
+    public static interface Activity {
+        public void perform() throws Exception;
+    }
+
+    public static class XhrAndRelocationActivity implements Activity {
+        public void perform() throws Exception {
+            WebDriver browser = GrapheneContext.getProxy();
+            browser.findElement(By.id("xhr")).click();
+            String url = browser.getCurrentUrl().replace("sample1", "sample2");
+            Thread.sleep(200);
+            browser.get(url);
+        }
     }
 }
