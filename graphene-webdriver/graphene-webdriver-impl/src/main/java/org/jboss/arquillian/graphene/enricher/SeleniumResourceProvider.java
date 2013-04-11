@@ -28,7 +28,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.html5.ApplicationCache;
 import org.openqa.selenium.html5.BrowserConnection;
 import org.openqa.selenium.html5.DatabaseStorage;
+import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.LocationContext;
+import org.openqa.selenium.html5.SessionStorage;
 import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.Actions;
 
@@ -65,6 +67,20 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
 
     @SuppressWarnings("deprecation")
     public static class DatabaseStorageProvider extends DirectProvider<DatabaseStorage> {
+    }
+
+    public static class LocalStorageProvider extends IndirectProvider<LocalStorage, WebStorage> {
+        @Override
+        public LocalStorage invoke(WebStorage base) {
+            return base.getLocalStorage();
+        }
+    }
+
+    public static class SessionStorageProvider extends IndirectProvider<SessionStorage, WebStorage> {
+        @Override
+        public SessionStorage invoke(WebStorage base) {
+            return base.getSessionStorage();
+        }
     }
 
     public static class KeyboardProvider extends IndirectProvider<Keyboard, HasInputDevices> {
