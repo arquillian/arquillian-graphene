@@ -47,4 +47,10 @@ public class LocatorElementTest extends AbstractWaitTest {
         checkElementTextEquals(Graphene.waitModel().until().element(BY_HEADER));
     }
 
+    @Test
+    public void testElementIsEnabled() {
+        loadPage();
+        checkElementIsEnabled(Graphene.waitModel().until().element(BY_SELECT));
+    }
+
 }

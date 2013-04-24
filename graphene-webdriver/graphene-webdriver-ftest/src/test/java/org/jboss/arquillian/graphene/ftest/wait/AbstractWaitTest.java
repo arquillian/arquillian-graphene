@@ -18,6 +18,7 @@ public class AbstractWaitTest {
 
     protected static final By BY_HEADER = By.id("header");
     protected static final By BY_OPTION1 = By.id("option1");
+    protected static final By BY_SELECT = By.id("select");
     protected static final By BY_TEXT_INPUT = By.id("textInput");
     protected static final By BY_INPUT_WITH_EMPTY_STYLE = By.id("inputWithEmptyStyle");
     protected static final By BY_INPUT_WITH_EMPTY_STYLE_WHITE_SPACES = By.id("inputWithEmptyStyleWhiteSpaces");
@@ -40,6 +41,10 @@ public class AbstractWaitTest {
     protected WebElement textInput;
     @FindBy(id="submit")
     protected WebElement updateButton;
+    @FindBy
+    protected WebElement enableSelect;
+    @FindBy
+    protected WebElement disableSelect;
     @FindBy
     protected WebElement inputWithEmptyStyle;
     @FindBy
@@ -121,5 +126,12 @@ public class AbstractWaitTest {
         header.is().not().visible();
         appearButton.click();
         header.is().visible();
+    }
+
+    protected void checkElementIsEnabled(ElementBuilder<?> select) {
+        disableSelect.click();
+        select.is().not().enabled();
+        enableSelect.click();
+        select.is().enabled();
     }
 }

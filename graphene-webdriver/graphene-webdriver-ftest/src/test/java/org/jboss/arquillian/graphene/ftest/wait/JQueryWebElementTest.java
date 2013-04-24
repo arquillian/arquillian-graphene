@@ -69,6 +69,12 @@ public class JQueryWebElementTest extends AbstractWaitTest {
     }
 
     @Test
+    public void testElementIsEnabled() {
+        loadPage();
+        checkElementIsEnabled(Graphene.waitModel().until().element(jquerySelect));
+    }
+
+    @Test
     public void testJQueryWhenNewPageIsLoaded() {
         loadPage();
         outsideLink.click();
