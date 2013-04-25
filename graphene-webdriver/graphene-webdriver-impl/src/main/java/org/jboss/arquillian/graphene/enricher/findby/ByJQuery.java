@@ -23,7 +23,9 @@ package org.jboss.arquillian.graphene.enricher.findby;
 
 import java.util.List;
 import org.jboss.arquillian.core.spi.Validate;
+import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -37,7 +39,6 @@ import org.openqa.selenium.WebElement;
 public class ByJQuery extends By {
 
     private final String jquerySelector;
-    private final JQuerySearchContext jQuerySearchContext = JSInterfaceFactory.create(JQuerySearchContext.class);
 
     public ByJQuery(String jquerySelector) {
         Validate.notNull(jquerySelector, "Cannot find elements when jquerySelector is null!");
@@ -55,6 +56,8 @@ public class ByJQuery extends By {
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) context).getContext();
+        JQuerySearchContext jQuerySearchContext = JSInterfaceFactory.create(grapheneContext, JQuerySearchContext.class);
         List<WebElement> elements;
         try {
             // the element is referenced from parent web element

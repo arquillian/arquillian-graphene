@@ -33,12 +33,15 @@ public class WrongPageFragmentTooManyRoots {
     @SuppressWarnings("unused")
     @Root
     private WebElement root1;
-    
+
     @SuppressWarnings("unused")
     @Root
     private WebElement root2;
-    
+
     @SuppressWarnings("unused")
     @FindBy(className="randomClassName")
     private WebElement foo;
+
+    public void doSomething() {
+    }
 }

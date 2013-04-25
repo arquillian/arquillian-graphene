@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Method;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -48,6 +49,11 @@ public interface InvocationContext extends GrapheneProxy.FutureTarget {
     /**
      * @return the target object of the method invocation
      */
+    @Override
     Object getTarget();
+
+    Object getProxy();
+
+    GrapheneContext getGrapheneContext();
 
 }

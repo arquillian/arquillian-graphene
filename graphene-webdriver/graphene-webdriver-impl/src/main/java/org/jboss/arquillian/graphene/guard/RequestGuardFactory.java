@@ -25,8 +25,6 @@ import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 
 import java.util.concurrent.TimeUnit;
 
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
-import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.page.RequestState;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.page.document.Document;
@@ -40,22 +38,30 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class RequestGuardFactory {
 
-    private static RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
-    private static Document document = JSInterfaceFactory.create(Document.class);
+    private final RequestGuard guard;
+    private final Document document;
+    private final FluentWait<WebDriver, Void> waitGuard;
+    private final GrapheneContext context;
+    private final DocumentReady documentReady = new DocumentReady();
+    private final RequestIsDone requestIsDone = new RequestIsDone();
+    private final RequestChange requestChange = new RequestChange();
 
-    private static DocumentReady documentReady = new DocumentReady();
-    private static RequestIsDone requestIsDone = new RequestIsDone();
-    private static RequestChange requestChange = new RequestChange();
 
-    private static FluentWait<WebDriver, Void> waitGuard = waitAjax()
-            .withTimeout(GrapheneConfigurationContext.getProxy().getWaitGuardInterval(), TimeUnit.SECONDS)
-            .pollingEvery(Math.min(GrapheneConfigurationContext.getProxy().getWaitGuardInterval() * 100, 200), TimeUnit.MILLISECONDS);
+    public RequestGuardFactory(RequestGuard guard, Document document, GrapheneContext context) {
+        this.guard = guard;
+        this.document = document;
+        this.context = context;
+        this.waitGuard = waitAjax()
+            .withTimeout(context.getConfiguration().getWaitGuardInterval(), TimeUnit.SECONDS)
+            .pollingEvery(Math.min(context.getConfiguration().getWaitGuardInterval() * 100, 200), TimeUnit.MILLISECONDS);
+    }
 
     /**
      * Returns the guarded object checking whether the request of the given type is done during each method invocation. If the
@@ -67,7 +73,7 @@ public class RequestGuardFactory {
      * @param strict indicates that the expected request type can be interleaved by another type
      * @return the guarded object
      */
-    public static <T> T guard(T target, final RequestType requestExpected, final boolean strict) {
+    public <T> T guard(T target, final RequestType requestExpected, final boolean strict) {
         if (requestExpected == null) {
             throw new IllegalArgumentException("The paremeter [requestExpected] is null.");
         }
@@ -78,7 +84,7 @@ public class RequestGuardFactory {
         if (GrapheneProxy.isProxyInstance(target)) {
             proxy = (GrapheneProxyInstance) ((GrapheneProxyInstance) target).copy();
         } else {
-            proxy = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(target);
+            proxy = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(context, target);
         }
         proxy.registerInterceptor(new Interceptor() {
             @Override
@@ -140,27 +146,30 @@ public class RequestGuardFactory {
         return (T) proxy;
     }
 
-    private static class DocumentReady implements Predicate<WebDriver> {
+    private class DocumentReady implements Predicate<WebDriver> {
+        @Override
         public boolean apply(WebDriver driver) {
             return "complete".equals(document.getReadyState());
         }
     }
 
-    private static class RequestIsDone implements Predicate<WebDriver> {
+    private class RequestIsDone implements Predicate<WebDriver> {
+        @Override
         public boolean apply(WebDriver driver) {
             RequestState state = guard.getRequestState();
             return RequestState.DONE.equals(state);
         }
     }
 
-    private static class RequestChange implements Function<WebDriver, RequestType> {
+    private class RequestChange implements Function<WebDriver, RequestType> {
+        @Override
         public RequestType apply(WebDriver driver) {
             RequestType type = guard.getRequestType();
             return (RequestType.NONE.equals(type)) ? null : type;
         }
     }
 
-    private static class RequestTypeDone implements Function<WebDriver, RequestType> {
+    private class RequestTypeDone implements Function<WebDriver, RequestType> {
 
         private RequestType requestExpected;
 
@@ -168,6 +177,7 @@ public class RequestGuardFactory {
             this.requestExpected = requestExpected;
         }
 
+        @Override
         public RequestType apply(WebDriver driver) {
             RequestType type = guard.getRequestType();
             if (!requestExpected.equals(type)) {

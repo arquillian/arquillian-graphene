@@ -23,8 +23,13 @@ package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -35,21 +40,40 @@ import org.openqa.selenium.WebElement;
  */
 public class WebElementEnricher extends AbstractSearchContextEnricher {
 
+    @Inject
+    private Instance<GrapheneConfiguration> configuration;
+
+    public WebElementEnricher() {
+    }
+
+    // because of testing
+    public WebElementEnricher(Instance<GrapheneConfiguration> configuration) {
+        this.configuration = configuration;
+    }
+
     @Override
-    public void enrich(SearchContext searchContext, Object target) {
+    public void enrich(final SearchContext searchContext, Object target) {
         try {
             List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
             for (Field field : fields) {
+                GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+                final SearchContext localSearchContext;
+                if (grapheneContext == null) {
+                    grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
+                    localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
+                } else {
+                    localSearchContext = searchContext;
+                }
                 //by should never by null, by default it is ByIdOrName using field name
-                By by = FindByUtilities.getCorrectBy(field);
+                By by = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
                 // WebElement
                 if (field.getType().isAssignableFrom(WebElement.class)) {
-                    WebElement element = WebElementUtils.findElementLazily(by, searchContext);
+                    WebElement element = WebElementUtils.findElementLazily(by, localSearchContext);
                     setValue(field, target, element);
                     // List<WebElement>
                 } else if (field.getType().isAssignableFrom(List.class)
                     && getListType(field).isAssignableFrom(WebElement.class)) {
-                    List<WebElement> elements = WebElementUtils.findElementsLazily(by, searchContext);
+                    List<WebElement> elements = WebElementUtils.findElementsLazily(by, localSearchContext);
                     setValue(field, target, elements);
                 }
             }

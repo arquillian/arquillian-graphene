@@ -21,12 +21,13 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -55,10 +56,10 @@ public class TestWebElementEnricher extends AbstractGrapheneEnricherTest {
 
         assertTrue(page.element instanceof WrapsElement);
 
-        GrapheneContext.set(driver);
+        GrapheneContext.setContextFor(new GrapheneConfiguration(), driver, Default.class);
         when(driver.findElement(Mockito.any(By.class))).thenReturn(element);
         WebElement wrappedElement = ((WrapsElement) page.element).getWrappedElement();
-        GrapheneContext.reset();
+        GrapheneContext.removeContextFor(Default.class);
 
         assertEquals(element, wrappedElement);
     }

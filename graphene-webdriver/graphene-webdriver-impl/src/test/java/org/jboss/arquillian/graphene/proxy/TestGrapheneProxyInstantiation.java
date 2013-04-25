@@ -21,8 +21,7 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
-import org.jboss.arquillian.graphene.context.TestingDriverStub;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.jboss.arquillian.graphene.TestingDriverStub;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
@@ -43,7 +42,7 @@ public class TestGrapheneProxyInstantiation {
         };
 
         // when
-        TestingDriver driver = GrapheneProxy.<TestingDriver>getProxyForFutureTarget(target, TestingDriver.class);
+        TestingDriver driver = GrapheneProxy.<TestingDriver>getProxyForFutureTarget(null, target, TestingDriver.class);
         try {
             driver.quit();
             fail("exception should be thrown because of FutureTarget definition");

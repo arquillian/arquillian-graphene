@@ -30,7 +30,6 @@ import static org.junit.Assert.assertTrue;
 import java.net.URL;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.guard.RequestGuardException;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
@@ -152,9 +151,9 @@ public class GuardsTestCase {
         public void perform() throws Exception;
     }
 
-    public static class XhrAndRelocationActivity implements Activity {
+    public class XhrAndRelocationActivity implements Activity {
+        @Override
         public void perform() throws Exception {
-            WebDriver browser = GrapheneContext.getProxy();
             browser.findElement(By.id("xhr")).click();
             String url = browser.getCurrentUrl().replace("sample1", "sample2");
             Thread.sleep(200);

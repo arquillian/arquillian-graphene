@@ -1,12 +1,9 @@
 package org.jboss.arquillian.graphene.javascript;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.TestingDriverStub;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
-import org.jboss.arquillian.graphene.context.TestingDriverStub;
-import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistryImpl;
-import org.jboss.arquillian.graphene.page.extension.RemotePageExtensionInstallatorProvider;
 import org.junit.Test;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.spy;
@@ -32,11 +29,7 @@ public class TestExecution extends AbstractJavaScriptTest {
         when(executor.executeScript("return true;")).thenReturn(true);
 
         // when
-        GrapheneContext.set(executor);
-        GrapheneConfigurationContext.set(new GrapheneConfiguration());
-        GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
-        GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
-        TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
+        TestingInterface instance = JSInterfaceFactory.create(GrapheneContext.setContextFor(new GrapheneConfiguration(), executor, Default.class), TestingInterface.class);
         instance.method();
 
         // then
@@ -51,11 +44,7 @@ public class TestExecution extends AbstractJavaScriptTest {
         when(executor.executeScript("return true;")).thenReturn(true);
 
         // when
-        GrapheneContext.set(executor);
-        GrapheneConfigurationContext.set(new GrapheneConfiguration());
-        GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
-        GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
-        TestingInterface instance = JSInterfaceFactory.create(TestingInterface.class);
+        TestingInterface instance = JSInterfaceFactory.create(GrapheneContext.setContextFor(new GrapheneConfiguration(), executor, Default.class), TestingInterface.class);
         instance.namedMethod();
 
         // then
@@ -75,11 +64,7 @@ public class TestExecution extends AbstractJavaScriptTest {
         when(executor.executeScript("return true;")).thenReturn(true);
 
         // when
-        GrapheneContext.set(executor);
-        GrapheneConfigurationContext.set(new GrapheneConfiguration());
-        GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
-        GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
-        TestingInterfaceWithBase instance = JSInterfaceFactory.create(TestingInterfaceWithBase.class);
+        TestingInterfaceWithBase instance = JSInterfaceFactory.create(GrapheneContext.setContextFor(new GrapheneConfiguration(), executor, Default.class), TestingInterfaceWithBase.class);
         instance.method();
 
         // then

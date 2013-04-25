@@ -10,7 +10,6 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Predicate;
-import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.TimeoutException;
 
 public class StaleElementInterceptor implements Interceptor {
@@ -21,7 +20,7 @@ public class StaleElementInterceptor implements Interceptor {
         final AtomicReference<Throwable> failure = new AtomicReference<Throwable>();
         final AtomicReference<Throwable> staleness = new AtomicReference<Throwable>();
         try {
-            waitGui().until(new Predicate<WebDriver>() {
+            waitGui(context.getGrapheneContext().getWebDriver()).until(new Predicate<WebDriver>() {
                 @Override
                 public boolean apply(WebDriver driver) {
                     try {

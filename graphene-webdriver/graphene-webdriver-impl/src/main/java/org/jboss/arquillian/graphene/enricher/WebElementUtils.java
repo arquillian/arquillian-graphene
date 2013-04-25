@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
 
 import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
@@ -49,11 +51,11 @@ public final class WebElementUtils {
     private WebElementUtils() {
     }
 
-    public static WebElement findElement(final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
+    public static WebElement findElement(GrapheneContext context, final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
         // Here the web element has to be found to ensure that SearchContext throws
         // NoSuchElementException if there is no element with the given By locator.
         dropProxyAndFindElement(by, (SearchContext) searchContextFuture.getTarget());
-        return findElement(new GrapheneProxy.FutureTarget() {
+        return findElement(context, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 return dropProxyAndFindElement(by, (SearchContext) searchContextFuture.getTarget());
@@ -61,8 +63,8 @@ public final class WebElementUtils {
         });
     }
 
-    public static List<WebElement> findElementsLazily(final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
-        return GrapheneProxy.getProxyForFutureTarget(new GrapheneProxy.FutureTarget() {
+    public static List<WebElement> findElementsLazily(final GrapheneContext context, final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
+        return GrapheneProxy.getProxyForFutureTarget(context, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 List<WebElement> result = new ArrayList<WebElement>();
@@ -71,15 +73,15 @@ public final class WebElementUtils {
                     LOGGER.log(Level.WARNING, EMPTY_FIND_BY_WARNING);
                 }
                 for (int i = 0; i < elements.size(); i++) {
-                    result.add(findElementLazily(by, searchContextFuture, i));
+                    result.add(findElementLazily(context, by, searchContextFuture, i));
                 }
                 return result;
             }
         }, List.class);
     }
 
-    public static WebElement findElementLazily(final By by, final GrapheneProxy.FutureTarget searchContextFuture, final int indexInList) {
-        return findElement(new GrapheneProxy.FutureTarget() {
+    public static WebElement findElementLazily(GrapheneContext context, final By by, final GrapheneProxy.FutureTarget searchContextFuture, final int indexInList) {
+        return findElement(context, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 return dropProxyAndFindElements(by, (SearchContext) searchContextFuture.getTarget()).get(indexInList);
@@ -88,7 +90,7 @@ public final class WebElementUtils {
     }
 
     public static WebElement findElementLazily(final By by, final SearchContext searchContext, final int indexInList) {
-        return findElement(new GrapheneProxy.FutureTarget() {
+        return findElement(getContext(searchContext), new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 return dropProxyAndFindElements(by, searchContext).get(indexInList);
@@ -97,7 +99,7 @@ public final class WebElementUtils {
     }
 
     public static WebElement findElementLazily(final By by, final SearchContext searchContext) {
-        return findElement(new GrapheneProxy.FutureTarget() {
+        return findElement(getContext(searchContext), new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 try {
@@ -111,7 +113,7 @@ public final class WebElementUtils {
     }
 
     public static List<WebElement> findElementsLazily(final By by, final SearchContext searchContext) {
-        return findElementsLazily(by, new GrapheneProxy.FutureTarget() {
+        return findElementsLazily(getContext(searchContext), by, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 return searchContext;
@@ -119,8 +121,8 @@ public final class WebElementUtils {
         });
     }
 
-    protected static WebElement findElement(final GrapheneProxy.FutureTarget target) {
-        final WebElement element = GrapheneProxy.getProxyForFutureTarget(target, WebElement.class, Locatable.class,
+    protected static WebElement findElement(GrapheneContext context, final GrapheneProxy.FutureTarget target) {
+        final WebElement element = GrapheneProxy.getProxyForFutureTarget(context, target, WebElement.class, Locatable.class,
                 WrapsElement.class);
         final GrapheneProxyInstance elementProxy = (GrapheneProxyInstance) element;
 
@@ -135,7 +137,12 @@ public final class WebElementUtils {
 
     protected static WebElement dropProxyAndFindElement(By by, SearchContext searchContext) {
         if (searchContext instanceof GrapheneProxyInstance) {
-            return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElement(by);
+            if (by instanceof ByJQuery) {
+                return by.findElement(searchContext);
+            } else {
+                SearchContext unwrapped = (SearchContext) ((GrapheneProxyInstance) searchContext).unwrap();
+                return unwrapped.findElement(by);
+            }
         } else {
             return searchContext.findElement(by);
         }
@@ -143,10 +150,21 @@ public final class WebElementUtils {
 
     protected static List<WebElement> dropProxyAndFindElements(By by, SearchContext searchContext) {
         if (searchContext instanceof GrapheneProxyInstance) {
-            return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElements(by);
+            if (by instanceof ByJQuery) {
+                return by.findElements(searchContext);
+            } else {
+                return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElements(by);
+            }
         } else {
             return searchContext.findElements(by);
         }
+    }
+
+    protected static GrapheneContext getContext(Object object) {
+        if (!GrapheneProxy.isProxyInstance(object)) {
+            throw new IllegalArgumentException("The parameter [object] has to be instance of " + GrapheneProxyInstance.class.getName() + ", but it is not. The given object is " + object + ".");
+        }
+        return ((GrapheneProxyInstance) object).getContext();
     }
 
 }

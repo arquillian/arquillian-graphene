@@ -25,8 +25,10 @@ import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URL;
+import org.jboss.arquillian.drone.api.annotation.Default;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.guard.RequestGuard;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.page.RequestType;
@@ -62,7 +64,7 @@ public class RequestGuardTestCase {
 
     @Test
     public void testXhr() throws InterruptedException {
-        RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
+        RequestGuard guard = JSInterfaceFactory.create(GrapheneContext.getContextFor(Default.class), RequestGuard.class);
         assertEquals(RequestType.HTTP, guard.getRequestType());
         guard.clearRequestDone();
         assertEquals(RequestType.NONE, guard.getRequestType());
@@ -73,7 +75,7 @@ public class RequestGuardTestCase {
 
     @Test
     public void testHttp() {
-        RequestGuard guard = JSInterfaceFactory.create(RequestGuard.class);
+        RequestGuard guard = JSInterfaceFactory.create(GrapheneContext.getContextFor(Default.class), RequestGuard.class);
         assertEquals(RequestType.HTTP, guard.getRequestType());
         guard.clearRequestDone();
         assertEquals(RequestType.NONE, guard.getRequestType());

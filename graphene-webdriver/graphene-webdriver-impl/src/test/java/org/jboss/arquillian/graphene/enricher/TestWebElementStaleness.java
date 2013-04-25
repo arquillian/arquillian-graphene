@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +19,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -29,7 +27,6 @@ public class TestWebElementStaleness extends AbstractGrapheneEnricherTest {
 
     private Map<WebElement, Boolean> staleness = new HashMap<WebElement, Boolean>();
 
-    private WebDriver driver;
     private WebElement rootElement;
     private WebElement webElement;
 
@@ -37,13 +34,10 @@ public class TestWebElementStaleness extends AbstractGrapheneEnricherTest {
 
     @Before
     public void prepare() {
-        driver = mock(WebDriver.class);
-        GrapheneContext.set(driver);
-
         rootElement = mock(WebElement.class, new StaleElementAnswer());
         webElement = mock(WebElement.class, new StaleElementAnswer());
 
-        when(driver.findElement(any(By.class))).thenReturn(rootElement);
+        when(browser.findElement(any(By.class))).thenReturn(rootElement);
         when(rootElement.findElement(any(By.class))).thenReturn(webElement);
 
         page = new Page();
@@ -54,14 +48,14 @@ public class TestWebElementStaleness extends AbstractGrapheneEnricherTest {
     public void test_fragment_subelement_is_stale() {
         // when
         makeStale(webElement);
-        page.fragment.element.click();
+        page.getFragment().getElement().click();
 
         // then
-        verify(driver, times(2)).findElement(any(By.class));
+        verify(browser, times(2)).findElement(any(By.class));
         verify(rootElement, times(2)).findElement(any(By.class));
         verify(webElement, times(2)).click();
 
-        verifyNoMoreInteractions(driver, webElement);
+        verifyNoMoreInteractions(browser, webElement);
     }
 
     @Test
@@ -69,14 +63,14 @@ public class TestWebElementStaleness extends AbstractGrapheneEnricherTest {
         // when
         makeStale(rootElement);
         makeStale(webElement);
-        page.fragment.element.click();
+        page.getFragment().getElement().click();
 
         // then
-        verify(driver, times(2)).findElement(any(By.class));
+        verify(browser, times(2)).findElement(any(By.class));
         verify(rootElement, times(2)).findElement(any(By.class));
         verify(webElement, times(2)).click();
 
-        verifyNoMoreInteractions(driver, webElement);
+        verifyNoMoreInteractions(browser, webElement);
     }
 
     private boolean isStale(WebElement element) {
@@ -95,16 +89,24 @@ public class TestWebElementStaleness extends AbstractGrapheneEnricherTest {
     private static class Page {
 
         @FindBy(id = "test")
-        PageFragment fragment;
+        private PageFragment fragment;
+
+        public PageFragment getFragment() {
+            return fragment;
+        }
     }
 
-    private static class PageFragment {
+    public static class PageFragment {
 
         @FindBy(id = "test")
-        WebElement element;
+        private WebElement element;
+
+        public WebElement getElement() {
+            return element;
+        }
     }
 
-    private class StaleElementAnswer implements Answer<Object> {
+    public class StaleElementAnswer implements Answer<Object> {
 
         @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {

@@ -22,10 +22,12 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Method;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -33,11 +35,17 @@ import org.openqa.selenium.SearchContext;
 public class SearchContextInterceptor implements Interceptor {
 
     @Override
-    public Object intercept(InvocationContext context) throws Throwable {
+    public Object intercept(final InvocationContext context) throws Throwable {
+        GrapheneProxy.FutureTarget future = new GrapheneProxy.FutureTarget() {
+            @Override
+            public Object getTarget() {
+                return context.getProxy();
+            }
+        };
         if (methodsEqual(context.getMethod(), SearchContext.class.getDeclaredMethod("findElement", By.class))) {
-            return WebElementUtils.findElement((By) context.getArguments()[0], context);
+            return WebElementUtils.findElement(context.getGrapheneContext(), (By) context.getArguments()[0], future);
         } else if (methodsEqual(context.getMethod(), SearchContext.class.getDeclaredMethod("findElements", By.class))) {
-            return WebElementUtils.findElementsLazily((By) context.getArguments()[0], context);
+            return WebElementUtils.findElementsLazily(context.getGrapheneContext(), (By) context.getArguments()[0], future);
         } else {
             return context.invoke();
         }

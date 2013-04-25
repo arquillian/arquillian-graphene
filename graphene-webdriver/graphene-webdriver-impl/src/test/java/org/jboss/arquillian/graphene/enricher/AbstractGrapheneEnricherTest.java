@@ -27,9 +27,12 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.impl.InstanceImpl;
 import org.jboss.arquillian.core.spi.ServiceLoader;
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.TestingDriver;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.junit.Before;
@@ -50,6 +53,9 @@ public abstract class AbstractGrapheneEnricherTest {
     private Instance<ServiceLoader> serviceLoaderInstance;
 
     @Mock
+    protected TestingDriver browser;
+
+    @Mock
     private ServiceLoader serviceLoader;
 
     @Rule
@@ -63,9 +69,16 @@ public abstract class AbstractGrapheneEnricherTest {
     @Before
     public void prepareServiceLoader() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         grapheneEnricher = new GrapheneEnricher();
-        webElementEnricher = new WebElementEnricher();
+        Instance<GrapheneConfiguration> configuration = new Instance() {
+            @Override
+            public Object get() {
+                return new GrapheneConfiguration();
+            }
+
+        };
+        webElementEnricher = new WebElementEnricher(configuration);
         pageObjectEnricher = new PageObjectEnricher();
-        pageFragmentEnricher = new PageFragmentEnricher();
+        pageFragmentEnricher = new PageFragmentEnricher(configuration);
         when(serviceLoaderInstance.get()).thenReturn(serviceLoader);
         when(serviceLoader.all(TestEnricher.class)).thenReturn(Arrays.asList(grapheneEnricher));
         when(serviceLoader.all(SearchContextTestEnricher.class)).thenReturn(Arrays.asList(webElementEnricher, pageObjectEnricher, pageFragmentEnricher));
@@ -82,7 +95,7 @@ public abstract class AbstractGrapheneEnricherTest {
             serviceLoaderField.set(o, serviceLoaderInstance);
         }
 
-        GrapheneConfigurationContext.set(new GrapheneConfiguration());
+        GrapheneContext.setContextFor(new GrapheneConfiguration(), browser, Default.class);
     }
 
     protected final TestEnricher getGrapheneEnricher() {

@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Method;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -31,12 +32,17 @@ public class InvocationContextImpl implements InvocationContext {
     private final InvocationContext following;
     private final Interceptor interceptor;
     private final Object target;
+    private final Object proxy;
     private final Method method;
     private final Object[] arguments;
+    private final GrapheneContext context;
 
-    public InvocationContextImpl(Object target, Method method, Object[] arguments) {
+    public InvocationContextImpl(GrapheneContext context, Object target, Object proxy, Method method, Object[] arguments) {
         if (target == null) {
             throw new IllegalArgumentException("The parameter [target] is null.");
+        }
+        if (proxy == null) {
+            throw new IllegalArgumentException("The parameter [proxy] is null.");
         }
         if (method == null) {
             throw new IllegalArgumentException("The parameter [method] is null.");
@@ -44,11 +50,16 @@ public class InvocationContextImpl implements InvocationContext {
         if (arguments == null) {
             throw new IllegalArgumentException("The parameter [arguments] is null.");
         }
+        if (context == null) {
+            throw new IllegalArgumentException("The parameter [context] is null.");
+        }
         this.following = null;
         this.interceptor = null;
         this.arguments = arguments;
         this.method = method;
         this.target = target;
+        this.context = context;
+        this.proxy = proxy;
     }
 
     public InvocationContextImpl(Interceptor interceptor, InvocationContext following) {
@@ -63,6 +74,8 @@ public class InvocationContextImpl implements InvocationContext {
         this.arguments = null;
         this.method = null;
         this.target = null;
+        this.context = null;
+        this.proxy = null;
     }
 
     @Override
@@ -87,6 +100,16 @@ public class InvocationContextImpl implements InvocationContext {
     @Override
     public Object getTarget() {
         return target == null ? following.getTarget() : target;
+    }
+
+    @Override
+    public Object getProxy() {
+        return proxy == null ? following.getProxy() : proxy;
+    }
+
+    @Override
+    public GrapheneContext getGrapheneContext() {
+        return context == null ? following.getGrapheneContext() : context;
     }
 
 }

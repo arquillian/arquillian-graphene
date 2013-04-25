@@ -1,17 +1,14 @@
 package org.jboss.arquillian.graphene.javascript;
 
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
-import org.jboss.arquillian.graphene.context.TestingDriverStub;
-import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistryImpl;
-import org.jboss.arquillian.graphene.page.extension.RemotePageExtensionInstallatorProvider;
+import org.jboss.arquillian.graphene.TestingDriverStub;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -46,13 +43,10 @@ public class TestReturnValues extends AbstractJavaScriptTest {
     public void prepareTest() {
         // given
         MockitoAnnotations.initMocks(this);
-        GrapheneContext.set(executor);
-        GrapheneConfigurationContext.set(new GrapheneConfiguration());
-        GraphenePageExtensionsContext.setRegistry(new PageExtensionRegistryImpl());
-        GraphenePageExtensionsContext.setInstallatorProvider(new RemotePageExtensionInstallatorProvider(GraphenePageExtensionsContext.getRegistryProxy(), executor));
-        instance = JSInterfaceFactory.create(TestingInterface.class);
+        instance = JSInterfaceFactory.create(GrapheneContext.setContextFor(new GrapheneConfiguration(), executor, Default.class), TestingInterface.class);
 
         when(executor.executeScript(Mockito.anyString())).then(new Answer<Object>() {
+            @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 return answer;
             }

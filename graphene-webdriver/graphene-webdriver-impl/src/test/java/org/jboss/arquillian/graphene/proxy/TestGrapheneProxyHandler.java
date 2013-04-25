@@ -21,7 +21,6 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -32,6 +31,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +61,7 @@ public class TestGrapheneProxyHandler {
 
         List<Method> violations = new LinkedList<Method>();
 
+        @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {
             Method method = invocation.getMethod();
             if (!handler.isProxyable(method, invocation.getArguments())) {
@@ -77,6 +79,7 @@ public class TestGrapheneProxyHandler {
 
         List<Method> violations = new LinkedList<Method>();
 
+        @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {
             Method method = invocation.getMethod();
             if (handler.isProxyable(method, invocation.getArguments())) {
@@ -92,7 +95,7 @@ public class TestGrapheneProxyHandler {
 
     @Before
     public void prepare() {
-        handler = GrapheneProxyHandler.forTarget(null);
+        handler = GrapheneProxyHandler.forTarget(GrapheneContext.getContextFor(Default.class), null);
     }
 
     @Test

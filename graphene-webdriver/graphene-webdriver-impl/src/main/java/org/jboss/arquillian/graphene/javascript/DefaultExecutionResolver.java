@@ -21,22 +21,19 @@
  */
 package org.jboss.arquillian.graphene.javascript;
 
+import com.google.common.io.Resources;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.logging.Logger;
-
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.context.GraphenePageExtensionsContext;
-import org.jboss.arquillian.graphene.page.extension.JavaScriptPageExtension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-
-import com.google.common.io.Resources;
 import java.util.logging.Level;
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
+import java.util.logging.Logger;
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.page.extension.JavaScriptPageExtension;
+import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistry;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.openqa.selenium.JavascriptExecutor;
 
 /**
  * This resolver uses page extension mechanism to install needed JavaScript
@@ -61,29 +58,21 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         }
     }
 
-    private JavascriptExecutor browser = GrapheneContext.getProxyForInterfaces(JavascriptExecutor.class);
-
     @Override
-    public Object execute(WebDriver driver, JSCall call) {
-        if (driver == null) {
-            throw new IllegalArgumentException("Driver can't be null.");
-        }
-        if (!(driver instanceof JavascriptExecutor)) {
-            throw new IllegalArgumentException("The executor can be used only for drivers implementing " + JavascriptExecutor.class.getName());
-        }
+    public Object execute(GrapheneContext context, JSCall call) {
         // check name
         JSTarget target = call.getTarget();
         if (target.getName() == null) {
             throw new IllegalStateException("Can't use " + this.getClass() + " for " + target.getInterface() + ", because the @JavaScript annotation doesn't define non empty value()");
         }
         // register page extension
-        registerExtension(target);
+        registerExtension(context.getPageExtensionRegistry(), target);
         // try to execute javascript, if fails install the extension
-        final long LIMIT = GrapheneConfigurationContext.getProxy().getJavascriptInstallationLimit();
+        final long LIMIT = context.getConfiguration().getJavascriptInstallationLimit();
         for (long i=1; i<=5; i++) {
             try {
                 // execute javascript
-                Object returnValue = executeScriptForCall(call);
+                Object returnValue = executeScriptForCall((JavascriptExecutor) context.getWebDriver(JavascriptExecutor.class), call);
                 Object castedResult = castResult(call, returnValue);
                 return castedResult;
             } catch (RuntimeException e) {
@@ -93,9 +82,8 @@ public class DefaultExecutionResolver implements ExecutionResolver {
                 // try to install the extension
                 } else {
                     try {
-                        GraphenePageExtensionsContext.getInstallatorProviderProxy().installator(target.getName()).install();
-                    } catch (RuntimeException ex) {
-                        LOGGER.log(Level.WARNING, "Installation of page extension for " + call.getTarget().getInterface().getName() + " javascript interface failed.", ex);
+                        context.getPageExtensionInstallatorProvider().installator(target.getName()).install();
+                    } catch (RuntimeException ignored) {
                     }
                 }
             }
@@ -140,10 +128,10 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         }
     }
 
-    protected Object executeScriptForCall(JSCall call) {
+    protected Object executeScriptForCall(JavascriptExecutor executor, JSCall call) {
         String script = resolveScriptToExecute(call);
         Object[] arguments = castArguments(call.getArguments());
-        Object returnValue = JavaScriptUtils.execute(browser, script, arguments);
+        Object returnValue = JavaScriptUtils.execute(executor, script, arguments);
         if (returnValue instanceof String && ((String) returnValue).startsWith("GRAPHENE ERROR: ")) {
             throw new IllegalStateException("exception thrown when executing method '" + call.getMethod().getName() + "': " + ((String) returnValue).substring(16));
         }
@@ -156,17 +144,17 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         return functionDefinitionWithCall;
     }
 
-    protected <T> void registerExtension(JSTarget target) {
+    protected <T> void registerExtension(PageExtensionRegistry registry, JSTarget target) {
         if (target.getName() == null || target.getName().isEmpty()) {
             throw new IllegalArgumentException("The extension " + target.getInterface() + "has no mapping.");
         }
-        if (GraphenePageExtensionsContext.getRegistryProxy().getExtension(target.getName()) != null) {
+        if (registry.getExtension(target.getName()) != null) {
             return;
         }
         JavaScriptPageExtension extension = new JavaScriptPageExtension(target.getInterface());
-        GraphenePageExtensionsContext.getRegistryProxy().register(extension);
+        registry.register(extension);
         for (JSTarget dependency: target.getJSInterfaceDependencies()) {
-            registerExtension(dependency);
+            registerExtension(registry, dependency);
         }
     }
 

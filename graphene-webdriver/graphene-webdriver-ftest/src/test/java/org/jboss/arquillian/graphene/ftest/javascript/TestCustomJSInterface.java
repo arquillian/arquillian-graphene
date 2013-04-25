@@ -22,9 +22,12 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -38,12 +41,15 @@ public class TestCustomJSInterface {
 
     @Drone
     WebDriver browser;
-    
+
+    @ArquillianResource
+    private GrapheneContext context;
+
     @Test
     public void test() {
         browser.navigate().to("http://127.0.0.1:4444");
-        
-        Document document = JSInterfaceFactory.create(Document.class);
+
+        Document document = JSInterfaceFactory.create(context, Document.class);
         List<WebElement> elements = document.getElementsByTagName("html");
         assertNotNull(elements);
         assertEquals(1, elements.size());
@@ -51,9 +57,9 @@ public class TestCustomJSInterface {
 
     @JavaScript("document")
     public static interface Document {
-        
+
         String getTitle();
-        
+
         List<WebElement> getElementsByTagName(String tagName);
     }
 }

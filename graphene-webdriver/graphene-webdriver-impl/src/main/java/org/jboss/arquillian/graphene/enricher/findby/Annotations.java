@@ -15,16 +15,16 @@ limitations under the License.
  */
 /**
  * <p>
- * Utility class originally copied from WebDriver. It main purpose is to retrieve correct 
- * <code>By</code> instance according to the field on which <code>@FindBy</code> or <code>@FinfBys</code> annotation is.</p> 
- * 
+ * Utility class originally copied from WebDriver. It main purpose is to retrieve correct
+ * <code>By</code> instance according to the field on which <code>@FindBy</code> or <code>@FinfBys</code> annotation is.</p>
+ *
  * <p>The differences are:
  * <ul>
  *  <li>this class supports also Graphene <code>@FindBy</code> with JQuery locators support</li>
  *  <li>it is able to return default locating strategy according to the <code>GrapheneConfiguration</code></li>
  * </ul>
  *  </p>
- * 
+ *
  * <p>Altered by <a href="mailto:jhuska@redhat.com">Juraj Huska</a></p>.
  */
 package org.jboss.arquillian.graphene.enricher.findby;
@@ -32,8 +32,6 @@ package org.jboss.arquillian.graphene.enricher.findby;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.jboss.arquillian.graphene.context.GrapheneConfigurationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.CacheLookup;
@@ -43,10 +41,12 @@ import org.openqa.selenium.support.pagefactory.ByChained;
 
 public class Annotations {
 
-    private Field field;
+    private final Field field;
+    private final org.jboss.arquillian.graphene.enricher.findby.How defaultElementLocatingStrategy;
 
-    public Annotations(Field field) {
+    public Annotations(Field field, org.jboss.arquillian.graphene.enricher.findby.How defaultElementLocatingStrategy) {
         this.field = field;
+        this.defaultElementLocatingStrategy = defaultElementLocatingStrategy;
     }
 
     public boolean isLookupCached() {
@@ -65,7 +65,7 @@ public class Annotations {
             ans = buildByFromGrapheneFindBys(grapheneFindBys);
         }
 
-        org.openqa.selenium.support.FindBys webDriverFindBys = 
+        org.openqa.selenium.support.FindBys webDriverFindBys =
                 field.getAnnotation(org.openqa.selenium.support.FindBys.class);
         if (ans == null && webDriverFindBys != null) {
             ans = buildByFromWebDriverFindBys(webDriverFindBys);
@@ -117,11 +117,8 @@ public class Annotations {
     }
 
     protected By buildByFromDefault() {
-        org.jboss.arquillian.graphene.enricher.findby.How how = org.jboss.arquillian.graphene.enricher.findby.How
-                .valueOf(GrapheneConfigurationContext.getProxy().getDefaultElementLocatingStrategy().toUpperCase());
-
         String using = field.getName();
-        return getByFromGrapheneHow(how, using);
+        return getByFromGrapheneHow(defaultElementLocatingStrategy, using);
     }
 
     protected By buildByFromGrapheneFindBys(FindBys grapheneFindBys) {

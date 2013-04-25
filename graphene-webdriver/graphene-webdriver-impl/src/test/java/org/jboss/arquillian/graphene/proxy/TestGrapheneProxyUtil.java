@@ -27,9 +27,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import org.jboss.arquillian.graphene.context.TestingDriver;
-import org.jboss.arquillian.graphene.context.TestingDriverStub;
-import org.jboss.arquillian.graphene.context.TestingDriverStubExtension;
+import org.jboss.arquillian.graphene.TestingDriver;
+import org.jboss.arquillian.graphene.TestingDriverStub;
+import org.jboss.arquillian.graphene.TestingDriverStubExtension;
 
 import org.junit.Test;
 import org.openqa.selenium.SearchContext;
