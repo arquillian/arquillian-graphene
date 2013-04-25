@@ -1,6 +1,6 @@
-/**
+/*******************************************************************************
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2010-2012, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -18,29 +18,35 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
-package org.jboss.arquillian.graphene.wait;
+ *******************************************************************************/
+package org.jboss.arquillian.graphene.condition.element;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public interface IsElementBuilder<FLUENT> {
+public class ElementIsEnabled extends AbstractElementBooleanCondition {
 
-    FLUENT enabled();
+    public ElementIsEnabled(WebElement element) {
+        super(element);
+    }
 
-    /**
-     * Checks whether the element is present.
-     */
-    FLUENT present();
+    public ElementIsEnabled(WebElement element, boolean negation) {
+        super(element, negation);
+    }
 
-    /**
-     * Checks whether the element is selected.
-     */
-    FLUENT selected();
+    @Override
+    public Boolean check(WebDriver driver) {
+        return getElement().isEnabled();
+    }
 
-    /**
-     * Checks whether the element is visible.
-     */
-    FLUENT visible();
+    @Override
+    public String toString() {
+        return String.format("element %s%s to be enabled",
+                getElement().toString(),
+                (getNegation() ? " not" : ""));
+    }
 
 }

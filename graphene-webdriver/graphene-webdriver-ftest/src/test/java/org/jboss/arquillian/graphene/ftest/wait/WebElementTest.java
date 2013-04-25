@@ -47,4 +47,10 @@ public class WebElementTest extends AbstractWaitTest {
         checkElementTextEquals(Graphene.waitModel().until().element(header));
     }
 
+    @Test
+    public void testElementIsEnabled() {
+        loadPage();
+        checkElementIsEnabled(Graphene.waitModel().until().element(select));
+    }
+
 }

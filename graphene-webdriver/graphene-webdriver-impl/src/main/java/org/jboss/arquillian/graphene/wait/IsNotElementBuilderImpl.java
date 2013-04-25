@@ -38,6 +38,11 @@ public class IsNotElementBuilderImpl<FLUENT> extends AbstractNegatable<IsElement
     }
 
     @Override
+    public FLUENT enabled() {
+        return fluentBase.commit(getNegation() ? factory.not().isEnabled() : factory.isEnabled());
+    }
+
+    @Override
     public FLUENT present() {
         return fluentBase.commit(getNegation() ? factory.not().isPresent() : factory.isPresent());
     }

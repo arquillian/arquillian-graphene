@@ -71,6 +71,11 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
     }
 
     @Override
+    public ExpectedCondition<Boolean> isEnabled() {
+        return new ElementIsEnabled(locator, getNegation());
+    }
+
+    @Override
     public StringConditionFactory text() {
         return getNegation() ? new LocatorElementTextConditionFactory(locator).not() : new LocatorElementTextConditionFactory(locator);
     }

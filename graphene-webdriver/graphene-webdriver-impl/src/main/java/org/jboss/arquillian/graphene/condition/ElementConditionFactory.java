@@ -36,6 +36,11 @@ public interface ElementConditionFactory extends BasicConditionFactory<ElementCo
     AttributeConditionFactory attribute(String attribute);
 
     /**
+     * Returns a condition holding if and only if the element is enabled.
+     */
+    ExpectedCondition<Boolean> isEnabled();
+
+    /**
      * Returns a condition holding if and only if the element is selected.
      *
      * @return

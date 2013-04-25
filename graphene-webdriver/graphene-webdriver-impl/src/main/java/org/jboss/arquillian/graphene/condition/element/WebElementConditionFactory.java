@@ -88,4 +88,9 @@ public class WebElementConditionFactory extends AbstractBooleanConditionFactory<
         return copy;
     }
 
+    @Override
+    public ExpectedCondition<Boolean> isEnabled() {
+        return new ElementIsEnabled(element, getNegation());
+    }
+
 }

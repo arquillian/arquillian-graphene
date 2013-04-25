@@ -32,8 +32,10 @@
 	<button id="submit" onclick="updateHeader()">Update</button>
 	<button id="hide" onclick="hideHeader()">Hide</button>
 	<button id="appear" onclick="appearHeader()">Appear</button>
+        <button id="disableSelect" onclick="document.getElementById('select').disabled='disabled'">Disable Select</button>
+        <button id="enableSelect" onclick="document.getElementById('select').disabled=null">Enable Select</button>
 
-	<select id="select">
+        <select id="select">
 		<option id="option1" value="1">option 1</option>
 		<option id="option2" value="2">option 2</option>
 	</select>
