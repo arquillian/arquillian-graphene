@@ -21,10 +21,16 @@
  */
 package org.jboss.arquillian.graphene.condition.attribute;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
@@ -32,12 +38,16 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
  */
 public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFactory<AttributeConditionFactory> implements AttributeConditionFactory {
 
+    private final SearchContext searchContext;
     private final By locator;
     private final String attribute;
 
-    public LocatorAttributeConditionFactory(By locator, String attribute) {
+    protected static final Logger LOGGER = Logger.getLogger(LocatorAttributeConditionFactory.class.getName());
+
+    public LocatorAttributeConditionFactory(SearchContext searchContext, By locator, String attribute) {
         this.locator = locator;
         this.attribute = attribute;
+        this.searchContext = searchContext;
     }
 
     @Override
@@ -55,7 +65,7 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
         return new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
-                return new AttributeIsPresent(driver.findElement(locator), attribute, getNegation()).apply(driver);
+                return new AttributeIsPresent(findElement(locator, driver), attribute, getNegation()).apply(driver);
             }
 
             @Override
@@ -73,7 +83,7 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
         return new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
-                return new AttributeValueContains(driver.findElement(locator), attribute, expected, getNegation()).apply(driver);
+                return new AttributeValueContains(findElement(locator, driver), attribute, expected, getNegation()).apply(driver);
             }
 
             @Override
@@ -92,7 +102,7 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
         return new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
-                return new AttributeValueEquals(driver.findElement(locator), attribute, expected, getNegation()).apply(driver);
+                return new AttributeValueEquals(findElement(locator, driver), attribute, expected, getNegation()).apply(driver);
             }
 
             @Override
@@ -108,6 +118,17 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
 
     @Override
     protected AttributeConditionFactory copy() {
-        return new LocatorAttributeConditionFactory(locator, attribute);
+        return new LocatorAttributeConditionFactory(searchContext, locator, attribute);
+    }
+
+    protected WebElement findElement(By by, WebDriver driver) {
+        try {
+            return (searchContext == null ? driver : searchContext).findElement(by);
+        } catch (NoSuchElementException e) {
+            throw e;
+        } catch (WebDriverException e) {
+            LOGGER.log(Level.FINE, String.format("WebDriverException thrown by findElement(%s)", by), e);
+            throw e;
+        }
     }
 }

@@ -21,10 +21,12 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
+import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
 import org.jboss.arquillian.graphene.fluent.FluentBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -46,6 +48,11 @@ public class FluentBuilderImpl<FLUENT> implements FluentBuilder<FLUENT> {
     @Override
     public ElementBuilder<FLUENT> element(By element) {
         return new ElementBuilderImpl<FLUENT>(new ElementLocatorConditionFactory(element), fluentBase);
+    }
+
+    @Override
+    public ElementBuilder<FLUENT> element(SearchContext searchContext, By element) {
+        return new ElementBuilderImpl<FLUENT>(new ElementLocatorConditionFactory(searchContext, element), fluentBase);
     }
 
 }

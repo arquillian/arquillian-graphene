@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.wait;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -37,8 +38,15 @@ public interface FluentBuilder<FLUENT> {
 
     /**
      * Returns an element condition factory which can be used to formulate
-     * conditions related to the element determined by the given locater.
+     * conditions related to the element determined by the given locator.
      */
     ElementBuilder<FLUENT> element(By element);
+
+    /**
+     * Returns an element condition factory which can be used to formulate
+     * conditions related to the element determined by the given locator
+     * and search context.
+     */
+    ElementBuilder<FLUENT> element(SearchContext searchContext, By element);
 
 }

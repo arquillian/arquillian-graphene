@@ -1,50 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-<script type="text/javascript">
-	var previousId = "header";
-	function updateHeader() {
-		var text = document.getElementById("textInput").value;
-		var id = document.getElementById("idInput").value;
-		var header = document.getElementById(previousId);
-		header.innerHTML = text;
-		header.setAttribute("id", id);
-		previousId = id;
-	}
-	function hideHeader() {
-		var header = document.getElementById(previousId);
-		header.setAttribute("style", "display: none");
-	}
-	function appearHeader() {
-		var header = document.getElementById(previousId);
-		header.removeAttribute("style");
-	}
-	function goOutside() {
-		window.location = 'outside.html';
-	}
-</script>
-</head>
-<body>
-	<h1 id="header">Tested Header</h1>
+    <head>
+        <script type="text/javascript">
+            var previousId = "header";
+            function updateHeader() {
+                var text = document.getElementById("textInput").value;
+                var id = document.getElementById("idInput").value;
+                var header = document.getElementById(previousId);
+                header.innerHTML = text;
+                header.setAttribute("id", id);
+                header.setAttribute("class", id);
+                previousId = id;
+            }
+            function hideHeader() {
+                var header = document.getElementById(previousId);
+                header.setAttribute("style", "display: none");
+            }
+            function appearHeader() {
+                var header = document.getElementById(previousId);
+                header.removeAttribute("style");
+            }
+            function goOutside() {
+                window.location = 'outside.html';
+            }
+        </script>
+    </head>
+    <body>
+        <div id="fake">
+            <h1 class="header">Fake</h1>
 
-	<input type="text" value="Tested Header" id="textInput" />
-	<input type="text" id="idInput" value="header" />
-	<button id="submit" onclick="updateHeader()">Update</button>
-	<button id="hide" onclick="hideHeader()">Hide</button>
-	<button id="appear" onclick="appearHeader()">Appear</button>
-        <button id="disableSelect" onclick="document.getElementById('select').disabled='disabled'">Disable Select</button>
-        <button id="enableSelect" onclick="document.getElementById('select').disabled=null">Enable Select</button>
+            <input type="text" value="Tested Header" class="textInput" />
+            <input type="text" value="header" class="idInput" />
+            <button class="submit">Update</button>
+            <button class="hide">Hide</button>
+            <button class="appear">Appear</button>
+            <button class="disableSelect">Disable Select</button>
+            <button class="enableSelect">Enable Select</button>
 
-        <select id="select">
-		<option id="option1" value="1">option 1</option>
-		<option id="option2" value="2">option 2</option>
-	</select>
+            <select class="select">
+                <option value="1" class="option1">option 1</option>
+                <option value="2" class="option2">option 2</option>
+            </select>
 
-	<input type="text" style="" id="inputWithEmptyStyle"/>
-	<input type="text" style="  " id="inputWithEmptyStyleWhiteSpaces"/>
-	<input type="text" id="inputWithNoStyleDefined"/>
-        <input type="text" id="inputWithEmptyReadonly" readonly  value="READ ONLY"/>
-	<a href="#" onclick="setTimeout(goOutside, 50)" id="outside">Go
-		Outside</a>
-</body>
+            <input type="text" style=""  class="inputWithEmptyStyle"/>
+            <input type="text" style="  "  class="inputWithEmptyStyleWhiteSpaces" />
+            <input type="text" class="inputWithNoStyleDefined"/>
+            <input type="text" readonly  value="READ ONLY" class="inputWithEmptyReadonly"/>
+            <a href="#" class="outside">Go Outside</a>
+        </div>
+
+        <hr />
+
+        <div id="correct">
+            <h1 id="header" class="header">Tested Header</h1>
+
+            <input type="text" value="Tested Header" id="textInput" class="textInput" />
+            <input type="text" id="idInput" value="header" class="idInput" />
+            <button id="submit" onclick="updateHeader()" class="submit">Update</button>
+            <button id="hide" onclick="hideHeader()" class="hide">Hide</button>
+            <button id="appear" onclick="appearHeader()" class="appear">Appear</button>
+            <button id="disableSelect" onclick="document.getElementById('select').disabled='disabled'" class="disableSelect">Disable Select</button>
+            <button id="enableSelect" onclick="document.getElementById('select').disabled=null" class="enableSelect">Enable Select</button>
+
+            <select id="select" class="select">
+                <option id="option1" value="1" class="option1">option 1</option>
+                <option id="option2" value="2" class="option2">option 2</option>
+            </select>
+
+            <input type="text" style="" id="inputWithEmptyStyle" class="inputWithEmptyStyle"/>
+            <input type="text" style="  " id="inputWithEmptyStyleWhiteSpaces" class="inputWithEmptyStyleWhiteSpaces" />
+            <input type="text" id="inputWithNoStyleDefined" class="inputWithNoStyleDefined"/>
+            <input type="text" id="inputWithEmptyReadonly" readonly  value="READ ONLY" class="inputWithEmptyReadonly"/>
+            <a href="#" onclick="setTimeout(goOutside, 50)" id="outside" class="outside">Go Outside</a>
+        </div>
+    </body>
 </html>
