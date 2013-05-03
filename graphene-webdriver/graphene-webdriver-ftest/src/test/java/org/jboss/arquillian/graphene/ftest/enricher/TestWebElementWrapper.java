@@ -74,7 +74,7 @@ public class TestWebElementWrapper {
         loadPage();
         Assert.assertEquals(3, select.getOptions().size());
         select.selectByIndex(0);
-        Assert.assertEquals("one", select.getFirstSelectedOption().getText());
+        Assert.assertEquals("option one", select.getFirstSelectedOption().getText());
     }
 
     public static class Wrapper1 {
