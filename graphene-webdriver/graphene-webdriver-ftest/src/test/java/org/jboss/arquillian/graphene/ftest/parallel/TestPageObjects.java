@@ -64,8 +64,6 @@ public class TestPageObjects extends AbstractParallelTest {
 
     @Test
     public void testHeadersViaAttributes() {
-        loadPage();
-
         Assert.assertNotNull(page1.header);
         Assert.assertNotNull(page2.header);
         Assert.assertNotNull(pageDefault.header);
@@ -77,8 +75,6 @@ public class TestPageObjects extends AbstractParallelTest {
 
     @Test
     public void testHeadersViaMethod() {
-        loadPage();
-
         Assert.assertNotNull(page1.header());
         Assert.assertNotNull(page2.header());
         Assert.assertNotNull(pageDefault.header());
@@ -90,8 +86,6 @@ public class TestPageObjects extends AbstractParallelTest {
 
     @Test
     public void testDroneInPageObjects() {
-        loadPage();
-
         String url1 = browser1.getCurrentUrl();
         String url2 = browser2.getCurrentUrl();
         String urlDefault = browserDefault.getCurrentUrl();
@@ -107,7 +101,6 @@ public class TestPageObjects extends AbstractParallelTest {
 
     @Test
     public void testJavaScriptInterfaceInPageObjects() {
-        loadPage();
         Assert.assertEquals("Page 1", page1.getHeaderTextViaJavaScriptInterface().trim());
         Assert.assertEquals("Page 2", page2.getHeaderTextViaJavaScriptInterface().trim());
         Assert.assertEquals("Page Default", pageDefault.getHeaderTextViaJavaScriptInterface().trim());
@@ -115,8 +108,6 @@ public class TestPageObjects extends AbstractParallelTest {
 
     @Test
     public void testJavaScriptExecutorInPageObjects() {
-        loadPage();
-
         Assert.assertEquals("Page 1", page1.getTitleViaJavaScriptExecutor().trim());
         Assert.assertEquals("Page 2", page2.getTitleViaJavaScriptExecutor().trim());
         Assert.assertEquals("Page Default", pageDefault.getTitleViaJavaScriptExecutor().trim());

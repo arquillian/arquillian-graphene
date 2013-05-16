@@ -20,9 +20,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
@@ -37,6 +37,7 @@ import org.openqa.selenium.WebElement;
  * @author Lukas Fryc
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class TestCustomJSInterface {
 
     @Drone

@@ -28,11 +28,18 @@ import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.List;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
 import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.NoSuchElementException;
@@ -44,7 +51,11 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class JQuerySelectorsPageExtensionTestCase {
+
+    @ArquillianResource
+    private URL contextRoot;
 
     @FindBy(jquery = ":header")
     private WebElement webElementByJQuery;
@@ -79,16 +90,18 @@ public class JQuerySelectorsPageExtensionTestCase {
     private static final String EXPECTED_NO_SUCH_EL_EX_MSG = "Cannot locate element using";
     private static final String EXPECTED_WRONG_SELECTOR_MSG = "Check out whether it is correct!";
 
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
+    @Before
     public void loadPage() {
-        URL page = this.getClass().getClassLoader()
-            .getResource("org/jboss/arquillian/graphene/ftest/page/extension/sampleJQueryLocator.html");
-        browser.get(page.toString());
+        Resource.inCurrentPackage().find("sampleJQueryLocator.html").loadPage(browser, contextRoot);
     }
 
     @Test
     public void testFindByWrongSelector() {
-        loadPage();
-
         try {
             browser.findElement(ByJQuery.jquerySelector(":notExistingSelector"));
         } catch (WebDriverException ex) {
@@ -103,8 +116,6 @@ public class JQuerySelectorsPageExtensionTestCase {
 
     @Test
     public void testFindNonExistingElement() {
-        loadPage();
-
         try {
             browser.findElement(ByJQuery.jquerySelector(":contains('non existing string')"));
         } catch (NoSuchElementException ex) {
@@ -119,8 +130,6 @@ public class JQuerySelectorsPageExtensionTestCase {
 
     @Test
     public void testFindingWebElementFromAnotherWebElement() {
-        loadPage();
-
         WebElement root = browser.findElement(ByJQuery.jquerySelector("#root:visible"));
 
         WebElement div = root.findElement(ByJQuery.jquerySelector(".foo:visible"));
@@ -131,8 +140,6 @@ public class JQuerySelectorsPageExtensionTestCase {
 
     @Test
     public void testJQuerySelectorCallingFindByDirectly() {
-        loadPage();
-
         ByJQuery headerBy = new ByJQuery(":header");
         WebElement headerElement = browser.findElement(headerBy);
 
@@ -142,63 +149,47 @@ public class JQuerySelectorsPageExtensionTestCase {
 
     @Test
     public void testFindByOnWebElement() {
-        loadPage();
-
         assertNotNull(webElementByJQuery);
         assertEquals("h1", webElementByJQuery.getTagName());
     }
 
     @Test
     public void testFindByOnListOfWebElement() {
-        loadPage();
-
         assertNotNull(listOfWebElementsByJQuery);
         assertEquals("h1", listOfWebElementsByJQuery.get(0).getTagName());
     }
 
     @Test
     public void testFindByOnPageFragment() {
-        loadPage();
-
         assertNotNull(jquerySelectorTestPageFragment);
         assertEquals(EXPECTED_JQUERY_TEXT_1, jquerySelectorTestPageFragment.getJQueryLocator().getText());
     }
 
     @Test
     public void testFindByOnListOfPageFragments() {
-        loadPage();
-
         assertNotNull(listOfJQueryPageFragments);
         assertEquals(EXPECTED_JQUERY_TEXT_1, listOfJQueryPageFragments.get(0).getJQueryLocator().getText());
     }
 
     @Test(expected = NoSuchElementException.class)
     public void testFindNotExistingWebElement() {
-        loadPage();
-
         @SuppressWarnings("unused")
         String text = notExistingElement.getText();
     }
 
     @Test
     public void testFindNonExistingWebElements() {
-        loadPage();
-
         assertEquals("When locating not existing elements an empty list should be returned!", 0, notExistingElements.size());
     }
 
     @Test
     public void testEscapedDoubleQuotesSelector() {
-        loadPage();
-
         String actual = escapedDoubleQuotes.getText().trim();
         assertEquals("WebElement referenced by ecaped locator was not found correctly!", contentOfSpecialCharacters, actual);
     }
 
     @Test
     public void testEscapedColonSelector() {
-        loadPage();
-
         String actual = escapedDoubleQuotes2.getText().trim();
         assertEquals("WebElement with locator containing escaped colon not located correctly!", "Some content", actual);
     }

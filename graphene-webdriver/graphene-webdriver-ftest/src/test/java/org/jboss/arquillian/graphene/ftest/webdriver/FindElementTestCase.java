@@ -22,11 +22,17 @@
 package org.jboss.arquillian.graphene.ftest.webdriver;
 
 import java.net.URL;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.enricher.findby.JQuery;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,10 +49,14 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class FindElementTestCase {
 
     @Drone
     private WebDriver browser;
+
+    @ArquillianResource
+    private URL contextRoot;
 
     @FindBy(className = "make-stale")
     private WebElement makeStale;
@@ -54,11 +64,14 @@ public class FindElementTestCase {
     @JavaScript
     JQueryInstallator installator;
 
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
     @Before
     public void loadPage() {
-        URL page = this.getClass().getClassLoader()
-                .getResource("org/jboss/arquillian/graphene/ftest/webdriver/staleelements.html");
-        browser.get(page.toString());
+         Resource.inCurrentPackage().find("staleelements.html").loadPage(browser, contextRoot);
     }
 
     @Test

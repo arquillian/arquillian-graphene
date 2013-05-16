@@ -34,7 +34,6 @@ import org.openqa.selenium.support.FindBy;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-@RunWith(Arquillian.class)
 public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, TestInitializingGenericPageObjects4.InnerTestPage> {
 
     @Page
@@ -42,7 +41,6 @@ public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, 
 
     @Test
     public void testInitializingPageObjectsDeclaredAsInnerClassesGeneric() {
-        loadPage();
         String actual = anotherPageWithGenericType.getElement().getText();
         assertEquals("The Page object declared as inner class was not initialized correctly", "This is embedded element",
             actual);
@@ -50,7 +48,6 @@ public class TestInitializingGenericPageObjects4 extends AbstractTest<TestPage, 
 
     @Test
     public void testInitializingPageObjectsDeclaredAsInnerClassesNonGeneric() {
-        loadPage();
         String actual = innerTestPageNotGeneric.getElement().getText();
         assertEquals("The Page object declared as inner class was not initialized correctly", "This is embedded element",
             actual);

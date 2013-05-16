@@ -21,10 +21,18 @@
  */
 package org.jboss.arquillian.graphene.ftest.parallel;
 
+import java.net.URL;
 import java.util.List;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,7 +43,11 @@ import qualifier.Browser2;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public abstract class AbstractParallelTest {
+
+    @ArquillianResource
+    private URL contextRoot;
 
     @Browser1
     @Drone
@@ -48,10 +60,16 @@ public abstract class AbstractParallelTest {
     @Drone
     protected WebDriver browserDefault;
 
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
+    @Before
     public void loadPage() {
-        browser1.get(this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/parallel/one.html").toString());
-        browser2.get(this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/parallel/two.html").toString());
-        browserDefault.get(this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/parallel/default.html").toString());
+        Resource.inCurrentPackage().find("one.html").loadPage(browser1, contextRoot);
+        Resource.inCurrentPackage().find("two.html").loadPage(browser2, contextRoot);
+        Resource.inCurrentPackage().find("default.html").loadPage(browserDefault, contextRoot);
     }
 
     @JavaScript("document")

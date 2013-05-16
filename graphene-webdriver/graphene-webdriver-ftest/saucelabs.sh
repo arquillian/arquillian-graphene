@@ -1,0 +1,1 @@
+mvn clean install -Dtest=FindElementTestCase -Darq.extension.webdriver.remoteAddress=http://richfaces-jpapouse:4feca303-ef0e-4d50-adb1-0881230c984f@localhost:4445/wd/hub -Darq.extension.webdriver.platform=LINUX -Darq.extension.webdriver.remote=true -Pwebdriver-firefox

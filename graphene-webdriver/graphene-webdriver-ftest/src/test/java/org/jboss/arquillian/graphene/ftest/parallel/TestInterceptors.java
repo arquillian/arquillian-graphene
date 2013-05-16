@@ -62,8 +62,6 @@ public class TestInterceptors extends AbstractParallelTest {
 
     @Test
     public void testContextVsDrone() {
-        loadPage();
-
         ((GrapheneProxyInstance) browser1).registerInterceptor(createInterceptor(counter1));
         ((GrapheneProxyInstance) browser2).registerInterceptor(createInterceptor(counter2));
         ((GrapheneProxyInstance) browserDefault).registerInterceptor(createInterceptor(counterDefault));

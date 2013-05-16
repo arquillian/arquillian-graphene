@@ -22,27 +22,33 @@
 package org.jboss.arquillian.graphene.ftest.condition;
 
 import java.net.URL;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class ConditionsTestCase {
 
     @Drone
@@ -68,87 +74,81 @@ public class ConditionsTestCase {
     @FindBy(id="submit")
     private WebElement updateButton;
 
+    @ArquillianResource
+    private URL contextRoot;
+
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
+    @Before
     public void loadPage() {
-        URL page = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/condition/sample.html");
-        browser.get(page.toString());
-        PageFactory.initElements(new DefaultElementLocatorFactory(browser), this);
+        Resource.inCurrentPackage().find("sample.html").loadPage(browser, contextRoot);
     }
 
     @Test
     public void testAttributeIsPresent() {
-        loadPage();
         checkAttributeIsPresent(Graphene.attribute(header, "style"));
     }
 
     @Test
     public void testAttributeValueContains() {
-        loadPage();
         checkAttributeValueContains(Graphene.attribute(textInput, "value"));
     }
 
     @Test
     public void testAttributeValueEquals() {
-        loadPage();
         checkAttributeValueEquals(Graphene.attribute(textInput, "value"));
     }
 
     @Test
     public void testElementIsPresent() {
-        loadPage();
         checkElementIsPresent(Graphene.element(header));
     }
 
     @Test
     public void testElementIsPresentWithBy() {
-        loadPage();
         checkElementIsPresent(Graphene.element(BY_HEADER));
     }
 
     @Test
     public void testElementIsSelected() {
-        loadPage();
         checkElementIsSelected(Graphene.element(option1));
     }
 
     @Test
     public void testElementIsSelectedWithBy() {
-        loadPage();
         checkElementIsSelected(Graphene.element(BY_OPTION1));
     }
 
     @Test
     public void testElementIsVisible() {
-        loadPage();
         checkElementIsVisible(Graphene.element(header));
     }
 
     @Test
     public void testElementIsVisibleWithBy() {
-        loadPage();
         checkElementIsVisible(Graphene.element(BY_HEADER));
     }
 
     @Test
     public void testElementTextContains() {
-        loadPage();
         checkElementTextContains(Graphene.element(header));
     }
 
     @Test
     public void testElementTextContainsWithBy() {
-        loadPage();
         checkElementTextContains(Graphene.element(BY_HEADER));
     }
 
     @Test
     public void testElementTextEquals() {
-        loadPage();
         checkElementTextEquals(Graphene.element(header));
     }
 
     @Test
     public void testElementTextEqualsWithBy() {
-        loadPage();
         checkElementTextEquals(Graphene.element(BY_HEADER));
     }
 

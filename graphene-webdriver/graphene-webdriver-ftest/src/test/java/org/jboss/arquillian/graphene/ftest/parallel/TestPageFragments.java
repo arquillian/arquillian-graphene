@@ -63,8 +63,6 @@ public class TestPageFragments extends AbstractParallelTest {
 
     @Test
     public void testHeadersViaAttributes() {
-        loadPage();
-
         Assert.assertNotNull(pageFragment1.header);
         Assert.assertNotNull(pageFragment1.header);
         Assert.assertNotNull(pageFragmentDefault.header);
@@ -76,8 +74,6 @@ public class TestPageFragments extends AbstractParallelTest {
 
     @Test
     public void testHeadersViaMethod() {
-        loadPage();
-
         Assert.assertNotNull(pageFragment1.header());
         Assert.assertNotNull(pageFragment2.header());
         Assert.assertNotNull(pageFragmentDefault.header());
@@ -89,8 +85,6 @@ public class TestPageFragments extends AbstractParallelTest {
 
     @Test
     public void testDroneInPageFragments() {
-        loadPage();
-
         String url1 = browser1.getCurrentUrl();
         String url2 = browser2.getCurrentUrl();
         String urlDefault = browserDefault.getCurrentUrl();
@@ -106,7 +100,6 @@ public class TestPageFragments extends AbstractParallelTest {
 
     @Test
     public void testJavaScriptInterfaceInPageFragments() {
-        loadPage();
         Assert.assertEquals("Page 1", pageFragment1.getHeaderTextViaJavaScriptInterface().trim());
         Assert.assertEquals("Page 2", pageFragment2.getHeaderTextViaJavaScriptInterface().trim());
         Assert.assertEquals("Page Default", pageFragmentDefault.getHeaderTextViaJavaScriptInterface().trim());
@@ -114,15 +107,9 @@ public class TestPageFragments extends AbstractParallelTest {
 
     @Test
     public void testJavaScriptExecutorInPageFragments() {
-        loadPage();
         Assert.assertEquals("Page 1", pageFragment1.getTitleViaJavaScriptExecutor().trim());
         Assert.assertEquals("Page 2", pageFragment2.getTitleViaJavaScriptExecutor().trim());
         Assert.assertEquals("Page Default", pageFragmentDefault.getTitleViaJavaScriptExecutor().trim());
-    }
-
-    @Test
-    public void testJavaScriptExecutorInvocation() {
-        loadPage();
     }
 
     @Test

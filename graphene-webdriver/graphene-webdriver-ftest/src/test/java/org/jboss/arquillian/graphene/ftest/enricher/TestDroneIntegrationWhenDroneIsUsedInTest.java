@@ -23,9 +23,15 @@ package org.jboss.arquillian.graphene.ftest.enricher;
 
 import java.net.URL;
 import junit.framework.Assert;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -36,6 +42,7 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class TestDroneIntegrationWhenDroneIsUsedInTest {
 
     @Drone
@@ -47,9 +54,16 @@ public class TestDroneIntegrationWhenDroneIsUsedInTest {
     @FindBy(id="root")
     private DronePageFragment pageFragment;
 
+    @ArquillianResource
+    private URL contextRoot;
+
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
     public void loadPage(WebDriver browser) {
-        URL url = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/enricher/sample.html");
-        browser.get(url.toString());
+        Resource.inCurrentPackage().find("sample.html").loadPage(browser, contextRoot);
     }
 
     @Test

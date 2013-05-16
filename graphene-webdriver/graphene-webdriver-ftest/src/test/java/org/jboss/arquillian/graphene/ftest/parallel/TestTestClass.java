@@ -97,7 +97,6 @@ public class TestTestClass extends AbstractParallelTest {
 
     @Test
     public void testJavaScriptInterfaceInvocation() {
-        loadPage();
         Assert.assertEquals(1, document1.getElementsByTagName("h1").size());
         Assert.assertEquals(1, document2.getElementsByTagName("h1").size());
         Assert.assertEquals(1, documentDefault.getElementsByTagName("h1").size());
@@ -108,8 +107,6 @@ public class TestTestClass extends AbstractParallelTest {
 
     @Test
     public void testJavaScriptExecutorInvocation() {
-        loadPage();
-
         String title1 = (String) javaScriptExecutor1.executeScript("return document.title");
         String title2 = (String) javaScriptExecutor2.executeScript("return document.title");
         String titleDefault = (String) javaScriptExecutorDefault.executeScript("return document.title");
@@ -121,7 +118,6 @@ public class TestTestClass extends AbstractParallelTest {
 
     @Test
     public void testOpenPage() {
-        loadPage();
         WebElement header1 = browser1.findElement(By.tagName("h1"));
         WebElement header2 = browser2.findElement(By.tagName("h1"));
         WebElement headerDefault = browserDefault.findElement(By.tagName("h1"));

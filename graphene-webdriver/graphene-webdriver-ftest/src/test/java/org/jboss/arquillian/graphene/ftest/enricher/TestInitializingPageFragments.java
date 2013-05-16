@@ -27,15 +27,21 @@ import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.List;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.ftest.enricher.page.EmbeddedPage;
 import org.jboss.arquillian.graphene.ftest.enricher.page.TestPage;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.AbstractPageFragmentStub;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentWithEmbeddedAnotherPageFragmentStub;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -47,6 +53,7 @@ import org.openqa.selenium.support.FindBy;
  * @author Juraj Huska
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class TestInitializingPageFragments {
 
     @FindBy(xpath = "//div[@id='rootElement']")
@@ -69,36 +76,38 @@ public class TestInitializingPageFragments {
     @Drone
     private WebDriver selenium;
 
-    public void loadPage() {
-        URL page = this.getClass().getClassLoader()
-            .getResource("org/jboss/arquillian/graphene/ftest/pageFragmentsEnricher/sample.html");
+    @ArquillianResource
+    private URL contextRoot;
 
-        selenium.get(page.toExternalForm());
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inPackage("org.jboss.arquillian.graphene.ftest.pageFragmentsEnricher").all().buildWar("test.war");
+    }
+
+    @Before
+    public void loadPage() {
+        Resource.inPackage("org.jboss.arquillian.graphene.ftest.pageFragmentsEnricher").find("sample.html").loadPage(selenium, contextRoot);
     }
 
     @Test
     public void testpageFragmentIsInitialized() {
-        loadPage();
         assertNotNull("AbstractPageFragment should be initialised at this point!", abstractPageFragmentStub);
     }
 
     @Test
     public void testPageFragmentHasSetRootCorrectly() {
-        loadPage();
         assertEquals("The root was not set correctly!", abstractPageFragmentStub.invokeMethodOnElementRefByXpath(),
             EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testPageObjectInitialisedCorrectly() {
-        loadPage();
         assertEquals("The page object was not set correctly!", testPage.getAbstractPageFragment()
             .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testOtherWebElementsInitialisedCorrectly() {
-        loadPage();
         String EXPECTED_VALUE = "Gooseka";
         input.sendKeys(EXPECTED_VALUE);
 
@@ -108,36 +117,27 @@ public class TestInitializingPageFragments {
 
     @Test
     public void testEmbeddedPageObjectInitializedCorrectly() {
-        loadPage();
         assertEquals("The embedded page was not initialized correctly!", EmbeddedPage.EXPECTED_TEXT_OF_EMBEDDED_ELEM, testPage
             .getEmbeddedPage().invokeMethodOnEmbeddedElement());
     }
 
     @Test
     public void testInitializeListOfWebElementsInjectedToTests() {
-        loadPage();
-
         checkInitializationOfWebElements(divs, "Outside PageFragment");
     }
 
     @Test
     public void testInitializeListOfWebElementsInjectedToPageFragments() {
-        loadPage();
-
         checkInitializationOfWebElements(abstractPageFragmentStub.getSpansInPageFragment(), "Inside PageFragment");
     }
 
     @Test
     public void testInitializeListOfWebElementsInjectedToPageObject() {
-        loadPage();
-
         checkInitializationOfWebElements(testPage.getParagraphs(), "Inside PageObject");
     }
 
     @Test
     public void testSupportForAdvancedActions() {
-        loadPage();
-
         Actions builder = new Actions(selenium);
 
         // following tests usage of Actions with injected plain WebElement
@@ -154,8 +154,6 @@ public class TestInitializingPageFragments {
 
     @Test
     public void testInitializationOfEmbeddedPageFragmentsInOtherPageFragments() {
-        loadPage();
-
         WebElement element = pageFragmentWithEmbeddedAnotherPageFragment.getEmbeddedPageFragment().getLocatorRefByClassName();
 
         assertEquals("The Page Fragment ebmedded in another Page Fragment was not initialized correctly!", element.getText(),

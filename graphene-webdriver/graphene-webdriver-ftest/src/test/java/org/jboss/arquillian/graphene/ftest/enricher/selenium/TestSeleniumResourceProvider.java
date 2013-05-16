@@ -3,11 +3,16 @@ package org.jboss.arquillian.graphene.ftest.enricher.selenium;
 import static org.junit.Assert.assertEquals;
 
 import java.net.URL;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +27,11 @@ import org.openqa.selenium.internal.Locatable;
  * @author Lukas Fryc
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class TestSeleniumResourceProvider {
+
+    @ArquillianResource
+    private URL contextRoot;
 
     @Drone
     private WebDriver browser;
@@ -30,11 +39,14 @@ public class TestSeleniumResourceProvider {
     @FindBy(css = "input[type=button]")
     WebElement button;
 
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
     @Before
     public void loadPage() {
-        URL url = this.getClass().getClassLoader()
-                .getResource("org/jboss/arquillian/graphene/ftest/enricher/selenium-provider.html");
-        browser.get(url.toString());
+        Resource.inCurrentPackage().find("selenium-provider.html").loadPage(browser, contextRoot);
     }
 
     @Test

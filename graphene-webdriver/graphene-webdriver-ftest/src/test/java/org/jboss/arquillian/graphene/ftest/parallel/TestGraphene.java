@@ -60,8 +60,6 @@ public class TestGraphene extends AbstractParallelTest {
 
     @Test
     public void testWaitWithElements() {
-        loadPage();
-
         Graphene.waitGui()
                 .until()
                 .element(header1)
@@ -83,8 +81,6 @@ public class TestGraphene extends AbstractParallelTest {
 
     @Test
     public void testWaitWithBys() {
-        loadPage();
-
         Graphene.waitGui(browser1)
                 .until()
                 .element(By.tagName("h1"))
@@ -106,8 +102,6 @@ public class TestGraphene extends AbstractParallelTest {
 
     @Test
     public void testGuardHttp() {
-        loadPage();
-
         Graphene.guardHttp(page1).http();
         Graphene.guardHttp(page2).http();
         Graphene.guardHttp(pageDefault).http();
@@ -115,8 +109,6 @@ public class TestGraphene extends AbstractParallelTest {
 
     @Test
     public void testGuardXhr() {
-        loadPage();
-
         Graphene.guardXhr(page1).xhr();
         Graphene.guardXhr(page2).xhr();
         Graphene.guardXhr(pageDefault).xhr();

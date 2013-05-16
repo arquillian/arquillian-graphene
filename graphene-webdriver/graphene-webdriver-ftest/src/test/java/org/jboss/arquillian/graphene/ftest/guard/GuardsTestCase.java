@@ -28,12 +28,18 @@ import static org.jboss.arquillian.graphene.Graphene.waitForHttp;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.ftest.Resource;
+import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.guard.RequestGuard;
 import org.jboss.arquillian.graphene.guard.RequestGuardException;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +53,11 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class GuardsTestCase {
+
+    @ArquillianResource
+    private URL contextRoot;
 
     @FindBy(id = "http")
     private WebElement http;
@@ -73,10 +83,14 @@ public class GuardsTestCase {
     @Drone
     private WebDriver browser;
 
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return Resources.inCurrentPackage().all().buildWar("test.war");
+    }
+
     @Before
     public void loadPage() {
-        URL url = this.getClass().getClassLoader().getResource("org/jboss/arquillian/graphene/ftest/guard/sample1.html");
-        browser.get(url.toString());
+        Resource.inCurrentPackage().find("sample1.html").loadPage(browser, contextRoot);
     }
 
     @Test
