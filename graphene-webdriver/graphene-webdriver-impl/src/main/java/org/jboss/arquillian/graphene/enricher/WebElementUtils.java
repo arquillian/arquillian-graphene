@@ -30,6 +30,7 @@ import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
 
 import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -64,7 +65,7 @@ public final class WebElementUtils {
     }
 
     public static List<WebElement> findElementsLazily(final GrapheneContext context, final By by, final GrapheneProxy.FutureTarget searchContextFuture) {
-        return GrapheneProxy.getProxyForFutureTarget(context, new GrapheneProxy.FutureTarget() {
+        List<WebElement> elements = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forFuture(context, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 List<WebElement> result = new ArrayList<WebElement>();
@@ -77,7 +78,10 @@ public final class WebElementUtils {
                 }
                 return result;
             }
-        }, List.class);
+        }), List.class);
+        GrapheneProxyInstance proxy = (GrapheneProxyInstance) elements;
+        proxy.registerInterceptor(new StaleElementInterceptor());
+        return elements;
     }
 
     public static WebElement findElementLazily(GrapheneContext context, final By by, final GrapheneProxy.FutureTarget searchContextFuture, final int indexInList) {
