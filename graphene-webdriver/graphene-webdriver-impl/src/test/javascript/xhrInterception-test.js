@@ -40,6 +40,25 @@ module("XHR Interception");
         ok(window.XMLHttpRequest.prototype.abort);
     });
 
+    test("test initial values", function() {
+        // given
+        ok(inj.install);
+        var backup = window.XMLHttpRequest;
+
+        // when
+        inj.install();
+
+        // then
+        var xhr = new window.XMLHttpRequest();
+        equal(xhr.readyState, 0);
+        equal(xhr.response, "");
+        equal(xhr.responseText, "");
+        equal(xhr.responseType, "");
+        equal(xhr.responseXML, null);
+        equal(xhr.status, 0);
+        equal(xhr.statusText, "");
+    });
+
     test("test xhr wrapper delegation (for abort)", function() {
         // given
         var aborted = false;
@@ -214,10 +233,10 @@ module("XHR Interception");
         xhr.onreadystatechange = function(request) {
             ok(request.readyState == readyState);
             if (readyState < 4) {
-                ok(request.responseText == undefined);
-                ok(request.responseXML == undefined);
-                ok(request.status == undefined);
-                ok(request.statusText == undefined);
+                ok(request.responseText === "");
+                ok(request.responseXML === null);
+                ok(request.status === 0);
+                ok(request.statusText === "");
             } else {
                 equal(request.responseText, "responseText")
                 equal(request.responseXML, "responseXML")

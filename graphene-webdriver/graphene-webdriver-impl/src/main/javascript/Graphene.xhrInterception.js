@@ -90,6 +90,13 @@ window.Graphene.xhrInterception = (function() {
         var Replacement = function() {
             this.xhr = new original();
             this.xhr.onreadystatechange = callback(this);
+            this.readyState = 0;
+            this.response = "";
+            this.responseText = "";
+            this.responseType = "";
+            this.responseXML = null;
+            this.status = 0;
+            this.statusText = "";
         };
         Replacement.prototype = wrapperPrototype;
         return Replacement;
