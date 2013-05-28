@@ -53,4 +53,27 @@ public interface RequestGuard extends InstallableJavaScript {
      * Clear all filters defined by {@link #filter(String)}.
      */
     void clearFilters();
+
+    /**
+     * <p>
+     * Specifies maximum timeout (in miliseconds) for asynchronous scheduled callbacks which will be guarded (default: 50 ms).
+     * </p>
+     *
+     * <p>
+     * <i>Asynchronous scheduled callbacks</i> are callbacks which are scheduled in XMLHttpRequests's
+     * <tt>onreadystatechange</tt> callback.
+     * </p>
+     *
+     * <p>
+     * Usually are those callbacks scheduled for timeouts &lt;= 50 just to postpone updates of user interface out of XHR
+     * processing.
+     * </p>
+     * </p>
+     *
+     * <p>
+     * Be aware that sometimes it is inappropriate to guard asynchronous scheduled callbacks - in this case you can set this
+     * value to -1 in order to guarding of scheduled callbacks at all.
+     * </p>
+     */
+    void setMaximumCallbackTimeout(int miliseconds);
 }

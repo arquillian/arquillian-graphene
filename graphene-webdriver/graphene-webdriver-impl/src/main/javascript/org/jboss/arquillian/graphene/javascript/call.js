@@ -2,13 +2,24 @@ function invokeInterface (target, method, args) {
     var args = args || [];
     try {
         if (target) {
-            /* property */
+            /* property getter */
             if (!args.length && method.indexOf("get") == 0) {
                 var property = method.substring(3, method.length);
                 /* uncapitalize */
                 property = property.charAt(0).toLowerCase() + property.slice(1);
                 if (property && target[property]) {
                     return target[property];
+                }
+            }
+            
+            /* property setter */
+            if (args.length === 1 && method.indexOf("set") == 0) {
+                var property = method.substring(3, method.length);
+                /* uncapitalize */
+                property = property.charAt(0).toLowerCase() + property.slice(1);
+                if (property && target[property] != undefined) {
+                    target[property] = args[0];
+                    return;
                 }
             }
 

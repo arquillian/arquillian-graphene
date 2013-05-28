@@ -33,8 +33,8 @@ window.Graphene.Page.RequestGuard = (function() {
     function replaceTimeout(xhr) {
         xhr.originalTimeout = window.setTimeout;
         window.setTimeout = function(originalCallback, timeout) {
-            if (timeout > window.Graphene.Page.RequestGuard.maxTimeoutWrapping) {
-                xhr.originalTimeout.call(window, originalCallback, timeout);
+            if (timeout > window.Graphene.Page.RequestGuard.maximumCallbackTimeout) {
+                xhr.originalTimeout.apply(window, arguments);
             } else {
                 xhr.callbackCount += 1;
                 
@@ -111,7 +111,7 @@ window.Graphene.Page.RequestGuard = (function() {
 
     return {
         
-        maxTimeoutWrapping : 50, 
+        maximumCallbackTimeout : 50, 
 
         getRequestType : function() {
             return requestType;

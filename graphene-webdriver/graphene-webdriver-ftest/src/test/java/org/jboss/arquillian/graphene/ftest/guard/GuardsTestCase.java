@@ -30,7 +30,9 @@ import static org.junit.Assert.assertTrue;
 import java.net.URL;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.guard.RequestGuard;
 import org.jboss.arquillian.graphene.guard.RequestGuardException;
+import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Assert;
 import org.junit.Before;
@@ -64,6 +66,9 @@ public class GuardsTestCase {
 
     @FindBy(id = "status")
     private WebElement status;
+
+    @JavaScript
+    private RequestGuard guard;
 
     @Drone
     private WebDriver browser;
@@ -105,18 +110,24 @@ public class GuardsTestCase {
 
     @Test
     public void testGuardDelayedAjaxProcessing() {
+        guard.setMaximumCallbackTimeout(1500);
+
         guardAjax(xhrDelayedProcessing).click();
         assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
     public void testGuardDelayedTrigerringAndProcessing() {
+        guard.setMaximumCallbackTimeout(1500);
+
         guardAjax(xhrDelayedTrigerringAndProcessing).click();
         assertTrue(status.getText().contains("DONE"));
     }
 
     @Test
     public void testGuardDelayedAjaxProcessingWithCodeArgument() {
+        guard.setMaximumCallbackTimeout(1500);
+
         guardAjax(xhrDelayedProcessingWithCodeArgument).click();
         assertTrue(status.getText().contains("DONE"));
     }
