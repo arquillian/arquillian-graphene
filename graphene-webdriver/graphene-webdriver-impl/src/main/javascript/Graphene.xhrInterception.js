@@ -87,19 +87,19 @@ window.Graphene.xhrInterception = (function() {
      * Creates XHR wrapper for replacement of original XHR object
      */
     var createReplacement = function() {
-        var Replacement = function() {
-            this.xhr = new original();
+        var InterceptedXMLHttpRequest = function InterceptedXMLHttpRequest() {
+            this.xhr = invokeInterceptorChain(this, 'construct');
+            this.readyState = this.xhr.readyState;
+            this.response = this.xhr.response;
+            this.responseText = this.xhr.responseText;
+            this.responseType = this.xhr.responseType;
+            this.responseXML = this.xhr.responseXML;
+            this.status = this.xhr.status;
+            this.statusText = this.xhr.statusText;
             this.xhr.onreadystatechange = callback(this);
-            this.readyState = 0;
-            this.response = "";
-            this.responseText = "";
-            this.responseType = "";
-            this.responseXML = null;
-            this.status = 0;
-            this.statusText = "";
         };
-        Replacement.prototype = wrapperPrototype;
-        return Replacement;
+        InterceptedXMLHttpRequest.prototype = wrapperPrototype;
+        return InterceptedXMLHttpRequest;
     };
 
     /**
@@ -192,6 +192,9 @@ window.Graphene.xhrInterception = (function() {
      */
     var invokeRealMethod = function(wrapper, methodName, args) {
         var xhr = (methodName === 'onreadystatechange') ? wrapper : wrapper.xhr;
+        if (methodName === 'construct') {
+            return new original();
+        }
         if (xhr[methodName]) {
             return xhr[methodName].apply(xhr, args);
         }
@@ -215,6 +218,9 @@ window.Graphene.xhrInterception = (function() {
             if (original) {
                 revert();
             }
+        },
+        onConstruct : function(interceptor) {
+            registerInterceptor('construct', interceptor);
         },
         /**
          * Registers intercepter for abort method.

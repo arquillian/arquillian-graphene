@@ -93,6 +93,7 @@ module("RequestGuard");
         equal(guard.getRequestState(), "NONE");
         
         xhr.open("url");
+        xhr.send("content")
         equal(guard.getRequestType(), "XHR");
         equal(guard.getRequestState(), "IN_PROGRESS");
     });
