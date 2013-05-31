@@ -27,10 +27,23 @@
 
     <extension qualifier="webdriver">
         <property name="browserCapabilities">${browser}</property>
+        <property name="remote">${remote}</property>
+        <property name="platform">${platform}</property>
+        <property name="version">${browser.version}</property>
         <property name="remoteReusable">${remoteReusable}</property>
-        <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
+        <property name="remoteAddress">${remoteAddress}</property>
         <property name="javascriptEnabled">true</property>
         <property name="chromeDriverBinary">/opt/google/chrome/chromedriver</property>
+    </extension>
+
+    <extension qualifier="webdriver-browser1">
+        <property name="browserCapabilities">htmlUnit</property>
+        <property name="remote">false</property>
+    </extension>
+
+    <extension qualifier="webdriver-browser2">
+        <property name="browserCapabilities">htmlUnit</property>
+        <property name="remote">false</property>
     </extension>
 
     <!-- Set a different remote address then default for RemoteReusableTesting -->

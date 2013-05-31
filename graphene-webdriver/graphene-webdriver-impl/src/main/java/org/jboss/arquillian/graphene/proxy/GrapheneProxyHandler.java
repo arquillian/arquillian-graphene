@@ -264,7 +264,15 @@ public class GrapheneProxyHandler implements MethodInterceptor, InvocationHandle
             if (target instanceof GrapheneProxyInstance) {
                 target = ((GrapheneProxyInstance) target).unwrap();
             }
-            result = method.invoke(target, args);
+            if (!method.getDeclaringClass().isInstance(target)) {
+                Method realMethod = target.getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+                if (!realMethod.isAccessible()) {
+                    realMethod.setAccessible(true);
+                }
+                result = realMethod.invoke(target, args);
+            } else {
+                result = method.invoke(target, args);
+            }
         } catch (InvocationTargetException e) {
             throw e.getCause();
         } catch (Exception e) {

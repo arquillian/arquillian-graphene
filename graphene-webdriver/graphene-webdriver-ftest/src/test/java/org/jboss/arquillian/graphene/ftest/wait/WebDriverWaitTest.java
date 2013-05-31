@@ -82,7 +82,7 @@ public class WebDriverWaitTest extends AbstractWaitTest {
     @Test
     public void testWithTimeout() {
         TimeUnit unit = TimeUnit.MILLISECONDS;
-        long duration = 500;
+        long duration = 2000;
         long started = System.currentTimeMillis();
         try {
             Graphene.waitModel()

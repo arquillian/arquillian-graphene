@@ -149,7 +149,12 @@ public class TestPageFragments extends AbstractParallelTest {
         }
 
         public String getTitleViaJavaScriptExecutor() {
-            return (String) javascriptExecutor.executeScript("return document.title");
+            Object title = javascriptExecutor.executeScript("return document.title");
+            if (title == null) {
+                return null;
+            } else {
+                return (String) title;
+            }
         }
 
         public WebElement header() {

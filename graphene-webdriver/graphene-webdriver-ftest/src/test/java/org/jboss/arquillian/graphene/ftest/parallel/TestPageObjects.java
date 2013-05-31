@@ -34,6 +34,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import qualifier.Browser1;
 import qualifier.Browser2;
@@ -142,7 +143,12 @@ public class TestPageObjects extends AbstractParallelTest {
         }
 
         public String getTitleViaJavaScriptExecutor() {
-            return (String) javascriptExecutor.executeScript("return document.title");
+            Object title = javascriptExecutor.executeScript("return document.title");
+            if (title == null) {
+                return null;
+            } else {
+                return (String) title;
+            }
         }
 
         public String getHeaderTextViaJavaScriptInterface() {

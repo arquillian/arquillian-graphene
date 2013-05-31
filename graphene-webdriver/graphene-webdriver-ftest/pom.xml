@@ -14,7 +14,12 @@
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
 
         <browser>htmlUnit</browser>
+        <remote>false</remote>
         <remoteReusable>false</remoteReusable>
+        <remoteAddress>http://localhost:4444/wd/hub/</remoteAddress>
+
+        <platform>ANY</platform>
+        <browser.version>undefined</browser.version>
 
         <version.shrinkwrap>1.1.0-alpha-3</version.shrinkwrap>
     </properties>
@@ -149,6 +154,7 @@
             <id>webdriver-remote-reusable</id>
             <properties>
                 <remoteReusable>true</remoteReusable>
+                <remote>true</remote>
             </properties>
         </profile>
     </profiles>
