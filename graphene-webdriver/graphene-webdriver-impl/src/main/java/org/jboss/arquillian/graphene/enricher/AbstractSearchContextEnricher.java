@@ -29,6 +29,13 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
@@ -40,7 +47,7 @@ import org.openqa.selenium.SearchContext;
 
 /**
  * This class should help you to implement {@link SearchContextTestEnricher}.
- *
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
@@ -54,10 +61,9 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     private static Instance<ServiceLoader> serviceLoader;
 
     /**
-     * Performs further enrichment on the given instance with the given search
-     * context. That means all instances {@link TestEnricher} and
-     * {@link SearchContextTestEnricher} are invoked.
-     *
+     * Performs further enrichment on the given instance with the given search context. That means all instances
+     * {@link TestEnricher} and {@link SearchContextTestEnricher} are invoked.
+     * 
      * @param searchContext
      * @param target
      */
@@ -67,17 +73,23 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
                 enricher.enrich(target);
             }
         }
-        for (SearchContextTestEnricher enricher : serviceLoader.get().all(SearchContextTestEnricher.class)) {
+        for (SearchContextTestEnricher enricher : getSortedSearchContextEnrichers(serviceLoader)) {
             enricher.enrich(searchContext, target);
         }
     }
 
+    public static Collection<SearchContextTestEnricher> getSortedSearchContextEnrichers(Instance<ServiceLoader> serviceLoader) {
+        List<SearchContextTestEnricher> allSearchContextErichers = new ArrayList<SearchContextTestEnricher>(serviceLoader.get()
+            .all(SearchContextTestEnricher.class));
+        Collections.sort(allSearchContextErichers, new SearchContextTestEnricherPrecedenceComparator());
+        return allSearchContextErichers;
+    }
+
     /**
-     * It loads a real type of a field defined by parametric type. It searches
-     * in declaring class and super class. E. g. if a field is declared as 'A
-     * fieldName', It tries to find type parameter called 'A' in super class
-     * declaration and its evaluation in the class declaring the given field.
-     *
+     * It loads a real type of a field defined by parametric type. It searches in declaring class and super class. E. g. if a
+     * field is declared as 'A fieldName', It tries to find type parameter called 'A' in super class declaration and its
+     * evaluation in the class declaring the given field.
+     * 
      * @param field
      * @param testCase
      * @return type of the given field
@@ -104,9 +116,8 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     }
 
     /**
-     * It loads the concrete type of list items. E.g. for List<String>, String
-     * is returned.
-     *
+     * It loads the concrete type of list items. E.g. for List<String>, String is returned.
+     * 
      * @param listField
      * @return
      * @throws ClassNotFoundException
@@ -117,7 +128,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
     /**
      * Initialize given class.
-     *
+     * 
      * @param clazz to be initialized
      * @throws IllegalAccessException
      * @throws InstantiationException
@@ -126,8 +137,8 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @throws SecurityException
      * @throws NoSuchMethodException
      */
-    protected static <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException, InstantiationException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    protected static <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException,
+        InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Class<?> outerClass = clazz.getDeclaringClass();
 
         // load constructor and rea; arguments
@@ -174,7 +185,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
             field.set(target, value);
         } catch (Exception ex) {
             throw new GrapheneTestEnricherException("During enriching of " + NEW_LINE + target.getClass() + NEW_LINE
-                    + " the field " + NEW_LINE + field + " was not able to be set! Check the cause!", ex);
+                + " the field " + NEW_LINE + field + " was not able to be set! Check the cause!", ex);
         }
         if (!accessible) {
             field.setAccessible(false);

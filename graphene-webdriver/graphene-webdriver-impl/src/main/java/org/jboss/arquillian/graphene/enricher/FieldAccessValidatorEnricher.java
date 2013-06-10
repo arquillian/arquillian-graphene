@@ -58,4 +58,9 @@ public class FieldAccessValidatorEnricher implements SearchContextTestEnricher {
             }
         }
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }

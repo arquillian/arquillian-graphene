@@ -39,6 +39,11 @@ public interface SearchContextTestEnricher {
      * @param searchContext the context which should be used for enrichment
      * @param target instance to be enriched
      */
-    public void enrich(SearchContext searchContext, Object target);
-
+    void enrich(SearchContext searchContext, Object target);
+    
+    /**
+     * Returns the enricher precedence. Zero precedence is is the lowest one. 
+     * @return
+     */
+    int getPrecedence();
 }

@@ -173,4 +173,9 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         Object pageFragment = createPageFragment(field.getType(), root);
         setValue(field, target, pageFragment);
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }

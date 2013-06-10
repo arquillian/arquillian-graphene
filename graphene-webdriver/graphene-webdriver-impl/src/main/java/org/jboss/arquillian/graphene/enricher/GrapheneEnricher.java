@@ -21,28 +21,28 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import java.lang.reflect.Method;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
+import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
- * Graphene enricher calls all {@link SearchContextTestEnricher} instances to start
- * their enrichment.
- *
+ * Graphene enricher calls all {@link SearchContextTestEnricher} instances to start their enrichment.
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class GrapheneEnricher implements TestEnricher {
 
     @Inject
-    private Instance<ServiceLoader> serviceLoader;
+    private static Instance<ServiceLoader> serviceLoader;
 
     @Override
     public void enrich(Object o) {
-        for (SearchContextTestEnricher enricher: serviceLoader.get().all(SearchContextTestEnricher.class)) {
+        for (SearchContextTestEnricher enricher : AbstractSearchContextEnricher.getSortedSearchContextEnrichers(serviceLoader)) {
             enricher.enrich(null, o);
         }
     }
@@ -51,5 +51,4 @@ public class GrapheneEnricher implements TestEnricher {
     public Object[] resolve(Method method) {
         return new Object[method.getParameterTypes().length];
     }
-
 }

@@ -124,4 +124,9 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
             return ReflectionHelper.hasConstructor(clazz, outerClass, WebElement.class);
         }
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }
