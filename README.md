@@ -1,16 +1,22 @@
-Welcome to Arquillian Graphene - Testing Ajax with flavour of sexy type-safe API
-================================================================================
+Welcome to Arquillian Graphene 2
+================================
+<h3>Testing Ajax with a flavour of sexy WebDriver API</h3>
 
-Graphene project is designed as enhancement of Selenium project focused on rapid development andusability in Java environment.
 
-* API is **straightforward** and enforces tester to write **Ajax-enabled** tests,
-* internals enables **JQuery location strategy**, which improves performance of the tests,
-* brings concepts for on-the-fly injection of own **selenium extensions** and also **extensions to page code** (enabling advanced testing features)
-* allows **command interception** and **request interception**,
-* it brings **type-safe** equivalent of Selenium version 1.x, enabling **auto-completion** and **rapid development style**,
-* integrates with Arquillian using **Arquillian Drone extension**.
+Graphene 2 project is designed as set of extensions for [Selenium WebDriver](http://docs.seleniumhq.org/) project focused on rapid development and usability in Java environment.
 
-With all the concepts above, Graphene brings new power to space of enterprise Java-based testing.
+* API is **straightforward** and enforces tester to write **Ajax-enabled** and **reusable tests** and test abstractions,
+* encourages to write tests in a [consistent level of abstraction](https://docs.jboss.org/author/display/ARQGRA2/Page+Abstractions) using [**Page Objects**](https://docs.jboss.org/author/display/ARQGRA2/Page+Objects) and [**Page Fragments**](https://docs.jboss.org/author/display/ARQGRA2/Page+Fragments),
+* the code is robust with improved readability,
+  * supports [**request guarding**](https://docs.jboss.org/author/display/ARQGRA2/Request+Guards) and interception,
+  * improved [**Waiting API**](https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class#GrapheneUtilityClass-Waitings),
+* allows **WebDriver API interception**
+* focuses on **portability across browsers**,
+* it enables **JQuery selectors as a location strategy** which is familiar to web development community
+* brings concepts for on-the-fly **injection of extensions to a page code** (enabling advanced testing features)
+* integrates with **Arquillian Core** and **Arquillian Drone** extension
+
+With all the concepts above, Graphene brings new power to space of Java-based testing.
 
 Project Info
 ------------
@@ -18,7 +24,7 @@ Project Info
 <table>
     <tr>
         <td>License:</td>
-        <td>LGPL v2.1, ASL v2.0 (dual-licensed)</td>
+        <td>LGPL v2.1 or ASL v2.0 (dual-licensed)</td>
     </tr>
     <tr>
         <td>Build:</td>
@@ -26,11 +32,11 @@ Project Info
     </tr>
     <tr>
         <td>Documentation:</td>
-        <td>https://docs.jboss.org/author/display/ARQGRA</td>
+        <td><a href="https://docs.jboss.org/author/display/ARQGRA2">https://docs.jboss.org/author/display/ARQGRA2</a></td>
     </tr>
     <tr>
         <td>Issue tracker:</td>
-        <td>https://issues.jboss.org/browse/ARQGRA</td>
+        <td><a href="https://issues.jboss.org/browse/ARQGRA">https://issues.jboss.org/browse/ARQGRA</a></td>
     </tr>
 </table>
 
@@ -42,13 +48,13 @@ Getting Started
 
 To use Graphene, add following dependencies to your project.
 
-It will allow you to use Graphene with *JUnit* integration, in *Standalone* mode (check [documentation](https://docs.jboss.org/author/display/ARQGRA/Getting+Started) for other modes and framework integrations):
+It will allow you to use Graphene with *JUnit* integration, in *Standalone* mode (check [documentation](https://docs.jboss.org/author/display/ARQGRA2/Getting+Started) for other modes and framework integrations):
 
     <!-- JUnit -->
     <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>4.8.2</version>
+        <version>${version.junit}</version>
         <scope>test</scope>
     </dependency>
      
@@ -56,15 +62,15 @@ It will allow you to use Graphene with *JUnit* integration, in *Standalone* mode
     <dependency>
         <groupId>org.jboss.arquillian.junit</groupId>
         <artifactId>arquillian-junit-standalone</artifactId>
-        <version>1.0.0.Final</version>
+        <version>${version.arquillian.core}</version>
         <scope>test</scope>
     </dependency>
      
     <!-- Graphene dependency chain - imports all other dependencies required -->
     <dependency>
         <groupId>org.jboss.arquillian.graphene</groupId>
-        <artifactId>arquillian-graphene</artifactId>
-        <version>1.0.0.Final</version>
+        <artifactId>graphene-webdriver</artifactId>
+        <version>${version.arquillian.graphene}</version>
         <type>pom</type>
         <scope>test</scope>
     </dependency>
@@ -76,18 +82,16 @@ To start with Graphene from beloved Java, you can write similar code:
     @RunWith(Arquillian.class)
     public class BasicTestCase {
     
-        URL url = URLUtils.buildUrl("http://www.google.com/");
+        private URL url = URLUtils.buildUrl("http://www.google.com/");
         
         @Drone
-        GrapheneSelenium browser;
+        WebDriver browser;
     
         @Test
         public void testOpeningHomePage() {
-            browser.open(url);
+            browser.get(url.toString());
         }
     }
-
-For more knowledge about framework's strengths, let's look at [Common API](https://docs.jboss.org/author/display/ARQGRA/Common+API) documentation.
 
 
 For Developers
