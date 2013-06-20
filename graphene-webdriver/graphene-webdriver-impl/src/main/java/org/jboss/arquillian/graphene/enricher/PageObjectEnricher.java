@@ -96,4 +96,9 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
         enrichRecursively(searchContext, proxy); // because of possibility of direct access to attributes from test class
         return proxy;
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }

@@ -53,4 +53,9 @@ public class JavaScriptEnricher extends AbstractSearchContextEnricher {
             }
         }
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }

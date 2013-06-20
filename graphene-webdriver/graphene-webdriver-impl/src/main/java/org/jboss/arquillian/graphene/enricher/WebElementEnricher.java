@@ -81,4 +81,9 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
             throw new IllegalStateException(e.getMessage(), e);
         }
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }
