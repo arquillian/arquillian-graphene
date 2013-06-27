@@ -21,11 +21,13 @@
  */
 package org.jboss.arquillian.graphene;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.ElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.attribute.ElementAttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
+import org.jboss.arquillian.graphene.enricher.LocationEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
 import org.jboss.arquillian.graphene.guard.RequestGuard;
 import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
@@ -197,6 +199,15 @@ public class Graphene {
 
     public static <T> T createPageFragment(Class<T> clazz, WebElement root) {
         return PageFragmentEnricher.createPageFragment(clazz, root);
+    }
+    
+    public static <T> T goTo(Class<T> clazz) {
+        return goTo(clazz, Default.class);
+    }
+    
+    public static <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
+        LocationEnricher locationEnricher = new LocationEnricher();
+        return locationEnricher.goTo(pageObject, browserQualifier);
     }
 
     private static RequestGuardFactory getRequestGuardFactoryFor(Object target) {
