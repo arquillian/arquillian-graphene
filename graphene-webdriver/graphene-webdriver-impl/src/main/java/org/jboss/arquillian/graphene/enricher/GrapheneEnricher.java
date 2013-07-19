@@ -22,11 +22,13 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
@@ -39,6 +41,9 @@ public class GrapheneEnricher implements TestEnricher {
 
     @Inject
     private static Instance<ServiceLoader> serviceLoader;
+
+    @ArquillianResource
+    private URL contextRoot;
 
     @Override
     public void enrich(Object o) {
