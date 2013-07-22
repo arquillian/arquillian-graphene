@@ -107,7 +107,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.test</groupId>
             <artifactId>arquillian-test-impl-base</artifactId>
-<!--             <scope>test</scope> -->
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.test</groupId>
