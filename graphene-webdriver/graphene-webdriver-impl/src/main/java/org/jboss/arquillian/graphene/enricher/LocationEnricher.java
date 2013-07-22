@@ -1,29 +1,35 @@
 package org.jboss.arquillian.graphene.enricher;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.container.ServletURLLookupService;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.spi.annotations.InitialPage;
 import org.jboss.arquillian.graphene.spi.annotations.Location;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.arquillian.test.impl.enricher.resource.ArquillianResourceTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.WebDriver;
 
 public class LocationEnricher implements TestEnricher {
 
-    @Inject
-    private static Instance<ServiceLoader> serviceLoader;
+    private static ThreadLocal<URL> contextRootStore = new ThreadLocal<URL>();
+    private static String RESOURCE_PREFIX = "resource://";
 
-    @ArquillianResource
-    private URL contextRoot;
+    @Inject
+    private Instance<ServiceLoader> serviceLoader;
+
+    @Inject
+    private Instance<Injector> injector;
 
     @Override
     public void enrich(Object testCase) {
@@ -32,10 +38,9 @@ public class LocationEnricher implements TestEnricher {
     @Override
     public Object[] resolve(Method method) {
         int indexOfInitialPage = getIndexOfParameterWithAnnotation(InitialPage.class, method);
-        if(indexOfInitialPage == -1) {
+        if (indexOfInitialPage == -1) {
             return new Object[method.getParameterTypes().length];
         }
-        enrichArquillianResourceOfThis();
         Class<?> qualifier = ReflectionHelper.getQualifier(method.getParameterAnnotations()[indexOfInitialPage]);
         WebDriver browser = GrapheneContext.getContextFor(qualifier).getWebDriver();
 
@@ -43,22 +48,13 @@ public class LocationEnricher implements TestEnricher {
         Object[] result = new Object[method.getParameterTypes().length];
         result[indexOfInitialPage] = goTo(parameterTypes[indexOfInitialPage], browser);
 
+        URL contextRoot = getContextRoot(method);
+        contextRootStore.set(contextRoot);
+
         return result;
     }
 
-    private void enrichArquillianResourceOfThis() {
-        if (contextRoot != null) {
-            return;
-        }
-        for (TestEnricher enricher : serviceLoader.get().all(TestEnricher.class)) {
-            if (enricher instanceof ArquillianResourceTestEnricher) {
-                enricher.enrich(this);
-            }
-        }
-    }
-
     public <T> T goTo(Class<T> pageObject, WebDriver browser) {
-        enrichArquillianResourceOfThis();
         T result = null;
         try {
             T initializedPage = (T) pageObject.newInstance();
@@ -77,33 +73,65 @@ public class LocationEnricher implements TestEnricher {
     }
 
     private void handleLocationOf(Class<?> pageObjectClass, WebDriver browser) {
-        String locationValue = pageObjectClass.getAnnotation(Location.class).value();
-        if (locationValue.trim().length() == 0) {
-            throw new IllegalArgumentException("The @Location value over: " + pageObjectClass
-                + " should be a URL of the page which the page object represents. Can not be empty!");
+
+        Location location = pageObjectClass.getAnnotation(Location.class);
+        if (location == null) {
+            throw new IllegalArgumentException(
+                    String.format(
+                            "The page object '%s' that you are navigating to using either Graphene.goTo(<page_object>) or @InitialPage isn't annotated with @Location",
+                            pageObjectClass.getSimpleName()));
         }
-        if (contextRoot == null) {
-            // there is no deployment
-            URL url = LocationEnricher.class.getClassLoader().getResource(locationValue);
-            if (url == null) {
-                throw new IllegalArgumentException("Graphene is trying to open: " + locationValue
-                    + " as a local resource as it seems that you are not deploying on any container and "
-                    + "the resource does not exist. Check out the @Location value over: " + pageObjectClass);
-            }
+
+        try {
+            URL url = getURLFromLocation(location);
             browser.get(url.toExternalForm());
-        } else {
-            try {
-                browser.get(new URL(contextRoot, locationValue).toExternalForm());
-            } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("Graphene is trying to open: " + contextRoot.toExternalForm()
-                    + locationValue + ". However there was an error! Check out @Location value over: " + pageObjectClass, e);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(String.format("Location '%s' specified on %s is not valid URL",
+                    location.value(), pageObjectClass.getSimpleName()));
+        }
+    }
+
+    private URL getURLFromLocation(Location location) throws MalformedURLException {
+        final URL contextRoot = contextRootStore.get();
+
+        URI uri;
+
+        try {
+            uri = new URI(location.value());
+        } catch (URISyntaxException e) {
+            if (contextRoot != null) {
+                return new URL(contextRoot, location.value());
+            } else {
+                throw new IllegalStateException(String.format("The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
             }
         }
+
+        if ("resource".equals(uri.getScheme())) {
+            String resourceName = uri.getSchemeSpecificPart();
+            if (resourceName.startsWith("//")) {
+                resourceName = resourceName.substring(2);
+            }
+            URL url = LocationEnricher.class.getClassLoader().getResource(resourceName);
+            if (url == null) {
+                throw new IllegalArgumentException(String.format("Resource '%s' specified by %s was not found", resourceName, location));
+            }
+            return url;
+        }
+
+        if ("file".equals(uri.getScheme())) {
+            File file = new File(uri);
+            if (file.exists()) {
+                throw new IllegalArgumentException(String.format("File specified by %s was not found", location));
+            }
+            return file.getAbsoluteFile().toURI().toURL();
+        }
+
+        return uri.toURL();
     }
 
     /**
      * Returns the index of the first parameter which contains the <code>annotation</code>
-     * 
+     *
      * @param annotation
      * @param method
      * @return
@@ -130,5 +158,10 @@ public class LocationEnricher implements TestEnricher {
         }
 
         return result;
+    }
+
+    private URL getContextRoot(Method method) {
+        ServletURLLookupService service = serviceLoader.get().onlyOne(ServletURLLookupService.class);
+        return service.getContextRoot(method);
     }
 }

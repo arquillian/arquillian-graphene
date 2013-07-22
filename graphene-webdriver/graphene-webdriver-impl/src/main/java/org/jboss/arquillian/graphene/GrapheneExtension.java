@@ -25,6 +25,9 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.drone.spi.Enhancer;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurationResourceProvider;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurator;
+import org.jboss.arquillian.graphene.container.ServletURLLookupService;
+import org.jboss.arquillian.graphene.container.ServletURLLookupServiceImpl;
+import org.jboss.arquillian.graphene.enricher.FieldAccessValidatorEnricher;
 import org.jboss.arquillian.graphene.enricher.GrapheneContextProvider;
 import org.jboss.arquillian.graphene.enricher.GrapheneEnricher;
 import org.jboss.arquillian.graphene.enricher.InFrameEnricher;
@@ -33,7 +36,6 @@ import org.jboss.arquillian.graphene.enricher.LocationEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
 import org.jboss.arquillian.graphene.enricher.PageObjectEnricher;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider;
-import org.jboss.arquillian.graphene.enricher.FieldAccessValidatorEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
 import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
@@ -54,6 +56,7 @@ public class GrapheneExtension implements LoadableExtension {
         /* Component Objects */
         builder.service(TestEnricher.class, GrapheneEnricher.class);
         builder.service(TestEnricher.class, LocationEnricher.class);
+        builder.service(ServletURLLookupService.class, ServletURLLookupServiceImpl.class);
         builder.service(SearchContextTestEnricher.class, WebElementEnricher.class);
         builder.service(SearchContextTestEnricher.class, PageFragmentEnricher.class);
         builder.service(SearchContextTestEnricher.class, PageObjectEnricher.class);

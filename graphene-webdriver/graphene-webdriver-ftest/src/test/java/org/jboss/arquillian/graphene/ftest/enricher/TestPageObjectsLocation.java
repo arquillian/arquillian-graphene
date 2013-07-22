@@ -77,34 +77,45 @@ public class TestPageObjectsLocation {
         MyPageObject2 page2 = Graphene.goTo(MyPageObject2.class);
         checkMyPageObject2(page2);
     }
-    
+
     @Test
     public void testGoToDefaultDeployment() {
         MyPageObject2 page2 = Graphene.goTo(MyPageObject2.class);
         checkMyPageObject2(page2);
     }
-    
+
     @Test
     public void testInitialPageCustomBrowser(@Browser3 @InitialPage MyPageObject2 obj) {
         browser.get("http://localhost:8080");
         checkMyPageObject2(obj);
     }
-    
+
     @Test
     public void testGotoPageCustomBrowser() {
         MyPageObject2 page2 = Graphene.goTo(MyPageObject2.class, Browser3.class);
         browser.get("http://localhost:8080");
         checkMyPageObject2(page2);
-        
+
         browser3.get("http://localhost:8080");
         page2 = Graphene.goTo(MyPageObject2.class);
         checkMyPageObject2(page2);
     }
 
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGotoPageWithoutLocation() {
+        Graphene.goTo(PageObjectWithoutLocation.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGotoPageWithoutLocation1(@InitialPage PageObjectWithoutLocation page) {
+    }
+
     /*
      * Nested classes
      */
-    @Location("org/jboss/arquillian/graphene/ftest/enricher/sample.html")
+    @Location("resource://org/jboss/arquillian/graphene/ftest/enricher/sample.html")
     public static class MyPageObject1 {
         @FindBy(css = "#pseudoroot")
         private WebElement element;
@@ -114,7 +125,7 @@ public class TestPageObjectsLocation {
         }
     }
 
-    @Location("org/jboss/arquillian/graphene/ftest/enricher/empty-findby.html")
+    @Location("resource://org/jboss/arquillian/graphene/ftest/enricher/empty-findby.html")
     public static class MyPageObject2 {
         @FindBy(css = "#divWebElement")
         private WebElement element;
@@ -122,6 +133,9 @@ public class TestPageObjectsLocation {
         public WebElement getElement() {
             return element;
         }
+    }
+
+    public static class PageObjectWithoutLocation {
     }
 
     /*
