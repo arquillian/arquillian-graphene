@@ -36,6 +36,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.FindsByClassName;
+import org.openqa.selenium.internal.FindsByCssSelector;
+import org.openqa.selenium.internal.FindsById;
+import org.openqa.selenium.internal.FindsByLinkText;
+import org.openqa.selenium.internal.FindsByName;
+import org.openqa.selenium.internal.FindsByTagName;
+import org.openqa.selenium.internal.FindsByXPath;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.ByIdOrName;
@@ -127,7 +134,8 @@ public final class WebElementUtils {
 
     protected static WebElement findElement(GrapheneContext context, final GrapheneProxy.FutureTarget target) {
         final WebElement element = GrapheneProxy.getProxyForFutureTarget(context, target, WebElement.class, Locatable.class,
-                WrapsElement.class);
+                WrapsElement.class, FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class,
+                FindsByName.class, FindsByTagName.class, FindsByXPath.class);
         final GrapheneProxyInstance elementProxy = (GrapheneProxyInstance) element;
 
         InterceptorBuilder b = new InterceptorBuilder();
@@ -141,12 +149,8 @@ public final class WebElementUtils {
 
     protected static WebElement dropProxyAndFindElement(By by, SearchContext searchContext) {
         if (searchContext instanceof GrapheneProxyInstance) {
-            if (by instanceof ByJQuery) {
-                return by.findElement(searchContext);
-            } else {
-                SearchContext unwrapped = (SearchContext) ((GrapheneProxyInstance) searchContext).unwrap();
-                return unwrapped.findElement(by);
-            }
+            SearchContext unwrapped = (SearchContext) ((GrapheneProxyInstance) searchContext).unwrap();
+            return unwrapped.findElement(by);
         } else {
             return searchContext.findElement(by);
         }

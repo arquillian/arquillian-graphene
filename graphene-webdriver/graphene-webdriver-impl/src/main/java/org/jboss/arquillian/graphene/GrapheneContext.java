@@ -24,6 +24,7 @@ package org.jboss.arquillian.graphene;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.enricher.SearchContextInterceptor;
@@ -118,7 +119,7 @@ public class GrapheneContext {
     }
 
     // static methods
-    static GrapheneContext lastContext() {
+    public static GrapheneContext lastContext() {
         return CURRENT_CONTEXT.getLast();
     }
 

@@ -24,9 +24,10 @@ package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
-import org.jboss.arquillian.graphene.GrapheneContext;
 
 import net.sf.cglib.proxy.Enhancer;
+
+import org.jboss.arquillian.graphene.GrapheneContext;
 
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the proxy.
@@ -158,14 +159,18 @@ public final class GrapheneProxy {
 
         Class<?>[] ancillaryTypes = GrapheneProxyUtil.concatClasses(additionalInterfaces, GrapheneProxyInstance.class);
 
+        T result;
+
         if (baseType == null || baseType.isInterface()) {
             if (baseType != null) {
                 ancillaryTypes = GrapheneProxyUtil.concatClasses(ancillaryTypes, baseType);
             }
-            return (T) Proxy.newProxyInstance(GrapheneProxy.class.getClassLoader(), ancillaryTypes, interceptor);
+            result = (T) Proxy.newProxyInstance(GrapheneProxy.class.getClassLoader(), ancillaryTypes, interceptor);
+        } else {
+            result = (T) ClassImposterizer.INSTANCE.imposterise(interceptor, baseType, ancillaryTypes);
         }
 
-        return (T) ClassImposterizer.INSTANCE.imposterise(interceptor, baseType, ancillaryTypes);
+        return result;
     }
 
     /**
