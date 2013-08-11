@@ -23,9 +23,15 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 
@@ -44,9 +50,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Enricher injecting page fragments ({@link FindBy} annotation is used) to the
- * fields of the given object.
- *
+ * Enricher injecting page fragments ({@link FindBy} annotation is used) to the fields of the given object.
+ * 
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
@@ -67,7 +72,8 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     public void enrich(final SearchContext searchContext, Object target) {
         List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
         for (Field field : fields) {
-            GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+            GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext)
+                .getContext();
             final SearchContext localSearchContext;
             if (grapheneContext == null) {
                 grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
@@ -93,8 +99,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     protected final boolean isPageFragmentClass(Class<?> clazz) {
         // check whether it isn't interface or final class
-        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isFinal(clazz.getModifiers())
-                || Modifier.isAbstract(clazz.getModifiers())) {
+        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isFinal(clazz.getModifiers())) {
             return false;
         }
 
@@ -125,15 +130,20 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         return result;
     }
 
-    public static <T> T createPageFragment(Class<T> clazz, WebElement root) {
+    public static <T> T createPageFragment(Class<T> clazz, final WebElement root) {
         try {
             GrapheneContext grapheneContext = ((GrapheneProxyInstance) root).getContext();
-            T pageFragment = instantiate(clazz);
+            T pageFragment = null;
+            if (isAboutToDelegateToWebElement(clazz)) {
+                pageFragment = createProxyDelegatingToRoot(root, clazz);
+            } else {
+                pageFragment = instantiate(clazz);
+            }
             List<Field> roots = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
             if (roots.size() > 1) {
                 throw new PageFragmentInitializationException("The Page Fragment " + NEW_LINE + pageFragment.getClass()
-                        + NEW_LINE + " can not have more than one field annotated with Root annotation!"
-                        + "Your fields with @Root annotation: " + roots + NEW_LINE);
+                    + NEW_LINE + " can not have more than one field annotated with Root annotation!"
+                    + "Your fields with @Root annotation: " + roots + NEW_LINE);
             }
             if (roots.size() == 1) {
                 setValue(roots.get(0), pageFragment, root);
@@ -144,22 +154,41 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
             return proxy;
         } catch (NoSuchMethodException ex) {
             throw new PageFragmentInitializationException(" Check whether declared Page Fragment has no argument constructor!",
-                    ex);
+                ex);
         } catch (IllegalAccessException ex) {
             throw new PageFragmentInitializationException(
-                    " Check whether declared Page Fragment has public no argument constructor!", ex);
+                " Check whether declared Page Fragment has public no argument constructor!", ex);
         } catch (InstantiationException ex) {
             throw new PageFragmentInitializationException(
-                    " Check whether you did not declare Page Fragment with abstract type!", ex);
+                " Check whether you did not declare Page Fragment with abstract type!", ex);
         } catch (Exception ex) {
             throw new PageFragmentInitializationException(ex);
         }
     }
 
+    private static boolean isAboutToDelegateToWebElement(Class<?> clazz) {
+        return Arrays.asList(clazz.getInterfaces()).contains(WebElement.class);
+    }
+    
+    private static <T> T createProxyDelegatingToRoot(final WebElement root, Class<T> clazz) {
+        return ClassImposterizer.INSTANCE.imposterise(new MethodInterceptor() {
+
+            @Override
+            public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+                List<Method> webElementMethods = Arrays.asList(WebElement.class.getMethods());
+                if (webElementMethods.contains(method)) {
+                    return method.invoke(root, args);
+                } else {
+                    return proxy.invokeSuper(obj, args);
+                }
+            }
+        }, clazz, WebElement.class);
+    }
+
     protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)
-            throws ClassNotFoundException {
+        throws ClassNotFoundException {
         GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
-        //the by retrieved in this way is never null, by default it is ByIdOrName using field name
+        // the by retrieved in this way is never null, by default it is ByIdOrName using field name
         By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
         List<?> pageFragments = createPageFragmentList(getListType(field), searchContext, rootBy);
         setValue(field, target, pageFragments);
@@ -167,7 +196,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     protected final void setupPageFragment(SearchContext searchContext, Object target, Field field) {
         GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
-        //the by retrieved in this way is never null, by default it is ByIdOrName using field name
+        // the by retrieved in this way is never null, by default it is ByIdOrName using field name
         By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
         WebElement root = WebElementUtils.findElementLazily(rootBy, searchContext);
         Object pageFragment = createPageFragment(field.getType(), root);

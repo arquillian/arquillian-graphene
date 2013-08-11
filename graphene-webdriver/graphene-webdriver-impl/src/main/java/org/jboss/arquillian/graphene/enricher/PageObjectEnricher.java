@@ -89,7 +89,7 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
         }
     }
 
-    protected <P> P setupPage(GrapheneContext context, SearchContext searchContext, Class<?> pageClass) throws Exception{
+    public static <P> P setupPage(GrapheneContext context, SearchContext searchContext, Class<?> pageClass) throws Exception{
         P page = (P) instantiate(pageClass);
         P proxy = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forTarget(context, page), pageClass);
         enrichRecursively(searchContext, page);

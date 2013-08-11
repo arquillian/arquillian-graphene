@@ -23,7 +23,6 @@ import org.openqa.selenium.WebDriver;
 public class LocationEnricher implements TestEnricher {
 
     private static ThreadLocal<URL> contextRootStore = new ThreadLocal<URL>();
-    private static String RESOURCE_PREFIX = "resource://";
 
     @Inject
     private Instance<ServiceLoader> serviceLoader;
@@ -42,11 +41,10 @@ public class LocationEnricher implements TestEnricher {
             return new Object[method.getParameterTypes().length];
         }
         Class<?> qualifier = ReflectionHelper.getQualifier(method.getParameterAnnotations()[indexOfInitialPage]);
-        WebDriver browser = GrapheneContext.getContextFor(qualifier).getWebDriver();
 
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] result = new Object[method.getParameterTypes().length];
-        result[indexOfInitialPage] = goTo(parameterTypes[indexOfInitialPage], browser);
+        result[indexOfInitialPage] = goTo(parameterTypes[indexOfInitialPage], qualifier);
 
         URL contextRoot = getContextRoot(method);
         contextRootStore.set(contextRoot);
@@ -54,12 +52,12 @@ public class LocationEnricher implements TestEnricher {
         return result;
     }
 
-    public <T> T goTo(Class<T> pageObject, WebDriver browser) {
+    public <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
         T result = null;
+        GrapheneContext grapheneContext = GrapheneContext.getContextFor(browserQualifier);
+        WebDriver browser = grapheneContext.getWebDriver();
         try {
-            T initializedPage = (T) pageObject.newInstance();
-            AbstractSearchContextEnricher.enrichRecursively(browser, initializedPage);
-            result = initializedPage;
+            result = PageObjectEnricher.setupPage(grapheneContext, browser, pageObject);
         } catch (Exception e) {
             throw new GrapheneTestEnricherException("Error while initializing: " + pageObject, e);
         }
@@ -67,19 +65,15 @@ public class LocationEnricher implements TestEnricher {
         return result;
     }
 
-    public <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
-        WebDriver browser = GrapheneContext.getContextFor(browserQualifier).getWebDriver();
-        return goTo(pageObject, browser);
-    }
-
     private void handleLocationOf(Class<?> pageObjectClass, WebDriver browser) {
 
         Location location = pageObjectClass.getAnnotation(Location.class);
         if (location == null) {
             throw new IllegalArgumentException(
-                    String.format(
-                            "The page object '%s' that you are navigating to using either Graphene.goTo(<page_object>) or @InitialPage isn't annotated with @Location",
-                            pageObjectClass.getSimpleName()));
+                String
+                    .format(
+                        "The page object '%s' that you are navigating to using either Graphene.goTo(<page_object>) or @InitialPage isn't annotated with @Location",
+                        pageObjectClass.getSimpleName()));
         }
 
         try {
@@ -87,7 +81,7 @@ public class LocationEnricher implements TestEnricher {
             browser.get(url.toExternalForm());
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(String.format("Location '%s' specified on %s is not valid URL",
-                    location.value(), pageObjectClass.getSimpleName()));
+                location.value(), pageObjectClass.getSimpleName()));
         }
     }
 
@@ -102,7 +96,8 @@ public class LocationEnricher implements TestEnricher {
             if (contextRoot != null) {
                 return new URL(contextRoot, location.value());
             } else {
-                throw new IllegalStateException(String.format("The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
+                throw new IllegalStateException(String.format(
+                    "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
             }
         }
 
@@ -113,7 +108,8 @@ public class LocationEnricher implements TestEnricher {
             }
             URL url = LocationEnricher.class.getClassLoader().getResource(resourceName);
             if (url == null) {
-                throw new IllegalArgumentException(String.format("Resource '%s' specified by %s was not found", resourceName, location));
+                throw new IllegalArgumentException(String.format("Resource '%s' specified by %s was not found", resourceName,
+                    location));
             }
             return url;
         }
@@ -131,7 +127,7 @@ public class LocationEnricher implements TestEnricher {
 
     /**
      * Returns the index of the first parameter which contains the <code>annotation</code>
-     *
+     * 
      * @param annotation
      * @param method
      * @return

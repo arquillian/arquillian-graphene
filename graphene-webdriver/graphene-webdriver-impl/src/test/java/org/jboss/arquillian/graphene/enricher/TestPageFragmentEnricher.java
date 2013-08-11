@@ -42,22 +42,21 @@ public class TestPageFragmentEnricher extends AbstractGrapheneEnricherTest {
         Assert.assertNull(target.pageFragment);
     }
 
-
     @Test
     public void testTooManyRoots() {
         thrown.expect(PageFragmentInitializationException.class);
         getGrapheneEnricher().enrich(new TooManyRootsTest());
     }
 
-    @Test
+    @Test(expected = PageFragmentInitializationException.class)
     public void testAbstractType() {
         AbstractTypeTest target = new AbstractTypeTest();
         getGrapheneEnricher().enrich(target);
-        Assert.assertNull(target.pageFragment);
+        Assert.assertNotNull(target.pageFragment);
     }
 
     public static class NoArgConstructorTest {
-        @FindBy(id="blah")
+        @FindBy(id = "blah")
         private WrongPageFragmentMissingNoArgConstructor pageFragment;
     }
 
