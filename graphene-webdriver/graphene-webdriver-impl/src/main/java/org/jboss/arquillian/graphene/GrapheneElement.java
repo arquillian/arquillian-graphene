@@ -132,11 +132,6 @@ public class GrapheneElement implements WebElement, Locatable, WrapsElement {
     }
 
     @Override
-    public Point getLocationOnScreenOnceScrolledIntoView() {
-        return ((Locatable) element).getLocationOnScreenOnceScrolledIntoView();
-    }
-
-    @Override
     public Coordinates getCoordinates() {
         return ((Locatable) element).getCoordinates();
     }
