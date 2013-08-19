@@ -21,8 +21,12 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
+import static org.junit.Assert.assertThat;
+
 import java.net.URL;
 import java.util.List;
+
+import org.hamcrest.Matchers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -103,7 +107,11 @@ public class TestGrapheneElement {
     @Test
     public void testOneWithJavascript() {
         String inner = testJavascript.getInnerHtml(root);
-        Assert.assertTrue(inner.contains("<div id=\"pseudoroot\">pseudo root</div>"));
+
+        // unify
+        inner = inner.replaceAll("\"", "").toLowerCase();
+
+        assertThat(inner, Matchers.containsString("<div id=pseudoroot>pseudo root</div>"));
     }
 
     @Test

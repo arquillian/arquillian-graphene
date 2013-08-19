@@ -21,12 +21,16 @@
  */
 package org.jboss.arquillian.graphene.ftest.page.extension;
 
+import static org.mockito.Mockito.when;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import junit.framework.Assert;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -43,7 +47,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.when;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -76,8 +79,8 @@ public class PageExtensionTestCase {
     public void testCorrectInstallation() {
         // page extension construction
         PageExtension pageExtensionMock = Mockito.mock(PageExtension.class);
-        when(pageExtensionMock.getExtensionScript()).thenReturn(JavaScript.fromString("Document.Graphene = {};"));
-        when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return (typeof Document.Graphene != 'undefined');"));
+        when(pageExtensionMock.getExtensionScript()).thenReturn(JavaScript.fromString("document.Graphene = {};"));
+        when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return (typeof document.Graphene != 'undefined');"));
         when(pageExtensionMock.getRequired()).thenReturn(Collections.EMPTY_LIST);
         // registry
         PageExtensionRegistry registry = context.getPageExtensionRegistry();
@@ -104,8 +107,8 @@ public class PageExtensionTestCase {
     public void testInstallationWithRequirements() {
         // page extension construction
         PageExtension pageExtensionMock = Mockito.mock(PageExtension.class);
-        when(pageExtensionMock.getExtensionScript()).thenReturn(JavaScript.fromString("Document.Graphene2 = Document.Graphene1 + 1;"));
-        when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return ((typeof Document.Graphene2 != 'undefined') && Document.Graphene2 == 2);"));
+        when(pageExtensionMock.getExtensionScript()).thenReturn(JavaScript.fromString("document.Graphene2 = document.Graphene1 + 1;"));
+        when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return ((typeof document.Graphene2 != 'undefined') && document.Graphene2 == 2);"));
         List<String> requirements = new ArrayList<String>();
         requirements.add(SimplePageExtension.class.getName());
         when(pageExtensionMock.getRequired()).thenReturn(requirements);
@@ -123,8 +126,8 @@ public class PageExtensionTestCase {
     public void testInstallationWithCyclicRequirements() {
         // page extension construction
         PageExtension pageExtensionMock = Mockito.mock(PageExtension.class);
-        when(pageExtensionMock.getExtensionScript()).thenReturn(JavaScript.fromString("Document.Graphene2 = Document.Graphene1 + 1;"));
-        when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return ((typeof Document.Graphene2 != 'undefined') && Document.Graphene2 == 2);"));
+        when(pageExtensionMock.getExtensionScript()).thenReturn(JavaScript.fromString("document.Graphene2 = document.Graphene1 + 1;"));
+        when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return ((typeof document.Graphene2 != 'undefined') && document.Graphene2 == 2);"));
         List<String> requirements = new ArrayList<String>();
         requirements.add(SimplePageExtension.class.getName());
         requirements.add(CyclicPageExtension1.class.getName());
@@ -144,12 +147,12 @@ public class PageExtensionTestCase {
 
         @Override
         public JavaScript getExtensionScript() {
-            return JavaScript.fromString("Document.Graphene1 = 1;");
+            return JavaScript.fromString("document.Graphene1 = 1;");
         }
 
         @Override
         public JavaScript getInstallationDetectionScript() {
-            return JavaScript.fromString("return ((typeof Document.Graphene1 != 'undefined') && Document.Graphene1 == 1);");
+            return JavaScript.fromString("return ((typeof document.Graphene1 != 'undefined') && document.Graphene1 == 1);");
         }
 
         @Override
@@ -168,12 +171,12 @@ public class PageExtensionTestCase {
 
         @Override
         public JavaScript getExtensionScript() {
-            return JavaScript.fromString("Document.Cyclic1 = 1;");
+            return JavaScript.fromString("document.Cyclic1 = 1;");
         }
 
         @Override
         public JavaScript getInstallationDetectionScript() {
-            return JavaScript.fromString("return ((typeof Document.Cyclic1 != 'undefined') && Document.Cyclic1 == 1);");
+            return JavaScript.fromString("return ((typeof document.Cyclic1 != 'undefined') && document.Cyclic1 == 1);");
         }
 
         @Override
@@ -194,12 +197,12 @@ public class PageExtensionTestCase {
 
         @Override
         public JavaScript getExtensionScript() {
-            return JavaScript.fromString("Document.Cyclic2 = 1;");
+            return JavaScript.fromString("document.Cyclic2 = 1;");
         }
 
         @Override
         public JavaScript getInstallationDetectionScript() {
-            return JavaScript.fromString("return ((typeof Document.Cyclic2 != 'undefined') && Document.Cyclic2 == 1);");
+            return JavaScript.fromString("return ((typeof document.Cyclic2 != 'undefined') && document.Cyclic2 == 1);");
         }
 
         @Override

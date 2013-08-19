@@ -20,73 +20,72 @@
 		<div class="tabpanel-hdr">
 			<table class="tabpanel-tabs">
 				<tr>
-					<td class="tabpanel-tab-inact defaultHidden" style="display: none;">First
+					<td id="tabHidden1" class="tabpanel-tab-inact" style="display: none;">First
 						tab</td>
-					<td class="tabpanel-tab-act defaultVisible">First tab</td>
-					<td class="tabpanel-tab-inact">Second tab</td>
+					<td id="defaultVisible" class="tabpanel-tab-act">First tab</td>
+					<td id="tabHidden2" class="tabpanel-tab-inact">Second tab</td>
 					<td class="tabpanel-tab-act" style="display: none;">Second tab</td>
-					<td class="tabpanel-tab-inact">Third tab</td>
+					<td id="tabHidden3" class="tabpanel-tab-inact">Third tab</td>
 					<td class="tabpanel-tab-act" style="display: none;">Third tab</td>
-					<td class="tabpanel-tab-inact">Fourth tab</td>
+					<td id="tabHidden4" class="tabpanel-tab-inact">Fourth tab</td>
 					<td class="tabpanel-tab-act" style="display: none;">Fourth tab</td>
-					<td class="tabpanel-tab-inact">Fifth tab</td>
+					<td id="tabHidden5" class="tabpanel-tab-inact">Fifth tab</td>
 					<td class="tabpanel-tab-act" style="display: none;">Fifth tab</td>
-					<td class="tabpanel-tab-inact">Sixth tab</td>
+					<td id="tabHidden6" class="tabpanel-tab-inact">Sixth tab</td>
 					<td class="tabpanel-tab-act" style="display: none;">Sixth tab</td>
 				</tr>
 			</table>
 		</div>
 		<div class="tabpanel-cnt">
-			<div class="tabpanel-tab defaultVisiblePanel">
+			<div id="tabpanel-tab1" class="tabpanel-tab">
 				<span class="tab-text">Content of the tab 1</span>
 			</div>
-			<div class="tabpanel-tab" style="display: none;">
+			<div id="tabpanel-tab2" class="tabpanel-tab" style="display: none;">
 				<span class="tab-text">Content of the tab 2</span>
 			</div>
-			<div class="tabpanel-tab" style="display: none;">
+			<div id="tabpanel-tab3" class="tabpanel-tab" style="display: none;">
 				<span class="tab-text">Content of the tab 3</span>
 			</div>
-			<div class="tabpanel-tab" style="display: none;">
+			<div id="tabpanel-tab4" class="tabpanel-tab" style="display: none;">
 				<span class="tab-text">Content of the tab 4</span>
 			</div>
-			<div class="tabpanel-tab" style="display: none;">
+			<div id="tabpanel-tab5" class="tabpanel-tab" style="display: none;">
 				<span class="tab-text">Content of the tab 5</span>
 			</div>
-			<div class="tabpanel-tab" style="display: none;">
+			<div id="tabpanel-tab6" class="tabpanel-tab" style="display: none;">
 				<span class="tab-text">Content of the tab 6</span>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		var previousHidden = document.getElementsByClassName('defaultHidden');
-		var previousActive = document.getElementsByClassName('defaultVisible');
+		var previousHidden = document.getElementById('tabHidden1');
+		var previousActive = document.getElementById('defaultVisible');
 		var previousActivePanel = document
-				.getElementsByClassName('defaultVisiblePanel');
+				.getElementById('tabpanel-tab1');
 
-		var g = document.getElementsByClassName('tabpanel-tab-inact');
-		var e = null;
-		for ( var i = 0, len = g.length; i < len; i++) {
-			(function(index) {
-				g[i].onclick = function(e) {
+	    for (var i = 1; i <= 6; i++) {
+            var e = document.getElementById('tabHidden' + i);
+			(function(index, e) {
+				e.onclick = function(e) {
 					e = e || window.event;
 					e = e.target || e.srcElement;
 
-					previousHidden[0].style.display = 'inline';
-					previousActive[0].style.display = 'none';
+					previousHidden.style.display = 'inline';
+					previousActive.style.display = 'none';
 
 					e.style.display = 'none';
 					e.nextSibling.nextSibling.style.display = 'inline';
 
-					previousHidden = new Array(e);
-					previousActive = new Array(e.nextSibling.nextSibling);
+					previousHidden = e;
+					previousActive = e.nextSibling.nextSibling;
 
-					previousActivePanel[0].style.display = 'none';
+					previousActivePanel.style.display = 'none';
 					var currentPanel = document
-							.getElementsByClassName('tabpanel-tab')[index];
+							.getElementById('tabpanel-tab' + index);
 					currentPanel.style.display = 'block';
-					previousActivePanel = new Array(currentPanel);
+					previousActivePanel = currentPanel;
 				}
-			})(i);
+			})(i, e);
 
 		}
 	</script>
