@@ -1,12 +1,14 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import org.jboss.arquillian.core.spi.LoadableExtension.ExtensionBuilder;
 import org.jboss.arquillian.graphene.GrapheneContext;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 import org.openqa.selenium.Capabilities;
@@ -66,49 +68,49 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
 
     public static class LocalStorageProvider extends IndirectProvider<LocalStorage, WebStorage> {
         @Override
-        public LocalStorage invoke(WebStorage base) {
+        public LocalStorage generateProxy(WebStorage base) {
             return base.getLocalStorage();
         }
     }
 
     public static class SessionStorageProvider extends IndirectProvider<SessionStorage, WebStorage> {
         @Override
-        public SessionStorage invoke(WebStorage base) {
+        public SessionStorage generateProxy(WebStorage base) {
             return base.getSessionStorage();
         }
     }
 
     public static class KeyboardProvider extends IndirectProvider<Keyboard, HasInputDevices> {
         @Override
-        public Keyboard invoke(HasInputDevices base) {
+        public Keyboard generateProxy(HasInputDevices base) {
             return base.getKeyboard();
         }
     }
 
     public static class MouseProvider extends IndirectProvider<Mouse, HasInputDevices> {
         @Override
-        public Mouse invoke(HasInputDevices base) {
+        public Mouse generateProxy(HasInputDevices base) {
             return base.getMouse();
         }
     }
 
     public static class CapabilitiesProvider extends IndirectProvider<Capabilities, HasCapabilities> {
         @Override
-        public Capabilities invoke(HasCapabilities base) {
+        public Capabilities generateProxy(HasCapabilities base) {
             return base.getCapabilities();
         }
     }
 
     public static class TouchScreenProvider extends IndirectProvider<TouchScreen, HasTouchScreen> {
         @Override
-        public TouchScreen invoke(HasTouchScreen base) {
+        public TouchScreen generateProxy(HasTouchScreen base) {
             return base.getTouch();
         }
     }
 
     public static class ActionsProvider extends IndirectProvider<Actions, HasInputDevices> {
         @Override
-        public Actions invoke(HasInputDevices base) {
+        public Actions generateProxy(HasInputDevices base) {
             Keyboard keyboard = base.getKeyboard();
             Mouse mouse = base.getMouse();
             return new Actions(keyboard, mouse);
@@ -128,9 +130,10 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
         return type == this.returnType;
     }
 
-    protected <BASE> BASE base(Annotation[] annotations) {
-        WebDriver webdriver = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(annotations)).getWebDriver(mediatorType);
-        return (BASE) webdriver;
+    protected <BASE> BASE base(final Annotation[] annotations) {
+
+        GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(annotations));
+        return (BASE) context.getWebDriver(returnType);
     }
 
     protected final Class<?> getTypeArgument(int i) {
@@ -165,12 +168,42 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
         }
 
         @Override
-        public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
-            final M base = base(qualifiers);
-            return invoke(base);
+        protected <BASE> BASE base(final Annotation[] annotations) {
+            final GrapheneProxy.FutureTarget futureTarget = new GrapheneProxy.FutureTarget() {
+                @Override
+                public Object getTarget() {
+                    GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(annotations));
+                    return context.getWebDriver(mediatorType);
+                }
+            };
+
+            GrapheneProxyHandler mediatorHandler = new GrapheneProxyHandler(futureTarget) {
+                @Override
+                public Object invoke(Object proxy, final Method mediatorMethod, final Object[] mediatorArgs) throws Throwable {
+
+                    GrapheneProxyHandler handler = new GrapheneProxyHandler(futureTarget) {
+
+                        @Override
+                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                            Object mediatorObject = mediatorMethod.invoke(getTarget(), mediatorArgs);
+                            return method.invoke(mediatorObject, args);
+                        }
+                    };
+
+                    return GrapheneProxy.getProxyForHandler(handler, mediatorMethod.getReturnType());
+                }
+            };
+
+            return (BASE) GrapheneProxy.getProxyForHandler(mediatorHandler, WebDriver.class, mediatorType);
         }
 
-        public abstract T invoke(M mediator);
+        @Override
+        public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
+            final M base = base(qualifiers);
+            return generateProxy(base);
+        }
+
+        public abstract T generateProxy(M mediator);
     }
 
     /**

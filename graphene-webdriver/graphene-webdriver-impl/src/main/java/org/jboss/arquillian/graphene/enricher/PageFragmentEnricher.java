@@ -34,14 +34,13 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
-
 import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
@@ -51,7 +50,7 @@ import org.openqa.selenium.support.FindBy;
 
 /**
  * Enricher injecting page fragments ({@link FindBy} annotation is used) to the fields of the given object.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
@@ -149,7 +148,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                 setValue(roots.get(0), pageFragment, root);
             }
             enrichRecursively(root, pageFragment);
-            T proxy = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forTarget(grapheneContext, pageFragment), clazz);
+            T proxy = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forTarget(grapheneContext, pageFragment), clazz);
             enrichRecursively(root, proxy); // because of possibility of direct access to attributes from test class
             return proxy;
         } catch (NoSuchMethodException ex) {
@@ -169,7 +168,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     private static boolean isAboutToDelegateToWebElement(Class<?> clazz) {
         return Arrays.asList(clazz.getInterfaces()).contains(WebElement.class);
     }
-    
+
     private static <T> T createProxyDelegatingToRoot(final WebElement root, Class<T> clazz) {
         return ClassImposterizer.INSTANCE.imposterise(new MethodInterceptor() {
 

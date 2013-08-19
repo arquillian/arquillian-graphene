@@ -33,6 +33,7 @@ import org.jboss.arquillian.graphene.page.extension.PageExtensionInstallatorProv
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistry;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistryImpl;
 import org.jboss.arquillian.graphene.page.extension.RemotePageExtensionInstallatorProvider;
+import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
@@ -137,7 +138,7 @@ public class GrapheneContext {
         if (context == null) {
             try {
                 context = new LazyContext(qualifier, new BrowserActions(qualifier.getName()));
-                context.handler = GrapheneProxyHandler.forFuture(context, context.getFutureTarget());
+                context.handler = GrapheneContextualHandler.forFuture(context, context.getFutureTarget());
                 GrapheneProxyInstance proxy = (GrapheneProxyInstance) context.getWebDriver();
                 proxy.registerInterceptor(new SearchContextInterceptor());
                 proxy.registerInterceptor(new StaleElementInterceptor());

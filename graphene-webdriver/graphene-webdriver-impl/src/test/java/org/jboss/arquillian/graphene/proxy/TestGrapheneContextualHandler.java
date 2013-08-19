@@ -31,9 +31,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.GrapheneContext;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -53,9 +53,9 @@ import org.openqa.selenium.logging.Logs;
 /**
  * @author Lukas Fryc
  */
-public class TestGrapheneProxyHandler {
+public class TestGrapheneContextualHandler {
 
-    private GrapheneProxyHandler handler;
+    private GrapheneContextualHandler handler;
 
     private class IsProxyable implements Answer<Object> {
 
@@ -95,7 +95,7 @@ public class TestGrapheneProxyHandler {
 
     @Before
     public void prepare() {
-        handler = GrapheneProxyHandler.forTarget(GrapheneContext.getContextFor(Default.class), null);
+        handler = GrapheneContextualHandler.forTarget(GrapheneContext.getContextFor(Default.class), null);
     }
 
     @Test

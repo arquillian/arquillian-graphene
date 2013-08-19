@@ -1,9 +1,5 @@
 package org.jboss.arquillian.graphene.enricher;
 
-import java.util.Arrays;
-import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.GrapheneContext;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +8,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.ActionsProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.KeyboardProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.MouseProvider;

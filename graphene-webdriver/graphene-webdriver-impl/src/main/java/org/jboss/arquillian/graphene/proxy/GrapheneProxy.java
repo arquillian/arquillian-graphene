@@ -69,7 +69,7 @@ public final class GrapheneProxy {
                         + ", it's final and id doesn't implement any interface.");
             }
         }
-        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(context, target);
+        GrapheneProxyHandler handler = GrapheneContextualHandler.forTarget(context, target);
         return (T) createProxy(handler, target.getClass());
     }
 
@@ -89,7 +89,7 @@ public final class GrapheneProxy {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getProxyForTargetWithInterfaces(GrapheneContext context, T target, Class<?>... interfaces) {
-        GrapheneProxyHandler handler = GrapheneProxyHandler.forTarget(context, target);
+        GrapheneProxyHandler handler = GrapheneContextualHandler.forTarget(context, target);
         return (T) createProxy(handler, null, interfaces);
     }
 
@@ -125,7 +125,7 @@ public final class GrapheneProxy {
                         + ", it's final and no additional interface has been given.");
             }
         }
-        GrapheneProxyHandler handler = GrapheneProxyHandler.forFuture(context, futureTarget);
+        GrapheneProxyHandler handler = GrapheneContextualHandler.forFuture(context, futureTarget);
         return getProxyForHandler(handler, baseType, additionalInterfaces);
     }
 
@@ -176,7 +176,7 @@ public final class GrapheneProxy {
     /**
      * Interface for computation of future target of invocation by proxy.
      */
-    public interface FutureTarget {
+    public static interface FutureTarget {
 
         Object getTarget();
     }

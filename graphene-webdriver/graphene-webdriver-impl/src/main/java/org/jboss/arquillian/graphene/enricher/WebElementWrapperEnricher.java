@@ -8,14 +8,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -85,7 +86,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
     }
 
     protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element) throws Exception {
-        T wrapper = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
+        T wrapper = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 try {
@@ -99,7 +100,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
     }
 
     protected <T> List<T> createWrappers(GrapheneContext grapheneContext, final Class<T> type, final List<WebElement> elements) {
-        List<T> wrapper = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
+        List<T> wrapper = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
                 try {

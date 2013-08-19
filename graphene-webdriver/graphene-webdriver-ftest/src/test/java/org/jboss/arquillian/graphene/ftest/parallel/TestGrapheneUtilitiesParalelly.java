@@ -33,7 +33,7 @@ import qualifier.Browser2;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class TestGraphene extends AbstractParallelTest {
+public class TestGrapheneUtilitiesParalelly extends AbstractParallelTest {
 
     @Browser1
     @FindBy(tagName="h1")

@@ -26,10 +26,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.List;
+
 import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageObjectInitializationException;
+import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.SearchContext;
@@ -91,7 +92,7 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
 
     public static <P> P setupPage(GrapheneContext context, SearchContext searchContext, Class<?> pageClass) throws Exception{
         P page = (P) instantiate(pageClass);
-        P proxy = GrapheneProxy.getProxyForHandler(GrapheneProxyHandler.forTarget(context, page), pageClass);
+        P proxy = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forTarget(context, page), pageClass);
         enrichRecursively(searchContext, page);
         enrichRecursively(searchContext, proxy); // because of possibility of direct access to attributes from test class
         return proxy;
