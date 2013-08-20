@@ -22,14 +22,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openqa.selenium.HasInputDevices;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keyboard;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Mouse;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Keyboard;
+import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.interactions.internal.Coordinates;
+
+
 
 /**
  * @author Lukas Fryc
@@ -49,12 +50,12 @@ public class TestSeleniumResourceProvider {
             }
 
             @Override
-            public void pressKey(Keys keyToPress) {
+            public void pressKey(CharSequence keyToPress) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
-            public void releaseKey(Keys keyToRelease) {
+            public void releaseKey(CharSequence keyToRelease) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });

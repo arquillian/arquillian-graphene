@@ -30,7 +30,7 @@
         <!-- Arquillian -->
         <version.arquillian.core>1.1.1.Final</version.arquillian.core>
         <version.arquillian.drone>1.2.0.Alpha3</version.arquillian.drone>
-        <version.selenium>2.33.0</version.selenium>
+        <version.selenium>2.35.0</version.selenium>
         <version.arquillian.jetty>1.0.0.CR1</version.arquillian.jetty>
 
         <!-- Runtime dependencies -->
