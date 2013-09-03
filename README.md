@@ -1,6 +1,7 @@
-Welcome to Arquillian Graphene 2
-================================
-<h3>Testing Ajax with a flavour of sexy WebDriver API</h3>
+Arquillian Graphene 2 [![Build Status](https://buildhive.cloudbees.com/job/arquillian/job/arquillian-graphene/badge/icon)](https://buildhive.cloudbees.com/job/arquillian/job/arquillian-graphene/)
+=====================
+
+> Testing Ajax with a flavour of sexy WebDriver API
 
 
 Graphene 2 project is designed as set of extensions for [Selenium WebDriver](http://docs.seleniumhq.org/) project focused on rapid development and usability in Java environment.
