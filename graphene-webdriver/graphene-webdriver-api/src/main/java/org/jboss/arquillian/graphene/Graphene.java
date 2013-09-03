@@ -95,7 +95,7 @@ public final class Graphene {
 
     /**
      * Returns the guarded object checking whether the HTTP request is done during each object's method invocation. If the
-     * request is not observed, the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     * request is not observed, the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded
@@ -109,7 +109,7 @@ public final class Graphene {
 
     /**
      * Returns the guarded object checking whether the Ajax (XHR) request is done during each method invocation. If the request
-     * is not observed, the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     * is not observed, the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded
@@ -123,7 +123,7 @@ public final class Graphene {
 
     /**
      * Returns the guarded object checking that no request is done during each method invocation. If any request is observed,
-     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     * the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded

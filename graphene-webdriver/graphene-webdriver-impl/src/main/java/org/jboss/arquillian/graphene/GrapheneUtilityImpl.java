@@ -5,13 +5,13 @@ import org.jboss.arquillian.graphene.Graphene.Utility;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.LocationEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
-import org.jboss.arquillian.graphene.guard.RequestGuard;
 import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
-import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.request.RequestGuard;
+import org.jboss.arquillian.graphene.request.RequestType;
 import org.jboss.arquillian.graphene.wait.WebDriverWait;
 import org.jboss.arquillian.graphene.wait.WebDriverWaitImpl;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +22,7 @@ class GrapheneUtilityImpl implements Utility {
     /**
      * Returns the guarded object checking whether the HTTP request is done during
      * each method invocation. If the request is not found,
-     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     * the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded
@@ -35,7 +35,7 @@ class GrapheneUtilityImpl implements Utility {
     /**
      * Returns the guarded object checking that no request is done during
      * each method invocation. If any request is found,
-     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     * the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded
@@ -48,7 +48,7 @@ class GrapheneUtilityImpl implements Utility {
     /**
      * Returns the guarded object checking whether the Ajax (XHR) request is done during
      * each method invocation. If the request is not found,
-     * the {@link org.jboss.arquillian.graphene.guard.RequestGuardException} is thrown.
+     * the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
      *
      * @param <T> type of the given target
      * @param target object to be guarded

@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.page;
+package org.jboss.arquillian.graphene.request;
 
 /**
  * Types of request, which browser executes.

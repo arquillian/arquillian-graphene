@@ -26,13 +26,15 @@ import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.page.RequestState;
-import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
+import org.jboss.arquillian.graphene.request.RequestGuard;
+import org.jboss.arquillian.graphene.request.RequestGuardException;
+import org.jboss.arquillian.graphene.request.RequestState;
+import org.jboss.arquillian.graphene.request.RequestType;
 import org.jboss.arquillian.graphene.wait.FluentWait;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;

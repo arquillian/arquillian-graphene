@@ -16,14 +16,10 @@ public class JSTarget {
     private ExecutionResolver resolver;
 
     public JSTarget(Class<?> jsInterface) {
-        this.jsInterface = jsInterface;
-        resolveAnnotations();
+        this.jsInterface = getImplementationOfInterface(jsInterface);
+        this.javascriptAnnotation = this.jsInterface.getAnnotation(JavaScript.class);
+        this.dependecyAnnotation = this.jsInterface.getAnnotation(Dependency.class);
         this.resolver = createResolver(javascriptAnnotation);
-    }
-
-    private void resolveAnnotations() {
-        this.javascriptAnnotation = jsInterface.getAnnotation(JavaScript.class);
-        this.dependecyAnnotation = jsInterface.getAnnotation(Dependency.class);
     }
 
     public Class<?> getInterface() {
@@ -93,5 +89,26 @@ public class JSTarget {
     @Override
     public String toString() {
         return "JSTarget [jsInterface=" + jsInterface.getName() + "]";
+    }
+
+    private Class<?> getImplementationOfInterface(Class<?> jsInterfaceClass) {
+        JavaScript jsInterface = jsInterfaceClass.getAnnotation(JavaScript.class);
+        if ("".equals(jsInterface.implementation())) {
+            // the given class is also a final implementation
+            return jsInterfaceClass;
+        }
+
+        try {
+            // the interface which implements given JS Interface is specified
+            Class<?> implementationClazz = (Class<?>) Class.forName(jsInterface.implementation());
+
+            return implementationClazz;
+
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Cannot find class " + jsInterface.implementation()
+                    + ", make sure you have arquillian-graphene-impl.jar included on the classpath.", e);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 }

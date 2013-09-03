@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.page;
+package org.jboss.arquillian.graphene.request;
 
 /**
  * Identifies the state of the current request

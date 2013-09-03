@@ -50,7 +50,7 @@ public class JavaScriptEnricher extends AbstractSearchContextEnricher {
             try {
                 field.set(target, JSInterfaceFactory.create(grapheneContext, field.getType()));
             } catch (Exception e) {
-                throw new IllegalStateException("Can't inject value to the field '" + field.getName() + "' declared in class '" + field.getDeclaringClass().getName() + "'");
+                throw new IllegalStateException("Can't inject value to the field '" + field.getName() + "' declared in class '" + field.getDeclaringClass().getName() + "'", e);
             }
         }
     }

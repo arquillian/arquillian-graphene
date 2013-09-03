@@ -15,6 +15,8 @@ public @interface JavaScript {
 
     String value() default "";
 
+    String implementation() default "";
+
     Class<? extends ExecutionResolver> methodResolver() default DefaultExecutionResolver.class;
 
     abstract static class DefaultExecutionResolver implements ExecutionResolver {
