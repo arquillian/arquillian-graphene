@@ -66,4 +66,6 @@ How-to build project
 Running Integration Tests
 -------------------------
     
-    mvn verify -Pftest
+    mvn clean verify -Pwebdriver-firefox
+    mvn clean verify -Pwebdriver-chrome
+    mvn clean verify -Pwebdriver-phantomjs
