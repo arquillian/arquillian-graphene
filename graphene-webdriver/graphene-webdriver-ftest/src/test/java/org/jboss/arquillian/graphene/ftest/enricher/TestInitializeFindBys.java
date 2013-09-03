@@ -71,7 +71,7 @@ public class TestInitializeFindBys {
     @FindBys({ @FindBy(css = "#root"), @FindBy(tagName = "div"), @FindBy(tagName = "span") })
     private WebElement element;
 
-    @org.jboss.arquillian.graphene.enricher.findby.FindBys({
+    @org.jboss.arquillian.graphene.findby.FindBys({
             @org.jboss.arquillian.graphene.enricher.findby.FindBy(css = "#root"),
             @org.jboss.arquillian.graphene.enricher.findby.FindBy(tagName = "div"),
             @org.jboss.arquillian.graphene.enricher.findby.FindBy(tagName = "span") })
@@ -80,7 +80,7 @@ public class TestInitializeFindBys {
     @FindBys({ @FindBy(css = "#root"), @FindBy(css = ".list") })
     private List<WebElement> elements;
 
-    @org.jboss.arquillian.graphene.enricher.findby.FindBys({
+    @org.jboss.arquillian.graphene.findby.FindBys({
             @org.jboss.arquillian.graphene.enricher.findby.FindBy(css = "#root"),
             @org.jboss.arquillian.graphene.enricher.findby.FindBy(css = ".list") })
     private List<WebElement> elements2;

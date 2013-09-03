@@ -22,7 +22,7 @@
 package org.jboss.arquillian.graphene.ftest.wait;
 
 import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
+import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.junit.Test;
 
 /**
@@ -30,9 +30,9 @@ import org.junit.Test;
  */
 public class JQueryLocatorElementTest extends AbstractWaitTest {
 
-    protected static final ByJQuery BY_JQUERY_HEADER = ByJQuery.jquerySelector("#header");
-    protected static final ByJQuery BY_JQUERY_OPTION1 = ByJQuery.jquerySelector("#option1");
-    protected static final ByJQuery BY_JQUERY_TEXT_INPUT = ByJQuery.jquerySelector("#textInput");
+    protected static final ByJQuery BY_JQUERY_HEADER = ByJQuery.selector("#header");
+    protected static final ByJQuery BY_JQUERY_OPTION1 = ByJQuery.selector("#option1");
+    protected static final ByJQuery BY_JQUERY_TEXT_INPUT = ByJQuery.selector("#textInput");
 
     @Test
     public void textElementIsPresent() {

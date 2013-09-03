@@ -19,12 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher.findby;
+package org.jboss.arquillian.graphene.findby;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 import org.jboss.arquillian.graphene.enricher.ReflectionHelper;
+import org.jboss.arquillian.graphene.enricher.findby.How;
+import org.jboss.arquillian.graphene.spi.findby.ImplementsLocationStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
@@ -45,7 +47,8 @@ public class FindByUtilities {
         List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBy.class);
         fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.enricher.findby.FindBy.class));
         fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), FindBys.class));
-        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.enricher.findby.FindBys.class));
+        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.findby.FindBys.class));
+        fields.addAll(ReflectionHelper.getFieldsWithAnnotatedAnnotation(target.getClass(), ImplementsLocationStrategy.class));
         return fields;
     }
 }

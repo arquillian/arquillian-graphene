@@ -26,7 +26,7 @@ import java.net.URL;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.findby.JQuery;
+import org.jboss.arquillian.graphene.findby.JQuery;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.javascript.Dependency;

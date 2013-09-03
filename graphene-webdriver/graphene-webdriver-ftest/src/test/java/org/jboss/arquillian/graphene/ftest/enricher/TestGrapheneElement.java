@@ -31,7 +31,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.GrapheneElement;
-import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
+import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.javascript.Dependency;
@@ -133,7 +133,7 @@ public class TestGrapheneElement {
 
     @Test
     public void testOneFindByJQuery() {
-        GrapheneElement element = root.findElement(ByJQuery.jquerySelector("div"));
+        GrapheneElement element = root.findElement(ByJQuery.selector("div"));
         Assert.assertEquals("pseudo root", element.getText().trim());
     }
 

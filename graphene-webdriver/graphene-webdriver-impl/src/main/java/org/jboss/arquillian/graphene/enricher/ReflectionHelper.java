@@ -27,6 +27,7 @@ import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.drone.api.annotation.Qualifier;
 
@@ -211,6 +212,32 @@ public final class ReflectionHelper {
                                 field.setAccessible(true);
                             }
                             foundFields.add(field);
+                        }
+                    }
+                    nextSource = nextSource.getSuperclass();
+                }
+                return foundFields;
+            }
+        });
+        return declaredAccessableFields;
+    }
+
+    public static List<Field> getFieldsWithAnnotatedAnnotation(final Class<?> source, final Class<? extends Annotation> annotationClass) {
+        List<Field> declaredAccessableFields = AccessController.doPrivileged(new PrivilegedAction<List<Field>>() {
+            @Override
+            public List<Field> run() {
+                List<Field> foundFields = new ArrayList<Field>();
+                Class<?> nextSource = source;
+                while (nextSource != Object.class) {
+                    for (Field field : nextSource.getDeclaredFields()) {
+                        for (Annotation annotation : field.getAnnotations()) {
+                            if (annotation.annotationType().isAnnotationPresent(annotationClass)) {
+                                if (!field.isAccessible()) {
+                                    field.setAccessible(true);
+                                }
+                                foundFields.add(field);
+                                break;
+                            }
                         }
                     }
                     nextSource = nextSource.getSuperclass();

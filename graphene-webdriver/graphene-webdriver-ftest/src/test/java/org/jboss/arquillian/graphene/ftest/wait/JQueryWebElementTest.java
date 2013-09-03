@@ -22,7 +22,7 @@
 package org.jboss.arquillian.graphene.ftest.wait;
 
 import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
@@ -31,23 +31,23 @@ import org.openqa.selenium.WebElement;
  */
 public class JQueryWebElementTest extends AbstractWaitTest {
 
-    @FindBy(jquery="#appear")
+    @FindByJQuery("#appear")
     protected WebElement jqueryAppearButton;
-    @FindBy(jquery="#header")
+    @FindByJQuery("#header")
     protected WebElement jqueryHeader;
-    @FindBy(jquery="#hide")
+    @FindByJQuery("#hide")
     protected WebElement jqueryHideButton;
-    @FindBy(jquery="#idInput")
+    @FindByJQuery("#idInput")
     protected WebElement jqueryIdInput;
-    @FindBy(jquery="#option1")
+    @FindByJQuery("#option1")
     protected WebElement jqueryOption1;
-    @FindBy(jquery="#select")
+    @FindByJQuery("#select")
     protected WebElement jquerySelect;
-    @FindBy(jquery="#textInput")
+    @FindByJQuery("#textInput")
     protected WebElement jqueryTextInput;
-    @FindBy(jquery="#submit")
+    @FindByJQuery("#submit")
     protected WebElement jqueryUpdateButton;
-    @FindBy(jquery="#outside")
+    @FindByJQuery("#outside")
     protected WebElement outsideLink;
 
     @Test

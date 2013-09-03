@@ -27,11 +27,15 @@ limitations under the License.
  *
  * <p>Altered by <a href="mailto:jhuska@redhat.com">Juraj Huska</a></p>.
  */
-package org.jboss.arquillian.graphene.enricher.findby;
+package org.jboss.arquillian.graphene.findby;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.jboss.arquillian.graphene.spi.findby.ImplementsLocationStrategy;
+import org.jboss.arquillian.graphene.spi.findby.LocationStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.CacheLookup;
@@ -56,41 +60,48 @@ public class Annotations {
     public By buildBy() {
         assertValidAnnotations();
 
-        By ans = null;
+        By by = null;
 
-        ans = checkAndProcessEmptyFindBy();
+        by = checkAndProcessEmptyFindBy();
 
         FindBys grapheneFindBys = field.getAnnotation(FindBys.class);
-        if (ans == null && grapheneFindBys != null) {
-            ans = buildByFromGrapheneFindBys(grapheneFindBys);
+        if (by == null && grapheneFindBys != null) {
+            by = buildByFromGrapheneFindBys(grapheneFindBys);
         }
 
         org.openqa.selenium.support.FindBys webDriverFindBys =
                 field.getAnnotation(org.openqa.selenium.support.FindBys.class);
-        if (ans == null && webDriverFindBys != null) {
-            ans = buildByFromWebDriverFindBys(webDriverFindBys);
+        if (by == null && webDriverFindBys != null) {
+            by = buildByFromWebDriverFindBys(webDriverFindBys);
         }
 
         FindBy findBy = field.getAnnotation(FindBy.class);
-        if (ans == null && findBy != null) {
-            ans = buildByFromFindBy(findBy);
+        if (by == null && findBy != null) {
+            by = buildByFromFindBy(findBy);
         }
 
         org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
                 .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
-        if (ans == null && grapheneFindBy != null) {
-            ans = buildByFromFindBy(grapheneFindBy);
+        if (by == null && grapheneFindBy != null) {
+            by = buildByFromFindBy(grapheneFindBy);
         }
 
-        if (ans == null) {
-            ans = buildByFromDefault();
+        for (Annotation annotation : field.getAnnotations()) {
+            ImplementsLocationStrategy strategy = annotation.annotationType().getAnnotation(ImplementsLocationStrategy.class);
+            if (strategy != null) {
+                by = buildByFromLocationStrategy(strategy, annotation);
+            }
         }
 
-        if (ans == null) {
+        if (by == null) {
+            by = buildByFromDefault();
+        }
+
+        if (by == null) {
             throw new IllegalArgumentException("Cannot determine how to locate element " + field);
         }
 
-        return ans;
+        return by;
     }
 
     private By checkAndProcessEmptyFindBy() {
@@ -119,6 +130,15 @@ public class Annotations {
     protected By buildByFromDefault() {
         String using = field.getName();
         return getByFromGrapheneHow(defaultElementLocatingStrategy, using);
+    }
+
+    protected By buildByFromLocationStrategy(ImplementsLocationStrategy strategy, Annotation annotation) {
+        try {
+            LocationStrategy transformer = strategy.value().newInstance();
+            return transformer.fromAnnotation(annotation);
+        } catch (Exception e) {
+            throw new IllegalStateException("Cannot use locationStrategy " + strategy + " on annotation " + annotation + " on field " + field + ": " + e.getMessage(), e);
+        }
     }
 
     protected By buildByFromGrapheneFindBys(FindBys grapheneFindBys) {
@@ -242,7 +262,7 @@ public class Annotations {
                 return By.xpath(using);
 
             case JQUERY:
-                return ByJQuery.jquerySelector(using);
+                return new ByJQuery(using);
 
             default:
                 // Note that this shouldn't happen (eg, the above matches all
@@ -306,7 +326,7 @@ public class Annotations {
             return By.xpath(findBy.xpath());
 
         if (!"".equals(findBy.jquery()))
-            return ByJQuery.jquerySelector((findBy.jquery()));
+            return new ByJQuery(findBy.jquery());
 
         // Fall through
         return null;

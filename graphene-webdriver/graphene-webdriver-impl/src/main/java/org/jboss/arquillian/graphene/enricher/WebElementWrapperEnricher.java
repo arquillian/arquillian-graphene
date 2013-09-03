@@ -14,7 +14,7 @@ import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
-import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;

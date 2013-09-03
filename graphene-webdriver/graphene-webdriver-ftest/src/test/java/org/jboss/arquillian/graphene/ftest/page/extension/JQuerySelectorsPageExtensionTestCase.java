@@ -28,12 +28,12 @@ import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.List;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
 import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
@@ -103,7 +103,7 @@ public class JQuerySelectorsPageExtensionTestCase {
     @Test
     public void testFindByWrongSelector() {
         try {
-            browser.findElement(ByJQuery.jquerySelector(":notExistingSelector"));
+            browser.findElement(ByJQuery.selector(":notExistingSelector"));
         } catch (WebDriverException ex) {
             // desired state
             assertTrue("The exception thrown after locating element by non existing selector is wrong!", ex.getMessage()
@@ -117,10 +117,10 @@ public class JQuerySelectorsPageExtensionTestCase {
     @Test
     public void testFindNonExistingElement() {
         try {
-            browser.findElement(ByJQuery.jquerySelector(":contains('non existing string')"));
+            browser.findElement(ByJQuery.selector(":contains('non existing string')"));
         } catch (NoSuchElementException ex) {
             // this is desired state
-            assertTrue("Error message of NoSuchElementException is wrong!", ex.getMessage()
+            assertTrue("Error message of NoSuchElementException is wrong! ", ex.getMessage()
                 .contains(EXPECTED_NO_SUCH_EL_EX_MSG));
             return;
         }
@@ -130,9 +130,9 @@ public class JQuerySelectorsPageExtensionTestCase {
 
     @Test
     public void testFindingWebElementFromAnotherWebElement() {
-        WebElement root = browser.findElement(ByJQuery.jquerySelector("#root:visible"));
+        WebElement root = browser.findElement(ByJQuery.selector("#root:visible"));
 
-        WebElement div = root.findElement(ByJQuery.jquerySelector(".foo:visible"));
+        WebElement div = root.findElement(ByJQuery.selector(".foo:visible"));
 
         assertNotNull("The div element should be found!", div);
         assertEquals("The element was not referenced from parent WebElement correctly!", EXPECTED_JQUERY_TEXT_2, div.getText());

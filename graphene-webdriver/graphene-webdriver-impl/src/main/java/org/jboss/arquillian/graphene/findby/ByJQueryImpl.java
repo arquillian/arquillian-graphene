@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher.findby;
+package org.jboss.arquillian.graphene.findby;
 
 import java.util.List;
 
@@ -37,22 +37,18 @@ import org.openqa.selenium.WebElement;
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class ByJQuery extends By {
+public class ByJQueryImpl extends By {
 
-    private final String jquerySelector;
+    private final String selector;
 
-    public ByJQuery(String jquerySelector) {
-        Validate.notNull(jquerySelector, "Cannot find elements when jquerySelector is null!");
-        this.jquerySelector = jquerySelector;
-    }
-
-    public static ByJQuery jquerySelector(String selector) {
-        return new ByJQuery(selector);
+    public ByJQueryImpl(String selector) {
+        Validate.notNull(selector, "Cannot find elements when selector is null!");
+        this.selector = selector;
     }
 
     @Override
     public String toString() {
-        return "By.jquerySelector " + jquerySelector;
+        return "ByJQuery(\"" + selector + "\")";
     }
 
     @Override
@@ -64,16 +60,16 @@ public class ByJQuery extends By {
         try {
             // the element is referenced from parent web element
             if (searchContext instanceof WebElement) {
-                elements = jQuerySearchContext.findElementsInElement(jquerySelector, (WebElement) searchContext);
+                elements = jQuerySearchContext.findElementsInElement(selector, (WebElement) searchContext);
             } else if (searchContext instanceof WebDriver) { // element is not referenced from parent
-                elements = jQuerySearchContext.findElements(jquerySelector);
+                elements = jQuerySearchContext.findElements(selector);
             } else { // other unknown case
                 throw new WebDriverException(
                         "Cannot determine the SearchContext you are passing to the findBy/s method! It is not instance of WebDriver nor WebElement! It is: "
                             + searchContext);
             }
         } catch (Exception ex) {
-            throw new WebDriverException("Can not locate element using selector " + jquerySelector
+            throw new WebDriverException("Can not locate element using selector " + selector
                 + " Check out whether it is correct!", ex);
         }
         return elements;
@@ -83,7 +79,7 @@ public class ByJQuery extends By {
     public WebElement findElement(SearchContext context) {
         List<WebElement> elements = findElements(context);
         if (elements == null || elements.isEmpty()) {
-            throw new NoSuchElementException("Cannot locate element using: " + jquerySelector);
+            throw new NoSuchElementException("Cannot locate element using: " + selector);
         }
         return elements.get(0);
     }

@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.enricher.findby.ByJQuery;
+import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;

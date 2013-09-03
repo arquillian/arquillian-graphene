@@ -28,7 +28,7 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
