@@ -22,21 +22,18 @@
 package org.jboss.arquillian.graphene.ftest.parallel;
 
 import java.net.URL;
-import java.util.List;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
-import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import qualifier.Browser1;
 import qualifier.Browser2;
@@ -73,12 +70,4 @@ public abstract class AbstractParallelTest {
         Resource.inCurrentPackage().find("two.html").loadPage(browser2, contextRoot);
         Resource.inCurrentPackage().find("default.html").loadPage(browserDefault, contextRoot);
     }
-
-    @JavaScript("document")
-    public static interface Document {
-
-        List<WebElement> getElementsByTagName(String tagName);
-
-    }
-
 }

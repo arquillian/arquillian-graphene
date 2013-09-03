@@ -34,6 +34,7 @@ import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
+import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -101,14 +102,6 @@ public class JavaScriptPageExtensionTestCase {
     public void testAbstractClass() {
         Document3 document = JSInterfaceFactory.create(context, Document3.class);
         Assert.assertEquals(browser.findElement(By.tagName("h1")), document.getHeader());
-    }
-
-    @JavaScript("document")
-    public static interface Document {
-
-        String getTitle();
-
-        List<WebElement> getElementsByTagName(String tagName);
     }
 
     @JavaScript(value="fake")

@@ -16,10 +16,10 @@
  */
 package org.jboss.arquillian.graphene.ftest.javascript;
 
-import java.net.URL;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -28,7 +28,7 @@ import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
-import org.jboss.arquillian.graphene.javascript.JavaScript;
+import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -69,12 +69,5 @@ public class TestCustomJSInterface {
         String title = document.getTitle();
         assertNotNull(title);
         assertEquals("Hello World!", title.trim());
-    }
-
-    @JavaScript("document")
-    public static interface Document {
-
-        String getTitle();
-
     }
 }

@@ -26,6 +26,7 @@ import junit.framework.Assert;
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
+import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
