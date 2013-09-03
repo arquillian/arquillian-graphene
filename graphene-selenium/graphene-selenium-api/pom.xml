@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jboss.arquillian.graphene</groupId>
         <artifactId>graphene-selenium-parent</artifactId>
-        <version>2.0.0.Beta1-SNAPSHOT</version>
+        <version>2.0.0.Alpha5</version>
     </parent>
 
     <artifactId>graphene-selenium-api</artifactId>
