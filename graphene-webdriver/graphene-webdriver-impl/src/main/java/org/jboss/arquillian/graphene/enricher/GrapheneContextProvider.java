@@ -22,7 +22,8 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.annotation.Annotation;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 

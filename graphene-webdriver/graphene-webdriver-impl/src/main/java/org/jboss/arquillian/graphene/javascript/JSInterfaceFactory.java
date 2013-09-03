@@ -1,7 +1,8 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Modifier;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 public class JSInterfaceFactory<T> {
 

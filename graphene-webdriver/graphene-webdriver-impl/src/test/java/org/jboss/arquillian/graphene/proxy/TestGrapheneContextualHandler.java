@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

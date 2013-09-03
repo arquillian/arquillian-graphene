@@ -24,7 +24,7 @@ public class InterceptorRegistrationExtension implements LoadableExtension {
         try {
             Test event = ctx.getEvent();
             if (event.getTestClass().getJavaClass() == TestInterceptorRegistration.class) {
-                WebDriver browser = org.jboss.arquillian.graphene.GrapheneContext.getContextFor(Default.class).getWebDriver();
+                WebDriver browser = org.jboss.arquillian.graphene.context.GrapheneContext.getContextFor(Default.class).getWebDriver();
                 ((GrapheneProxyInstance) browser).registerInterceptor(new Interceptor() {
 
                     @Override

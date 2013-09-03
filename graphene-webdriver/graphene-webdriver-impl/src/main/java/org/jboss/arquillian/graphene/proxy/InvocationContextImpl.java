@@ -22,7 +22,8 @@
 package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Method;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

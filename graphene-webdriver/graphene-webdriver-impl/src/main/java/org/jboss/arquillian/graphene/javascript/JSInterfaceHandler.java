@@ -2,9 +2,11 @@ package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 public class JSInterfaceHandler implements MethodInterceptor {
 

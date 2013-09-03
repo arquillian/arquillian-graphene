@@ -1,8 +1,9 @@
 package org.jboss.arquillian.graphene.intercept;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

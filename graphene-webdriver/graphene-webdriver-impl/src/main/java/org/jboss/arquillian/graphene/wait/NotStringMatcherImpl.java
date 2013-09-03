@@ -23,6 +23,8 @@ package org.jboss.arquillian.graphene.wait;
 
 import org.jboss.arquillian.graphene.condition.StringConditionFactory;
 import org.jboss.arquillian.graphene.fluent.FluentBase;
+import org.jboss.arquillian.graphene.wait.NotStringMatcher;
+import org.jboss.arquillian.graphene.wait.StringMatcher;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

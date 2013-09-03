@@ -24,7 +24,7 @@ package org.jboss.arquillian.graphene.enricher.findby;
 import java.util.List;
 
 import org.jboss.arquillian.core.spi.Validate;
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.By;

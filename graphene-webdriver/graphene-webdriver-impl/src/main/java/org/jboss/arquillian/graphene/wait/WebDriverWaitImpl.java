@@ -21,26 +21,28 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
+
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class WebDriverWait<FLUENT> implements FluentWait<WebDriver, FLUENT> {
+public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
 
     private final org.openqa.selenium.support.ui.WebDriverWait wait;
     private final FLUENT fluent;
 
-    protected WebDriverWait(org.openqa.selenium.support.ui.WebDriverWait wait, FLUENT fluent) {
+    protected WebDriverWaitImpl(org.openqa.selenium.support.ui.WebDriverWait wait, FLUENT fluent) {
         this.wait = wait;
         this.fluent = fluent;
     }
 
-    public WebDriverWait(FLUENT fluent, WebDriver driver, long timeOutInSeconds) {
+    public WebDriverWaitImpl(FLUENT fluent, WebDriver driver, long timeOutInSeconds) {
         this(new org.openqa.selenium.support.ui.WebDriverWait(driver, timeOutInSeconds) , fluent);
     }
 

@@ -9,8 +9,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.ActionsProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.KeyboardProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.MouseProvider;

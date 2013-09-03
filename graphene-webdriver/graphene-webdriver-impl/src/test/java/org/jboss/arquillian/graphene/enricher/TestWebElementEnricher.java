@@ -22,8 +22,9 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;

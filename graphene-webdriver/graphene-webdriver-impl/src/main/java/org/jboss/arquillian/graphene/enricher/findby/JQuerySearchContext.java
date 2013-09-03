@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.enricher.findby;
 
 import java.util.List;
+
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.openqa.selenium.WebElement;

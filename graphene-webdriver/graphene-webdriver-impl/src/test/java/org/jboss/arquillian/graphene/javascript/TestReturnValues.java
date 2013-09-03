@@ -1,7 +1,7 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.graphene.TestingDriverStub;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

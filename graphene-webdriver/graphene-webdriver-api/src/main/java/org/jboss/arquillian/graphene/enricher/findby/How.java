@@ -39,9 +39,10 @@ package org.jboss.arquillian.graphene.enricher.findby;
 
 /**
  * How class which supports also JQuery locating strategy. It is originally copied from Selenium.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
+@Deprecated
 public enum How {
   CLASS_NAME,
   CSS,

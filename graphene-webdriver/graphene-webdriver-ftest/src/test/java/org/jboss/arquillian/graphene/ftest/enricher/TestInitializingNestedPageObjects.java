@@ -23,7 +23,7 @@ package org.jboss.arquillian.graphene.ftest.enricher;
 
 import static org.junit.Assert.assertNotNull;
 
-import org.jboss.arquillian.graphene.spi.annotations.Page;
+import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;

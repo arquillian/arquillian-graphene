@@ -34,7 +34,8 @@ import junit.framework.Assert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.ExtendedGrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistry;
@@ -83,10 +84,14 @@ public class PageExtensionTestCase {
         when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return (typeof document.Graphene != 'undefined');"));
         when(pageExtensionMock.getRequired()).thenReturn(Collections.EMPTY_LIST);
         // registry
-        PageExtensionRegistry registry = context.getPageExtensionRegistry();
+        PageExtensionRegistry registry = context().getPageExtensionRegistry();
         registry.register(pageExtensionMock);
         // test
-        context.getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
+        context().getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
+    }
+
+    private ExtendedGrapheneContext context() {
+        return (ExtendedGrapheneContext) context;
     }
 
     @Test(expected=IllegalStateException.class)
@@ -97,10 +102,10 @@ public class PageExtensionTestCase {
         when(pageExtensionMock.getInstallationDetectionScript()).thenReturn(JavaScript.fromString("return (typeof Graphene != 'undefined');"));
         when(pageExtensionMock.getRequired()).thenReturn(Collections.EMPTY_LIST);
         // registry
-        PageExtensionRegistry registry = context.getPageExtensionRegistry();
+        PageExtensionRegistry registry = context().getPageExtensionRegistry();
         registry.register(pageExtensionMock);
         // test
-        context.getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
+        context().getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
     }
 
     @Test
@@ -113,13 +118,13 @@ public class PageExtensionTestCase {
         requirements.add(SimplePageExtension.class.getName());
         when(pageExtensionMock.getRequired()).thenReturn(requirements);
         // registry
-        PageExtensionRegistry registry = context.getPageExtensionRegistry();
+        PageExtensionRegistry registry = context().getPageExtensionRegistry();
         registry.register(new SimplePageExtension());
         registry.register(pageExtensionMock);
         // test
-        context.getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
-        Assert.assertTrue(context.getPageExtensionInstallatorProvider().installator(SimplePageExtension.class.getName()).isInstalled());
-        Assert.assertTrue(context.getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).isInstalled());
+        context().getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
+        Assert.assertTrue(context().getPageExtensionInstallatorProvider().installator(SimplePageExtension.class.getName()).isInstalled());
+        Assert.assertTrue(context().getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).isInstalled());
     }
 
     @Test(expected=IllegalStateException.class)
@@ -134,13 +139,13 @@ public class PageExtensionTestCase {
         requirements.add(CyclicPageExtension2.class.getName());
         when(pageExtensionMock.getRequired()).thenReturn(requirements);
         // registry
-        PageExtensionRegistry registry = context.getPageExtensionRegistry();
+        PageExtensionRegistry registry = context().getPageExtensionRegistry();
         registry.register(new SimplePageExtension());
         registry.register(pageExtensionMock);
         registry.register(new CyclicPageExtension1());
         registry.register(new CyclicPageExtension2());
         // test
-        context.getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
+        context().getPageExtensionInstallatorProvider().installator(pageExtensionMock.getName()).install();
     }
 
     private static class SimplePageExtension implements PageExtension {

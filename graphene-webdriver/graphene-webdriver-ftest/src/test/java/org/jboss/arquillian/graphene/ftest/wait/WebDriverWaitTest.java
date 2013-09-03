@@ -22,7 +22,9 @@
 package org.jboss.arquillian.graphene.ftest.wait;
 
 import java.util.concurrent.TimeUnit;
+
 import junit.framework.Assert;
+
 import org.jboss.arquillian.graphene.Graphene;
 import org.junit.Test;
 import org.openqa.selenium.TimeoutException;

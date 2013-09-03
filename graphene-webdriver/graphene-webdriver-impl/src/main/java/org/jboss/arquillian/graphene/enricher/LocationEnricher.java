@@ -12,11 +12,11 @@ import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
-import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.container.ServletURLLookupService;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
-import org.jboss.arquillian.graphene.spi.annotations.InitialPage;
-import org.jboss.arquillian.graphene.spi.annotations.Location;
+import org.jboss.arquillian.graphene.page.InitialPage;
+import org.jboss.arquillian.graphene.page.Location;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.WebDriver;
 

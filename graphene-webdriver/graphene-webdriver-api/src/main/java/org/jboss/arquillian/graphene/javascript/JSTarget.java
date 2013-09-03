@@ -81,7 +81,10 @@ public class JSTarget {
 
     private ExecutionResolver createResolver(JavaScript annotation) {
         try {
-            return annotation.methodResolver().newInstance();
+            if (annotation.methodResolver().equals(JavaScript.DefaultExecutionResolver.class)) {
+                return (ExecutionResolver) Class.forName(JavaScript.DefaultExecutionResolver.IMPLEMENTATION).newInstance();
+            }
+            return (ExecutionResolver) annotation.methodResolver().newInstance();
         } catch (Exception e) {
             throw new IllegalStateException("resolver " + annotation.methodResolver() + " can't be instantied", e);
         }

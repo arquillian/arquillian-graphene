@@ -25,6 +25,7 @@ import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 
 import java.util.concurrent.TimeUnit;
 
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.page.RequestState;
 import org.jboss.arquillian.graphene.page.RequestType;
 import org.jboss.arquillian.graphene.page.document.Document;
@@ -38,7 +39,6 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import org.jboss.arquillian.graphene.GrapheneContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

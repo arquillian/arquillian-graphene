@@ -19,6 +19,16 @@
         <!-- Arquillian Graphene -->
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver-spi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>graphene-webdriver-impl</artifactId>
             <version>${project.version}</version>
         </dependency>

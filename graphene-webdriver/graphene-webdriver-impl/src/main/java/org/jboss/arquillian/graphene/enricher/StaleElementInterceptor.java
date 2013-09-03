@@ -10,6 +10,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Predicate;
+
 import org.openqa.selenium.TimeoutException;
 
 public class StaleElementInterceptor implements Interceptor {

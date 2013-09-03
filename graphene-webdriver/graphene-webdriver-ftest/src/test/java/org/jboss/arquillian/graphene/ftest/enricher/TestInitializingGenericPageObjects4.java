@@ -23,9 +23,11 @@ package org.jboss.arquillian.graphene.ftest.enricher;
 
 import org.jboss.arquillian.graphene.ftest.enricher.page.TestPage;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.AbstractPageFragmentStub;
-import org.jboss.arquillian.graphene.spi.annotations.Page;
+import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
+
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebElement;

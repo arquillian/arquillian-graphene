@@ -29,7 +29,8 @@ import java.util.concurrent.Callable;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContextImpl;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 
 /**
@@ -201,7 +202,7 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
         }
         final InvocationContext finalInvocationContext = invocationContext;
         if (context != null) {
-            return context.getBrowserActions().performAction(new Callable<Object>() {
+            return ((GrapheneContextImpl) context).getBrowserActions().performAction(new Callable<Object>() {
                 @Override
                 public Object call() throws Exception {
                     try {

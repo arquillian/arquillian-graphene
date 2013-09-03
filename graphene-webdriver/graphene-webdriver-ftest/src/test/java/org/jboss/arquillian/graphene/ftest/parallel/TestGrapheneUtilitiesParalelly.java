@@ -22,11 +22,12 @@
 package org.jboss.arquillian.graphene.ftest.parallel;
 
 import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.spi.annotations.Page;
+import org.jboss.arquillian.graphene.page.Page;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import qualifier.Browser1;
 import qualifier.Browser2;
 
@@ -109,9 +110,9 @@ public class TestGrapheneUtilitiesParalelly extends AbstractParallelTest {
 
     @Test
     public void testGuardXhr() {
-        Graphene.guardXhr(page1).xhr();
-        Graphene.guardXhr(page2).xhr();
-        Graphene.guardXhr(pageDefault).xhr();
+        Graphene.guardAjax(page1).xhr();
+        Graphene.guardAjax(page2).xhr();
+        Graphene.guardAjax(pageDefault).xhr();
     }
 
     public static class SimplePage {

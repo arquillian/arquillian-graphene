@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene;
+package org.jboss.arquillian.graphene.context;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +44,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class GrapheneContext {
+public class GrapheneContextImpl extends ExtendedGrapheneContext {
 
     private final GrapheneConfiguration configuration;
     private final WebDriver webDriver;
@@ -78,7 +78,7 @@ public class GrapheneContext {
         }
     };
 
-    private GrapheneContext(GrapheneConfiguration configuration, WebDriver webDriver, Class<?> qualifier) {
+    private GrapheneContextImpl(GrapheneConfiguration configuration, WebDriver webDriver, Class<?> qualifier) {
         this.configuration = configuration;
         this.webDriver = webDriver;
         this.qualifier = qualifier;
@@ -119,85 +119,92 @@ public class GrapheneContext {
         return qualifier;
     }
 
-    // static methods
-    public static GrapheneContext lastContext() {
-        return CURRENT_CONTEXT.getLast();
-    }
+    static class StaticInterfaceImplementation implements StaticInterface {
 
-    /**
-     * Get context associated to the given qualifier. If the {@link Default}
-     * qualifier is given, the returned context tries to resolves the active context before
-     * each method invocation. If the active context is available, the returned context
-     * behaves like the active one.
-     */
-    public static GrapheneContext getContextFor(Class<?> qualifier) {
-        if (qualifier == null) {
-            throw new IllegalArgumentException("The parameter 'qualifer' is null.");
+        // static methods
+        @Override
+        public GrapheneContext lastContext() {
+            return CURRENT_CONTEXT.getLast();
         }
-        LazyContext context = (LazyContext) LAZY_CONTEXTS.get().get(qualifier);
-        if (context == null) {
-            try {
-                context = new LazyContext(qualifier, new BrowserActions(qualifier.getName()));
-                context.handler = GrapheneContextualHandler.forFuture(context, context.getFutureTarget());
-                GrapheneProxyInstance proxy = (GrapheneProxyInstance) context.getWebDriver();
-                proxy.registerInterceptor(new SearchContextInterceptor());
-                proxy.registerInterceptor(new StaleElementInterceptor());
-                context.installatorProvider = new RemotePageExtensionInstallatorProvider(context.registry, (JavascriptExecutor) context.getWebDriver(JavascriptExecutor.class));
-                final GrapheneContext finalContext = context;
-                context.getBrowserActions().performAction(new Callable<Void>() {
-                    @Override
-                    public Void call() throws Exception {
-                        CURRENT_CONTEXT.set(finalContext);
-                        return null;
-                    }
-                });
-                LAZY_CONTEXTS.get().put(qualifier, context);
-            } catch (Exception e) {
-                throw new IllegalStateException("Can't create a lazy context for " + qualifier.getName() + " qualifier.", e);
+
+        /**
+         * Get context associated to the given qualifier. If the {@link Default}
+         * qualifier is given, the returned context tries to resolves the active context before
+         * each method invocation. If the active context is available, the returned context
+         * behaves like the active one.
+         */
+        @Override
+        public GrapheneContext getContextFor(Class<?> qualifier) {
+            if (qualifier == null) {
+                throw new IllegalArgumentException("The parameter 'qualifer' is null.");
             }
-        }
-        return context;
-    }
-
-    /**
-     * Creates a new context for the given webdriver, configuration and qualifier.
-     * <strong>When you create the context, you are responsible to invoke {@link #removeContextFor(java.lang.Class) }
-     * after the context is no longer valid.</strong>
-     *
-     * @return created context
-     * @see #getContextFor(java.lang.Class)
-     * @see #removeContextFor(java.lang.Class)
-     */
-    public static GrapheneContext setContextFor(GrapheneConfiguration configuration, WebDriver driver, Class<?> qualifier) {
-        GrapheneContext grapheneContext = new GrapheneContext(configuration, driver, qualifier);
-        ALL_CONTEXTS.get().put(qualifier, grapheneContext);
-        return getContextFor(qualifier);
-    }
-
-    /**
-     * Removes the context associated to the given qualifier.
-     * @param qualifier
-     * @see #setContextFor(org.jboss.arquillian.graphene.configuration.GrapheneConfiguration, org.openqa.selenium.WebDriver, java.lang.Class)
-     */
-    public static void removeContextFor(Class<?> qualifier) {
-        final GrapheneContext context = LAZY_CONTEXTS.get().get(qualifier);
-        if (context != null) {
-            try {
-                ((LazyContext) context).getBrowserActions().performAction(new Callable<Void>() {
+            LazyContext context = (LazyContext) LAZY_CONTEXTS.get().get(qualifier);
+            if (context == null) {
+                try {
+                    context = new LazyContext(qualifier, new BrowserActions(qualifier.getName()));
+                    context.handler = GrapheneContextualHandler.forFuture(context, context.getFutureTarget());
+                    GrapheneProxyInstance proxy = (GrapheneProxyInstance) context.getWebDriver();
+                    proxy.registerInterceptor(new SearchContextInterceptor());
+                    proxy.registerInterceptor(new StaleElementInterceptor());
+                    context.installatorProvider = new RemotePageExtensionInstallatorProvider(context.registry, (JavascriptExecutor) context.getWebDriver(JavascriptExecutor.class));
+                    final GrapheneContext finalContext = context;
+                    context.getBrowserActions().performAction(new Callable<Void>() {
                         @Override
                         public Void call() throws Exception {
-                            CURRENT_CONTEXT.remove();
+                            CURRENT_CONTEXT.set(finalContext);
                             return null;
                         }
                     });
-            } catch (Exception ignored) {
+                    LAZY_CONTEXTS.get().put(qualifier, context);
+                } catch (Exception e) {
+                    throw new IllegalStateException("Can't create a lazy context for " + qualifier.getName() + " qualifier.", e);
+                }
             }
-            LAZY_CONTEXTS.get().remove(qualifier);
+            return context;
         }
-        ALL_CONTEXTS.get().remove(qualifier);
+
+        /**
+         * Creates a new context for the given webdriver, configuration and qualifier.
+         * <strong>When you create the context, you are responsible to invoke {@link #removeContextFor(java.lang.Class) }
+         * after the context is no longer valid.</strong>
+         *
+         * @return created context
+         * @see #getContextFor(java.lang.Class)
+         * @see #removeContextFor(java.lang.Class)
+         */
+        @Override
+        public GrapheneContext setContextFor(GrapheneConfiguration configuration, WebDriver driver, Class<?> qualifier) {
+            GrapheneContext grapheneContext = new GrapheneContextImpl(configuration, driver, qualifier);
+            ALL_CONTEXTS.get().put(qualifier, grapheneContext);
+            return getContextFor(qualifier);
+        }
+
+        /**
+         * Removes the context associated to the given qualifier.
+         * @param qualifier
+         * @see #setContextFor(org.jboss.arquillian.graphene.configuration.GrapheneConfiguration, org.openqa.selenium.WebDriver, java.lang.Class)
+         */
+        @Override
+        public void removeContextFor(Class<?> qualifier) {
+            final GrapheneContext context = LAZY_CONTEXTS.get().get(qualifier);
+            if (context != null) {
+                try {
+                    ((LazyContext) context).getBrowserActions().performAction(new Callable<Void>() {
+                            @Override
+                            public Void call() throws Exception {
+                                CURRENT_CONTEXT.remove();
+                                return null;
+                            }
+                        });
+                } catch (Exception ignored) {
+                }
+                LAZY_CONTEXTS.get().remove(qualifier);
+            }
+            ALL_CONTEXTS.get().remove(qualifier);
+        }
     }
 
-    private static class LazyContext extends GrapheneContext {
+    private static class LazyContext extends GrapheneContextImpl {
 
         private final Class<?> qualifier;
         private final PageExtensionRegistry registry;

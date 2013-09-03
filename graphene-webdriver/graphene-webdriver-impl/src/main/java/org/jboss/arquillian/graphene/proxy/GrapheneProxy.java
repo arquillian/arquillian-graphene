@@ -27,7 +27,7 @@ import java.lang.reflect.Proxy;
 
 import net.sf.cglib.proxy.Enhancer;
 
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 /**
  * GrapheneProxy provides methods for wrapping the target of invocation in the proxy.

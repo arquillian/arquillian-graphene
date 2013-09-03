@@ -23,7 +23,7 @@ package org.jboss.arquillian.graphene.ftest.enricher.page.fragment;
 
 import org.jboss.arquillian.graphene.component.object.api.switchable.ComponentContainer;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
-import org.jboss.arquillian.graphene.spi.annotations.Root;
+import org.jboss.arquillian.graphene.fragment.Root;
 import org.openqa.selenium.WebElement;
 
 /**

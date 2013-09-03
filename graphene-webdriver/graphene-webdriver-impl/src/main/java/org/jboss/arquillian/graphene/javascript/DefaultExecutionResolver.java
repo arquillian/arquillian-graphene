@@ -21,19 +21,20 @@
  */
 package org.jboss.arquillian.graphene.javascript;
 
-import com.google.common.io.Resources;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jboss.arquillian.drone.api.annotation.Default;
+
+import org.jboss.arquillian.graphene.context.ExtendedGrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.page.extension.JavaScriptPageExtension;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistry;
-import org.jboss.arquillian.graphene.GrapheneContext;
 import org.openqa.selenium.JavascriptExecutor;
+
+import com.google.common.io.Resources;
 
 /**
  * This resolver uses page extension mechanism to install needed JavaScript
@@ -60,13 +61,16 @@ public class DefaultExecutionResolver implements ExecutionResolver {
 
     @Override
     public Object execute(GrapheneContext context, JSCall call) {
+
+        ExtendedGrapheneContext c = (ExtendedGrapheneContext) context;
+
         // check name
         JSTarget target = call.getTarget();
         if (target.getName() == null) {
             throw new IllegalStateException("Can't use " + this.getClass() + " for " + target.getInterface() + ", because the @JavaScript annotation doesn't define non empty value()");
         }
         // register page extension
-        registerExtension(context.getPageExtensionRegistry(), target);
+        registerExtension(c.getPageExtensionRegistry(), target);
         // try to execute javascript, if fails install the extension
         final long LIMIT = context.getConfiguration().getJavascriptInstallationLimit();
         for (long i=1; i<=5; i++) {
@@ -82,7 +86,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
                 // try to install the extension
                 } else {
                     try {
-                        context.getPageExtensionInstallatorProvider().installator(target.getName()).install();
+                        c.getPageExtensionInstallatorProvider().installator(target.getName()).install();
                     } catch (RuntimeException ignored) {
                     }
                 }

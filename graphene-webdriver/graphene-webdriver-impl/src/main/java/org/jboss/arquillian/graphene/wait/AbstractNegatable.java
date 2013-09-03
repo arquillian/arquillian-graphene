@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
+import org.jboss.arquillian.graphene.wait.Negatable;
+
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */

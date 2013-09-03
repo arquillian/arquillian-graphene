@@ -23,6 +23,8 @@ package org.jboss.arquillian.graphene.wait;
 
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.fluent.FluentBase;
+import org.jboss.arquillian.graphene.wait.IsAttributeBuilder;
+import org.jboss.arquillian.graphene.wait.IsNotAttributeBuilder;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

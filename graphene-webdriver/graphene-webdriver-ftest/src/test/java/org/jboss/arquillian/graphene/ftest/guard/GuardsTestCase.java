@@ -28,9 +28,9 @@ import static org.jboss.arquillian.graphene.Graphene.waitForHttp;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;

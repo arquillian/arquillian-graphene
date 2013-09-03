@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -34,15 +35,15 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
-import org.jboss.arquillian.graphene.GrapheneContext;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.enricher.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.fragment.Root;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
-import org.jboss.arquillian.graphene.spi.annotations.Root;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -138,7 +139,9 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
             } else {
                 pageFragment = instantiate(clazz);
             }
-            List<Field> roots = ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class);
+            List<Field> roots = new LinkedList<Field>();
+            roots.addAll(ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class));
+            roots.addAll(ReflectionHelper.getFieldsWithAnnotation(clazz, org.jboss.arquillian.graphene.spi.annotations.Root.class));
             if (roots.size() > 1) {
                 throw new PageFragmentInitializationException("The Page Fragment " + NEW_LINE + pageFragment.getClass()
                     + NEW_LINE + " can not have more than one field annotated with Root annotation!"

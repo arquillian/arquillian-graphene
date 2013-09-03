@@ -17,10 +17,11 @@
 package org.jboss.arquillian.graphene.ftest.drone;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
+
 import static org.junit.Assert.assertTrue;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;

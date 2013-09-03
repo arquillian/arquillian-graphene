@@ -22,14 +22,17 @@
 package org.jboss.arquillian.graphene.ftest.parallel;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import junit.framework.Assert;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Before;
 import org.junit.Test;
+
 import qualifier.Browser1;
 import qualifier.Browser2;
 

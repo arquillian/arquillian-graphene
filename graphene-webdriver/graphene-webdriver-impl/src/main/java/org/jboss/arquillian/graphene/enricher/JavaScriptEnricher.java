@@ -24,7 +24,8 @@ package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import org.jboss.arquillian.graphene.GrapheneContext;
+
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;

@@ -25,14 +25,15 @@ package org.jboss.arquillian.graphene.enricher;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.LinkedList;
 import java.util.List;
 
-import org.jboss.arquillian.graphene.GrapheneContext;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageObjectInitializationException;
+import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
-import org.jboss.arquillian.graphene.spi.annotations.Page;
 import org.openqa.selenium.SearchContext;
 
 /**
@@ -46,7 +47,9 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
     @Override
     public void enrich(final SearchContext searchContext, Object target) {
         String errorMsgBegin = "";
-        List<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), Page.class);
+        List<Field> fields = new LinkedList<Field>();
+        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), Page.class));
+        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.spi.annotations.Page.class));
         for (Field field : fields) {
                 GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
                 final SearchContext localSearchContext;
