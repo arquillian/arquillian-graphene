@@ -26,9 +26,9 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
 import java.util.List;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
@@ -71,28 +71,12 @@ public class TestInitializeFindBys {
     @FindBys({ @FindBy(css = "#root"), @FindBy(tagName = "div"), @FindBy(tagName = "span") })
     private WebElement element;
 
-    @org.jboss.arquillian.graphene.findby.FindBys({
-            @org.jboss.arquillian.graphene.enricher.findby.FindBy(css = "#root"),
-            @org.jboss.arquillian.graphene.enricher.findby.FindBy(tagName = "div"),
-            @org.jboss.arquillian.graphene.enricher.findby.FindBy(tagName = "span") })
-    private WebElement element2;
-
     @FindBys({ @FindBy(css = "#root"), @FindBy(css = ".list") })
     private List<WebElement> elements;
-
-    @org.jboss.arquillian.graphene.findby.FindBys({
-            @org.jboss.arquillian.graphene.enricher.findby.FindBy(css = "#root"),
-            @org.jboss.arquillian.graphene.enricher.findby.FindBy(css = ".list") })
-    private List<WebElement> elements2;
 
     @Test
     public void testWebDriverFindBysOverWebElementInitialized() {
         assertFindBysOverWebElement(element);
-    }
-
-    @Test
-    public void testGrapheneFindBysOverWebElementInitialized() {
-        assertFindBysOverWebElement(element2);
     }
 
     private void assertFindBysOverWebElement(WebElement element) {
@@ -103,11 +87,6 @@ public class TestInitializeFindBys {
     @Test
     public void testWebDriverFindBysOverListInitialized() {
         assertFindBysOverList(elements);
-    }
-
-    @Test
-    public void testGrapheneFindBysOverListInitialized() {
-        assertFindBysOverList(elements2);
     }
 
     private void assertFindBysOverList(List<WebElement> elements) {

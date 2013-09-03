@@ -1,11 +1,11 @@
 package org.jboss.arquillian.graphene.ftest.enricher.page;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentWithSpan;
 import org.jboss.arquillian.graphene.page.InFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 public class PageWithIFrames {
@@ -24,7 +24,7 @@ public class PageWithIFrames {
 
     @FindBy(className = "divElement")
     private WebElement elementInDefaultFrame;
-    
+
     @Drone
     private WebDriver browser;
 

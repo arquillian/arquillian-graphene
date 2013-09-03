@@ -30,7 +30,6 @@ import java.util.List;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.ftest.enricher.page.PageWithIFrames;
@@ -47,6 +46,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import qualifier.Browser1;
 import qualifier.Browser2;
@@ -78,7 +78,7 @@ public class TestInFrameFunctionality {
 
     @FindBy(className = "divElement")
     private WebElement elementInDefaultFrame;
-    
+
     @Browser1
     @Drone
     protected WebDriver browser1;
@@ -86,7 +86,7 @@ public class TestInFrameFunctionality {
     @Browser2
     @Drone
     protected WebDriver browser2;
-    
+
     @Browser2
     @Page
     private PageWithIFrames pageMultipleBrowsers;
@@ -109,7 +109,7 @@ public class TestInFrameFunctionality {
     @Browser2
     @FindBy(className = "divElement")
     private WebElement elementInDefaultFrameMultipleBrowsers;
-    
+
     @ArquillianResource
     private URL contextRoot;
 
@@ -124,7 +124,7 @@ public class TestInFrameFunctionality {
         loadTheRightPage(browser1);
         loadTheRightPage(browser2);
     }
-    
+
     private void loadTheRightPage(WebDriver browser) {
         Resource.inCurrentPackage().find("inframe.html").loadPage(browser, contextRoot);
     }
@@ -142,7 +142,7 @@ public class TestInFrameFunctionality {
     public void testInFrameOverPageObject1() {
         checkWebElementInFrame(page2.getSpan());
     }
-    
+
     @Test
     public void testInFrameOverPageObjectMultipleBrowsers() {
         Resources.inCurrentPackage();
@@ -153,7 +153,7 @@ public class TestInFrameFunctionality {
     public void testWebElementInFrameDeclaredInTest() {
         checkWebElementInFrame(span);
     }
-    
+
     @Test
     public void testWebElementInFrameDeclaredInTestMultipleBrowsers() {
         checkWebElementInFrame(spanMultipleBrowsers);
@@ -163,7 +163,7 @@ public class TestInFrameFunctionality {
     public void testPageFragmentInFrameDefinedById() {
         checkPageFragmentInFrame(page.getMyFragment());
     }
-    
+
     @Test
     public void testPageFragmentInFrameDefinedByIdMultipleBrowsers() {
         checkPageFragmentInFrame(pageMultipleBrowsers.getMyFragment());
@@ -173,7 +173,7 @@ public class TestInFrameFunctionality {
     public void testPageFragmentInFrameDeclaredInTest() {
         checkPageFragmentInFrame(myFragment);
     }
-    
+
     @Test
     public void testPageFragmentInFrameDeclaredInTestMultipleBrowsers() {
         checkPageFragmentInFrame(myFragmentMultipleBrowsers);
@@ -185,21 +185,21 @@ public class TestInFrameFunctionality {
         assertEquals(3, options.size());
         assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
     }
-    
+
     @Test
     public void testSelectInFrameDefinedByNameMultipleBrowsers() {
         List<WebElement> options = pageMultipleBrowsers.getSelect().getOptions();
         assertEquals(3, options.size());
         assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
     }
-    
+
     @Test
     public void testInFrameOverPageObject2() {
         List<WebElement> options = page2.getSelect().getOptions();
         assertEquals(3, options.size());
         assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
     }
-    
+
     @Test
     public void testInFrameOverPageObject2MultipleBrowsers() {
         List<WebElement> options = page2MultipleBrowsers.getSelect().getOptions();
@@ -211,7 +211,7 @@ public class TestInFrameFunctionality {
     public void testElementInDefaultFrame() {
         checkWebElementInDefaultFrame(page.getElementInDefaultFrame());
     }
-    
+
     @Test
     public void testElementInDefaultFrameMultipleBrowsers() {
         checkWebElementInDefaultFrame(pageMultipleBrowsers.getElementInDefaultFrame());
@@ -221,7 +221,7 @@ public class TestInFrameFunctionality {
     public void testElementInDefaultFrameDeclaredInTest() {
         checkWebElementInDefaultFrame(elementInDefaultFrame);
     }
-    
+
     @Test
     public void testElementInDefaultFrameDeclaredInTestMultipleBrowsers() {
         checkWebElementInDefaultFrame(elementInDefaultFrameMultipleBrowsers);

@@ -32,8 +32,8 @@ import java.util.List;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
 import org.jboss.arquillian.graphene.findby.ByJQuery;
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
@@ -57,29 +57,29 @@ public class JQuerySelectorsPageExtensionTestCase {
     @ArquillianResource
     private URL contextRoot;
 
-    @FindBy(jquery = ":header")
+    @FindByJQuery(":header")
     private WebElement webElementByJQuery;
 
-    @FindBy(jquery = ":header")
+    @FindByJQuery(":header")
     private List<WebElement> listOfWebElementsByJQuery;
 
-    @FindBy(jquery = "div:eq(1)")
+    @FindByJQuery("div:eq(1)")
     private JQuerySelectorTestPageFragment jquerySelectorTestPageFragment;
 
-    @FindBy(jquery = "div:eq(1)")
+    @FindByJQuery("div:eq(1)")
     private List<JQuerySelectorTestPageFragment> listOfJQueryPageFragments;
 
-    @FindBy(jquery = "#nonExistingId")
+    @FindByJQuery("#nonExistingId")
     private WebElement notExistingElement;
 
-    @FindBy(jquery = "#nonExistingId")
+    @FindByJQuery("#nonExistingId")
     private List<WebElement> notExistingElements;
 
     private static final String contentOfSpecialCharacters = "special chars '\"$";
-    @FindBy(jquery = "p:contains(\"" + contentOfSpecialCharacters + "\")")
+    @FindByJQuery("p:contains(\"" + contentOfSpecialCharacters + "\")")
     private WebElement escapedDoubleQuotes;
 
-    @FindBy(jquery = "div[id=\"foo:bar\"]")
+    @FindByJQuery("div[id=\"foo:bar\"]")
     private WebElement escapedDoubleQuotes2;
 
     @Drone
@@ -199,7 +199,7 @@ public class JQuerySelectorsPageExtensionTestCase {
      */
     public class JQuerySelectorTestPageFragment {
 
-        @FindBy(jquery = "div:contains('jquery selectors')")
+        @FindByJQuery("div:contains('jquery selectors')")
         private WebElement jqueryLocator;
 
         public WebElement getJQueryLocator() {

@@ -28,8 +28,9 @@ import java.util.List;
 
 import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.component.object.api.switchable.SwitchableComponent;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
@@ -39,7 +40,7 @@ public class TabPanel implements SwitchableComponent {
     @FindBy(className = "tabpanel-tab-inact")
     private List<WebElement> tabs;
 
-    @FindBy(jquery = ".tabpanel-tab:visible")
+    @FindByJQuery(".tabpanel-tab:visible")
     private Panel actualTab;
 
     private SwitchType switchType = SwitchType.CLIENT;

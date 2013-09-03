@@ -1,16 +1,18 @@
 package org.jboss.arquillian.graphene.ftest.page.extension;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.URL;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,13 +29,13 @@ public class TestJQuerySelectorEngineInjectedInNoConflictWay {
     @ArquillianResource
     private URL contextRoot;
 
-    @FindBy(jquery = "#placeholder")
+    @FindByJQuery("#placeholder")
     private WebElement placeholder;
 
-    @FindBy(jquery = ":button")
+    @FindByJQuery(":button")
     private WebElement show$ObjectValue;
 
-    @FindBy(jquery = ":button:eq(1)")
+    @FindByJQuery(":button:eq(1)")
     private WebElement showJQueryObjectValue;
 
     @Drone
