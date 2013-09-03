@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.spi.annotations;
+package org.jboss.arquillian.graphene.page;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

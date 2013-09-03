@@ -10,9 +10,9 @@ import java.util.Set;
 
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.enricher.findby.FindBy;
+import org.jboss.arquillian.graphene.page.InFrame;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
-import org.jboss.arquillian.graphene.spi.annotations.InFrame;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
