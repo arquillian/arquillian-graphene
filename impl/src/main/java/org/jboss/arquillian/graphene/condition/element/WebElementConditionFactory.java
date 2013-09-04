@@ -72,16 +72,6 @@ public class WebElementConditionFactory extends AbstractBooleanConditionFactory<
     }
 
     @Override
-    public ExpectedCondition<Boolean> textContains(String expected) {
-        return text().contains(expected);
-    }
-
-    @Override
-    public ExpectedCondition<Boolean> textEquals(String expected) {
-        return text().equalTo(expected);
-    }
-
-    @Override
     protected WebElementConditionFactory copy() {
         WebElementConditionFactory copy = new WebElementConditionFactory(element);
         copy.setNegation(getNegation());

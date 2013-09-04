@@ -145,16 +145,6 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
     }
 
     @Override
-    public ExpectedCondition<Boolean> textContains(String expected) {
-        return text().contains(expected);
-    }
-
-    @Override
-    public ExpectedCondition<Boolean> textEquals(final String expected) {
-        return text().equalTo(expected);
-    }
-
-    @Override
     protected ElementConditionFactory copy() {
         ElementLocatorConditionFactory copy;
         if (searchContext != null) {

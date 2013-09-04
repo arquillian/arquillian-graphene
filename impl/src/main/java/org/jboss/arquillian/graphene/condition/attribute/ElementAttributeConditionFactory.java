@@ -51,16 +51,6 @@ public class ElementAttributeConditionFactory extends AbstractBooleanConditionFa
     }
 
     @Override
-    public ExpectedCondition<Boolean> valueContains(String expected) {
-        return contains(expected);
-    }
-
-    @Override
-    public ExpectedCondition<Boolean> valueEquals(String expected) {
-        return equalTo(expected);
-    }
-
-    @Override
     protected ElementAttributeConditionFactory copy() {
         ElementAttributeConditionFactory copy = new ElementAttributeConditionFactory(element, attribute);
         copy.setNegation(getNegation());

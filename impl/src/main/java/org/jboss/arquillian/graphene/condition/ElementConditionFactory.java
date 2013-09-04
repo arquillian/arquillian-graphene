@@ -61,22 +61,4 @@ public interface ElementConditionFactory extends BasicConditionFactory<ElementCo
      */
     StringConditionFactory<StringConditionFactory> text();
 
-    /**
-     * Returns a condition holding if and only if the element contains the given text.
-     *
-     * @param expected
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> textContains(String expected);
-
-    /**
-     * Returns a condition holding if and only if the text inside the element
-     * equals to the given one.
-     *
-     * @return
-     */
-    @Deprecated
-    ExpectedCondition<Boolean> textEquals(String expected);
-
 }

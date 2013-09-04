@@ -52,16 +52,6 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
     }
 
     @Override
-    public ExpectedCondition<Boolean> valueContains(final String expected) {
-        return contains(expected);
-    }
-
-    @Override
-    public ExpectedCondition<Boolean> valueEquals(String expected) {
-        return equalTo(expected);
-    }
-
-    @Override
     public ExpectedCondition<Boolean> isPresent() {
         return new ExpectedCondition<Boolean>() {
             @Override
