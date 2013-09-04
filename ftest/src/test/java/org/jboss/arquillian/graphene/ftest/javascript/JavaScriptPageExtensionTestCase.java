@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -106,7 +106,7 @@ public class JavaScriptPageExtensionTestCase {
 
     @JavaScript(value="fake")
     @Dependency(interfaces={HelloWorld.class})
-    public static interface Document2 {
+    public interface Document2 {
         String getTitle();
     }
 
