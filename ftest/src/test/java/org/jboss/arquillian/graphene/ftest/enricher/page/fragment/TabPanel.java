@@ -27,7 +27,6 @@ import static org.jboss.arquillian.graphene.Graphene.guardHttp;
 import java.util.List;
 
 import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.component.object.api.switchable.SwitchableComponent;
 import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

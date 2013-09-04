@@ -21,21 +21,12 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher.page.fragment;
 
-import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
-import org.jboss.arquillian.graphene.fragment.Root;
-import org.openqa.selenium.WebElement;
-
 /**
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ *
  */
-public class Panel implements ComponentContainer {
+public interface ComponentContainer {
 
-    @Root
-    private WebElement root;
-
-    @Override
-    public <T> T getContent(Class<T> clazz) {
-        return PageFragmentEnricher.createPageFragment(clazz, root);
-    }
-
+    <T> T getContent(Class<T> clazz);
 }
