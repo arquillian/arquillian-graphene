@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -33,7 +33,7 @@ import org.jboss.arquillian.test.spi.TestEnricher;
 
 /**
  * Graphene enricher calls all {@link SearchContextTestEnricher} instances to start their enrichment.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */

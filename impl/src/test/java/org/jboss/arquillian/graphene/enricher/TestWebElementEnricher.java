@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -21,14 +21,13 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

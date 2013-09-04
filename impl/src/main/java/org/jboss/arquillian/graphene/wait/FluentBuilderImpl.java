@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -23,10 +23,7 @@ package org.jboss.arquillian.graphene.wait;
 
 import org.jboss.arquillian.graphene.condition.element.WebElementConditionFactory;
 import org.jboss.arquillian.graphene.condition.locator.ElementLocatorConditionFactory;
-import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.fluent.FluentBase;
-import org.jboss.arquillian.graphene.wait.ElementBuilder;
-import org.jboss.arquillian.graphene.wait.FluentBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;

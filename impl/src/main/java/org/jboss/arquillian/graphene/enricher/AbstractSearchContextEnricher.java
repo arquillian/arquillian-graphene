@@ -1,24 +1,23 @@
 /**
- * JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc. and
- * individual contributors by the
+ * JBoss, Home of Professional Open Source
+ * Copyright 2013, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
- * @authors tag. See the copyright.txt in the distribution for a full listing of
- * individual contributors.
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
  *
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
  *
- * This software is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this software; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
- * site: http://www.fsf.org.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.arquillian.graphene.enricher;
 
@@ -33,21 +32,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
-import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.SearchContext;
 
 /**
  * This class should help you to implement {@link SearchContextTestEnricher}.
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
@@ -63,7 +59,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     /**
      * Performs further enrichment on the given instance with the given search context. That means all instances
      * {@link TestEnricher} and {@link SearchContextTestEnricher} are invoked.
-     * 
+     *
      * @param searchContext
      * @param target
      */
@@ -89,7 +85,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * It loads a real type of a field defined by parametric type. It searches in declaring class and super class. E. g. if a
      * field is declared as 'A fieldName', It tries to find type parameter called 'A' in super class declaration and its
      * evaluation in the class declaring the given field.
-     * 
+     *
      * @param field
      * @param testCase
      * @return type of the given field
@@ -117,7 +113,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
     /**
      * It loads the concrete type of list items. E.g. for List<String>, String is returned.
-     * 
+     *
      * @param listField
      * @return
      * @throws ClassNotFoundException
@@ -128,7 +124,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
 
     /**
      * Initialize given class.
-     * 
+     *
      * @param clazz to be initialized
      * @throws IllegalAccessException
      * @throws InstantiationException

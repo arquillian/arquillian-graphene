@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -21,10 +21,10 @@
  */
 package org.jboss.arquillian.graphene.proxy;
 
-import org.jboss.arquillian.graphene.TestingDriverStub;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import org.jboss.arquillian.graphene.TestingDriverStub;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.junit.Test;
 

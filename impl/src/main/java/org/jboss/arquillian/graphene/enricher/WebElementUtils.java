@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -52,8 +52,8 @@ import org.openqa.selenium.support.ByIdOrName;
  */
 public final class WebElementUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(WebElementUtils.class.getName());
-    private final static String EMPTY_FIND_BY_WARNING = " Be aware of the fact that fields anotated with empty "
+    private static final Logger LOGGER = Logger.getLogger(WebElementUtils.class.getName());
+    private static final String EMPTY_FIND_BY_WARNING = " Be aware of the fact that fields anotated with empty "
             + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
 
     private WebElementUtils() {

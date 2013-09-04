@@ -1,3 +1,24 @@
+/**
+ * JBoss, Home of Professional Open Source
+ * Copyright 2013, Red Hat, Inc. and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 /*
 Copyright 2007-2009 Selenium committers
 
@@ -272,61 +293,78 @@ public class Annotations {
     }
 
     protected By buildByFromShortFindBy(FindBy findBy) {
-        if (!"".equals(findBy.className()))
+        if (!"".equals(findBy.className())) {
             return By.className(findBy.className());
+        }
 
-        if (!"".equals(findBy.css()))
+        if (!"".equals(findBy.css())) {
             return By.cssSelector(findBy.css());
+        }
 
-        if (!"".equals(findBy.id()))
+        if (!"".equals(findBy.id())) {
             return By.id(findBy.id());
+        }
 
-        if (!"".equals(findBy.linkText()))
+        if (!"".equals(findBy.linkText())) {
             return By.linkText(findBy.linkText());
+        }
 
-        if (!"".equals(findBy.name()))
+        if (!"".equals(findBy.name())) {
             return By.name(findBy.name());
+        }
 
-        if (!"".equals(findBy.partialLinkText()))
+        if (!"".equals(findBy.partialLinkText())) {
             return By.partialLinkText(findBy.partialLinkText());
+        }
 
-        if (!"".equals(findBy.tagName()))
+        if (!"".equals(findBy.tagName())) {
             return By.tagName(findBy.tagName());
+        }
 
-        if (!"".equals(findBy.xpath()))
+        if (!"".equals(findBy.xpath())) {
             return By.xpath(findBy.xpath());
+        }
 
         // Fall through
         return null;
     }
 
     protected By buildByFromShortFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
-        if (!"".equals(findBy.className()))
+        if (!"".equals(findBy.className())) {
             return By.className(findBy.className());
+        }
 
-        if (!"".equals(findBy.css()))
+        if (!"".equals(findBy.css())) {
             return By.cssSelector(findBy.css());
+        }
 
-        if (!"".equals(findBy.id()))
+        if (!"".equals(findBy.id())) {
             return By.id(findBy.id());
+        }
 
-        if (!"".equals(findBy.linkText()))
+        if (!"".equals(findBy.linkText())) {
             return By.linkText(findBy.linkText());
+        }
 
-        if (!"".equals(findBy.name()))
+        if (!"".equals(findBy.name())) {
             return By.name(findBy.name());
+        }
 
-        if (!"".equals(findBy.partialLinkText()))
+        if (!"".equals(findBy.partialLinkText())) {
             return By.partialLinkText(findBy.partialLinkText());
+        }
 
-        if (!"".equals(findBy.tagName()))
+        if (!"".equals(findBy.tagName())) {
             return By.tagName(findBy.tagName());
+        }
 
-        if (!"".equals(findBy.xpath()))
+        if (!"".equals(findBy.xpath())) {
             return By.xpath(findBy.xpath());
+        }
 
-        if (!"".equals(findBy.jquery()))
+        if (!"".equals(findBy.jquery())) {
             return new ByJQuery(findBy.jquery());
+        }
 
         // Fall through
         return null;
@@ -368,24 +406,33 @@ public class Annotations {
         }
 
         Set<String> finders = new HashSet<String>();
-        if (!"".equals(findBy.using()))
+        if (!"".equals(findBy.using())) {
             finders.add("how: " + findBy.using());
-        if (!"".equals(findBy.className()))
+        }
+        if (!"".equals(findBy.className())) {
             finders.add("class name:" + findBy.className());
-        if (!"".equals(findBy.css()))
+        }
+        if (!"".equals(findBy.css())) {
             finders.add("css:" + findBy.css());
-        if (!"".equals(findBy.id()))
+        }
+        if (!"".equals(findBy.id())) {
             finders.add("id: " + findBy.id());
-        if (!"".equals(findBy.linkText()))
+        }
+        if (!"".equals(findBy.linkText())) {
             finders.add("link text: " + findBy.linkText());
-        if (!"".equals(findBy.name()))
+        }
+        if (!"".equals(findBy.name())) {
             finders.add("name: " + findBy.name());
-        if (!"".equals(findBy.partialLinkText()))
+        }
+        if (!"".equals(findBy.partialLinkText())) {
             finders.add("partial link text: " + findBy.partialLinkText());
-        if (!"".equals(findBy.tagName()))
+        }
+        if (!"".equals(findBy.tagName())) {
             finders.add("tag name: " + findBy.tagName());
-        if (!"".equals(findBy.xpath()))
+        }
+        if (!"".equals(findBy.xpath())) {
             finders.add("xpath: " + findBy.xpath());
+        }
 
         // A zero count is okay: it means to look by name or id.
         if (finders.size() > 1) {
@@ -405,26 +452,36 @@ public class Annotations {
         }
 
         Set<String> finders = new HashSet<String>();
-        if (!"".equals(findBy.using()))
+        if (!"".equals(findBy.using())) {
             finders.add("how: " + findBy.using());
-        if (!"".equals(findBy.className()))
+        }
+        if (!"".equals(findBy.className())) {
             finders.add("class name:" + findBy.className());
-        if (!"".equals(findBy.css()))
+        }
+        if (!"".equals(findBy.css())) {
             finders.add("css:" + findBy.css());
-        if (!"".equals(findBy.id()))
+        }
+        if (!"".equals(findBy.id())) {
             finders.add("id: " + findBy.id());
-        if (!"".equals(findBy.linkText()))
+        }
+        if (!"".equals(findBy.linkText())) {
             finders.add("link text: " + findBy.linkText());
-        if (!"".equals(findBy.name()))
+        }
+        if (!"".equals(findBy.name())) {
             finders.add("name: " + findBy.name());
-        if (!"".equals(findBy.partialLinkText()))
+        }
+        if (!"".equals(findBy.partialLinkText())) {
             finders.add("partial link text: " + findBy.partialLinkText());
-        if (!"".equals(findBy.tagName()))
+        }
+        if (!"".equals(findBy.tagName())) {
             finders.add("tag name: " + findBy.tagName());
-        if (!"".equals(findBy.xpath()))
+        }
+        if (!"".equals(findBy.xpath())) {
             finders.add("xpath: " + findBy.xpath());
-        if (!"".equals(findBy.jquery()))
+        }
+        if (!"".equals(findBy.jquery())) {
             finders.add("xpath: " + findBy.jquery());
+        }
 
         // A zero count is okay: it means to look by name or id.
         if (finders.size() > 1) {

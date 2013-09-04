@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -28,15 +28,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * 
+ *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class AbstractPageFragmentStub {
 
     @Root
     private WebElement root;
-    
+
     @FindBy(className = "classNameRef")
     private WebElement locatorRefByClassName;
 
@@ -60,7 +60,7 @@ public class AbstractPageFragmentStub {
 
     @FindBy(css = "cssSelectorRef")
     private WebElement locatorRefByCssSelector;
-    
+
     @FindBy(className="spans")
     private List<WebElement> spansInPageFragment;
 

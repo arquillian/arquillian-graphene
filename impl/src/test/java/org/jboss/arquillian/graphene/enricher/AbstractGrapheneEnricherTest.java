@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -27,7 +27,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 
 import org.jboss.arquillian.core.api.Instance;
-import org.jboss.arquillian.core.impl.InstanceImpl;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.TestingDriver;

@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -22,12 +22,12 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Method;
+
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

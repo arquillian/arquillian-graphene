@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2011, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -62,7 +62,7 @@ public class TestClassImposterizer {
         assertTrue(object instanceof TestingClass);
         assertTrue(object instanceof TestingInterface);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testPrivateInterface() {
         Object object = ClassImposterizer.INSTANCE.imposterise(interceptor, TestingPrivateInterface.class);
@@ -75,9 +75,9 @@ public class TestClassImposterizer {
     public static class TestingAbstractClass {
     }
 
-    public static interface TestingInterface {
+    public interface TestingInterface {
     }
-    
-    private static interface TestingPrivateInterface {
+
+    private interface TestingPrivateInterface {
     }
 }

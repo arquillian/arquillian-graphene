@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -23,6 +23,7 @@ package org.jboss.arquillian.graphene.condition.attribute;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.openqa.selenium.By;
