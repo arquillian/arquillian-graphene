@@ -17,7 +17,6 @@
 
     <modules>
         <module>build-resources</module>
-        <module>graphene-selenium</module>
         <module>graphene-webdriver</module>
         <module>graphene-depchain</module>
     </modules>

@@ -1,3 +1,0 @@
-javascript/page-extensions/Graphene.Page.RequestGuard.js
-javascript/page-extensions/XMLHttpRequest-proxy.js
-javascript/page-extensions/XMLHttpRequest-injection.js

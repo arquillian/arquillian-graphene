@@ -16,14 +16,6 @@
     </properties>
 
     <dependencies>
-        <!-- Graphene Selenium -->
-        <dependency>
-            <groupId>org.jboss.arquillian.graphene</groupId>
-            <artifactId>graphene-selenium</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>
-        
         <!-- Graphene WebDriver -->
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
