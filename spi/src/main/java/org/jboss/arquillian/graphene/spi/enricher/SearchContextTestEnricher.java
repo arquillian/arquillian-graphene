@@ -1,6 +1,6 @@
 /**
  * JBoss, Home of Professional Open Source
- * Copyright 2012, Red Hat, Inc. and individual contributors
+ * Copyright 2013, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -24,9 +24,8 @@ package org.jboss.arquillian.graphene.spi.enricher;
 import org.openqa.selenium.SearchContext;
 
 /**
- * The test enricher taking account there is {@link SearchContext} linked
- * to the enriched object. Usually the {@link SearchContext} is given by {@link org.openqa.selenium.WebDriver}
- * or {@link org.openqa.selenium.WebElement} instance.
+ * The test enricher taking account there is {@link SearchContext} linked to the enriched object. Usually the
+ * {@link SearchContext} is given by {@link org.openqa.selenium.WebDriver} or {@link org.openqa.selenium.WebElement} instance.
  *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -40,9 +39,10 @@ public interface SearchContextTestEnricher {
      * @param target instance to be enriched
      */
     void enrich(SearchContext searchContext, Object target);
-    
+
     /**
-     * Returns the enricher precedence. Zero precedence is is the lowest one. 
+     * Returns the enricher precedence. Zero precedence is is the lowest one.
+     *
      * @return
      */
     int getPrecedence();
