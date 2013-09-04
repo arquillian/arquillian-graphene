@@ -8,7 +8,7 @@
 
     <artifactId>graphene-webdriver</artifactId>
     <packaging>pom</packaging>
-    <name>Graphene WebDriver: Dependency Chain</name>
+    <name>Graphene: Dependency Chain for Graphene WebDriver</name>
     <description>Starting point for integration Graphene test suites</description>
 
     <properties>

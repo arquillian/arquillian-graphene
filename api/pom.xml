@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>graphene-webdriver-api</artifactId>
-    <name>Graphene WebDriver: API</name>
+    <name>Graphene: API</name>
 
     <dependencies>
         <dependency>

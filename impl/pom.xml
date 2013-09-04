@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>graphene-webdriver-impl</artifactId>
-    <name>Graphene WebDriver: Implementation</name>
+    <name>Graphene: Implementation</name>
 
     <dependencies>
         <!-- Provided dependencies -->

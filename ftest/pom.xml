@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>graphene-webdriver-ftest</artifactId>
-    <name>Graphene WebDriver: Functional Test</name>
+    <name>Graphene: Functional Test</name>
 
     <properties>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>

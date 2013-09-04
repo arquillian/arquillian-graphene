@@ -10,7 +10,7 @@
 
     <artifactId>graphene-webdriver-spi</artifactId>
 
-    <name>Graphene WebDriver: SPI</name>
+    <name>Graphene: SPI</name>
 
     <dependencies>
         <!-- Runtime dependencies-->

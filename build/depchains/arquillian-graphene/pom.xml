@@ -8,7 +8,7 @@
 
     <artifactId>arquillian-graphene</artifactId>
     <packaging>pom</packaging>
-    <name>Graphene: Dependency Chain</name>
+    <name>Graphene: Dependency Chain for Graphene</name>
     <description>Starting point for integration Graphene test suites</description>
 
     <properties>
