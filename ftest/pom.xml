@@ -16,7 +16,7 @@
         <browser>htmlUnit</browser>
         <remote>false</remote>
         <remoteReusable>false</remoteReusable>
-        <remoteAddress>http://localhost:4444/wd/hub/</remoteAddress>
+        <remoteAddress>http://192.168.15.102:4444/wd/hub/</remoteAddress>
 
         <platform>ANY</platform>
         <browser.version>undefined</browser.version>
@@ -184,6 +184,13 @@
             <id>webdriver-opera</id>
             <properties>
                 <browser>opera</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-internetExplorer</id>
+            <properties>
+                <browser>internetExplorer</browser>
             </properties>
         </profile>
 

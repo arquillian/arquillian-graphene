@@ -21,13 +21,16 @@
  */
 package org.jboss.arquillian.graphene.ftest.intercept;
 
+import org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.core.spi.EventContext;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.ftest.BackChannel;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
+import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 import org.jboss.arquillian.test.spi.event.suite.Test;
 import org.openqa.selenium.WebDriver;
 
@@ -38,6 +41,7 @@ public class InterceptorRegistrationExtension implements LoadableExtension {
     @Override
     public void register(ExtensionBuilder builder) {
         builder.observer(this.getClass());
+        builder.override(ResourceProvider.class, URLResourceProvider.class, BackChannel.class);
     }
 
     public void register_interceptor(@Observes EventContext<Test> ctx) {

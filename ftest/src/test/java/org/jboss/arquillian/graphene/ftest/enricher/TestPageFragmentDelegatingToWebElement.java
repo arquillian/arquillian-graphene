@@ -36,6 +36,7 @@ import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -68,6 +69,7 @@ public class TestPageFragmentDelegatingToWebElement {
     }
 
     @Test
+    @Ignore
     public void testPageFragmentFromInitialPageIsDelegatingCorrectly(@InitialPage TestPage testedPage) {
         testPage(testedPage);
     }

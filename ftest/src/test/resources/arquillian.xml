@@ -64,7 +64,7 @@
 
     <extension qualifier="selenium-server">
         <property name="port">4444</property>
-        <property name="skip">false</property>
+        <property name="skip">true</property>
     </extension>
 
     <container qualifier="tomcat7" default="true">

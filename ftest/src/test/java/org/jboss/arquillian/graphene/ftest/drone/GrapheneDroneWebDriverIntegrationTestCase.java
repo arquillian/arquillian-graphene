@@ -21,10 +21,9 @@
  */
 package org.jboss.arquillian.graphene.ftest.drone;
 
-import org.jboss.arquillian.drone.api.annotation.Default;
-
 import static org.junit.Assert.assertTrue;
 
+import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
@@ -55,7 +54,7 @@ public class GrapheneDroneWebDriverIntegrationTestCase {
 
     @Test
     public void created_instance_should_be_able_to_navigate_to_some_page() {
-        browser.navigate().to("http://127.0.0.1:14444");
+        browser.navigate().to("http://192.168.15.104:8080/");
     }
 
     @Test
