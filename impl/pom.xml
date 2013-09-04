@@ -104,7 +104,6 @@
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>
             <artifactId>arquillian-core-impl-base</artifactId>
-            <version>1.0.3.Final</version>
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
