@@ -61,15 +61,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 public class Annotations {
 
     private final Field field;
-    private final org.jboss.arquillian.graphene.enricher.findby.How defaultElementLocatingStrategy;
+    private final How defaultElementLocatingStrategy;
 
-    public Annotations(Field field, org.jboss.arquillian.graphene.enricher.findby.How defaultElementLocatingStrategy) {
+    public Annotations(Field field, How defaultElementLocatingStrategy) {
         this.field = field;
         this.defaultElementLocatingStrategy = defaultElementLocatingStrategy;
     }
@@ -85,26 +86,15 @@ public class Annotations {
 
         by = checkAndProcessEmptyFindBy();
 
-        FindBys grapheneFindBys = field.getAnnotation(FindBys.class);
-        if (by == null && grapheneFindBys != null) {
-            by = buildByFromGrapheneFindBys(grapheneFindBys);
-        }
-
-        org.openqa.selenium.support.FindBys webDriverFindBys =
-                field.getAnnotation(org.openqa.selenium.support.FindBys.class);
+        FindBys webDriverFindBys =
+                field.getAnnotation(FindBys.class);
         if (by == null && webDriverFindBys != null) {
-            by = buildByFromWebDriverFindBys(webDriverFindBys);
+            by = buildByFromFindBys(webDriverFindBys);
         }
 
         FindBy findBy = field.getAnnotation(FindBy.class);
         if (by == null && findBy != null) {
             by = buildByFromFindBy(findBy);
-        }
-
-        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
-                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
-        if (by == null && grapheneFindBy != null) {
-            by = buildByFromFindBy(grapheneFindBy);
         }
 
         for (Annotation annotation : field.getAnnotations()) {
@@ -136,21 +126,12 @@ public class Annotations {
             }
         }
 
-        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
-                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
-        if (grapheneFindBy != null) {
-            int numberOfValues = assertValidFindBy(grapheneFindBy);
-            if (numberOfValues == 0) {
-                result = buildByFromDefault();
-            }
-        }
-
         return result;
     }
 
     protected By buildByFromDefault() {
         String using = field.getName();
-        return getByFromGrapheneHow(defaultElementLocatingStrategy, using);
+        return getByFromHow(defaultElementLocatingStrategy, using);
     }
 
     protected By buildByFromLocationStrategy(ImplementsLocationStrategy strategy, Annotation annotation) {
@@ -162,20 +143,8 @@ public class Annotations {
         }
     }
 
-    protected By buildByFromGrapheneFindBys(FindBys grapheneFindBys) {
-        assertValidGrapheneFindBys(grapheneFindBys);
-
-        org.jboss.arquillian.graphene.enricher.findby.FindBy[] findByArray = grapheneFindBys.value();
-        By[] byArray = new By[findByArray.length];
-        for (int i = 0; i < findByArray.length; i++) {
-            byArray[i] = buildByFromFindBy(findByArray[i]);
-        }
-
-        return new ByChained(byArray);
-    }
-
-    protected By buildByFromWebDriverFindBys(org.openqa.selenium.support.FindBys webDriverFindBys) {
-        assertValidWebDriverFindBys(webDriverFindBys);
+    protected By buildByFromFindBys(FindBys webDriverFindBys) {
+        assertValidFindBys(webDriverFindBys);
 
         FindBy[] findByArray = webDriverFindBys.value();
         By[] byArray = new By[findByArray.length];
@@ -187,17 +156,6 @@ public class Annotations {
     }
 
     protected By buildByFromFindBy(FindBy findBy) {
-        assertValidFindBy(findBy);
-
-        By ans = buildByFromShortFindBy(findBy);
-        if (ans == null) {
-            ans = buildByFromLongFindBy(findBy);
-        }
-
-        return ans;
-    }
-
-    protected By buildByFromFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
         assertValidFindBy(findBy);
 
         By ans = buildByFromShortFindBy(findBy);
@@ -247,13 +205,7 @@ public class Annotations {
         }
     }
 
-    protected By buildByFromLongFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
-        org.jboss.arquillian.graphene.enricher.findby.How how = findBy.how();
-        String using = findBy.using();
-        return getByFromGrapheneHow(how, using);
-    }
-
-    private By getByFromGrapheneHow(org.jboss.arquillian.graphene.enricher.findby.How how, String using) {
+    private By getByFromHow(How how, String using) {
         switch (how) {
             case CLASS_NAME:
                 return By.className(using);
@@ -281,9 +233,6 @@ public class Annotations {
 
             case XPATH:
                 return By.xpath(using);
-
-            case JQUERY:
-                return new ByJQuery(using);
 
             default:
                 // Note that this shouldn't happen (eg, the above matches all
@@ -329,70 +278,18 @@ public class Annotations {
         return null;
     }
 
-    protected By buildByFromShortFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
-        if (!"".equals(findBy.className())) {
-            return By.className(findBy.className());
-        }
-
-        if (!"".equals(findBy.css())) {
-            return By.cssSelector(findBy.css());
-        }
-
-        if (!"".equals(findBy.id())) {
-            return By.id(findBy.id());
-        }
-
-        if (!"".equals(findBy.linkText())) {
-            return By.linkText(findBy.linkText());
-        }
-
-        if (!"".equals(findBy.name())) {
-            return By.name(findBy.name());
-        }
-
-        if (!"".equals(findBy.partialLinkText())) {
-            return By.partialLinkText(findBy.partialLinkText());
-        }
-
-        if (!"".equals(findBy.tagName())) {
-            return By.tagName(findBy.tagName());
-        }
-
-        if (!"".equals(findBy.xpath())) {
-            return By.xpath(findBy.xpath());
-        }
-
-        if (!"".equals(findBy.jquery())) {
-            return new ByJQuery(findBy.jquery());
-        }
-
-        // Fall through
-        return null;
-    }
-
     private void assertValidAnnotations() {
-        FindBys grapheneFindBys = field.getAnnotation(FindBys.class);
+        FindBys findBys = field.getAnnotation(FindBys.class);
 
-        org.openqa.selenium.support.FindBys webDriverFindBys = field.getAnnotation(org.openqa.selenium.support.FindBys.class);
+        FindBy findBy = field.getAnnotation(FindBy.class);
 
-        FindBy webDriverFindBy = field.getAnnotation(FindBy.class);
-
-        org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy = field
-                .getAnnotation(org.jboss.arquillian.graphene.enricher.findby.FindBy.class);
-
-        if ((grapheneFindBys != null || webDriverFindBys != null) && (webDriverFindBy != null || grapheneFindBy != null)) {
+        if (findBys != null && findBy != null) {
             throw new IllegalArgumentException("If you use a '@FindBys' annotation, "
                     + "you must not also use a '@FindBy' annotation");
         }
     }
 
-    private void assertValidGrapheneFindBys(FindBys grapheneFindBys) {
-        for (org.jboss.arquillian.graphene.enricher.findby.FindBy grapheneFindBy : grapheneFindBys.value()) {
-            assertValidFindBy(grapheneFindBy);
-        }
-    }
-
-    private void assertValidWebDriverFindBys(org.openqa.selenium.support.FindBys webDriverFindBys) {
+    private void assertValidFindBys(FindBys webDriverFindBys) {
         for (FindBy webDriverFindBy : webDriverFindBys.value()) {
             assertValidFindBy(webDriverFindBy);
         }
@@ -432,55 +329,6 @@ public class Annotations {
         }
         if (!"".equals(findBy.xpath())) {
             finders.add("xpath: " + findBy.xpath());
-        }
-
-        // A zero count is okay: it means to look by name or id.
-        if (finders.size() > 1) {
-            throw new IllegalArgumentException(
-                    String.format("You must specify at most one location strategy. Number found: %d (%s)", finders.size(),
-                            finders.toString()));
-        }
-
-        return finders.size();
-    }
-
-    private int assertValidFindBy(org.jboss.arquillian.graphene.enricher.findby.FindBy findBy) {
-        if (findBy.how() != null) {
-            if (findBy.using() == null) {
-                throw new IllegalArgumentException("If you set the 'how' property, you must also set 'using'");
-            }
-        }
-
-        Set<String> finders = new HashSet<String>();
-        if (!"".equals(findBy.using())) {
-            finders.add("how: " + findBy.using());
-        }
-        if (!"".equals(findBy.className())) {
-            finders.add("class name:" + findBy.className());
-        }
-        if (!"".equals(findBy.css())) {
-            finders.add("css:" + findBy.css());
-        }
-        if (!"".equals(findBy.id())) {
-            finders.add("id: " + findBy.id());
-        }
-        if (!"".equals(findBy.linkText())) {
-            finders.add("link text: " + findBy.linkText());
-        }
-        if (!"".equals(findBy.name())) {
-            finders.add("name: " + findBy.name());
-        }
-        if (!"".equals(findBy.partialLinkText())) {
-            finders.add("partial link text: " + findBy.partialLinkText());
-        }
-        if (!"".equals(findBy.tagName())) {
-            finders.add("tag name: " + findBy.tagName());
-        }
-        if (!"".equals(findBy.xpath())) {
-            finders.add("xpath: " + findBy.xpath());
-        }
-        if (!"".equals(findBy.jquery())) {
-            finders.add("xpath: " + findBy.jquery());
         }
 
         // A zero count is okay: it means to look by name or id.

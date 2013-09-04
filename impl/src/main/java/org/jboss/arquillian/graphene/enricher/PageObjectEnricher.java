@@ -48,7 +48,6 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
         String errorMsgBegin = "";
         List<Field> fields = new LinkedList<Field>();
         fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), Page.class));
-        fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), org.jboss.arquillian.graphene.spi.annotations.Page.class));
         for (Field field : fields) {
                 GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
                 final SearchContext localSearchContext;

@@ -140,7 +140,6 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
             }
             List<Field> roots = new LinkedList<Field>();
             roots.addAll(ReflectionHelper.getFieldsWithAnnotation(clazz, Root.class));
-            roots.addAll(ReflectionHelper.getFieldsWithAnnotation(clazz, org.jboss.arquillian.graphene.spi.annotations.Root.class));
             if (roots.size() > 1) {
                 throw new PageFragmentInitializationException("The Page Fragment " + NEW_LINE + pageFragment.getClass()
                     + NEW_LINE + " can not have more than one field annotated with Root annotation!"

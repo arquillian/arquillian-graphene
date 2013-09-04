@@ -114,7 +114,6 @@ public final class GrapheneProxy {
      * @param additionalInterfaces additional interfaces which should a created proxy implement
      * @return the proxy wrapping the future target
      */
-    @Deprecated
     public static <T> T getProxyForFutureTarget(GrapheneContext context, FutureTarget futureTarget, Class<?> baseType, Class<?>... additionalInterfaces) {
         if (baseType != null && !baseType.isInterface() && Modifier.isFinal(baseType.getModifiers())) {
             if (additionalInterfaces.length > 0) {

@@ -26,7 +26,7 @@ import java.lang.annotation.Annotation;
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
 import org.jboss.arquillian.drone.spi.DroneConfiguration;
-import org.jboss.arquillian.graphene.enricher.findby.How;
+import org.openqa.selenium.support.How;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>

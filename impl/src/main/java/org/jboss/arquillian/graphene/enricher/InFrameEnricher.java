@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
-import org.jboss.arquillian.graphene.enricher.findby.FindBy;
 import org.jboss.arquillian.graphene.page.InFrame;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 public class InFrameEnricher extends AbstractSearchContextEnricher {
@@ -91,7 +91,6 @@ public class InFrameEnricher extends AbstractSearchContextEnricher {
     private void enrichRecursivelyGrapheneProxyInstances(Object objectToEnrich, String nameOrId, int index, Field field)
         throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
         enrichFurtherSpecificAnnotation(objectToEnrich, nameOrId, index, FindBy.class, field);
-        enrichFurtherSpecificAnnotation(objectToEnrich, nameOrId, index, org.openqa.selenium.support.FindBy.class, field);
         enrichFurtherSpecificAnnotation(objectToEnrich, nameOrId, index, Page.class, field);
     }
 
