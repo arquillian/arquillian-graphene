@@ -30,7 +30,7 @@
     </engine>
 
     <extension qualifier="webdriver">
-        <property name="browserCapabilities">${browser}</property>
+        <property name="browser">${browser}</property>
         <property name="remote">${remote}</property>
         <property name="platform">${platform}</property>
         <property name="version">${browser.version}</property>
@@ -41,17 +41,17 @@
     </extension>
 
     <extension qualifier="webdriver-browser1">
-        <property name="browserCapabilities">htmlUnit</property>
+        <property name="browser">htmlUnit</property>
         <property name="remote">false</property>
     </extension>
 
     <extension qualifier="webdriver-browser2">
-        <property name="browserCapabilities">htmlUnit</property>
+        <property name="browser">htmlUnit</property>
         <property name="remote">false</property>
     </extension>
     
     <extension qualifier="webdriver-browser2">
-        <property name="browserCapabilities">firefox</property>
+        <property name="browser">firefox</property>
         <property name="remote">false</property>
     </extension>
 
@@ -59,7 +59,7 @@
     <extension qualifier="webdriver-reusable">
         <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
         <property name="remoteReusable">true</property>
-        <property name="browserCapabilities">htmlUnit</property>
+        <property name="browser">htmlUnit</property>
     </extension>
 
     <extension qualifier="selenium-server">
