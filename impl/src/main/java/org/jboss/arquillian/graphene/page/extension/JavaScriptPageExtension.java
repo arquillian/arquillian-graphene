@@ -44,7 +44,7 @@ public class JavaScriptPageExtension implements PageExtension {
 
     public JavaScriptPageExtension(Class<?> clazz) {
         this.target = new JSTarget(clazz);
-        if (target.getName() == null || target.getName().isEmpty()) {
+        if (target.getName() == null || target.getName().length() == 0) {
             throw new IllegalArgumentException("The JavaScript page extension can be created only for class where @JavaScript annotation defines non empty value(). The given class " + clazz + " is not annotation this way.");
         }
         Dependency dependency = clazz.getAnnotation(org.jboss.arquillian.graphene.javascript.Dependency.class);
@@ -87,7 +87,7 @@ public class JavaScriptPageExtension implements PageExtension {
                 if (jsDependencyAnnoation == null) {
                     throw new IllegalArgumentException("There is a dependency " + dependencyInterface + " of " + clazz + " which isn't annotated by @JavaScript annoation. The JavaScript page extension can't be created.");
                 }
-                if (jsDependencyAnnoation.value() == null || jsDependencyAnnoation.value().isEmpty()) {
+                if (jsDependencyAnnoation.value() == null || jsDependencyAnnoation.value().length() == 0) {
                     throw new IllegalArgumentException("There is a dependency " + dependencyInterface + " of " + clazz + " where @JavaScript annoation doesn't define non empty value(). The JavaScript page extension can't be created.");
                 }
                 dependencies.add(jsDependencyAnnoation.value());

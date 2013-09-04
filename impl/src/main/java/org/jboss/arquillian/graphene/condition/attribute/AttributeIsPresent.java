@@ -37,7 +37,7 @@ public class AttributeIsPresent extends AbstractAttributeBooleanCondition {
     @Override
     public Boolean check(WebDriver driver) {
         String attributeValue = getElement().getAttribute(getAttribute());
-        return attributeValue != null && !attributeValue.trim().isEmpty();
+        return attributeValue != null && attributeValue.trim().length() > 0;
     }
 
     @Override

@@ -164,6 +164,9 @@
                 <configuration>
                     <excludes>
                         <exclude>**/ClassImposterizer.java</exclude>
+                        <exclude>**/jquery*.js</exclude>
+                        <exclude>**/qunit.js</exclude>
+                        <exclude>**/qunit.css</exclude>
                     </excludes>
                 </configuration>
             </plugin>

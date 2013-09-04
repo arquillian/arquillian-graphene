@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import org.jboss.arquillian.graphene.context.ExtendedGrapheneContext;
@@ -97,7 +96,9 @@ public class DefaultExecutionResolver implements ExecutionResolver {
     }
 
     protected Object[] castArguments(Object[] arguments) {
-        Object[] result = Arrays.copyOf(arguments, arguments.length);
+
+        Object[] result = new Object[arguments.length];
+        System.arraycopy(arguments, 0, result, 0, arguments.length);
 
         for (int i = 0; i < result.length; i++) {
             Object arg = result[i];
@@ -149,7 +150,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
     }
 
     protected <T> void registerExtension(PageExtensionRegistry registry, JSTarget target) {
-        if (target.getName() == null || target.getName().isEmpty()) {
+        if (target.getName() == null || target.getName().length() == 0) {
             throw new IllegalArgumentException("The extension " + target.getInterface() + "has no mapping.");
         }
         if (registry.getExtension(target.getName()) != null) {
