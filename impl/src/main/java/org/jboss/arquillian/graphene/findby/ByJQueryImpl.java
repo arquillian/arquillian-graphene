@@ -59,9 +59,9 @@ public class ByJQueryImpl extends By {
         List<WebElement> elements;
         try {
             // the element is referenced from parent web element
-            if (searchContext instanceof WebElement && !isReferencedFromBody()) {
+            if (searchContext instanceof WebElement && !isReferencedFromRootOfDocument()) {
                 elements = jQuerySearchContext.findElementsInElement(selector, (WebElement) searchContext);
-            } else if (searchContext instanceof WebDriver || isReferencedFromBody()) { // element is referenced from body
+            } else if (searchContext instanceof WebDriver || isReferencedFromRootOfDocument()) { // element is referenced from root of document
                 elements = jQuerySearchContext.findElements(selector);
             } else { // other unknown case
                 throw new WebDriverException(
@@ -84,8 +84,12 @@ public class ByJQueryImpl extends By {
         return elements.get(0);
     }
 
-    private boolean isReferencedFromBody() {
-        return "body".equals(selector) || selector.startsWith("body ");
+    private boolean isReferencedFromRootOfDocument() {
+        return isPrefixedWith("html") || isPrefixedWith("body") || isPrefixedWith("head");
+    }
+
+    private boolean isPrefixedWith(String prefix) {
+        return selector.equals(prefix) || selector.startsWith(prefix + " ") || selector.startsWith(prefix + ".") || selector.startsWith(prefix + ":");
     }
 
     private GrapheneContext getGrapheneContext(SearchContext searchContext) {
