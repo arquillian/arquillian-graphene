@@ -59,9 +59,9 @@ public class ByJQueryImpl extends By {
         List<WebElement> elements;
         try {
             // the element is referenced from parent web element
-            if (searchContext instanceof WebElement) {
+            if (searchContext instanceof WebElement && !isReferencedFromBody()) {
                 elements = jQuerySearchContext.findElementsInElement(selector, (WebElement) searchContext);
-            } else if (searchContext instanceof WebDriver) { // element is not referenced from parent
+            } else if (searchContext instanceof WebDriver || isReferencedFromBody()) { // element is referenced from body
                 elements = jQuerySearchContext.findElements(selector);
             } else { // other unknown case
                 throw new WebDriverException(
@@ -82,6 +82,10 @@ public class ByJQueryImpl extends By {
             throw new NoSuchElementException("Cannot locate element using: " + selector);
         }
         return elements.get(0);
+    }
+
+    private boolean isReferencedFromBody() {
+        return "body".equals(selector) || selector.startsWith("body ");
     }
 
     private GrapheneContext getGrapheneContext(SearchContext searchContext) {
