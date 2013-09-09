@@ -81,12 +81,12 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                 localSearchContext = searchContext;
             }
             // Page fragment
-            if (isPageFragmentClass(field.getType())) {
+            if (isPageFragmentClass(field.getType(), target)) {
                 setupPageFragment(localSearchContext, target, field);
                 // List<Page fragment>
             } else {
                 try {
-                    if (field.getType().isAssignableFrom(List.class) && isPageFragmentClass(getListType(field))) {
+                    if (field.getType().isAssignableFrom(List.class) && isPageFragmentClass(getListType(field), target)) {
                         setupPageFragmentList(localSearchContext, target, field);
                     }
                 } catch (ClassNotFoundException e) {
@@ -96,10 +96,14 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         }
     }
 
-    protected final boolean isPageFragmentClass(Class<?> clazz) {
-        // check whether it isn't interface or final class
-        if (Modifier.isInterface(clazz.getModifiers()) || Modifier.isFinal(clazz.getModifiers())) {
+    protected final boolean isPageFragmentClass(Class<?> clazz, Object target) {
+        if(Modifier.isInterface(clazz.getModifiers())) {
             return false;
+        }
+        // check whether it isn't final class
+        if (Modifier.isFinal(clazz.getModifiers())) {
+            throw new PageFragmentInitializationException("Page Fragment must not be final class. It is, your "
+                + clazz + ", declared in: " + target.getClass());
         }
 
         Class<?> outerClass = clazz.getDeclaringClass();
@@ -149,7 +153,8 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                 setValue(roots.get(0), pageFragment, root);
             }
             enrichRecursively(root, pageFragment);
-            T proxy = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forTarget(grapheneContext, pageFragment), clazz);
+            T proxy = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forTarget(grapheneContext, pageFragment),
+                clazz);
             enrichRecursively(root, proxy); // because of possibility of direct access to attributes from test class
             return proxy;
         } catch (NoSuchMethodException ex) {
