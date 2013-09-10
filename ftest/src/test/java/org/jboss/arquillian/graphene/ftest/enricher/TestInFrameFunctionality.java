@@ -30,6 +30,7 @@ import java.util.List;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.ftest.enricher.page.PageWithIFrames;
@@ -75,6 +76,10 @@ public class TestInFrameFunctionality {
     @InFrame(index = 0)
     @FindBy(tagName = "span")
     private WebElement span;
+
+    @InFrame(index = 0)
+    @FindByJQuery("span")
+    private WebElement spanByJQuery;
 
     @FindBy(className = "divElement")
     private WebElement elementInDefaultFrame;
@@ -152,6 +157,11 @@ public class TestInFrameFunctionality {
     @Test
     public void testWebElementInFrameDeclaredInTest() {
         checkWebElementInFrame(span);
+    }
+
+    @Test
+    public void testWebElementInFrameFoundByJQueryDeclaredInTest() {
+        checkWebElementInFrame(spanByJQuery);
     }
 
     @Test
