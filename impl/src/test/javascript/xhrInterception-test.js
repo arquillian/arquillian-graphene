@@ -254,10 +254,10 @@ module("XHR Interception");
         xhr.onreadystatechange = function(request) {
             ok(request.readyState == readyState);
             if (readyState < 4) {
-                ok(request.responseText === "");
-                ok(request.responseXML === null);
-                ok(request.status === 0);
-                ok(request.statusText === "");
+                equal(request.responseText, undefined);
+                equal(request.responseXML, undefined);
+                equal(request.status, undefined);
+                equal(request.statusText, undefined);
             } else {
                 equal(request.responseText, "responseText")
                 equal(request.responseXML, "responseXML")
