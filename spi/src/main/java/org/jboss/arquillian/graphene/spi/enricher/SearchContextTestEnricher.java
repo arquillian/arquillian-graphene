@@ -42,8 +42,6 @@ public interface SearchContextTestEnricher {
 
     /**
      * Returns the enricher precedence. Zero precedence is is the lowest one.
-     *
-     * @return
      */
     int getPrecedence();
 }

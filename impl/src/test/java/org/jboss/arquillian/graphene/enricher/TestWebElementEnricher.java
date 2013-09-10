@@ -26,8 +26,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;

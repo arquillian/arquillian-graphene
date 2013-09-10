@@ -21,12 +21,14 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
-import com.google.common.base.Predicate;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+
 import org.jboss.arquillian.graphene.fluent.FluentBase;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
+
+import com.google.common.base.Predicate;
 
 /**
  * This interface is a replication of
@@ -49,7 +51,7 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
 
     /**
      * Sets how long to wait for the evaluated condition to be true. The default
-     * timeout is {@link #FIVE_HUNDRED_MILLIS}.
+     * timeout is 500ms.
      *
      * @param duration The timeout duration.
      * @param unit The unit of time.
@@ -62,7 +64,7 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
      *
      * <p> In reality, the interval may be greater as the cost of actually
      * evaluating a condition function is not factored in. The default polling
-     * interval is {@link #FIVE_HUNDRED_MILLIS}.
+     * interval is 500ms.
      *
      * @param duration The timeout duration.
      * @param unit The unit of time.

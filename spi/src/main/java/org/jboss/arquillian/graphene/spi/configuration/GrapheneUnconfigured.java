@@ -22,8 +22,19 @@
 package org.jboss.arquillian.graphene.spi.configuration;
 
 /**
+ * An event fired when Graphene is about to unconfigure its configuration in the context.
+ *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class GrapheneUnconfigured {
 
+    private GrapheneConfiguration configuration;
+
+    public GrapheneUnconfigured(GrapheneConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public GrapheneConfiguration getConfiguration() {
+        return configuration;
+    }
 }

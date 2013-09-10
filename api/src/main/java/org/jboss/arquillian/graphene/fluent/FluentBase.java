@@ -22,10 +22,18 @@
 package org.jboss.arquillian.graphene.fluent;
 
 /**
+ * A base for fluent APIs defined by Graphene
+ *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public interface FluentBase<OUTER> {
 
+    /**
+     * Closes the fluent definition and indicates that it can be applied.
+     *
+     * @param action
+     * @return the committed fluent definition
+     */
     <ACTION> OUTER commit(ACTION action);
 
 }

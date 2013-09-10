@@ -31,15 +31,15 @@ import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 public class JSInterfaceHandler implements MethodInterceptor {
 
-    private final JSTarget target;
+    private final JSInterface target;
     private final GrapheneContext context;
 
-    public JSInterfaceHandler(JSTarget target, GrapheneContext context) {
+    public JSInterfaceHandler(JSInterface target, GrapheneContext context) {
         this.target = target;
         this.context = context;
     }
 
-    public JSTarget getTarget() {
+    public JSInterface getTarget() {
         return target;
     }
 

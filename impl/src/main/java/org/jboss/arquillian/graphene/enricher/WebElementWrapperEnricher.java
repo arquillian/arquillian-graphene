@@ -32,13 +32,13 @@ import java.util.List;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -75,8 +75,13 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                         localSearchContext = searchContext;
                     }
                     final By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
+                    Object wrapper;
                     try {
-                        Object wrapper = createWrapper(grapheneContext, field.getType(), WebElementUtils.findElementLazily(rootBy, localSearchContext));
+                        wrapper = createWrapper(grapheneContext, field.getType(), WebElementUtils.findElementLazily(rootBy, localSearchContext));
+                    } catch (Exception e) {
+                        throw new GrapheneTestEnricherException("Can't instantiate element wrapper " + target.getClass() + "." + field.getName() + " of type " + field.getType(), e);
+                    }
+                    try {
                         setValue(field, target, wrapper);
                     } catch (Exception e) {
                         throw new GrapheneTestEnricherException("Can't set a value to the " + target.getClass() + "." + field.getName() + ".", e);

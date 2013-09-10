@@ -33,7 +33,7 @@ public class JSInterfaceFactory<T> {
         if (!jsInterface.isInterface() && !Modifier.isAbstract(jsInterface.getModifiers())) {
             throw new IllegalArgumentException("interface or abstract class must be provided :" + jsInterface);
         }
-        this.handler = new JSInterfaceHandler(new JSTarget(jsInterface), context);
+        this.handler = new JSInterfaceHandler(new JSInterface(jsInterface), context);
     }
 
     public static <T> T create(GrapheneContext context, Class<T> jsInterface) {

@@ -27,10 +27,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation marks the given object to be instantiated and injected as Page object
+ * <p>This annotation marks the given object to be instantiated and injected as Page object</p>
  *
  * <pre>
- * {@code
  * public class LoginForm {
  *
  *     &#064;FindBy(css = ".login")

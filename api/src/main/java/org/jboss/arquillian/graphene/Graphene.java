@@ -25,6 +25,7 @@ import org.jboss.arquillian.graphene.fragment.Root;
 import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Location;
 import org.jboss.arquillian.graphene.page.Page;
+import org.jboss.arquillian.graphene.request.RequestGuardException;
 import org.jboss.arquillian.graphene.wait.WebDriverWait;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -57,9 +58,9 @@ import org.openqa.selenium.WebElement;
  * <p>Request Guards are coarse-grained and concise way how to declare that given interaction with browser leads to a server request of certain type.</p>
  *
  * <ul>
- * <li>{@link #guardHttp()}) / {@link #guardAjax()} - guards that given request was done</li>
- * <li>{@link #waitForHttp()} - guards that full page reload was done</li>
- * <li>{@link #guardNoRequest()} - guards that no request was done</li>
+ * <li>{@link #guardHttp(Object)}) / {@link #guardAjax(Object)} - guards that given request was done</li>
+ * <li>{@link #waitForHttp(Object)} - guards that full page reload was done</li>
+ * <li>{@link #guardNoRequest(Object)} - guards that no request was done</li>
  * </ul>
  *
  * <h2>Fluent Waiting API</h2>
@@ -75,19 +76,19 @@ import org.openqa.selenium.WebElement;
  * <h2>Navigation to Page Objects</h2>
  *
  * <ul>
- * <li>{@link #goTo()} - navigates the browser into a page given by provided page object class and returns this page instance</li>
+ * <li>{@link #goTo(Class)} - navigates the browser into a page given by provided page object class and returns this page instance</li>
  * </ul>
  *
  * <h2>Page Fragments</h2>
  *
  * <ul>
- * <li>{@link #createPageFragment()} - creates a page fragments of given type by specifying a root element where given fragments is located</li>
+ * <li>{@link #createPageFragment(Class, WebElement)} - creates a page fragments of given type by specifying a root element where given fragments is located</li>
  * </ul>
  *
  * @author <a href="https://community.jboss.org/people/lfryc">Lukas Fryc</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public final class Graphene {
+public class Graphene {
 
     private static final String GRAPHENE_UTILITY_IMPL = "org.jboss.arquillian.graphene.GrapheneUtilityImpl";
 
@@ -202,13 +203,13 @@ public final class Graphene {
     }
 
     /**
-     * {@link #waitGui(browser)} is entry point for fluent waiting API specification, e.g.:
+     * {@link #waitGui(WebDriver)} is entry point for fluent waiting API specification, e.g.:
      *
      * <pre>
      * waitGui(browser).until().element(popupPanel).isVisible();
      * </pre>
      *
-     * {@link #waitGui(browser)} guards fast GUI actions - very fast interactions without need to reach server or do any
+     * {@link #waitGui(WebDriver)} guards fast GUI actions - very fast interactions without need to reach server or do any
      * time-consuming computations.
      *
      * @see #waitGui()
@@ -237,17 +238,17 @@ public final class Graphene {
     }
 
     /**
-     * {@link #waitModel(browser)} is entry point for fluent waiting API specification, e.g.:
+     * {@link #waitModel(WebDriver)} is entry point for fluent waiting API specification, e.g.:
      *
      * <pre>
      * waitModel(browser).until().element(button).isVisible();
      * </pre>
      *
-     * {@link #waitModel(browser)} guards heavy computation or network-utilization (typically server-side).
+     * {@link #waitModel(WebDriver)} guards heavy computation or network-utilization (typically server-side).
      *
      * @see #waitGui()
      * @see #waitAjax()
-     * @see #waitModel(browser)
+     * @see #waitModel(WebDriver)
      */
     public static WebDriverWait<Void> waitModel(WebDriver driver) {
         return INSTANCE.waitModel(driver);

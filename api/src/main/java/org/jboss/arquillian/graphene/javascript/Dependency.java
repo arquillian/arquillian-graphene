@@ -21,12 +21,20 @@
  */
 package org.jboss.arquillian.graphene.javascript;
 
-import java.lang.annotation.Documented;
 import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * Links to {@link JavaScript} interface dependencies which needs to be loaded before interface's method can be invoked.
+ *
+ * @author Lukas Fryc
+ *
+ * @see JavaScript
+ */
 @Target({ TYPE })
 @Retention(RUNTIME)
 @Documented

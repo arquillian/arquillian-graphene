@@ -28,6 +28,25 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+/**
+ * Allows to specify the name of a method as represented in JavaScript - serves in cases where the name of a method can't be
+ * simply converted and needs to be defined explicitly or in cases where you want to name the method in Java differently than in
+ * JavaScript.
+ *
+ * <pre>
+ *
+ * &#064;JavaScript(&quot;helloworld&quot;)
+ * &#064;Dependency(sources = &quot;helloworld.js&quot;)
+ * public interface HelloWorld {
+ *
+ *     &#064;MethodName(&quot;aloha&quot;)
+ *     String getHello();
+ *
+ * }
+ * </pre>
+ *
+ * @author Lukas Fryc
+ */
 @Target({ METHOD })
 @Retention(RUNTIME)
 @Documented

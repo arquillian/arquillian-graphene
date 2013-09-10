@@ -28,8 +28,8 @@ import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.TestingDriverStub;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.junit.Test;
 
 public class TestExecution extends AbstractJavaScriptTest {

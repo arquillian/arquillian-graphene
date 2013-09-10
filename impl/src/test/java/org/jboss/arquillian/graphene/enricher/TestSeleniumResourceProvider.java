@@ -30,13 +30,13 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.ActionsProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.KeyboardProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.MouseProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.WebDriverProvider;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

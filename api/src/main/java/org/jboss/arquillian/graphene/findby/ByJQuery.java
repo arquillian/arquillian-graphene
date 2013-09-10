@@ -31,31 +31,61 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Allows to search for elements using jQuery selector location strategy.
+ *
+ * @author Juraj Huska
+ */
 public class ByJQuery extends By {
 
     private static final String IMPLEMENTATION_CLASS = "org.jboss.arquillian.graphene.findby.ByJQueryImpl";
 
     private By implementation;
 
+    /**
+     * Instantiates new locator with given jQuery selector
+     *
+     * @param selector the jQuery selector
+     */
     public ByJQuery(String selector) {
         Validate.notNull(selector, "Cannot find elements when selector is null!");
         this.implementation = instantiate(selector);
     }
 
+    /**
+     * Instantiates new locator with given jQuery selector
+     *
+     * @param selector the jQuery selector
+     */
     public static ByJQuery selector(String selector) {
         return new ByJQuery(selector);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.openqa.selenium.By#findElement(org.openqa.selenium.SearchContext)
+     */
     @Override
     public WebElement findElement(SearchContext context) {
         return implementation.findElement(context);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.openqa.selenium.By#findElements(org.openqa.selenium.SearchContext)
+     */
     @Override
     public List<WebElement> findElements(SearchContext context) {
         return implementation.findElements(context);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.openqa.selenium.By#toString()
+     */
     @Override
     public String toString() {
         return implementation.toString();
@@ -78,6 +108,11 @@ public class ByJQuery extends By {
         }
     }
 
+    /**
+     * Location strategy for searching for elements using jQuery selectors
+     *
+     * @author Lukas Fryc
+     */
     public static class JQueryLocationStrategy implements LocationStrategy {
 
         @Override

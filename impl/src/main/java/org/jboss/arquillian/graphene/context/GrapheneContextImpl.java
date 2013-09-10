@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.enricher.SearchContextInterceptor;
 import org.jboss.arquillian.graphene.enricher.StaleElementInterceptor;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionInstallatorProvider;
@@ -38,6 +37,7 @@ import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyUtil;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
@@ -182,7 +182,7 @@ public class GrapheneContextImpl extends ExtendedGrapheneContext {
         /**
          * Removes the context associated to the given qualifier.
          * @param qualifier
-         * @see #setContextFor(org.jboss.arquillian.graphene.configuration.GrapheneConfiguration, org.openqa.selenium.WebDriver, java.lang.Class)
+         * @see #setContextFor(org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration, org.openqa.selenium.WebDriver, java.lang.Class)
          */
         @Override
         public void removeContextFor(Class<?> qualifier) {

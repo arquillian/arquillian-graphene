@@ -22,8 +22,21 @@
 package org.jboss.arquillian.graphene.spi.configuration;
 
 /**
+ * An event triggered when Graphene configuration was finalized from external sources and is prepared to be accessed
+ * by user.
+ *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class GrapheneConfigured {
+
+    private GrapheneConfiguration configuration;
+
+    public GrapheneConfigured(GrapheneConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public GrapheneConfiguration getConfiguration() {
+        return configuration;
+    }
 
 }

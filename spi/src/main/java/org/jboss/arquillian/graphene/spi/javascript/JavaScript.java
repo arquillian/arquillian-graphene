@@ -90,7 +90,7 @@ public class JavaScript {
         InputStream inputStream = ClassLoader.getSystemResourceAsStream(resourceName);
 
         if (inputStream == null) {
-            throw new IllegalStateException("Can't open the '"+resourceName+"' resource.");
+            throw new IllegalStateException("Can't open the '" + resourceName + "' resource.");
         }
 
         String sourceCode;
@@ -134,10 +134,18 @@ public class JavaScript {
         return fromString(this.source + sourceCodeToAppend);
     }
 
+    /**
+     * Returns the source of hold by this {@link JavaScript} object instance.
+     */
     public String getSourceCode() {
         return source;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return getSourceCode();

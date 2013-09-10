@@ -23,6 +23,11 @@ package org.jboss.arquillian.graphene.javascript;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 
+/**
+ * Invokes JavaScript interface calls on a page under test.
+ *
+ * @author Lukas Fryc
+ */
 public interface ExecutionResolver {
 
     Object execute(GrapheneContext context, JSCall call);

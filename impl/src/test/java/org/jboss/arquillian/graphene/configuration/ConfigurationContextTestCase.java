@@ -32,6 +32,7 @@ import java.util.Map;
 
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.config.descriptor.api.ExtensionDef;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfigured;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneUnconfigured;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;

@@ -26,11 +26,29 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * <p>
+ * Specifies that given element, page or page fragment is located inside the frame given by its name or ID or index.
+ * </p>
+ *
+ * <p>
+ * When such an object is invoked, Graphene automatically switches to given frame and after invocation it switches back to the
+ * frame used previously.
+ * </p>
+ *
+ * @author Juraj Huska
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface InFrame {
 
+    /**
+     * The name or ID of the frame
+     */
     String nameOrId() default "";
 
+    /**
+     * The index of a frame defined by order of frames in page
+     */
     int index() default -1;
 }

@@ -31,7 +31,6 @@ import java.lang.annotation.Target;
  * given by <tt>&#064;FindBy</tt> annotation on a injection point.
  *
  * <pre>
- * {@code
  * public class AutocompletionInput {
  *
  *     &#064;Root

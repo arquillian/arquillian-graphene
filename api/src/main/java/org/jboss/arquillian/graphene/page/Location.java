@@ -26,8 +26,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.jboss.arquillian.graphene.Graphene;
+
+/**
+ * Specifies location of the annotated Page Object, relative to the URL of an Arquillian deployment.
+ *
+ * This annotation can be used to navigate browser to given URL either by:
+ *
+ * <ul>
+ * <li>{@link InitialPage} annotation</li>
+ * <li>{@link Graphene#goTo(Class)} method</li>
+ * </ul>
+ *
+ * @author Lukas Fryc
+ */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 public @interface Location {
 
     String value();

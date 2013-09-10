@@ -29,24 +29,41 @@ import java.util.Collections;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
-public class JSTarget {
+/**
+ * Represents the JavaScript interface instance
+ *
+ * @author Lukas Fryc
+ */
+public class JSInterface {
 
     private Class<?> jsInterface;
     private JavaScript javascriptAnnotation;
     private Dependency dependecyAnnotation;
     private ExecutionResolver resolver;
 
-    public JSTarget(Class<?> jsInterface) {
+    public JSInterface(Class<?> jsInterface) {
         this.jsInterface = getImplementationOfInterface(jsInterface);
         this.javascriptAnnotation = this.jsInterface.getAnnotation(JavaScript.class);
         this.dependecyAnnotation = this.jsInterface.getAnnotation(Dependency.class);
         this.resolver = createResolver(javascriptAnnotation);
     }
 
+    /**
+     * Returns the class which defines this instance of JavaScript interface
+     */
     public Class<?> getInterface() {
         return jsInterface;
     }
 
+    /**
+     * <p>
+     * Returns the name of defined JavaScript interface as specified by {@link JavaScript} annotation.
+     * </p>
+     *
+     * <p>
+     * If no name is specified, the simple name of an implementation type is used instead.
+     * </p>
+     */
     public String getName() {
         if ("".equals(javascriptAnnotation.value())) {
             return getInterface().getSimpleName();
@@ -54,6 +71,9 @@ public class JSTarget {
         return javascriptAnnotation.value();
     }
 
+    /**
+     * Returns all resources which are dependencies of this interface as specified by {@link Dependency#sources()}.
+     */
     @SuppressWarnings("unchecked")
     public Collection<String> getSourceDependencies() {
         if (dependecyAnnotation == null) {
@@ -62,19 +82,25 @@ public class JSTarget {
         return Arrays.asList(dependecyAnnotation.sources());
     }
 
+    /**
+     * Returns all JavaScript interfaces which are dependencies of this interface as specified by {@link Dependency#interfaces()}.
+     */
     @SuppressWarnings("unchecked")
-    public Collection<JSTarget> getJSInterfaceDependencies() {
+    public Collection<JSInterface> getJSInterfaceDependencies() {
         if (dependecyAnnotation == null) {
-            return (Collection<JSTarget>) Collections.EMPTY_LIST;
+            return (Collection<JSInterface>) Collections.EMPTY_LIST;
         }
-        return Collections2.transform(Arrays.asList(dependecyAnnotation.interfaces()), new Function<Class<?>, JSTarget>() {
+        return Collections2.transform(Arrays.asList(dependecyAnnotation.interfaces()), new Function<Class<?>, JSInterface>() {
             @Override
-            public JSTarget apply(Class<?> input) {
-                return new JSTarget(input);
+            public JSInterface apply(Class<?> input) {
+                return new JSInterface(input);
             }
         });
     }
 
+    /**
+     * Retrieves JavaScript interface method with given name and arguments.
+     */
     public JSMethod getJSMethod(String methodName, Object... arguments) {
         Class<?>[] types = new Class[arguments.length];
         for (int i = 0; i < arguments.length; i++) {
@@ -88,28 +114,38 @@ public class JSTarget {
         }
     }
 
+    /**
+     * Returns true if this interface is {@link InstallableJavaScript}.
+     */
     public boolean isInstallable() {
         return InstallableJavaScript.class.isAssignableFrom(jsInterface);
     }
 
+    /**
+     * Returns {@link ExecutionResolver} for this interface as specified by {@link JavaScript#executionResolver()}.
+     */
     public ExecutionResolver getResolver() {
         return resolver;
     }
 
-    private ExecutionResolver createResolver(JavaScript annotation) {
-        try {
-            if (annotation.methodResolver().equals(JavaScript.DefaultExecutionResolver.class)) {
-                return (ExecutionResolver) Class.forName(JavaScript.DefaultExecutionResolver.IMPLEMENTATION).newInstance();
-            }
-            return (ExecutionResolver) annotation.methodResolver().newInstance();
-        } catch (Exception e) {
-            throw new IllegalStateException("resolver " + annotation.methodResolver() + " can't be instantied", e);
-        }
-    }
-
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "JSTarget [jsInterface=" + jsInterface.getName() + "]";
+    }
+
+    private ExecutionResolver createResolver(JavaScript annotation) {
+        try {
+            if (annotation.executionResolver().equals(JavaScript.DefaultExecutionResolver.class)) {
+                return (ExecutionResolver) Class.forName(JavaScript.DefaultExecutionResolver.IMPLEMENTATION).newInstance();
+            }
+            return (ExecutionResolver) annotation.executionResolver().newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException("resolver " + annotation.executionResolver() + " can't be instantied", e);
+        }
     }
 
     private Class<?> getImplementationOfInterface(Class<?> jsInterfaceClass) {
@@ -127,7 +163,7 @@ public class JSTarget {
 
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException("Cannot find class " + jsInterface.implementation()
-                    + ", make sure you have arquillian-graphene-impl.jar included on the classpath.", e);
+                    + ", make sure you have graphene-impl.jar included on the classpath.", e);
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

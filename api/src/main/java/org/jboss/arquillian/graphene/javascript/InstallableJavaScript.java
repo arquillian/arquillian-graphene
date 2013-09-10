@@ -22,14 +22,16 @@
 package org.jboss.arquillian.graphene.javascript;
 
 /**
- * Marks scripts which needs to be installed before they can be started be used.
+ * Marks scripts which needs to be installed before they can be used.
  *
  * @author lfryc
- *
  */
 public interface InstallableJavaScript {
 
     String INSTALL_METHOD = "install";
 
+    /**
+     * Installs the script into page
+     */
     void install();
 }

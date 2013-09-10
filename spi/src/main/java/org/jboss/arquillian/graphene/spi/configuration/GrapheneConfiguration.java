@@ -19,16 +19,37 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.configuration;
+package org.jboss.arquillian.graphene.spi.configuration;
 
 import java.lang.annotation.Annotation;
 
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
 import org.jboss.arquillian.drone.spi.DroneConfiguration;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 /**
+ * <p>
+ * Graphene configuration can be defined in arquillian.xml or system properties.
+ * </p>
+ *
+ * <h4>System Properties</h4>
+ *
+ * <pre>
+ * -Darq.extension.webdriver.waitAjaxInterval=3
+ * </pre>
+ *
+ * <h4>arquillian.xml configuration</h4>
+ *
+ * <pre>
+ * &lt;arquillian&gt;
+ *   &lt;extension qualifier="graphene"&gt;
+ *     &lt;property name="waitAjaxInterval"&gt;3&lt;/property&gt;
+ *   &lt;/extension&gt;
+ * &lt;/arquillian&gt;
+ * </pre>
+ *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfiguration> {
@@ -45,30 +66,51 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
 
     private String defaultElementLocatingStrategy = How.ID_OR_NAME.toString().toLowerCase();
 
+    /**
+     * Specifies default location strategy when no parameter is given to {@link FindBy} annotated injection point.
+     */
     public How getDefaultElementLocatingStrategy() {
         return How.valueOf(defaultElementLocatingStrategy.toUpperCase());
     }
 
+    /**
+     * Get a default internal for waiting for AJAX operations.
+     */
     public long getWaitAjaxInterval() {
         return waitAjaxInterval;
     }
 
+    /**
+     * Get a default internal for waiting for Request Guards
+     */
     public long getWaitGuardInterval() {
         return waitGuardInterval;
     }
 
+    /**
+     * Get a default internal for waiting for GUI operations.
+     */
     public long getWaitGuiInterval() {
         return waitGuiInterval;
     }
 
+    /**
+     * Get a default internal for waiting for time-consuming, typically server-side operations.
+     */
     public long getWaitModelInterval() {
         return waitModelInterval;
     }
 
+    /**
+     * How long should Graphene wait before it fails to install a JavaScript extension into a page.
+     */
     public long getJavascriptInstallationLimit() {
         return javascriptInstallationLimit;
     }
 
+    /**
+     * Validates that configuration is correct
+     */
     public void validate() {
         if (waitAjaxInterval <= 0) {
             throw new IllegalArgumentException("The waitAjaxInterval property has to be a positive number.");
@@ -89,20 +131,32 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
             How.valueOf(defaultElementLocatingStrategy.toUpperCase());
         } catch (IllegalArgumentException ex) {
             String values = "";
-            for(How value : How.values()) {
+            for (How value : How.values()) {
                 values += value.toString().toLowerCase() + ", ";
             }
-            throw new IllegalArgumentException(
-                    "The defaultElementLocatingStrategy property has to be one of the: " + values + " and was: "
-                            + ((defaultElementLocatingStrategy.length() != 0) ? defaultElementLocatingStrategy : "empty"), ex);
+            throw new IllegalArgumentException("The defaultElementLocatingStrategy property has to be one of the: " + values
+                    + " and was: "
+                    + ((defaultElementLocatingStrategy.length() != 0) ? defaultElementLocatingStrategy : "empty"), ex);
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.jboss.arquillian.drone.spi.DroneConfiguration#getConfigurationName()
+     */
     @Override
     public String getConfigurationName() {
         return "graphene";
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * org.jboss.arquillian.drone.spi.DroneConfiguration#configure(org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor
+     * , java.lang.Class)
+     */
     @Override
     public GrapheneConfiguration configure(ArquillianDescriptor descriptor, Class<? extends Annotation> qualifier) {
         return ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);

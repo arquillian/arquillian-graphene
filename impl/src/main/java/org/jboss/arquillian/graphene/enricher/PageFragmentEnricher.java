@@ -34,7 +34,6 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
@@ -43,6 +42,7 @@ import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
@@ -100,19 +100,14 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         if(Modifier.isInterface(clazz.getModifiers())) {
             return false;
         }
-        // check whether it isn't final class
-        if (Modifier.isFinal(clazz.getModifiers())) {
-            throw new PageFragmentInitializationException("Page Fragment must not be final class. It is, your "
-                + clazz + ", declared in: " + target.getClass());
-        }
 
         Class<?> outerClass = clazz.getDeclaringClass();
 
-        // check whether there is an empty constructor
         if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
+            // check whether there is an empty constructor
             return ReflectionHelper.hasConstructor(clazz);
-            // check whether there is an empty constructor with outer class
         } else {
+            // check whether there is an empty constructor with outer class
             return ReflectionHelper.hasConstructor(clazz, outerClass);
         }
     }
@@ -137,6 +132,12 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         try {
             GrapheneContext grapheneContext = ((GrapheneProxyInstance) root).getContext();
             T pageFragment = null;
+
+            if (Modifier.isFinal(clazz.getModifiers())) {
+                throw new PageFragmentInitializationException("Page Fragment must not be final class. It is, your "
+                    + clazz + ", declared in: " + clazz);
+            }
+
             if (isAboutToDelegateToWebElement(clazz)) {
                 pageFragment = createProxyDelegatingToRoot(root, clazz);
             } else {

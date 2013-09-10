@@ -26,8 +26,49 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * <p>
+ * Specifies that given page object should be opened before the test is executed.
+ * </p>
+ *
+ * <p>
+ * It instantiates the page object in same way as {@link Page} annotation.
+ * </p>
+ *
+ * <h4>Class-level injection</h4>
+ *
+ * <pre>
+ *
+ * &#064;InitialPage
+ * LoginPage loginPage;
+ *
+ * &#064;Test
+ * public void should_login_successfully() {
+ *
+ *     loginPage.login(USER_NAME, USER_PASSWORD);
+ *     homePage.assertOnHomePage();
+ *
+ *     assertTrue(homePage.getUserName(), USER_NAME);
+ * }
+ * </pre>
+ *
+ * <h4>Method-level injection</h4>
+ *
+ * <pre>
+ * &#064;Test
+ * public void should_login_successfully(@InitialPage LoginPage loginPage) {
+ *
+ *     loginPage.login(USER_NAME, USER_PASSWORD);
+ *     homePage.assertOnHomePage();
+ *
+ *     assertTrue(homePage.getUserName(), USER_NAME);
+ * }
+ * </pre>
+ *
+ * @author Lukas Fryc
+ */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 public @interface InitialPage {
 
 }

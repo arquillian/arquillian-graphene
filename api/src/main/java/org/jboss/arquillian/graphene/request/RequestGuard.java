@@ -21,8 +21,23 @@
  */
 package org.jboss.arquillian.graphene.request;
 
+import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 
+/**
+ * <p>Allows to manually retrieve information from Request Guard on a page.</p>
+ *
+ * <p>This method is used internally by:
+ *
+ * <ul>
+ * <li>{@link Graphene#guardHttp(Object)}</li>
+ * <li>{@link Graphene#guardAjax(Object)}</li>
+ * <li>{@link Graphene#guardNoRequest(Object)}</li>
+ * <li>{@link Graphene#waitForHttp(Object)}</li>
+ * </ul>
+ *
+ * @author Lukas Fryc
+ */
 @JavaScript(implementation = "org.jboss.arquillian.graphene.guard.RequestGuardImpl")
 public interface RequestGuard {
 

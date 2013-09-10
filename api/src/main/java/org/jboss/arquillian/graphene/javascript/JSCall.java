@@ -23,6 +23,11 @@ package org.jboss.arquillian.graphene.javascript;
 
 import java.util.Arrays;
 
+/**
+ * Represents a call of the method on JavaScript interface.
+ *
+ * @author Lukas Fryc
+ */
 public class JSCall {
 
     private JSMethod method;
@@ -33,18 +38,31 @@ public class JSCall {
         this.arguments = arguments;
     }
 
+    /**
+     * Returns a target JavaScript interface method
+     */
     public JSMethod getMethod() {
         return method;
     }
 
-    public JSTarget getTarget() {
+    /**
+     * Returns a target JavaSript interface
+     */
+    public JSInterface getTarget() {
         return method.getTarget();
     }
 
+    /**
+     * Returns arguments of the call
+     */
     public Object[] getArguments() {
         return arguments;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "JSCall [arguments=" + Arrays.toString(arguments) + ", method=" + method + "]";

@@ -22,9 +22,21 @@
 package org.jboss.arquillian.graphene.context;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.configuration.GrapheneConfiguration;
+import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * <p>
+ * Allows to access current browser instance and configuration.
+ * </p>
+ *
+ * <p>
+ * One needs to know the qualifier of a browser injected via <tt>@Drone</tt> annotation. The injection point can have qualifier.
+ * If no qualifier is specified, {@link Default} qualifier be used.
+ * </p>
+ *
+ * @author Jan Papousek
+ */
 public abstract class GrapheneContext {
 
     private static final String GRAPHENE_CONTEXT_STATIC_INTERFACE_IMPL = "org.jboss.arquillian.graphene.context.GrapheneContextImpl$StaticInterfaceImplementation";
@@ -45,8 +57,14 @@ public abstract class GrapheneContext {
      */
     public abstract WebDriver getWebDriver(Class<?>... interfaces);
 
+    /**
+     * Returns configuration for the context
+     */
     public abstract GrapheneConfiguration getConfiguration();
 
+    /**
+     * Returns last known context which has been access by a test
+     */
     public static GrapheneContext lastContext() {
         return INSTANCE.lastContext();
     }
@@ -76,7 +94,7 @@ public abstract class GrapheneContext {
      * Removes the context associated to the given qualifier.
      *
      * @param qualifier
-     * @see #setContextFor(org.jboss.arquillian.graphene.configuration.GrapheneConfiguration, org.openqa.selenium.WebDriver,
+     * @see #setContextFor(org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration, org.openqa.selenium.WebDriver,
      *      java.lang.Class)
      */
     public static void removeContextFor(Class<?> qualifier) {
@@ -86,7 +104,8 @@ public abstract class GrapheneContext {
     private static StaticInterface instantiate() {
         try {
             @SuppressWarnings("unchecked")
-            Class<? extends StaticInterface> clazz = (Class<? extends StaticInterface>) Class.forName(GRAPHENE_CONTEXT_STATIC_INTERFACE_IMPL);
+            Class<? extends StaticInterface> clazz = (Class<? extends StaticInterface>) Class
+                    .forName(GRAPHENE_CONTEXT_STATIC_INTERFACE_IMPL);
 
             return clazz.newInstance();
 

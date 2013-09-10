@@ -64,7 +64,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         ExtendedGrapheneContext c = (ExtendedGrapheneContext) context;
 
         // check name
-        JSTarget target = call.getTarget();
+        JSInterface target = call.getTarget();
         if (target.getName() == null) {
             throw new IllegalStateException("Can't use " + this.getClass() + " for " + target.getInterface() + ", because the @JavaScript annotation doesn't define non empty value()");
         }
@@ -149,7 +149,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         return functionDefinitionWithCall;
     }
 
-    protected <T> void registerExtension(PageExtensionRegistry registry, JSTarget target) {
+    protected <T> void registerExtension(PageExtensionRegistry registry, JSInterface target) {
         if (target.getName() == null || target.getName().length() == 0) {
             throw new IllegalArgumentException("The extension " + target.getInterface() + "has no mapping.");
         }
@@ -158,7 +158,7 @@ public class DefaultExecutionResolver implements ExecutionResolver {
         }
         JavaScriptPageExtension extension = new JavaScriptPageExtension(target.getInterface());
         registry.register(extension);
-        for (JSTarget dependency: target.getJSInterfaceDependencies()) {
+        for (JSInterface dependency: target.getJSInterfaceDependencies()) {
             registerExtension(registry, dependency);
         }
     }

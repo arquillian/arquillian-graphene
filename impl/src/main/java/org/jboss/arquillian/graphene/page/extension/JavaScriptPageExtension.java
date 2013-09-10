@@ -28,7 +28,7 @@ import java.util.Collections;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JSMethod;
-import org.jboss.arquillian.graphene.javascript.JSTarget;
+import org.jboss.arquillian.graphene.javascript.JSInterface;
 import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 
@@ -40,10 +40,10 @@ public class JavaScriptPageExtension implements PageExtension {
     private final JavaScript extensionScript;
     private final JavaScript installationDetectionScript;
     private final Collection<String> required;
-    private final JSTarget target;
+    private final JSInterface target;
 
     public JavaScriptPageExtension(Class<?> clazz) {
-        this.target = new JSTarget(clazz);
+        this.target = new JSInterface(clazz);
         if (target.getName() == null || target.getName().length() == 0) {
             throw new IllegalArgumentException("The JavaScript page extension can be created only for class where @JavaScript annotation defines non empty value(). The given class " + clazz + " is not annotation this way.");
         }

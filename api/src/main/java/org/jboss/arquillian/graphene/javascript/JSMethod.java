@@ -23,29 +23,53 @@ package org.jboss.arquillian.graphene.javascript;
 
 import java.lang.reflect.Method;
 
+/**
+ * Represents a method on JavaScript interface
+ *
+ * @author Lukas Fryc
+ */
 public class JSMethod {
 
-    private JSTarget target;
+    private JSInterface target;
     private Method method;
     private String name;
 
-    public JSMethod(JSTarget target, Method method) {
+    public JSMethod(JSInterface target, Method method) {
         this.target = target;
         this.method = method;
         this.name = resolveName(method);
 
     }
 
-    public JSTarget getTarget() {
+    /**
+     * Returns a target JavaSript interface
+     */
+    public JSInterface getTarget() {
         return target;
     }
 
+    /**
+     * Returns a target {@link Method} of given JavaScript interface
+     */
     public Method getMethod() {
         return method;
     }
 
+    /**
+     * Returns name of the method as diverged from name of the Java method or re-defined using {@link MethodName} annotation
+     */
     public String getName() {
         return name;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "JSMethod [method=" + method.getName() + ", name=" + name + ", target=" + target + "]";
     }
 
     private String resolveName(Method method) {
@@ -56,10 +80,5 @@ public class JSMethod {
         }
 
         return method.getName();
-    }
-
-    @Override
-    public String toString() {
-        return "JSMethod [method=" + method.getName() + ", name=" + name + ", target=" + target + "]";
     }
 }

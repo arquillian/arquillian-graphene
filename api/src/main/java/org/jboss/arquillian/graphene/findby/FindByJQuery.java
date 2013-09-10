@@ -27,7 +27,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.jboss.arquillian.graphene.spi.findby.ImplementsLocationStrategy;
+import org.openqa.selenium.support.FindBy;
 
+/**
+ * Alternative {@link FindBy} annotation for use in tests, pages and page fragments defining that given element should be
+ * located by jQuery Selector strategy.
+ *
+ * @author Lukas Fryc
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @ImplementsLocationStrategy(ByJQuery.JQueryLocationStrategy.class)

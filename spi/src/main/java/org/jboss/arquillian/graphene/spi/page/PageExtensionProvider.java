@@ -34,5 +34,8 @@ import org.jboss.arquillian.test.spi.TestClass;
  */
 public interface PageExtensionProvider {
 
+    /**
+     * Returns list of all page extensions relevant to the given test class.
+     */
     List<PageExtension> getPageExtensions(TestClass testClass);
 }
