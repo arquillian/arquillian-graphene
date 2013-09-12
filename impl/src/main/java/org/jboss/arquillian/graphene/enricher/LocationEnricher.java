@@ -57,6 +57,9 @@ public class LocationEnricher implements TestEnricher {
 
     @Override
     public Object[] resolve(Method method) {
+        URL contextRoot = getContextRoot(method);
+        contextRootStore.set(contextRoot);
+
         int indexOfInitialPage = getIndexOfParameterWithAnnotation(InitialPage.class, method);
         if (indexOfInitialPage == -1) {
             return new Object[method.getParameterTypes().length];
@@ -66,9 +69,6 @@ public class LocationEnricher implements TestEnricher {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] result = new Object[method.getParameterTypes().length];
         result[indexOfInitialPage] = goTo(parameterTypes[indexOfInitialPage], qualifier);
-
-        URL contextRoot = getContextRoot(method);
-        contextRootStore.set(contextRoot);
 
         return result;
     }
@@ -106,20 +106,26 @@ public class LocationEnricher implements TestEnricher {
         }
     }
 
-    private URL getURLFromLocation(Location location) throws MalformedURLException {
+    private URL getURLFromLocationWithRoot(Location location) throws MalformedURLException {
         final URL contextRoot = contextRootStore.get();
-
+        if (contextRoot != null) {
+            return new URL(contextRoot, location.value());
+        } else {
+            throw new IllegalStateException(String.format(
+                    "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
+        }
+    }
+    
+    private URL getURLFromLocation(Location location) throws MalformedURLException {
         URI uri;
 
         try {
             uri = new URI(location.value());
-        } catch (URISyntaxException e) {
-            if (contextRoot != null) {
-                return new URL(contextRoot, location.value());
-            } else {
-                throw new IllegalStateException(String.format(
-                    "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
+            if (!uri.isAbsolute()) {
+                return getURLFromLocationWithRoot(location);
             }
+        } catch (URISyntaxException e) {
+            return getURLFromLocationWithRoot(location);
         }
 
         if ("resource".equals(uri.getScheme())) {
