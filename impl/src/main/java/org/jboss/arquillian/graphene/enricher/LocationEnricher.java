@@ -115,7 +115,7 @@ public class LocationEnricher implements TestEnricher {
                     "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
         }
     }
-    
+
     private URL getURLFromLocation(Location location) throws MalformedURLException {
         URI uri;
 

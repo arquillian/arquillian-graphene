@@ -36,6 +36,7 @@ import org.jboss.arquillian.graphene.page.Location;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -91,6 +92,7 @@ public class TestPageObjectsLocation {
     }
 
     @Test
+    @Ignore("ARQGRA-375")
     @OperateOnDeployment("deployment2")
     public void testGoToNamedDeployment() {
         MyPageObject1 page1 = Graphene.goTo(MyPageObject1.class);
@@ -107,17 +109,17 @@ public class TestPageObjectsLocation {
 
     @Test
     public void testInitialPageCustomBrowser(@Browser3 @InitialPage MyPageObject2 obj) {
-        browser.get("http://localhost:8080");
+        browser.get(contextRoot.toExternalForm());
         checkMyPageObject2(obj);
     }
 
     @Test
     public void testGotoPageCustomBrowser() {
         MyPageObject2 page2 = Graphene.goTo(MyPageObject2.class, Browser3.class);
-        browser.get("http://localhost:8080");
+        browser.get(contextRoot.toExternalForm());
         checkMyPageObject2(page2);
 
-        browser3.get("http://localhost:8080");
+        browser3.get(contextRoot.toExternalForm());
         page2 = Graphene.goTo(MyPageObject2.class);
         checkMyPageObject2(page2);
     }
@@ -136,7 +138,7 @@ public class TestPageObjectsLocation {
     /*
      * Nested classes
      */
-    @Location("resource://org/jboss/arquillian/graphene/ftest/enricher/sample.html")
+    @Location("org/jboss/arquillian/graphene/ftest/enricher/sample.html")
     public static class MyPageObject1 {
         @FindBy(css = "#pseudoroot")
         private WebElement element;
@@ -146,7 +148,7 @@ public class TestPageObjectsLocation {
         }
     }
 
-    @Location("resource://org/jboss/arquillian/graphene/ftest/enricher/empty-findby.html")
+    @Location("org/jboss/arquillian/graphene/ftest/enricher/empty-findby.html")
     public static class MyPageObject2 {
         @FindBy(css = "#divWebElement")
         private WebElement element;
