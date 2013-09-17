@@ -36,7 +36,6 @@ import org.jboss.arquillian.graphene.page.Location;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -92,7 +91,6 @@ public class TestPageObjectsLocation {
     }
 
     @Test
-    @Ignore("ARQGRA-375")
     @OperateOnDeployment("deployment2")
     public void testGoToNamedDeployment() {
         MyPageObject1 page1 = Graphene.goTo(MyPageObject1.class);

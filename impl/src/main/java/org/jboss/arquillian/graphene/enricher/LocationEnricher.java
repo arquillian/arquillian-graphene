@@ -33,20 +33,21 @@ import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
-import org.jboss.arquillian.graphene.container.ServletURLLookupService;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Location;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.TestEnricher;
+import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 import org.openqa.selenium.WebDriver;
 
 public class LocationEnricher implements TestEnricher {
 
-    private static ThreadLocal<URL> contextRootStore = new ThreadLocal<URL>();
+//    private static ThreadLocal<URL> contextRootStore = new ThreadLocal<URL>();
 
     @Inject
-    private Instance<ServiceLoader> serviceLoader;
+    private static Instance<ServiceLoader> serviceLoader;
 
     @Inject
     private Instance<Injector> injector;
@@ -57,9 +58,6 @@ public class LocationEnricher implements TestEnricher {
 
     @Override
     public Object[] resolve(Method method) {
-        URL contextRoot = getContextRoot(method);
-        contextRootStore.set(contextRoot);
-
         int indexOfInitialPage = getIndexOfParameterWithAnnotation(InitialPage.class, method);
         if (indexOfInitialPage == -1) {
             return new Object[method.getParameterTypes().length];
@@ -87,7 +85,6 @@ public class LocationEnricher implements TestEnricher {
     }
 
     private void handleLocationOf(Class<?> pageObjectClass, WebDriver browser) {
-
         Location location = pageObjectClass.getAnnotation(Location.class);
         if (location == null) {
             throw new IllegalArgumentException(
@@ -107,12 +104,12 @@ public class LocationEnricher implements TestEnricher {
     }
 
     private URL getURLFromLocationWithRoot(Location location) throws MalformedURLException {
-        final URL contextRoot = contextRootStore.get();
+        URL contextRoot = getContextRoot();
         if (contextRoot != null) {
             return new URL(contextRoot, location.value());
         } else {
             throw new IllegalStateException(String.format(
-                    "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
+                "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
         }
     }
 
@@ -183,8 +180,27 @@ public class LocationEnricher implements TestEnricher {
         return result;
     }
 
-    private URL getContextRoot(Method method) {
-        ServletURLLookupService service = serviceLoader.get().onlyOne(ServletURLLookupService.class);
-        return service.getContextRoot(method);
+    private URL getContextRoot() {
+        URL result = null;
+        for (ResourceProvider provider : serviceLoader.get().all(ResourceProvider.class)) {
+            if (provider.canProvide(URL.class)) {
+                result = (URL) provider.lookup(new ArquillianResourceAnnotation());
+            }
+        }
+        return result;
+    }
+
+    @SuppressWarnings("all")
+    private class ArquillianResourceAnnotation implements ArquillianResource, Annotation {
+
+        @Override
+        public Class<? extends Annotation> annotationType() {
+            return ArquillianResource.class;
+        }
+
+        @Override
+        public Class<?> value() {
+            return ArquillianResource.class;
+        }
     }
 }
