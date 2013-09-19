@@ -32,13 +32,14 @@ import org.jboss.arquillian.graphene.enricher.GrapheneContextProvider;
 import org.jboss.arquillian.graphene.enricher.GrapheneEnricher;
 import org.jboss.arquillian.graphene.enricher.InFrameEnricher;
 import org.jboss.arquillian.graphene.enricher.JavaScriptEnricher;
-import org.jboss.arquillian.graphene.enricher.LocationEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
 import org.jboss.arquillian.graphene.enricher.PageObjectEnricher;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
 import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
+import org.jboss.arquillian.graphene.location.LocationEnricher;
+import org.jboss.arquillian.graphene.location.ContextRootStoreInitializer;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
@@ -59,6 +60,9 @@ public class GrapheneExtension implements LoadableExtension {
         /* Component Objects */
         builder.service(TestEnricher.class, GrapheneEnricher.class);
         builder.service(TestEnricher.class, LocationEnricher.class);
+        builder.service(ContextRootStoreInitializer.class, ContextRootStoreInitializer.class);
+        builder.service(LocationEnricher.class, LocationEnricher.class);
+        builder.observer(ContextRootStoreInitializer.class);
         builder.service(ServletURLLookupService.class, ServletURLLookupServiceImpl.class);
         builder.service(SearchContextTestEnricher.class, WebElementEnricher.class);
         builder.service(SearchContextTestEnricher.class, PageFragmentEnricher.class);

@@ -81,12 +81,12 @@ public class TestPageObjectsLocation {
 
     @Test
     @OperateOnDeployment("deployment2")
-    public void testInitialPageOnNamedDeployment1(@InitialPage MyPageObject2 obj) {
+    public void testInitialPageOnNamedDeployment2(@InitialPage MyPageObject2 obj) {
         checkMyPageObject2(obj);
     }
 
     @Test
-    public void testInitialPageOnDefaultDeploymnet(@InitialPage MyPageObject2 obj) {
+    public void testInitialPageOnDefaultDeployment(@InitialPage MyPageObject2 obj) {
         checkMyPageObject2(obj);
     }
 

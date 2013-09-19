@@ -26,10 +26,10 @@ import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
-import org.jboss.arquillian.graphene.enricher.LocationEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
 import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
+import org.jboss.arquillian.graphene.location.LocationEnricher;
 import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
@@ -121,7 +121,7 @@ public class DefaultGrapheneRuntime extends GrapheneRuntime {
     }
 
     public <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
-        LocationEnricher locationEnricher = new LocationEnricher();
+        LocationEnricher locationEnricher = serviceLoader.get().onlyOne(LocationEnricher.class);
         return locationEnricher.goTo(pageObject, browserQualifier);
     }
 

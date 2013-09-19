@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.enricher;
+package org.jboss.arquillian.graphene.location;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
@@ -29,28 +29,25 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.enricher.PageObjectEnricher;
+import org.jboss.arquillian.graphene.enricher.ReflectionHelper;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Location;
-import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.TestEnricher;
-import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 import org.openqa.selenium.WebDriver;
 
 public class LocationEnricher implements TestEnricher {
 
-//    private static ThreadLocal<URL> contextRootStore = new ThreadLocal<URL>();
+    @Inject
+    private Instance<ServiceLoader> serviceLoader;
 
     @Inject
-    private static Instance<ServiceLoader> serviceLoader;
-
-    @Inject
-    private Instance<Injector> injector;
+    private Instance<ContextRootStore> locationStore;
 
     @Override
     public void enrich(Object testCase) {
@@ -104,7 +101,11 @@ public class LocationEnricher implements TestEnricher {
     }
 
     private URL getURLFromLocationWithRoot(Location location) throws MalformedURLException {
-        URL contextRoot = getContextRoot();
+
+        URL contextRoot = locationStore.get().getURL();
+
+        System.out.println("contextRoot: " + contextRoot);
+
         if (contextRoot != null) {
             return new URL(contextRoot, location.value());
         } else {
@@ -178,29 +179,5 @@ public class LocationEnricher implements TestEnricher {
         }
 
         return result;
-    }
-
-    private URL getContextRoot() {
-        URL result = null;
-        for (ResourceProvider provider : serviceLoader.get().all(ResourceProvider.class)) {
-            if (provider.canProvide(URL.class)) {
-                result = (URL) provider.lookup(new ArquillianResourceAnnotation());
-            }
-        }
-        return result;
-    }
-
-    @SuppressWarnings("all")
-    private class ArquillianResourceAnnotation implements ArquillianResource, Annotation {
-
-        @Override
-        public Class<? extends Annotation> annotationType() {
-            return ArquillianResource.class;
-        }
-
-        @Override
-        public Class<?> value() {
-            return ArquillianResource.class;
-        }
     }
 }
