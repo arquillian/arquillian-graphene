@@ -21,8 +21,10 @@
  */
 package org.jboss.arquillian.graphene;
 
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.drone.api.annotation.Default;
-import org.jboss.arquillian.graphene.Graphene.Utility;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.LocationEnricher;
 import org.jboss.arquillian.graphene.enricher.PageFragmentEnricher;
@@ -38,7 +40,10 @@ import org.jboss.arquillian.graphene.wait.WebDriverWaitImpl;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-class GrapheneUtilityImpl implements Utility {
+public class DefaultGrapheneRuntime extends GrapheneRuntime {
+
+    @Inject
+    private Instance<ServiceLoader> serviceLoader;
 
     /**
      * Returns the guarded object checking whether the HTTP request is done during

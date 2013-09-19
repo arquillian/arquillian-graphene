@@ -30,6 +30,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.DefaultGrapheneRuntime;
+import org.jboss.arquillian.graphene.GrapheneRuntime;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.ActionsProvider;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider.KeyboardProvider;
@@ -118,10 +120,12 @@ public class TestSeleniumResourceProvider {
             }
         });
         GrapheneContext.setContextFor(new GrapheneConfiguration(), driver, Default.class);
+        GrapheneRuntime.pushInstance(new DefaultGrapheneRuntime());
     }
 
     @After
     public void tearDown() {
+        GrapheneRuntime.popInstance();
         GrapheneContext.removeContextFor(Default.class);
     }
 

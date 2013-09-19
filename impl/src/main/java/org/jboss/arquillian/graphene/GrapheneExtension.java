@@ -50,6 +50,9 @@ public class GrapheneExtension implements LoadableExtension {
 
     @Override
     public void register(ExtensionBuilder builder) {
+        builder.service(GrapheneRuntime.class, DefaultGrapheneRuntime.class);
+        builder.observer(GrapheneRuntimeInitializer.class);
+
         builder.service(Enhancer.class, GrapheneEnhancer.class);
         /* Configurator */
         builder.observer(GrapheneConfigurator.class);

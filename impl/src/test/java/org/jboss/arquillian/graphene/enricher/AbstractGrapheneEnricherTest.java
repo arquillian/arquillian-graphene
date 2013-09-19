@@ -29,11 +29,14 @@ import java.util.Arrays;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.drone.api.annotation.Default;
+import org.jboss.arquillian.graphene.DefaultGrapheneRuntime;
+import org.jboss.arquillian.graphene.GrapheneRuntime;
 import org.jboss.arquillian.graphene.TestingDriver;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
@@ -95,6 +98,13 @@ public abstract class AbstractGrapheneEnricherTest {
         }
 
         GrapheneContext.setContextFor(new GrapheneConfiguration(), browser, Default.class);
+        GrapheneRuntime.pushInstance(new DefaultGrapheneRuntime());
+    }
+
+    @After
+    public void tearDown() {
+        GrapheneRuntime.popInstance();
+        GrapheneContext.removeContextFor(Default.class);
     }
 
     protected final TestEnricher getGrapheneEnricher() {

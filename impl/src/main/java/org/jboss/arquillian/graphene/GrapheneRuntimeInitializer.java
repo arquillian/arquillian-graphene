@@ -19,29 +19,27 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.javascript;
+package org.jboss.arquillian.graphene;
 
-import java.text.MessageFormat;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.arquillian.core.spi.ServiceLoader;
+import org.jboss.arquillian.test.spi.event.suite.AfterSuite;
+import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
 
-import org.jboss.arquillian.graphene.DefaultGrapheneRuntime;
-import org.jboss.arquillian.graphene.GrapheneRuntime;
-import org.junit.After;
-import org.junit.Before;
+public class GrapheneRuntimeInitializer {
 
-public abstract class AbstractJavaScriptTest {
+    @Inject
+    private Instance<ServiceLoader> serviceLoader;
 
-    public String invocation(String base, String method) {
-        String call = DefaultExecutionResolver.FUNCTION + MessageFormat.format(DefaultExecutionResolver.CALL, base, method);
-        return call;
+    public void injectGrapheneRuntime(@Observes BeforeSuite event) {
+        GrapheneRuntime runtime = serviceLoader.get().onlyOne(GrapheneRuntime.class);
+
+        GrapheneRuntime.pushInstance(runtime);
     }
 
-    @Before
-    public void setUp() {
-        GrapheneRuntime.pushInstance(new DefaultGrapheneRuntime());
-    }
-
-    @After
-    public void tearDown() {
+    public void cleanGrapheneRuntime(@Observes AfterSuite event) {
         GrapheneRuntime.popInstance();
     }
 }

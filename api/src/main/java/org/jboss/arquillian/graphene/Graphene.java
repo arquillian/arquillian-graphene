@@ -90,10 +90,6 @@ import org.openqa.selenium.WebElement;
  */
 public class Graphene {
 
-    private static final String GRAPHENE_UTILITY_IMPL = "org.jboss.arquillian.graphene.GrapheneUtilityImpl";
-
-    private static final Utility INSTANCE = instantiate();
-
     /**
      * Returns the guarded object checking whether the HTTP request is done during each object's method invocation. If the
      * request is not observed, the {@link org.jboss.arquillian.graphene.request.RequestGuardException} is thrown.
@@ -105,7 +101,7 @@ public class Graphene {
      * @throws RequestGuardException when no HTTP request is observed
      */
     public static <T> T guardHttp(T target) {
-        return INSTANCE.guardHttp(target);
+        return instance().guardHttp(target);
     }
 
     /**
@@ -119,7 +115,7 @@ public class Graphene {
      * @throws RequestGuardException when no AJAX (XHR) request is observed
      */
     public static <T> T guardAjax(T target) {
-        return INSTANCE.guardAjax(target);
+        return instance().guardAjax(target);
     }
 
     /**
@@ -133,7 +129,7 @@ public class Graphene {
      * @throws RequestGuardException when HTTP or AJAX request is observed
      */
     public static <T> T guardNoRequest(T target) {
-        return INSTANCE.guardNoRequest(target);
+        return instance().guardNoRequest(target);
     }
 
     /**
@@ -147,7 +143,7 @@ public class Graphene {
      * @throws RequestGuardException when no HTTP request is observed
      */
     public static <T> T waitForHttp(T target) {
-        return INSTANCE.waitForHttp(target);
+        return instance().waitForHttp(target);
     }
 
     /**
@@ -164,7 +160,7 @@ public class Graphene {
      * @see #waitModel()
      */
     public static WebDriverWait<Void> waitAjax() {
-        return INSTANCE.waitAjax();
+        return instance().waitAjax();
     }
 
     /**
@@ -181,7 +177,7 @@ public class Graphene {
      * @see #waitModel(WebDriver)
      */
     public static WebDriverWait<Void> waitAjax(WebDriver driver) {
-        return INSTANCE.waitAjax(driver);
+        return instance().waitAjax(driver);
     }
 
     /**
@@ -199,7 +195,7 @@ public class Graphene {
      * @see #waitModel()
      */
     public static WebDriverWait<Void> waitGui() {
-        return INSTANCE.waitGui();
+        return instance().waitGui();
     }
 
     /**
@@ -217,7 +213,7 @@ public class Graphene {
      * @see #waitModel(WebDriver)
      */
     public static WebDriverWait<Void> waitGui(WebDriver driver) {
-        return INSTANCE.waitGui(driver);
+        return instance().waitGui(driver);
     }
 
     /**
@@ -234,7 +230,7 @@ public class Graphene {
      * @see #waitModel(WebDriver)
      */
     public static WebDriverWait<Void> waitModel() {
-        return INSTANCE.waitModel();
+        return instance().waitModel();
     }
 
     /**
@@ -251,7 +247,7 @@ public class Graphene {
      * @see #waitModel(WebDriver)
      */
     public static WebDriverWait<Void> waitModel(WebDriver driver) {
-        return INSTANCE.waitModel(driver);
+        return instance().waitModel(driver);
     }
 
     /**
@@ -264,7 +260,7 @@ public class Graphene {
      * @see Root
      */
     public static <T> T createPageFragment(Class<T> type, WebElement root) {
-        return INSTANCE.createPageFragment(type, root);
+        return instance().createPageFragment(type, root);
     }
 
     /**
@@ -292,7 +288,7 @@ public class Graphene {
      * @see InitialPage
      */
     public static <T> T goTo(Class<T> pageObject) {
-        return INSTANCE.goTo(pageObject);
+        return instance().goTo(pageObject);
     }
 
     /**
@@ -320,53 +316,10 @@ public class Graphene {
      * @see InitialPage
      */
     public static <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
-        return INSTANCE.goTo(pageObject, browserQualifier);
+        return instance().goTo(pageObject, browserQualifier);
     }
 
-    private static Utility instantiate() {
-        try {
-            @SuppressWarnings("unchecked")
-            Class<? extends Utility> clazz = (Class<? extends Utility>) Class.forName(GRAPHENE_UTILITY_IMPL);
-
-            return clazz.newInstance();
-
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Cannot find class " + GRAPHENE_UTILITY_IMPL
-                    + ", make sure you have arquillian-graphene-impl.jar included on the classpath.", e);
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    /**
-     * The interface which {@link Graphene} utility class delegates all its requests to.
-     */
-    interface Utility {
-
-        <T> T guardHttp(T target);
-
-        <T> T guardNoRequest(T target);
-
-        <T> T guardAjax(T target);
-
-        <T> T waitForHttp(T target);
-
-        WebDriverWait<Void> waitAjax();
-
-        WebDriverWait<Void> waitAjax(WebDriver driver);
-
-        WebDriverWait<Void> waitGui();
-
-        WebDriverWait<Void> waitGui(WebDriver driver);
-
-        WebDriverWait<Void> waitModel();
-
-        WebDriverWait<Void> waitModel(WebDriver driver);
-
-        <T> T createPageFragment(Class<T> clazz, WebElement root);
-
-        <T> T goTo(Class<T> clazz);
-
-        <T> T goTo(Class<T> pageObject, Class<?> browserQualifier);
+    private static GrapheneRuntime instance() {
+        return GrapheneRuntime.getInstance();
     }
 }
