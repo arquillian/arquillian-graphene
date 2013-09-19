@@ -26,7 +26,8 @@ import java.lang.annotation.Annotation;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.drone.spi.Enhancer;
+import org.jboss.arquillian.drone.spi.DroneInstanceEnhancer;
+import org.jboss.arquillian.drone.spi.InstanceOrCallableInstance;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyUtil;
@@ -38,7 +39,7 @@ import org.openqa.selenium.WebDriver;
  *
  * @author Lukas Fryc
  */
-public class GrapheneEnhancer implements Enhancer<WebDriver> {
+public class GrapheneEnhancer implements DroneInstanceEnhancer<WebDriver> {
 
     @Inject
     private Instance<GrapheneConfiguration> configuration;
@@ -49,8 +50,8 @@ public class GrapheneEnhancer implements Enhancer<WebDriver> {
     }
 
     @Override
-    public boolean canEnhance(Class<?> type, Class<? extends Annotation> qualifier) {
-        return WebDriver.class.isAssignableFrom(type);
+    public boolean canEnhance(InstanceOrCallableInstance instance, Class<?> droneType, Class<? extends Annotation> qualifier) {
+        return WebDriver.class.isAssignableFrom(droneType);
     }
 
     /**
