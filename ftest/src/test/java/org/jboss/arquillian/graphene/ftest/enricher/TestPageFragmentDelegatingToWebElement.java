@@ -79,7 +79,7 @@ public class TestPageFragmentDelegatingToWebElement {
         assertEquals("foo-bar", testedPage.getInputFragment().getStyleClass());
     }
 
-    @Location("resource://" + pageLocation)
+    @Location(pageLocation)
     public class TestPage {
         @FindBy(tagName = "input")
         private PageFragmentImplementingWebElement inputFragment;

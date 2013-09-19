@@ -104,8 +104,6 @@ public class LocationEnricher implements TestEnricher {
 
         URL contextRoot = locationStore.get().getURL();
 
-        System.out.println("contextRoot: " + contextRoot);
-
         if (contextRoot != null) {
             return new URL(contextRoot, location.value());
         } else {

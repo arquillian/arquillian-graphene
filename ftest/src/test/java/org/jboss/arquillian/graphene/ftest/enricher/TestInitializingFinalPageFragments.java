@@ -67,9 +67,8 @@ public class TestInitializingFinalPageFragments {
 
     @Test(expected = PageFragmentInitializationException.class)
     public void testInitializingInnerFinalPageFragment() {
-        InnerFinalPageFragment innerFinalFragment = Graphene.createPageFragment(InnerFinalPageFragment.class,
+        Graphene.createPageFragment(InnerFinalPageFragment.class,
             browser.findElement(By.id("rootElement")));
-        System.out.println(innerFinalFragment.getBody().getText());
     }
 
     public final class InnerFinalPageFragment {
