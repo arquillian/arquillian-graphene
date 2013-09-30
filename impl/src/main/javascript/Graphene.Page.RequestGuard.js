@@ -48,7 +48,7 @@ window.Graphene.Page.RequestGuard = (function() {
                 xhr.originalTimeout.call(window, function() {
                     try {
                         replaceTimeout(xhr);
-                        if (typeof(originalCallback) == 'string') {
+                        if (typeof(originalCallback) === 'string') {
                             window.eval(originalCallback);
                         } else {
                             originalCallback(callbackArguments);
@@ -60,7 +60,7 @@ window.Graphene.Page.RequestGuard = (function() {
                     }
                 }, timeout);
             }
-        }
+        };
     }
     
     function revertTimeout(xhr) {
@@ -124,7 +124,7 @@ window.Graphene.Page.RequestGuard = (function() {
         clearRequestDone : function() {
             var result = requestType;
             requestType = "NONE";
-            requestState = "NONE"
+            requestState = "NONE";
             return result;
         },
         
@@ -164,7 +164,7 @@ window.Graphene.Page.RequestGuard = (function() {
             );
             window.Graphene.xhrInterception.onreadystatechange(
                 function(context, args) {
-                    if(this.readyState == 4) {
+                    if(this.readyState === 4) {
                         try {
                             this.proceedWithCallbacks(context, args);
                         } finally {
@@ -178,6 +178,6 @@ window.Graphene.Page.RequestGuard = (function() {
                 }
             );
         }
-    }
+    };
 
 })();
