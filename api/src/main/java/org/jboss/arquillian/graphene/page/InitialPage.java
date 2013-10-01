@@ -68,7 +68,7 @@ import java.lang.annotation.Target;
  * @author Lukas Fryc
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ ElementType.PARAMETER })
 public @interface InitialPage {
 
 }
