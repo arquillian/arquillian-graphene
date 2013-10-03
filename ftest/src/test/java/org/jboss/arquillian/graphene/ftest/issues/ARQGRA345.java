@@ -21,13 +21,15 @@
  */
 package org.jboss.arquillian.graphene.ftest.issues;
 
-import java.net.URL;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.Assert;
+import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.GrapheneElement;
+import org.jboss.arquillian.graphene.fragment.Root;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
@@ -36,18 +38,15 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Test for https://issues.jboss.org/browse/ARQGRA-269
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
 @RunWith(Arquillian.class)
 @RunAsClient
-public class ARQGRA269TestCase {
+public class ARQGRA345 {
 
     @ArquillianResource
     private URL contextRoot;
@@ -55,40 +54,40 @@ public class ARQGRA269TestCase {
     @Drone
     private WebDriver browser;
 
-    @FindBy(css="h1")
-    private WebElement h1;
+    @FindBy(id = "root")
+    private PageFragmentWithGrapheneElementAsRoot fragment;
 
-    @FindBy(tagName="iframe")
-    private WebElement iframe;
+    private static final String SAMPLE_PACKAGE = "org.jboss.arquillian.graphene.ftest.enricher";
 
     @Deployment
     public static WebArchive createTestArchive() {
-        return Resources.inCurrentPackage().all().buildWar("test.war");
+        return Resources.inPackage(SAMPLE_PACKAGE).all().buildWar("test.war");
     }
 
     @Before
     public void loadPage() {
-        Resource.inCurrentPackage().find("ARQGRA-269_index.html").loadPage(browser, contextRoot);
+        Resource.inPackage(SAMPLE_PACKAGE).find("sample.html").loadPage(browser, contextRoot);
     }
 
     @Test
-    public void testIframeFromWebDriverFindElement() {
-        WebElement iframe = browser.findElement(By.tagName("iframe"));
-        browser.switchTo().frame(iframe);
-        Assert.assertEquals("Inside of the Frame!!", h1.getText().trim());
+    public void graphene_element_should_be_able_to_be_used_as_root_of_page_fragment() {
+        assertEquals(fragment.getInnerElement().getText(), "pseudo root");
     }
 
-    @Test
-    public void testIframeFromWebElementFindElement() {
-        WebElement iframe = browser.findElement(By.tagName("body")).findElement(By.tagName("iframe"));
-        browser.switchTo().frame(iframe);
-        Assert.assertEquals("Inside of the Frame!!", h1.getText().trim());
-    }
+    public class PageFragmentWithGrapheneElementAsRoot {
 
-    @Test
-    public void testInjectedIframe() {
-        browser.switchTo().frame(iframe);
-        Assert.assertEquals("Inside of the Frame!!", h1.getText().trim());
-    }
+        @Root
+        private GrapheneElement root;
 
+        @FindBy(id = "pseudoroot")
+        private GrapheneElement innerElement;
+
+        public GrapheneElement getInnerElement() {
+            return innerElement;
+        }
+
+        public GrapheneElement getRoot() {
+            return root;
+        }
+    }
 }
