@@ -21,46 +21,16 @@
  */
 package org.jboss.arquillian.graphene;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 
-/**
- * <p>
- * Interface for Graphene extensions of {@link WebElement}.
- * </p>
- *
- * <p>
- * Following methods are provided over the {@link WebElement} interface:
- * </p>
- *
- * <ul>
- * <li>{@link #isPresent()}</li>
- * <li>{@link #findGrapheneElements(By)}</li>
- * </ul>
- *
- * <p>
- * <b>Important</b>: {@link GrapheneElement} <i>is not intended for extension</i>, do not subclass it. The {@link GrapheneElement} might become abstract class or interface in the future. It can't be final because then it couldn't be proxied by Graphene.
- * </p>
- *
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
- */
-public class GrapheneElement implements WebElement, Locatable, WrapsElement {
-
-    private final WebElement element;
-
-    public GrapheneElement(WebElement element) {
-        this.element = element;
-    }
+public interface GrapheneElement extends WebElement, Locatable, WrapsElement {
 
     /**
      * <p>
@@ -77,14 +47,7 @@ public class GrapheneElement implements WebElement, Locatable, WrapsElement {
      *
      * @return true if this element is present in the page
      */
-    public boolean isPresent() {
-        try {
-            element.isDisplayed();
-            return true;
-        } catch (NoSuchElementException ignored) {
-            return false;
-        }
-    }
+    boolean isPresent();
 
     /**
      * This method is alternative to {@link #findElements(By)}, but it returns list of type {@link GrapheneElement}.
@@ -93,182 +56,14 @@ public class GrapheneElement implements WebElement, Locatable, WrapsElement {
      *
      * @see WebElement#findElement(By)
      */
-    public List<GrapheneElement> findGrapheneElements(By by) {
-        List<GrapheneElement> grapheneElements = new LinkedList<GrapheneElement>();
-        for (WebElement e : element.findElements(by)) {
-            grapheneElements.add(new GrapheneElement(e));
-        }
-        return grapheneElements;
-    }
+    List<GrapheneElement> findGrapheneElements(By by);
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Overriden version of <code>WebElement.findBy()</code> method.
      *
-     * @see org.openqa.selenium.WebElement#click()
-     */
-    @Override
-    public void click() {
-        element.click();
-    }
-
-    /*
-     * (non-Javadoc)
+     * @return GrapheneElement
      *
-     * @see org.openqa.selenium.WebElement#submit()
+     * @see WebElement#findElement(By)
      */
-    @Override
-    public void submit() {
-        element.submit();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#sendKeys(java.lang.CharSequence[])
-     */
-    @Override
-    public void sendKeys(CharSequence... keysToSend) {
-        element.sendKeys(keysToSend);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#clear()
-     */
-    @Override
-    public void clear() {
-        element.clear();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#getTagName()
-     */
-    @Override
-    public String getTagName() {
-        return element.getTagName();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#getAttribute(java.lang.String)
-     */
-    @Override
-    public String getAttribute(String name) {
-        return element.getAttribute(name);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#isSelected()
-     */
-    @Override
-    public boolean isSelected() {
-        return element.isSelected();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-        return element.isEnabled();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#getText()
-     */
-    @Override
-    public String getText() {
-        return element.getText();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#findElements(org.openqa.selenium.By)
-     */
-    @Override
-    public List<WebElement> findElements(By by) {
-        return element.findElements(by);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#findElement(org.openqa.selenium.By)
-     */
-    @Override
-    public GrapheneElement findElement(By by) {
-        return new GrapheneElement(element.findElement(by));
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#isDisplayed()
-     */
-    @Override
-    public boolean isDisplayed() {
-        return element.isDisplayed();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#getLocation()
-     */
-    @Override
-    public Point getLocation() {
-        return element.getLocation();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#getSize()
-     */
-    @Override
-    public Dimension getSize() {
-        return element.getSize();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.WebElement#getCssValue(java.lang.String)
-     */
-    @Override
-    public String getCssValue(String propertyName) {
-        return element.getCssValue(propertyName);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.internal.WrapsElement#getWrappedElement()
-     */
-    @Override
-    public WebElement getWrappedElement() {
-        return element;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.openqa.selenium.internal.Locatable#getCoordinates()
-     */
-    @Override
-    public Coordinates getCoordinates() {
-        return ((Locatable) element).getCoordinates();
-    }
-
+    GrapheneElement findElement(By by);
 }

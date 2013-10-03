@@ -32,6 +32,8 @@ import java.util.List;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.graphene.GrapheneElement;
+import org.jboss.arquillian.graphene.GrapheneElementImpl;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
@@ -64,45 +66,53 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
         List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
         for (Field field : fields) {
             try {
-                final Field finalField = field;
                 if (isValidClass(field.getType())) {
                     final SearchContext localSearchContext;
-                    GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+                    GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext)
+                        .getContext();
                     if (grapheneContext == null) {
                         grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
                         localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
                     } else {
                         localSearchContext = searchContext;
                     }
-                    final By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
+                    final By rootBy = FindByUtilities.getCorrectBy(field, configuration.get()
+                        .getDefaultElementLocatingStrategy());
                     Object wrapper;
                     try {
-                        wrapper = createWrapper(grapheneContext, field.getType(), WebElementUtils.findElementLazily(rootBy, localSearchContext));
+                        Class<?> type = field.getType().equals(GrapheneElement.class) ? GrapheneElementImpl.class : field.getType();
+                        wrapper = createWrapper(grapheneContext, type,
+                            WebElementUtils.findElementLazily(rootBy, localSearchContext));
                     } catch (Exception e) {
-                        throw new GrapheneTestEnricherException("Can't instantiate element wrapper " + target.getClass() + "." + field.getName() + " of type " + field.getType(), e);
+                        throw new GrapheneTestEnricherException("Can't instantiate element wrapper " + target.getClass() + "."
+                            + field.getName() + " of type " + field.getType(), e);
                     }
                     try {
                         setValue(field, target, wrapper);
                     } catch (Exception e) {
-                        throw new GrapheneTestEnricherException("Can't set a value to the " + target.getClass() + "." + field.getName() + ".", e);
+                        throw new GrapheneTestEnricherException("Can't set a value to the " + target.getClass() + "."
+                            + field.getName() + ".", e);
                     }
-                } else if (field.getType().isAssignableFrom(List.class)
-                        && isValidClass(getListType(field))) {
+                } else if (field.getType().isAssignableFrom(List.class) && isValidClass(getListType(field))) {
                     final SearchContext localSearchContext;
-                    GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+                    GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext)
+                        .getContext();
                     if (grapheneContext == null) {
                         grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
                         localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
                     } else {
                         localSearchContext = searchContext;
                     }
-                    final By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
+                    final By rootBy = FindByUtilities.getCorrectBy(field, configuration.get()
+                        .getDefaultElementLocatingStrategy());
                     try {
                         Class<?> type = getListType(field);
-                        Object wrappers = createWrappers(grapheneContext, type, WebElementUtils.findElementsLazily(rootBy, localSearchContext));
+                        Object wrappers = createWrappers(grapheneContext, type,
+                            WebElementUtils.findElementsLazily(rootBy, localSearchContext));
                         setValue(field, target, wrappers);
                     } catch (Exception e) {
-                        throw new GrapheneTestEnricherException("Can't set a value to the " + target.getClass() + "." + field.getName() + ".", e);
+                        throw new GrapheneTestEnricherException("Can't set a value to the " + target.getClass() + "."
+                            + field.getName() + ".", e);
                     }
                 }
             } catch (ClassNotFoundException e) {
@@ -111,42 +121,50 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
         }
     }
 
-    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element) throws Exception {
-        T wrapper = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
-            @Override
-            public Object getTarget() {
-                try {
-                    return instantiate(type, element);
-                } catch (Exception e) {
-                    throw new IllegalStateException("Can't instantiate the " + type, e);
+    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element)
+        throws Exception {
+        T wrapper = GrapheneProxy.getProxyForHandler(
+            GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
+                @Override
+                public Object getTarget() {
+                    try {
+                        return instantiate(type, element);
+                    } catch (Exception e) {
+                        throw new IllegalStateException("Can't instantiate the " + type, e);
+                    }
                 }
-            }
-        }), type);
+            }), type);
         return wrapper;
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> List<T> createWrappers(GrapheneContext grapheneContext, final Class<T> type, final List<WebElement> elements) {
-        List<T> wrapper = GrapheneProxy.getProxyForHandler(GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
-            @Override
-            public Object getTarget() {
-                try {
-                    List<T> target = new ArrayList<T>();
-                    for (WebElement element: elements) {
-                        target.add(instantiate(type, element));
+        List<T> wrapper = GrapheneProxy.getProxyForHandler(
+            GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
+                @Override
+                public Object getTarget() {
+                    try {
+                        List<T> target = new ArrayList<T>();
+                        for (WebElement element : elements) {
+                            target.add((T) instantiate(type.equals(GrapheneElement.class) ? GrapheneElementImpl.class : type, element));
+                        }
+                        return target;
+                    } catch (Exception e) {
+                        throw new IllegalStateException("Can't instantiate the " + type, e);
                     }
-                    return target;
-                } catch (Exception e) {
-                    throw new IllegalStateException("Can't instantiate the " + type, e);
                 }
-            }
-        }), List.class);
+            }), List.class);
         return wrapper;
     }
 
     protected final boolean isValidClass(Class<?> clazz) {
         Class<?> outerClass = clazz.getDeclaringClass();
         if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
-            return ReflectionHelper.hasConstructor(clazz, WebElement.class);
+            if (clazz.equals(GrapheneElement.class)) {
+                return true;
+            } else {
+                return ReflectionHelper.hasConstructor(clazz, WebElement.class);
+            }
         } else {
             return ReflectionHelper.hasConstructor(clazz, outerClass, WebElement.class);
         }

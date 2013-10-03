@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
@@ -55,6 +56,10 @@ public final class WebElementUtils {
     private static final Logger LOGGER = Logger.getLogger(WebElementUtils.class.getName());
     private static final String EMPTY_FIND_BY_WARNING = " Be aware of the fact that fields anotated with empty "
             + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
+
+    private static final Class<?>[] INTERFACES_PROXY_SHOULD_IMPLEMENET = {Locatable.class,
+        WrapsElement.class, FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class,
+        FindsByName.class, FindsByTagName.class, FindsByXPath.class, GrapheneElement.class};
 
     private WebElementUtils() {
     }
@@ -133,9 +138,7 @@ public final class WebElementUtils {
     }
 
     protected static WebElement findElement(GrapheneContext context, final GrapheneProxy.FutureTarget target) {
-        final WebElement element = GrapheneProxy.getProxyForFutureTarget(context, target, WebElement.class, Locatable.class,
-                WrapsElement.class, FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class,
-                FindsByName.class, FindsByTagName.class, FindsByXPath.class);
+        final WebElement element = GrapheneProxy.getProxyForFutureTarget(context, target, WebElement.class, INTERFACES_PROXY_SHOULD_IMPLEMENET);
         final GrapheneProxyInstance elementProxy = (GrapheneProxyInstance) element;
 
         InterceptorBuilder b = new InterceptorBuilder();
