@@ -34,7 +34,7 @@ import org.openqa.selenium.internal.Locatable;
 
 /**
  * <p>
- * Interface for Graphene extensions of {@link WebElement}.
+ * Implementation of {@link GrapheneElement} - interface for Graphene extensions of {@link WebElement}.
  * </p>
  *
  * <p>

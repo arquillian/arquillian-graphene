@@ -31,6 +31,28 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 
+/**
+ * <p>
+ * Interface for Graphene extensions of {@link WebElement}.
+ * </p>
+ *
+ * <p>
+ * Following methods are provided over the {@link WebElement} interface:
+ * </p>
+ *
+ * <ul>
+ * <li>{@link #isPresent()}</li>
+ * <li>{@link #findGrapheneElements(By)}</li>
+ * </ul>
+ *
+ * <p>
+ * <b>Important</b>: {@link GrapheneElementImpl} <i>is not intended for extension</i>, do not subclass it. The
+ * {@link GrapheneElementImpl} might become abstract class or interface in the future. It can't be final because then it couldn't be
+ * proxied by Graphene.
+ * </p>
+ *
+ * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ */
 @ImplementedBy(className = "org.jboss.arquillian.graphene.GrapheneElementImpl")
 public interface GrapheneElement extends WebElement, Locatable, WrapsElement {
 

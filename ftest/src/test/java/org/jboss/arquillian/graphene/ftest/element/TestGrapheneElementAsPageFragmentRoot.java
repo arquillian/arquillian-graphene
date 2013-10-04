@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.ftest.issues;
+package org.jboss.arquillian.graphene.ftest.element;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +46,7 @@ import org.openqa.selenium.support.FindBy;
  */
 @RunWith(Arquillian.class)
 @RunAsClient
-public class ARQGRA345 {
+public class TestGrapheneElementAsPageFragmentRoot {
 
     @ArquillianResource
     private URL contextRoot;
