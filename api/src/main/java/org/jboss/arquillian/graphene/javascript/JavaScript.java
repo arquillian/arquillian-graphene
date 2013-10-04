@@ -29,6 +29,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.jboss.arquillian.graphene.spi.ImplementedBy;
 import org.openqa.selenium.JavascriptExecutor;
 
 /**
@@ -135,7 +136,7 @@ public @interface JavaScript {
      */
     Class<? extends ExecutionResolver> executionResolver() default DefaultExecutionResolver.class;
 
-    abstract static class DefaultExecutionResolver implements ExecutionResolver {
-        static final String IMPLEMENTATION = "org.jboss.arquillian.graphene.javascript.DefaultExecutionResolver";
+    @ImplementedBy(className = "org.jboss.arquillian.graphene.javascript.DefaultExecutionResolver")
+    interface DefaultExecutionResolver extends ExecutionResolver {
     }
 }

@@ -41,7 +41,7 @@ import com.google.common.io.Resources;
  *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class DefaultExecutionResolver implements ExecutionResolver {
+public class DefaultExecutionResolver implements ExecutionResolver, org.jboss.arquillian.graphene.javascript.JavaScript.DefaultExecutionResolver  {
 
     public static final String FUNCTION;
 

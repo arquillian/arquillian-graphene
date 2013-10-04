@@ -26,6 +26,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.jboss.arquillian.graphene.spi.TypeResolver;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 
@@ -139,10 +141,7 @@ public class JSInterface {
 
     private ExecutionResolver createResolver(JavaScript annotation) {
         try {
-            if (annotation.executionResolver().equals(JavaScript.DefaultExecutionResolver.class)) {
-                return (ExecutionResolver) Class.forName(JavaScript.DefaultExecutionResolver.IMPLEMENTATION).newInstance();
-            }
-            return (ExecutionResolver) annotation.executionResolver().newInstance();
+            return TypeResolver.instantiate(annotation.executionResolver());
         } catch (Exception e) {
             throw new IllegalStateException("resolver " + annotation.executionResolver() + " can't be instantied", e);
         }

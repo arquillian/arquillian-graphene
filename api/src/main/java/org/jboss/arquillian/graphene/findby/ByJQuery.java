@@ -26,6 +26,8 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 
 import org.jboss.arquillian.core.spi.Validate;
+import org.jboss.arquillian.graphene.spi.ImplementedBy;
+import org.jboss.arquillian.graphene.spi.TypeResolver;
 import org.jboss.arquillian.graphene.spi.findby.LocationStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -36,9 +38,8 @@ import org.openqa.selenium.WebElement;
  *
  * @author Juraj Huska
  */
+@ImplementedBy(className = "org.jboss.arquillian.graphene.findby.ByJQueryImpl")
 public class ByJQuery extends By {
-
-    private static final String IMPLEMENTATION_CLASS = "org.jboss.arquillian.graphene.findby.ByJQueryImpl";
 
     private By implementation;
 
@@ -93,18 +94,14 @@ public class ByJQuery extends By {
 
     private static By instantiate(String selector) {
         try {
-            @SuppressWarnings("unchecked")
-            Class<? extends By> clazz = (Class<? extends By>) Class.forName(IMPLEMENTATION_CLASS);
+            Class<? extends By> clazz = (Class<? extends By>) TypeResolver.resolveType(ByJQuery.class);
 
             Constructor<? extends By> constructor = clazz.getConstructor(String.class);
 
             return constructor.newInstance(selector);
-
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Cannot find class " + IMPLEMENTATION_CLASS
-                    + ", make sure you have arquillian-graphene-impl.jar included on the classpath.", e);
         } catch (Exception e) {
-            throw new IllegalStateException(e);
+            e.printStackTrace();
+            throw new IllegalStateException("Cannot instantiate ByJQuery", e);
         }
     }
 
