@@ -33,7 +33,6 @@ import java.util.List;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.GrapheneElement;
-import org.jboss.arquillian.graphene.GrapheneElementImpl;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
@@ -80,7 +79,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                         .getDefaultElementLocatingStrategy());
                     Object wrapper;
                     try {
-                        Class<?> type = field.getType().equals(GrapheneElement.class) ? GrapheneElementImpl.class : field.getType();
+                        Class<?> type = field.getType();
                         wrapper = createWrapper(grapheneContext, type,
                             WebElementUtils.findElementLazily(rootBy, localSearchContext));
                     } catch (Exception e) {
@@ -146,7 +145,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                     try {
                         List<T> target = new ArrayList<T>();
                         for (WebElement element : elements) {
-                            target.add((T) instantiate(type.equals(GrapheneElement.class) ? GrapheneElementImpl.class : type, element));
+                            target.add((T) instantiate(type, element));
                         }
                         return target;
                     } catch (Exception e) {

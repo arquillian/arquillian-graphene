@@ -37,6 +37,7 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
+import org.jboss.arquillian.graphene.spi.TypeResolver;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.SearchContext;
@@ -133,8 +134,10 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
      * @throws SecurityException
      * @throws NoSuchMethodException
      */
-    protected static <T> T instantiate(Class<T> clazz, Object... args) throws NoSuchMethodException, SecurityException,
+    protected static <T> T instantiate(Class<T> type, Object... args) throws NoSuchMethodException, SecurityException,
         InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+        Class<? extends T> clazz = TypeResolver.resolveType(type);
         Class<?> outerClass = clazz.getDeclaringClass();
 
         // load constructor and rea; arguments
@@ -157,7 +160,7 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
                 realArgs[i + 1] = args[i];
             }
         }
-        Constructor<T> construtor;
+        Constructor<? extends T> construtor;
         if (ReflectionHelper.hasConstructor(clazz, argTypes)) {
             construtor = clazz.getDeclaredConstructor(argTypes);
         } else {
