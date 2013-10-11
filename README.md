@@ -1,21 +1,19 @@
 Arquillian Graphene 2 [![Build Status](https://buildhive.cloudbees.com/job/arquillian/job/arquillian-graphene/badge/icon)](https://buildhive.cloudbees.com/job/arquillian/job/arquillian-graphene/)
 =====================
 
-> Testing Ajax with a flavour of sexy WebDriver API
+> Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API
 
 
 Graphene 2 project is designed as set of extensions for [Selenium WebDriver](http://docs.seleniumhq.org/) project focused on rapid development and usability in Java environment.
 
-* API is **straightforward** and enforces tester to write **Ajax-enabled** and **reusable tests** and test abstractions,
-* encourages to write tests in a [consistent level of abstraction](https://docs.jboss.org/author/display/ARQGRA2/Page+Abstractions) using [**Page Objects**](https://docs.jboss.org/author/display/ARQGRA2/Page+Objects) and [**Page Fragments**](https://docs.jboss.org/author/display/ARQGRA2/Page+Fragments),
+* API is **straightforward** and enforces tester to write **Ajax-enabled** and **reusable tests**,
+* encourages to write tests in a [appropriate level of abstraction](https://docs.jboss.org/author/display/ARQGRA2/Page+Abstractions) using [**Page Objects**](https://docs.jboss.org/author/display/ARQGRA2/Page+Objects) and [**Page Fragments**](https://docs.jboss.org/author/display/ARQGRA2/Page+Fragments),
 * the code is robust with improved readability,
-  * supports [**request guarding**](https://docs.jboss.org/author/display/ARQGRA2/Request+Guards) and interception,
-  * improved [**Waiting API**](https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class#GrapheneUtilityClass-Waitings),
-* allows **WebDriver API interception**
-* focuses on **portability across browsers**,
-* it enables **JQuery selectors as a location strategy** which is familiar to web development community
+  * supports [**request guarding**](https://docs.jboss.org/author/display/ARQGRA2/Request+Guards) and request interception,
+  * exposes fluent [**Waiting API**](https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class#GrapheneUtilityClass-Waitings),
+* helps to write **tests portable across browsers**,
+* it enables **JQuery selectors as a location strategy** for advanced locators
 * brings concepts for on-the-fly **injection of extensions to a page code** (enabling advanced testing features)
-* integrates with **Arquillian Core** and **Arquillian Drone** extension
 
 With all the concepts above, Graphene brings new power to space of Java-based testing.
 
@@ -45,11 +43,25 @@ Project Info
 Getting Started
 ---------------
 
-See a [Getting Started guide](https://docs.jboss.org/author/display/ARQGRA2/Getting+Started) in the [Documentation](https://docs.jboss.org/author/display/ARQGRA2/Home).
+There is comprehensive guide [Functional Testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/).
+
+You can also use [Getting Started guide](https://docs.jboss.org/author/display/ARQGRA2/Getting+Started) in the [Documentation](https://docs.jboss.org/author/display/ARQGRA2/Home).
 
 
-For Developers
-==============
+Contributing
+============
+
+Community contributions are essential for maintaining the vitality of the Arquillian project.
+
+Contributing to the project helps to deliver functionality you need and allows you to share your code with other contributors and users.
+
+We want to keep it as easy as possible to contribute your changes and we will work hard to deliver your contributions in an upcoming release.
+
+Please refer to [How to Contribute](https://github.com/arquillian/arquillian-graphene/blob/master/CONTRIBUTING.md) to find related instructions.
+
+
+Building the Project
+====================
 
 Prerequisities
 --------------
