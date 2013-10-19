@@ -211,5 +211,43 @@ module("RequestGuard");
         
         instance.readyState = 4;
         instance.onreadystatechange();
+    })
+    
+    asyncTest("setTimeout with Function.prototype", 4, function() {
+        var isIE = parseFloat(window.navigator.appVersion.split("MSIE ")[1]) || undefined;
+        var fn = function() {
+            ok(true);
+            start();
+        };
+        
+        window.setTimeout = function (callback, timeout) {
+            //Fails on IE7,8,9 not on IE10
+            if(isIE && isIE < 10) {
+                raises( function(){
+                            originalSetTimeout.apply(window, arguments);
+                        },
+                    Error,
+                    "raises SCRIPT438: Object doesn't support property or method 'apply'"
+                );
+                raises( function(){
+                            originalSetTimeout.call(window, callback, timeout);
+                        },
+                    Error,
+                    "raises SCRIPT438: Object doesn't support property or method 'call'"
+                );
+            }
+            else {
+                originalSetTimeout.apply(window, arguments);
+                originalSetTimeout.call(window, callback, timeout);
+            }
+        };
+        window.setTimeout(fn, 20);
+        
+        //works in most browsers
+        window.setTimeout = function (callback, timeout) {
+            Function.prototype.apply.call(originalSetTimeout, window, arguments);
+            Function.prototype.call.call(originalSetTimeout, window, callback, timeout);
+        };
+        window.setTimeout(fn, 20);
     });
 })();
