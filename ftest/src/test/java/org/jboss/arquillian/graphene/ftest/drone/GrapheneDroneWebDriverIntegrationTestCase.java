@@ -55,7 +55,7 @@ public class GrapheneDroneWebDriverIntegrationTestCase {
 
     @Test
     public void created_instance_should_be_able_to_navigate_to_some_page() {
-        browser.navigate().to("http://127.0.0.1:14444");
+        browser.navigate().to("http://127.0.0.1:4444");
     }
 
     @Test
@@ -70,6 +70,6 @@ public class GrapheneDroneWebDriverIntegrationTestCase {
 
     @Test
     public void context_instance_should_be_able_to_navigate_to_some_page() {
-        GrapheneContext.getContextFor(Default.class).getWebDriver().navigate().to("http://127.0.0.1:14444");
+        GrapheneContext.getContextFor(Default.class).getWebDriver().navigate().to("http://127.0.0.1:4444");
     }
 }

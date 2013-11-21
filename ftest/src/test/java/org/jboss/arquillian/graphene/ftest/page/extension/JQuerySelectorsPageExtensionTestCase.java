@@ -144,19 +144,20 @@ public class JQuerySelectorsPageExtensionTestCase {
         WebElement headerElement = browser.findElement(headerBy);
 
         assertNotNull(headerElement);
-        assertEquals("h1", headerElement.getTagName());
+        // unlike other drivers, SafariDriver returns tag names in upper case
+        assertEquals("h1", headerElement.getTagName().toLowerCase());
     }
 
     @Test
     public void testFindByOnWebElement() {
         assertNotNull(webElementByJQuery);
-        assertEquals("h1", webElementByJQuery.getTagName());
+        assertEquals("h1", webElementByJQuery.getTagName().toLowerCase());
     }
 
     @Test
     public void testFindByOnListOfWebElement() {
         assertNotNull(listOfWebElementsByJQuery);
-        assertEquals("h1", listOfWebElementsByJQuery.get(0).getTagName());
+        assertEquals("h1", listOfWebElementsByJQuery.get(0).getTagName().toLowerCase());
     }
 
     @Test
