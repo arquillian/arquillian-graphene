@@ -73,11 +73,11 @@ module("XHR Interception");
         var xhr = new window.XMLHttpRequest();
         equal(xhr.readyState, 0);
         equal(xhr.response, "");
-        equal(xhr.responseText, "");
+        equal(xhr.responseText, undefined);
         equal(xhr.responseType, "");
         equal(xhr.responseXML, null);
-        equal(xhr.status, 0);
-        equal(xhr.statusText, "");
+        equal(xhr.status, undefined);
+        equal(xhr.statusText, undefined);
     });
 
     test("test xhr wrapper delegation (for abort)", function() {
@@ -288,5 +288,109 @@ module("XHR Interception");
 
         // then
         equal(readyState, 5);
+    })
+})();
+
+module("XHR Interception with ActiveXObjects", {
+        setup: function() {
+            this.originalXhr = window.XMLHttpRequest;
+            if(window.ActiveXObject) {
+                this.originalErrorToString = Error.prototype.toString;
+                this.originalTypeErrorToString = TypeError.prototype.toString;
+                TypeError.prototype.toString = function() { return (this.number & 0xFFFF) + ": " + this.message };
+                Error.prototype.toString = function() { return (this.number & 0xFFFF) + ": " + this.message };
+                window.XMLHttpRequest = function() {
+                    //falls back to the oldest implementation
+                    try { return new ActiveXObject("Msxml2.XMLHTTP.6.0"); } catch(ignore){;}
+                    try { return new ActiveXObject("MSXML2.XMLHTTP.3.0"); } catch(ignore){;}
+                    try { return new ActiveXObject("MSXML2.XMLHTTP"); } catch(ignore){;}
+                    try { return new ActiveXObject("Microsoft.XMLHTTP"); } catch(ignore){;}
+                }
+            }
+        }, 
+        teardown: function() {
+            window.XMLHttpRequest = this.originalXhr;
+            Graphene.xhrInterception.uninstall();
+            if(window.ActiveXObject) {
+                Error.prototype.toString = this.originalErrorToString;
+                TypeError.prototype.toString = this.originalTypeErrorToString;
+            }
+        }
+    }
+);
+
+(function() {
+    
+    test("test access host object methods using bracket style", function() {
+        var xhr = new window.XMLHttpRequest();
+        ok(xhr);
+        
+        //fails `cause the method gets called without arguments as soon it is accessed
+        var namesOfMethodsWithArguments = ["open", "setRequestHeader", "getResponseHeader"];
+        for(i = 0; i < namesOfMethodsWithArguments.length; i++) {
+            var _methodName = namesOfMethodsWithArguments[i];
+            if(window.ActiveXObject) {
+                raises( function(){
+                            xhr[_methodName];
+                        },
+                    /450/,
+                    "raises an instance of TypeError #450"
+                );
+            }
+        }
+        
+        var methodName = "send";
+        //needs a special treatment - it expects 'open' to be called first 
+        if(window.ActiveXObject) {
+            raises( function(){
+                        xhr[methodName];
+                    },
+                /574/,
+                "raises an instance of Error #574"
+            );
+        }
+        
+        //succeeds since the function expects no arguments
+        methodName = "abort";
+        xhr[methodName];
+        //needs a special treatment - it expects 'send' to be called first 
+        methodName = "getAllResponseHeaders";
+        if(window.ActiveXObject) {
+            raises( function(){
+                        xhr[methodName];
+                    },
+                /575/,
+                "raises an instance of Error # 575"
+            );
+        }
+    });
+    
+    asyncTest("test xhr interception on host objects", 5, function() {
+        //wraps the host object with own XHR implementation
+        Graphene.xhrInterception.install();
+        var xhr = new window.XMLHttpRequest();
+        ok(xhr);
+        
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4) {
+                equal(xhr.readyState, 4);
+                start();
+            }
+        }
+        
+        var methodName = "open";
+        ok(xhr[methodName]);
+        var args = ["GET", "https://www.google.com/?q=arquillian", true];
+        xhr[methodName].apply(xhr, args);
+        
+        methodName = "setRequestHeader";
+        ok(xhr[methodName]);
+        args = ["Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"];
+        xhr[methodName].apply(xhr, args);
+        
+        methodName = "send";
+        ok(xhr[methodName]);
+        args = ["blah blah"];
+        xhr[methodName].apply(xhr, args);
     })
 })();

@@ -34,7 +34,8 @@ window.Graphene.Page.RequestGuard = (function() {
         xhr.originalTimeout = window.setTimeout;
         window.setTimeout = function(originalCallback, timeout) {
             if (timeout > window.Graphene.Page.RequestGuard.maximumCallbackTimeout) {
-                xhr.originalTimeout.apply(window, arguments);
+                 //provide 'apply' borrowed from Function for the case the host object does not have the own
+                 return Function.prototype.apply.call(xhr.originalTimeout, window, arguments);
             } else {
                 xhr.callbackCount += 1;
                 
@@ -44,8 +45,8 @@ window.Graphene.Page.RequestGuard = (function() {
                         callbackArguments.push(arguments[i]);
                     }
                 }
-    
-                xhr.originalTimeout.call(window, function() {
+                //provide 'call' borrowed from Function for the case the host object does not have the own
+                return Function.prototype.call.call(xhr.originalTimeout, window, function() {
                     try {
                         replaceTimeout(xhr);
                         if (typeof(originalCallback) === 'string') {

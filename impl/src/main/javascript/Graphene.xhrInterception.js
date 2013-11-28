@@ -91,11 +91,14 @@ window.Graphene.xhrInterception = (function() {
             this.xhr = invokeInterceptorChain(this, 'construct');
             this.readyState = this.xhr.readyState;
             this.response = this.xhr.response;
-            this.responseText = this.xhr.responseText;
             this.responseType = this.xhr.responseType;
-            this.responseXML = this.xhr.responseXML;
-            this.status = this.xhr.status;
-            this.statusText = this.xhr.statusText;
+            //do not read the response parameters until open/send functions are called: the ActiveXObjects do not like it
+            if (this.xhr.readyState == 4) {
+                this.responseText = this.xhr.responseText;
+                this.responseXML = this.xhr.responseXML;
+                this.status = this.xhr.status;
+                this.statusText = this.xhr.statusText;
+            }
             this.xhr.onreadystatechange = callback(this);
         };
         InterceptedXMLHttpRequest.prototype = wrapperPrototype;
@@ -109,12 +112,13 @@ window.Graphene.xhrInterception = (function() {
      */
     var callback = function(wrapper) {
         return function() {
-            wrapper.readyState = this.readyState;
+            //do not use 'this' since host objects behave differently
+            wrapper.readyState = wrapper.xhr.readyState;
             if (wrapper.readyState == 4) {
-                wrapper.responseText = this.responseText;
-                wrapper.responseXML = this.responseXML;
-                wrapper.status = this.status;
-                wrapper.statusText = this.statusText;
+                wrapper.responseText = wrapper.xhr.responseText;
+                wrapper.responseXML = wrapper.xhr.responseXML;
+                wrapper.status = wrapper.xhr.status;
+                wrapper.statusText = wrapper.xhr.statusText;
             }
             invokeInterceptorChain(wrapper, 'onreadystatechange', [ wrapper ]);
         };
@@ -191,13 +195,44 @@ window.Graphene.xhrInterception = (function() {
      * If onreadystatechange callback is processed, it is invoked on wrapper; otherwise method of the XHR instance is invoked.
      */
     var invokeRealMethod = function(wrapper, methodName, args) {
-        var xhr = (methodName === 'onreadystatechange') ? wrapper : wrapper.xhr;
+        //proxy both types, the native and host, objects
+        var xhr = (methodName === 'onreadystatechange') ? wrapper : new XMLHttpRequestProxy(wrapper.xhr);
         if (methodName === 'construct') {
             return new original();
         }
         if (xhr[methodName]) {
             return xhr[methodName].apply(xhr, args);
         }
+    };
+
+    /**
+     * Proxy for native and ActiveXObject XMLHttpRequest instances.
+     * Simply expands the (arguments-) array into function calls since we do not have any 
+     * 'splat' functions in JavaScript.	 
+     * Enables transparent invocation of <i>call</i> and <i>apply</i> functions on host objects.
+     * @param xhr original XHR instance.
+     **/ 
+    var XMLHttpRequestProxy = function (xhr) {
+        this.xhr = xhr;
+    };
+
+    XMLHttpRequestProxy.prototype.abort = function() {
+        return this.xhr.abort();
+    };
+    XMLHttpRequestProxy.prototype.open = function(method, url, async, user, password) {
+        return this.xhr.open(method, url, async, user, password);
+    };
+    XMLHttpRequestProxy.prototype.send = function(data) {
+        return this.xhr.send(data);
+    };
+    XMLHttpRequestProxy.prototype.getAllResponseHeaders = function() {
+    return this.xhr.getAllResponseHeaders();
+    };
+    XMLHttpRequestProxy.prototype.getResponseHeader = function(header) {
+        return this.xhr.getResponseHeader(header);
+    };
+    XMLHttpRequestProxy.prototype.setRequestHeader = function(header, value) {
+        return this.xhr.setRequestHeader(header, value);
     };
 
     /* PUBLIC METHODS */
