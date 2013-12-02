@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.page.InFrame;
 import org.jboss.arquillian.graphene.page.Page;
@@ -42,7 +43,7 @@ import org.openqa.selenium.support.ui.Select;
 public class InFrameEnricher extends AbstractSearchContextEnricher {
 
     private final Set<Class<?>> DO_NOT_ENRICH_FURTHER = new HashSet<Class<?>>(Arrays.asList(new Class<?>[] { WebElement.class,
-            Select.class, List.class, WebDriver.class }));
+            Select.class, List.class, WebDriver.class, GrapheneElement.class}));
 
     @Override
     public void enrich(SearchContext searchContext, Object objectToEnrich) {
