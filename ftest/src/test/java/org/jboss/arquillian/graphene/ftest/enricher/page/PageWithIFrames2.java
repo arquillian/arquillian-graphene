@@ -42,6 +42,10 @@ public class PageWithIFrames2 {
         return select;
     }
 
+    public String getTextFromSpan() {
+        return span.getText();
+    }
+
     public WebElement getSpan() {
         return span;
     }

@@ -149,6 +149,17 @@ public class TestInFrameFunctionality {
     }
 
     @Test
+    public void testInFrameOverPageObject2() {
+        checkWebElementInFrame(page2.getTextFromSpan());
+    }
+
+    @Test
+    public void testInFrameOverPageObject4() {
+        // it is deprecated to access fields in this way
+        checkWebElementInFrame(page2.getSpan());
+    }
+
+    @Test
     public void testInFrameOverPageObjectMultipleBrowsers() {
         Resources.inCurrentPackage();
         checkWebElementInFrame(page2MultipleBrowsers.getSpan());
@@ -185,6 +196,12 @@ public class TestInFrameFunctionality {
     }
 
     @Test
+    public void testPageFragmentInFrameDeclaredInTest2() {
+        String text = myFragment.getSpanText();
+        assertEquals("1", text);
+    }
+
+    @Test
     public void testPageFragmentInFrameDeclaredInTestMultipleBrowsers() {
         checkPageFragmentInFrame(myFragmentMultipleBrowsers);
     }
@@ -204,7 +221,7 @@ public class TestInFrameFunctionality {
     }
 
     @Test
-    public void testInFrameOverPageObject2() {
+    public void testInFrameOverPageObject3() {
         List<WebElement> options = page2.getSelect().getOptions();
         assertEquals(3, options.size());
         assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
@@ -282,7 +299,11 @@ public class TestInFrameFunctionality {
 
     private void checkWebElementInFrame(WebElement element) {
         String text = element.getText();
-        assertEquals(EXPECTED_WEB_ELEMENT_IN_FRAME_TEXT, text);
+        checkWebElementInFrame(text);
+    }
+
+    private void checkWebElementInFrame(String elementText) {
+        assertEquals(EXPECTED_WEB_ELEMENT_IN_FRAME_TEXT, elementText);
     }
 
     private void checkWebElementInDefaultFrame(WebElement element) {

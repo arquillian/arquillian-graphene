@@ -34,19 +34,19 @@ public class PageFragmentWithSpan {
     @FindBy(tagName = "span")
     private WebElement span;
 
-    public List<WebElement> getSpans() {
-        return spans;
+    @FindBy(tagName = "span")
+    public WebElement span2;
+
+    public String getSpanText() {
+        return span.getText();
     }
 
-    public void setSpans(List<WebElement> spans) {
-        this.spans = spans;
+    public List<WebElement> getSpans() {
+        return spans;
     }
 
     public WebElement getSpan() {
         return span;
     }
 
-    public void setSpan(WebElement span) {
-        this.span = span;
-    }
 }
