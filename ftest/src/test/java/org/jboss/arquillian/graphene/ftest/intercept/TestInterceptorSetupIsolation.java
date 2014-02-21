@@ -57,6 +57,10 @@ public class TestInterceptorSetupIsolation {
                 invoked = true;
                 return context.invoke();
             }
+            @Override
+            public int getPrecedence() {
+                return 0;
+            }
         });
 
         assertFalse(invoked);
