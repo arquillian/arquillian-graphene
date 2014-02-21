@@ -85,6 +85,10 @@ public class TestInterceptors extends AbstractParallelTest {
                 counter.incrementAndGet();
                 return context.invoke();
             }
+            @Override
+            public int getPrecedence() {
+                return 1;
+            }
         };
     }
 

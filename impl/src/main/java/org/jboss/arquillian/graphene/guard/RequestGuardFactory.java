@@ -113,6 +113,11 @@ public class RequestGuardFactory {
                 return result;
             }
 
+            @Override
+            public int getPrecedence() {
+                return 1;
+            }
+
             private RequestType waitForRequestChange() {
                 try {
                     return waitGuard.until(requestChange);

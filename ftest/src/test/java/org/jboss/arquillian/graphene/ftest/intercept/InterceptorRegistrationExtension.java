@@ -53,6 +53,11 @@ public class InterceptorRegistrationExtension implements LoadableExtension {
                         invoked = true;
                         return context.invoke();
                     }
+
+                    @Override
+                    public int getPrecedence() {
+                        return 1;
+                    }
                 });
             }
         } finally {

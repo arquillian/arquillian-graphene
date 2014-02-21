@@ -56,7 +56,7 @@ public class StaleElementInterceptor implements Interceptor {
                     }
                 }
             });
-        } catch(TimeoutException e) {
+        } catch (TimeoutException e) {
             if (staleness.get() != null) {
                 throw staleness.get();
             } else {
@@ -69,5 +69,10 @@ public class StaleElementInterceptor implements Interceptor {
         }
 
         return result.get();
+    }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
     }
 }

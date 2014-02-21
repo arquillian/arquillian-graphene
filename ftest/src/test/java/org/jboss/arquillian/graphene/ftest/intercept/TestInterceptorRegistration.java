@@ -53,6 +53,9 @@ public class TestInterceptorRegistration {
                 interceptor_registered_before_test_invoked = true;
                 return context.invoke();
             }
+            public int getPrecedence() {
+                return 1;
+            }
         });
     }
 

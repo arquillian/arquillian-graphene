@@ -64,4 +64,9 @@ public class InFrameInterceptor implements Interceptor {
         }
         return result;
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }
