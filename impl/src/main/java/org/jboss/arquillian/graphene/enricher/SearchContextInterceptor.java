@@ -72,4 +72,8 @@ public class SearchContextInterceptor implements Interceptor {
         return true;
     }
 
+    @Override
+    public int getPrecedence() {
+        return 0;
+    }
 }

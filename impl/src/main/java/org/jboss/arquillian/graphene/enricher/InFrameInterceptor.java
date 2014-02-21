@@ -26,6 +26,9 @@ import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ */
 public class InFrameInterceptor implements Interceptor {
 
     private int indexOfFrame = -1;
@@ -63,5 +66,10 @@ public class InFrameInterceptor implements Interceptor {
             ((GrapheneProxyInstance) result).registerInterceptor(this);
         }
         return result;
+    }
+
+    @Override
+    public int getPrecedence() {
+        return 0;
     }
 }

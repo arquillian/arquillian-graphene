@@ -22,7 +22,10 @@
 package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -31,6 +34,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GrapheneContextImpl;
+import org.jboss.arquillian.graphene.intercept.InterceptorPrecedenceComparator;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 
 /**
@@ -138,7 +142,7 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
         if (method.equals(GrapheneProxyInstance.class.getMethod("copy"))) {
             GrapheneProxyInstance clone;
             clone = (GrapheneProxyInstance) GrapheneProxy.getProxyForTarget(context, getTarget());
-            for (Interceptor interceptor : interceptors.values()) {
+            for (Interceptor interceptor : getSortedInterceptorsByPrecedence()) {
                 clone.registerInterceptor(interceptor);
             }
             return clone;
@@ -197,7 +201,7 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
             }
 
         };
-        for (Interceptor interceptor : interceptors.values()) {
+        for (Interceptor interceptor : getSortedInterceptorsByPrecedence()) {
             invocationContext = new InvocationContextImpl(interceptor, invocationContext);
         }
         final InvocationContext finalInvocationContext = invocationContext;
@@ -234,6 +238,12 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
      */
     public void resetInterceptors() {
         interceptors.clear();
+    }
+
+    private List<Interceptor> getSortedInterceptorsByPrecedence() {
+        List<Interceptor> result = new ArrayList<Interceptor>(interceptors.values());
+        Collections.sort(result, new InterceptorPrecedenceComparator());
+        return result;
     }
 
 }

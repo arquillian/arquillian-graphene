@@ -32,6 +32,7 @@ package org.jboss.arquillian.graphene.proxy;
  * </p>
  *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
 public interface Interceptor {
 
@@ -44,5 +45,17 @@ public interface Interceptor {
      * @throws Throwable
      */
     Object intercept(InvocationContext context) throws Throwable;
+
+    /**
+     * Determines a priority by which this interceptor should be invoked when intercepting.
+     *
+     * The smaller the precedence is, the later in the life-cycle the interceptor is invoked.
+     * It can return negative, 0, or positive values.
+     *
+     * Graphene default interceptors have 0 precedence.
+     *
+     * @return
+     */
+    int getPrecedence();
 
 }
