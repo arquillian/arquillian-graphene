@@ -21,38 +21,17 @@
  */
 package org.jboss.arquillian.graphene.intercept;
 
-import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
-import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import java.util.Comparator;
+
 import org.jboss.arquillian.graphene.proxy.Interceptor;
-import org.jboss.arquillian.graphene.proxy.InvocationContext;
-import org.junit.Test;
 
-public class TestIntercepting {
+/**
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ */
+public class InterceptorPrecedenceComparator implements Comparator<Interceptor> {
 
-    @Test
-    public void testInterceptorCalling() {
-        // having
-        MyObject target = new MyObject();
-        MyObject proxy = GrapheneProxy.getProxyForTarget(null, target);
-
-        // when
-        ((GrapheneProxyInstance) proxy).registerInterceptor(new Interceptor() {
-            @Override
-            public Object intercept(InvocationContext context) throws Throwable {
-                return context.invoke();
-            }
-
-            @Override
-            public int getPrecedence() {
-                return 1;
-            }
-        });
-
-        proxy.someMethod();
-    }
-
-    public class MyObject {
-        public void someMethod() {
-        }
+    @Override
+    public int compare(Interceptor o1, Interceptor o2) {
+        return ((Integer)(o1.getPrecedence())).compareTo(o2.getPrecedence());
     }
 }
