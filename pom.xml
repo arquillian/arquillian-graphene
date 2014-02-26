@@ -30,6 +30,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <useReleaseProfile>true</useReleaseProfile>
+        
+        <!-- jboss-parent override -->
+        <maven.compiler.argument.target>1.5</maven.compiler.argument.target>
+        <maven.compiler.argument.source>1.5</maven.compiler.argument.source>
 
         <!-- Arquillian -->
         <version.arquillian.core>1.1.2.Final</version.arquillian.core>
