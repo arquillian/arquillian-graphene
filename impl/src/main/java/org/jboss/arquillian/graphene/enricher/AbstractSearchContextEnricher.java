@@ -192,14 +192,19 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     }
 
     private Type[] getSuperClassActualTypeArguments(Object testCase) {
-        Type[] actualTypeArguemnts = ((ParameterizedType) testCase.getClass().getGenericSuperclass()).getActualTypeArguments();
-
-        return actualTypeArguemnts;
+        Class<?> clazz = testCase.getClass();
+        while(!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
+            clazz = clazz.getSuperclass();
+        }
+        Type[] actualTypeArguments = ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments();
+        return actualTypeArguments;
     }
 
     private TypeVariable<?>[] getSuperClassTypeParameters(Object testCase) {
-        TypeVariable<?>[] typeParameters = testCase.getClass().getSuperclass().getTypeParameters();
-
-        return typeParameters;
+        Class<?> clazz = testCase.getClass();
+        while(!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
+            clazz = clazz.getSuperclass();
+        }
+        return clazz.getTypeParameters();
     }
 }
