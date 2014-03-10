@@ -30,9 +30,9 @@ import org.junit.Test;
  */
 public class SomeTest extends SomeAbstractTest {
 
-    
-    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on 
-    * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix. 
+
+    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
+    * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix.
     */
     @Test
     public void test() {
