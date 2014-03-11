@@ -45,4 +45,6 @@ public interface Interceptor {
      */
     Object intercept(InvocationContext context) throws Throwable;
 
+    int getPrecedence();
+
 }

@@ -138,6 +138,11 @@ public class InterceptorBuilder {
 
                 return originalContext.invoke();
             }
+
+            @Override
+            public int getPrecedence() {
+                return 1;
+            }
         };
     }
 }

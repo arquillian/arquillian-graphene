@@ -22,7 +22,10 @@
 package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -31,6 +34,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GrapheneContextImpl;
+import org.jboss.arquillian.graphene.intercept.InterceptorComparator;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 
 /**
@@ -197,7 +201,9 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
             }
 
         };
-        for (Interceptor interceptor : interceptors.values()) {
+        List<Interceptor> sortedInterceptors = new ArrayList<Interceptor>(interceptors.values());
+        Collections.sort(sortedInterceptors, new InterceptorComparator());
+        for (Interceptor interceptor : sortedInterceptors) {
             invocationContext = new InvocationContextImpl(interceptor, invocationContext);
         }
         final InvocationContext finalInvocationContext = invocationContext;

@@ -37,4 +37,9 @@ public class WrapsElementInterceptor implements Interceptor {
     public Object intercept(InvocationContext context) throws Throwable {
         return elementProxy.unwrap();
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }
