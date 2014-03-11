@@ -25,6 +25,7 @@
         <module>api</module>
         <module>impl</module>
         <module>ftest</module>
+        <module>extension/screenshooter</module>
     </modules>
 
     <properties>
