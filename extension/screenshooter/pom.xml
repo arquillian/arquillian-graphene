@@ -14,12 +14,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-	<groupId>org.jboss.arquillian.graphene</groupId>
-	<artifactId>graphene-parent</artifactId>
-	<version>2.0.2-SNAPSHOT</version>
+        <groupId>org.jboss.arquillian.graphene</groupId>
+        <artifactId>graphene-parent</artifactId>
+        <version>2.0.2-SNAPSHOT</version>
     </parent>
 
-    <artifactId>graphene-screenshooter</artifactId>
+    <artifactId>arquillian-browser-screenshooter</artifactId>
     <name>Graphene Screenshooter</name>
     <description>An extension to make screenshots during testing</description>
 
@@ -38,24 +38,8 @@
     <!-- Properties -->
     <properties>
         <version.recorder.screenshooter>1.0.0.Alpha2-SNAPSHOT</version.recorder.screenshooter>
-        <version.graphene>2.0.1.Final</version.graphene>
-        <version.drone>1.2.4.Final</version.drone>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <!-- Dependency management -->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${version.drone}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -66,7 +50,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>graphene-webdriver</artifactId>
-            <version>${version.graphene}</version>
+            <version>${project.version}</version>
             <type>pom</type>
         </dependency>
         <dependency>
