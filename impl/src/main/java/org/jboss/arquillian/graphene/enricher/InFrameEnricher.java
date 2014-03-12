@@ -29,6 +29,9 @@ import org.jboss.arquillian.graphene.page.InFrame;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.openqa.selenium.SearchContext;
 
+/**
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
+ */
 public class InFrameEnricher extends AbstractSearchContextEnricher {
 
     @Override
