@@ -16,6 +16,10 @@
  */
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+
 import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshooter.event.AfterScreenshotTaken;
@@ -24,10 +28,11 @@ import org.arquillian.extension.recorder.screenshooter.event.TakeScreenshot;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public abstract class AbstractTakeScreenshotInterceptor implements Interceptor {
 
@@ -36,6 +41,8 @@ public abstract class AbstractTakeScreenshotInterceptor implements Interceptor {
     protected Event<AfterScreenshotTaken> afterScreenshotTaken;
     protected Event<TakeScreenshot> takeScreenshot;
     protected ScreenshotMetaData metaData;
+
+    protected static final List<Method> WHITE_LIST_WEB_DRIVER_METHODS = Arrays.asList(WebDriver.class.getMethods());
 
     public void registerThis(Object objectToRegisterOn) {
         ((GrapheneProxyInstance) objectToRegisterOn).registerInterceptor(this);
@@ -46,11 +53,16 @@ public abstract class AbstractTakeScreenshotInterceptor implements Interceptor {
     }
 
     public void setupThis(ScreenshooterConfiguration configuration, Event<BeforeScreenshotTaken> beforeScreenshotTaken,
-        Event<AfterScreenshotTaken> afterScreenshotTaken, Event<TakeScreenshot> takeScreenshot, ScreenshotMetaData metaData) {
+            Event<AfterScreenshotTaken> afterScreenshotTaken, Event<TakeScreenshot> takeScreenshot, ScreenshotMetaData metaData) {
         this.configuration = configuration;
         this.beforeScreenshotTaken = beforeScreenshotTaken;
         this.afterScreenshotTaken = afterScreenshotTaken;
         this.takeScreenshot = takeScreenshot;
         this.metaData = metaData;
+    }
+
+    @Override
+    public int getPrecedence() {
+        return 100;
     }
 }

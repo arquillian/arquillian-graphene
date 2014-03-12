@@ -16,6 +16,8 @@
  */
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
+import java.lang.reflect.Method;
+
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.screenshooter.event.AfterScreenshotTaken;
@@ -25,7 +27,7 @@ import org.jboss.arquillian.graphene.proxy.InvocationContext;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
+ * 
  */
 public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreenshotInterceptor {
 
@@ -33,22 +35,54 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
 
     @Override
     public Object intercept(InvocationContext context) throws Throwable {
+
         Object result = context.invoke();
+        Method interceptedMethod = context.getMethod();
 
-        When when = When.ON_EVERY_ACTION;
-        metaData.setOptionalDescription(Integer.toString(counter++));
+        if (isInterceptedMethodAllowed(interceptedMethod)) {
+            When when = When.ON_EVERY_ACTION;
+            metaData.setOptionalDescription(interceptedMethod.getName() + Integer.toString(counter++));
 
-        DefaultFileNameBuilder nameBuilder = DefaultFileNameBuilder.getInstance();
-        String screenshotName = nameBuilder
-                .withMetaData(metaData)
-                .withStage(when)
-                .withResourceIdentifier(ResourceIdentifierFactory.getResoruceIdentifier(metaData, when))
-                .build();
+            DefaultFileNameBuilder nameBuilder = DefaultFileNameBuilder.getInstance();
+            String screenshotName = nameBuilder.withMetaData(metaData).withStage(when)
+                    .withResourceIdentifier(ResourceIdentifierFactory.getResoruceIdentifier(metaData, when)).build();
 
-        beforeScreenshotTaken.fire(new BeforeScreenshotTaken(metaData));
-        takeScreenshot.fire(new TakeScreenshot(screenshotName, metaData, when));
-        afterScreenshotTaken.fire(new AfterScreenshotTaken(metaData));
+            beforeScreenshotTaken.fire(new BeforeScreenshotTaken(metaData));
+            takeScreenshot.fire(new TakeScreenshot(screenshotName, metaData, when));
+            afterScreenshotTaken.fire(new AfterScreenshotTaken(metaData));
+        }
         return result;
+    }
+
+    private boolean isInterceptedMethodAllowed(Method interceptedMethod) {
+        boolean result = false;
+        for (Method whiteListMethod : WHITE_LIST_WEB_DRIVER_METHODS) {
+            if (methodsEqual(interceptedMethod, whiteListMethod)) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    private static boolean methodsEqual(Method first, Method second) {
+        if (first == second) {
+            return true;
+        }
+        if (first == null || second == null) {
+            return false;
+        }
+        if (!first.getName().equals(second.getName())) {
+            return false;
+        }
+        if (first.getParameterTypes().length != second.getParameterTypes().length) {
+            return false;
+        }
+        for (int i = 0; i < first.getParameterTypes().length; i++) {
+            if (!first.getParameterTypes()[i].equals(second.getParameterTypes()[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
