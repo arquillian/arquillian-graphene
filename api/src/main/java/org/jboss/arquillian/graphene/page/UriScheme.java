@@ -21,36 +21,27 @@
  */
 package org.jboss.arquillian.graphene.page;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.jboss.arquillian.graphene.Graphene;
-
 /**
- * Specifies location of the annotated Page Object, relative to the URL of an Arquillian deployment.
+ * URI scheme for {@link Location} annotation to specify the type of location to navigate to.
  *
- * This annotation can be used to navigate browser to given URL either by:
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
- * <ul>
- * <li>{@link InitialPage} annotation</li>
- * <li>{@link Graphene#goTo(Class)} method</li>
- * </ul>
- *
- * By default, it navigates to HTTP location, you can override this by specifying particular location by {@link UriScheme}
- * annotation parameter.
- *
- * @see UriScheme
- *
- * @author Lukas Fryc
- * @author Stefan Miklosovic
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Location {
+public enum UriScheme {
 
-    String value();
+    HTTP("http"),
+    FILE("file"),
+    RESOURCE("resource");
 
-    UriScheme scheme() default UriScheme.HTTP;
+    private final String scheme;
+
+    private UriScheme(String scheme) {
+        this.scheme = scheme;
+    }
+
+    @Override
+    public String toString() {
+        return scheme;
+    }
+
 }

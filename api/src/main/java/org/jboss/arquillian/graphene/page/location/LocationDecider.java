@@ -19,38 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.page;
+package org.jboss.arquillian.graphene.page.location;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.net.URL;
 
-import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.page.Location;
+import org.jboss.arquillian.graphene.page.UriScheme;
 
 /**
- * Specifies location of the annotated Page Object, relative to the URL of an Arquillian deployment.
+ * Decides URL location from some {@link Location}.
  *
- * This annotation can be used to navigate browser to given URL either by:
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
- * <ul>
- * <li>{@link InitialPage} annotation</li>
- * <li>{@link Graphene#goTo(Class)} method</li>
- * </ul>
- *
- * By default, it navigates to HTTP location, you can override this by specifying particular location by {@link UriScheme}
- * annotation parameter.
- *
- * @see UriScheme
- *
- * @author Lukas Fryc
- * @author Stefan Miklosovic
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Location {
+public interface LocationDecider {
 
-    String value();
+    /**
+     *
+     * @return what kind of schemes this location decider decides.
+     */
+    UriScheme canDecide();
 
-    UriScheme scheme() default UriScheme.HTTP;
+    /**
+     * Decides URL location for given {@link Location}.
+     *
+     * @param location to get URL from
+     * @return decided URL for given {@code location}
+     */
+    URL decide(Location location);
 }
