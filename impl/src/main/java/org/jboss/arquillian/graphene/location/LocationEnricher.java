@@ -21,14 +21,12 @@
  */
 package org.jboss.arquillian.graphene.location;
 
-import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collection;
 
+import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.spi.ServiceLoader;
@@ -38,6 +36,7 @@ import org.jboss.arquillian.graphene.enricher.ReflectionHelper;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Location;
+import org.jboss.arquillian.graphene.spi.location.LocationDecider;
 import org.jboss.arquillian.test.spi.TestEnricher;
 import org.openqa.selenium.WebDriver;
 
@@ -48,6 +47,9 @@ public class LocationEnricher implements TestEnricher {
 
     @Inject
     private Instance<ContextRootStore> locationStore;
+
+    @Inject
+    private Instance<Injector> injector;
 
     @Override
     public void enrich(Object testCase) {
@@ -84,68 +86,23 @@ public class LocationEnricher implements TestEnricher {
     private void handleLocationOf(Class<?> pageObjectClass, WebDriver browser) {
         Location location = pageObjectClass.getAnnotation(Location.class);
         if (location == null) {
-            throw new IllegalArgumentException(
-                String
-                    .format(
-                        "The page object '%s' that you are navigating to using either Graphene.goTo(<page_object>) or @InitialPage isn't annotated with @Location",
-                        pageObjectClass.getSimpleName()));
+            throw new IllegalArgumentException(String.format("The page object '%s' that you are navigating to "
+                + "using either Graphene.goTo(<page_object>) or @InitialPage isn't annotated with @Location",
+                pageObjectClass.getSimpleName()));
         }
 
-        try {
-            URL url = getURLFromLocation(location);
-            browser.get(url.toExternalForm());
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException(String.format("Location '%s' specified on %s is not valid URL",
-                location.value(), pageObjectClass.getSimpleName()));
-        }
-    }
+        injector.get().inject(locationStore.get());
 
-    private URL getURLFromLocationWithRoot(Location location) throws MalformedURLException {
+        LocationDecider decider = resolveDecider(serviceLoader.get().all(LocationDecider.class), location.scheme());
 
-        URL contextRoot = locationStore.get().getURL();
-
-        if (contextRoot != null) {
-            return new URL(contextRoot, location.value());
-        } else {
-            throw new IllegalStateException(String.format(
-                "The location %s is not valid URI and no contextRoot was discovered to treat it as relative URL", location));
-        }
-    }
-
-    private URL getURLFromLocation(Location location) throws MalformedURLException {
-        URI uri;
-
-        try {
-            uri = new URI(location.value());
-            if (!uri.isAbsolute()) {
-                return getURLFromLocationWithRoot(location);
-            }
-        } catch (URISyntaxException e) {
-            return getURLFromLocationWithRoot(location);
+        if (decider == null) {
+            throw new UnsupportedOperationException(String.format("There is not any registered location decider "
+                + "which can decide '%s' scheme.", location.scheme().toString()));
         }
 
-        if ("resource".equals(uri.getScheme())) {
-            String resourceName = uri.getSchemeSpecificPart();
-            if (resourceName.startsWith("//")) {
-                resourceName = resourceName.substring(2);
-            }
-            URL url = LocationEnricher.class.getClassLoader().getResource(resourceName);
-            if (url == null) {
-                throw new IllegalArgumentException(String.format("Resource '%s' specified by %s was not found", resourceName,
-                    location));
-            }
-            return url;
-        }
+        URL url = decider.decide(location.value());
 
-        if ("file".equals(uri.getScheme())) {
-            File file = new File(uri);
-            if (file.exists()) {
-                throw new IllegalArgumentException(String.format("File specified by %s was not found", location));
-            }
-            return file.getAbsoluteFile().toURI().toURL();
-        }
-
-        return uri.toURL();
+        browser.get(url.toExternalForm());
     }
 
     /**
@@ -177,5 +134,14 @@ public class LocationEnricher implements TestEnricher {
         }
 
         return result;
+    }
+
+    private LocationDecider resolveDecider(Collection<LocationDecider> deciders, Class<?> scheme) {
+        for (LocationDecider decider : deciders) {
+            if (decider.canDecide().getClass().equals(scheme)) {
+                return decider;
+            }
+        }
+        return null;
     }
 }
