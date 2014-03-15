@@ -19,39 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.page;
+package org.jboss.arquillian.graphene.spi.location;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.spi.location.Scheme;
 
 /**
- * Specifies location of the annotated Page Object, relative to the URL of an Arquillian deployment.
+ * Decides URL for some location.
  *
- * This annotation can be used to navigate browser to given URL either by:
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
- * <ul>
- * <li>{@link InitialPage} annotation</li>
- * <li>{@link Graphene#goTo(Class)} method</li>
- * </ul>
- *
- * By default, it navigates to HTTP location, you can override this by specifying particular location by {@link Scheme}
- * annotation parameter.
- *
- * @see Scheme
- *
- * @author Lukas Fryc
- * @author Stefan Miklosovic
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Location {
+public interface LocationDecider {
 
-    String value();
+    /**
+     *
+     * @return what kind of schemes this location decider decides.
+     */
+    Scheme canDecide();
 
-    Class<?> scheme() default Scheme.HTTP.class;
+    /**
+     * Decides URL location for given {@code location}
+     *
+     * @param location to get URL from
+     * @return decided address for given {@code location}
+     */
+    String decide(String location);
 }
