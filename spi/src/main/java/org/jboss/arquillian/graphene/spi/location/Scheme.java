@@ -19,39 +19,40 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.page;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.spi.location.Scheme;
+package org.jboss.arquillian.graphene.spi.location;
 
 /**
- * Specifies location of the annotated Page Object, relative to the URL of an Arquillian deployment.
+ * URI scheme for {@link Location} annotation to specify the type of location to navigate to.
  *
- * This annotation can be used to navigate browser to given URL either by:
+ * Extend this class and implement your own scheme type, in case you want to add your own scheme. Implement location decider
+ * which will decide that particular scheme as well.
  *
- * <ul>
- * <li>{@link InitialPage} annotation</li>
- * <li>{@link Graphene#goTo(Class)} method</li>
- * </ul>
+ * @see LocationDecider
  *
- * By default, it navigates to HTTP location, you can override this by specifying particular location by {@link Scheme}
- * annotation parameter.
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
- * @see Scheme
- *
- * @author Lukas Fryc
- * @author Stefan Miklosovic
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Location {
+public class Scheme {
 
-    String value();
+    public static final class HTTP extends Scheme {
+        @Override
+        public String toString() {
+            return "http://";
+        }
+    }
 
-    Class<?> scheme() default Scheme.HTTP.class;
+    public static final class FILE extends Scheme {
+        @Override
+        public String toString() {
+            return "file://";
+        }
+    }
+
+    public static final class RESOURCE extends Scheme {
+        @Override
+        public String toString() {
+            return "resource://";
+        }
+    }
+
 }

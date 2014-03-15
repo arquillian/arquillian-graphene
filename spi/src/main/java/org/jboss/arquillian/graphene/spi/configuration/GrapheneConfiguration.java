@@ -66,6 +66,8 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
 
     private String defaultElementLocatingStrategy = How.ID_OR_NAME.toString().toLowerCase();
 
+    private String scheme = null;
+
     /**
      * Specifies default location strategy when no parameter is given to {@link FindBy} annotated injection point.
      */
@@ -109,6 +111,13 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
     }
 
     /**
+     * Default scheme to use for every Location annotation. Use FQCN of scheme to use.
+     */
+    public String getScheme() {
+        return scheme;
+    }
+
+    /**
      * Validates that configuration is correct
      */
     public void validate() {
@@ -127,6 +136,9 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         if (javascriptInstallationLimit <= 0) {
             throw new IllegalArgumentException("The javascriptInstallationLimut property has to a positive number.");
         }
+        if (scheme != null && scheme.isEmpty()) {
+            throw new IllegalArgumentException("The scheme property has to be a non-empty string.");
+        }
         try {
             How.valueOf(defaultElementLocatingStrategy.toUpperCase());
         } catch (IllegalArgumentException ex) {
@@ -135,8 +147,8 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
                 values += value.toString().toLowerCase() + ", ";
             }
             throw new IllegalArgumentException("The defaultElementLocatingStrategy property has to be one of the: " + values
-                    + " and was: "
-                    + ((defaultElementLocatingStrategy.length() != 0) ? defaultElementLocatingStrategy : "empty"), ex);
+                + " and was: "
+                + ((defaultElementLocatingStrategy.length() != 0) ? defaultElementLocatingStrategy : "empty"), ex);
         }
     }
 

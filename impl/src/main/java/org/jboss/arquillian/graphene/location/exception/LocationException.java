@@ -19,39 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.page;
+package org.jboss.arquillian.graphene.location.exception;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import org.jboss.arquillian.graphene.Graphene;
-import org.jboss.arquillian.graphene.spi.location.Scheme;
+import org.jboss.arquillian.graphene.page.Location;
 
 /**
- * Specifies location of the annotated Page Object, relative to the URL of an Arquillian deployment.
+ * Exception thrown when some {@link Location} was unable to be decided properly.
  *
- * This annotation can be used to navigate browser to given URL either by:
+ * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
- * <ul>
- * <li>{@link InitialPage} annotation</li>
- * <li>{@link Graphene#goTo(Class)} method</li>
- * </ul>
- *
- * By default, it navigates to HTTP location, you can override this by specifying particular location by {@link Scheme}
- * annotation parameter.
- *
- * @see Scheme
- *
- * @author Lukas Fryc
- * @author Stefan Miklosovic
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-public @interface Location {
+public class LocationException extends RuntimeException {
 
-    String value();
+    private static final long serialVersionUID = -9187200112872507254L;
 
-    Class<?> scheme() default Scheme.HTTP.class;
+    public LocationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public LocationException(String message) {
+        super(message);
+    }
+
+    public LocationException(Throwable cause) {
+        super(cause);
+    }
+
 }
