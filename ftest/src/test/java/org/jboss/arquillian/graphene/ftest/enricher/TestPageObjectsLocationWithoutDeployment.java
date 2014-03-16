@@ -41,21 +41,21 @@ public class TestPageObjectsLocationWithoutDeployment {
     private WebDriver browser;
 
     @Test
+    public void testGotoHubWithoutScheme() {
+        Graphene.goTo(SeleniumHubWithoutScheme.class);
+    }
+
+    @Test
     public void testGotoHubWithScheme() {
         Graphene.goTo(SeleniumHubWithScheme.class);
     }
 
-    @Test
-    public void testGotoHubWithoutScheme() {
-        Graphene.goTo(SeleniumHubWithScheme2.class);
-    }
-
     @Location(seleniumHub)
-    public static class SeleniumHubWithScheme {
+    public static class SeleniumHubWithoutScheme {
     }
 
     @Location(scheme = Scheme.HTTP.class, value = seleniumHub)
-    public static class SeleniumHubWithScheme2 {
+    public static class SeleniumHubWithScheme {
     }
 
 }

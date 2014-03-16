@@ -32,7 +32,7 @@ import org.jboss.arquillian.graphene.spi.location.LocationDecider;
 import org.jboss.arquillian.graphene.spi.location.Scheme;
 
 /**
- * Decides URL location of some location with "resource" schema.
+ * Decides location of some location with "resource" schema.
  *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *

@@ -33,7 +33,7 @@ import org.jboss.arquillian.graphene.spi.location.LocationDecider;
 import org.jboss.arquillian.graphene.spi.location.Scheme;
 
 /**
- * Decides URL location of some {@link File}.
+ * Decides location of some {@link File}.
  *
  * @author <a href="smikloso@redhat.com">Stefan Miklosovic</a>
  *
@@ -60,7 +60,7 @@ public class FileLocationDecider implements LocationDecider {
 
             File file = new File(uri);
 
-            if (file.exists()) {
+            if (!file.exists()) {
                 throw new IllegalArgumentException(String.format("File specified by %s was not found", location));
             }
             return fileToUrl(file).toExternalForm();
