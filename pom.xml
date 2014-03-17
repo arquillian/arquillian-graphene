@@ -38,7 +38,6 @@
         <!-- Arquillian -->
         <version.arquillian.core>1.1.3.Final</version.arquillian.core>
         <version.arquillian.drone>1.3.0.Final</version.arquillian.drone>
-        <version.selenium>2.39.0</version.selenium>
 
         <!-- Runtime dependencies -->
         <version.cglib>2.2.2</version.cglib>
@@ -95,14 +94,7 @@
                 <classifier>tests</classifier>
             </dependency>
 
-            <!-- Arquillian Drone dependencies and Selenium dependencies -->
-            <dependency>
-                <groupId>org.jboss.arquillian.selenium</groupId>
-                <artifactId>selenium-bom</artifactId>
-                <version>${version.selenium}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+            <!-- Arquillian Drone dependencies -->
             <dependency>
                 <groupId>org.jboss.arquillian.extension</groupId>
                 <artifactId>arquillian-drone-bom</artifactId>

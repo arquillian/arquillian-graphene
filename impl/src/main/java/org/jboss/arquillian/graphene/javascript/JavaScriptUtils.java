@@ -22,8 +22,9 @@
 package org.jboss.arquillian.graphene.javascript;
 
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.android.AndroidDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -39,7 +40,7 @@ public final class JavaScriptUtils {
 
     public static Object execute(JavascriptExecutor executor, String javaScript, Object... args) {
         try {
-            if ((executor instanceof AndroidDriver) || (executor instanceof GrapheneProxyInstance && ((GrapheneProxyInstance) executor).unwrap() instanceof AndroidDriver)) {
+            if (isAndroidDriver(executor)) {
                 return executor.executeScript(javaScript.replace("\n", ""), args);
             } else {
                 return executor.executeScript(javaScript, args);
@@ -47,6 +48,18 @@ public final class JavaScriptUtils {
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static boolean isAndroidDriver(Object instance) {
+        if (instance instanceof GrapheneProxyInstance) {
+            return isAndroidDriver(((GrapheneProxyInstance) instance).unwrap());
+        }
+        // AndroidDriver is RemoteWebDriver
+        if (instance instanceof RemoteWebDriver) {
+            Capabilities capabilities = ((RemoteWebDriver) instance).getCapabilities();
+            return "android".equals(capabilities.getBrowserName());
+        }
+        return false;
     }
 
 }

@@ -21,16 +21,8 @@
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-android-driver</artifactId>
+            <artifactId>selenium-java</artifactId>
             <scope>provided</scope>
-            <!-- excluding cglib, since we want to avoid conflict with bundled one
-                 and this dependency is only for compilation -->
-            <exclusions>
-                <exclusion>
-                    <groupId>cglib</groupId>
-                    <artifactId>cglib-nodep</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
