@@ -23,7 +23,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.RecorderFileUtils;
 import org.arquillian.extension.recorder.screenshooter.Screenshooter;
 import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
@@ -46,8 +45,8 @@ import org.openqa.selenium.remote.Augmenter;
  */
 public class BrowserScreenshooter implements Screenshooter {
 
-    private File screenshotTargetDir = new File("target" + System.getProperty("file.separator"));
-    private ScreenshotType screenshotType = ScreenshotType.PNG;
+    private File screenshotTargetDir = null;
+    private ScreenshotType screenshotType = null;
     private TakeScreenshotOnEveryActionInterceptor takeScreenshotOnEveryActionInterceptor;
     private TakeScreenshotBeforeTestInterceptor takeScreenshotBeforeTestInterceptor;
     private ScreenshooterConfiguration configuration;
@@ -72,7 +71,7 @@ public class BrowserScreenshooter implements Screenshooter {
         ScreenshotMetaData metaData = new ScreenshotMetaData();
         metaData.setResourceType(type);
         return takeScreenshot(
-            new File(DefaultFileNameBuilder.getInstance().withMetaData(metaData).build()),
+            new File(ResourceIdentifierFactory.getResoruceIdentifier(metaData, null).getIdentifier(type)),
             type);
     }
 
@@ -198,8 +197,7 @@ public class BrowserScreenshooter implements Screenshooter {
         if (this.configuration == null) {
             if (configuration != null) {
                 this.configuration = configuration;
-                File root = new File(this.configuration.getRootDir(), this.configuration.getBaseDir());
-                setScreenshotTargetDir(root);
+                setScreenshotTargetDir(configuration.getRootDir());
                 setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType()));
             }
         }

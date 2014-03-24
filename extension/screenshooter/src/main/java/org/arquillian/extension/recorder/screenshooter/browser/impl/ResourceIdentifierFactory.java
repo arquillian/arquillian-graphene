@@ -9,6 +9,8 @@ import org.arquillian.extension.recorder.When;
 
 public class ResourceIdentifierFactory {
 
+    private static int COUNTER = 0;
+    
     public static ResourceIdentifier<ResourceType> getResoruceIdentifier(ResourceMetaData metaData, When when) {
         return new BrowserResourceIdentifier(metaData, when);
     }
@@ -29,7 +31,7 @@ public class ResourceIdentifierFactory {
             StringBuilder sb = new StringBuilder();
             if (metaData == null || when == null || metaData.getOptionalDescription() == null
                     || metaData.getOptionalDescription().isEmpty()) {
-                sb.append(UUID.randomUUID().toString());
+                sb.append("uknown" + COUNTER++);
             } else {
                 sb.append(metaData.getOptionalDescription());
             }

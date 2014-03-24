@@ -66,8 +66,8 @@ public class BrowserScreenshooterExtensionInitializer {
         TakeScreenshotOnEveryActionInterceptor takeScreenshotOnEveryActionInterceptor = new TakeScreenshotOnEveryActionInterceptor();
         TakeScreenshotBeforeTestInterceptor takeScreenshotBeforeTestInterceptor = new TakeScreenshotBeforeTestInterceptor();
         BrowserScreenshooter screenshooter = new BrowserScreenshooter();
+        screenshooter.init(configuration.get());
 
-        screenshooter.setScreenshotTargetDir(configuration.get().getRootDir());
         if(((BrowserScreenshooterConfiguration) configuration.get()).getTakeOnEveryAction()) {
             screenshooter.setTakeScreenshoOnEveryActionInterceptor(takeScreenshotOnEveryActionInterceptor);
         } else if(configuration.get().getTakeBeforeTest()) {
