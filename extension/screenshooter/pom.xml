@@ -23,18 +23,6 @@
     <name>Graphene Screenshooter</name>
     <description>An extension to make screenshots during testing</description>
 
-	<!-- Developers -->
-    <developers>
-        <developer>
-            <name>Juraj Huska</name>
-            <email>jhuska@redhat.com</email>
-        </developer>
-    </developers>
-
-    <prerequisites>
-        <maven>3.0.4</maven>
-    </prerequisites>
-
     <!-- Properties -->
     <properties>
         <version.recorder.screenshooter>1.0.0.Alpha2-SNAPSHOT</version.recorder.screenshooter>
