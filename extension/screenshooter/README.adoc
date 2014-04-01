@@ -1,0 +1,43 @@
+== Arquillian Browser Screenshooter
+
+*Browser screenshooter* is an extension to Arquillian platform which provides the possibility to take screenshots of your tests. Only *browser* window is screened. In order to use it, please place this artifact configuration into Maven dependencies:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.arquillian.extension</groupId>
+    <artifactId>arquillian-browser-screenshooter</artifactId>
+    <version>${version.screenshooter}</version>
+</dependency>
+----
+
+== Settings
+
+Following +arquillian.xml+ properties are supported within *screenshooter* qualifier:
+
+|===
+|Configuration Property|Description|Default Value
+
+|+takeOnEveryAction+
+|take a screenshot on every interaction with the +WebDriver+ object
+|false
+|+takeBeforeTest+
+|take a screenshot after page loading, that is calling +WebDriver.get(String)+
+|false
+|+takeAfterTest+
+|take a screenshot as the last action in the test execution
+|false
+|+takeWhenTestFailed+
+|take a screenshot only when the test failed
+|true 
+|+rootDir+
+|folder where all screenshots will be placed
+|target
+|+baseDir+
+|folder inside the root folder where the screenshots be placed
+|screenshots
+|+screenshotType+
+|type of taken image
+|PNG
+
+|===
