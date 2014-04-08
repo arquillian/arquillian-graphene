@@ -39,7 +39,7 @@ public class BrowserScreenshooterConfiguration extends ScreenshooterConfiguratio
     public boolean getTakeOnEveryAction() {
         return Boolean.parseBoolean(getProperty("takeOnEveryAction", takeOnEveryAction));
     }
-    
+
     @Override
     public String toString() {
         String result = super.toString();

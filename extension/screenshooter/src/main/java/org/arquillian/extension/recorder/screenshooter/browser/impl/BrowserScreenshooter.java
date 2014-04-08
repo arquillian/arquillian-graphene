@@ -29,6 +29,7 @@ import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguratio
 import org.arquillian.extension.recorder.screenshooter.Screenshot;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotMetaData;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
+import org.arquillian.recorder.reporter.impl.TakenResourceRegister;
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.drone.webdriver.factory.remote.reusable.ReusableRemoteWebDriver;
@@ -50,6 +51,13 @@ public class BrowserScreenshooter implements Screenshooter {
     private TakeScreenshotOnEveryActionInterceptor takeScreenshotOnEveryActionInterceptor;
     private TakeScreenshotBeforeTestInterceptor takeScreenshotBeforeTestInterceptor;
     private ScreenshooterConfiguration configuration;
+    private TakenResourceRegister takenResourceRegister;
+
+    public BrowserScreenshooter(TakenResourceRegister takenResourceRegister) {
+        if (takenResourceRegister != null) {
+            this.takenResourceRegister = takenResourceRegister;
+        }
+    }
 
     public void setTakeScreenshoOnEveryActionInterceptor(
         TakeScreenshotOnEveryActionInterceptor takeScreenshotOnEveryActionInterceptor) {
@@ -131,6 +139,8 @@ public class BrowserScreenshooter implements Screenshooter {
                 + screenshoot.getResource().getAbsolutePath());
         }
 
+        takenResourceRegister.addTaken(screenshoot);
+
         return screenshoot;
     }
 
@@ -187,7 +197,7 @@ public class BrowserScreenshooter implements Screenshooter {
     }
 
     @Override
-    public void setScreensthotType(ScreenshotType screenshotType) {
+    public void setScreenshotType(ScreenshotType screenshotType) {
         Validate.notNull(screenshotType, "Screenshot type is a null object!");
         this.screenshotType = screenshotType;
     }
@@ -198,7 +208,7 @@ public class BrowserScreenshooter implements Screenshooter {
             if (configuration != null) {
                 this.configuration = configuration;
                 setScreenshotTargetDir(configuration.getRootDir());
-                setScreensthotType(ScreenshotType.valueOf(this.configuration.getScreenshotType()));
+                setScreenshotType(ScreenshotType.valueOf(this.configuration.getScreenshotType()));
             }
         }
     }

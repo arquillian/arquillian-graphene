@@ -1,7 +1,5 @@
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
-import java.util.UUID;
-
 import org.arquillian.extension.recorder.ResourceIdentifier;
 import org.arquillian.extension.recorder.ResourceMetaData;
 import org.arquillian.extension.recorder.ResourceType;
@@ -10,7 +8,7 @@ import org.arquillian.extension.recorder.When;
 public class ResourceIdentifierFactory {
 
     private static int COUNTER = 0;
-    
+
     public static ResourceIdentifier<ResourceType> getResoruceIdentifier(ResourceMetaData metaData, When when) {
         return new BrowserResourceIdentifier(metaData, when);
     }

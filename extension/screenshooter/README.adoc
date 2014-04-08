@@ -5,7 +5,7 @@
 [source,xml]
 ----
 <dependency>
-    <groupId>org.arquillian.extension</groupId>
+    <groupId>org.jboss.arquillian.graphene</groupId>
     <artifactId>arquillian-browser-screenshooter</artifactId>
     <version>${version.screenshooter}</version>
 </dependency>
