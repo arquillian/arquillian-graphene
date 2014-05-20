@@ -1,0 +1,91 @@
+<!--
+
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and individual contributors
+    by the @authors tag. See the copyright.txt in the distribution for a
+    full listing of individual contributors.
+
+    This is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as
+    published by the Free Software Foundation; either version 2.1 of
+    the License, or (at your option) any later version.
+
+    This software is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this software; if not, write to the Free
+    Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+    02110-1301 USA, or see the FSF site: http://www.fsf.org.
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+        <script type="text/javascript">
+            var XMLHttpArray = [
+                    function() {return new XMLHttpRequest()},
+                    function() {return new ActiveXObject("Msxml2.XMLHTTP")},
+                    function() {return new ActiveXObject("Msxml2.XMLHTTP")},
+                    function() {return new ActiveXObject("Microsoft.XMLHTTP")}
+            ];
+            function createXMLHTTPObject(){
+                    var xmlhttp = false;
+                    for(var i=0; i<XMLHttpArray.length; i++){
+                            try{
+                                    xmlhttp = XMLHttpArray[i]();
+                            }catch(e){
+                                    continue;
+                            }
+                            break;
+                    }
+                    return xmlhttp;
+            }
+            function MakeRequst(){
+                var xmlhttp = createXMLHTTPObject();
+                xmlhttp.onreadystatechange = function() {
+                    if(this.readyState === 0) {
+                        unsentCallback();
+                    }
+                    if(this.readyState === 1) {
+                        openedCallback();
+                    }
+                    if(this.readyState === 2) {
+                        headersReceivedCallback();
+                    }
+                    if(this.readyState === 3) {
+                        loadingCallback();
+                    }
+                    if(this.readyState === 4) {
+                        doneCallback();
+                    }
+                }
+                xmlhttp.open("get", "sample2.html", true);
+                xmlhttp.send();
+                document.getElementById("status").innerHTML += "SEND ";
+                return true;
+            }
+            function unsentCallback() {
+                document.getElementById("status").innerHTML += "UNSENT ";
+            }
+            function openedCallback() {
+                document.getElementById("status").innerHTML += "OPENED ";
+            }
+            function headersReceivedCallback() {
+                document.getElementById("status").innerHTML += "HEADERS_RECEIVED ";
+            }
+            function loadingCallback() {
+                document.getElementById("status").innerHTML += "LOADING ";
+            }
+            function doneCallback() {
+                document.getElementById("status").innerHTML += "DONE ";
+            }
+        </script>
+    </head>
+<body>
+        <a href="#" id="xhr" onclick="MakeRequst()">XHR</a>
+        <div id="status"></div>
+</body>
+</html>
