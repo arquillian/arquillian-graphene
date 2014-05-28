@@ -32,129 +32,191 @@ import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Rotatable;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.html5.ApplicationCache;
-import org.openqa.selenium.html5.BrowserConnection;
-import org.openqa.selenium.html5.DatabaseStorage;
-import org.openqa.selenium.html5.LocalStorage;
-import org.openqa.selenium.html5.LocationContext;
-import org.openqa.selenium.html5.SessionStorage;
+import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.HasTouchScreen;
-import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.interactions.TouchScreen;
+import org.openqa.selenium.interactions.Keyboard;
 
 /**
  * Provides common Selenium objects as Arquillian resources
  *
  * @author Lukas Fryc
  */
-public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
+public abstract class SeleniumResourceProvider implements ResourceProvider {
 
-    public static class WebDriverProvider extends DirectProvider<WebDriver> {
-    }
-
-    public static class JavascriptExecutorProvider extends DirectProvider<JavascriptExecutor> {
-    }
-
-    public static class TakesScreenshotProvider extends DirectProvider<TakesScreenshot> {
-    }
-
-    public static class RotatableProvider extends DirectProvider<Rotatable> {
-    }
-
-    public static class LocationContextProvider extends DirectProvider<LocationContext> {
-    }
-
-    public static class ApplicationCacheProvider extends DirectProvider<ApplicationCache> {
-    }
-
-    public static class BrowserConnectionProvider extends DirectProvider<BrowserConnection> {
-    }
-
-    public static class WebStorageProvider extends DirectProvider<WebStorage> {
-    }
-
-    @SuppressWarnings("deprecation")
-    public static class DatabaseStorageProvider extends DirectProvider<DatabaseStorage> {
-    }
-
-    public static class LocalStorageProvider extends IndirectProvider<LocalStorage, WebStorage> {
+    /**
+     * This is a resource provider for WebDriver interface.
+     * It is used in an internal code.
+     */
+    public static class WebDriverProvider extends DirectProvider {
         @Override
-        public LocalStorage generateProxy(WebStorage base) {
+        protected String getReturnType() {
+            return WebDriver.class.getName();
+        }
+    }
+
+    /**
+     * This is a resource provider for JavascriptExecutor interface.
+     * It is used in an internal code.
+     */
+    public static class JavascriptExecutorProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return JavascriptExecutor.class.getName();
+        }
+    }
+
+    public static class TakesScreenshotProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.TakesScreenshot";
+        }
+    }
+
+    public static class RotatableProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.Rotatable";
+        }
+    }
+
+    public static class LocationContextProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.LocationContext";
+        }
+    }
+
+    public static class ApplicationCacheProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.ApplicationCache";
+        }
+    }
+
+    public static class BrowserConnectionProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.BrowserConnection";
+        }
+    }
+
+    public static class WebStorageProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.WebStorage";
+        }
+    }
+
+    public static class DatabaseStorageProvider extends DirectProvider {
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.DatabaseStorage";
+        }
+    }
+
+    public static class LocalStorageProvider extends IndirectProvider<WebStorage> {
+        @Override
+        public Object generateProxy(WebStorage base) {
             return base.getLocalStorage();
         }
+
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.LocalStorage";
+        }
     }
 
-    public static class SessionStorageProvider extends IndirectProvider<SessionStorage, WebStorage> {
+    public static class SessionStorageProvider extends IndirectProvider<WebStorage> {
         @Override
-        public SessionStorage generateProxy(WebStorage base) {
+        public Object generateProxy(WebStorage base) {
             return base.getSessionStorage();
         }
+
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.html5.SessionStorage";
+        }
     }
 
-    public static class KeyboardProvider extends IndirectProvider<Keyboard, HasInputDevices> {
+    public static class KeyboardProvider extends IndirectProvider<HasInputDevices> {
         @Override
-        public Keyboard generateProxy(HasInputDevices base) {
+        public Object generateProxy(HasInputDevices base) {
             return base.getKeyboard();
         }
+
+        @Override
+        protected String getReturnType() {
+            return Keyboard.class.getName();
+        }
     }
 
-    public static class MouseProvider extends IndirectProvider<Mouse, HasInputDevices> {
+    /**
+     * This is a resource provider for Mouse interface.
+     * It is used in an internal code.
+     */
+    public static class MouseProvider extends IndirectProvider<HasInputDevices> {
         @Override
-        public Mouse generateProxy(HasInputDevices base) {
+        public Object generateProxy(HasInputDevices base) {
             return base.getMouse();
         }
+
+        @Override
+        protected String getReturnType() {
+            return Mouse.class.getName();
+        }
     }
 
-    public static class CapabilitiesProvider extends IndirectProvider<Capabilities, HasCapabilities> {
+    public static class CapabilitiesProvider extends IndirectProvider<HasCapabilities> {
         @Override
-        public Capabilities generateProxy(HasCapabilities base) {
+        public Object generateProxy(HasCapabilities base) {
             return base.getCapabilities();
         }
+
+        @Override
+        protected String getReturnType() {
+            return "org.openqa.selenium.Capabilities";
+        }
     }
 
-    public static class TouchScreenProvider extends IndirectProvider<TouchScreen, HasTouchScreen> {
+    public static class TouchScreenProvider extends IndirectProvider<HasTouchScreen> {
         @Override
-        public TouchScreen generateProxy(HasTouchScreen base) {
+        public Object generateProxy(HasTouchScreen base) {
             return base.getTouch();
         }
-    }
 
-    public static class ActionsProvider extends IndirectProvider<Actions, HasInputDevices> {
         @Override
-        public Actions generateProxy(HasInputDevices base) {
-            Keyboard keyboard = base.getKeyboard();
-            Mouse mouse = base.getMouse();
-            return new Actions(keyboard, mouse);
+        protected String getReturnType() {
+            return "org.openqa.selenium.interactions.TouchScreen";
         }
     }
 
-    protected Class<?> mediatorType;
-    protected Class<?> returnType;
+    /**
+     * This is a resource provider for Action interface.
+     * It is used in an internal code.
+     */
+    public static class ActionsProvider extends IndirectProvider<HasInputDevices> {
+        @Override
+        public Object generateProxy(HasInputDevices base) {
+            return new Actions (base.getKeyboard(), base.getMouse());
+        }
 
-    public SeleniumResourceProvider() {
-        this.returnType = getTypeArgument(0);
-        this.mediatorType = returnType;
+        @Override
+        protected String getReturnType() {
+            return Actions.class.getName();
+        }
     }
+
+    protected abstract String getReturnType();
 
     @Override
     public boolean canProvide(Class<?> type) {
-        return type == this.returnType;
-    }
-
-    protected <BASE> BASE base(final Annotation[] annotations) {
-
-        GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(annotations));
-        return (BASE) context.getWebDriver(returnType);
+        return type.getName().equals(getReturnType());
     }
 
     protected final Class<?> getTypeArgument(int i) {
@@ -168,11 +230,20 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
      *
      * @param <T> type of the returned object
      */
-    private static class DirectProvider<T> extends SeleniumResourceProvider<T> {
-
+    private abstract static class DirectProvider extends SeleniumResourceProvider {
         @Override
-        public T lookup(ArquillianResource resource, Annotation... qualifiers) {
-            return base(qualifiers);
+        public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
+            GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(qualifiers));
+            try {
+                return context.getWebDriver(Class.forName(getReturnType()));
+            } catch (ClassNotFoundException ex) {
+                //the external users:
+                //  - does not have any chance to build a test with classes which are not added on classpath
+                //the intern usage of Providers:
+                //  - the class path may contain a different version of Selenium
+                //  - problem with internal use of Actions, Javascript, Mouse
+                throw new IllegalStateException("The class of the provider is not on the class path.", ex);
+            }
         }
     }
 
@@ -182,13 +253,14 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
      * @param <T> type of the returned object
      * @param <M> type of the WebDriver base
      */
-    private abstract static class IndirectProvider<T, M> extends SeleniumResourceProvider<T> {
+    private abstract static class IndirectProvider<M> extends SeleniumResourceProvider {
+
+        protected Class<?> mediatorType;
 
         public IndirectProvider() {
-            this.mediatorType = getTypeArgument(1);
+            this.mediatorType = getTypeArgument(0);
         }
 
-        @Override
         protected <BASE> BASE base(final Annotation[] annotations) {
             final GrapheneProxy.FutureTarget futureTarget = new GrapheneProxy.FutureTarget() {
                 @Override
@@ -224,7 +296,7 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
             return generateProxy(base);
         }
 
-        public abstract T generateProxy(M mediator);
+        public abstract Object generateProxy(M mediator);
     }
 
     /**
@@ -234,7 +306,7 @@ public abstract class SeleniumResourceProvider<T> implements ResourceProvider {
     public static void registerAllProviders(ExtensionBuilder builder) {
         for (Class<?> clazz : SeleniumResourceProvider.class.getClasses()) {
             if (SeleniumResourceProvider.class.isAssignableFrom(clazz)) {
-                builder.service(ResourceProvider.class, (Class<SeleniumResourceProvider<?>>) clazz);
+                builder.service(ResourceProvider.class, (Class<SeleniumResourceProvider>) clazz);
             }
         }
     }
