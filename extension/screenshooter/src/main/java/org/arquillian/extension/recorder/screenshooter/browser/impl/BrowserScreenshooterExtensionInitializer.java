@@ -20,6 +20,7 @@ import org.arquillian.extension.recorder.screenshooter.Screenshooter;
 import org.arquillian.extension.recorder.screenshooter.ScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.browser.configuration.BrowserScreenshooterConfiguration;
 import org.arquillian.extension.recorder.screenshooter.event.ScreenshooterExtensionConfigured;
+import org.arquillian.recorder.reporter.impl.TakenResourceRegister;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.InstanceProducer;
 import org.jboss.arquillian.core.api.annotation.ApplicationScoped;
@@ -52,6 +53,10 @@ public class BrowserScreenshooterExtensionInitializer {
     private InstanceProducer<GrapheneContext> grapheneContext;
 
     @Inject
+    @ApplicationScoped
+    private InstanceProducer<TakenResourceRegister> takenResourceRegister;
+
+    @Inject
     private Instance<ScreenshooterConfiguration> configuration;
 
     @Inject
@@ -65,12 +70,12 @@ public class BrowserScreenshooterExtensionInitializer {
     public void onScreenshooterExtensionConfigured(@Observes(precedence = Integer.MIN_VALUE) ScreenshooterExtensionConfigured event) {
         TakeScreenshotOnEveryActionInterceptor takeScreenshotOnEveryActionInterceptor = new TakeScreenshotOnEveryActionInterceptor();
         TakeScreenshotBeforeTestInterceptor takeScreenshotBeforeTestInterceptor = new TakeScreenshotBeforeTestInterceptor();
-        BrowserScreenshooter screenshooter = new BrowserScreenshooter();
+        BrowserScreenshooter screenshooter = new BrowserScreenshooter(this.takenResourceRegister.get());
         screenshooter.init(configuration.get());
 
-        if(((BrowserScreenshooterConfiguration) configuration.get()).getTakeOnEveryAction()) {
+        if (((BrowserScreenshooterConfiguration) configuration.get()).getTakeOnEveryAction()) {
             screenshooter.setTakeScreenshoOnEveryActionInterceptor(takeScreenshotOnEveryActionInterceptor);
-        } else if(configuration.get().getTakeBeforeTest()) {
+        } else if (configuration.get().getTakeBeforeTest()) {
             screenshooter.setTakeScreenshotBeforeTestInterceptor(takeScreenshotBeforeTestInterceptor);
         }
 

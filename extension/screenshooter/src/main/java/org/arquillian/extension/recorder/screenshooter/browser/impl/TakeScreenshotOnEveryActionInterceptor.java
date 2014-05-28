@@ -27,7 +27,7 @@ import org.jboss.arquillian.graphene.proxy.InvocationContext;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreenshotInterceptor {
 
