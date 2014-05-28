@@ -28,7 +28,7 @@ import org.openqa.selenium.support.FindBy;
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
-public class SomeAbstractTest extends AbstractWebDriverTest<SomePage> {
+public class SomeTestBase extends WebDriverTestBase<SomePage> {
 
     @FindBy(id = "pseudoroot")
     private WebElement pseudo;

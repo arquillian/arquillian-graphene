@@ -28,7 +28,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
-public class SomeTest extends SomeAbstractTest {
+public class SomeTest extends SomeTestBase {
 
 
     /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
