@@ -21,15 +21,15 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -49,7 +49,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
 /**
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author Juraj Huska
  */
 @RunWith(Arquillian.class)
 @RunAsClient
@@ -65,9 +65,10 @@ public class TestFieldAccessValidatorEnricher {
     private URL contextRoot;
 
     private static final Logger LOGGER = Logger.getLogger(FieldAccessValidatorEnricher.class.getName());
-    private static final String FILE_NAME = "log.txt";
     private static final String PART_OF_WARNING = "Public field";
-    private static FileHandler fileHandler;
+
+    private static Handler logHandler;
+    private static ByteArrayOutputStream logOutput;
 
     @Deployment
     public static WebArchive createTestArchive() {
@@ -81,32 +82,21 @@ public class TestFieldAccessValidatorEnricher {
 
     @BeforeClass
     public static void redirectLoggerOutput() throws IOException {
-        fileHandler = new FileHandler(FILE_NAME);
-        LOGGER.addHandler(fileHandler);
+        logOutput = new ByteArrayOutputStream();
+        logHandler = new StreamHandler(logOutput, new SimpleFormatter());
+        logHandler.setLevel(Level.ALL);
+        LOGGER.addHandler(logHandler);
     }
 
     @Test
     public void testFooBar() throws IOException {
-        File logfile = new File(FILE_NAME);
-        BufferedReader bfr = null;
         try {
-            bfr = new BufferedReader(new FileReader(logfile));
-            String line = bfr.readLine();
-            StringBuilder builder = new StringBuilder();
+            logHandler.flush();
 
-            while (line != null) {
-                builder.append(line);
-                line = bfr.readLine();
-            }
-
-            Assert.assertFalse("There should be no warnign produced by FieldAccessValidatorEnricher!", builder.toString().contains(PART_OF_WARNING));
-        } catch (Exception ex) {
-            Assert.fail("Something gone wrong with test setup, please correct it!");
+            Assert.assertFalse("There should be no warnign produced by FieldAccessValidatorEnricher!", logOutput.toString().contains(PART_OF_WARNING));
         } finally {
-            fileHandler.close();
-            LOGGER.removeHandler(fileHandler);
-            logfile.delete();
-            bfr.close();
+            logHandler.close();
+            LOGGER.removeHandler(logHandler);
         }
     }
 
