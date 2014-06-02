@@ -25,7 +25,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
@@ -94,9 +93,9 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
     protected final Class<?> getActualType(Field field, Object testCase) {
 
         // e.g. TestPage, HomePage
-        Type[] superClassActualTypeArguments = getSuperClassActualTypeArguments(testCase);
+        Type[] superClassActualTypeArguments = GenericTypeInspector.getTypeArguments(testCase);
         // e.g. T, E
-        TypeVariable<?>[] superClassTypeParameters = getSuperClassTypeParameters(testCase);
+        TypeVariable<?>[] superClassTypeParameters = GenericTypeInspector.getTypeParameters(testCase);
 
         // the type parameter has the same index as the actual type
         String fieldParameterTypeName = field.getGenericType().toString();
@@ -189,22 +188,5 @@ public abstract class AbstractSearchContextEnricher implements SearchContextTest
         if (!accessible) {
             field.setAccessible(false);
         }
-    }
-
-    private Type[] getSuperClassActualTypeArguments(Object testCase) {
-        Class<?> clazz = testCase.getClass();
-        while(!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
-            clazz = clazz.getSuperclass();
-        }
-        Type[] actualTypeArguments = ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments();
-        return actualTypeArguments;
-    }
-
-    private TypeVariable<?>[] getSuperClassTypeParameters(Object testCase) {
-        Class<?> clazz = testCase.getClass();
-        while(!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
-            clazz = clazz.getSuperclass();
-        }
-        return clazz.getTypeParameters();
     }
 }
