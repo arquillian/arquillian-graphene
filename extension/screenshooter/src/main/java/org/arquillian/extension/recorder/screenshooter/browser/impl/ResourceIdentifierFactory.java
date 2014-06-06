@@ -1,7 +1,5 @@
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
-import java.util.UUID;
-
 import org.arquillian.extension.recorder.ResourceIdentifier;
 import org.arquillian.extension.recorder.ResourceMetaData;
 import org.arquillian.extension.recorder.ResourceType;
