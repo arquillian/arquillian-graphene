@@ -5,7 +5,7 @@
 [source,xml]
 ----
 <dependency>
-    <groupId>org.arquillian.extension</groupId>
+    <groupId>org.jboss.arquillian.graphene</groupId>
     <artifactId>arquillian-browser-screenshooter</artifactId>
     <version>${version.screenshooter}</version>
 </dependency>
@@ -33,9 +33,6 @@ Following +arquillian.xml+ properties are supported within *screenshooter* quali
 |+rootDir+
 |folder where all screenshots will be placed
 |target
-|+baseDir+
-|folder inside the root folder where the screenshots be placed
-|screenshots
 |+screenshotType+
 |type of taken image
 |PNG
