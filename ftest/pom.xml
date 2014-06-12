@@ -187,5 +187,17 @@
                 <remote>true</remote>
             </properties>
         </profile>
+        
+        <profile>
+            <id>take-screenshots</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.graphene</groupId>
+                    <artifactId>arquillian-browser-screenshooter</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        
     </profiles>
 </project>

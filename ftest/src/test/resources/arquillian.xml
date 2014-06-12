@@ -66,6 +66,13 @@
         <property name="port">4444</property>
         <property name="skip">false</property>
     </extension>
+    
+    <extension qualifier="screenshooter">
+        <property name="takeOnEveryAction">false</property>
+        <property name="takeBeforeTest">false</property>
+        <property name="takeAfterTest">true</property>
+        <property name="takeWhenTestFailed">true</property>
+    </extension>
 
     <container qualifier="tomcat7" default="true">
         <configuration>
