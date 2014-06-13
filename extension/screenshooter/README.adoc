@@ -38,3 +38,20 @@ Following +arquillian.xml+ properties are supported within *screenshooter* quali
 |PNG
 
 |===
+
+== Screenshots naming strategy
+
+The default strategy for naming of the created screenshots is as follows:
+
++rootDir/fullyQualifiedNameOfTheTestClass/nameOfTheTest/[nameOfMethod+counter]_[when].[screenshotType]+
+
+where placeholders in the actual file name mean:
+
+* +nameOfMethod+counter+ - a method which invoked taking of the screenshot when +takeOnEveryAction == true+, equals to +get+ when +takeBeforeTest == true+
++ an integer marking a order in which was the screenshot was taken in a test, defaults to string "unknown"
+* +when+ - one of: after, before, failed, onEveryAction, in_test
+* +screenshotType+ - a file suffix from settings
+
+== Integration with Arquillian Recorder
+
+Graphene screenshooter is built on top of link:https://github.com/arquillian/arquillian-recorder[Arquillian Recoreder]. Considers its link:https://github.com/arquillian/arquillian-recorder/blob/master/README.adoc[documentation] to see what options are there.
