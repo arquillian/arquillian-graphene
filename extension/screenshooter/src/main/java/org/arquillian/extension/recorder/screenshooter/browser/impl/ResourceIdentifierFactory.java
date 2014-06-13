@@ -29,7 +29,7 @@ public class ResourceIdentifierFactory {
             StringBuilder sb = new StringBuilder();
             if (metaData == null || when == null || metaData.getOptionalDescription() == null
                     || metaData.getOptionalDescription().isEmpty()) {
-                sb.append("uknown" + COUNTER++);
+                sb.append("unknown" + COUNTER++);
             } else {
                 sb.append(metaData.getOptionalDescription());
             }
