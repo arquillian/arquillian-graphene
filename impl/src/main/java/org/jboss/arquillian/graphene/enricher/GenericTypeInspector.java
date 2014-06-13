@@ -19,23 +19,32 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.ftest.enricher.hierarchy;
+package org.jboss.arquillian.graphene.enricher;
 
-import static org.junit.Assert.assertNotEquals;
-import org.junit.Test;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 
 /**
  *
- * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class SomeTest extends SomeTestBase {
+public class GenericTypeInspector {
 
+    public static Type[] getTypeArguments(Object target) {
+        Class<?> clazz = target.getClass();
+        while(!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
+            clazz = clazz.getSuperclass();
+        }
+        Type[] actualTypeArguments = ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments();
+        return actualTypeArguments;
+    }
 
-    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
-    * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix.
-    */
-    @Test
-    public void test() {
-        assertNotEquals(page.getRoot().getText(), getPseudo().getText());
+    public static TypeVariable<?>[] getTypeParameters(Object target) {
+        Class<?> clazz = target.getClass();
+        while(clazz.getTypeParameters().length == 0) {
+            clazz = clazz.getSuperclass();
+        }
+        return clazz.getTypeParameters();
     }
 }

@@ -19,23 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.ftest.enricher.hierarchy;
-
-import static org.junit.Assert.assertNotEquals;
-import org.junit.Test;
+package org.jboss.arquillian.graphene.enricher.genericTypes;
 
 /**
  *
- * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class SomeTest extends SomeTestBase {
+public class MoreSpecificAbstractTest2<A, B> extends AbstractTest<A, B, Double> {
 
-
-    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
-    * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix.
-    */
-    @Test
-    public void test() {
-        assertNotEquals(page.getRoot().getText(), getPseudo().getText());
-    }
 }

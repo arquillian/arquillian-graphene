@@ -21,21 +21,19 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher.hierarchy;
 
-import static org.junit.Assert.assertNotEquals;
-import org.junit.Test;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 /**
  *
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
-public class SomeTest extends SomeTestBase {
+public class SomeTestBase extends WebDriverTestBase<SomePage> {
 
+    @FindBy(id = "pseudoroot")
+    private WebElement pseudo;
 
-    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
-    * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix.
-    */
-    @Test
-    public void test() {
-        assertNotEquals(page.getRoot().getText(), getPseudo().getText());
+    protected WebElement getPseudo() {
+        return pseudo;
     }
 }

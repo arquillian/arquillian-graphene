@@ -23,6 +23,7 @@ package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Collection;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -47,9 +48,24 @@ public class GrapheneEnricher implements TestEnricher {
 
     @Override
     public void enrich(Object o) {
-        for (SearchContextTestEnricher enricher : AbstractSearchContextEnricher.getSortedSearchContextEnrichers(serviceLoader)) {
-            enricher.enrich(null, o);
+        Collection<SearchContextTestEnricher> sortedSearchContextEnrichers = AbstractSearchContextEnricher.getSortedSearchContextEnrichers(serviceLoader);
+
+        for (SearchContextTestEnricher enricher : sortedSearchContextEnrichers) {
+            if (isApplicableToTestClass(enricher)) {
+                enricher.enrich(null, o);
+            }
         }
+    }
+
+    /**
+     * Returns true if the given enricher should be applied to test class itself.
+     */
+    private boolean isApplicableToTestClass(SearchContextTestEnricher enricher) {
+        if (enricher instanceof FieldAccessValidatorEnricher) {
+            // ARQGRA-433: FieldAccessValidator should control only classes instantiated by Graphene, not the Test Case object
+            return false;
+        }
+        return true;
     }
 
     @Override

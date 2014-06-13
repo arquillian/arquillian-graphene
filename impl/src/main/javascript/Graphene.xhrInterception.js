@@ -64,6 +64,16 @@ window.Graphene.xhrInterception = (function() {
         setRequestHeader : function() {
             return invokeInterceptorChain(this, 'setRequestHeader', arguments);
         },
+        overrideMimeType : function() {
+            return invokeInterceptorChain(this, 'overrideMimeType', arguments);
+        },
+        onloadstart : undefined,
+        onprogress : undefined,
+        onabort : undefined,
+        onerror : undefined,
+        onload : undefined,
+        ontimeout : undefined,
+        onloadend : undefined,
         onreadystatechange : undefined
     };
 
@@ -92,6 +102,9 @@ window.Graphene.xhrInterception = (function() {
             this.readyState = this.xhr.readyState;
             this.response = this.xhr.response;
             this.responseType = this.xhr.responseType;
+            this.timeout = this.xhr.timeout;
+            this.withCredentials = this.xhr.withCredentials;
+            this.upload = this.xhr.upload;
             //do not read the response parameters until open/send functions are called: the ActiveXObjects do not like it
             if (this.xhr.readyState == 4) {
                 this.responseText = this.xhr.responseText;
@@ -99,18 +112,19 @@ window.Graphene.xhrInterception = (function() {
                 this.status = this.xhr.status;
                 this.statusText = this.xhr.statusText;
             }
-            this.xhr.onreadystatechange = callback(this);
+            this.xhr.onreadystatechange = callback(this, false);
+            this.xhr.onload = callback(this, true);
         };
         InterceptedXMLHttpRequest.prototype = wrapperPrototype;
         return InterceptedXMLHttpRequest;
     };
 
     /**
-     * onreadystatechange callback which is registered on true XHR instance.
+     * onreadystatechange/onload callback which is registered on true XHR instance.
      *
      * Delegates to intercepter chain.
      */
-    var callback = function(wrapper) {
+    var callback = function(wrapper, xhr2) {
         return function() {
             //do not use 'this' since host objects behave differently
             wrapper.readyState = wrapper.xhr.readyState;
@@ -120,7 +134,7 @@ window.Graphene.xhrInterception = (function() {
                 wrapper.status = wrapper.xhr.status;
                 wrapper.statusText = wrapper.xhr.statusText;
             }
-            invokeInterceptorChain(wrapper, 'onreadystatechange', [ wrapper ]);
+            invokeInterceptorChain(wrapper, xhr2 ? 'onload' : 'onreadystatechange', [ wrapper ]);
         };
     };
 
@@ -196,7 +210,7 @@ window.Graphene.xhrInterception = (function() {
      */
     var invokeRealMethod = function(wrapper, methodName, args) {
         //proxy both types, the native and host, objects
-        var xhr = (methodName === 'onreadystatechange') ? wrapper : new XMLHttpRequestProxy(wrapper.xhr);
+        var xhr = (methodName === 'onreadystatechange' || methodName === 'onload') ? wrapper : new XMLHttpRequestProxy(wrapper.xhr);
         if (methodName === 'construct') {
             return new original();
         }
@@ -207,11 +221,11 @@ window.Graphene.xhrInterception = (function() {
 
     /**
      * Proxy for native and ActiveXObject XMLHttpRequest instances.
-     * Simply expands the (arguments-) array into function calls since we do not have any 
-     * 'splat' functions in JavaScript.	 
+     * Simply expands the (arguments-) array into function calls since we do not have any
+     * 'splat' functions in JavaScript.
      * Enables transparent invocation of <i>call</i> and <i>apply</i> functions on host objects.
      * @param xhr original XHR instance.
-     **/ 
+     **/
     var XMLHttpRequestProxy = function (xhr) {
         this.xhr = xhr;
     };
@@ -233,6 +247,30 @@ window.Graphene.xhrInterception = (function() {
     };
     XMLHttpRequestProxy.prototype.setRequestHeader = function(header, value) {
         return this.xhr.setRequestHeader(header, value);
+    };
+    XMLHttpRequestProxy.prototype.overrideMimeType = function(mime) {
+        return this.xhr.overrideMimeType(mime);
+    };
+    XMLHttpRequestProxy.prototype.onloadstart = function() {
+        return this.xhr.onloadstart();
+    };
+    XMLHttpRequestProxy.prototype.onprogress = function() {
+        return this.xhr.onprogress();
+    };
+    XMLHttpRequestProxy.prototype.onabort = function() {
+        return this.xhr.onabort();
+    };
+    XMLHttpRequestProxy.prototype.onerror = function() {
+        return this.xhr.onerror();
+    };
+    XMLHttpRequestProxy.prototype.onload = function() {
+        return this.xhr.onload();
+    };
+    XMLHttpRequestProxy.prototype.ontimeout = function() {
+        return this.xhr.ontimeout();
+    };
+    XMLHttpRequestProxy.prototype.onloadend = function() {
+        return this.xhr.onloadend();
     };
 
     /* PUBLIC METHODS */
@@ -308,6 +346,26 @@ window.Graphene.xhrInterception = (function() {
             registerInterceptor('setRequestHeader', interceptor);
         },
         /**
+         * Registers intercepter for overrideMimeType method.
+         *
+         * Interceptor is function with two params: context and args.
+         *
+         * Sample: function(context, args) { context.proceed(args); }
+         */
+        onOverrideMimeTypes : function(interceptor) {
+            registerInterceptor('overrideMimeType', interceptor);
+        },
+        /**
+         * Registers intercepter for onload callback method.
+         *
+         * Interceptor is function with two params: context and args.
+         *
+         * Sample: function(context, args) { context.proceed(args); }
+         */
+        onload : function(interceptor) {
+            registerInterceptor('onload', interceptor);
+        },
+        /**
          * Registers intercepter for onreadystatechange callback method.
          *
          * Interceptor is function with two params: context and args.
@@ -317,5 +375,5 @@ window.Graphene.xhrInterception = (function() {
         onreadystatechange : function(interceptor) {
             registerInterceptor('onreadystatechange', interceptor);
         }
-    }
+    };
 })();
