@@ -48,7 +48,7 @@ The default strategy for naming of the created screenshots is as follows:
 where placeholders in the actual file name mean:
 
 * +nameOfMethod+counter+ - a method which invoked taking of the screenshot when +takeOnEveryAction == true+, equals to +get+ when +takeBeforeTest == true+
-+ an integer marking a order in which was the screenshot was taken in a test, defaults to string "unknown"
++ an integer marking an order in which was the screenshot taken in a test, defaults to string "unknown"
 * +when+ - one of: after, before, failed, onEveryAction, in_test
 * +screenshotType+ - a file suffix from settings
 
