@@ -39,7 +39,7 @@ import org.openqa.selenium.WebDriver;
  * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
  */
 @RunWith(Arquillian.class)
-public class AbstractWebDriverTest<P extends AbstractPage> {
+public class WebDriverTestBase<P extends AbstractPage> {
 
     @Drone
     protected WebDriver driver;

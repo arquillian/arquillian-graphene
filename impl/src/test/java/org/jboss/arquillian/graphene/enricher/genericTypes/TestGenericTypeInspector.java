@@ -19,21 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.ftest.enricher.hierarchy;
+package org.jboss.arquillian.graphene.enricher.genericTypes;
 
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.jboss.arquillian.graphene.enricher.GenericTypeInspector;
+import org.junit.Test;
 
 /**
  *
- * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class SomeAbstractTest extends AbstractWebDriverTest<SomePage> {
+public class TestGenericTypeInspector extends MoreSpecificAbstractTest<String, Integer, Double> {
 
-    @FindBy(id = "pseudoroot")
-    private WebElement pseudo;
+    @Test
+    public void testGetTypeArguments() {
+        GenericTypeTestUtil.compareTypeArguments(
+                new Class<?>[]{String.class, Integer.class, Double.class},
+                GenericTypeInspector.getTypeArguments(this));
+    }
 
-    protected WebElement getPseudo() {
-        return pseudo;
+    @Test
+    public void testGetTypeParameters() {
+        GenericTypeTestUtil.compareTypeParameters(
+                new String[]{"A", "B", "C"},
+                GenericTypeInspector.getTypeParameters(this));
     }
 }

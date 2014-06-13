@@ -19,23 +19,28 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.ftest.enricher.hierarchy;
+package org.jboss.arquillian.graphene.enricher.genericTypes;
 
-import static org.junit.Assert.assertNotEquals;
+import org.jboss.arquillian.graphene.enricher.GenericTypeInspector;
 import org.junit.Test;
 
 /**
  *
- * @author <a href="mailto:pmensik@redhat.com">Petr Mensik</a>
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class SomeTest extends SomeTestBase {
+public class TestGenericTypeInspector3 extends AbstractTest<String, Integer, Double> {
 
-
-    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
-    * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix.
-    */
     @Test
-    public void test() {
-        assertNotEquals(page.getRoot().getText(), getPseudo().getText());
+    public void testGetTypeArguments() {
+        GenericTypeTestUtil.compareTypeArguments(
+                new Class<?>[]{String.class, Integer.class, Double.class},
+                GenericTypeInspector.getTypeArguments(this));
+    }
+
+    @Test
+    public void testGetTypeParameters() {
+        GenericTypeTestUtil.compareTypeParameters(
+                new String[]{"A", "B", "C"},
+                GenericTypeInspector.getTypeParameters(this));
     }
 }

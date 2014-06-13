@@ -13,7 +13,7 @@
     <properties>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
 
-        <browser>htmlUnit</browser>
+        <browser>phantomjs</browser>
         <remote>false</remote>
         <remoteReusable>false</remoteReusable>
         <remoteAddress>http://localhost:4444/wd/hub/</remoteAddress>
@@ -160,9 +160,9 @@
         </profile>
 
         <profile>
-            <id>webdriver-phantomjs</id>
+            <id>webdriver-htmlUnit</id>
             <properties>
-                <browser>phantomjs</browser>
+                <browser>htmlUnit</browser>
             </properties>
         </profile>
 

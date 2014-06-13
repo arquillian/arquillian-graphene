@@ -1,0 +1,63 @@
+<!--
+
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and individual contributors
+    by the @authors tag. See the copyright.txt in the distribution for a
+    full listing of individual contributors.
+
+    This is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as
+    published by the Free Software Foundation; either version 2.1 of
+    the License, or (at your option) any later version.
+
+    This software is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this software; if not, write to the Free
+    Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+    02110-1301 USA, or see the FSF site: http://www.fsf.org.
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<script type="text/javascript">
+        function makeXHR2() {
+        	var xhr = new XMLHttpRequest();
+        	xhr.open("GET", "sample1.html", true);
+        	xhr.responseType = 'text';
+        	xhr.onload = function (e) {
+        		if (this.readyState == 4 && (this.status == 200 || this.status === 304)) {
+        	 	  response = document.getElementById("response2");
+        	 	  response.innerHTML = "XHR 2 request successfull";
+        	    }
+        	};
+        	xhr.send(null);
+        }
+        function makeXHR1(txt) {
+        	var xhr = new XMLHttpRequest();
+        	xhr.open("GET", "sample1.html", true);
+        	xhr.onreadystatechange = function(e) {
+        		if (this.readyState == 4 && (this.status == 200 || this.status === 304)) {
+          	 	  response = document.getElementById("response1");
+          	 	  response.innerHTML = "XHR 1 request successfull";
+        		}
+        	};
+        	xhr.send(null);
+         }
+        </script>
+</head>
+<body>
+	<h1>Hello World!</h1>
+	<a href="#" id="xhr1Trigger" onclick="makeXHR1()">XHR 1</a>
+	<a href="#" id="xhr2Trigger" onclick="makeXHR2()">XHR 2</a>
+	<div id="response1"></div>
+	<div id="response2"></div>
+</body>
+</html>
