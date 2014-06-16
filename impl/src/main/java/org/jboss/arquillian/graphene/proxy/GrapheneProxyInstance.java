@@ -43,5 +43,5 @@ public interface GrapheneProxyInstance {
 
     <T> T unwrap();
 
-    GrapheneContext getContext();
+    GrapheneContext getGrapheneContext();
 }

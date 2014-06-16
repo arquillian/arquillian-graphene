@@ -94,7 +94,7 @@ public class ByJQueryImpl extends By {
 
     private GrapheneContext getGrapheneContext(SearchContext searchContext) {
         if (searchContext instanceof GrapheneProxyInstance) {
-            return ((GrapheneProxyInstance) searchContext).getContext();
+            return ((GrapheneProxyInstance) searchContext).getGrapheneContext();
         } else {
             return GrapheneContext.lastContext();
         }

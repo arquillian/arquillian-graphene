@@ -56,7 +56,7 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
         try {
             List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
             for (Field field : fields) {
-                GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+                GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getGrapheneContext();
                 final SearchContext localSearchContext;
                 if (grapheneContext == null) {
                     grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
