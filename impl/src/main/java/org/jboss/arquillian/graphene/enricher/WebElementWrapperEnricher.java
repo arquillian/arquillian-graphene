@@ -68,7 +68,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                 if (isValidClass(field.getType())) {
                     final SearchContext localSearchContext;
                     GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext)
-                        .getContext();
+                        .getGrapheneContext();
                     if (grapheneContext == null) {
                         grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
                         localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
@@ -95,7 +95,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                 } else if (field.getType().isAssignableFrom(List.class) && isValidClass(getListType(field))) {
                     final SearchContext localSearchContext;
                     GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext)
-                        .getContext();
+                        .getGrapheneContext();
                     if (grapheneContext == null) {
                         grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
                         localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
