@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.ftest.drone;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+
 import static org.junit.Assert.assertTrue;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -28,21 +30,22 @@ import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 
 /**
  * @author Lukas Fryc
  * @author Jan Papousek
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class GrapheneDroneHtmlUnitDriverIntegrationTestCase {
 
     @Drone
-    HtmlUnitDriver browser;
+    PhantomJSDriver browser;
 
     @Test
     public void created_instance_should_be_instance_of_requested_driver() {
-        assertTrue("browser must be HtmlUnitDriver", browser instanceof HtmlUnitDriver);
+        assertTrue("browser must be PhantomJS driver", browser instanceof PhantomJSDriver);
     }
 
     @Test

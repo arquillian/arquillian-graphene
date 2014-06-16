@@ -21,21 +21,28 @@
  */
 package org.jboss.arquillian.graphene.ftest.configuration;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class ResourceTestCase {
 
     @ArquillianResource
     private GrapheneConfiguration configuration;
+
+    @Drone
+    private WebDriver browser;
 
     @Test
     public void testNotNull() {

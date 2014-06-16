@@ -21,17 +21,22 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+
 import static org.junit.Assert.assertNotNull;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 /**
  * @author Juraj Huska
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class TestInitializeNestedPageFragments {
 
     @FindBy(id = "foo")
@@ -39,6 +44,9 @@ public class TestInitializeNestedPageFragments {
 
     @FindBy(id = "foo")
     private NestedStaticPageFragment nestedStaticPageFragment;
+
+    @Drone
+    private WebDriver browser;
 
     @Test
     public void testInnerPageFragmentInitialized() {

@@ -21,17 +21,22 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+
 import static org.junit.Assert.assertNotNull;
 
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class TestInitializingNestedPageObjects {
 
     @Page
@@ -39,6 +44,9 @@ public class TestInitializingNestedPageObjects {
 
     @Page
     private NestedStaticPageObject nestedStaticPageObject;
+
+    @Drone
+    private WebDriver browser;
 
     @Test
     public void testInitializingInnerPageObjects() {

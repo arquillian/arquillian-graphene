@@ -41,12 +41,12 @@
     </extension>
 
     <extension qualifier="webdriver-browser1">
-        <property name="browser">htmlUnit</property>
+        <property name="browser">phantomjs</property>
         <property name="remote">false</property>
     </extension>
 
     <extension qualifier="webdriver-browser2">
-        <property name="browser">htmlUnit</property>
+        <property name="browser">phantomjs</property>
         <property name="remote">false</property>
     </extension>
     
@@ -71,7 +71,7 @@
         <property name="takeOnEveryAction">false</property>
         <property name="takeBeforeTest">false</property>
         <property name="takeAfterTest">true</property>
-        <property name="takeWhenTestFailed">true</property>
+        <property name="takeWhenTestFailed">false</property>
     </extension>
 
     <container qualifier="tomcat7" default="true">
