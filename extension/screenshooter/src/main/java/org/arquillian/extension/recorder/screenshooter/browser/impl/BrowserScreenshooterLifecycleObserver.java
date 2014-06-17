@@ -30,6 +30,7 @@ import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.test.spi.TestResult;
 import org.jboss.arquillian.test.spi.event.suite.After;
@@ -67,15 +68,12 @@ public class BrowserScreenshooterLifecycleObserver {
     @Inject
     private Instance<TestResult> testResult;
 
-    @Inject
-    private Instance<GrapheneContext> grapheneContext;
-
-    public void beforeObserver(@Observes(precedence = Integer.MIN_VALUE) Before event) {
+    public void beforeObserver(@Observes(precedence = Integer.MAX_VALUE) Before event) {
         ScreenshotMetaData metaData = getMetaData(event);
         AbstractTakeScreenshotInterceptor takeScreenshotInterceptor = null;
         metaData.setResourceType(getScreenshotType());
 
-        WebDriver browser = grapheneContext.get().getWebDriver();
+        WebDriver browser = GrapheneContext.getContextFor(Default.class).getWebDriver();
 
         if (((BrowserScreenshooterConfiguration) configuration.get()).getTakeOnEveryAction()) {
             takeScreenshotInterceptor = takeScreenshotOnEveryActionInterceptor.get();

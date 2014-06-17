@@ -32,7 +32,7 @@ import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- * 
+ *
  */
 public abstract class AbstractTakeScreenshotInterceptor implements Interceptor {
 

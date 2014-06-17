@@ -43,7 +43,7 @@ public class BrowserScreenshooterExtensionInitializer {
     @Inject
     @ApplicationScoped
     private InstanceProducer<TakenResourceRegister> takenResourceRegister;
-    
+
     @Inject
     @ApplicationScoped
     private InstanceProducer<TakeScreenshotOnEveryActionInterceptor> takeScreenshotOnEveryActionInterceptor;
@@ -53,15 +53,11 @@ public class BrowserScreenshooterExtensionInitializer {
     private InstanceProducer<TakeScreenshotBeforeTestInterceptor> takeScreenshotBeforeTestInterceptor;
 
     @Inject
-    @ApplicationScoped
-    private InstanceProducer<GrapheneContext> grapheneContext;
-
-    @Inject
     private Instance<ScreenshooterConfiguration> configuration;
 
     @Inject
     private Instance<ServiceLoader> serviceLoader;
-    
+
     /**
      * Creates {@link Screenshooter} instance.
      *
@@ -70,11 +66,11 @@ public class BrowserScreenshooterExtensionInitializer {
     public void onScreenshooterExtensionConfigured(@Observes(precedence = Integer.MIN_VALUE) ScreenshooterExtensionConfigured event) {
         TakeScreenshotOnEveryActionInterceptor takeScreenshotOnEveryActionInterceptor = new TakeScreenshotOnEveryActionInterceptor();
         TakeScreenshotBeforeTestInterceptor takeScreenshotBeforeTestInterceptor = new TakeScreenshotBeforeTestInterceptor();
-        
+
         if (takenResourceRegister.get() == null) {
             this.takenResourceRegister.set(new TakenResourceRegister());
         }
-        
+
         BrowserScreenshooter screenshooter = new BrowserScreenshooter(takenResourceRegister.get());
         screenshooter.init(configuration.get());
 
@@ -84,7 +80,6 @@ public class BrowserScreenshooterExtensionInitializer {
             screenshooter.setTakeScreenshotBeforeTestInterceptor(takeScreenshotBeforeTestInterceptor);
         }
 
-        this.grapheneContext.set(GrapheneContext.getContextFor(Default.class));
         this.takeScreenshotOnEveryActionInterceptor.set(takeScreenshotOnEveryActionInterceptor);
         this.takeScreenshotBeforeTestInterceptor.set(takeScreenshotBeforeTestInterceptor);
         this.screenshooter.set(screenshooter);
