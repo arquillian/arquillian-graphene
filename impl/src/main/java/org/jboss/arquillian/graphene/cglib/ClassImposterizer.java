@@ -43,7 +43,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sf.cglib.core.DefaultNamingPolicy;
 import net.sf.cglib.core.NamingPolicy;
@@ -104,10 +106,23 @@ public class ClassImposterizer  {
 
     private static final CallbackFilter IGNORE_BRIDGE_METHODS = new CallbackFilter() {
         public int accept(Method method) {
+            if (isFilteredMethod(method)) {
+                return 1;
+            }
             return method.isBridge() ? 1 : 0;
         }
-    };
 
+        private boolean isFilteredMethod(Method method){
+            String[] groovyIgnores = {"$", "this$", "super$", "getMetaClass"};
+            Set<String> groovyPrefixes = new HashSet<String>(Arrays.asList(groovyIgnores));
+            for (String prefix : groovyPrefixes) {
+                if(method.getName().startsWith(prefix)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
     protected <T> T imposteriseProtected(MethodInterceptor interceptor, Class<?> mockedType, Class<?>... ancillaryTypes) {
         if (mockedType.isInterface()) {
             return imposteriseInterface(interceptor, mockedType, ancillaryTypes);
