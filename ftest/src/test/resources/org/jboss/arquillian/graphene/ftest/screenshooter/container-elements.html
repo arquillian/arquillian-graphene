@@ -1,0 +1,116 @@
+<!--
+
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and individual contributors
+    by the @authors tag. See the copyright.txt in the distribution for a
+    full listing of individual contributors.
+
+    This is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public License as
+    published by the Free Software Foundation; either version 2.1 of
+    the License, or (at your option) any later version.
+
+    This software is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this software; if not, write to the Free
+    Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+    02110-1301 USA, or see the FSF site: http://www.fsf.org.
+
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+.tabpanel-tab-act {
+	color: red;
+}
+
+.tabpanel-tab-inact {
+	color: #A8A8A8;
+}
+
+.tabpanel-cnt {
+	border: 2px solid;
+}
+</style>
+</head>
+<body>
+	<div class="tabpanel">
+		<div class="tabpanel-hdr">
+			<table class="tabpanel-tabs">
+				<tr>
+					<td id="tabHidden1" class="tabpanel-tab-inact" style="display: none;">First
+						tab</td>
+					<td id="defaultVisible" class="tabpanel-tab-act">First tab</td>
+					<td id="tabHidden2" class="tabpanel-tab-inact">Second tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Second tab</td>
+					<td id="tabHidden3" class="tabpanel-tab-inact">Third tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Third tab</td>
+					<td id="tabHidden4" class="tabpanel-tab-inact">Fourth tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Fourth tab</td>
+					<td id="tabHidden5" class="tabpanel-tab-inact">Fifth tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Fifth tab</td>
+					<td id="tabHidden6" class="tabpanel-tab-inact">Sixth tab</td>
+					<td class="tabpanel-tab-act" style="display: none;">Sixth tab</td>
+				</tr>
+			</table>
+		</div>
+		<div class="tabpanel-cnt">
+			<div id="tabpanel-tab1" class="tabpanel-tab">
+				<span class="tab-text">Content of the tab 1</span>
+			</div>
+			<div id="tabpanel-tab2" class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 2</span>
+			</div>
+			<div id="tabpanel-tab3" class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 3</span>
+			</div>
+			<div id="tabpanel-tab4" class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 4</span>
+			</div>
+			<div id="tabpanel-tab5" class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 5</span>
+			</div>
+			<div id="tabpanel-tab6" class="tabpanel-tab" style="display: none;">
+				<span class="tab-text">Content of the tab 6</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var previousHidden = document.getElementById('tabHidden1');
+		var previousActive = document.getElementById('defaultVisible');
+		var previousActivePanel = document
+				.getElementById('tabpanel-tab1');
+
+	    for (var i = 1; i <= 6; i++) {
+            var e = document.getElementById('tabHidden' + i);
+			(function(index, e) {
+				e.onclick = function(e) {
+					e = e || window.event;
+					e = e.target || e.srcElement;
+
+					previousHidden.style.display = 'inline';
+					previousActive.style.display = 'none';
+
+					e.style.display = 'none';
+					e.nextSibling.nextSibling.style.display = 'inline';
+
+					previousHidden = e;
+					previousActive = e.nextSibling.nextSibling;
+
+					previousActivePanel.style.display = 'none';
+					var currentPanel = document
+							.getElementById('tabpanel-tab' + index);
+					currentPanel.style.display = 'block';
+					previousActivePanel = currentPanel;
+				}
+			})(i, e);
+
+		}
+	</script>
+</body>
+</html>

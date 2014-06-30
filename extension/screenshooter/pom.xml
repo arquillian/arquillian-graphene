@@ -26,14 +26,31 @@
 
     <!-- Properties -->
     <properties>
-        <version.recorder.screenshooter>1.0.0.Alpha3</version.recorder.screenshooter>
+        <version.recorder.screenshooter>1.0.0.Alpha4-SNAPSHOT</version.recorder.screenshooter>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <browser>phantomjs</browser>
+        <remote>false</remote>
+        <remoteReusable>false</remoteReusable>
+        <remoteAddress>http://localhost:4444/wd/hub/</remoteAddress>
+
+        <platform>ANY</platform>
+        <browser.version>undefined</browser.version>
+        
+        <tomcat.version>7.0.26</tomcat.version>
+        <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
+        <arquillian.tomcat.version>1.0.0.CR4</arquillian.tomcat.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.arquillian.extension</groupId>
             <artifactId>arquillian-recorder-screenshooter-impl-base</artifactId>
+            <version>${version.recorder.screenshooter}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.arquillian.extension</groupId>
+            <artifactId>arquillian-recorder-screenshooter-spi</artifactId>
             <version>${version.recorder.screenshooter}</version>
         </dependency>
         <dependency>
@@ -46,6 +63,134 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-webdriver</artifactId>
         </dependency>
+        
+        <!-- Arquillian JUnit -->
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-tomcat-managed-7</artifactId>
+            <version>${arquillian.tomcat.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+    
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.googlecode.t7mp</groupId>
+                                    <artifactId>tomcat</artifactId>
+                                    <version>${tomcat.version}.A</version>
+                                    <type>zip</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-tomcat-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${tomcat.home}/conf</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/test/resources/tomcat</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>webdriver-chrome</id>
+            <properties>
+                <browser>chrome</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-htmlUnit</id>
+            <properties>
+                <browser>htmlUnit</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-firefox</id>
+            <properties>
+                <browser>firefox</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-opera</id>
+            <properties>
+                <browser>opera</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-remote-reusable</id>
+            <properties>
+                <remoteReusable>true</remoteReusable>
+                <remote>true</remote>
+            </properties>
+        </profile>
+
+    </profiles>
 
 </project>

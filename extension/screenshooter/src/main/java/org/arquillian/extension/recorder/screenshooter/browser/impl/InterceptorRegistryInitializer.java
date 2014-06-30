@@ -21,12 +21,29 @@
  */
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
-import org.arquillian.extension.recorder.screenshooter.Screenshot;
+import org.arquillian.extension.recorder.screenshooter.Screenshooter;
+import org.jboss.arquillian.core.api.Instance;
+import org.jboss.arquillian.core.api.InstanceProducer;
+import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.core.api.annotation.Observes;
+import org.jboss.arquillian.test.spi.annotation.TestScoped;
+import org.jboss.arquillian.test.spi.event.suite.Before;
 
 /**
- * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class BrowserScreenshot extends Screenshot {
+public class InterceptorRegistryInitializer {
 
+    @Inject
+    private Instance<Screenshooter> screenshooter;
+
+    @Inject
+    @TestScoped
+    private InstanceProducer<InterceptorRegistry> interceptorRegistryProducer;
+
+    public void setInterceptorRegistry(@Observes(precedence = Integer.MAX_VALUE) Before event) {
+        InterceptorRegistry interceptorRegistry = new InterceptorRegistry();
+        interceptorRegistryProducer.set(interceptorRegistry);
+    }
 }

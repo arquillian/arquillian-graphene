@@ -19,14 +19,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.arquillian.extension.recorder.screenshooter.browser.impl;
+package org.jboss.arquillian.graphene.screenshooter.ftest;
 
-import org.arquillian.extension.recorder.screenshooter.Screenshot;
+
+import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+import org.fest.util.Collections;
+import org.junit.After;
+import org.junit.Test;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
- *
  */
-public class BrowserScreenshot extends Screenshot {
+public class TestScreenshooterAfter extends AbstractScreenshooterTest {
 
+    private final String TEST_NAME = TestScreenshooterAfter.class.getSimpleName();
+
+    @After
+    public void checkScreenAfter() {
+        List<String> actualNames = Collections.list(
+                new File(SCREEN_DIR + TEST_NAME + "/screenshooter_conf_should_be_used").list());
+        actualNames.contains("after.png");
+    }
+
+    @Test
+    public void screenshooter_conf_should_be_used() {
+        assertEquals(fragment.getInnerElement().getText(), "pseudo root");
+        make4WebDriverActions();
+    }
 }

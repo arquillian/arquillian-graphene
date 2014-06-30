@@ -40,28 +40,6 @@
         <property name="chromeDriverBinary">/opt/google/chrome/chromedriver</property>
     </extension>
 
-    <extension qualifier="webdriver-browser1">
-        <property name="browser">phantomjs</property>
-        <property name="remote">false</property>
-    </extension>
-
-    <extension qualifier="webdriver-browser2">
-        <property name="browser">phantomjs</property>
-        <property name="remote">false</property>
-    </extension>
-    
-    <extension qualifier="webdriver-browser2">
-        <property name="browser">firefox</property>
-        <property name="remote">false</property>
-    </extension>
-
-    <!-- Set a different remote address then default for RemoteReusableTesting -->
-    <extension qualifier="webdriver-reusable">
-        <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
-        <property name="remoteReusable">true</property>
-        <property name="browser">htmlUnit</property>
-    </extension>
-
     <extension qualifier="selenium-server">
         <property name="port">4444</property>
         <property name="skip">false</property>

@@ -19,14 +19,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.arquillian.extension.recorder.screenshooter.browser.impl;
+package org.jboss.arquillian.graphene.screenshooter.ftest;
 
-import org.arquillian.extension.recorder.screenshooter.Screenshot;
+import org.jboss.arquillian.graphene.GrapheneElement;
+import org.jboss.arquillian.graphene.fragment.Root;
+import org.openqa.selenium.support.FindBy;
 
 /**
- * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *
+ * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-public class BrowserScreenshot extends Screenshot {
+public class Fragment {
 
-}
+        @Root
+        private GrapheneElement root;
+
+        @FindBy(id = "pseudoroot")
+        private GrapheneElement innerElement;
+
+        public GrapheneElement getInnerElement() {
+            return innerElement;
+        }
+
+        public GrapheneElement getRoot() {
+            return root;
+        }
+    }
