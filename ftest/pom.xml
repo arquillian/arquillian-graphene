@@ -21,9 +21,9 @@
         <platform>ANY</platform>
         <browser.version>undefined</browser.version>
 
-        <tomcat.version>7.0.26</tomcat.version>
+        <tomcat.version>7.0.55</tomcat.version>
         <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
-        <arquillian.tomcat.version>1.0.0.CR4</arquillian.tomcat.version>
+        <arquillian.tomcat.version>1.0.0.CR6</arquillian.tomcat.version>
     </properties>
 
     <dependencies>
@@ -115,9 +115,9 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>com.googlecode.t7mp</groupId>
+                                    <groupId>org.apache.tomcat</groupId>
                                     <artifactId>tomcat</artifactId>
-                                    <version>${tomcat.version}.A</version>
+                                    <version>${tomcat.version}</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
