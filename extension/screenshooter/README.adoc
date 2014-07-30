@@ -52,6 +52,8 @@ where placeholders in the actual file name mean:
 * +when+ - one of: after, before, failed, onEveryAction, in_test
 * +screenshotType+ - a file suffix from settings
 
+Please be aware that this default naming strategy is *subject to change* in higher versions.
+
 == Integration with Arquillian Recorder
 
 Graphene screenshooter is built on top of link:https://github.com/arquillian/arquillian-recorder[Arquillian Recoreder]. Considers its link:https://github.com/arquillian/arquillian-recorder/blob/master/README.adoc[documentation] to see what options are there.
