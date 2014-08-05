@@ -52,6 +52,11 @@
         <property name="takeWhenTestFailed">true</property>
     </extension>
 
+    <extension qualifier="reporter">
+        <property name="report">html5</property>
+    </extension>
+
+
     <container qualifier="tomcat7" default="true">
         <configuration>
             <property name="javaVmArguments">-Xms1024m -Xmx1024m -XX:MaxPermSize=512m -Dcom.sun.management.jmxremote
