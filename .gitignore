@@ -4,3 +4,6 @@ test-output
 .settings
 .project
 chromedriver.log
+nb-configuration.xml
+*.iml
+.idea

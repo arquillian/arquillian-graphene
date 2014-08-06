@@ -124,7 +124,7 @@ window.Graphene.xhrInterception = (function() {
      *
      * Delegates to intercepter chain.
      */
-    var callback = function(wrapper, xhr2) {
+    var callback = function(wrapper, isOnload) {
         return function() {
             //do not use 'this' since host objects behave differently
             wrapper.readyState = wrapper.xhr.readyState;
@@ -134,7 +134,7 @@ window.Graphene.xhrInterception = (function() {
                 wrapper.status = wrapper.xhr.status;
                 wrapper.statusText = wrapper.xhr.statusText;
             }
-            invokeInterceptorChain(wrapper, xhr2 ? 'onload' : 'onreadystatechange', [ wrapper ]);
+            invokeInterceptorChain(wrapper, isOnload ? 'onload' : 'onreadystatechange', arguments);
         };
     };
 
@@ -173,7 +173,7 @@ window.Graphene.xhrInterception = (function() {
      *            XHR wrapper instance
      * @param methodName
      *            the name of the method invoked
-     * @param arguments
+     * @param args
      *            of the invocation
      * @param i
      *            (optional) the number of interceptor to invoke (if there is no such interceptor, function delegates to real
