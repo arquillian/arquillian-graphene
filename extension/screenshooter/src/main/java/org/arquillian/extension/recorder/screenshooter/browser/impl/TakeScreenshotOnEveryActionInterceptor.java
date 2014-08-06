@@ -32,6 +32,8 @@ import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.WebDriver;
 
+import static org.arquillian.extension.recorder.When.ON_EVERY_ACTION;
+
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *
@@ -67,6 +69,7 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
                     .withResourceIdentifier(
                             ResourceIdentifierFactory.getResoruceIdentifier(takeScreenshotEvent.getMetaData(), when)).build();
             takeScreenshotEvent.setFileName(screenshotName);
+            takeScreenshotEvent.setWhen(screenshotName.contains("before") ? When.BEFORE : When.ON_EVERY_ACTION);
 
             takeScreenshotAndReport();
         }
