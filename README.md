@@ -14,6 +14,7 @@ Graphene 2 project is designed as set of extensions for [Selenium WebDriver](htt
 * helps to write **tests portable across browsers**,
 * it enables **JQuery selectors as a location strategy** for advanced locators
 * brings concepts for on-the-fly **injection of extensions to a page code** (enabling advanced testing features)
+* can take screenshots while testing (see [screenshooter extension](https://github.com/arquillian/arquillian-graphene/blob/master/extension/screenshooter)), and together with other useful info generate neat reports (see [Arquillian Recorder extension](https://github.com/arquillian/arquillian-recorder))
 
 With all the concepts above, Graphene brings new power to space of Java-based testing.
 
