@@ -11,7 +11,7 @@
 </dependency>
 ----
 
-== Settings
+== Basic settings
 
 Following +arquillian.xml+ properties are supported within *screenshooter* qualifier:
 
@@ -39,6 +39,12 @@ Following +arquillian.xml+ properties are supported within *screenshooter* quali
 
 |===
 
+== Upstream settings
+
+Graphene screenshooter is an implementation of high level API, located in https://github.com/arquillian/arquillian-recorder[Arquillian Recorder] repository.
+
+There is plenty of other possibilities of usages and settings which are inherited from the upstream API. Please see its https://github.com/arquillian/arquillian-recorder/wiki[reference documentaion] for more info in this matter.
+
 == Screenshots naming strategy
 
 The default strategy for naming of the created screenshots is as follows:
@@ -53,7 +59,3 @@ where placeholders in the actual file name mean:
 * +screenshotType+ - a file suffix from settings
 
 Please be aware that this default naming strategy is *subject to change* in higher versions.
-
-== Integration with Arquillian Recorder
-
-Graphene screenshooter is built on top of link:https://github.com/arquillian/arquillian-recorder[Arquillian Recoreder]. Considers its link:https://github.com/arquillian/arquillian-recorder/blob/master/README.adoc[documentation] to see what options are there.
