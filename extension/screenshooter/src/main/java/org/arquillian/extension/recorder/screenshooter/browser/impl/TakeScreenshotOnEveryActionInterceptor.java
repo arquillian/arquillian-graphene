@@ -32,8 +32,6 @@ import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.WebDriver;
 
-import static org.arquillian.extension.recorder.When.ON_EVERY_ACTION;
-
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  *

@@ -55,6 +55,7 @@ public class BrowserScreenshooter implements Screenshooter {
     private ScreenshotType screenshotType = null;
     private ScreenshooterConfiguration configuration;
     private TakenResourceRegister takenResourceRegister;
+    private String message;
 
     /**
      *
@@ -121,6 +122,7 @@ public class BrowserScreenshooter implements Screenshooter {
         Screenshot screenshoot = new BrowserScreenshot();
         screenshoot.setResource(screenshotToTake);
         screenshoot.setResourceType(screenshotType);
+        screenshoot.setMessage(message);
 
         try {
             BufferedImage bimg = ImageIO.read(screenshotToTake);
@@ -146,22 +148,24 @@ public class BrowserScreenshooter implements Screenshooter {
     }
 
     @Override
-    public void setScreenshotTargetDir(String screenshotTargetDir) {
+    public Screenshooter setScreenshotTargetDir(String screenshotTargetDir) {
         Validate.notNullOrEmpty(screenshotTargetDir, "Screenshot target directory can not be a null object or an empty string");
-        setScreenshotTargetDir(new File(screenshotTargetDir));
+        return setScreenshotTargetDir(new File(screenshotTargetDir));
     }
 
     @Override
-    public void setScreenshotTargetDir(File screenshotTargetDir) {
+    public Screenshooter setScreenshotTargetDir(File screenshotTargetDir) {
         Validate.notNull(screenshotTargetDir, "File is a null object!");
         RecorderFileUtils.createDirectory(screenshotTargetDir);
         this.screenshotTargetDir = screenshotTargetDir;
+        return this;
     }
 
     @Override
-    public void setScreenshotType(ScreenshotType screenshotType) {
+    public Screenshooter setScreenshotType(ScreenshotType screenshotType) {
         Validate.notNull(screenshotType, "Screenshot type is a null object!");
         this.screenshotType = screenshotType;
+        return this;
     }
 
     @Override
@@ -178,5 +182,11 @@ public class BrowserScreenshooter implements Screenshooter {
     @Override
     public ScreenshotType getScreenshotType() {
         return screenshotType;
+    }
+
+    @Override
+    public Screenshooter setMessage(String message) {
+        this.message = message;
+        return this;
     }
 }

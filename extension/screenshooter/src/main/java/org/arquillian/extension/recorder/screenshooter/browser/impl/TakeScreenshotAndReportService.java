@@ -22,13 +22,15 @@
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import java.io.File;
+
 import org.arquillian.extension.recorder.screenshooter.Screenshooter;
 import org.arquillian.extension.recorder.screenshooter.Screenshot;
 import org.arquillian.extension.recorder.screenshooter.ScreenshotType;
 import org.arquillian.extension.recorder.screenshooter.event.TakeScreenshot;
+import org.arquillian.extension.recorder.screenshooter.impl.ScreenshotReportEntryBuilder;
+import org.arquillian.recorder.reporter.PropertyEntry;
 import org.arquillian.recorder.reporter.event.PropertyReportEvent;
 import org.arquillian.recorder.reporter.impl.TakenResourceRegister;
-import org.arquillian.recorder.reporter.model.entry.ScreenshotEntry;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
@@ -49,28 +51,26 @@ public class TakeScreenshotAndReportService {
     private Instance<TakenResourceRegister> takenScreenshotsRegister;
 
     public void takeScreenshotAndReport(TakeScreenshot takeScreenshotEvent) {
-           ScreenshotType screenshotType = screenshooter.get().getScreenshotType();
+        ScreenshotType screenshotType = screenshooter.get().getScreenshotType();
 
-            File screenshotTarget = new File(
-                    new File(takeScreenshotEvent.getMetaData().getTestClassName(), takeScreenshotEvent.getMetaData().getTestMethodName()),
-                    takeScreenshotEvent.getFileName());
+        File screenshotTarget = new File(
+            new File(takeScreenshotEvent.getMetaData().getTestClassName(), takeScreenshotEvent.getMetaData().getTestMethodName()),
+            takeScreenshotEvent.getFileName());
 
-            Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, screenshotType);
-            takenScreenshotsRegister.get().addTaken(screenshot);
+        Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, screenshotType);
+        takenScreenshotsRegister.get().addTaken(screenshot);
 
-            takeScreenshotEvent.getMetaData().setHeight(screenshot.getHeight());
-            takeScreenshotEvent.getMetaData().setWidth(screenshot.getWidth());
-            screenshot.setResourceMetaData(takeScreenshotEvent.getMetaData());
+        takeScreenshotEvent.getMetaData().setHeight(screenshot.getHeight());
+        takeScreenshotEvent.getMetaData().setWidth(screenshot.getWidth());
+        screenshot.setResourceMetaData(takeScreenshotEvent.getMetaData());
 
-            ScreenshotEntry propertyEntry = new ScreenshotEntry();
-            propertyEntry.setPath(screenshot.getResource().getAbsolutePath());
-            propertyEntry.setPhase(takeScreenshotEvent.getWhen());
-            propertyEntry.setType(screenshot.getResourceType().toString());
-            propertyEntry.setSize(Long.toString(screenshot.getResource().length()));
-            propertyEntry.setWidth(screenshot.getWidth());
-            propertyEntry.setHeight(screenshot.getHeight());
+        PropertyEntry propertyEntry = new ScreenshotReportEntryBuilder()
+            .withWhen(takeScreenshotEvent.getWhen())
+            .withMetadata(takeScreenshotEvent.getMetaData())
+            .withScreenshot(screenshot)
+            .build();
 
-            takenScreenshotsRegister.get().addReported(screenshot);
-            propertyReportEvent.fire(new PropertyReportEvent(propertyEntry));
+        takenScreenshotsRegister.get().addReported(screenshot);
+        propertyReportEvent.fire(new PropertyReportEvent(propertyEntry));
     }
 }
