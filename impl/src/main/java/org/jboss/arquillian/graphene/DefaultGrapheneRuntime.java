@@ -93,7 +93,7 @@ public class DefaultGrapheneRuntime extends GrapheneRuntime {
     }
 
     public WebDriverWait<Void> waitAjax(WebDriver driver) {
-        return new WebDriverWaitImpl<Void>(null, driver, ((GrapheneProxyInstance) driver).getContext().getConfiguration().getWaitAjaxInterval());
+        return new WebDriverWaitImpl<Void>(null, driver, ((GrapheneProxyInstance) driver).getGrapheneContext().getConfiguration().getWaitAjaxInterval());
     }
 
     public WebDriverWait<Void> waitGui() {
@@ -101,7 +101,7 @@ public class DefaultGrapheneRuntime extends GrapheneRuntime {
     }
 
     public WebDriverWait<Void> waitGui(WebDriver driver) {
-        return new WebDriverWaitImpl<Void>(null, driver, ((GrapheneProxyInstance) driver).getContext().getConfiguration().getWaitGuiInterval());
+        return new WebDriverWaitImpl<Void>(null, driver, ((GrapheneProxyInstance) driver).getGrapheneContext().getConfiguration().getWaitGuiInterval());
     }
 
     public WebDriverWait<Void> waitModel() {
@@ -109,7 +109,7 @@ public class DefaultGrapheneRuntime extends GrapheneRuntime {
     }
 
     public WebDriverWait<Void> waitModel(WebDriver driver) {
-        return new WebDriverWaitImpl<Void>(null, driver, ((GrapheneProxyInstance) driver).getContext().getConfiguration().getWaitModelInterval());
+        return new WebDriverWaitImpl<Void>(null, driver, ((GrapheneProxyInstance) driver).getGrapheneContext().getConfiguration().getWaitModelInterval());
     }
 
     public <T> T createPageFragment(Class<T> clazz, WebElement root) {
@@ -128,7 +128,7 @@ public class DefaultGrapheneRuntime extends GrapheneRuntime {
     private RequestGuardFactory getRequestGuardFactoryFor(Object target) {
         GrapheneContext context;
         if (GrapheneProxy.isProxyInstance(target)) {
-            context = ((GrapheneProxyInstance) target).getContext();
+            context = ((GrapheneProxyInstance) target).getGrapheneContext();
         } else {
             context = context();
         }

@@ -49,7 +49,7 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
         List<Field> fields = new LinkedList<Field>();
         fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), Page.class));
         for (Field field : fields) {
-                GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+                GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getGrapheneContext();
                 final SearchContext localSearchContext;
                 if (grapheneContext == null) {
                     grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
