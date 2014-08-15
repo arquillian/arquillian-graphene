@@ -39,7 +39,7 @@ public class JavaScriptEnricher extends AbstractSearchContextEnricher {
     public void enrich(final SearchContext searchContext, Object target) {
         Collection<Field> fields = ReflectionHelper.getFieldsWithAnnotation(target.getClass(), JavaScript.class);
         for (Field field : fields) {
-            GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getContext();
+            GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getGrapheneContext();
             if (grapheneContext == null) {
                 grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
             }

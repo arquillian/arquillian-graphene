@@ -175,7 +175,7 @@ public final class WebElementUtils {
         if (!GrapheneProxy.isProxyInstance(object)) {
             throw new IllegalArgumentException("The parameter [object] has to be instance of " + GrapheneProxyInstance.class.getName() + ", but it is not. The given object is " + object + ".");
         }
-        return ((GrapheneProxyInstance) object).getContext();
+        return ((GrapheneProxyInstance) object).getGrapheneContext();
     }
 
 }

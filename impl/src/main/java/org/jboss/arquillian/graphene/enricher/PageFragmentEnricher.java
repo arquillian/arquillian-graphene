@@ -72,7 +72,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
         for (Field field : fields) {
             GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext)
-                .getContext();
+                .getGrapheneContext();
             final SearchContext localSearchContext;
             if (grapheneContext == null) {
                 grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
@@ -113,7 +113,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     }
 
     protected final <T> List<T> createPageFragmentList(final Class<T> clazz, final SearchContext searchContext, final By rootBy) {
-        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getGrapheneContext();
         List<T> result = GrapheneProxy.getProxyForFutureTarget(grapheneContext, new FutureTarget() {
             @Override
             public Object getTarget() {
@@ -130,7 +130,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     public static <T> T createPageFragment(Class<T> clazz, final WebElement root) {
         try {
-            GrapheneContext grapheneContext = ((GrapheneProxyInstance) root).getContext();
+            GrapheneContext grapheneContext = ((GrapheneProxyInstance) root).getGrapheneContext();
             T pageFragment = null;
 
             if (Modifier.isFinal(clazz.getModifiers())) {
@@ -193,7 +193,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
 
     protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)
         throws ClassNotFoundException {
-        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getGrapheneContext();
         // the by retrieved in this way is never null, by default it is ByIdOrName using field name
         By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
         List<?> pageFragments = createPageFragmentList(getListType(field), searchContext, rootBy);
@@ -201,7 +201,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     }
 
     protected final void setupPageFragment(SearchContext searchContext, Object target, Field field) {
-        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getContext();
+        GrapheneContext grapheneContext = ((GrapheneProxyInstance) searchContext).getGrapheneContext();
         // the by retrieved in this way is never null, by default it is ByIdOrName using field name
         By rootBy = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
         WebElement root = WebElementUtils.findElementLazily(rootBy, searchContext);

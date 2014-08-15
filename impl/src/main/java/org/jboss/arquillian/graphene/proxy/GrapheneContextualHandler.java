@@ -152,7 +152,7 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
             return this;
         }
         // handle GrapheneProxyInstance's method getContext
-        if (method.equals(GrapheneProxyInstance.class.getMethod("getContext"))) {
+        if (method.equals(GrapheneProxyInstance.class.getMethod("getGrapheneContext"))) {
             return context;
         }
 
