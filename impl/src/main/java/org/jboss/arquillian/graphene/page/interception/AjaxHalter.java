@@ -21,12 +21,13 @@
  */
 package org.jboss.arquillian.graphene.page.interception;
 
-import com.google.common.base.Predicate;
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
 import org.jboss.arquillian.graphene.wait.WebDriverWaitImpl;
 import org.openqa.selenium.WebDriver;
+
+import com.google.common.base.Predicate;
 
 /**
  *
@@ -107,7 +108,7 @@ public class AjaxHalter {
 
     public void continueAfter(XHRState phase) {
         Validate.notNull(phase, "XHRState phase can not be null!");
-        XHRHalterHolder.instance.continueTo(handle, phase);
+        XHRHalterHolder.instance.continueTo(handle, phase.ordinal() - 1);
     }
 
     public boolean isWaitingForSend() {

@@ -39,7 +39,7 @@ public interface AjaxHalterInterface extends InstallableJavaScript {
 
     int getHandle();
 
-    void continueTo(int handle, XHRState phase);
+    void continueTo(int handle, int phase);
 
     void setEnabled(boolean enabled);
 

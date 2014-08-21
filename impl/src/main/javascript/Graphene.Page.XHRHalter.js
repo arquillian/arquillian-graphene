@@ -39,7 +39,7 @@ window.Graphene.Page.XHRHalter = (function() {
         _haltCounter = 0,
         _enabled = true;
         
-    function HaltedXHR(xhr) {
+    function HaltedXHR(xhr, wrapper) {
         if (this.id === undefined) {
                   _instances.push(this);
                   this.id = _instances.length - 1;
@@ -49,14 +49,15 @@ window.Graphene.Page.XHRHalter = (function() {
         this.availableStates = new Array();
         this.continueToState = STATE_CONSTRUCT;
         this.xhr = xhr;
+        this.wrapper = wrapper;
         this.sendParams = {};
         this.xhrParams = new Array();
         this._proceeds = {};
         
         this.tryProcessStates = function() {
             while (this.currentState < this.continueToState && this.currentState < this.getLastAvailableState()) {
-                    this.currentState += 1;
-                    this.processState(this.currentState);
+                this.currentState += 1;
+                this.processState(this.currentState);
             }
         };
         
@@ -73,18 +74,17 @@ window.Graphene.Page.XHRHalter = (function() {
         
         
         this.getLastAvailableState = function() {
-                return this.availableStates.length - 1;
+            return this.availableStates.length - 1;
         };
         
         this.loadXhrParams = function(state) {
             state = Math.max(state, STATE_UNITIALIZED);
             var holder = this.availableStates[state];
-            this.xhr.readyState = state;
-            this.xhr.responseText = holder.responseText;
-            this.xhr.responseXML = holder.responseXML;
-            this.xhr.status = holder.status;
-            this.xhr.statusText = holder.statusText;
-            this.xhr.onreadystatechange = holder.onreadystatechange;
+            this.wrapper.readyState = state;
+            this.wrapper.responseText = holder.responseText;
+            this.wrapper.responseXML = holder.responseXML;
+            this.wrapper.status = holder.status;
+            this.wrapper.statusText = holder.statusText;
         };
         
         this.saveXhrParams = function() {
@@ -144,12 +144,12 @@ window.Graphene.Page.XHRHalter = (function() {
         },
         install: function() {
             window.Graphene.xhrInterception.onConstruct( function(context) {
-                var xhr = context.proceed();
+                var xhrOriginal = context.proceed();
                 if (_enabled) {
-                    var halter = _associations[xhr] = new HaltedXHR(xhr);
+                    var halter = _associations[xhrOriginal] = new HaltedXHR(xhrOriginal, context.xhrWrapper);
                     halter.wait();
                 }
-                return xhr;
+                return xhrOriginal;
             });
     
             window.Graphene.xhrInterception.onOpen( function(context) {
