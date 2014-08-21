@@ -251,18 +251,18 @@ module("XHR Interception");
         var instance = instances[0];
         ok(instance);
 
-        xhr.onreadystatechange = function(request) {
-            ok(request.readyState == readyState);
+        xhr.onreadystatechange = function() {
+            ok(xhr.readyState == readyState);
             if (readyState < 4) {
-                equal(request.responseText, undefined);
-                equal(request.responseXML, undefined);
-                equal(request.status, undefined);
-                equal(request.statusText, undefined);
+                equal(xhr.responseText, undefined);
+                equal(xhr.responseXML, undefined);
+                equal(xhr.status, undefined);
+                equal(xhr.statusText, undefined);
             } else {
-                equal(request.responseText, "responseText")
-                equal(request.responseXML, "responseXML")
-                equal(request.status, 200)
-                equal(request.statusText, "statusText")
+                equal(xhr.responseText, "responseText")
+                equal(xhr.responseXML, "responseXML")
+                equal(xhr.status, 200)
+                equal(xhr.statusText, "statusText")
             }
             readyState += 1;
         }

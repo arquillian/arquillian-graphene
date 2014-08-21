@@ -98,6 +98,8 @@ module("RequestGuard");
         var instances = replaceXHRPrototype({
             open: function() {
                 interactive = true;
+            },
+            send: function() {
             }
         });
         
