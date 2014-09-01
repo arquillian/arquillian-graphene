@@ -31,17 +31,26 @@ import org.jboss.arquillian.graphene.javascript.JavaScript;
  */
 @JavaScript(value = "Graphene.Page.XHRHalter")
 @Dependency(sources = "Graphene.Page.XHRHalter.js", interfaces = XhrInterception.class)
-public interface AjaxHalterInterface extends InstallableJavaScript {
+public abstract class AjaxHalterInterface implements InstallableJavaScript {
 
-    boolean isHandleAvailable();
+    public abstract boolean isHandleAvailable();
 
-    boolean isWaitingForSend(int handle);
+    public abstract int getCurrentStateId(int handle);
 
-    int getHandle();
+    public abstract int getHandle();
 
-    void continueTo(int handle, int phase);
+    public abstract void continueTo(int handle, int state);
 
-    void setEnabled(boolean enabled);
+    public abstract void setEnabled(boolean enabled);
 
-    boolean isEnabled();
+    public abstract boolean isEnabled();
+
+    public void continueTo(int handle, XHRState state) {
+        continueTo(handle, state.getStateId());
+    }
+
+    public XHRState getCurrentState(int handle) {
+        int currentStateId = getCurrentStateId(handle);
+        return XHRState.forId(currentStateId);
+    }
 }

@@ -22,5 +22,20 @@
 package org.jboss.arquillian.graphene.page.interception;
 
 public enum XHRState {
-    SEND, UNITIALIZED, LOADING, LOADED, INTERACTIVE, COMPLETE;
+    CONSTRUCT,
+    OPEN,
+    SEND,
+    UNINITIALIZED,
+    LOADING,
+    LOADED,
+    INTERACTIVE,
+    COMPLETE;
+
+    public int getStateId() {
+        return this.ordinal() - 3;
+    }
+
+    public static XHRState forId(int id) {
+        return XHRState.values()[id + 3];
+    }
 }

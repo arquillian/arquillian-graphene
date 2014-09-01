@@ -28,7 +28,7 @@ window.Graphene.Page.XHRHalter = (function() {
     var STATE_CONSTRUCT = -3,
         STATE_OPEN = -2,
         STATE_SEND = -1,
-        STATE_UNITIALIZED = 0,
+        STATE_UNINITIALIZED = 0,
         STATE_LOADING = 1,
         STATE_LOADED = 2,
         STATE_INTERACTIVE = 3,
@@ -78,7 +78,7 @@ window.Graphene.Page.XHRHalter = (function() {
         };
         
         this.loadXhrParams = function(state) {
-            state = Math.max(state, STATE_UNITIALIZED);
+            state = Math.max(state, STATE_UNINITIALIZED);
             var holder = this.availableStates[state];
             this.wrapper.readyState = state;
             this.wrapper.responseText = holder.responseText;
@@ -138,9 +138,9 @@ window.Graphene.Page.XHRHalter = (function() {
             }
             halter.continueToState = state;
         },
-        isWaitingForSend: function(id) {
+        getCurrentStateId: function(id) {
             var halter = _instances[id];
-            return halter.currentState === STATE_OPEN && halter.continueToState === STATE_OPEN;
+            return halter.currentState;
         },
         install: function() {
             window.Graphene.xhrInterception.onConstruct( function(context) {

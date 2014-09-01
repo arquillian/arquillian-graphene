@@ -22,12 +22,13 @@
 package org.jboss.arquillian.graphene.ftest.page.interception;
 
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.page.interception.AjaxHalter;
@@ -70,32 +71,21 @@ public class TestAjaxHalter {
 
     @Test
     public void testFoo() {
-//        System.out.println(AjaxHalter.isEnabled() + " ");
         AjaxHalter.enable();
-//        System.out.println(AjaxHalter.isEnabled() + " ");
-//        System.out.println(AjaxHalter.isHandleAvailable() + " ");
 
-//        Graphene.guardAjax(xhr).click();
         xhr.click();
-//        System.out.println(status.getText());
 
-        AjaxHalter handleBlocking = AjaxHalter.getHandleBlocking();
-        System.out.println(status.getText());
-//        System.out.println(handleBlocking);
-        
-        handleBlocking.complete();
-        System.out.println(status.getText());
-        
-//        System.out.println(status.getText());
-//
-//        halter.continueBefore(XHRState.INTERACTIVE);
-//        System.out.println(status.getText());
-//
-//        halter.continueBefore(XHRState.COMPLETE);
-//        System.out.println(status.getText());
-//
-//        halter.complete();
-//        System.out.println(status.getText());
+        AjaxHalter halter = AjaxHalter.getHandleBlocking();
+        assertEquals("SEND", status.getText());
+
+        halter.continueBefore(XHRState.INTERACTIVE);
+        assertEquals("SEND OPENED HEADERS_RECEIVED", status.getText());
+
+        halter.continueBefore(XHRState.COMPLETE);
+        assertEquals("SEND OPENED HEADERS_RECEIVED LOADING", status.getText());
+
+        halter.complete();
+        assertEquals("SEND OPENED HEADERS_RECEIVED LOADING DONE", status.getText());
 
     }
 }

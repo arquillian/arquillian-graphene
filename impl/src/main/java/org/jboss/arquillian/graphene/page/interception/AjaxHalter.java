@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.page.interception;
 
+import static org.jboss.arquillian.graphene.Graphene.waitAjax;
+
 import org.jboss.arquillian.core.spi.Validate;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.javascript.JSInterfaceFactory;
@@ -100,27 +102,20 @@ public class AjaxHalter {
         return getHandle();
     }
 
-    public void continueBefore(XHRState phase) {
-        Validate.notNull(phase, "XHRState phase can not be null!");
-        XHRState phaseToContinueAfter = XHRState.values()[phase.ordinal() - 1];
+    public void continueBefore(XHRState state) {
+        Validate.notNull(state, "XHRState can not be null!");
+        XHRState phaseToContinueAfter = XHRState.forId(state.getStateId() - 1);
         continueAfter(phaseToContinueAfter);
     }
 
-    public void continueAfter(XHRState phase) {
-        Validate.notNull(phase, "XHRState phase can not be null!");
-        XHRHalterHolder.instance.continueTo(handle, phase.ordinal() - 1);
-    }
-
-    public boolean isWaitingForSend() {
-        return XHRHalterHolder.instance.isWaitingForSend(handle);
-    }
-
-    public void waitForOpen() {
-        getWaitModel().until(new Predicate<WebDriver>() {
-
+    public void continueAfter(final XHRState state) {
+        Validate.notNull(state, "XHRState can not be null!");
+        XHRHalterHolder.instance.continueTo(handle, state);
+        waitAjax().until(new Predicate<WebDriver>() {
             @Override
-            public boolean apply(WebDriver t) {
-                return isWaitingForSend();
+            public boolean apply(WebDriver arg0) {
+                XHRState currentState = XHRHalterHolder.instance.getCurrentState(handle);
+                return currentState.ordinal() >= state.ordinal();
             }
         });
     }
@@ -130,7 +125,7 @@ public class AjaxHalter {
     }
 
     public void initialize() {
-        continueAfter(XHRState.UNITIALIZED);
+        continueAfter(XHRState.UNINITIALIZED);
     }
 
     public void loading() {
