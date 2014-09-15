@@ -25,8 +25,7 @@ window.Graphene.Page = window.Graphene.Page || {};
 
 window.Graphene.Page.XHRHalter = (function() {
 
-    var STATE_CONSTRUCT = -3,
-        STATE_OPEN = -2,
+    var STATE_OPEN = -2,
         STATE_SEND = -1,
         STATE_UNINITIALIZED = 0,
         STATE_LOADING = 1,
@@ -44,9 +43,9 @@ window.Graphene.Page.XHRHalter = (function() {
             _instances.push(this);
             this.id = _instances.length - 1;
         }
-        this.currentState = STATE_CONSTRUCT;
+        this.currentState = STATE_OPEN - 1;
         this.availableStates = {};
-        this.continueToState = STATE_CONSTRUCT;
+        this.continueToState = STATE_OPEN;
         this.xhr = xhr;
         this.wrapper = wrapper;
         this.sendParams = {};
@@ -71,7 +70,7 @@ window.Graphene.Page.XHRHalter = (function() {
         
         
         this.getLastAvailableState = function() {
-            var last = STATE_CONSTRUCT;
+            var last = STATE_OPEN;
             for (var i in this._proceeds) {
                 last = Math.max(last, i);
             }
@@ -139,28 +138,22 @@ window.Graphene.Page.XHRHalter = (function() {
             return halter.currentState;
         },
         install: function() {
-            window.Graphene.xhrInterception.onConstruct( function(context) {
-                var xhrOriginal = context.proceed();
-                if (_enabled) {
-                    var halter = _associations[xhrOriginal] = new HaltedXHR(xhrOriginal, context.xhrWrapper);
-                    halter.saveXhrParams(STATE_CONSTRUCT);
-                    halter.wait();
-                }
-                return xhrOriginal;
-            });
-            
             window.Graphene.xhrInterception.onSetRequestHeader( function(context, args) {
                 var halter = _associations[context.xhrOriginal];
                 if (halter !== undefined) {
-                    halter.requestHeaders[args[0]] = args[1];
+                    if (halter.getLastAvailableState() > STATE_OPEN) {
+                        return context.proceed();
+                    } else {
+                        halter.requestHeaders[args[0]] = args[1];
+                    }
                 } else {
                     return context.proceed();
                 }
             });
     
             window.Graphene.xhrInterception.onOpen( function(context) {
-                var halter = _associations[context.xhrOriginal];
-                if (halter !== undefined) {
+                if (_enabled) {
+                    var halter = _associations[context.xhrOriginal] = new HaltedXHR(context.xhrOriginal, context.xhrWrapper);
                     halter.saveXhrParams(STATE_OPEN);
                     halter._proceeds[STATE_OPEN] = function() {
                         context.proceed();
@@ -168,6 +161,7 @@ window.Graphene.Page.XHRHalter = (function() {
                             context.xhrOriginal.setRequestHeader(headerName, halter.requestHeaders[headerName]);
                         }
                     };
+                    halter.wait();
                 } else {
                     return context.proceed();
                 }
