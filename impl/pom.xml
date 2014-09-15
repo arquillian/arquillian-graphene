@@ -59,18 +59,23 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-configuration</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-container-spi</artifactId>
+        </dependency>
 
         <!-- cglib and objenesis are implementation details required for proxying -->
         <!-- both artifacts are shaded via shade plugin -->
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <optional>true</optional>
+<!--             <optional>true</optional> -->
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <optional>true</optional>
+<!--             <optional>true</optional> -->
         </dependency>
         <!-- end of shaded artifacts -->
 

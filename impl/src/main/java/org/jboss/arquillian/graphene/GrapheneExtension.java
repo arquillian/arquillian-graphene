@@ -37,12 +37,16 @@ import org.jboss.arquillian.graphene.enricher.PageObjectEnricher;
 import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
+import org.jboss.arquillian.graphene.guard.RequestGuardImpl;
 import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
+import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.location.ContextRootStoreInitializer;
 import org.jboss.arquillian.graphene.location.LocationEnricher;
 import org.jboss.arquillian.graphene.location.decider.FileLocationDecider;
 import org.jboss.arquillian.graphene.location.decider.HTTPLocationDecider;
 import org.jboss.arquillian.graphene.location.decider.ResourceLocationDecider;
+import org.jboss.arquillian.graphene.page.interception.AjaxHalterInterface;
+import org.jboss.arquillian.graphene.page.interception.XhrInterception;
 import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
 import org.jboss.arquillian.graphene.spi.location.LocationDecider;
 import org.jboss.arquillian.test.spi.TestEnricher;
@@ -84,5 +88,13 @@ public class GrapheneExtension implements LoadableExtension {
         builder.service(LocationDecider.class, HTTPLocationDecider.class);
         builder.service(LocationDecider.class, ResourceLocationDecider.class);
         builder.service(LocationDecider.class, FileLocationDecider.class);
+
+        builder.service(InstallableJavaScript.class, XhrInterception.class);
+        builder.service(InstallableJavaScript.class, RequestGuardImpl.class);
+        builder.service(InstallableJavaScript.class, AjaxHalterInterface.class);
+
+        builder.observer(DeploymentEnricher.class);
+
+
     }
 }

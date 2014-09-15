@@ -28,10 +28,10 @@ import java.util.concurrent.Callable;
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.enricher.SearchContextInterceptor;
 import org.jboss.arquillian.graphene.enricher.StaleElementInterceptor;
+import org.jboss.arquillian.graphene.page.extension.ArchivePageExtensionInstallatorProvider;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionInstallatorProvider;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistry;
 import org.jboss.arquillian.graphene.page.extension.PageExtensionRegistryImpl;
-import org.jboss.arquillian.graphene.page.extension.RemotePageExtensionInstallatorProvider;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyHandler;
@@ -146,7 +146,7 @@ public class GrapheneContextImpl extends ExtendedGrapheneContext {
                     GrapheneProxyInstance proxy = (GrapheneProxyInstance) context.getWebDriver();
                     proxy.registerInterceptor(new SearchContextInterceptor());
                     proxy.registerInterceptor(new StaleElementInterceptor());
-                    context.installatorProvider = new RemotePageExtensionInstallatorProvider(context.registry, (JavascriptExecutor) context.getWebDriver(JavascriptExecutor.class));
+                    context.installatorProvider = new ArchivePageExtensionInstallatorProvider(context.registry, (JavascriptExecutor) context.getWebDriver(JavascriptExecutor.class));
                     final GrapheneContext finalContext = context;
                     context.getBrowserActions().performAction(new Callable<Void>() {
                         @Override

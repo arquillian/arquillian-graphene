@@ -126,6 +126,7 @@ window.Graphene.xhrInterception = (function() {
      */
     var callback = function(wrapper, isOnload) {
         return function() {
+            console.log('onreadystatechange');
             //do not use 'this' since host objects behave differently
             wrapper.readyState = wrapper.xhr.readyState;
             if (wrapper.readyState == 4) {
@@ -184,7 +185,11 @@ window.Graphene.xhrInterception = (function() {
         if (interceptors[methodName] && interceptors[methodName].length > i) {
             return invokeNextInterceptor(wrapper, methodName, args, i);
         } else {
-            return invokeRealMethod(wrapper, methodName, args);
+            try {
+                return invokeRealMethod(wrapper, methodName, args);
+            } catch (e) {
+                throw e;
+            }
         }
     };
 
