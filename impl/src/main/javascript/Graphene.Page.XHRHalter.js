@@ -41,56 +41,54 @@ window.Graphene.Page.XHRHalter = (function() {
         
     function HaltedXHR(xhr, wrapper) {
         if (this.id === undefined) {
-                  _instances.push(this);
-                  this.id = _instances.length - 1;
+            _instances.push(this);
+            this.id = _instances.length - 1;
         }
         this.currentState = STATE_CONSTRUCT;
-        this.lastAvailableState = STATE_CONSTRUCT;
-        this.availableStates = new Array();
+        this.availableStates = {};
         this.continueToState = STATE_CONSTRUCT;
         this.xhr = xhr;
         this.wrapper = wrapper;
         this.sendParams = {};
-        this.xhrParams = new Array();
         this._proceeds = {};
+        this.requestHeaders = {};
         
         this.tryProcessStates = function() {
             while (this.currentState < this.continueToState && this.currentState < this.getLastAvailableState()) {
+                //console.log('current: ' + this.currentState + ' < continueTo: ' + this.continueToState + ' < lastAvailable: ' + this.getLastAvailableState());
                 this.currentState += 1;
                 this.processState(this.currentState);
             }
         };
         
         this.processState = function(state) {
-            if (this.currentState > 0 && this.availableStates[state] === undefined) {
-                return;
-            }
-            this.loadXhrParams(state);
             if (this._proceeds[state]) {
-              this._proceeds[state]();
-            }
-            this.loadXhrParams(this.lastAvailableState);
+                this.loadXhrParams(state);
+                this._proceeds[state]();
+                this.loadXhrParams(this.getLastAvailableState());
+            }  
         };
         
         
         this.getLastAvailableState = function() {
-            return this.availableStates.length - 1;
+            var last = STATE_CONSTRUCT;
+            for (var i in this._proceeds) {
+                last = Math.max(last, i);
+            }
+            return last;
         };
         
-        this.loadXhrParams = function(state) {
-            state = Math.max(state, STATE_UNINITIALIZED);
-            var holder = this.availableStates[state];
-            this.wrapper.readyState = state;
+        this.loadXhrParams = function(readyState) {
+            var holder = this.availableStates[readyState];
+            this.wrapper.readyState = Math.max(0, readyState);
             this.wrapper.responseText = holder.responseText;
             this.wrapper.responseXML = holder.responseXML;
             this.wrapper.status = holder.status;
             this.wrapper.statusText = holder.statusText;
         };
         
-        this.saveXhrParams = function() {
-            this.lastAvailableState = Math.max(this.lastAvailableState, this.xhr.readyState);
-            this.availableStates[this.xhr.readyState] = {};
-            var holder = this.availableStates[this.xhr.readyState];
+        this.saveXhrParams = function(readyState) {
+            var holder = this.availableStates[readyState] = {};
             holder.responseText = this.xhr.responseText;
             holder.responseXML = this.xhr.responseXML;
             holder.status = this.xhr.status;
@@ -111,8 +109,6 @@ window.Graphene.Page.XHRHalter = (function() {
                 }, 100);
             }
         };
-        
-        this.saveXhrParams();
     }
 
     return {
@@ -147,16 +143,31 @@ window.Graphene.Page.XHRHalter = (function() {
                 var xhrOriginal = context.proceed();
                 if (_enabled) {
                     var halter = _associations[xhrOriginal] = new HaltedXHR(xhrOriginal, context.xhrWrapper);
+                    halter.saveXhrParams(STATE_CONSTRUCT);
                     halter.wait();
                 }
                 return xhrOriginal;
+            });
+            
+            window.Graphene.xhrInterception.onSetRequestHeader( function(context, args) {
+                var halter = _associations[context.xhrOriginal];
+                if (halter !== undefined) {
+                    halter.requestHeaders[args[0]] = args[1];
+                } else {
+                    return context.proceed();
+                }
             });
     
             window.Graphene.xhrInterception.onOpen( function(context) {
                 var halter = _associations[context.xhrOriginal];
                 if (halter !== undefined) {
-                    halter.saveXhrParams();
-                    halter._proceeds[STATE_OPEN] = context.proceed;
+                    halter.saveXhrParams(STATE_OPEN);
+                    halter._proceeds[STATE_OPEN] = function() {
+                        context.proceed();
+                        for (var headerName in halter.requestHeaders) {
+                            context.xhrOriginal.setRequestHeader(headerName, halter.requestHeaders[headerName]);
+                        }
+                    };
                 } else {
                     return context.proceed();
                 }
@@ -164,10 +175,10 @@ window.Graphene.Page.XHRHalter = (function() {
             
             window.Graphene.xhrInterception.onSend( function(context) {
                 var halter = _associations[context.xhrOriginal];
-                
+
                 if (halter !== undefined) {
                     halter.sendParams = arguments;
-                    halter.saveXhrParams();
+                    halter.saveXhrParams(STATE_SEND);
                     halter._proceeds[STATE_SEND] = context.proceed;
                 } else {
                     return context.proceed();
@@ -178,8 +189,9 @@ window.Graphene.Page.XHRHalter = (function() {
                 var halter = _associations[context.xhrOriginal];
                 
                 if (halter !== undefined) {
-                    halter.saveXhrParams();
-                    halter._proceeds[context.xhrOriginal.readyState] = context.proceed;
+                    var readyState = context.xhrOriginal.readyState;
+                    halter.saveXhrParams(readyState);
+                    halter._proceeds[readyState] = context.proceed;
                 } else {
                     return context.proceed();
                 }
