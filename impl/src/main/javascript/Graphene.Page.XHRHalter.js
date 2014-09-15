@@ -45,12 +45,11 @@ window.Graphene.Page.XHRHalter = (function() {
         }
         this.currentState = STATE_OPEN - 1;
         this.availableStates = {};
+        this._proceeds = {};
         this.continueToState = STATE_OPEN;
         this.xhr = xhr;
         this.wrapper = wrapper;
         this.sendParams = {};
-        this._proceeds = {};
-        this.requestHeaders = {};
         
         this.tryProcessStates = function() {
             while (this.currentState < this.continueToState && this.currentState < this.getLastAvailableState()) {
@@ -138,29 +137,11 @@ window.Graphene.Page.XHRHalter = (function() {
             return halter.currentState;
         },
         install: function() {
-            window.Graphene.xhrInterception.onSetRequestHeader( function(context, args) {
-                var halter = _associations[context.xhrOriginal];
-                if (halter !== undefined) {
-                    if (halter.getLastAvailableState() > STATE_OPEN) {
-                        return context.proceed();
-                    } else {
-                        halter.requestHeaders[args[0]] = args[1];
-                    }
-                } else {
-                    return context.proceed();
-                }
-            });
-    
             window.Graphene.xhrInterception.onOpen( function(context) {
                 if (_enabled) {
                     var halter = _associations[context.xhrOriginal] = new HaltedXHR(context.xhrOriginal, context.xhrWrapper);
                     halter.saveXhrParams(STATE_OPEN);
-                    halter._proceeds[STATE_OPEN] = function() {
-                        context.proceed();
-                        for (var headerName in halter.requestHeaders) {
-                            context.xhrOriginal.setRequestHeader(headerName, halter.requestHeaders[headerName]);
-                        }
-                    };
+                    halter._proceeds[STATE_OPEN] = context.proceed();
                     halter.wait();
                 } else {
                     return context.proceed();
