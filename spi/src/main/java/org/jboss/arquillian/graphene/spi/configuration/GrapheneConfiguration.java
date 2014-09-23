@@ -22,6 +22,8 @@
 package org.jboss.arquillian.graphene.spi.configuration;
 
 import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.jboss.arquillian.config.descriptor.api.ArquillianDescriptor;
 import org.jboss.arquillian.drone.configuration.ConfigurationMapper;
@@ -67,6 +69,8 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
     private String defaultElementLocatingStrategy = How.ID_OR_NAME.toString().toLowerCase();
 
     private String scheme = null;
+
+    private String url = null;
 
     /**
      * Specifies default location strategy when no parameter is given to {@link FindBy} annotated injection point.
@@ -118,6 +122,13 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
     }
 
     /**
+     * default url when container would inject null value to ArquillianResource otherwise
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
      * Validates that configuration is correct
      */
     public void validate() {
@@ -138,6 +149,9 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         }
         if (scheme != null && scheme.isEmpty()) {
             throw new IllegalArgumentException("The scheme property has to be a non-empty string.");
+        }
+        if (url != null && !canConstructURL(url)) {
+            throw new IllegalArgumentException("The custom url you provided is not valid url address: " + url);
         }
         try {
             How.valueOf(defaultElementLocatingStrategy.toUpperCase());
@@ -172,6 +186,30 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
     @Override
     public GrapheneConfiguration configure(ArquillianDescriptor descriptor, Class<? extends Annotation> qualifier) {
         return ConfigurationMapper.fromArquillianDescriptor(descriptor, this, qualifier);
+    }
+
+    /**
+     * Checks if {@code url} is a valid address.
+     *
+     * @param url
+     * @return true if {@code url} can be used as URL, false otherwise
+     */
+    private boolean canConstructURL(String url) {
+
+        if (url == null || url.isEmpty()) {
+            return false;
+        }
+
+        boolean canConstruct;
+
+        try {
+            new URL(url);
+            canConstruct = true;
+        } catch (MalformedURLException ex) {
+            canConstruct = false;
+        }
+
+        return canConstruct;
     }
 
 }

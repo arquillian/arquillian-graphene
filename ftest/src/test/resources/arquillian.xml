@@ -23,11 +23,15 @@
 
 -->
 <arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+ xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
     <engine>
         <property name="deploymentExportPath">target/</property>
     </engine>
+
+    <extension qualifier="graphene">
+        <property name="url">https://www.redhat.com</property>
+    </extension>
 
     <extension qualifier="webdriver">
         <property name="browser">${browser}</property>
@@ -49,7 +53,7 @@
         <property name="browser">phantomjs</property>
         <property name="remote">false</property>
     </extension>
-    
+
     <extension qualifier="webdriver-browser2">
         <property name="browser">firefox</property>
         <property name="remote">false</property>
@@ -66,7 +70,7 @@
         <property name="port">4444</property>
         <property name="skip">false</property>
     </extension>
-    
+
     <extension qualifier="screenshooter">
         <property name="takeOnEveryAction">true</property>
         <property name="takeBeforeTest">true</property>
@@ -76,8 +80,10 @@
 
     <container qualifier="tomcat7" default="true">
         <configuration>
-            <property name="javaVmArguments">-Xms1024m -Xmx1024m -XX:MaxPermSize=512m -Dcom.sun.management.jmxremote
-                -Dcom.sun.management.jmxremote.port=8089 -Djava.rmi.server.hostname=localhost
+            <property name="javaVmArguments">-Xms1024m -Xmx1024m -XX:MaxPermSize=512m
+            -Dcom.sun.management.jmxremote
+            -Dcom.sun.management.jmxremote.port=8089
+            -Djava.rmi.server.hostname=localhost
             </property>
             <property name="user">tomcat</property>
             <property name="pass">tomcat</property>
