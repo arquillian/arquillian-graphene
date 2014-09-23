@@ -32,7 +32,7 @@ import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.page.interception.AjaxHalter;
-import org.jboss.arquillian.graphene.page.interception.AjaxState;
+import org.jboss.arquillian.graphene.halter.AjaxState;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -70,7 +70,7 @@ public class TestAjaxHalter {
     }
 
     @Test
-    public void testFoo() {
+    public void testAjaxHalter() {
         AjaxHalter.enable();
 
         xhr.click();

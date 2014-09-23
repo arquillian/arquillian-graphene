@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.graphene.page.interception;
 
-import org.jboss.arquillian.graphene.request.AjaxState;
+import org.jboss.arquillian.graphene.halter.AjaxState;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
