@@ -32,6 +32,11 @@ window.Graphene.Page.AjaxHalter = (function() {
         STATE_LOADED = 2,
         STATE_INTERACTIVE = 3,
         STATE_COMPLETE = 4,
+        
+        DEFAULT_RESPONSE_TEXT = '',
+        DEFAULT_RESPONSE_XML = null,
+        DEFAULT_STATUS = 0,
+        DEFAULT_STATUS_TEXT = '',
 
         _instances = new Array(),
         _associations = {},
@@ -79,18 +84,32 @@ window.Graphene.Page.AjaxHalter = (function() {
         this.loadXhrParams = function(readyState) {
             var holder = this.availableStates[readyState];
             this.wrapper.readyState = Math.max(0, readyState);
-            this.wrapper.responseText = holder.responseText;
-            this.wrapper.responseXML = holder.responseXML;
-            this.wrapper.status = holder.status;
-            this.wrapper.statusText = holder.statusText;
+            if(readyState === 4) {
+                this.wrapper.responseText = holder.responseText;
+                this.wrapper.responseXML = holder.responseXML;
+                this.wrapper.status = holder.status;
+                this.wrapper.statusText = holder.statusText;
+            } else {
+                this.wrapper.responseText = DEFAULT_RESPONSE_TEXT;
+                this.wrapper.responseXML = DEFAULT_RESPONSE_XML;
+                this.wrapper.status = DEFAULT_STATUS;
+                this.wrapper.statusText = DEFAULT_STATUS_TEXT;
+            }
         };
         
         this.saveXhrParams = function(readyState) {
             var holder = this.availableStates[readyState] = {};
-            holder.responseText = this.xhr.responseText;
-            holder.responseXML = this.xhr.responseXML;
-            holder.status = this.xhr.status;
-            holder.statusText = this.xhr.statusText;
+            if(readyState === 4) {
+                holder.responseText = this.xhr.responseText;
+                holder.responseXML = this.xhr.responseXML;
+                holder.status = this.xhr.status;
+                holder.statusText = this.xhr.statusText;
+            } else {
+                holder.responseText = DEFAULT_RESPONSE_TEXT;
+                holder.responseXML = DEFAULT_RESPONSE_XML;
+                holder.status = DEFAULT_STATUS;
+                holder.statusText = DEFAULT_STATUS_TEXT;
+            }
             holder.onreadystatechange = this.xhr.onreadystatechange;
         };
         
