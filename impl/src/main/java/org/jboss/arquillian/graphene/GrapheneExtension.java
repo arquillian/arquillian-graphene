@@ -81,7 +81,11 @@ public class GrapheneExtension implements LoadableExtension {
         /* Resource Providers */
         builder.service(ResourceProvider.class, GrapheneContextProvider.class);
         builder.service(ResourceProvider.class, GrapheneConfigurationResourceProvider.class);
-        builder.override(ResourceProvider.class, URLResourceProvider.class, CustomizableURLResourceProvider.class);
+
+        if (SecurityActions.isClassPresent("org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider")) {
+            builder.override(ResourceProvider.class, URLResourceProvider.class, CustomizableURLResourceProvider.class);
+        }
+
         SeleniumResourceProvider.registerAllProviders(builder);
         /* Location deciders */
         builder.service(LocationDecider.class, HTTPLocationDecider.class);
