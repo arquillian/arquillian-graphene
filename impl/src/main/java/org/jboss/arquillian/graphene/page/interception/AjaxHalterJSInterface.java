@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.page.interception;
 
+import org.jboss.arquillian.graphene.request.AjaxState;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.InstallableJavaScript;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
@@ -29,9 +30,9 @@ import org.jboss.arquillian.graphene.javascript.JavaScript;
  *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  */
-@JavaScript(value = "Graphene.Page.XHRHalter")
-@Dependency(sources = "Graphene.Page.XHRHalter.js", interfaces = XhrInterception.class)
-public abstract class AjaxHalterInterface implements InstallableJavaScript {
+@JavaScript(value = "Graphene.Page.AjaxHalter")
+@Dependency(sources = "Graphene.Page.AjaxHalter.js", interfaces = XhrInterception.class)
+public abstract class AjaxHalterJSInterface implements InstallableJavaScript {
 
     public abstract boolean isHandleAvailable();
 
@@ -45,12 +46,12 @@ public abstract class AjaxHalterInterface implements InstallableJavaScript {
 
     public abstract boolean isEnabled();
 
-    public void continueTo(int handle, XHRState state) {
+    public void continueTo(int handle, AjaxState state) {
         continueTo(handle, state.getStateId());
     }
 
-    public XHRState getCurrentState(int handle) {
+    public AjaxState getCurrentState(int handle) {
         int currentStateId = getCurrentStateId(handle);
-        return XHRState.forId(currentStateId);
+        return AjaxState.forId(currentStateId);
     }
 }

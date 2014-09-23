@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.page.interception;
 
+import org.jboss.arquillian.graphene.request.AjaxState;
+
 import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 
 import org.jboss.arquillian.core.spi.Validate;
@@ -43,9 +45,9 @@ public class AjaxHalter {
         this.handle = handle;
     }
 
-    private static class XHRHalterHolder {
+    private static class AjaxHalterJSInstanceHolder {
 
-        public static AjaxHalterInterface instance = JSInterfaceFactory.create(context(), AjaxHalterInterface.class);
+        public static AjaxHalterJSInterface instance = JSInterfaceFactory.create(context(), AjaxHalterJSInterface.class);
 
         private static GrapheneContext context() {
             GrapheneContext context = GrapheneContext.lastContext();
@@ -57,19 +59,19 @@ public class AjaxHalter {
     }
 
     public static void enable() {
-        XHRHalterHolder.instance.setEnabled(true);
+        AjaxHalterJSInstanceHolder.instance.setEnabled(true);
     }
 
     public static void disable() {
-        XHRHalterHolder.instance.setEnabled(false);
+        AjaxHalterJSInstanceHolder.instance.setEnabled(false);
     }
 
     public static boolean isEnabled() {
-        return XHRHalterHolder.instance.isEnabled();
+        return AjaxHalterJSInstanceHolder.instance.isEnabled();
     }
 
     public static boolean isHandleAvailable() {
-        return XHRHalterHolder.instance.isHandleAvailable();
+        return AjaxHalterJSInstanceHolder.instance.isHandleAvailable();
     }
 
     public static void waitForHandleAvailable() {
@@ -77,7 +79,7 @@ public class AjaxHalter {
 
             @Override
             public boolean apply(WebDriver t) {
-                return XHRHalterHolder.instance.isHandleAvailable();
+                return AjaxHalterJSInstanceHolder.instance.isHandleAvailable();
             }
         });
     }
@@ -85,12 +87,12 @@ public class AjaxHalter {
     private static WebDriverWaitImpl<Void> getWaitModel() {
         return new WebDriverWaitImpl<Void>(
                 null,
-                XHRHalterHolder.context().getWebDriver(),
-                XHRHalterHolder.context().getConfiguration().getWaitModelInterval());
+                AjaxHalterJSInstanceHolder.context().getWebDriver(),
+                AjaxHalterJSInstanceHolder.context().getConfiguration().getWaitModelInterval());
     }
 
     public static AjaxHalter getHandle() {
-        int handle = XHRHalterHolder.instance.getHandle();
+        int handle = AjaxHalterJSInstanceHolder.instance.getHandle();
         if (handle < 0) {
             throw new IllegalStateException("Handle is not available");
         }
@@ -102,46 +104,46 @@ public class AjaxHalter {
         return getHandle();
     }
 
-    public void continueBefore(XHRState state) {
+    public void continueBefore(AjaxState state) {
         Validate.notNull(state, "XHRState can not be null!");
-        XHRState phaseToContinueAfter = XHRState.forId(state.getStateId() - 1);
+        AjaxState phaseToContinueAfter = AjaxState.forId(state.getStateId() - 1);
         continueAfter(phaseToContinueAfter);
     }
 
-    public void continueAfter(final XHRState state) {
+    public void continueAfter(final AjaxState state) {
         Validate.notNull(state, "XHRState can not be null!");
-        XHRHalterHolder.instance.continueTo(handle, state);
+        AjaxHalterJSInstanceHolder.instance.continueTo(handle, state);
         waitAjax().until(new Predicate<WebDriver>() {
             @Override
             public boolean apply(WebDriver arg0) {
-                XHRState currentState = XHRHalterHolder.instance.getCurrentState(handle);
+                AjaxState currentState = AjaxHalterJSInstanceHolder.instance.getCurrentState(handle);
                 return currentState.ordinal() >= state.ordinal();
             }
         });
     }
 
     public void send() {
-        continueAfter(XHRState.SEND);
+        continueAfter(AjaxState.SEND);
     }
 
     public void initialize() {
-        continueAfter(XHRState.UNINITIALIZED);
+        continueAfter(AjaxState.UNINITIALIZED);
     }
 
     public void loading() {
-        continueAfter(XHRState.LOADING);
+        continueAfter(AjaxState.LOADING);
     }
 
     public void loaded() {
-        continueAfter(XHRState.LOADED);
+        continueAfter(AjaxState.LOADED);
     }
 
     public void interactive() {
-        continueAfter(XHRState.INTERACTIVE);
+        continueAfter(AjaxState.INTERACTIVE);
     }
 
     public void complete() {
-        continueAfter(XHRState.COMPLETE);
+        continueAfter(AjaxState.COMPLETE);
     }
 
     @Override

@@ -32,7 +32,7 @@ import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.page.interception.AjaxHalter;
-import org.jboss.arquillian.graphene.page.interception.XHRState;
+import org.jboss.arquillian.graphene.page.interception.AjaxState;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -78,10 +78,10 @@ public class TestAjaxHalter {
         AjaxHalter halter = AjaxHalter.getHandleBlocking();
         assertEquals("SEND", status.getText());
 
-        halter.continueBefore(XHRState.INTERACTIVE);
+        halter.continueBefore(AjaxState.INTERACTIVE);
         assertEquals("SEND OPENED HEADERS_RECEIVED", status.getText());
 
-        halter.continueBefore(XHRState.COMPLETE);
+        halter.continueBefore(AjaxState.COMPLETE);
         assertEquals("SEND OPENED HEADERS_RECEIVED LOADING", status.getText());
 
         halter.complete();

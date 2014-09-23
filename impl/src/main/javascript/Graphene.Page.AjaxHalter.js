@@ -23,7 +23,7 @@ window.Graphene = window.Graphene || {};
 
 window.Graphene.Page = window.Graphene.Page || {};
 
-window.Graphene.Page.XHRHalter = (function() {
+window.Graphene.Page.AjaxHalter = (function() {
 
     var STATE_OPEN = -2,
         STATE_SEND = -1,
