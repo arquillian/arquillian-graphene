@@ -84,7 +84,7 @@ public class TestAjaxHalter {
         halter.continueBefore(AjaxState.DONE);
         assertEquals("SEND OPENED HEADERS_RECEIVED LOADING", status.getText());
 
-        halter.done();
+        halter.complete();
         assertEquals("SEND OPENED HEADERS_RECEIVED LOADING DONE", status.getText());
 
     }
