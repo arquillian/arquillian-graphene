@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene;
 
+import org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 import org.jboss.arquillian.drone.spi.DroneInstanceEnhancer;
 import org.jboss.arquillian.graphene.configuration.GrapheneConfigurationResourceProvider;
@@ -39,6 +40,7 @@ import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
 import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
 import org.jboss.arquillian.graphene.location.ContextRootStoreInitializer;
+import org.jboss.arquillian.graphene.location.CustomizableURLResourceProvider;
 import org.jboss.arquillian.graphene.location.LocationEnricher;
 import org.jboss.arquillian.graphene.location.decider.FileLocationDecider;
 import org.jboss.arquillian.graphene.location.decider.HTTPLocationDecider;
@@ -79,6 +81,7 @@ public class GrapheneExtension implements LoadableExtension {
         /* Resource Providers */
         builder.service(ResourceProvider.class, GrapheneContextProvider.class);
         builder.service(ResourceProvider.class, GrapheneConfigurationResourceProvider.class);
+        builder.override(ResourceProvider.class, URLResourceProvider.class, CustomizableURLResourceProvider.class);
         SeleniumResourceProvider.registerAllProviders(builder);
         /* Location deciders */
         builder.service(LocationDecider.class, HTTPLocationDecider.class);
