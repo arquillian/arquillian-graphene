@@ -78,13 +78,13 @@ public class TestAjaxHalter {
         AjaxHalter halter = AjaxHalter.getHandleBlocking();
         assertEquals("SEND", status.getText());
 
-        halter.continueBefore(AjaxState.INTERACTIVE);
+        halter.continueBefore(AjaxState.LOADING);
         assertEquals("SEND OPENED HEADERS_RECEIVED", status.getText());
 
-        halter.continueBefore(AjaxState.COMPLETE);
+        halter.continueBefore(AjaxState.DONE);
         assertEquals("SEND OPENED HEADERS_RECEIVED LOADING", status.getText());
 
-        halter.complete();
+        halter.done();
         assertEquals("SEND OPENED HEADERS_RECEIVED LOADING DONE", status.getText());
 
     }

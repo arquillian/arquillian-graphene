@@ -122,28 +122,28 @@ public class AjaxHalter {
         });
     }
 
-    public void send() {
-        continueAfter(AjaxState.SEND);
+    public void uninitialized() {
+        continueAfter(AjaxState.UNINITIALIZED);
     }
 
-    public void initialize() {
-        continueAfter(AjaxState.UNINITIALIZED);
+    public void unsent() {
+        continueAfter(AjaxState.UNSENT);
+    }
+
+    public void opened() {
+        continueAfter(AjaxState.OPENED);
+    }
+
+    public void headersReceived() {
+        continueAfter(AjaxState.HEADERS_RECEIVED);
     }
 
     public void loading() {
         continueAfter(AjaxState.LOADING);
     }
 
-    public void loaded() {
-        continueAfter(AjaxState.LOADED);
-    }
-
-    public void interactive() {
-        continueAfter(AjaxState.INTERACTIVE);
-    }
-
-    public void complete() {
-        continueAfter(AjaxState.COMPLETE);
+    public void done() {
+        continueAfter(AjaxState.DONE);
     }
 
     @Override

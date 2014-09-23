@@ -22,20 +22,19 @@
 package org.jboss.arquillian.graphene.halter;
 
 public enum AjaxState {
-    CONSTRUCT,
-    OPEN,
-    SEND,
+    CONSTRUCTED,
     UNINITIALIZED,
+    UNSENT,
+    OPENED,
+    HEADERS_RECEIVED,
     LOADING,
-    LOADED,
-    INTERACTIVE,
-    COMPLETE;
+    DONE;
 
     public int getStateId() {
-        return this.ordinal() - 3;
+        return this.ordinal() - 2;
     }
 
     public static AjaxState forId(int id) {
-        return AjaxState.values()[id + 3];
+        return AjaxState.values()[id + 2];
     }
 }

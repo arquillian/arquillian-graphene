@@ -25,13 +25,13 @@ window.Graphene.Page = window.Graphene.Page || {};
 
 window.Graphene.Page.AjaxHalter = (function() {
 
-    var STATE_OPEN = -2,
-        STATE_SEND = -1,
-        STATE_UNINITIALIZED = 0,
-        STATE_LOADING = 1,
-        STATE_LOADED = 2,
-        STATE_INTERACTIVE = 3,
-        STATE_COMPLETE = 4,
+    var STATE_CONSTRUCTED = -2,
+        STATE_UNINITIALIZED = -1,
+        STATE_UNSENT = 0,
+        STATE_OPENED = 1,
+        STATE_HEADERS_RECEIVED = 2,
+        STATE_LOADING = 3,
+        STATE_DONE = 4,
         
         DEFAULT_RESPONSE_TEXT = '',
         DEFAULT_RESPONSE_XML = null,
@@ -48,10 +48,10 @@ window.Graphene.Page.AjaxHalter = (function() {
             _instances.push(this);
             this.id = _instances.length - 1;
         }
-        this.currentState = STATE_OPEN - 1;
+        this.currentState = STATE_CONSTRUCTED - 1;
         this.availableStates = {};
         this._proceeds = {};
-        this.continueToState = STATE_OPEN;
+        this.continueToState = STATE_CONSTRUCTED;
         this.xhr = xhr;
         this.wrapper = wrapper;
         this.sendParams = {};
@@ -74,7 +74,7 @@ window.Graphene.Page.AjaxHalter = (function() {
         
         
         this.getLastAvailableState = function() {
-            var last = STATE_OPEN;
+            var last = STATE_CONSTRUCTED;
             for (var i in this._proceeds) {
                 last = Math.max(last, i);
             }
@@ -114,7 +114,7 @@ window.Graphene.Page.AjaxHalter = (function() {
         };
         
         this.isXhrCompleted = function() {
-            return this.currentState === STATE_COMPLETE;
+            return this.currentState === STATE_DONE;
         };
         
         this.wait = function() {
@@ -159,8 +159,8 @@ window.Graphene.Page.AjaxHalter = (function() {
             window.Graphene.xhrInterception.onOpen( function(context) {
                 if (_enabled) {
                     var halter = _associations[context.xhrOriginal] = new HaltedXHR(context.xhrOriginal, context.xhrWrapper);
-                    halter.saveXhrParams(STATE_OPEN);
-                    halter._proceeds[STATE_OPEN] = context.proceed();
+                    halter.saveXhrParams(STATE_CONSTRUCTED);
+                    halter._proceeds[STATE_CONSTRUCTED] = context.proceed();
                     halter.wait();
                 } else {
                     return context.proceed();
@@ -172,8 +172,8 @@ window.Graphene.Page.AjaxHalter = (function() {
 
                 if (halter !== undefined) {
                     halter.sendParams = arguments;
-                    halter.saveXhrParams(STATE_SEND);
-                    halter._proceeds[STATE_SEND] = context.proceed;
+                    halter.saveXhrParams(STATE_UNINITIALIZED);
+                    halter._proceeds[STATE_UNINITIALIZED] = context.proceed;
                 } else {
                     return context.proceed();
                 }
