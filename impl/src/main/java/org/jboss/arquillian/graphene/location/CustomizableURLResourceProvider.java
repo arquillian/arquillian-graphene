@@ -25,16 +25,21 @@ import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.arquillian.test.spi.TestClass;
 
 public class CustomizableURLResourceProvider extends URLResourceProvider {
 
     @Inject
     private Instance<GrapheneConfiguration> grapheneConfiguration;
+
+    @Inject
+    private Instance<TestClass> testClass;
 
     @Override
     public boolean canProvide(Class<?> type) {
@@ -43,19 +48,23 @@ public class CustomizableURLResourceProvider extends URLResourceProvider {
 
     @Override
     public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
-        URL url = (URL) super.doLookup(resource, qualifiers);
+
+        URL url = null;
+
+        if (hasDeployment(testClass.get())) {
+            url = (URL) super.lookup(resource, qualifiers);
+        } else {
+            url = (URL) super.doLookup(resource, qualifiers);
+        }
 
         if (url == null) {
-
-            URL customURL;
 
             String grapheneCustomURL = grapheneConfiguration.get().getUrl();
 
             if (grapheneCustomURL != null) {
 
                 try {
-                    customURL = new URL(grapheneCustomURL);
-                    url = customURL;
+                    url = new URL(grapheneCustomURL);
                 } catch (MalformedURLException ex) {
                     throw new IllegalStateException("Configured custom URL from GrapheneConfiguration should be already a valid URL.");
                 }
@@ -63,5 +72,9 @@ public class CustomizableURLResourceProvider extends URLResourceProvider {
         }
 
         return url;
+    }
+
+    private boolean hasDeployment(TestClass testClass) {
+        return testClass.getMethods(Deployment.class).length != 0;
     }
 }
