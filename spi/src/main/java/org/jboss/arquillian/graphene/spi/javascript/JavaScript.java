@@ -87,7 +87,7 @@ public class JavaScript {
      * @throws RuntimeException when failed to load a script
      */
     public static JavaScript fromResource(String resourceName) {
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream(resourceName);
+        InputStream inputStream = JavaScript.class.getResourceAsStream("/" + resourceName);
 
         if (inputStream == null) {
             throw new IllegalStateException("Can't open the '" + resourceName + "' resource.");
