@@ -54,7 +54,7 @@ public class TakeScreenshotBeforeTestInterceptor extends AbstractTakeScreenshotI
             When when = When.BEFORE;
             takeScreenshotEvent.getMetaData().setOptionalDescription("get");
 
-            DefaultFileNameBuilder nameBuilder = DefaultFileNameBuilder.getInstance();
+            DefaultFileNameBuilder nameBuilder = new DefaultFileNameBuilder();
             String screenshotName = nameBuilder
                     .withMetaData(takeScreenshotEvent.getMetaData())
                     .withStage(when)

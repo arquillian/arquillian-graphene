@@ -68,7 +68,7 @@ public class ScreenshotTaker {
                 interceptorRegistry.get().register(onEveryActionInterceptor);
             }
         } else {
-            DefaultFileNameBuilder nameBuilder = DefaultFileNameBuilder.getInstance();
+            DefaultFileNameBuilder nameBuilder = new DefaultFileNameBuilder();
             String screenshotName = nameBuilder
                     .withMetaData(event.getMetaData())
                     .withStage(event.getWhen())

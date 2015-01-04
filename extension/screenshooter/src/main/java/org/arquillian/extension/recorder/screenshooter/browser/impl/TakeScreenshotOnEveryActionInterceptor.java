@@ -62,7 +62,7 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
             takeScreenshotEvent.getMetaData()
                     .setOptionalDescription(interceptedMethod.getName() + Integer.toString(counter++));
 
-            DefaultFileNameBuilder nameBuilder = DefaultFileNameBuilder.getInstance();
+            DefaultFileNameBuilder nameBuilder = new DefaultFileNameBuilder();
             String screenshotName = nameBuilder.withMetaData(takeScreenshotEvent.getMetaData()).withStage(when)
                     .withResourceIdentifier(
                             ResourceIdentifierFactory.getResoruceIdentifier(takeScreenshotEvent.getMetaData(), when)).build();
