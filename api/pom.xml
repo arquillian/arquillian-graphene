@@ -26,6 +26,12 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib-nodep</artifactId>           
+                </exclusion>
+            </exclusions>            
         </dependency>
 
         <dependency>

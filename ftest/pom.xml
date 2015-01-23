@@ -76,6 +76,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib-nodep</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-tomcat-managed-7</artifactId>
             <version>${arquillian.tomcat.version}</version>

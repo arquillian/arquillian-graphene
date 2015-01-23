@@ -36,6 +36,12 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
             <scope>provided</scope>
+             <exclusions>
+                <exclusion>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib-nodep</artifactId>           
+                </exclusion>
+            </exclusions>         
         </dependency>
         <!-- Arquillian Drone -->
         <dependency>
@@ -65,12 +71,10 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <optional>true</optional>
         </dependency>
         <!-- end of shaded artifacts -->
 
