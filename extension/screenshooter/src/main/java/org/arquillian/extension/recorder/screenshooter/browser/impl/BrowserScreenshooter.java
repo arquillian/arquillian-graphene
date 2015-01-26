@@ -113,6 +113,13 @@ public class BrowserScreenshooter implements Screenshooter {
         screenshotToTake = new File(screenshotTargetDir, screenshotToTake.getPath());
         File targetDir = getJustTargetDir(screenshotToTake);
         RecorderFileUtils.createDirectory(targetDir);
+
+        if (browser == null) {
+            Screenshot screenshoot = new BrowserScreenshot();
+            screenshoot.setResource(screenshotToTake);
+            return screenshoot;
+        }
+
         try {
             FileUtils.copyFile(((TakesScreenshot) browser).getScreenshotAs(OutputType.FILE), screenshotToTake);
         } catch (Exception e) {
@@ -139,8 +146,17 @@ public class BrowserScreenshooter implements Screenshooter {
     }
 
     private WebDriver getTakingScreenshotsBrowser() {
-        WebDriver result = ((GrapheneProxyInstance) (GrapheneContext.getContextFor(Default.class)
-            .getWebDriver(TakesScreenshot.class))).unwrap();
+
+        GrapheneContext context = null;
+
+        try {
+            context = GrapheneContext.getContextFor(Default.class);
+        } catch (IllegalStateException ex) {
+            return null;
+        }
+
+        WebDriver result = ((GrapheneProxyInstance) context.getWebDriver(TakesScreenshot.class)).unwrap();
+
         if (result instanceof ReusableRemoteWebDriver) {
             result = new Augmenter().augment(result);
         }
