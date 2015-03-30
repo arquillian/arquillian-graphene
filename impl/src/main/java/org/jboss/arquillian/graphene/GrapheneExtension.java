@@ -39,6 +39,7 @@ import org.jboss.arquillian.graphene.enricher.SeleniumResourceProvider;
 import org.jboss.arquillian.graphene.enricher.WebElementEnricher;
 import org.jboss.arquillian.graphene.enricher.WebElementWrapperEnricher;
 import org.jboss.arquillian.graphene.integration.GrapheneEnhancer;
+import org.jboss.arquillian.graphene.location.ContainerCustomizableURLResourceProvider;
 import org.jboss.arquillian.graphene.location.ContextRootStoreInitializer;
 import org.jboss.arquillian.graphene.location.CustomizableURLResourceProvider;
 import org.jboss.arquillian.graphene.location.LocationEnricher;
@@ -81,9 +82,11 @@ public class GrapheneExtension implements LoadableExtension {
         /* Resource Providers */
         builder.service(ResourceProvider.class, GrapheneContextProvider.class);
         builder.service(ResourceProvider.class, GrapheneConfigurationResourceProvider.class);
-
+        // ARQGRA-468 make usage of Graphen custom URL possible without container test dependency
         if (SecurityActions.isClassPresent("org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider")) {
-            builder.override(ResourceProvider.class, URLResourceProvider.class, CustomizableURLResourceProvider.class);
+            builder.override(ResourceProvider.class, URLResourceProvider.class, ContainerCustomizableURLResourceProvider.class);
+        } else {
+            builder.service(ResourceProvider.class, CustomizableURLResourceProvider.class);
         }
 
         SeleniumResourceProvider.registerAllProviders(builder);
