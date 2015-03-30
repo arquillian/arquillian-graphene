@@ -21,41 +21,39 @@
  */
 package org.jboss.arquillian.graphene.location;
 
-import java.lang.annotation.Annotation;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.arquillian.test.spi.TestClass;
+import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
-public class CustomizableURLResourceProvider extends URLResourceProvider {
+import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+/**
+ * The CustomizableURLResourceProvider is used in the context of Graphene, if you use
+ * the standalone framework integration option (see https://docs.jboss.org/author/display/ARQGRA2/Framework+Integration+Options)
+ * and thus the Arquillian {@link org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider} is not on
+ * on the classpath.
+ *
+ * @see org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider
+ * @see ContainerCustomizableURLResourceProvider
+ */
+public class CustomizableURLResourceProvider implements ResourceProvider {
 
     @Inject
     private Instance<GrapheneConfiguration> grapheneConfiguration;
 
-    @Inject
-    private Instance<TestClass> testClass;
-
     @Override
     public boolean canProvide(Class<?> type) {
-        return super.canProvide(type);
+        return URL.class.isAssignableFrom(type);
     }
 
     @Override
     public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
 
-        URL url = null;
-
-        if (hasDeployment(testClass.get())) {
-            url = (URL) super.lookup(resource, qualifiers);
-        } else {
-            url = (URL) super.doLookup(resource, qualifiers);
-        }
+        URL url = doLookup(resource, qualifiers);
 
         if (url == null) {
 
@@ -74,7 +72,7 @@ public class CustomizableURLResourceProvider extends URLResourceProvider {
         return url;
     }
 
-    private boolean hasDeployment(TestClass testClass) {
-        return testClass.getMethods(Deployment.class).length != 0;
+    protected URL doLookup(ArquillianResource resource, Annotation... qualifiers) {
+        return null;
     }
 }
