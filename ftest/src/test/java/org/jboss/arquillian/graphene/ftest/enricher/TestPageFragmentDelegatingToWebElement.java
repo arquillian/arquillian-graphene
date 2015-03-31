@@ -38,6 +38,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -72,6 +73,11 @@ public class TestPageFragmentDelegatingToWebElement {
         testPage(testedPage);
     }
 
+    @Test(expected = NoSuchElementException.class)
+    public void testPageFragmentUnwrapsInvocationTargetException() {
+        page.notExisting.isDisplayed();
+    }
+
     private void testPage(TestPage testedPage) {
         String expectedText = "test";
         testedPage.getInputFragment().sendKeys(expectedText);
@@ -83,6 +89,9 @@ public class TestPageFragmentDelegatingToWebElement {
     public class TestPage {
         @FindBy(tagName = "input")
         private PageFragmentImplementingWebElement inputFragment;
+
+        @FindBy(id = "notExisting")
+        private PageFragmentImplementingWebElement notExisting;
 
         public PageFragmentImplementingWebElement getInputFragment() {
             return inputFragment;

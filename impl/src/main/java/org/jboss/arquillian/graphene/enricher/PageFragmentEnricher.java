@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -183,7 +184,12 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
             public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
                 List<Method> webElementMethods = Arrays.asList(WebElement.class.getMethods());
                 if (webElementMethods.contains(method)) {
-                    return method.invoke(root, args);
+                    try {
+                        return method.invoke(root, args);
+                    } catch (InvocationTargetException e) {
+                        // unwrap original exception
+                        throw e.getCause();
+                    }
                 } else {
                     return proxy.invokeSuper(obj, args);
                 }
