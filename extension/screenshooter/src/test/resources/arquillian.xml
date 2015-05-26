@@ -64,7 +64,7 @@
             </property>
             <property name="user">tomcat</property>
             <property name="pass">tomcat</property>
-            <property name="catalinaHome">target/apache-tomcat-7.0.26</property>
+            <property name="catalinaHome">target/apache-tomcat-7.0.55</property>
         </configuration>
     </container>
 </arquillian>
