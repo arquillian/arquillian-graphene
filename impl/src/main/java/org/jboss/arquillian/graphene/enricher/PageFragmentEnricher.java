@@ -35,6 +35,7 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
+import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
@@ -139,8 +140,9 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                     + clazz + ", declared in: " + clazz);
             }
 
-            if (isAboutToDelegateToWebElement(clazz)) {
-                pageFragment = createProxyDelegatingToRoot(root, clazz);
+            Class<?> webElementInterface = extractWebElementType(clazz);
+            if (webElementInterface != null) {
+                pageFragment = createProxyDelegatingToRoot(root, clazz, webElementInterface);
             } else {
                 pageFragment = instantiate(clazz);
             }
@@ -173,25 +175,27 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
         }
     }
 
-    private static boolean isAboutToDelegateToWebElement(Class<?> clazz) {
+    private static Class<?> extractWebElementType(Class<?> clazz) {
         List<Class<?>> interfaces = Arrays.asList(clazz.getInterfaces());
-        if (interfaces.contains(WebElement.class)) {
-            return true;
+        if (interfaces.contains(GrapheneElement.class)) {
+            return GrapheneElement.class;
+        } else if (interfaces.contains(WebElement.class)) {
+            return WebElement.class;
         } else {
             Class<?> superclass = clazz.getSuperclass();
             if (!Object.class.equals(superclass)) {
-                return isAboutToDelegateToWebElement(superclass);
+                return extractWebElementType(superclass);
             }
         }
-        return false;
+        return null;
     }
 
-    private static <T> T createProxyDelegatingToRoot(final WebElement root, Class<T> clazz) {
+    private static <T> T createProxyDelegatingToRoot(final WebElement root, Class<T> clazz, final Class<?> webElementType) {
         return ClassImposterizer.INSTANCE.imposterise(new MethodInterceptor() {
 
             @Override
             public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-                List<Method> webElementMethods = Arrays.asList(WebElement.class.getMethods());
+                List<Method> webElementMethods = Arrays.asList(webElementType.getMethods());
                 if (webElementMethods.contains(method)) {
                     try {
                         return method.invoke(root, args);
@@ -203,7 +207,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                     return proxy.invokeSuper(obj, args);
                 }
             }
-        }, clazz, WebElement.class);
+        }, clazz, webElementType);
     }
 
     protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)

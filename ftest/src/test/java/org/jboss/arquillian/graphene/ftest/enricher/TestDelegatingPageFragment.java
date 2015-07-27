@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.ftest.enricher;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
 
@@ -30,6 +31,7 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentExtendingPageFragment;
+import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentImplementingGrapheneElement;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentImplementingWebElement;
 import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Location;
@@ -45,7 +47,7 @@ import org.openqa.selenium.support.FindBy;
 
 @RunWith(Arquillian.class)
 @RunAsClient
-public class TestPageFragmentDelegatingToWebElement {
+public class TestDelegatingPageFragment {
 
     @Drone
     private WebDriver browser;
@@ -76,6 +78,14 @@ public class TestPageFragmentDelegatingToWebElement {
     }
 
     @Test
+    public void testPageFragmentImplementingGrapheneElement() {
+        browser.get(contextRoot + pageLocation);
+        assertTrue(page.outputFragment.isPresent());
+        assertEquals("foo-bar", page.outputFragment.getStyleClass());
+        assertEquals(page.outputFragment.getOutputText(), page.outputFragment.getText());
+    }
+
+    @Test
     public void testPageFragmentFromInitialPageIsDelegatingCorrectly(@InitialPage TestPage testedPage) {
         testPageFragment(testedPage.getInputFragment());
     }
@@ -96,6 +106,9 @@ public class TestPageFragmentDelegatingToWebElement {
     public class TestPage {
         @FindBy(tagName = "input")
         private PageFragmentImplementingWebElement inputFragment;
+
+        @FindBy(tagName = "p")
+        private PageFragmentImplementingGrapheneElement outputFragment;
 
         @FindBy(id = "notExisting")
         private PageFragmentImplementingWebElement notExisting;

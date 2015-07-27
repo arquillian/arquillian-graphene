@@ -251,4 +251,16 @@ public class GrapheneElementImpl implements GrapheneElement {
         return ((Locatable) element).getCoordinates();
     }
 
+    @Override
+    public int hashCode() {
+        return element.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GrapheneElementImpl) {
+            obj = ((GrapheneElementImpl)obj).element;
+        }
+        return element.equals(obj);
+    }
 }
