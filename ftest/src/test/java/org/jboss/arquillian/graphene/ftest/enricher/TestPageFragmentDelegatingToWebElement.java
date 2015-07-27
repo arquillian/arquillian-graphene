@@ -69,6 +69,7 @@ public class TestPageFragmentDelegatingToWebElement {
         testPageFragment(page.getInputFragment());
     }
 
+    @Test
     public void testExtendingPageFragmentMethodIsDelegatingCorrectly() {
         browser.get(contextRoot + pageLocation);
         testPageFragment(page.getInputExtendedFragment());
