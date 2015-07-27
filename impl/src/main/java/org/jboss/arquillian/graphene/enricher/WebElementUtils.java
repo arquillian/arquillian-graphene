@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.jboss.arquillian.graphene.GrapheneElement;
+import org.jboss.arquillian.graphene.GrapheneElementImpl;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
@@ -57,7 +58,7 @@ public final class WebElementUtils {
     private static final String EMPTY_FIND_BY_WARNING = " Be aware of the fact that fields anotated with empty "
             + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
 
-    private static final Class<?>[] INTERFACES_PROXY_SHOULD_IMPLEMENET = {Locatable.class,
+    private static final Class<?>[] INTERFACES_PROXY_SHOULD_IMPLEMENT = {Locatable.class,
         WrapsElement.class, FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class,
         FindsByName.class, FindsByTagName.class, FindsByXPath.class, GrapheneElement.class};
 
@@ -138,7 +139,7 @@ public final class WebElementUtils {
     }
 
     protected static WebElement findElement(GrapheneContext context, final GrapheneProxy.FutureTarget target) {
-        final WebElement element = GrapheneProxy.getProxyForFutureTarget(context, target, WebElement.class, INTERFACES_PROXY_SHOULD_IMPLEMENET);
+        final WebElement element = GrapheneProxy.getProxyForFutureTarget(context, target, WebElement.class, INTERFACES_PROXY_SHOULD_IMPLEMENT);
         final GrapheneProxyInstance elementProxy = (GrapheneProxyInstance) element;
 
         InterceptorBuilder b = new InterceptorBuilder();
@@ -151,24 +152,32 @@ public final class WebElementUtils {
     }
 
     protected static WebElement dropProxyAndFindElement(By by, SearchContext searchContext) {
+        WebElement result;
         if (searchContext instanceof GrapheneProxyInstance) {
-            SearchContext unwrapped = (SearchContext) ((GrapheneProxyInstance) searchContext).unwrap();
-            return unwrapped.findElement(by);
+            SearchContext unwrapped = ((GrapheneProxyInstance) searchContext).unwrap();
+            result = unwrapped.findElement(by);
         } else {
-            return searchContext.findElement(by);
+            result = searchContext.findElement(by);
         }
+        return new GrapheneElementImpl(result);
     }
 
     protected static List<WebElement> dropProxyAndFindElements(By by, SearchContext searchContext) {
+        List<WebElement> webElements;
         if (searchContext instanceof GrapheneProxyInstance) {
             if (by instanceof ByJQuery) {
-                return by.findElements(searchContext);
+                webElements = by.findElements(searchContext);
             } else {
-                return ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElements(by);
+                webElements = ((SearchContext) ((GrapheneProxyInstance) searchContext).unwrap()).findElements(by);
             }
         } else {
-            return searchContext.findElements(by);
+            webElements = searchContext.findElements(by);
         }
+        List<WebElement> result = new ArrayList<WebElement>(webElements.size());
+        for (WebElement webElement : webElements) {
+            result.add(new GrapheneElementImpl(webElement));
+        }
+        return result;
     }
 
     protected static GrapheneContext getContext(Object object) {
