@@ -174,7 +174,16 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     }
 
     private static boolean isAboutToDelegateToWebElement(Class<?> clazz) {
-        return Arrays.asList(clazz.getInterfaces()).contains(WebElement.class);
+        List<Class<?>> interfaces = Arrays.asList(clazz.getInterfaces());
+        if (interfaces.contains(WebElement.class)) {
+            return true;
+        } else {
+            Class<?> superclass = clazz.getSuperclass();
+            if (!Object.class.equals(superclass)) {
+                return isAboutToDelegateToWebElement(superclass);
+            }
+        }
+        return false;
     }
 
     private static <T> T createProxyDelegatingToRoot(final WebElement root, Class<T> clazz) {

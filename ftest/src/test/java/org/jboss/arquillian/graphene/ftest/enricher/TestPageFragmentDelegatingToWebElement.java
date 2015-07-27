@@ -29,6 +29,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resources;
+import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentExtendingPageFragment;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentImplementingWebElement;
 import org.jboss.arquillian.graphene.page.InitialPage;
 import org.jboss.arquillian.graphene.page.Location;
@@ -65,12 +66,18 @@ public class TestPageFragmentDelegatingToWebElement {
     @Test
     public void testPageFragmentMethodIsDelegatingCorrectly() {
         browser.get(contextRoot + pageLocation);
-        testPage(page);
+        testPageFragment(page.getInputFragment());
+    }
+
+    @Test
+    public void testExtendingPageFragmentMethodIsDelegatingCorrectly() {
+        browser.get(contextRoot + pageLocation);
+        testPageFragment(page.getInputExtendedFragment());
     }
 
     @Test
     public void testPageFragmentFromInitialPageIsDelegatingCorrectly(@InitialPage TestPage testedPage) {
-        testPage(testedPage);
+        testPageFragment(testedPage.getInputFragment());
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -78,11 +85,11 @@ public class TestPageFragmentDelegatingToWebElement {
         page.notExisting.isDisplayed();
     }
 
-    private void testPage(TestPage testedPage) {
+    private void testPageFragment(PageFragmentImplementingWebElement fragment) {
         String expectedText = "test";
-        testedPage.getInputFragment().sendKeys(expectedText);
-        assertEquals(expectedText, testedPage.getInputFragment().getInputText());
-        assertEquals("foo-bar", testedPage.getInputFragment().getStyleClass());
+        fragment.sendKeys(expectedText);
+        assertEquals(expectedText, fragment.getInputText());
+        assertEquals("foo-bar", fragment.getStyleClass());
     }
 
     @Location(pageLocation)
@@ -93,8 +100,15 @@ public class TestPageFragmentDelegatingToWebElement {
         @FindBy(id = "notExisting")
         private PageFragmentImplementingWebElement notExisting;
 
+        @FindBy(className = "foo-bar")
+        private PageFragmentExtendingPageFragment inputExtendedFragment;
+
         public PageFragmentImplementingWebElement getInputFragment() {
             return inputFragment;
+        }
+
+        public PageFragmentExtendingPageFragment getInputExtendedFragment() {
+            return inputExtendedFragment;
         }
     }
 }
