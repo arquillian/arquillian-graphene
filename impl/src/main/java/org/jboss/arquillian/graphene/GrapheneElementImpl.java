@@ -27,7 +27,9 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
@@ -251,4 +253,12 @@ public class GrapheneElementImpl implements GrapheneElement {
         return ((Locatable) element).getCoordinates();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.openqa.selenium.TakesScreenshot#getScreenshotAs(org.openqa.selenium.OutputType)
+     */
+    @Override public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
+        return element.getScreenshotAs(outputType);
+    }
 }
