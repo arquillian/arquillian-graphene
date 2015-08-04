@@ -27,7 +27,9 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
@@ -251,16 +253,45 @@ public class GrapheneElementImpl implements GrapheneElement {
         return ((Locatable) element).getCoordinates();
     }
 
-    @Override
-    public int hashCode() {
-        return element.hashCode();
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.openqa.selenium.TakesScreenshot#getScreenshotAs(org.openqa.selenium.OutputType)
+     */
+    @Override public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
+        return element.getScreenshotAs(outputType);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof GrapheneElementImpl) {
-            obj = ((GrapheneElementImpl)obj).element;
-        }
-        return element.equals(obj);
-    }
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((element == null) ? 0 : element.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GrapheneElementImpl other = (GrapheneElementImpl) obj;
+		if (element == null) {
+			if (other.element != null)
+				return false;
+		} else if (!element.equals(other.element))
+			return false;
+		return true;
+	}
 }
