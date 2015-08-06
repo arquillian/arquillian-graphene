@@ -40,6 +40,8 @@
         <tomcat.version>7.0.55</tomcat.version>
         <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
         <arquillian.tomcat.version>1.0.0.CR6</arquillian.tomcat.version>
+
+        <version.fest-assert>1.4</version.fest-assert>
     </properties>
 
     <dependencies>
@@ -63,7 +65,7 @@
             <groupId>org.jboss.arquillian.extension</groupId>
             <artifactId>arquillian-drone-webdriver</artifactId>
         </dependency>
-        
+
         <!-- Arquillian JUnit -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
@@ -75,6 +77,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>${version.fest-assert}</version>
             <scope>test</scope>
         </dependency>
 
