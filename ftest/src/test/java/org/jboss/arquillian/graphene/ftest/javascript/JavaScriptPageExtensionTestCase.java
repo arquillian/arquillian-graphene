@@ -27,6 +27,7 @@ import java.util.List;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
@@ -45,6 +46,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsElement;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -101,7 +103,8 @@ public class JavaScriptPageExtensionTestCase {
     @Test
     public void testAbstractClass() {
         Document3 document = JSInterfaceFactory.create(context, Document3.class);
-        Assert.assertEquals(browser.findElement(By.tagName("h1")), document.getHeader());
+        WebElement element = unwrapWebElement(browser.findElement(By.tagName("h1")));
+        Assert.assertEquals(element, document.getHeader());
     }
 
     @JavaScript(value="fake")
@@ -136,5 +139,12 @@ public class JavaScriptPageExtensionTestCase {
     public interface HelloWorld2 {
 
         String hello();
+    }
+
+    private WebElement unwrapWebElement(WebElement element) {
+        while (element instanceof WrapsElement) {
+            element = ((WrapsElement) element).getWrappedElement();
+        }
+        return element;
     }
 }
