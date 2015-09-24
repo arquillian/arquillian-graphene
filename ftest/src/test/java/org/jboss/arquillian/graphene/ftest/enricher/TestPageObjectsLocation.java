@@ -42,6 +42,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import qualifier.Browser2;
 import qualifier.Browser3;
 
 @RunWith(Arquillian.class)
@@ -50,6 +51,10 @@ public class TestPageObjectsLocation {
 
     @Drone
     private WebDriver browser;
+
+    @Drone
+    @Browser2
+    private WebDriver browser2;
 
     @Drone
     @Browser3
@@ -109,6 +114,21 @@ public class TestPageObjectsLocation {
     public void testInitialPageCustomBrowser(@Browser3 @InitialPage MyPageObject2 obj) {
         browser.get(contextRoot.toExternalForm());
         checkMyPageObject2(obj);
+    }
+
+    @Test
+    public void testMultipleInitialPagesWithCustomBrowsers(
+        @Browser2 @InitialPage MyPageObject2 page1,
+        @Browser3 @InitialPage MyPageObject2 page2) {
+        browser.get(contextRoot.toExternalForm());
+        checkMyPageObject2(page1);
+        checkMyPageObject2(page2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMultipleInitialPagesGoingToSameBrowser(
+        @Browser2 @InitialPage MyPageObject2 page1,
+        @Browser2 @InitialPage MyPageObject2 page2) {
     }
 
     @Test
