@@ -23,7 +23,11 @@ package org.jboss.arquillian.graphene.location;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.jboss.arquillian.core.api.Injector;
 import org.jboss.arquillian.core.api.Instance;
@@ -60,17 +64,24 @@ public class LocationEnricher implements TestEnricher {
 
     @Override
     public Object[] resolve(Method method) {
-        int indexOfInitialPage = getIndexOfParameterWithAnnotation(InitialPage.class, method);
-        if (indexOfInitialPage == -1) {
+        List<Integer> indicesOfInitialPage = getIndexOfParameterWithAnnotation(InitialPage.class, method);
+        if (indicesOfInitialPage.isEmpty()) {
             return new Object[method.getParameterTypes().length];
         }
-        Class<?> qualifier = ReflectionHelper.getQualifier(method.getParameterAnnotations()[indexOfInitialPage]);
 
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        Object[] result = new Object[method.getParameterTypes().length];
-        result[indexOfInitialPage] = goTo(parameterTypes[indexOfInitialPage], qualifier);
+        Object[] results = new Object[method.getParameterTypes().length];
+        Set<Class<?>> usedQualifiers = new HashSet<Class<?>>();
+        for (Integer indexOfInitialPage : indicesOfInitialPage) {
+            Class<?> qualifier = ReflectionHelper.getQualifier(method.getParameterAnnotations()[indexOfInitialPage]);
+            if (usedQualifiers.contains(qualifier)) {
+                throw new IllegalArgumentException("There are multiple @InitialPage parameters using the same qualifier");
+            }
+            usedQualifiers.add(qualifier);
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            results[indexOfInitialPage] = goTo(parameterTypes[indexOfInitialPage], qualifier);
+        }
 
-        return result;
+        return results;
     }
 
     public <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
@@ -132,28 +143,18 @@ public class LocationEnricher implements TestEnricher {
      * @param method
      * @return
      */
-    private int getIndexOfParameterWithAnnotation(Class<? extends Annotation> annotation, Method method) {
+    private List<Integer> getIndexOfParameterWithAnnotation(Class<? extends Annotation> annotation, Method method) {
         Annotation[][] annotationsOfAllParameters = method.getParameterAnnotations();
 
-        int result = 0;
-        boolean founded = false;
-        for (; result < annotationsOfAllParameters.length; result++) {
-            for (int j = 0; j < annotationsOfAllParameters[result].length; j++) {
-                if (annotationsOfAllParameters[result][j].annotationType().equals(annotation)) {
-                    founded = true;
-                    break;
+        List<Integer> results = new ArrayList<Integer>();
+        for (int i = 0; i < annotationsOfAllParameters.length; i++) {
+            for (int j = 0; j < annotationsOfAllParameters[i].length; j++) {
+                if (annotationsOfAllParameters[i][j].annotationType().equals(annotation)) {
+                    results.add(i);
                 }
             }
-            if (founded) {
-                break;
-            }
         }
-        if (!founded) {
-            // the method has no parameters with Location annotation
-            return -1;
-        }
-
-        return result;
+        return results;
     }
 
     private LocationDecider resolveDecider(Collection<LocationDecider> deciders, Class<?> scheme) {
