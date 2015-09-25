@@ -129,6 +129,7 @@ window.Graphene.xhrInterception = (function() {
             //do not use 'this' since host objects behave differently
             wrapper.readyState = wrapper.xhr.readyState;
             if (wrapper.readyState == 4) {
+                wrapper.response = wrapper.xhr.response;
                 wrapper.responseText = wrapper.xhr.responseText;
                 wrapper.responseXML = wrapper.xhr.responseXML;
                 wrapper.status = wrapper.xhr.status;
