@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://jboss.org/schema/arquillian"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+    <extension qualifier="screenshooter">
+        <property name="takeBeforeTest">${screenshot.take.before.test}</property>
+        <property name="takeAfterTest">${screenshot.take.after.test}</property>
+        <property name="takeOnEveryAction">${screenshot.take.on.every.action}</property>
+        <property name="takeWhenTestFailed">${screenshot.take.when.test.filed}</property>
+    </extension>
+
+    <extension qualifier="webdriver">
+        <property name="browser">phantomjs</property>
+    </extension>
+
+    <!-- The reason why the mode is set to manual - this container won't be started ever -->
+    <container qualifier="tomcat7" default="true" mode="manual">
+        <configuration>
+            <property name="catalinaHome">target/apache-tomcat-7.0.55</property>
+        </configuration>
+    </container>
+
+</arquillian>
