@@ -104,6 +104,38 @@
         </testResources>
         <plugins>
             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <phase>test</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/when/*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>when</id>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/ftest/*.java</exclude>
+                            </excludes>
+                            <systemPropertyVariables>
+                                <browser>${browser}</browser>
+                            </systemPropertyVariables>
+                        </configuration>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <phase>test</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
@@ -134,7 +166,6 @@
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                 </artifactItem>
-
                             </artifactItems>
                         </configuration>
                     </execution>
