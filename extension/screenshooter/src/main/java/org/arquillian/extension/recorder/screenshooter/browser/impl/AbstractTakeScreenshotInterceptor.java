@@ -30,20 +30,20 @@ import org.jboss.arquillian.graphene.proxy.Interceptor;
  */
 public abstract class AbstractTakeScreenshotInterceptor implements Interceptor {
 
-    protected TakeScreenshot takeScreenshotEvent;
+    protected TakeScreenshot takeScreenshot;
     protected TakeScreenshotAndReportService takeScreenAndReportService;
     protected InterceptorRegistry interceptorRegistryService;
 
-    public AbstractTakeScreenshotInterceptor(TakeScreenshot takeScreenshotEvent,
+    public AbstractTakeScreenshotInterceptor(TakeScreenshot takeScreenshot,
             TakeScreenshotAndReportService takeScreenAndReportService,
             InterceptorRegistry interceptorRegistryService) {
-        this.takeScreenshotEvent = takeScreenshotEvent;
+        this.takeScreenshot = takeScreenshot;
         this.takeScreenAndReportService = takeScreenAndReportService;
         this.interceptorRegistryService = interceptorRegistryService;
     }
 
     protected void takeScreenshotAndReport() {
-        takeScreenAndReportService.takeScreenshotAndReport(takeScreenshotEvent);
+        takeScreenAndReportService.takeScreenshotAndReport(takeScreenshot);
     }
 
 

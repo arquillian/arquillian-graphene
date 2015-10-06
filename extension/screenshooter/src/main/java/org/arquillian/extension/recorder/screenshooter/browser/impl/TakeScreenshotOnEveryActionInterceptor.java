@@ -42,10 +42,10 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
 
     private static final List<Method> WHITE_LIST_WEB_DRIVER_METHODS = getWhiteListWebDriverMethods();
 
-    public TakeScreenshotOnEveryActionInterceptor(TakeScreenshot takeScreenshotEvent,
+    public TakeScreenshotOnEveryActionInterceptor(TakeScreenshot takeScreenshot,
             TakeScreenshotAndReportService takeScreenAndReportservice,
             InterceptorRegistry interceptorRegistryService) {
-        super(takeScreenshotEvent, takeScreenAndReportservice, interceptorRegistryService);
+        super(takeScreenshot, takeScreenAndReportservice, interceptorRegistryService);
     }
 
     @Override
@@ -59,15 +59,18 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
 
         if (isInterceptedMethodAllowed(interceptedMethod)) {
             When when = When.ON_EVERY_ACTION;
-            takeScreenshotEvent.getMetaData()
+            takeScreenshot.getMetaData()
                     .setOptionalDescription(interceptedMethod.getName() + Integer.toString(counter++));
 
             DefaultFileNameBuilder nameBuilder = new DefaultFileNameBuilder();
-            String screenshotName = nameBuilder.withMetaData(takeScreenshotEvent.getMetaData()).withStage(when)
-                    .withResourceIdentifier(
-                            ResourceIdentifierFactory.getResoruceIdentifier(takeScreenshotEvent.getMetaData(), when)).build();
-            takeScreenshotEvent.setFileName(screenshotName);
-            takeScreenshotEvent.setWhen(screenshotName.contains("before") ? When.BEFORE : When.ON_EVERY_ACTION);
+            String screenshotName = nameBuilder
+                .withMetaData(takeScreenshot.getMetaData())
+                .withStage(when)
+                .withResourceIdentifier(
+                    ResourceIdentifierFactory.getResoruceIdentifier(takeScreenshot.getMetaData(), when))
+                .build();
+            takeScreenshot.setFileName(screenshotName);
+            takeScreenshot.setWhen(When.ON_EVERY_ACTION);
 
             takeScreenshotAndReport();
         }
