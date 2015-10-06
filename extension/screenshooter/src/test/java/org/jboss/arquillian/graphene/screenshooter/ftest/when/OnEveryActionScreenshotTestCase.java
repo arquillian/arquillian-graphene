@@ -16,17 +16,20 @@
  */
 package org.jboss.arquillian.graphene.screenshooter.ftest.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.arquillian.extension.recorder.When;
-import org.jboss.arquillian.graphene.Graphene;
+import org.arquillian.extension.recorder.screenshooter.api.Screenshot;
+import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.jboss.arquillian.graphene.screenshooter.ftest.when.util.AbstractTestClass;
 import org.jboss.arquillian.graphene.screenshooter.ftest.when.util.ArquillianXmlUtil;
 import org.jboss.arquillian.graphene.screenshooter.ftest.when.util.DefaultTestClass;
 import org.jboss.arquillian.graphene.screenshooter.ftest.when.util.ValidationUtil;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Test if the {@code takeOnEveryAction} property works correctly and if the associate screenshots are (not) taken it the
@@ -37,60 +40,73 @@ import org.openqa.selenium.support.FindBy;
 public class OnEveryActionScreenshotTestCase extends AbstractScreenshotTestCase {
 
     /**
-     * Should take only the "BEFORE" screenshot
-     * TODO: modify this test when the it will be clear whe the screenshots should be taken
+     * Should take only a screenshot when the page is loaded ({@link WebDriver#get(String)} operation)
      */
     @Test
     public void onEveryActionDefaultTest() {
         ArquillianXmlUtil.setProperties(When.ON_EVERY_ACTION);
         runTest(DefaultTestClass.class);
-        ValidationUtil.verifyScreenshotPresence(DefaultTestClass.class, When.BEFORE);
+
+        List<String> fileNames = getFilesNameList("get0");
+        ValidationUtil.verifyScreenshotPresence(DefaultTestClass.class, fileNames);
     }
 
     /**
-     * TODO: modify this test when the it will be clear whe the screenshots should be taken
+     * Should take three screenshots when the page is loaded (caled {@link WebDriver#get(String)} operation three times)
      */
     @Test
-    @Ignore
-    public void onEveryActionTest() {
+    public void onEveryActionWithAnnotationTest() {
         ArquillianXmlUtil.setProperties(When.ON_EVERY_ACTION);
-        runTest(OnEveryActionTestClass.class);
-        ValidationUtil.verifyScreenshotPresence(OnEveryActionTestClass.class, When.BEFORE);
+        runTest(OnEveryActionWithAnnotationTestClass.class);
+
+        List<String> fileNames = getFilesNameList("get0", "get1", "get2");
+        ValidationUtil.verifyScreenshotPresence(OnEveryActionWithAnnotationTestClass.class, fileNames);
     }
 
     /**
-     * TODO: modify this test when the it will be clear whe the screenshots should be taken
+     * Should take only a screenshot when the page is loaded ({@link WebDriver#get(String)} operation) no matter this
+     * test fails
      */
     @Test
-    @Ignore
     public void onEveryActionFailingTest() {
         ArquillianXmlUtil.setProperties(When.ON_EVERY_ACTION);
         runFailingTest(FailingTestClass.class);
-        ValidationUtil.verifyScreenshotPresence(FailingTestClass.class, When.BEFORE);
+
+        List<String> fileNames = getFilesNameList("get0");
+        ValidationUtil.verifyScreenshotPresence(FailingTestClass.class, fileNames);
     }
 
+    /**
+     * Should take several screenshots corresponding to the actions called on the {@link WebDriver}
+     */
+    @Test
+    public void onEveryActionManyActionsTest() {
+        ArquillianXmlUtil.setProperties(When.ON_EVERY_ACTION);
+        runTest(OnEveryActionManyActionsTestClass.class);
 
-    public static class OnEveryActionTestClass extends AbstractTestClass {
+        List<String> fileNames =
+            getFilesNameList("get0", "findElement1", "findElements2", "getCurrentUrl3", "getWindowHandle4", "navigate5",
+                "manage6", "getTitle7", "getPageSource8", "getWindowHandles9", "switchTo10");
+        ValidationUtil.verifyScreenshotPresence(OnEveryActionManyActionsTestClass.class, fileNames);
+    }
 
-        @FindBy(id = "username")
-        private WebElement usernameField;
+    private List<String> getFilesNameList(String... operationNames) {
+        List<String> fileNames = new ArrayList<String>(operationNames.length);
+        for (String opName : operationNames) {
+            fileNames.add(opName + "_" + When.ON_EVERY_ACTION);
+        }
+        return fileNames;
+    }
 
-        @FindBy(id = "password")
-        private WebElement passwordField;
-
-        @FindBy(id = "login-button")
-        private WebElement loginButton;
+    public static class OnEveryActionWithAnnotationTestClass extends AbstractTestClass {
 
         @Override
+        @Test
+        @Screenshot(takeOnEveryAction = true)
         public void testMethod() {
             loadPage();
-
-            // getBrowser().findElement(By.id("username")).sendKeys("cool");
-
-            Graphene.waitAjax().until().element(usernameField).is().visible();
-            usernameField.sendKeys("cool");
-            passwordField.sendKeys("cool");
-            Graphene.guardAjax(loginButton).click();
+            loadPage();
+            loadPage();
         }
     }
 
@@ -99,6 +115,27 @@ public class OnEveryActionScreenshotTestCase extends AbstractScreenshotTestCase 
         @Override public void testMethod() {
             loadPage();
             Assert.fail();
+        }
+    }
+
+    public static class OnEveryActionManyActionsTestClass extends AbstractTestClass {
+
+        @Override
+        public void testMethod() {
+            loadPage();
+
+            getBrowser().findElement(By.id("root"));
+            getBrowser().findElements(ByJQuery.selector("select>option"));
+            getBrowser().getCurrentUrl();
+            getBrowser().getWindowHandle();
+            getBrowser().navigate();
+            getBrowser().manage();
+            getBrowser().getTitle();
+            getBrowser().getPageSource();
+            getBrowser().getWindowHandles();
+            getBrowser().switchTo();
+            getBrowser().close();
+            getBrowser().quit();
         }
     }
 }

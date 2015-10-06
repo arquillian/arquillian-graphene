@@ -31,8 +31,6 @@ import org.junit.Assert;
  */
 public class ValidationUtil {
 
-
-
     public static void verifyScreenshotPresence(Class testClass, When... whenArray) {
         verifyScreenshotPresence(testClass, Constants.TEST_METHOD_NAME, whenArray);
     }
@@ -42,11 +40,7 @@ public class ValidationUtil {
     }
 
     public static void verifyScreenshotPresence(Class testClass, String methodName, When... whenArray) {
-        List<String> namesOfFiles = new ArrayList<String>();
-        for (When when : whenArray) {
-            namesOfFiles.add(when.toString());
-        }
-        verifyScreenshotPresence(testClass, methodName, namesOfFiles, whenArray);
+        verifyScreenshotPresence(testClass, methodName, new ArrayList<String>(whenArray.length), whenArray);
     }
 
     public static void verifyScreenshotPresence(Class testClass, String methodName, List<String> namesOfAllFiles,
@@ -59,21 +53,20 @@ public class ValidationUtil {
             screenshotsFiles = new File[] {};
         }
 
-        checkFilesCount(namesOfAllFiles, screenshotsFiles);
-        for (File screenshotFile : screenshotsFiles) {
-            Assert.assertTrue(
-                "The file: " + screenshotFile.getName() + " should NOT be there in the screenshots directory",
-                namesOfAllFiles.contains(screenshotFile.getName().replace(".png", "")));
-        }
-
         for (When when : whenArray) {
-            String screenshotFilePath = screenshotTestDirectory + when + ".png";
+            namesOfAllFiles.add(when.toString());
+        }
+        checkFilesCount(namesOfAllFiles, screenshotsFiles);
 
-            File screenshotFile = new File(screenshotFilePath);
-            Assert.assertTrue("The screenshot " + screenshotFilePath + " should exist", screenshotFile.exists());
-            Assert.assertTrue("The screenshot " + screenshotFilePath + " should be a file", screenshotFile.isFile());
-            Assert.assertTrue("The size of the screenshot " + screenshotFilePath + " should not be 0",
-                screenshotFile.length() > 0);
+        for (File screenshotFile : screenshotsFiles) {
+            if (namesOfAllFiles.contains(screenshotFile.getName().replace(".png", ""))) {
+                Assert.assertTrue("The size of the screenshot " + screenshotFile.getAbsolutePath() + " should not be 0",
+                    screenshotFile.length() > 0);
+
+            } else {
+                StringBuffer message = new StringBuffer("The content of screenshot directory is not as expected. ");
+                failMessageOfWrongContent(message, namesOfAllFiles, screenshotsFiles);
+            }
         }
     }
 
@@ -81,16 +74,21 @@ public class ValidationUtil {
         if (namesOfAllFiles.size() != screenshotsFiles.length) {
             StringBuffer message = new StringBuffer("The count of expected files doesn't correspond to the reality. ");
             message.append("Expected count: " + namesOfAllFiles.size() + " actual: " + screenshotsFiles.length);
-            message.append("\nSpecifically, the expected file name(s):\n");
-
-            for (String name : namesOfAllFiles) {
-                message.append(name + ".png\n");
-            }
-            message.append("but in the directory there are(is):\n");
-            for (File f : screenshotsFiles) {
-                message.append(f.getName() + "\n");
-            }
-            Assert.fail(message.toString());
+            failMessageOfWrongContent(message, namesOfAllFiles, screenshotsFiles);
         }
+    }
+
+    private static void failMessageOfWrongContent(StringBuffer message, List<String> namesOfAllFiles,
+        File[] screenshotsFiles) {
+        message.append("\nSpecifically, the expected file name(s):\n");
+
+        for (String name : namesOfAllFiles) {
+            message.append(name + ".png\n");
+        }
+        message.append("but in the directory there are(is):\n");
+        for (File f : screenshotsFiles) {
+            message.append(f.getName() + "\n");
+        }
+        Assert.fail(message.toString());
     }
 }
