@@ -59,19 +59,12 @@ public class ResourceIdentifierFactory {
                 sb.append(metaData.getOptionalDescription());
             }
             if (when != null) {
-                sb.append("_");
-                if(when == When.AFTER || when == When.FAILED) {
-                    sb.setLength(0);
-                }
-                if(when == When.ON_EVERY_ACTION && metaData.getOptionalDescription().equals("get0")) {
-                    sb.setLength(0);
-                    sb.append(When.BEFORE);
-                } else if(when == When.BEFORE) {
-                    sb.setLength(0);
-                    sb.append(When.BEFORE);
+                if (when == When.ON_EVERY_ACTION) {
+                    sb.append("_");
                 } else {
-                    sb.append(when.toString());
+                    sb.setLength(0);
                 }
+                sb.append(when.toString());
             }
             if (resourceType != null) {
                 sb.append(".");
