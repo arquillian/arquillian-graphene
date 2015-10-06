@@ -50,23 +50,23 @@ public class TakeScreenshotAndReportService {
     @Inject
     private Instance<TakenResourceRegister> takenScreenshotsRegister;
 
-    public void takeScreenshotAndReport(TakeScreenshot takeScreenshotEvent) {
+    public void takeScreenshotAndReport(TakeScreenshot takeScreenshot) {
         ScreenshotType screenshotType = screenshooter.get().getScreenshotType();
 
         File screenshotTarget = new File(
-            new File(takeScreenshotEvent.getMetaData().getTestClassName(), takeScreenshotEvent.getMetaData().getTestMethodName()),
-            takeScreenshotEvent.getFileName());
+            new File(takeScreenshot.getMetaData().getTestClassName(), takeScreenshot.getMetaData().getTestMethodName()),
+            takeScreenshot.getFileName());
 
         Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, screenshotType);
         takenScreenshotsRegister.get().addTaken(screenshot);
 
-        takeScreenshotEvent.getMetaData().setHeight(screenshot.getHeight());
-        takeScreenshotEvent.getMetaData().setWidth(screenshot.getWidth());
-        screenshot.setResourceMetaData(takeScreenshotEvent.getMetaData());
+        takeScreenshot.getMetaData().setHeight(screenshot.getHeight());
+        takeScreenshot.getMetaData().setWidth(screenshot.getWidth());
+        screenshot.setResourceMetaData(takeScreenshot.getMetaData());
 
         PropertyEntry propertyEntry = new ScreenshotReportEntryBuilder()
-            .withWhen(takeScreenshotEvent.getWhen())
-            .withMetadata(takeScreenshotEvent.getMetaData())
+            .withWhen(takeScreenshot.getWhen())
+            .withMetadata(takeScreenshot.getMetaData())
             .withScreenshot(screenshot)
             .build();
 

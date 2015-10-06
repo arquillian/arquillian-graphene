@@ -46,21 +46,6 @@ public class BrowserScreenshooterConfiguration extends ScreenshooterConfiguratio
         return Boolean.parseBoolean(getProperty("takeOnEveryAction", takeOnEveryAction));
     }
 
-
-    /** By default set to false.
-     *
-     * @return true if screenshot should be taken before test, false otherwise.
-     *   Note that if getTakeOnEveryAction is true then result of this method is always true.
-     */
-    @Override
-    public boolean getTakeBeforeTest() {
-
-        if(getTakeOnEveryAction()) {
-            return true;
-        }
-        return super.getTakeBeforeTest();
-    }
-
     @Override
     public void validate() throws ScreenshooterConfigurationException {
         super.validate();
