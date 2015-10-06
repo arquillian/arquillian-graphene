@@ -22,13 +22,13 @@
 package org.arquillian.extension.recorder.screenshooter.browser.impl;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 import org.arquillian.extension.recorder.DefaultFileNameBuilder;
 import org.arquillian.extension.recorder.When;
 import org.arquillian.extension.recorder.screenshooter.event.TakeScreenshot;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
-
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
 import org.openqa.selenium.WebDriver;
 
@@ -40,7 +40,7 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
 
     private int counter = 0;
 
-    private static final List<Method> WHITE_LIST_WEB_DRIVER_METHODS = Arrays.asList(WebDriver.class.getMethods());
+    private static final List<Method> WHITE_LIST_WEB_DRIVER_METHODS = getWhiteListWebDriverMethods();
 
     public TakeScreenshotOnEveryActionInterceptor(TakeScreenshot takeScreenshotEvent,
             TakeScreenshotAndReportService takeScreenAndReportservice,
@@ -83,6 +83,19 @@ public class TakeScreenshotOnEveryActionInterceptor extends AbstractTakeScreensh
             }
         }
         return result;
+    }
+
+    private static List<Method> getWhiteListWebDriverMethods() {
+        List<Method> methods = Lists.newArrayList(WebDriver.class.getMethods());
+
+        // see ARQGRA-482
+        try {
+            methods.remove(WebDriver.class.getMethod("close"));
+            methods.remove(WebDriver.class.getMethod("quit"));
+        } catch (NoSuchMethodException e) {
+        }
+
+        return methods;
     }
 
     private static boolean methodsEqual(Method first, Method second) {
