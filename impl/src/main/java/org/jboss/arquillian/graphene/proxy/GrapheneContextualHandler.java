@@ -31,7 +31,6 @@ import java.util.concurrent.Callable;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GrapheneContextImpl;
 import org.jboss.arquillian.graphene.intercept.InterceptorPrecedenceComparator;
@@ -214,10 +213,12 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
                     } catch (Throwable e) {
                         if (e instanceof Exception) {
                             throw (Exception) e;
+                        } else if (e instanceof AssertionError) {
+                            throw (AssertionError) e;
                         } else {
                             throw new IllegalStateException("Can't invoke method " + method.getName() + ".", e);
-                        }
                     }
+                }
                 }
             });
         } else {
