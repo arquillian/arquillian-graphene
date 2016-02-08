@@ -110,6 +110,24 @@ public class ConditionsTestCase {
     }
 
     @Test
+    public void testAttributeValueEqualsIgnoreCase() {
+        textInput.clear();
+        textInput.sendKeys("Tested");
+        Graphene.waitModel().until().element(textInput).value().not().equalToIgnoreCase("tEsTeD HEADER");
+        textInput.sendKeys(" Header");
+        Graphene.waitModel().until().element(textInput).value().equalToIgnoreCase("tEsTeD HEADER");
+    }
+
+    @Test
+    public void testAttributeValueMatches() {
+        textInput.clear();
+        textInput.sendKeys("Tested");
+        Graphene.waitModel().until().element(textInput).value().not().matches("[tT]este. [hH]ea.er");
+        textInput.sendKeys(" Header");
+        Graphene.waitModel().until().element(textInput).value().matches("[tT]este. [hH]ea.er");
+    }
+
+    @Test
     public void testElementIsPresent() {
         idInput.clear();
         idInput.sendKeys("header2");
@@ -209,5 +227,49 @@ public class ConditionsTestCase {
         textInput.sendKeys("Tested Header");
         updateButton.click();
         Graphene.waitModel().until().element(BY_HEADER).text().not().equalTo("florence and the machine");
+    }
+
+    @Test
+    public void testElementTextEqualsIgnoreCase() {
+        textInput.clear();
+        textInput.sendKeys("florence and the machine");
+        updateButton.click();
+        Graphene.waitModel().until().element(header).text().equalToIgnoreCase("FLORENCE aNd THE machIne");
+        textInput.sendKeys("Tested Header");
+        updateButton.click();
+        Graphene.waitModel().until().element(header).text().not().equalToIgnoreCase("FLORENCE aNd THE machIne");
+    }
+
+    @Test
+    public void testElementTextEqualsIgnoreCaseWithBy() {
+        textInput.clear();
+        textInput.sendKeys("florence and the machine");
+        updateButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).text().equalToIgnoreCase("FLORENCE aNd THE machIne");
+        textInput.sendKeys("Tested Header");
+        updateButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).text().not().equalToIgnoreCase("FLORENCE aNd THE machIne");
+    }
+
+    @Test
+    public void testElementTextMatches() {
+        textInput.clear();
+        textInput.sendKeys("florence and the machine");
+        updateButton.click();
+        Graphene.waitModel().until().element(header).text().matches("[fF]lorenc. and (the)? [mM]a.hine");
+        textInput.sendKeys("Tested Header");
+        updateButton.click();
+        Graphene.waitModel().until().element(header).text().not().matches("[fF]lorenc. and (the)? [mM]a.hine");
+    }
+
+    @Test
+    public void testElementTextMatchesWithBy() {
+        textInput.clear();
+        textInput.sendKeys("florence and the machine");
+        updateButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).text().matches("[fF]lorenc. and (the)? [mM]a.hine");
+        textInput.sendKeys("Tested Header");
+        updateButton.click();
+        Graphene.waitModel().until().element(BY_HEADER).text().not().matches("[fF]lorenc. and (the)? [mM]a.hine");
     }
 }
