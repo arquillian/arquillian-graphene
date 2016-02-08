@@ -37,6 +37,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:jstefek@redhat.com">Jiri Stefek</a>
  */
 public class LocatorElementTextConditionFactory extends AbstractBooleanConditionFactory<StringConditionFactory> implements StringConditionFactory<StringConditionFactory> {
 
@@ -70,8 +71,8 @@ public class LocatorElementTextConditionFactory extends AbstractBooleanCondition
             @Override
             public String toString() {
                 return String.format("text ('%s') to be present in text in element found by %s",
-                        expected,
-                        locator);
+                    expected,
+                    locator);
             }
         }, getNegation());
     }
@@ -91,8 +92,50 @@ public class LocatorElementTextConditionFactory extends AbstractBooleanCondition
             @Override
             public String toString() {
                 return String.format("text ('%s') to be equal to text in element found by %s",
-                        expected,
-                        locator);
+                    expected,
+                    locator);
+            }
+        }, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> equalToIgnoreCase(final String expected) {
+        if (expected == null) {
+            throw new IllegalArgumentException("The expected string is null.");
+        }
+        return new BooleanConditionWrapper(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                String elementText = findElement(locator, driver).getText();
+                return elementText.equalsIgnoreCase(expected);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("text ('%s') to be equal to text ignoring case considerations in element found by %s",
+                    expected,
+                    locator);
+            }
+        }, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> matches(final String expected) {
+        if (expected == null) {
+            throw new IllegalArgumentException("The expected string is null.");
+        }
+        return new BooleanConditionWrapper(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                String elementText = findElement(locator, driver).getText();
+                return elementText.matches(expected);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("text ('%s') to match text in element found by %s",
+                    expected,
+                    locator);
             }
         }, getNegation());
     }

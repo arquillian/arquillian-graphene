@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
+import org.jboss.arquillian.graphene.condition.element.AbstractElementBooleanCondition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
@@ -36,6 +37,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:jstefek@redhat.com">Jiri Stefek</a>
  */
 public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFactory<AttributeConditionFactory> implements AttributeConditionFactory {
 
@@ -53,56 +55,50 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
 
     @Override
     public ExpectedCondition<Boolean> isPresent() {
-        return new ExpectedCondition<Boolean>() {
+        return new BooleanCondition() {
             @Override
-            public Boolean apply(WebDriver driver) {
-                return new AttributeIsPresent(findElement(locator, driver), attribute, getNegation()).apply(driver);
-            }
-
-            @Override
-            public String toString() {
-                return String.format("attribute ('%s')%s to be present in element %s",
-                        attribute,
-                        getNegation() ? " not" : "",
-                        locator.toString());
+            protected AbstractElementBooleanCondition initCondition(WebElement element) {
+                return new AttributeIsPresent(element, attribute, getNegation());
             }
         };
     }
 
     @Override
     public ExpectedCondition<Boolean> contains(final String expected) {
-        return new ExpectedCondition<Boolean>() {
+        return new BooleanCondition() {
             @Override
-            public Boolean apply(WebDriver driver) {
-                return new AttributeValueContains(findElement(locator, driver), attribute, expected, getNegation()).apply(driver);
-            }
-
-            @Override
-            public String toString() {
-                return String.format("text ('%s')%s to be contained by value of attribute ('%s') in element %s",
-                    expected,
-                    (getNegation() ? " not" : ""),
-                    attribute,
-                    locator.toString());
+            protected AbstractElementBooleanCondition initCondition(WebElement element) {
+                return new AttributeValueContains(element, attribute, expected, getNegation());
             }
         };
     }
 
     @Override
     public ExpectedCondition<Boolean> equalTo(final String expected) {
-        return new ExpectedCondition<Boolean>() {
+        return new BooleanCondition() {
             @Override
-            public Boolean apply(WebDriver driver) {
-                return new AttributeValueEquals(findElement(locator, driver), attribute, expected, getNegation()).apply(driver);
+            protected AbstractElementBooleanCondition initCondition(WebElement element) {
+                return new AttributeValueEquals(element, attribute, expected, getNegation());
             }
+        };
+    }
 
+    @Override
+    public ExpectedCondition<Boolean> equalToIgnoreCase(final String expected) {
+        return new BooleanCondition() {
             @Override
-            public String toString() {
-                return String.format("text ('%s')%s to be equal to value of attribute ('%s') in element %s",
-                    expected,
-                    (getNegation() ? " not" : ""),
-                    attribute,
-                    locator.toString());
+            protected AbstractElementBooleanCondition initCondition(WebElement element) {
+                return new AttributeValueEqualToIgnoreCase(element, attribute, expected, getNegation());
+            }
+        };
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> matches(final String expected) {
+        return new BooleanCondition() {
+            @Override
+            protected AbstractElementBooleanCondition initCondition(WebElement element) {
+                return new AttributeValueEqualToIgnoreCase(element, attribute, expected, getNegation());
             }
         };
     }
@@ -120,6 +116,24 @@ public class LocatorAttributeConditionFactory extends AbstractBooleanConditionFa
         } catch (WebDriverException e) {
             LOGGER.log(Level.FINE, String.format("WebDriverException thrown by findElement(%s)", by), e);
             throw e;
+        }
+    }
+
+    private abstract class BooleanCondition implements ExpectedCondition<Boolean> {
+
+        private AbstractElementBooleanCondition condition;
+
+        @Override
+        public Boolean apply(WebDriver driver) {
+            condition = initCondition(findElement(locator, driver));
+            return condition.apply(driver);
+        }
+
+        protected abstract AbstractElementBooleanCondition initCondition(WebElement element);
+
+        @Override
+        public String toString() {
+            return condition.toString();
         }
     }
 }

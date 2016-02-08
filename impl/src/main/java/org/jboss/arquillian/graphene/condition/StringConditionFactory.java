@@ -29,4 +29,7 @@ public interface StringConditionFactory<T extends StringConditionFactory> extend
 
     ExpectedCondition<Boolean> equalTo(String expected);
 
+    ExpectedCondition<Boolean> equalToIgnoreCase(String expected);
+
+    ExpectedCondition<Boolean> matches(String expected);
 }
