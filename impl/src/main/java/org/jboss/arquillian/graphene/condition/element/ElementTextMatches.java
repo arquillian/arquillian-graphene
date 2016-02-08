@@ -19,30 +19,35 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.wait;
+package org.jboss.arquillian.graphene.condition.element;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 /**
- * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:jstefek@redhat.com">Jiri Stefek</a>
  */
-public interface StringMatcher<FLUENT> {
+public class ElementTextMatches extends AbstractElementAndTextBooleanCondition {
 
-    /**
-     * Checks whether the text contains the given string.
-     */
-    FLUENT contains(String expected);
+    public ElementTextMatches(WebElement element, String text) {
+        super(element, text);
+    }
 
-    /**
-     * Checks whether the text is equal to the given string.
-     */
-    FLUENT equalTo(String expected);
+    public ElementTextMatches(WebElement element, String text, boolean negation) {
+        super(element, text, negation);
+    }
 
-    /**
-     * Checks whether the text is equal to the given string ignoring case considerations.
-     */
-    FLUENT equalToIgnoreCase(String expected);
+    @Override
+    protected Boolean check(WebDriver driver) {
+        return getElement().getText().matches(getText());
+    }
 
-    /**
-     * Checks whether the text matches to the given string.
-     */
-    FLUENT matches(String expected);
+    @Override
+    public String toString() {
+        return String.format("text ('%s') to%s match text ('%s') in element %s",
+            getText(),
+            (getNegation() ? " not" : ""),
+            getElement().getText(),
+            getElement().toString());
+    }
 }

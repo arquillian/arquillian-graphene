@@ -53,6 +53,16 @@ public class AttributeBuilderImpl<FLUENT> extends AbstractNegatable<StringMatche
     }
 
     @Override
+    public FLUENT equalToIgnoreCase(final String expected) {
+        return fluentBase.commit(getNegation() ? factory.not().equalToIgnoreCase(expected) : factory.equalToIgnoreCase(expected));
+    }
+
+    @Override
+    public FLUENT matches(final String expected) {
+        return fluentBase.commit(getNegation() ? factory.not().matches(expected) : factory.matches(expected));
+    }
+
+    @Override
     public IsNotAttributeBuilder<FLUENT> is() {
         return new IsNotAttributeBuilderImpl<FLUENT>(factory, fluentBase);
     }

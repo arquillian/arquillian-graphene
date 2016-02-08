@@ -48,6 +48,16 @@ public class NotStringMatcherImpl<FLUENT> extends AbstractNegatable<StringMatche
     }
 
     @Override
+    public FLUENT equalToIgnoreCase(String expected) {
+        return fluentBase.commit(getNegation() ? factory.not().equalToIgnoreCase(expected) : factory.equalToIgnoreCase(expected));
+    }
+
+    @Override
+    public FLUENT matches(String expected) {
+        return fluentBase.commit(getNegation() ? factory.not().matches(expected) : factory.matches(expected));
+    }
+
+    @Override
     protected StringMatcher<FLUENT> copy() {
         return new NotStringMatcherImpl<FLUENT>(factory, fluentBase);
     }

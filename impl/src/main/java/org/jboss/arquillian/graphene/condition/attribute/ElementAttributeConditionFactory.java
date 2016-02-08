@@ -28,6 +28,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:jstefek@redhat.com">Jiri Stefek</a>
  */
 public class ElementAttributeConditionFactory extends AbstractBooleanConditionFactory<AttributeConditionFactory> implements AttributeConditionFactory {
 
@@ -67,4 +68,13 @@ public class ElementAttributeConditionFactory extends AbstractBooleanConditionFa
         return new AttributeValueEquals(element, attribute, expected, getNegation());
     }
 
+    @Override
+    public ExpectedCondition<Boolean> equalToIgnoreCase(String expected) {
+        return new AttributeValueEqualToIgnoreCase(element, attribute, expected, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> matches(String expected) {
+        return new AttributeValueMatches(element, attribute, expected, getNegation());
+    }
 }
