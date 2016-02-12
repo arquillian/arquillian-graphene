@@ -21,8 +21,6 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
-import static org.junit.Assert.fail;
-
 import java.net.URL;
 import java.util.List;
 
@@ -43,6 +41,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import static org.junit.Assert.fail;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -66,6 +66,8 @@ public class TestHandlingOfStaleElements {
     private List<StaleElementPageFragment> pageFragments;
     @FindBy(id = "root")
     private WebElement rootElement;
+    @FindBy(id = "stale")
+    private WebElement staleElement;
 
     @FindBy(id = "root")
     private List<WebElement> rootElements;
@@ -100,12 +102,14 @@ public class TestHandlingOfStaleElements {
     @Test
     public void testReplacement() {
         rootElement.isDisplayed();
-        executor.executeScript("return arguments[0].parentNode.removeChild(arguments[0])", rootElement);
+        executor.executeScript("return arguments[1].parentNode.replaceChild(arguments[0],arguments[1])",
+                               staleElement, rootElement);
         try {
             rootElement.isDisplayed();
             fail("rootElement should not be found");
         } catch (NoSuchElementException e) {
         }
+        staleElement.isDisplayed();
     }
 
     @Test
