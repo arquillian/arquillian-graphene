@@ -19,7 +19,6 @@
     <modules>
         <module>build/resources</module>
         <module>build/depchains/graphene-webdriver</module>
-        <module>build/depchains/arquillian-graphene</module>
 
         <module>spi</module>
         <module>api</module>
