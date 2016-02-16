@@ -272,6 +272,67 @@ public final class ReflectionHelper {
         return declaredAccessableMethods;
     }
 
+    /**
+     * Returns all the parameters annotated with the given annotation for the specified method
+     *
+     * @param method - the method where the parameters should be examined
+     * @param annotationClass - the annotation the parameters should be annotated with
+     * @return list of found parameters annotated with the given annotation
+     */
+    public static List<Object[]> getParametersWithAnnotation(final Method method,
+        final Class<? extends Annotation> annotationClass) {
+
+        List<Object[]> declaredParameters = AccessController
+            .doPrivileged(new PrivilegedAction<List<Object[]>>() {
+
+                public List<Object[]> run() {
+                    List<Object[]> foundParameters = new ArrayList<Object[]>();
+
+                    Class<?>[] parameterTypes = method.getParameterTypes();
+                    Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+                    for (int i = 0; i < parameterTypes.length; i++) {
+
+                        if (isAnnotationPresent(parameterAnnotations[i], annotationClass)) {
+                            foundParameters.add(new Object[]{parameterTypes[i], parameterAnnotations[i]});
+                        } else {
+                            foundParameters.add(null);
+                        }
+                    }
+                    return foundParameters;
+                }
+
+            });
+        return declaredParameters;
+    }
+
+    /**
+     * Checks if some annotation is present in the given array of annotations
+     *
+     * @param annotations - array of annotations
+     * @param needle - annotation we are looking for
+     * @return if the annotation is present an the given array of annotations
+     */
+    private static boolean isAnnotationPresent(final Annotation[] annotations, final Class<? extends Annotation> needle) {
+        return findAnnotation(annotations, needle) != null;
+    }
+
+    /**
+     * Finds some annotation in the given array of annotations
+     *
+     * @param annotations - array of annotations
+     * @param needle - annotation we are looking for
+     * @return the found annotation
+     */
+    @SuppressWarnings("unchecked")
+    private static <T extends Annotation> T findAnnotation(final Annotation[] annotations, final Class<T> needle) {
+        for (Annotation annotation : annotations) {
+            if (annotation.annotationType() == needle) {
+                return (T) annotation;
+            }
+        }
+        return null;
+    }
+
     // method from Drone, SecurityActions
     public static Class<?> getQualifier(Annotation[] annotations) {
 

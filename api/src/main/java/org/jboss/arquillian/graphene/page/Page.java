@@ -56,13 +56,20 @@ import java.lang.annotation.Target;
  *     public void test() {
  *         loginForm.login("login", "password");
  *     }
+ *
+ *     //or as a method parameter
+ *     &#064;Test
+ *     public void test(&#064;Page LoginForm loginFormParam) {
+ *         loginFormParam.login("login", "password");
+ *     }
  * }
  * </pre>
  *
  * @author Juraj Huska
+ * @author <a href="mailto:mjobanek@redhat.com">Matous Jobanek</a>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface Page {
 
 }

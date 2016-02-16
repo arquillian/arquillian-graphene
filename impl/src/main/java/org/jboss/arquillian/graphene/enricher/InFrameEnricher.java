@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Collection;
 
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
@@ -60,6 +61,11 @@ public class InFrameEnricher extends AbstractSearchContextEnricher {
                 field.setAccessible(false);
             }
         }
+    }
+
+    @Override
+    public Object[] resolve(SearchContext searchContext, Method method) {
+        return new Object[method.getParameterTypes().length];
     }
 
     private void registerInFrameInterceptor(Object objectToEnrich, Field field, int index, String nameOrId)
