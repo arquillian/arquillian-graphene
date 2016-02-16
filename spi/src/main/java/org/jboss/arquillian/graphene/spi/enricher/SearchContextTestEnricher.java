@@ -21,6 +21,8 @@
  */
 package org.jboss.arquillian.graphene.spi.enricher;
 
+import java.lang.reflect.Method;
+
 import org.openqa.selenium.SearchContext;
 
 /**
@@ -29,6 +31,7 @@ import org.openqa.selenium.SearchContext;
  *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:mjobanek@redhat.com">Matous Jobanek</a>
  */
 public interface SearchContextTestEnricher {
 
@@ -39,6 +42,14 @@ public interface SearchContextTestEnricher {
      * @param target instance to be enriched
      */
     void enrich(SearchContext searchContext, Object target);
+
+    /**
+     * Performs resolve for the given method with the given {@link SearchContext}.
+     *
+     * @param searchContext the context which should be used for resolve
+     * @param method method to be resolved
+     */
+    Object[] resolve(SearchContext searchContext, Method method);
 
     /**
      * Returns the enricher precedence. Zero precedence is is the lowest one.

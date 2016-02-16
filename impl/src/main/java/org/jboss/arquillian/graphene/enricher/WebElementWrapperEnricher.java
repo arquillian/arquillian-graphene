@@ -26,6 +26,7 @@
 package org.jboss.arquillian.graphene.enricher;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,11 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                 throw new IllegalStateException(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public Object[] resolve(SearchContext searchContext, Method method) {
+        return new Object[method.getParameterTypes().length];
     }
 
     protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element)

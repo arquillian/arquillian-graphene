@@ -21,7 +21,9 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.LinkedList;
@@ -40,55 +42,107 @@ import org.openqa.selenium.SearchContext;
  *
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
+ * @author <a href="mailto:mjobanek@redhat.com">Matous Jobanek</a>
  */
 public class PageObjectEnricher extends AbstractSearchContextEnricher {
 
     @Override
     public void enrich(final SearchContext searchContext, Object target) {
-        String errorMsgBegin = "";
+
         List<Field> fields = new LinkedList<Field>();
         fields.addAll(ReflectionHelper.getFieldsWithAnnotation(target.getClass(), Page.class));
         for (Field field : fields) {
-                GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getGrapheneContext();
-                final SearchContext localSearchContext;
-                if (grapheneContext == null) {
-                    grapheneContext = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(field.getAnnotations()));
-                    localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
-                } else {
-                    localSearchContext = searchContext;
-                }
-            try {
-                Type type = field.getGenericType();
-                Class<?> declaredClass;
-                // check whether it is type variable e.g. T
-                if (type instanceof TypeVariable) {
-                    declaredClass = getActualType(field, target);
+            Object page = createPage(searchContext, field.getAnnotations(), target, field, null, null);
+            setValue(field, target, page);
+        }
+    }
 
-                } else {
-                    // no it is normal type, e.g. TestPage
-                    declaredClass = field.getType();
-                }
+    @Override
+    public Object[] resolve(SearchContext searchContext, Method method) {
+        StringBuffer errorMsgBegin = new StringBuffer("");
+        List<Object[]> paramCouple = new LinkedList<Object[]>();
+        paramCouple.addAll(ReflectionHelper.getParametersWithAnnotation(method, Page.class));
+        Object[] resolution = new Object[method.getParameterTypes().length];
 
-                errorMsgBegin = "Can not instantiate Page Object " + NEW_LINE + declaredClass + NEW_LINE
-                        + " declared in: " + NEW_LINE + target.getClass().getName() + NEW_LINE;
+        for (int i = 0; i < resolution.length; i++) {
+            if (paramCouple.get(i) == null) {
+                resolution[i] = null;
+            } else {
+                Class<?> param = (Class<?>) paramCouple.get(i)[0];
+                Annotation[] parameterAnnotations = (Annotation[]) paramCouple.get(i)[1];
+                Object page = createPage(searchContext, parameterAnnotations, null, null, method, param);
+                resolution[i] = page;
+            }
+        }
+        return resolution;
+    }
 
-                Object page = setupPage(grapheneContext, localSearchContext, declaredClass);
+    private Object createPage(SearchContext searchContext, Annotation[] annotations, Object target, Field field,
+        Method method, Class<?> param) {
+        StringBuffer errorMsgBegin = new StringBuffer("");
 
-                setValue(field, target, page);
-            } catch (NoSuchMethodException ex) {
-                throw new PageObjectInitializationException(errorMsgBegin
-                        + " Check whether declared Page Object has no argument constructor!", ex);
-            } catch (IllegalAccessException ex) {
-                throw new PageObjectInitializationException(
-                        " Check whether declared Page Object has public no argument constructor!", ex);
-            } catch (InstantiationException ex) {
-                throw new PageObjectInitializationException(errorMsgBegin
-                        + " Check whether you did not declare Page Object with abstract type!", ex);
-            } catch (Exception ex) {
-                throw new PageObjectInitializationException(errorMsgBegin, ex);
+        GrapheneContext grapheneContext =
+            searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getGrapheneContext();
+        final SearchContext localSearchContext;
+        if (grapheneContext == null) {
+            grapheneContext =
+                GrapheneContext.getContextFor(ReflectionHelper.getQualifier(annotations));
+            localSearchContext = grapheneContext.getWebDriver(SearchContext.class);
+        } else {
+            localSearchContext = searchContext;
+        }
+        try {
+            Class<?> declaredClass;
+            if (target != null) {
+                declaredClass = getDeclaredClass(target, field);
+            } else {
+                declaredClass = param;
             }
 
+            appendErrorMsgBegin(errorMsgBegin, declaredClass, target, method);
+
+            return setupPage(grapheneContext, localSearchContext, declaredClass);
+
+        } catch (NoSuchMethodException ex) {
+            errorMsgBegin.append(" Check whether declared Page Object has no argument constructor!");
+            throw new PageObjectInitializationException(errorMsgBegin.toString(), ex);
+
+        } catch (IllegalAccessException ex) {
+            throw new PageObjectInitializationException(
+                " Check whether declared Page Object has public no argument constructor!", ex);
+
+        } catch (InstantiationException ex) {
+            errorMsgBegin.append(" Check whether you did not declare Page Object with abstract type!");
+            throw new PageObjectInitializationException(errorMsgBegin.toString(), ex);
+
+        } catch (Exception ex) {
+            throw new PageObjectInitializationException(errorMsgBegin.toString(), ex);
         }
+    }
+
+    private Class<?> getDeclaredClass(Object target, Field field) {
+        Type type = field.getGenericType();
+        // check whether it is type variable e.g. T
+        if (type instanceof TypeVariable) {
+            return getActualType(field, target);
+
+        } else {
+            // no it is normal type, e.g. TestPage
+            return field.getType();
+        }
+    }
+
+    private void appendErrorMsgBegin(StringBuffer errorMsgBegin, Class<?> declaredClass, Object target, Method method) {
+        errorMsgBegin.append("Can not instantiate Page Object ").append(NEW_LINE);
+        errorMsgBegin.append(declaredClass).append(NEW_LINE);
+        errorMsgBegin.append(" declared in: ").append(NEW_LINE);
+        if (target != null) {
+            errorMsgBegin.append(target.getClass().getName());
+        } else {
+            errorMsgBegin.append(method.getDeclaringClass().getClass().getName());
+            errorMsgBegin.append("#").append(method.getName());
+        }
+        errorMsgBegin.append(NEW_LINE);
     }
 
     public static <P> P setupPage(GrapheneContext context, SearchContext searchContext, Class<?> pageClass) throws Exception{

@@ -32,7 +32,6 @@ import java.util.List;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.GrapheneElement;
@@ -96,6 +95,11 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
                 }
             }
         }
+    }
+
+    @Override
+    public Object[] resolve(SearchContext searchContext, Method method) {
+        return new Object[method.getParameterTypes().length];
     }
 
     protected final boolean isPageFragmentClass(Class<?> clazz, Object target) {
