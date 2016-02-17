@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import qualifier.Browser1;
 import qualifier.Browser2;
 
@@ -103,16 +102,36 @@ public class TestGrapheneUtilitiesParalelly extends AbstractParallelTest {
 
     @Test
     public void testGuardHttp() {
-        Graphene.guardHttp(page1).http();
-        Graphene.guardHttp(page2).http();
-        Graphene.guardHttp(pageDefault).http();
+        checkGuardHttp(page1, page2, pageDefault);
+    }
+
+    @Test
+    public void testMethodParamGuardHttp(@Page @Browser1 SimplePage paramPage1, @Page @Browser2 SimplePage paramPage2,
+        @Page SimplePage paramPageDefault) {
+        checkGuardHttp(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testGuardXhr() {
-        Graphene.guardAjax(page1).xhr();
-        Graphene.guardAjax(page2).xhr();
-        Graphene.guardAjax(pageDefault).xhr();
+        checkGuardXhr(page1, page2, pageDefault);
+    }
+
+    @Test
+    public void testMethodParamGuardXhr(@Page @Browser1 SimplePage paramPage1, @Page @Browser2 SimplePage paramPage2,
+        @Page SimplePage paramPageDefault) {
+        checkGuardXhr(paramPage1, paramPage2, paramPageDefault);
+    }
+
+    public void checkGuardHttp(SimplePage checkPage1, SimplePage checkPage2, SimplePage checkPageDefault) {
+        Graphene.guardHttp(checkPage1).http();
+        Graphene.guardHttp(checkPage2).http();
+        Graphene.guardHttp(checkPageDefault).http();
+    }
+
+    public void checkGuardXhr(SimplePage checkPage1, SimplePage checkPage2, SimplePage checkPageDefault) {
+        Graphene.guardAjax(checkPage1).xhr();
+        Graphene.guardAjax(checkPage2).xhr();
+        Graphene.guardAjax(checkPageDefault).xhr();
     }
 
     public static class SimplePage {

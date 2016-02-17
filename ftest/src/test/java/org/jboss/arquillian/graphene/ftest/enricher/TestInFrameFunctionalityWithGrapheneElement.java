@@ -72,4 +72,10 @@ public class TestInFrameFunctionalityWithGrapheneElement {
     public void testGrapheneElementShouldWorkWithInFrameAnnotation() {
         assertEquals(EXPECTED_GRAPHENE_ELEMENT_IN_FRAME_TEXT, page.getSpan().getText());
     }
+
+    @Test
+    public void testGrapheneElementShouldWorkWithInFrameAnnotationMethodParam(
+        @Page GrapheneElementWithInFrameAnnotationPage pageParam) {
+        assertEquals(EXPECTED_GRAPHENE_ELEMENT_IN_FRAME_TEXT, pageParam.getSpan().getText());
+    }
 }

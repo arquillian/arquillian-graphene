@@ -104,10 +104,19 @@ public class TestInitializeEmptyFindBy {
 
     @Test
     public void testSeleniumFindBy() {
-        checkPageFragmentById(pageObjectWithSeleniumFindBys.getSpanFragment());
-        checkSelectById(pageObjectWithSeleniumFindBys.getSelectElement());
-        checkWebElementById(pageObjectWithSeleniumFindBys.getDivWebElement());
-        checkWebElementByName(pageObjectWithSeleniumFindBys.getNameOfInputElement());
+        checkSeleniumFindBy(pageObjectWithSeleniumFindBys);
+    }
+
+    @Test
+    public void testMethodParamSeleniumFindBy(@Page PageObject pageObjectWithSeleniumFindBysParam) {
+        checkSeleniumFindBy(pageObjectWithSeleniumFindBysParam);
+    }
+
+    public void checkSeleniumFindBy(PageObject pageObjectWithSeleniumFindBysToCheck) {
+        checkPageFragmentById(pageObjectWithSeleniumFindBysToCheck.getSpanFragment());
+        checkSelectById(pageObjectWithSeleniumFindBysToCheck.getSelectElement());
+        checkWebElementById(pageObjectWithSeleniumFindBysToCheck.getDivWebElement());
+        checkWebElementByName(pageObjectWithSeleniumFindBysToCheck.getNameOfInputElement());
     }
 
     public class PageObject {

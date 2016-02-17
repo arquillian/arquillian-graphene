@@ -86,7 +86,8 @@ public class TestInitializingPageFragments {
 
     @Before
     public void loadPage() {
-        Resource.inPackage("org.jboss.arquillian.graphene.ftest.pageFragmentsEnricher").find("sample.html").loadPage(selenium, contextRoot);
+        Resource.inPackage("org.jboss.arquillian.graphene.ftest.pageFragmentsEnricher").find("sample.html").loadPage(
+            selenium, contextRoot);
     }
 
     @Test
@@ -97,13 +98,17 @@ public class TestInitializingPageFragments {
     @Test
     public void testPageFragmentHasSetRootCorrectly() {
         assertEquals("The root was not set correctly!", abstractPageFragmentStub.invokeMethodOnElementRefByXpath(),
-            EXPECTED_NESTED_ELEMENT_TEXT);
+                     EXPECTED_NESTED_ELEMENT_TEXT);
     }
 
     @Test
     public void testPageObjectInitialisedCorrectly() {
-        assertEquals("The page object was not set correctly!", testPage.getAbstractPageFragment()
-            .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
+        checkPageObjectInitialisedCorrectly(testPage);
+    }
+
+    @Test
+    public void testPageObjectInitialisedCorrectlyMethodParam(@Page TestPage testPageParam) {
+        checkPageObjectInitialisedCorrectly(testPageParam);
     }
 
     @Test
@@ -112,13 +117,17 @@ public class TestInitializingPageFragments {
         input.sendKeys(EXPECTED_VALUE);
 
         assertEquals("The value of the input is wrong, the element which represents it was not initialised correctly!",
-            input.getAttribute("value"), EXPECTED_VALUE);
+                     input.getAttribute("value"), EXPECTED_VALUE);
     }
 
     @Test
     public void testEmbeddedPageObjectInitializedCorrectly() {
-        assertEquals("The embedded page was not initialized correctly!", EmbeddedPage.EXPECTED_TEXT_OF_EMBEDDED_ELEM, testPage
-            .getEmbeddedPage().invokeMethodOnEmbeddedElement());
+        checkEmbeddedPageObjectInitializedCorrectly(testPage);
+    }
+
+    @Test
+    public void testEmbeddedPageObjectInitializedCorrectlyMethodParam(@Page TestPage testPageParam) {
+        checkEmbeddedPageObjectInitializedCorrectly(testPageParam);
     }
 
     @Test
@@ -134,6 +143,11 @@ public class TestInitializingPageFragments {
     @Test
     public void testInitializeListOfWebElementsInjectedToPageObject() {
         checkInitializationOfWebElements(testPage.getParagraphs(), "Inside PageObject");
+    }
+
+    @Test
+    public void testInitializeListOfWebElementsInjectedToPageObjectMethodParam(@Page TestPage testPageParam) {
+        checkInitializationOfWebElements(testPageParam.getParagraphs(), "Inside PageObject");
     }
 
     @Test
@@ -156,8 +170,9 @@ public class TestInitializingPageFragments {
     public void testInitializationOfEmbeddedPageFragmentsInOtherPageFragments() {
         WebElement element = pageFragmentWithEmbeddedAnotherPageFragment.getEmbeddedPageFragment().getLocatorRefByClassName();
 
-        assertEquals("The Page Fragment ebmedded in another Page Fragment was not initialized correctly!", element.getText(),
-            "Value of element in embedded page fragment");
+        assertEquals("The Page Fragment ebmedded in another Page Fragment was not initialized correctly!",
+                     element.getText(),
+                     "Value of element in embedded page fragment");
     }
 
     private void checkInitializationOfWebElements(List<WebElement> webElements, String expectedValueOfWebElements) {
@@ -175,4 +190,15 @@ public class TestInitializingPageFragments {
                 + " " + String.valueOf(i), webElement.getText());
         }
     }
+
+    private void checkPageObjectInitialisedCorrectly(TestPage testPageToCheck) {
+        assertEquals("The page object was not set correctly!", testPageToCheck.getAbstractPageFragment()
+            .invokeMethodOnElementRefByXpath(), EXPECTED_NESTED_ELEMENT_TEXT);
+    }
+
+    private void checkEmbeddedPageObjectInitializedCorrectly(TestPage testPageToCheck) {
+        assertEquals("The embedded page was not initialized correctly!", EmbeddedPage.EXPECTED_TEXT_OF_EMBEDDED_ELEM,
+                     testPageToCheck.getEmbeddedPage().invokeMethodOnEmbeddedElement());
+    }
+
 }

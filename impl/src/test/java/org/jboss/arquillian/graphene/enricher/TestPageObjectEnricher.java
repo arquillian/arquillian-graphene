@@ -38,11 +38,24 @@ public class TestPageObjectEnricher extends AbstractGrapheneEnricherTest  {
     }
 
     @Test
+    public void testNoArgConstructorResolveMethod() throws NoSuchMethodException {
+        thrown.expect(PageObjectInitializationException.class);
+        getGrapheneEnricher().resolve(NoArgConstructorMethodParamTest.class.getMethod("methodToResolve",
+                                                                                      NoArgConstructorMethodParamTest.WrongPageObject.class));
+    }
+
+    @Test
     public void testAbstractType() {
         thrown.expect(PageObjectInitializationException.class);
         getGrapheneEnricher().enrich(new AbstractTypeTest());
     }
 
+    @Test
+    public void testAbstractTypeResolveMethod() throws NoSuchMethodException {
+        thrown.expect(PageObjectInitializationException.class);
+        getGrapheneEnricher()
+            .resolve(AbstractTypeMethodParamTest.class.getMethod("methodToResolve", AbstractPageType.class));
+    }
 
     public class AbstractTypeTest {
         @SuppressWarnings("unused")
@@ -51,10 +64,28 @@ public class TestPageObjectEnricher extends AbstractGrapheneEnricherTest  {
 
     }
 
+    public class AbstractTypeMethodParamTest {
+        public void methodToResolve(@Page AbstractPageType wrongPage) {
+        }
+    }
+
     public static class NoArgConstructorTest {
         @SuppressWarnings("unused")
         @Page
         private WrongPageObject wrongPage;
+
+        public static class WrongPageObject {
+
+            public WrongPageObject(int foo) {
+
+            }
+        }
+    }
+
+    public static class NoArgConstructorMethodParamTest {
+
+        public void methodToResolve(@Page WrongPageObject wrongPage) {
+        }
 
         public static class WrongPageObject {
 
