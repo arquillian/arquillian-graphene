@@ -98,8 +98,8 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     }
 
     @Override
-    public Object[] resolve(SearchContext searchContext, Method method) {
-        return new Object[method.getParameterTypes().length];
+    public Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams) {
+        return resolvedParams;
     }
 
     protected final boolean isPageFragmentClass(Class<?> clazz, Object target) {

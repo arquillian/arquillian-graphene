@@ -45,11 +45,11 @@ public interface SearchContextTestEnricher {
 
     /**
      * Performs resolve for the given method with the given {@link SearchContext}.
-     *
      * @param searchContext the context which should be used for resolve
      * @param method method to be resolved
+     * @param resolvedParams parameters that has (not) been resolved so far
      */
-    Object[] resolve(SearchContext searchContext, Method method);
+    Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams);
 
     /**
      * Returns the enricher precedence. Zero precedence is is the lowest one.

@@ -273,11 +273,13 @@ public final class ReflectionHelper {
     }
 
     /**
-     * Returns all the parameters annotated with the given annotation for the specified method
+     * Returns all couples of found parameter annotated with the given annotation and an array of all annotations the
+     * parameter is annotated with for the given method
      *
      * @param method - the method where the parameters should be examined
      * @param annotationClass - the annotation the parameters should be annotated with
-     * @return list of found parameters annotated with the given annotation
+     * @return list of couples in an object array that consist of found parameter annotated with the given annotation
+     * and an array of all annotations the parameter is annotated with
      */
     public static List<Object[]> getParametersWithAnnotation(final Method method,
         final Class<? extends Annotation> annotationClass) {
@@ -324,7 +326,7 @@ public final class ReflectionHelper {
      * @return the found annotation
      */
     @SuppressWarnings("unchecked")
-    private static <T extends Annotation> T findAnnotation(final Annotation[] annotations, final Class<T> needle) {
+    public static <T extends Annotation> T findAnnotation(final Annotation[] annotations, final Class<T> needle) {
         for (Annotation annotation : annotations) {
             if (annotation.annotationType() == needle) {
                 return (T) annotation;

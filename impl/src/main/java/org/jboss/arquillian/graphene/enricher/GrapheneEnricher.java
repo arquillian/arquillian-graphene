@@ -77,12 +77,7 @@ public class GrapheneEnricher implements TestEnricher {
 
         for (SearchContextTestEnricher enricher : sortedSearchContextEnrichers) {
             if (isApplicableToTestClass(enricher)) {
-                Object[] resolved = enricher.resolve(null, method);
-                for (int i = 0; i < resolvedParams.length; i++) {
-                    if (resolved[i] != null) {
-                        resolvedParams[i] = resolved[i];
-                    }
-                }
+                resolvedParams = enricher.resolve(null, method, resolvedParams);
             }
         }
         return resolvedParams;

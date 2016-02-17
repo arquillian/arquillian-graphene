@@ -39,7 +39,7 @@ import java.lang.annotation.Target;
  * @author Juraj Huska
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface InFrame {
 
     /**

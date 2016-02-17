@@ -21,9 +21,12 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.page.InFrame;
@@ -64,14 +67,43 @@ public class InFrameEnricher extends AbstractSearchContextEnricher {
     }
 
     @Override
-    public Object[] resolve(SearchContext searchContext, Method method) {
-        return new Object[method.getParameterTypes().length];
+    public Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams) {
+        StringBuffer errorMsgBegin = new StringBuffer("");
+        List<Object[]> paramCouple = new LinkedList<Object[]>();
+        paramCouple.addAll(ReflectionHelper.getParametersWithAnnotation(method, InFrame.class));
+
+        for (int i = 0; i < resolvedParams.length; i++) {
+            if (paramCouple.get(i) != null && resolvedParams[i] != null) {
+                Class<?> param = (Class<?>) paramCouple.get(i)[0];
+                Annotation[] parameterAnnotations = (Annotation[]) paramCouple.get(i)[1];
+                InFrame inFrame = ReflectionHelper.findAnnotation(parameterAnnotations, InFrame.class);
+                int index = inFrame.index();
+                String nameOrId = inFrame.nameOrId();
+                checkInFrameParameters(method, param, index, nameOrId);
+
+                try {
+                    registerInFrameInterceptor((GrapheneProxyInstance) resolvedParams[i], index, nameOrId);
+                } catch (IllegalArgumentException e) {
+                    throw new GrapheneTestEnricherException(
+                        "Only org.openqa.selenium.WebElement, Page fragments fields and Page Object fields can be annotated with @InFrame. Check parameter "
+                            + param + " of the method: " + method.getName() + " declared in: " + method
+                            .getDeclaringClass(), e);
+                } catch (Exception e) {
+                    throw new GrapheneTestEnricherException(e);
+                }
+            }
+        }
+        return resolvedParams;
     }
 
     private void registerInFrameInterceptor(Object objectToEnrich, Field field, int index, String nameOrId)
         throws IllegalAccessException, ClassNotFoundException {
         GrapheneProxyInstance proxy = (GrapheneProxyInstance) field.get(objectToEnrich);
 
+        registerInFrameInterceptor(proxy, index, nameOrId);
+    }
+
+    private void registerInFrameInterceptor(GrapheneProxyInstance proxy, int index, String nameOrId) {
         if (index != -1) {
             proxy.registerInterceptor(new InFrameInterceptor(index));
         } else {
@@ -80,11 +112,23 @@ public class InFrameEnricher extends AbstractSearchContextEnricher {
     }
 
     private void checkInFrameParameters(Field field, int index, String nameOrId) {
-        if ((nameOrId.trim().equals("") && index < 0)) {
+        if (checkInFrameParameters(index, nameOrId)) {
             throw new GrapheneTestEnricherException(
                 "You have to provide either non empty nameOrId or non negative index value of the frame/iframe in the @InFrame. Check field "
                     + field + " declared in: " + field.getDeclaringClass());
         }
+    }
+
+    private void checkInFrameParameters(Method method, Class<?> param, int index, String nameOrId) {
+        if (checkInFrameParameters(index, nameOrId)) {
+            throw new GrapheneTestEnricherException(
+                "You have to provide either non empty nameOrId or non negative index value of the frame/iframe in the @InFrame. Check parameter "
+                    + param + " of the method: " + method.getName() + " declared in: " + method.getDeclaringClass());
+        }
+    }
+
+    private boolean checkInFrameParameters(int index, String nameOrId) {
+        return nameOrId.trim().equals("") && index < 0;
     }
 
     @Override
