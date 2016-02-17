@@ -21,8 +21,6 @@
  */
 package org.jboss.arquillian.graphene.ftest.parallel;
 
-import junit.framework.Assert;
-
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
@@ -31,13 +29,13 @@ import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.graphene.page.document.Document;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import qualifier.Browser1;
 import qualifier.Browser2;
 
@@ -60,67 +58,142 @@ public class TestPageObjects extends AbstractParallelTest {
 
     @Test
     public void testNotNull() {
-        Assert.assertNotNull(page1);
-        Assert.assertNotNull(page2);
-        Assert.assertNotNull(pageDefault);
+        assertPagesNotNull(page1, page2, pageDefault);
+    }
+
+    @Test
+    public void testMethodParamsNotNull(@Page @Browser1 SimplePage paramPage1, @Page @Browser2 SimplePage paramPage2,
+        @Page SimplePage paramPageDefault) {
+        assertPagesNotNull(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testHeadersViaAttributes() {
-        Assert.assertNotNull(page1.header);
-        Assert.assertNotNull(page2.header);
-        Assert.assertNotNull(pageDefault.header);
+        assertHeadersViaAttributes(page1, page2, pageDefault);
+    }
 
-        Assert.assertEquals("Page 1", page1.header.getText().trim());
-        Assert.assertEquals("Page 2", page2.header.getText().trim());
-        Assert.assertEquals("Page Default", pageDefault.header.getText().trim());
+    @Test
+    public void testMethodParamsHeadersViaAttributes(@Page @Browser1 SimplePage paramPage1,
+        @Page @Browser2 SimplePage paramPage2, @Page SimplePage paramPageDefault) {
+        assertHeadersViaAttributes(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testHeadersViaMethod() {
-        Assert.assertNotNull(page1.header());
-        Assert.assertNotNull(page2.header());
-        Assert.assertNotNull(pageDefault.header());
+        assertHeadersViaMethod(page1, page2, pageDefault);
+    }
 
-        Assert.assertEquals("Page 1", page1.header().getText().trim());
-        Assert.assertEquals("Page 2", page2.header().getText().trim());
-        Assert.assertEquals("Page Default", pageDefault.header().getText().trim());
+    @Test
+    public void testMethodParamsHeadersViaMethod(@Page @Browser1 SimplePage paramPage1,
+        @Page @Browser2 SimplePage paramPage2, @Page SimplePage paramPageDefault) {
+        assertHeadersViaMethod(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testDroneInPageObjects() {
-        String url1 = browser1.getCurrentUrl();
-        String url2 = browser2.getCurrentUrl();
-        String urlDefault = browserDefault.getCurrentUrl();
+        assertDroneInPageObjects(page1, page2, pageDefault);
+    }
 
-        Assert.assertNotNull(page1.browser());
-        Assert.assertNotNull(page2.browser());
-        Assert.assertNotNull(pageDefault.browser());
-
-        Assert.assertEquals(url1, page1.getCurrentURL());
-        Assert.assertEquals(url2, page2.getCurrentURL());
-        Assert.assertEquals(urlDefault, pageDefault.getCurrentURL());
+    @Test
+    public void testMethodParamDroneInPageObjects(@Page @Browser1 SimplePage paramPage1,
+        @Page @Browser2 SimplePage paramPage2, @Page SimplePage paramPageDefault) {
+        assertDroneInPageObjects(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testJavaScriptInterfaceInPageObjects() {
-        Assert.assertEquals("Page 1", page1.getHeaderTextViaJavaScriptInterface().trim());
-        Assert.assertEquals("Page 2", page2.getHeaderTextViaJavaScriptInterface().trim());
-        Assert.assertEquals("Page Default", pageDefault.getHeaderTextViaJavaScriptInterface().trim());
+        assertJavaScriptInterfaceInPageObjects(page1, page2, pageDefault);
+    }
+
+    @Test
+    public void testMethodParamJavaScriptInterfaceInPageObjects(@Page @Browser1 SimplePage paramPage1,
+        @Page @Browser2 SimplePage paramPage2, @Page SimplePage paramPageDefault) {
+        assertJavaScriptInterfaceInPageObjects(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testJavaScriptExecutorInPageObjects() {
-        Assert.assertEquals("Page 1", page1.getTitleViaJavaScriptExecutor().trim());
-        Assert.assertEquals("Page 2", page2.getTitleViaJavaScriptExecutor().trim());
-        Assert.assertEquals("Page Default", pageDefault.getTitleViaJavaScriptExecutor().trim());
+        assertJavaScriptExecutorInPageObjects(page1, page2, pageDefault);
+    }
+
+    @Test
+    public void testMethodParamJavaScriptExecutorInPageObjects(@Page @Browser1 SimplePage paramPage1,
+        @Page @Browser2 SimplePage paramPage2, @Page SimplePage paramPageDefault) {
+        assertJavaScriptExecutorInPageObjects(paramPage1, paramPage2, paramPageDefault);
     }
 
     @Test
     public void testGrapheneContextQualifier() {
-        Assert.assertEquals(Browser1.class, page1.getQualifier());
-        Assert.assertEquals(Browser2.class, page2.getQualifier());
-        Assert.assertEquals(Default.class, pageDefault.getQualifier());
+        assertGrapheneContextQualifier(page1, page2, pageDefault);
+    }
+
+    @Test
+    public void testMethodParamGrapheneContextQualifier(@Page @Browser1 SimplePage paramPage1,
+        @Page @Browser2 SimplePage paramPage2, @Page SimplePage paramPageDefault) {
+        assertGrapheneContextQualifier(paramPage1, paramPage2, paramPageDefault);
+    }
+
+    private void assertPagesNotNull(SimplePage assertPage1, SimplePage assertPage2, SimplePage assertPageDefault) {
+        Assert.assertNotNull(assertPage1);
+        Assert.assertNotNull(assertPage2);
+        Assert.assertNotNull(assertPageDefault);
+    }
+
+    public void assertHeadersViaAttributes(SimplePage assertPage1, SimplePage assertPage2,
+        SimplePage assertPageDefault) {
+
+        Assert.assertNotNull(assertPage1.header);
+        Assert.assertNotNull(assertPage2.header);
+        Assert.assertNotNull(assertPageDefault.header);
+
+        Assert.assertEquals("Page 1", assertPage1.header.getText().trim());
+        Assert.assertEquals("Page 2", assertPage2.header.getText().trim());
+        Assert.assertEquals("Page Default", assertPageDefault.header.getText().trim());
+    }
+
+    public void assertHeadersViaMethod(SimplePage assertPage1, SimplePage assertPage2, SimplePage assertPageDefault) {
+        Assert.assertNotNull(assertPage1.header());
+        Assert.assertNotNull(assertPage2.header());
+        Assert.assertNotNull(assertPageDefault.header());
+
+        Assert.assertEquals("Page 1", assertPage1.header().getText().trim());
+        Assert.assertEquals("Page 2", assertPage2.header().getText().trim());
+        Assert.assertEquals("Page Default", assertPageDefault.header().getText().trim());
+    }
+
+    public void assertDroneInPageObjects(SimplePage assertPage1, SimplePage assertPage2, SimplePage assertPageDefault) {
+        String url1 = browser1.getCurrentUrl();
+        String url2 = browser2.getCurrentUrl();
+        String urlDefault = browserDefault.getCurrentUrl();
+
+        Assert.assertNotNull(assertPage1.browser());
+        Assert.assertNotNull(assertPage2.browser());
+        Assert.assertNotNull(assertPageDefault.browser());
+
+        Assert.assertEquals(url1, assertPage1.getCurrentURL());
+        Assert.assertEquals(url2, assertPage2.getCurrentURL());
+        Assert.assertEquals(urlDefault, assertPageDefault.getCurrentURL());
+    }
+
+    public void assertJavaScriptInterfaceInPageObjects(SimplePage assertPage1, SimplePage assertPage2,
+        SimplePage assertPageDefault) {
+        Assert.assertEquals("Page 1", assertPage1.getHeaderTextViaJavaScriptInterface().trim());
+        Assert.assertEquals("Page 2", assertPage2.getHeaderTextViaJavaScriptInterface().trim());
+        Assert.assertEquals("Page Default", assertPageDefault.getHeaderTextViaJavaScriptInterface().trim());
+    }
+
+    public void assertJavaScriptExecutorInPageObjects(SimplePage assertPage1, SimplePage assertPage2,
+        SimplePage assertPageDefault) {
+        Assert.assertEquals("Page 1", assertPage1.getTitleViaJavaScriptExecutor().trim());
+        Assert.assertEquals("Page 2", assertPage2.getTitleViaJavaScriptExecutor().trim());
+        Assert.assertEquals("Page Default", assertPageDefault.getTitleViaJavaScriptExecutor().trim());
+    }
+
+    public void assertGrapheneContextQualifier(SimplePage assertPage1, SimplePage assertPage2,
+        SimplePage assertPageDefault) {
+        Assert.assertEquals(Browser1.class, assertPage1.getQualifier());
+        Assert.assertEquals(Browser2.class, assertPage2.getQualifier());
+        Assert.assertEquals(Default.class, assertPageDefault.getQualifier());
     }
 
     public static class SimplePage {

@@ -48,7 +48,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import qualifier.Browser1;
 import qualifier.Browser2;
 
@@ -144,13 +143,28 @@ public class TestInFrameFunctionality {
     }
 
     @Test
+    public void testWebElementInFrameDefinedByIndexMethodParam(@Page PageWithIFrames pageParam) {
+        checkWebElementInFrame(pageParam.getSpan());
+    }
+
+    @Test
     public void testInFrameOverPageObject1() {
         checkWebElementInFrame(page2.getSpan());
     }
 
     @Test
+    public void testInFrameOverPageObject1MethodParam(@Page @InFrame(index = 0) PageWithIFrames2 page2Param) {
+        checkWebElementInFrame(page2Param.getSpan());
+    }
+
+    @Test
     public void testInFrameOverPageObject2() {
         checkWebElementInFrame(page2.getTextFromSpan());
+    }
+
+    @Test
+    public void testInFrameOverPageObject2MethodParaem(@Page @InFrame(index = 0) PageWithIFrames2 page2Param) {
+        checkWebElementInFrame(page2Param.getTextFromSpan());
     }
 
     @Test
@@ -160,9 +174,22 @@ public class TestInFrameFunctionality {
     }
 
     @Test
+    public void testInFrameOverPageObject4MethodParam(@Page @InFrame(index = 0) PageWithIFrames2 page2Param) {
+        // it is deprecated to access fields in this way
+        checkWebElementInFrame(page2Param.getSpan());
+    }
+
+    @Test
     public void testInFrameOverPageObjectMultipleBrowsers() {
         Resources.inCurrentPackage();
         checkWebElementInFrame(page2MultipleBrowsers.getSpan());
+    }
+
+    @Test
+    public void testInFrameOverPageObjectMultipleBrowsersMethodParam(
+        @Browser1 @Page @InFrame(index = 0) PageWithIFrames2 page2MultipleBrowsersParam) {
+        Resources.inCurrentPackage();
+        checkWebElementInFrame(page2MultipleBrowsersParam.getSpan());
     }
 
     @Test
@@ -186,8 +213,19 @@ public class TestInFrameFunctionality {
     }
 
     @Test
+    public void testPageFragmentInFrameDefinedByIdMethodParam(@Page PageWithIFrames pageParam) {
+        checkPageFragmentInFrame(pageParam.getMyFragment());
+    }
+
+    @Test
     public void testPageFragmentInFrameDefinedByIdMultipleBrowsers() {
         checkPageFragmentInFrame(pageMultipleBrowsers.getMyFragment());
+    }
+
+    @Test
+    public void testPageFragmentInFrameDefinedByIdMultipleBrowsersMethodParam(
+        @Browser2 @Page PageWithIFrames pageMultipleBrowsersParam) {
+        checkPageFragmentInFrame(pageMultipleBrowsersParam.getMyFragment());
     }
 
     @Test
@@ -208,30 +246,44 @@ public class TestInFrameFunctionality {
 
     @Test
     public void testSelectInFrameDefinedByName() {
-        List<WebElement> options = page.getSelect().getOptions();
-        assertEquals(3, options.size());
-        assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
+        checkSelectInFrameDefinedByName(page);
+    }
+
+    @Test
+    public void testSelectInFrameDefinedByNameMethodParam(@Page PageWithIFrames pageParam) {
+        checkSelectInFrameDefinedByName(pageParam);
     }
 
     @Test
     public void testSelectInFrameDefinedByNameMultipleBrowsers() {
-        List<WebElement> options = pageMultipleBrowsers.getSelect().getOptions();
-        assertEquals(3, options.size());
-        assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
+        checkSelectInFrameDefinedByName(pageMultipleBrowsers);
+    }
+
+    @Test
+    public void testSelectInFrameDefinedByNameMultipleBrowsersMethodParam(
+        @Browser2 @Page PageWithIFrames pageMultipleBrowsersParam) {
+        checkSelectInFrameDefinedByName(pageMultipleBrowsersParam);
     }
 
     @Test
     public void testInFrameOverPageObject3() {
-        List<WebElement> options = page2.getSelect().getOptions();
-        assertEquals(3, options.size());
-        assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
+        checkSelectInFrameDefinedByName(page2);
+    }
+
+    @Test
+    public void testInFrameOverPageObject3MethodParam(@Page @InFrame(index = 0) PageWithIFrames2 page2Param) {
+        checkSelectInFrameDefinedByName(page2Param);
     }
 
     @Test
     public void testInFrameOverPageObject2MultipleBrowsers() {
-        List<WebElement> options = page2MultipleBrowsers.getSelect().getOptions();
-        assertEquals(3, options.size());
-        assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
+        checkSelectInFrameDefinedByName(page2MultipleBrowsers);
+    }
+
+    @Test
+    public void testInFrameOverPageObject2MultipleBrowsersMethodParam(
+        @Browser1 @Page @InFrame(index = 0) PageWithIFrames2 page2MultipleBrowsersParam) {
+        checkSelectInFrameDefinedByName(page2MultipleBrowsersParam);
     }
 
     @Test
@@ -240,8 +292,19 @@ public class TestInFrameFunctionality {
     }
 
     @Test
+    public void testElementInDefaultFrameMethodParam(@Page PageWithIFrames pageParam) {
+        checkWebElementInDefaultFrame(pageParam.getElementInDefaultFrame());
+    }
+
+    @Test
     public void testElementInDefaultFrameMultipleBrowsers() {
         checkWebElementInDefaultFrame(pageMultipleBrowsers.getElementInDefaultFrame());
+    }
+
+    @Test
+    public void testElementInDefaultFrameMultipleBrowsersMethodParam(
+        @Browser2 @Page PageWithIFrames pageMultipleBrowsersParam) {
+        checkWebElementInDefaultFrame(pageMultipleBrowsersParam.getElementInDefaultFrame());
     }
 
     @Test
@@ -256,11 +319,40 @@ public class TestInFrameFunctionality {
 
     @Test
     public void testPageFragmenInFrameMoreComplexInteractions() {
-        List<WebElement> spans = page.getMyFragment().getSpans();
-        WebElement span = page.getMyFragment().getSpan();
-        checkPageFragmentInFrame(page.getMyFragment());
+        checkPageFragmenInFrameMoreComplexInteractions(page);
+    }
 
-        checkWebElementInDefaultFrame(page.getElementInDefaultFrame());
+    @Test
+    public void testPageFragmenInFrameMoreComplexInteractionsMethodParam(@Page PageWithIFrames pageParam) {
+        checkPageFragmenInFrameMoreComplexInteractions(pageParam);
+    }
+
+    @Test
+    public void testMoreComplexInteractingWithInFrameElements() {
+        checkMoreComplexInteractingWithInFrameElements(page);
+    }
+
+    @Test
+    public void testMoreComplexInteractingWithInFrameElementsMethodParam(@Page PageWithIFrames pageParam) {
+        checkMoreComplexInteractingWithInFrameElements(pageParam);
+    }
+
+    private void checkMoreComplexInteractingWithInFrameElements(PageWithIFrames pageToCheck) {
+        checkWebElementInFrame(pageToCheck.getSpan());
+        checkWebElementInFrame(pageToCheck.getSpan());
+
+        WebElement element = browser.findElement(By.className("divElement"));
+        checkWebElementInDefaultFrame(element);
+
+        checkPageFragmentInFrame(pageToCheck.getMyFragment());
+    }
+
+    private void checkPageFragmenInFrameMoreComplexInteractions(PageWithIFrames pageToCheck) {
+        List<WebElement> spans = pageToCheck.getMyFragment().getSpans();
+        WebElement span = pageToCheck.getMyFragment().getSpan();
+        checkPageFragmentInFrame(pageToCheck.getMyFragment());
+
+        checkWebElementInDefaultFrame(pageToCheck.getElementInDefaultFrame());
 
         String spanText = span.getText();
         assertEquals("1", spanText);
@@ -268,23 +360,11 @@ public class TestInFrameFunctionality {
         assertEquals(4, sizeOfList);
 
         for (int i = 0; i < sizeOfList; i++) {
-            String text = page.getMyFragment().getSpans().get(i).getText();
+            String text = pageToCheck.getMyFragment().getSpans().get(i).getText();
             assertTrue(!text.contains("fail"));
             assertEquals(Integer.valueOf(i + 1), Integer.valueOf(text.trim()));
         }
     }
-
-    @Test
-    public void testMoreComplexInteractingWithInFrameElements() {
-        checkWebElementInFrame(page.getSpan());
-        checkWebElementInFrame(page.getSpan());
-
-        WebElement element = browser.findElement(By.className("divElement"));
-        checkWebElementInDefaultFrame(element);
-
-        checkPageFragmentInFrame(page.getMyFragment());
-    }
-
     private void checkPageFragmentInFrame(PageFragmentWithSpan fragment) {
         List<WebElement> spans = fragment.getSpans();
         int sizeOfList = spans.size();
@@ -309,5 +389,18 @@ public class TestInFrameFunctionality {
     private void checkWebElementInDefaultFrame(WebElement element) {
         testWebElementInFrameDefinedByIndex();
         assertEquals(EXPECTED_WEB_ELEMENT_OUTSIDE_IFRAME_TEXT, page.getElementInDefaultFrame().getText());
+    }
+
+    private void checkSelectInFrameDefinedByName(PageWithIFrames pageToCheck) {
+        checkSelectInFrameDefinedByName(pageToCheck.getSelect().getOptions());
+    }
+
+    private void checkSelectInFrameDefinedByName(PageWithIFrames2 pageToCheck) {
+        checkSelectInFrameDefinedByName(pageToCheck.getSelect().getOptions());
+    }
+
+    private void checkSelectInFrameDefinedByName(List<WebElement> options) {
+        assertEquals(3, options.size());
+        assertEquals(EXPECTED_SELECT_FIRST_OPTION_TEXT, options.get(0).getText());
     }
 }

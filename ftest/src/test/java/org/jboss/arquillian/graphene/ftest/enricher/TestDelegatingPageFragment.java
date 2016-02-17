@@ -72,17 +72,31 @@ public class TestDelegatingPageFragment {
     }
 
     @Test
+    public void testPageFragmentMethodIsDelegatingCorrectlyMethodParam(@Page TestPage pageParam) {
+        browser.get(contextRoot + pageLocation);
+        testPageFragment(pageParam.getInputFragment());
+    }
+
+    @Test
     public void testExtendingPageFragmentMethodIsDelegatingCorrectly() {
         browser.get(contextRoot + pageLocation);
         testPageFragment(page.getInputExtendedFragment());
     }
 
     @Test
-    public void testPageFragmentImplementingGrapheneElement() {
+    public void testExtendingPageFragmentMethodIsDelegatingCorrectlyMethodParam(@Page TestPage pageParam) {
         browser.get(contextRoot + pageLocation);
-        assertTrue(page.outputFragment.isPresent());
-        assertEquals("foo-bar", page.outputFragment.getStyleClass());
-        assertEquals(page.outputFragment.getOutputText(), page.outputFragment.getText());
+        testPageFragment(pageParam.getInputExtendedFragment());
+    }
+
+    @Test
+    public void testPageFragmentImplementingGrapheneElement() {
+        checkPageFragmentImplementingGrapheneElement(page);
+    }
+
+    @Test
+    public void testPageFragmentImplementingGrapheneElementMethodParam(@Page TestPage pageParam) {
+        checkPageFragmentImplementingGrapheneElement(pageParam);
     }
 
     @Test
@@ -93,6 +107,18 @@ public class TestDelegatingPageFragment {
     @Test(expected = NoSuchElementException.class)
     public void testPageFragmentUnwrapsInvocationTargetException() {
         page.notExisting.isDisplayed();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testPageFragmentUnwrapsInvocationTargetExceptionMethodParam(@Page TestPage pageParam) {
+        pageParam.notExisting.isDisplayed();
+    }
+
+    private void checkPageFragmentImplementingGrapheneElement(TestPage pageToCheck) {
+        browser.get(contextRoot + pageLocation);
+        assertTrue(pageToCheck.outputFragment.isPresent());
+        assertEquals("foo-bar", pageToCheck.outputFragment.getStyleClass());
+        assertEquals(pageToCheck.outputFragment.getOutputText(), pageToCheck.outputFragment.getText());
     }
 
     private void testPageFragment(PageFragmentImplementingWebElement fragment) {

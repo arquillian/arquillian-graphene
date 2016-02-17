@@ -93,6 +93,11 @@ public class TestPageFragmentList {
     }
 
     @Test
+    public void testInPageMethodParam(@Page PageWithChildren pageParam) {
+        checkChildren(pageParam.getChildren());
+    }
+
+    @Test
     public void testInPageFragment() {
         checkChildren(root.getChildren());
 

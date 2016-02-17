@@ -21,11 +21,10 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-
 import static org.junit.Assert.assertNotNull;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
@@ -54,8 +53,19 @@ public class TestInitializingNestedPageObjects {
     }
 
     @Test
+    public void testInitializingInnerPageObjectsMethodParam(@Page InnerPageObject innerPageObjectParam) {
+        assertNotNull("The inner page object should be already initialized!", innerPageObjectParam);
+    }
+
+    @Test
     public void testInitializingNesteStaticClasses() {
         assertNotNull("The nested static page object should be already initialized!", nestedStaticPageObject);
+    }
+
+    @Test
+    public void testInitializingNesteStaticClassesMethodParam(
+        @Page NestedStaticPageObject nestedStaticPageObjectParam) {
+        assertNotNull("The nested static page object should be already initialized!", nestedStaticPageObjectParam);
     }
 
     public class InnerPageObject {
