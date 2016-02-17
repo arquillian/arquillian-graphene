@@ -58,23 +58,20 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
     }
 
     @Override
-    public Object[] resolve(SearchContext searchContext, Method method) {
+    public Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams) {
         StringBuffer errorMsgBegin = new StringBuffer("");
         List<Object[]> paramCouple = new LinkedList<Object[]>();
         paramCouple.addAll(ReflectionHelper.getParametersWithAnnotation(method, Page.class));
-        Object[] resolution = new Object[method.getParameterTypes().length];
 
-        for (int i = 0; i < resolution.length; i++) {
-            if (paramCouple.get(i) == null) {
-                resolution[i] = null;
-            } else {
+        for (int i = 0; i < resolvedParams.length; i++) {
+            if (paramCouple.get(i) != null) {
                 Class<?> param = (Class<?>) paramCouple.get(i)[0];
                 Annotation[] parameterAnnotations = (Annotation[]) paramCouple.get(i)[1];
                 Object page = createPage(searchContext, parameterAnnotations, null, null, method, param);
-                resolution[i] = page;
+                resolvedParams[i] = page;
             }
         }
-        return resolution;
+        return resolvedParams;
     }
 
     private Object createPage(SearchContext searchContext, Annotation[] annotations, Object target, Field field,

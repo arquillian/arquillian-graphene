@@ -62,8 +62,8 @@ public class FieldAccessValidatorEnricher implements SearchContextTestEnricher {
     }
 
     @Override
-    public Object[] resolve(SearchContext searchContext, Method method) {
-        return new Object[method.getParameterTypes().length];
+    public Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams) {
+        return resolvedParams;
     }
 
     @Override
