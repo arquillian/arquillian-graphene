@@ -21,6 +21,9 @@
  */
 package org.jboss.arquillian.graphene.location;
 
+import java.lang.annotation.Annotation;
+import java.net.URL;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider;
 import org.jboss.arquillian.core.api.Instance;
@@ -29,9 +32,6 @@ import org.jboss.arquillian.core.spi.ServiceLoader;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.test.spi.TestClass;
 import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
-
-import java.lang.annotation.Annotation;
-import java.net.URL;
 
 /**
  * This resource provider is used if the Arquillian (core) resource provider for URLs is present on the classpath at
@@ -50,15 +50,27 @@ public class ContainerCustomizableURLResourceProvider extends CustomizableURLRes
     @Override
     protected URL doLookup(ArquillianResource resource, Annotation... qualifiers) {
         URL url = null;
-        // if the class for core (Arquillian) URL resource provider is present, try if a fallback is possible
-        ResourceProvider coreResourceProvider = loader.get().onlyOne(ResourceProvider.class, URLResourceProvider.class);
-        if (coreResourceProvider != null && coreResourceProvider instanceof URLResourceProvider) {
-            if (hasDeployment(testClass.get())) {
-                url = (URL) coreResourceProvider.lookup(resource, qualifiers);
-            } else {
-                url = (URL) ((URLResourceProvider) coreResourceProvider).doLookup(resource, qualifiers);
+
+        // check if there is any other URL provider on the classpath (Warp for example)
+        for (ResourceProvider provider : loader.get().all(ResourceProvider.class)) {
+            if (provider.canProvide(URL.class) && !(provider instanceof  CustomizableURLResourceProvider)) {
+                url = (URL) provider.lookup(resource, qualifiers);
             }
         }
+
+        if (url == null) {
+            // if the class for core (Arquillian) URL resource provider is present, try if a fallback is possible
+            ResourceProvider coreResourceProvider =
+                loader.get().onlyOne(ResourceProvider.class, URLResourceProvider.class);
+            if (coreResourceProvider != null && coreResourceProvider instanceof URLResourceProvider) {
+                if (hasDeployment(testClass.get())) {
+                    url = (URL) coreResourceProvider.lookup(resource, qualifiers);
+                } else {
+                    url = (URL) ((URLResourceProvider) coreResourceProvider).doLookup(resource, qualifiers);
+                }
+            }
+        }
+
         return url;
     }
 
