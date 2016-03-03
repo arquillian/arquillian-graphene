@@ -224,7 +224,8 @@ public class GrapheneElementImpl implements GrapheneElement {
         return element.getSize();
     }
 
-    @Override public Rectangle getRect() {
+    @Override
+    public Rectangle getRect() {
         return element.getRect();
     }
 
