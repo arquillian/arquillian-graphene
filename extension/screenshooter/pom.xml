@@ -25,7 +25,7 @@
 
     <!-- Properties -->
     <properties>
-        <version.recorder.screenshooter>1.1.0.Alpha4</version.recorder.screenshooter>
+        <version.recorder.screenshooter>1.1.0.Final</version.recorder.screenshooter>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <browser>phantomjs</browser>
