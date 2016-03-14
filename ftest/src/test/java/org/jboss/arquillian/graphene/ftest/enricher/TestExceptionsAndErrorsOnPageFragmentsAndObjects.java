@@ -33,7 +33,6 @@ import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,7 @@ import org.openqa.selenium.support.FindBy;
  */
 @RunWith(Arquillian.class)
 @RunAsClient
-public class TestAssertionErrorOnPageFragmentOrObject {
+public class TestExceptionsAndErrorsOnPageFragmentsAndObjects {
 
     @Drone
     private WebDriver browser;
@@ -80,7 +79,7 @@ public class TestAssertionErrorOnPageFragmentOrObject {
 
     @Test(expected = IOException.class)
     public void testCheckedExceptionFromPageFragmentIsNotWrapped() throws Exception {
-    	fragment.throwCheckedException();
+        fragment.throwCheckedException();
     }
 
     @Test(expected = IOException.class)
@@ -90,7 +89,7 @@ public class TestAssertionErrorOnPageFragmentOrObject {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRuntimeExceptionFromPageFragmentIsNotWrapped() {
-    	fragment.throwRuntimeException();
+        fragment.throwRuntimeException();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -103,13 +102,13 @@ public class TestAssertionErrorOnPageFragmentOrObject {
         public void throwAssertionError() {
             throw new AssertionError("This is assertion error!");
         }
-        
+
         public void throwCheckedException() throws Exception {
-        	throw new IOException("this is checked exception");
+            throw new IOException("this is checked exception");
         }
-        
+
         public void throwRuntimeException() {
-        	throw new IllegalArgumentException("this is runtime exception");
+            throw new IllegalArgumentException("this is runtime exception");
         }
     }
 }
