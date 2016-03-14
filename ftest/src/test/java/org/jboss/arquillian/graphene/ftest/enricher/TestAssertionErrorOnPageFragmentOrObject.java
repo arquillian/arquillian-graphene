@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
+import java.io.IOException;
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -69,21 +70,46 @@ public class TestAssertionErrorOnPageFragmentOrObject {
 
     @Test(expected = AssertionError.class)
     public void testAssertionErrorFromPageFragmentIsNotWrapped() {
-        fragment.testSomething();
+        fragment.throwAssertionError();
     }
 
     @Test(expected = AssertionError.class)
     public void testAssertionErrorFromPageObjectIsNotWrapped() {
-        page.testSomething();
+        page.throwAssertionError();
+    }
+
+    @Test(expected = IOException.class)
+    public void testCheckedExceptionFromPageFragmentIsNotWrapped() throws Exception {
+    	fragment.throwCheckedException();
+    }
+
+    @Test(expected = IOException.class)
+    public void testCheckedExceptionFromPageObjectIsNotWrapped() throws Exception {
+        page.throwCheckedException();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRuntimeExceptionFromPageFragmentIsNotWrapped() {
+    	fragment.throwRuntimeException();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testRuntimeExceptionFromPageObjectIsNotWrapped() {
+        page.throwRuntimeException();
     }
 
     public static class PageOrFragmentThrowingAssertionError {
 
-        public void testSomething() {
-            Assert.fail();
-            Assert.assertEquals("value1", "value2");
-            // or simply:
-            // throw new AssertionError("This was assertion error!");
+        public void throwAssertionError() {
+            throw new AssertionError("This is assertion error!");
+        }
+        
+        public void throwCheckedException() throws Exception {
+        	throw new IOException("this is checked exception");
+        }
+        
+        public void throwRuntimeException() {
+        	throw new IllegalArgumentException("this is runtime exception");
         }
     }
 }
