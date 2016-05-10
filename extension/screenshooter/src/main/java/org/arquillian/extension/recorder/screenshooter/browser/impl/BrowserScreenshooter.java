@@ -24,6 +24,7 @@ package org.arquillian.extension.recorder.screenshooter.browser.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -56,6 +57,8 @@ public class BrowserScreenshooter implements Screenshooter {
     private ScreenshooterConfiguration configuration;
     private TakenResourceRegister takenResourceRegister;
     private String message;
+
+    private Logger log = Logger.getLogger(BrowserScreenshooter.class.getName());
 
     /**
      *
@@ -108,16 +111,14 @@ public class BrowserScreenshooter implements Screenshooter {
 
     @Override
     public Screenshot takeScreenshot(File screenshotToTake, ScreenshotType type) {
-        WebDriver browser = getTakingScreenshotsBrowser();
+        WebDriver browser = getTakingScreenshotsBrowser(screenshotToTake);
 
         screenshotToTake = new File(screenshotTargetDir, screenshotToTake.getPath());
         File targetDir = getJustTargetDir(screenshotToTake);
         RecorderFileUtils.createDirectory(targetDir);
 
         if (browser == null) {
-            Screenshot screenshoot = new BrowserScreenshot();
-            screenshoot.setResource(screenshotToTake);
-            return screenshoot;
+            return null;
         }
 
         try {
@@ -145,17 +146,18 @@ public class BrowserScreenshooter implements Screenshooter {
         return screenshoot;
     }
 
-    private WebDriver getTakingScreenshotsBrowser() {
-
-        GrapheneContext context = null;
+    private WebDriver getTakingScreenshotsBrowser(File screenshotToTake) {
+        WebDriver result = null;
 
         try {
-            context = GrapheneContext.getContextFor(Default.class);
+            GrapheneContext context = GrapheneContext.getContextFor(Default.class);
+            result = ((GrapheneProxyInstance) context.getWebDriver(TakesScreenshot.class)).unwrap();
+            //FIXME remove this try-catch block and bring new solution
         } catch (IllegalStateException ex) {
+            log.info("The screenshot " + screenshotToTake.getPath() + " hasn't been taken."
+                         + " The reason: " + ex.getMessage());
             return null;
         }
-
-        WebDriver result = ((GrapheneProxyInstance) context.getWebDriver(TakesScreenshot.class)).unwrap();
 
         if (result instanceof ReusableRemoteWebDriver) {
             result = new Augmenter().augment(result);
@@ -165,7 +167,8 @@ public class BrowserScreenshooter implements Screenshooter {
 
     @Override
     public Screenshooter setScreenshotTargetDir(String screenshotTargetDir) {
-        Validate.notNullOrEmpty(screenshotTargetDir, "Screenshot target directory can not be a null object or an empty string");
+        Validate.notNullOrEmpty(screenshotTargetDir,
+                                "Screenshot target directory can not be a null object or an empty string");
         return setScreenshotTargetDir(new File(screenshotTargetDir));
     }
 

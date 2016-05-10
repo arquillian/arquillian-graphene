@@ -58,6 +58,9 @@ public class TakeScreenshotAndReportService {
             takeScreenshot.getFileName());
 
         Screenshot screenshot = screenshooter.get().takeScreenshot(screenshotTarget, screenshotType);
+        if (screenshot == null){
+            return;
+        }
         takenScreenshotsRegister.get().addTaken(screenshot);
 
         takeScreenshot.getMetaData().setHeight(screenshot.getHeight());
