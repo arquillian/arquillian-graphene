@@ -36,7 +36,6 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:mjobanek@redhat.com">Matous Jobanek</a>
  */
 @RunWith(Arquillian.class)
-@RunAsClient
 public class InContainerScreenshooterTest {
 
     protected static final String SCREEN_DIR = "target/screenshots/org.jboss.arquillian.graphene.screenshooter.ftest.";
