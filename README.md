@@ -1,4 +1,4 @@
-Arquillian Graphene 2 [![Build Status](https://buildhive.cloudbees.com/job/arquillian/job/arquillian-graphene/badge/icon)](https://buildhive.cloudbees.com/job/arquillian/job/arquillian-graphene/)
+Arquillian Graphene 2 [![Build Status](https://travis-ci.org/arquillian/arquillian-graphene.svg?branch=master)](https://travis-ci.org/arquillian/arquillian-graphene)
 =====================
 
 > Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API
