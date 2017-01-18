@@ -203,7 +203,10 @@ public class GrapheneConfiguration implements DroneConfiguration<GrapheneConfigu
         boolean canConstruct;
 
         try {
-            new URL(url);
+            final URL currentUrl = new URL(url);
+            if (currentUrl.getProtocol() != null) {
+                this.scheme = currentUrl.getProtocol();
+            }
             canConstruct = true;
         } catch (MalformedURLException ex) {
             canConstruct = false;
