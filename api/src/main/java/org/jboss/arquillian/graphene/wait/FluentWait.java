@@ -25,10 +25,7 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.graphene.fluent.FluentBase;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.Wait;
-
-import com.google.common.base.Predicate;
 
 /**
  * This interface is a replication of
@@ -93,15 +90,6 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
     <K extends Throwable> FluentWait<ARG, FLUENT> ignoring(Class<? extends Throwable> firstType, Class<? extends Throwable> secondType);
 
     /**
-     * Repeatedly applies this instance's input value to the given predicate until the timeout expires
-     * or the predicate evaluates to true.
-     *
-     * @param isTrue The predicate to wait on.
-     * @throws TimeoutException If the timeout expires.
-     */
-    void until(final Predicate<ARG> isTrue);
-
-    /**
      * Returns the fluent condition builder. The builder automatically calls {@link #commit(java.lang.Object) }
      * which calls {@link #until(com.google.common.base.Predicate) }.
      */
@@ -114,5 +102,4 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
      * @param failMessage message used when the waiting fails
      */
     FluentBuilder<FLUENT> until(String failMessage);
-
 }

@@ -21,9 +21,8 @@
  */
 package org.jboss.arquillian.graphene.guard;
 
-import static org.jboss.arquillian.graphene.Graphene.waitAjax;
-
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.page.document.Document;
@@ -39,8 +38,7 @@ import org.jboss.arquillian.graphene.wait.FluentWait;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
+import static org.jboss.arquillian.graphene.Graphene.waitAjax;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -153,16 +151,16 @@ public class RequestGuardFactory {
         return (T) proxy;
     }
 
-    private class DocumentReady implements Predicate<WebDriver> {
+    private class DocumentReady implements Function<WebDriver, Boolean> {
         @Override
-        public boolean apply(WebDriver driver) {
+        public Boolean apply(WebDriver driver) {
             return "complete".equals(document.getReadyState());
         }
     }
 
-    private class RequestIsDone implements Predicate<WebDriver> {
+    private class RequestIsDone implements Function<WebDriver, Boolean> {
         @Override
-        public boolean apply(WebDriver driver) {
+        public Boolean apply(WebDriver driver) {
             RequestState state = guard.getRequestState();
             return RequestState.DONE.equals(state);
         }

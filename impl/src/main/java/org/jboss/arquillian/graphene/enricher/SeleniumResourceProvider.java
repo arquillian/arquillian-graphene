@@ -203,7 +203,7 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
     public static class ActionsProvider extends IndirectProvider<HasInputDevices> {
         @Override
         public Object generateProxy(HasInputDevices base) {
-            return new Actions (base.getKeyboard(), base.getMouse());
+            return new Actions ((WebDriver) base);
         }
 
         @Override

@@ -23,11 +23,9 @@ package org.jboss.arquillian.graphene.wait;
 
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.openqa.selenium.WebDriver;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -43,7 +41,7 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
     }
 
     public WebDriverWaitImpl(FLUENT fluent, WebDriver driver, long timeOutInSeconds) {
-        this(new org.openqa.selenium.support.ui.WebDriverWait(driver, timeOutInSeconds) , fluent);
+        this(new org.openqa.selenium.support.ui.WebDriverWait(driver, timeOutInSeconds), fluent);
     }
 
     @Override
@@ -77,14 +75,10 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
     }
 
     @Override
-    public <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoring(Class<? extends Throwable> firstType, Class<? extends Throwable> secondType) {
+    public <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoring(Class<? extends Throwable> firstType,
+        Class<? extends Throwable> secondType) {
         wait.ignoring(firstType, secondType);
         return this;
-    }
-
-    @Override
-    public void until(Predicate<WebDriver> isTrue) {
-        wait.until(isTrue);
     }
 
     @Override
@@ -104,9 +98,7 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
 
     @Override
     public <ACTION> FLUENT commit(ACTION action) {
-        if (action instanceof Predicate) {
-            until((Predicate) action);
-        } else if (action instanceof Function) {
+        if (action instanceof Function) {
             until((Function) action);
         } else {
             throw new UnsupportedOperationException("TODO");

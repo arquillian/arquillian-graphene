@@ -23,11 +23,9 @@ package org.jboss.arquillian.graphene.wait;
 
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.openqa.selenium.WebDriver;
-
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -45,8 +43,6 @@ public interface WebDriverWait<FLUENT> extends FluentWait<WebDriver, FLUENT> {
     <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoring(Class<? extends Throwable> exceptionType);
 
     <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoring(Class<? extends Throwable> firstType, Class<? extends Throwable> secondType);
-
-    void until(Predicate<WebDriver> isTrue);
 
     FluentBuilder<FLUENT> until();
 

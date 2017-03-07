@@ -21,9 +21,8 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import static org.jboss.arquillian.graphene.Graphene.waitGui;
-
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
@@ -31,7 +30,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 
-import com.google.common.base.Predicate;
+import static org.jboss.arquillian.graphene.Graphene.waitGui;
 
 public class StaleElementInterceptor implements Interceptor {
 
@@ -41,9 +40,9 @@ public class StaleElementInterceptor implements Interceptor {
         final AtomicReference<Throwable> failure = new AtomicReference<Throwable>();
         final AtomicReference<Throwable> staleness = new AtomicReference<Throwable>();
         try {
-            waitGui(context.getGrapheneContext().getWebDriver()).until(new Predicate<WebDriver>() {
+            waitGui(context.getGrapheneContext().getWebDriver()).until(new Function<WebDriver, Boolean>() {
                 @Override
-                public boolean apply(WebDriver driver) {
+                public Boolean apply(WebDriver driver) {
                     try {
                         result.set(context.invoke());
                         return true;
