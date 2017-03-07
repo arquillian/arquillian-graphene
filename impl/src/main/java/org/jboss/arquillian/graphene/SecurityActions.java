@@ -182,8 +182,7 @@ final class SecurityActions {
      * @param fieldName The field name
      * @param value The new value
      */
-    public static void setFieldValue(final Class<?> source, final Object target, final String fieldName, final Object value) throws NoSuchFieldException
-    {
+    public static void setFieldValue(final Class<?> source, final Object target, final String fieldName, final Object value) throws NoSuchFieldException {
         try {
             AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
                 @Override

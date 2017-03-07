@@ -212,7 +212,7 @@ public class GrapheneContextImpl extends ExtendedGrapheneContext {
         private PageExtensionInstallatorProvider installatorProvider;
         private GrapheneProxyHandler handler;
 
-        public LazyContext(Class<?> qualifier, BrowserActions browserActions) {
+        LazyContext(Class<?> qualifier, BrowserActions browserActions) {
             super(null, null, null);
             this.qualifier = qualifier;
             this.browserActions = browserActions;

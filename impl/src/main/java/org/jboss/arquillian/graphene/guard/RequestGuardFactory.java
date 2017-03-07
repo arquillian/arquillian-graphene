@@ -178,7 +178,7 @@ public class RequestGuardFactory {
 
         private RequestType requestExpected;
 
-        public RequestTypeDone(RequestType requestExpected) {
+        RequestTypeDone(RequestType requestExpected) {
             this.requestExpected = requestExpected;
         }
 

@@ -82,7 +82,7 @@ public abstract class GrapheneProxyHandler implements MethodInterceptor, Invocat
      * invocation.
      */
     @Override
-    public abstract Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable;
+    public abstract Object invoke(Object proxy, Method method, Object[] args) throws Throwable;
 
     /**
      * Delegates to {@link #invoke(Object, Method, Object[])} to serve as {@link MethodInterceptor}.

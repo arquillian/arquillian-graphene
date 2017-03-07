@@ -21,15 +21,12 @@
  */
 package org.jboss.arquillian.graphene.page.extension;
 
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import junit.framework.Assert;
-
 import org.jboss.arquillian.graphene.spi.javascript.JavaScript;
 import org.jboss.arquillian.graphene.spi.page.PageExtension;
 import org.junit.Before;
@@ -37,6 +34,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -72,7 +71,7 @@ public class AbstractPageExtensionInstallatorProviderTestCase {
 
     private static class TestedPageExtensionInstallatorProvider extends AbstractPageExtensionInstallatorProvider {
 
-        public TestedPageExtensionInstallatorProvider(PageExtensionRegistry registry) {
+        TestedPageExtensionInstallatorProvider(PageExtensionRegistry registry) {
             super(registry);
         }
 

@@ -43,7 +43,7 @@ public class ResourceIdentifierFactory {
         private ResourceMetaData metaData;
         private When when;
 
-        public BrowserResourceIdentifier(ResourceMetaData metaData, When when) {
+        BrowserResourceIdentifier(ResourceMetaData metaData, When when) {
             super();
             this.metaData = metaData;
             this.when = when;

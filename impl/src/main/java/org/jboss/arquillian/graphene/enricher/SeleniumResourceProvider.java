@@ -257,7 +257,7 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
 
         protected Class<?> mediatorType;
 
-        public IndirectProvider() {
+        IndirectProvider() {
             this.mediatorType = getTypeArgument(0);
         }
 
