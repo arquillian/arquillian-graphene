@@ -1,0 +1,40 @@
+guardAjax(input).sendKeys("abc"); - Graphene 2
+==============================================
+
+[[guardajaxinput.sendkeysabc]]
+guardAjax(input).sendKeys("abc");
+---------------------------------
+
+[[66486914_Tips%26Tricks-Issue%3A]]
+[[issue]]
+Issue:
+~~~~~~
+
+* the guard does not work correctly - i.e.
+** it *timeouts*
+** or it **ends prematurely** (when page is partially updated)
+
+[[66486914_Tips%26Tricks-Analysis%3A]]
+[[analysis]]
+Analysis:
+~~~~~~~~~
+
+* `sendKeys` behaves as you would expect from a real user interaction -
+**several characters are typed sequentially**, which is accompanied by
+appropriate number of *keydown/keypress/keyup events* and it does not
+fire any blur event
+* guard actually **wraps exactly one XHR request**, which is triggered
+by appropriate user interaction
+
+[[66486914_Tips%26Tricks-Solution%3A]]
+[[solution]]
+Solution:
+~~~~~~~~~
+
+* if your application triggers AJAX request when *blur* happens, then
+you need to guard blur event (either click to another input or to body
+element):
+** `input.sendKeys("abc"); ``guardAjax(body).click();`
+* if your application triggers AJAX request when keydown/keyup happens,
+then you need to wait for a last update: 
+** `input.sendKeys("ab"); guardAjax(input).sendKeys("c");`

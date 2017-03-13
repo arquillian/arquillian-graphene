@@ -1,0 +1,94 @@
+Graphene Configuration - Graphene 2
+===================================
+
+[[graphene-configuration]]
+Graphene Configuration
+----------------------
+
+Graphene is configured using
+https://docs.jboss.org/author/display/ARQ/Drone#Drone-ConfiguringDroneinstances[arquillian.xml
+or alternatively via system properties].
+
+[[55378128_GrapheneConfiguration-WebDriverConfiguration]]
+[[webdriver-configuration]]
+WebDriver Configuration
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Graphene uses WebDriver directly and thus it can be
+configured via `webdriver` extension configuration.
+
+Refer
+to https://docs.jboss.org/author/display/ARQ/Drone#Drone-Selenium2configuration[Selenium
+2 configuration] options in Drone guide.
+
+[[55378128_GrapheneConfiguration-GrapheneConfiguration]]
+[[graphene-configuration-1]]
+Graphene Configuration
+~~~~~~~~~~~~~~~~~~~~~~
+
+Graphene specific configurations can be setup via `arquillian.xml` as
+well:
+
+[source,java]
+----
+<extension qualifier="graphene">
+   <property name="waitGuiInterval">3</property>
+</extension>
+----
+
+[cols="1,8,1", options="header"]
+|===
+|Configuration Property |Description |Default Value
+
+|`waitGuiInterval`
+|timeout for Graphene.waitGui method - waits for a short time, typically
+waits for client-side operations
+|1 sec
+
+|`waitAjaxInterval`
+|timeout for waitAjax - waits for longer time, typically ajax request
+with no computational load
+|2 sec
+
+|`waitModelInterval`
+|timeout for waitModel - waits for a long time, typically database
+requests or other computationally hard operations
+|5 sec
+
+|`waitGuardInterval`
+|timeout for request guard methods
+|equals to `waitAjaxInterval`
+
+|`defaultElementLocatingStrategy`
+|default locating strategy when there is empty `@FindBy` over element
+|`idOrName`
+
+|`javascriptInstallationLimit`
+|timeout for installing JavaScript to the page via page extension
+mechanism
+|5 sec 
+|===
+
+You can also configure Graphene via *System Properties* either from
+command line or `pom.xml`:
+
+[source,java]
+----
+-Darq.extension.graphene.waitAjaxInterval=3
+----
+
+[source,java]
+----
+<build>
+  <plugins>
+    <plugin>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <configuration>
+        <systemProperties>
+          <arq.extension.graphene.waitAjaxInterval>3</arq.extension.graphene.waitAjaxInterval>
+        </systemProperties>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+----

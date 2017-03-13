@@ -1,0 +1,101 @@
+Dependency Injection - Graphene 2
+=================================
+
+[[dependency-injection]]
+Dependency Injection
+--------------------
+
+Following objects can be injected using @ArquillianResource annotation
+to:
+
+* test case
+** (a test class containing @Test method when it is marked to
+@RunWith(Arquillian.class))
+* Page Objects
+* Page Fragments
+
+For example:
+
+[source,java]
+----
+@RunWith(Arquillian.class)
+@RunAsClient
+public class MyTest ﻿{
+
+    @Drone
+    private WebDriver browser;
+
+
+    @ArquillianResource
+    private JavascriptExecutor executor;
+
+
+    @Test
+    public void test() {
+       browser.navigate().to(...);
+       executor.executeAsync(...);
+    }
+}
+----
+
+Here is a list of available resources that can be injected:
+
+[cols="2,10", options="header"]
+|===
+|Class |Purpose
+
+|`WebDriver`
+|The main interface to use for testing, which represents an idealised
+web browser.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/WebStorage.html[LocalStorage]
+|Represents the local storage for the site currently opened in the
+browser. Each site has its own separate storage area.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/WebStorage.html[SessionStorage]
+|Represents the session storage in the browser for the site currently
+opened in the browser. The session storage areas is specific to the
+current top level browsing context. Each context has a unique set of
+session storage, one for each origin. Sites can add data to the session
+storage and it will be accessible to any page from the same site opened
+in that window.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/ApplicationCache.html[ApplicationCache]
+|Represents the application cache status.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/TouchScreen.html[TouchScreen]
+|Represents basic touch screen operations.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Rotatable.html[Rotatable]
+|Represents rotation of the browser view for orientation-sensitive
+devices. When using this with a real device, the device should not be
+moved so that the built-in sensors do not interfere.
+
+|http://seleniumhq.github.io/selenium/docs/api//java/org/openqa/selenium/html5/BrowserConnection.html[BrowserConnection]
+|Represents the connection state of the application.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/LocationContext.html[LocationContext]
+|Represents the physical location of the browser.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/interactions/Actions.html[Actions]
+|The user-facing API for emulating complex user gestures. Use this class
+rather than using the Keyboard or Mouse directly. Implements the builder
+pattern: Builds a CompositeAction containing all actions specified by
+the method calls.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Keyboard.html[Keyboard]
+|Represents  basic keyboard operations.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Mouse.html[Mouse]
+|Represents  basic mouse operations.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html[JavascriptExecutor]
+|Executes JavaScript, providing access to the mechanism to do so.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/TakesScreenshot.html[TakesScreenshot]
+|Captures a screenshot and store it in different ways.
+
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Capabilities.html[Capabilities]
+|Describes a series of key/value pairs that encapsulate aspects of a
+browser.
+|===

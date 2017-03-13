@@ -1,0 +1,1373 @@
+Page Abstractions - Graphene 2
+==============================
+
+[[page-abstractions]]
+Page Abstractions
+-----------------
+
+* link:#53117992[Page Objects]
+* link:#53117994[Page Fragments]
+* link:#82903669[Location of pages]
+
+[[53117989_PageAbstractions-PageAbstractionsenhancethewayyourtestsarewritten.Theymakeyourtestsmorerobustandthereforemorereliable.]]
+[[page-abstractions-enhance-the-way-your-tests-are-written.-they-make-your-tests-more-robust-and-therefore-more-reliable.]]
+Page Abstractions enhance the way your tests are written. They make your
+tests more robust and therefore more reliable.
+
+To see their power let's start with little bit of motivation. Do you
+often see Graphene (or Selenium Webdriver) tests like this:
+
+UglyGrapheneTests.java
+
+[source,java]
+----
+public class TestAutocompleteWidgets extends AbstractGrapheneTest {
+
+    private final By firstAutocompleteInput = 
+                               By.css("input[type=\"text\"]:nth-of-type(1)");
+    private final By secondAutocompleteInput = 
+                               By.css("input[type=\"text\"]:nth-of-type(2)");
+    private final By thirdAutocompleteInput = 
+                               By.css("input[type=\"text\"]:nth-of-type(3)");
+    private final By suggestion = 
+                               By.className("rf-au-itm");
+
+    @Test
+    public void testFirstAutocomplete() {
+        WebElement autocomplete = driver.findElement(firstAutocompleteInput);
+
+        autocomplete.sendKeys("Ar");
+        waitForSuggestions();
+
+        List<WebElement> suggestions = driver.findElements(suggestion);
+
+        assertEquals(suggestions.size(), 2, 
+                           "There should be two suggestions!");
+        assertEquals(suggestions.get(0).getText(), "Arizona",
+                           "The first suggestion is wrong!");
+        assertEquals(suggestion.get(1).getText(), "Arkansas",
+                           "The second suggestion is wrong!");
+    }
+
+
+    @Test
+    public void testSecondAutocomplete() {
+        //other similar interactions with the other two Autocomplete widgets
+    }
+
+    private waitForSuggestions() {
+        //some wait method to wait for suggestions becoming visible
+    }
+}
+----
+
+In the previous example you can notice that tests are tightly coupled
+with the HTML structure of the tested page. So once the structure of the
+page will change (it can be even slight change in class attribute of
+some element) tests are affected as well. These small changes can
+effectively break lot of tests, in other words increases the time spent
+on the tests maintenance.
+
+[[53117989_PageAbstractions-TherecomesPageObjectspatterntoimprovethis.]]
+[[there-comes-page-objects-pattern-to-improve-this.]]
+There comes Page Objects pattern to improve this.
+-------------------------------------------------
+
+Basically it is an encapsulation of the tested page structure into one
+class, which will contain all the page fragments (parts, components,
+widgets) together with all handy methods which you will find useful
+while testing the encapsulated page.
+
+Very simple Page Object which results from the previous test example is
+below:
+
+TestingPage.java
+
+[source,java]
+----
+public class TestPage {
+
+    @FindBy(css = "input[type=\"text\"]:nth-of-type(1)")
+    private WebElement firstAutocompleteInput;
+
+    @FindBy(css = "input[type=\"text\"]:nth-of-type(2)")
+    private WebElement secondAutocompleteInput;
+
+    @FindBy(css = "input[type=\"text\"]:nth-of-type(3)")
+    private WebElement thirdAutocompleteInput;
+
+    @FindBy(className = "rf-au-itm")
+    private List<WebElement> suggestions;
+
+    //getters for all fields of this Page Object
+
+    private waitForSuggestions() {
+        //some wait method to wait for suggestions becoming visible
+    }
+
+    //other handy methods used with testing of the page
+}
+----
+
+The test can be now decoupled from the underlying HTML structure of the
+tested page. Once the structure change, the only modification will be
+needed in Page Object. The test would look like below snippet:
+
+NicerGrapheneTests.java
+
+[source,java]
+----
+public class TestAutocompleteWidgets extends AbstractGrapheneTest {
+
+    private TestingPage testingPage;
+
+    @Before
+    public void initializeTestingPage() {
+        testingPage = PageFactory.initElements(driver, TestingPage.class);
+    }
+
+    @Test
+    public void testFirstAutocomplete() {
+
+        testingPage.getFirstAutocompleteInput().sendKeys("Ar");
+        testingPage.waitForSuggestions();
+
+        List<WebElement> suggestions = testingPage.getSuggestions();
+
+        assertEquals(suggestions.size(), 2, 
+                    "There should be two suggestions!");
+        assertEquals(suggestions.get(0).getText(), "Arizona", 
+                    "The first suggestion is wrong!");
+        assertEquals(suggestion.get(1).getText(), "Arkansas", 
+                    "The second suggestion is wrong!");
+    }
+
+
+    @Test
+    public void testSecondAutocomplete() {
+        //other similar interactions with the other two Autocomplete widgets
+    }
+}
+----
+
+To read more about how Graphene helps with utilization of this concept,
+please follow the child page link:#53117992[Page Objects].
+
+Page Objects pattern are well known concept, which greatly improves
+tests robustness. However, is there more space for improvement ?
+Consider previous example, where we were testing three autocomplete
+widgets. Each of the test had to deal with the interaction between
+driver and that component on its own. Unfortunately not only tests in
+that one test class, but all the tests which interact with the same
+autocomplete widget implemented with the same UI framework. It is a huge
+DRY violation.
+
+[[53117989_PageAbstractions-ThereforeGrapheneintroducesanewconcept%2CcalledPageFragmentstoimprovethis.]]
+[[therefore-graphene-introduces-a-new-concept-called-page-fragments-to-improve-this.]]
+Therefore Graphene introduces a new concept, called Page Fragments to
+improve this.
+
+What are Page Fragments in short ?
+
+* Page Fragments stands for any part of the tested page, any widget, web
+component, etc.
+* A concept of encapsulation of these parts into completely reusable
+pieces across all your tests.
+* Powerful mechanism for creating own page fragments, like Autocomplete
+(Calendar, Login, etc.) page fragment.
+* A concept which differentiate each fragment by its root element and
+make other parts referenced from it.
+* A solution which leverages Selenium WebDriver under the hood together
+with all Graphene killer features.
+* Set of utilities which simplify using of this feature in tests,
+together with better support for Page Objects pattern.
+
+So we already know that autocomplete widget from the previous example
+can be encapsulated into one object. As it is part of the page, its
+fragment, let's call that object Page Fragment. Better than words, let's
+see an example of such encapsulation below.
+
+AutocompleteFragment.java
+
+[source,java]
+----
+public class AutocompleteFragment<T> {
+
+    @Root
+    WebElement root;
+
+    @FindBy(css = "input[type='text']")
+    WebElement inputToWrite;
+
+    public static final String CLASS_NAME_SUGGESTION = "rf-au-itm";
+
+    public List<Suggestion<T>> getAllSuggestions(SuggestionParser<T> parser) {
+        List<Suggestion<T>> allSugg = new ArrayList<Suggestion<T>>();
+
+        if (areSuggestionsAvailable()) {
+            WebElement rightSuggList = getRightSuggestionList();
+            
+            List<WebElement> suggestions = 
+                 rightSuggList.findElements(
+                    By.className(CLASS_NAME_SUGGESTION));
+
+            for (WebElement suggestion : suggestions) {
+                allSugg.add(parser.parse(suggestion));
+            }
+        }
+
+        return allSugg;
+    }
+
+    public List<Suggestion<T>> type(String value, SuggestionParser<T> parser) {
+        List<Suggestion<T>> suggestions = new ArrayList<Suggestion<T>>();
+
+        inputToWrite.sendKeys(value);
+        try {
+            waitForSuggestions();
+        } catch (TimeoutException ex) {
+            // no suggestions available
+            return suggestions;
+        }
+
+        suggestions = getAllSuggestions(parser);
+        return suggestions;
+    }
+
+    //other handy encapsulation of Autocomplete services
+}
+----
+
+It is nothing special. The only difference between Page Objects and Page
+Fragments is the element annotated with the `@Root` annotation. All
+other `WebElement` fields annotated with `@FindBy` are referenced from
+that root element. It makes such implementation pretty generic and
+reusable across all tests which need to interact with the encapsulated
+Page Fragment.
+
+The `@Root` annotation is optional, you typically use it when you need
+to directly invoke methods on it in your fragment's code. Therefore, you
+do not need to declare such element. Graphene will take care of it. You
+denote whether it is Page Fragment or Page Object in the way you use it
+(a particular Page Object is annotated with `@Page`, a Page Fragment
+with `@FindBy` annotation).
+
+To introduce Page Fragments into previous test example, one need to do
+for example following:
+
+1.  Move autocomplete specific methods from `TestingPage` to the
+`AutocompleteFragment<T>` implementation, so they can be reused in other
+tests for different applications or pages too.
+2.  Declare Page Fragments into Page Object (`TestingPage`, preferred
+option) or directly into the tests (this again couples tests with the
+structure of the testing page, less preffered).
+3.  Rewrite Page Object methods so they will interact with the Page
+Fragments instead of plain WebElements.
+
+Following snippet shows that:
+
+ImprovedTestingPage.java
+
+[source,java]
+----
+public class TestPage {
+
+    @FindBy(css = "div[class=\"rf-au\"]:nth-of-type(1)")
+    private AutocompleteFragment<String> autocomplete1;
+
+    @FindBy(css = "div[class=\"rf-au\"]:nth-of-type(2)")
+    private AutocompleteFragment<String> autocomplete2;
+
+    @FindBy(css = "div[class=\"rf-au\"]:nth-of-type(3)")
+    private AutocompleteFragment<String> autocomplete3;
+
+    // getters for all fields of this Page Object
+
+    // other handy methods used with testing 
+    // of the page now using the methods called from Page Fragments
+}
+----
+
+For more information about how Page Fragments are declared, initialized
+and more, please continue with link:#53117994[Page Fragments].
+
+[[53117992]]
+[[page-objects]]
+Page Objects
+------------
+
+Page Objects pattern is very well described
+http://code.google.com/p/selenium/wiki/PageObjects[here].
+
+*Graphene comes with support for this pattern.* The main additions are:
+
+* Better support for initialization of the Page Objects. Graphene
+automatically enrich the Page Object's injection points (e.g.
+`@FindBy`).
+* Page Objects can contain link:#53117994[Page Fragments] and they are
+also properly initialized.
+* Page Objects can contain any injection point which Arquillian supports
+- e.g. `@Drone WebDriver` for injecting browser instance
+* Page Objects can
+https://docs.jboss.org/author/display/ARQGRA2/Location+of+pages[encapsulate
+their location]
+
+You have already saw the default way of initializing Page Objects in the
+parent link:#53117989[Page Abstractions] page. *Let's showcase Graphene
+way of doing this!*
+
+1.  Implement a Page Object.
+2.  Declare it in the test.
+3.  Annotate it with
+`org.jboss.arquillian.graphene.spi.annotations.Page` annotation.
+4.  And that's all! No need to initialize Page Object via any factory
+method.
+
+To see it in action, consider please code snippets below, which
+demonstrates testing of a simple web page with progress bar and two
+buttons.
+
+[[53117992_PageObjects-ImplementPageObject]]
+[[implement-page-object]]
+Implement Page Object
+~~~~~~~~~~~~~~~~~~~~~
+
+TestingPage.java
+
+[source,java]
+----
+import org.openqa.selenium.support.FindBy;
+
+public class TestPage {
+
+    @Drone
+    private WebDriver browser;
+
+    @FindBy(className = "start-button")
+    private WebElement startButton;
+
+    @FindBy(className = "stop-button")
+    private WebElement stopButton;
+
+    @FindBy(id = "progress")
+    private WebElement progressBar;
+
+    @FindBy(className = "foo-bar")
+    private List<WebElement> listOfElements;
+
+    //getters for all fields of this Page Object
+
+    public long start() {
+        startButton.click();
+
+        return System.currentTimeMillis();
+    }
+
+    public void stop() {
+        stopButton.click();
+    }
+
+    /**
+    * Returns the progress, that is, on how many percents it is completed.
+    */
+    public int getProgress() {
+        //parse string which contains % sign to an int value
+        //you may use also injected browser instance
+    }
+
+    public long waitUntilCompleted() {
+        while(getProgress() != 100) {
+            //do nothing
+        }
+
+        return System.currentTimeMillis();
+    }
+
+    //other handy methods used with testing of the page
+}
+----
+
+Page Objects can be declared also as nested classes. However, to better
+decouple test logic from the structure of the tested page, it is
+recommended to declare Page Objects as standalone classes.
+
+Your are not limited just with injecting `WebElement` instances. You can
+in the same way inject your link:#53117994[Page Fragments], or even
+`java.util.List` of Page Fragments/WebElements.
+
+Note that you have to use private fields for all Graphene initialized
+`WebElement`/Page Fragments etc. Use their getters from tests.
+
+Page Objects in Multiple Browsers scenario
+
+If you use page abstractions together with parallel browsers feature, be
+sure to
+check 
+https://docs.jboss.org/author/display/ARQGRA2/Parallel+browsers#Parallelbrowsers-UsingPageAbstractionswithMultipleBrowsers[Using
+Page Abstractions with Multiple Browsers].
+
+[[53117992_PageObjects-Declareitinthetestandannotateitwith%7B%7B%40Page%7D%7Dannotation.]]
+[[declare-it-in-the-test-and-annotate-it-with-page-annotation.]]
+Declare it in the test and annotate it with @Page annotation.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Test.java
+
+[source,java]
+----
+import org.jboss.arquillian.graphene.page.Page;
+//other imports
+
+@RunWith(Arquillian.class)
+public class TestClass {
+
+    //ommitting all the other Arquillian related methods for deployment etc.
+
+    @Page
+    private TestingPage testingPage;
+
+    @Test
+    public void test1() {
+        long startedAt = testingPage.start();
+
+        long endedAt = testingPage.waitUntilCompleted();
+
+        long lastInSeconds = (endedAt - startedAt) / 1000
+
+        assertTrue(lastInSeconds < 20, "It took: " + lastInSeconds + ", its too much!");
+    }
+
+    @Test
+    public void test2() {
+        //other test which can also call methods from already initialized {{TestingPage}}
+    }
+}
+----
+
+[[53117992_PageObjects-Deploymentandbrowserdetermination]]
+[[deployment-and-browser-determination]]
+Deployment and browser determination
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The deployment according to which the `@Location` value will be
+resolved, and the browser into which the page will be loaded can be
+determined in the following way:
+
+[source,java]
+----
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.graphene.page.InitialPage;
+import org.jboss.arquillian.graphene.page.Location;
+//other imports
+
+@RunWith(Arquillian.class)
+@RunAsClient
+public class TestLocation {
+
+    @Drone
+    private WebDriver browser;
+
+    @Drone
+    @Browser2
+    private WebDriver browser2;
+
+    @Deployment
+    public static WebArchive createTestArchive() {
+        //returning default war
+    }
+
+    @Deployment(name = "deployment1")
+    public static WebArchive createTestArchive1() {
+       //returning some different war
+    }
+
+    @Test
+    @OperateOnDeployment("deployment1")
+    public void test1(@InitialPage MyPageObject1 obj) {
+        //testing the page with help of MyPageObject1
+    }
+
+    @Test
+    public void test2(@Browser2 @InitialPage MyPageObject2 obj) {
+        //Graphene will load as the first action MyPageObject2 location value to the browser2
+        //testing the page with help of MyPageObject2
+    }
+}
+----
+
+You can read more about multiple deployments Arquillian feature
+https://docs.jboss.org/author/display/ARQ/Multiple+Deployments[here].
+Graphene support for
+https://docs.jboss.org/author/display/ARQGRA2/Parallel+browsers[parallel
+browsers] for more information about this subject.
+
+[[53117994]]
+[[page-fragments]]
+Page Fragments
+--------------
+
+The concept of Page Fragments and motivation behind them were already
+introduced in link:#53117989[Page Abstractions]. Here you can find more
+detailed info about:
+
+1.  link:#53117994_PageFragments-RelationtoPageObjects[Relation to Page
+Objects]
+2.  link:#53117994_PageFragments-Usage[Usage]
+3.  link:#53117994_PageFragments-CreatingPageFragments[Creating Page
+Fragments]
+4.  link:#53117994_PageFragments-SamplesofPageFragments[Samples of Page
+Fragments]
+1.  link:#53117994_PageFragments-Autocomplete[Autocomplete]
+2.  link:#53117994_PageFragments-Calendar[Calendar]
+3.  link:#53117994_PageFragments-Table[Table]
+4.  link:#53117994_PageFragments-Logincomponent[Login component]
+
+[[53117994_PageFragments-RelationtoPageObjects]]
+[[relation-to-page-objects]]
+Relation to Page Objects
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Page Fragments and Page Objects are similar concepts. They both
+decouples HTML structure of the tested application from the tests. They
+both encapsulate some kind of page services or the interactions a user
+can do with the page.
+
+The difference is that Page Objects are encapsulating a specific page
+(or its part) of specific application, while Page Fragments are dealing
+with parts of the page, its widgets, components, basically fragments
+which are reusable across the whole web UI framework in which the
+application under test is written.
+
+[[53117994_PageFragments-Usage]]
+[[usage]]
+Usage
+~~~~~
+
+To use Page Fragment in your tests only thing you need to do is use an
+implementation class of the Page Fragment together with `@FindBy`
+annotation pointing to the root of the fragment.
+
+DeclaringPageFragmentInTest.java
+
+[source,java]
+----
+@FindBy(css="cssLocatorOfThePageFragmentRoot")
+private PageFragmentImplementation pageFragment;
+----
+
+Use `@FindBy` annotation as you are used to with plain `WebElement`, so
+indeed you can use other locating strategies (xpath, id, className, ...)
+to reference the root of the Page fragment. The root of the fragment is
+DOM element which is parent for all other elements which are part of the
+Page fragment and need to be referenced from it (e.g. Calendar and its
+cells).
+
+These Page fragments and other `WebElement` fields are dynamically
+initialized by Graphene so no need to initialize them via factories.
+
+Handy Hints
+
+* You can declare Page Fragments in the above mentioned way either
+directly in your tests or you can declare them in the same way within
+your Page Objects.
+* You can nest your Page Fragments in other Page Fragments and create
+thus nice structure of your fragments (e.g. Page Fragment application
+menu -> nested menu group -> nested menu item).
+* Page Fragments can be declared as nested classes, however, to better
+reuse them across your test suites, it is not recommended.
+
+There is another way to create Page Fragments. You can create them
+dynamically with use of
+`Graphene.createPageFragment(Class<T> clazz, WebElement root)`. This may
+be particularly useful when implementing Page Fragment for e.g. Tab
+Panel widget.
+
+[[53117994_PageFragments-CreatingPageFragments]]
+[[creating-page-fragments]]
+Creating Page Fragments
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To define own Page Fragment one needs to:
+
+1.  Recognize a fragment of the page which can be abstracted and
+encapsulated into a Page Fragment (Basically web UI components which are
+rendered always with the same DOM structure.)
+2.  Create a class or if you find it appropriate also an interface for
+it.
+3.  Define the parts you need for implementing the fragment's services,
+which will be referenced from the injected root. Annotate them with
+`@FindBy` annotation.
+4.  Define the methods which are basically encapsulation of the fragment
+services (Calendar services - get date, set date, ...).
++
+If you need to access the injected root of your Page Fragment, you ca do
+so by declaring a `WebElement` field with a `@Root` annotation.
++
+There are two packages from where you can import `@FindBy` annotation:
+
+1.  `org.openqa.selenium.support.FindBy` - well know `@FindBy` from
+Selenium 2
+2.  `org.jboss.arquillian.graphene.enricher.findby.FindBy` -
++
+[Graphene FindBy annotation]
++
+which adds on top of classic `@FindBy` many useful features
+
+So the implementation can look like snippet below.
+
+PageFragmentExample.java
+
+[source,java]
+----
+import org.jboss.arquillian.graphene.spi.annotations.Root;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class PageFragmentExample {
+
+    @Root
+    private WebElement optionalRoot;
+
+    @Drone
+    private WebDriver browser;
+
+    @FindBy(css="relativeLocatorOfThisPageFragmentPart")
+    private WebElement otherPageFragmentPart;
+
+    @FindBy(xpath="relativeLocatorOfThisPageFragmentPart")
+    private WebElement alsoPageFragmentPart;
+
+    public void firstServiceEncapsulated() {
+        otherPageFragmentPart.click();
+    }
+
+    public void secondServciceEncapsulated() {
+        alsoPageFragmentPart.clear();
+    }
+
+    public void thirdServiceWhichNeedsDirectAccessToRoot() {
+        root.click();
+    }
+
+    public void fourthServiceWhichNeedsBrowserInstance() {
+        Actions builder = new Actions(browser);
+
+        builder.keyDown(Keys.CONTROL)
+               .click(otherPageFragmentPart)
+               .keyUp(Keys.CONTROL);
+        builder.build().perform();
+    }
+
+    //other services and help methods
+}
+----
+
+Be Careful
+
+with the xpath locators. They can be written in a way that it does not
+matter from which element they are referenced. Prefer therefore locating
+according to id, css or class name.
+
+Handy Hint
+
+Indeed you will need a reference for `WebDriver` instance. You can
+easily inject it with `@Drone` annotation.
+
+Note that you have to use private fields for all Graphene initialized
+WebElement/Page Fragments etc. Use their getters from tests.
+
+Page fragments in Multiple Browsers scenario
+
+If you use page abstractions together with parallel browsers feature, be
+sure to
+check https://docs.jboss.org/author/display/ARQGRA2/Parallel+browsers#Parallelbrowsers-UsingPageAbstractionswithMultipleBrowsers[Using
+Page Abstractions with Multiple Browsers].
+
+[[53117994_PageFragments-SamplesofPageFragments]]
+[[samples-of-page-fragments]]
+Samples of Page Fragments
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's consider following code snippets, which are reflecting some
+examples of the Page Fragments to start with. In each example you can
+find:
+
+* An image of the page fragment to be clear what we are speaking about.
+* HTML structure of the page fragment rendered in RichFaces framework.
+* Example of the Page Fragment encapsulation, either the implementation
+or just the interface for it.
+
+[[53117994_PageFragments-Autocomplete]]
+[[autocomplete]]
+Autocomplete
+^^^^^^^^^^^^
+
+image:images/author/download/attachments/53117994/autocomplete.png[images/author/download/attachments/53117994/autocomplete.png]
+
+image:images/author/download/attachments/53117994/autocompleteHTML.png[images/author/download/attachments/53117994/autocompleteHTML.png]
+
+AutocompletePageFragment.java
+
+[source,java]
+----
+public class AutocompletePageFragment<T> {
+
+    @Root
+    WebElement root;
+
+    @FindBy(css = CSS_INPUT)
+    WebElement inputToWrite;
+
+    public static final String CLASS_NAME_SUGGESTION_LIST = "rf-au-lst-cord";
+    public static final String CLASS_NAME_SUGGESTION = "rf-au-itm";
+    public static final String CSS_INPUT = "input[type='text']";
+
+    private String separator = " ";
+
+    public boolean areSuggestionsAvailable() {
+
+        List<WebElement> suggestionLists = root.findElements(
+              By.xpath("//*[contains(@class,'" + CLASS_NAME_SUGGESTION_LIST + "')]"));
+
+        WebElement suggList = getRightSuggestionList();
+
+        return suggList.isDisplayed();
+    }
+
+    public void finish() {
+        inputToWrite.sendKeys(" ");
+        inputToWrite.sendKeys("\b\b");
+        root.click();
+    }
+
+    public List<Suggestion<T>> getAllSuggestions(SuggestionParser<T> parser) {
+        List<Suggestion<T>> allSugg = new ArrayList<Suggestion<T>>();
+
+        if (areSuggestionsAvailable()) {
+            WebElement rightSuggList = getRightSuggestionList();
+            List<WebElement> suggestions = rightSuggList.findElements(
+                                         By.className(CLASS_NAME_SUGGESTION));
+
+            for (WebElement suggestion : suggestions) {
+                allSugg.add(parser.parse(suggestion));
+            }
+        }
+
+        return allSugg;
+    }
+
+    public void setSeparator(String regex) {
+        this.separator = regex;
+    }
+
+    public void type(String value) {
+        inputToWrite.sendKeys(value);
+        try {
+            waitForSuggestions(GUI_WAIT);
+        } catch (TimeoutException ex) {
+            // no suggestions available
+
+        }
+    }
+
+    public List<Suggestion<T>> type(String value, SuggestionParser<T> parser) {
+        List<Suggestion<T>> suggestions = new ArrayList<Suggestion<T>>();
+
+        inputToWrite.sendKeys(value);
+        try {
+            waitForSuggestions(GUI_WAIT);
+        } catch (TimeoutException ex) {
+            // no suggestions available
+            return suggestions;
+        }
+
+        suggestions = getAllSuggestions(parser);
+        return suggestions;
+    }
+
+    private void waitForSuggestions(int timeout) {
+        (new WebDriverWait(GrapheneContext.getProxy(), timeout))
+           .until(new ExpectedCondition<Boolean>() {
+
+            public Boolean apply(WebDriver d) {
+                return areSuggestionsAvailable();
+            }
+        });
+    }
+
+    //other Autocomplete services and help methods
+}
+----
+
+[[53117994_PageFragments-Calendar]]
+[[calendar]]
+Calendar
+^^^^^^^^
+
+image:images/author/download/attachments/53117994/calendar.png[images/author/download/attachments/53117994/calendar.png]
+
+image:images/author/download/attachments/53117994/calendarHTML.png[images/author/download/attachments/53117994/calendarHTML.png]
+
+CalendarPageFragmentImpl.java
+
+[source,java]
+----
+public class CalendarPageFragmentImpl {
+
+    @Root
+    private WebElement root;
+
+    @FindBy(className = "rf-cal-inp")
+    private WebElement input;
+
+    @FindBy(css = "td[class=\"rf-cal-hdr-month\"] > div")
+    private WebElement showYearAndMonthEditorButton;
+
+    @FindBy(css = "img:nth-of-type(1)")
+    private WebElement showCalendarButton;
+
+    @FindBy(className = "rf-cal-day-lbl")
+    private WebElement popupWithCalendar;
+
+    @FindBy(css = "div[class=\"rf-cal-time-btn\"]:nth-of-type(1)")
+    private WebElement okButton;
+
+    @FindBy(css = "table[class=\"rf-cal-monthpicker-cnt\"] td:nth-of-type(4) > div")
+    private WebElement nextDecade;
+
+    @FindBy(css = "table[class=\"rf-cal-monthpicker-cnt\"] td:nth-of-type(3) > div")
+    private WebElement previousDecade;
+
+    private final String YEAR_AND_MONTH_LOCATOR_CSS =
+                                                       "div[class=\"rf-cal-edtr-btn\"]";
+
+    private final String DAY_LOCATOR_CLASS = "rf-cal-c";
+
+    /**
+     * The format of date displayed on the calendar input, default dd/M/yyhh:mma
+     */
+    private String dateFormat = "dd/M/yy hh:mm a";
+
+    public void showCalendar() {
+
+        if (!popupWithCalendar.isDisplayed()) {
+            showCalendarButton.click();
+
+            waitUntilPopupWithCalendarIsDisplayed();
+        }
+    }
+
+    private void gotoDate(Date date) {
+        showCalendar();
+
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        int wishedYear = cal.get(Calendar.YEAR);
+        // month is indexed from 0!
+        int wishedMonth = cal.get(Calendar.MONTH);
+        int wishedDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        cal.setTime(new Date(System.currentTimeMillis()));
+
+        int todayYear = cal.get(Calendar.YEAR);
+        int todayMonth = cal.get(Calendar.MONTH);
+        // int todayDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        showYearAndMonthEditorButton.click();
+
+        if ((wishedYear != todayYear) || (wishedMonth != todayMonth)) {
+            List<WebElement> years;
+            String txt;
+
+            if (todayYear > wishedYear) {
+                int howManyDecadesLessOrMore =
+                                              (todayYear - wishedYear) / 10;
+
+                for (int i = 0; i < howManyDecadesLessOrMore; i++)
+                    previousDecade.click();
+            }
+
+            if (todayYear < wishedYear) {
+                int howManyDecadesLessOrMore =
+                                              (wishedYear - todayYear) / 10;
+
+                for (int i = 0; i < howManyDecadesLessOrMore; i++)
+                    nextDecade.click();
+            }
+
+            selectYear(wishedYear);
+
+            years = root.findElements(By
+                    .cssSelector(YEAR_AND_MONTH_LOCATOR_CSS));
+
+            for (WebElement i : years) {
+                txt = i.getText().trim();
+
+                if (txt.matches("[a-zA-Z]+?")) {
+                    if (txt.equals("Jan") && wishedMonth == 0) {
+                        i.click();
+                        // break;
+                    } else if(txt.equals("Feb") && wishedMonth == 1) {
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Mar") && wishedMonth == 2){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Apr") && wishedMonth == 3){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("May") && wishedMonth == 4){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Jun") && wishedMonth == 5){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Jul") && wishedMonth == 6){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Aug") && wishedMonth == 7){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Sep") && wishedMonth == 8){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Oct") && wishedMonth == 9){
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Nov") && wishedMonth == 10{
+                        i.click();
+                        // break;
+                    } else if (txt.equals("Dec") && wishedMonth == 11{
+                        i.click();
+                        // break;
+                    }
+                }
+            }
+
+            okButton.click();
+        }
+
+        List<WebElement> days = root.findElements(By
+                .className(DAY_LOCATOR_CLASS));
+        String txt;
+        for (WebElement i : days) {
+            txt = i.getText().trim();
+            int day = new Integer(txt);
+            if (day == wishedDay) {
+                i.click();
+                break;
+            }
+        }
+    }
+
+    /**
+     * Selects the year on the calendar, note that the month and year editor has
+     * to be shown already
+     *
+     * @param wishedYear
+     *            the year you want to set
+     * @return true if the year was successfully set, false otherwise
+     */
+    private boolean selectYear(int wishedYear) {
+        List<WebElement> years = root.findElements(By
+                .cssSelector(YEAR_AND_MONTH_LOCATOR_CSS));
+        String txt;
+
+        for (WebElement i : years) {
+
+            txt = i.getText().trim();
+            int year;
+
+            if (txt.matches("\\d+?")) {
+                year = new Integer(txt);
+
+                if (wishedYear == year) {
+                    i.click();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void gotoDateTime(DateTime dateTime) {
+        Date date = dateTime.toDate();
+        gotoDate(date);
+    }
+
+    public void gotoDateTime(DateTime dateTime, ScrollingType type) {
+        throw new UnsupportedOperationException("Not implemented yet!");
+    }
+
+    public CalendarDay gotoNextDay() {
+        Date date = getDateTime().toDate();
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.roll(Calendar.DAY_OF_MONTH, true);
+
+        gotoDate(cal.getTime());
+
+        // CalendarDay day = new CalendarDayImpl();
+        return null;
+    }
+}
+----
+
+[[53117994_PageFragments-Table]]
+[[table]]
+Table
+^^^^^
+
+image:images/author/download/attachments/53117994/table.png[images/author/download/attachments/53117994/table.png]
+
+image:images/author/download/attachments/53117994/tableHTML.png[images/author/download/attachments/53117994/tableHTML.png]
+
+Table.java
+
+[source,java]
+----
+public interface TableComponent {
+
+    /**
+     * Associates this data table with a given data scroller
+     *
+     * @param scroller the scroller to associate this table with
+     */
+    void setDateScroller(DataScrollerComponent scroller);
+
+    /**
+     * <p>
+     * Returns the total number of rows in this particular table.
+     * </p>
+     * <p>
+     * The <code>rowspan</code> html atribute is not considered,
+     * in other words the row with <code>rowspan</code> equals 2 is
+     * considered as one row.
+     * </p>
+     *
+     * @return
+     */
+    int getNumberOfRows();
+
+    /**
+     * <p>
+     * Returns total number of cells in this particular table.
+     * </p>
+     *
+     * @return
+     */
+    int getNumberOfCells();
+
+    <T> List<Cell<T>> findCells(CellFunction<T> function);
+
+    List<Row> findRow(RowFunction function);
+
+    <T> List<Column<T>> findColumns(ColumnFunction<T> function);
+
+    /**
+     * <p>
+     * Returns the total number of columns in this particular table.
+     * </p>
+     * <p>
+     * The <code>colspan</code> html atribute is not considered,
+     * in other words the column with <code>colspan</code> equals 2 is
+     * considered as one column.
+     * </p>
+     *
+     * @return
+     */
+    int getNumberOfColumns();
+
+    /**
+     * Returns the particular cell, the cell with coordinations determined
+     * by given row and column.
+     *
+     * @param row
+     * @param column
+     * @return
+     */
+    <T> Cell<T> getCell(Row row, Column<T> column);
+
+    /**
+     * Returns the list of all header cells, in other words the whole table header.
+     *
+     * @return
+     */
+    Header getTableHeader();
+
+    /**
+     * Returns the list of all footer cells, in other words the whole table footer.
+     *
+     * @return
+     */
+    Footer getTableFooter();
+
+    /**
+     *
+     * @return
+     */
+    List<Row> getAllRows();
+
+    /**
+     * Returns the first row of the table, the header row if available, is not counted.
+     *
+     * @return
+     */
+    Row getFirstRow();
+
+    /**
+     * Returns the last row of the table, the footer row if available, is not counted.
+     *
+     * @return
+     */
+    Row getLastRow();
+
+    /**
+     * <p>
+     * Returns the row with the order determined by given param <code>order</code>.
+     * </p>
+     * <p>
+     * Rows are indexed from 0. The header row if available is not counted.
+     * </p>
+     *
+     * @param order the order of the row
+     * @return the particular row, or null if it does not exist
+     */
+    Row getRow(int order);
+}
+----
+
+[[53117994_PageFragments-Logincomponent]]
+[[login-component]]
+Login component
+^^^^^^^^^^^^^^^
+
+LoginPageFragment.java
+
+[source,java]
+----
+public class LoginPageFragment {
+
+    @Root
+    private WebElement root;
+
+    @FindBy(css="input[type='text']")
+    private WebElement loginInput;
+
+    @FindBy(css="input[type='password']")
+    private WebElement passwordInput;
+
+    @FindBy(css="input[type='submit']")
+    private WebElement loginButton;
+
+    @FindBy(className="errorMsg")
+    private WebElement errorMsg;
+
+    public void fillInLogin(String login) {
+        loginInput.sendKeys(login);
+    }
+
+    public void fillInPassword(String password) {
+        passwordInput.sendKeys(password);
+    }
+
+    public void login() {
+        loginButton.click();
+    }
+
+    public String getErrorMsg() {
+        return errorMsg.getText();
+    }
+}
+----
+
+[[82903669]]
+[[location-of-pages]]
+Location of pages
+-----------------
+
+[[82903669_Locationofpages-Locationconcepts]]
+[[location-concepts]]
+Location concepts
+~~~~~~~~~~~~~~~~~
+
+Page object encapsulates some page. This page has its location. We can
+see location of a page as some kind of metadata logically related to
+that page. In order to have this location information wired with page as
+such, there is @Location annotation by which you can specify where some
+page is located. Check out this simple example:
+
+[source,java]
+----
+@Location("index.html")
+public class SomePage
+{
+  // just some page object
+}
+----
+
+The above location value will be treated as the relative URL to the
+value of @ArquillianResource URL contextRoot - e.g.
+http://localhost:8080/app/index.html.
+
+Use @Location("") to denote that page object's location equals to the
+context root of the deployed application.
+
+By putting @Location annotation at page object, when you inject this
+page annotated with @InitialPage annotation into a test method, that
+page object will be open at that location as the very first action in a
+test method. Lets see an example:
+
+[source,java]
+----
+@Test
+public void testMethod(@InitialPage SomePage page)
+{
+    // here you will have your page already open, WebDriver opens index.html
+
+    // other code
+}
+----
+
+[[82903669_Locationofpages-Locationschemes]]
+[[location-schemes]]
+Location schemes
+~~~~~~~~~~~~~~~~
+
+Every location has some scheme. In the previous example, there is used
+HTTP scheme by default. There are multiple schemes as:
+
+[[82903669_Locationofpages-HTTPscheme]]
+[[http-scheme]]
+HTTP scheme
+^^^^^^^^^^^
+
+Treats location as http:// scheme. You do not have to specify _scheme_
+paramater since by default it is HTTP
+
+[source,java]
+----
+@Location("http://www.google.com") // by default scheme = Scheme.HTTP.class when omitted
+@Location("https://www.google.com") // works with https as well, scheme is same
+----
+
+You can not do this
+
+[source,java]
+----
+@Location("www.google.com")
+----
+
+since it is not possible to say if this location is relative (as
+index.html) or absolute. You have to use http:// scheme string
+explicitly to open regular www page on the net.
+
+[[82903669_Locationofpages-Filescheme]]
+[[file-scheme]]
+File scheme
+^^^^^^^^^^^
+
+Treats location as file:// scheme
+
+[source,java]
+----
+@Location(scheme = Scheme.FILE.class, value = "file:///full/path/to/page.html")
+----
+
+[[82903669_Locationofpages-Resourcescheme]]
+[[resource-scheme]]
+Resource scheme
+^^^^^^^^^^^^^^^
+
+Treats location as resource:// scheme
+
+[source,java]
+----
+@Location(scheme = Scheme.RESOURCE.class, value = "resource://...")
+----
+
+The "resource://" prefix denotes that the page is not deployed to any
+container, and will be loaded from local file-system. The same you can
+achieve with prefix "file".
+
+Check out Graphene Utility Class documentation page, to see how you can
+use Graphene.goTo(Class<?> pageObjectClass) method to load Page Object
+location in the browser.
+
+[[82903669_Locationofpages-HowdoIimplementmyownscheme%3F]]
+[[how-do-i-implement-my-own-scheme]]
+How do I implement my own scheme?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Custom scheme is implemented e.g. in Droidium so you can open your
+activities as pages. You have to extend
+https://github.com/arquillian/arquillian-graphene/blob/2.1.x/spi/src/main/java/org/jboss/arquillian/graphene/spi/location/Scheme.java[org.jboss.arquillian.graphene.spi.location.Scheme]
+and add your own scheme like this:
+
+[source,java]
+----
+public DroidiumScheme extends Scheme
+{
+
+    private static final String scheme = "and-activity://";
+
+    @Override
+    public String toString()
+    {
+        return scheme;
+    }
+}
+----
+
+Then you have to implement your own
+https://github.com/arquillian/arquillian-graphene/blob/2.1.x/spi/src/main/java/org/jboss/arquillian/graphene/spi/location/LocationDecider.java[org.jboss.arquillian.graphene.location.decider.LocationDecider]
+which is in Graphene SPI as well. This decider resolves scheme value
+which will WebDriver instance subsequently open via get() method.
+
+Finally you have to register this decider as a service in Arquillian's
+loadable extension.
+
+After that, you can do this:
+
+[source,java]
+----
+@Location(scheme = DroidiumScheme.class, value = "this.is.my.android.activity")
+public class SomeActivityPage
+{
+}
+----
+
+[source,java]
+----
+@Test
+public void testMyActivity(@InitialPage SomeActivityPage myActivity)
+{
+    // here your Android activity will be already open by WebDriver
+}
+----
+
+[[82903669_Locationofpages-Howtosetdefaultschemeperproject%3F]]
+[[how-to-set-default-scheme-per-project]]
+How to set default scheme per project?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Imaging you are dealing only with Android activities so specifying
+_scheme = DroidiumScheme.class_ is not needed. You can set default
+scheme in arquillian.xml like this:
+
+[source,java]
+----
+<extension qualifier="graphene">
+  <!-- Droidium everywhere -->
+  <property name="scheme">org.arquillian.droidium.native_.spi.location.DroidiumScheme</property>
+</extension>
+----
+
+Now you can use it like:
+
+[source,java]
+----
+@Location("this.is.my.android.activity")
+----

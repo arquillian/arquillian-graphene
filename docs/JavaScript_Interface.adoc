@@ -1,0 +1,223 @@
+JavaScript Interface - Graphene 2
+=================================
+
+[[javascript-interface]]
+JavaScript Interface
+--------------------
+
+In testing of complex examples, it is often needed to perform **custom
+JavaScript code**. For this purposes, there is implemented JavaScript
+interface mechanism providing you a mapping of Java interfaces on
+JavaScript objects.
+
+[[53117998_JavaScriptInterface-BasicUsage]]
+[[basic-usage]]
+Basic Usage
+~~~~~~~~~~~
+
+[[53117998_JavaScriptInterface-Preparation]]
+[[preparation]]
+Preparation
+^^^^^^^^^^^
+
+First, you need to create a file containing a needed JavaScript code.
+The code has to create an object and store it to a global scoped
+variable (e.g. `window` object property) and the file has to be
+available on the test classpath. Here is an example of such file:
+
+helloworld.js
+
+[source,java]
+----
+window.helloworld = {};
+window.helloworld.hello = function() {
+  return "Hello World!";
+};
+----
+
+Now you can create a Java interface:
+
+HelloWorld.java
+
+[source,java]
+----
+@JavaScript("window.helloworld")
+@Dependency(sources = "helloworld.js")
+public interface HelloWorld {
+
+    String hello();
+
+}
+----
+
+* `@JavaScript` defines a JavaScript object used for mapping,
+`window.helloworld` and `helloworld` represent the same object in this
+context.
+* `@Depedency` defines dependencies on files containg JavaScript code.
+In this case we want to ensure that the `helloworld.js` file is loaded
+to the page.
+** source files are resolved from the test classpath, so in a Maven
+project, you want to put those in `src/test/resources/helloworld.js`
+** The `@Dependency` is indeed optional, you can map the objects from
+the application under test JavaScript objects.
+
+[[53117998_JavaScriptInterface-ConstructionandUsage]]
+[[construction-and-usage]]
+Construction and Usage
+^^^^^^^^^^^^^^^^^^^^^^
+
+To use your JavaScript interface put an attribute annotated by
+@JavaScript annotation to your test class:
+
+[source,java]
+----
+@RunWith(Arquillian.class)
+public class TestCase {
+
+    // Required browser injection
+    @Drone
+    private WebDriver browser;
+
+    @JavaScript
+    private HelloWorld helloWorld;
+
+    @Test
+    public void testHelloWorld() {
+        assertEquals("Hello World!", helloWorld.hello());
+    }
+
+
+}
+----
+
+[[53117998_JavaScriptInterface-Defaultgettersandsetters]]
+[[default-getters-and-setters]]
+Default getters and setters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+JS interfaces functionality is often used for retrieving custom values
+of custom JavaScript objects. Therefore, there is a reasonable default
+in the form of getters and setters methods implemented for you.
+
+That is why you can do just following in order to retrieve the
+*someVariable* value:
+
+someJS.js
+
+[source,java]
+----
+document.someVariable = '';
+----
+
+GetterAndSettersShowcase.java
+
+[source,java]
+----
+@JavaScript("document")
+public interface GetterAndSettersShowcase {
+
+  String getSomeVariable();
+
+  void setSomeVariable(String valueToSet);
+}
+----
+
+No need to implement get/set in the JavaScript code. Graphene will do it
+automatically.
+
+[[53117998_JavaScriptInterface-MoreAdvancedStuff]]
+[[more-advanced-stuff]]
+More Advanced Stuff
+~~~~~~~~~~~~~~~~~~~
+
+You may need to execute some code after the JavaScript file is loaded to
+the page. Just place it into the `install()` method of your JavaScript
+object and extend `InstallableJavaScript` in your Java interface. Also
+you can define  dependencies on other interfaces. Graphene ensures the
+`install()` method is invoked and all dependencies are loaded before you
+invoke a method of your interface.
+
+greeting.js
+
+[source,java]
+----
+// object registration
+window.greeting = {
+  install: function() {
+    // installation setups the greeting value accessed later by helloworld object
+    window.greeting.value = "Hello World!";
+  }
+};
+----
+
+helloworld.js
+
+[source,java]
+----
+window.helloworld = {
+  // return a greeting value
+  hello: function() {
+    return window.greeting.value;
+  }
+
+};
+----
+
+Greeting.java
+
+[source,java]
+----
+@JavaScript("greeting")
+@Dependency(sources = {"greeting.js"})
+public interface Greeting extends InstallableJavaScript {
+}
+----
+
+HelloWorld.java
+
+[source,java]
+----
+@JavaScript("helloworld")
+@Dependency(sources = {"helloworld.js}, interfaces = {Greeting.class})
+public interface HelloWorld {
+
+    String hello();
+
+}
+----
+
+Graphene uses
+https://docs.jboss.org/author/display/ARQGRA2/Page+Extensions[Page
+Extensions] to install needed dependencies for your `@JavaScript`
+interface before each method invocation. Before the installation is
+processed, it checks whether the object used for mapping is defined. If
+so, the installation is skipped. It means if you use (for example)
+`document` object for your mapping, dependencies won't be installed
+(including sources).
+
+When a page is reloaded, all installed JavaScript code is dropped and
+installed again if needed. It means the state of JavaScript objects is
+not preserved.
+
+[[53117998_JavaScriptInterface-Customization]]
+[[customization]]
+Customization
+~~~~~~~~~~~~~
+
+If you are not satisfied with installation via
+https://docs.jboss.org/author/display/ARQGRA2/Page+Extensions[Page
+Extensions], you can implement your own `ExecutionResolver` containing
+the following method:
+
+[source,java]
+----
+Object execute(JSCall call);
+----
+
+Don't forget to reference it in your `@JavaScript` interfeaces:
+
+[source,java]
+----
+@JavaScript(value = "mapped.object", methodResolver = YourOwnExecutionResolver.java)
+...
+----

@@ -1,0 +1,141 @@
+Request Guards - Graphene 2
+===========================
+
+[[request-guards]]
+Request Guards
+--------------
+
+Its purpose is to guard that the interaction of the user will/will not
+raise specific request to the server. It differs between following
+types:
+
+* No Request
+* AJAX Request
+* HTTP Request (regular HTTP)
+
+[[53117983_RequestGuards-BasicUsage]]
+[[basic-usage]]
+Basic Usage
+~~~~~~~~~~~
+
+Request guards are available in
+https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class[Graphene
+Utility Class]:
+
+[source,java]
+----
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.junit.Test;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.runner.RunWith;
+
+import static org.jboss.arquillian.graphene.Graphene.guardHttp;
+import static org.jboss.arquillian.graphene.Graphene.guardNoRequest;
+import static org.jboss.arquillian.graphene.Graphene.guardAjax;
+
+
+@RunWih(Arquillian.class)
+public class TestClass {
+
+    @FindBy(id="http")
+    private WebElement buttonWhichMakesFullPageRefresh;
+
+    @FindBy(id="none")
+    private WebElement buttonWhichMakesNoRequest;
+   
+    @FindBy(id="ajax")
+    private WebElement buttonWhichMakesAjaxRequest;
+
+    @Test
+    public void testSimple() {
+        guardHttp(buttonWhichMakesFullPageRefresh).click();
+        guardAjax(buttonWhichMakesAjaxRequest).click();
+        guardNoRequest(buttonWhichMakesNoRequest).click();
+    }
+}
+----
+
+If the given request isn't detected, the `RequestGuardException` is
+thrown.
+
+[[53117983_RequestGuards-Usecases]]
+[[use-cases]]
+Use cases
+~~~~~~~~~
+
+Guards are able to intercept the given object to verify, that request
+which occurs after a method invocation is expected.
+
+Note that the request needs to end **within the waiting period**. If the
+request is finished before waiting period then guard stops waiting and
+test execution proceeds. +
+On the other hand when request has not been ended within waiting period
+the exception is thrown.
+
+Let's examine following scenarios. `GuardA` means guard on `controlA`,
+`GuardB` means guard on `controlB`. `XhrA` is an ajax request triggered
+by `controlA`, `XhrB` is an ajax request triggered by `controlB`.
+
+Scenario 1
+
+[source,java]
+----
+GuardA.start
+XhrA.start
+GuardA.end        <-RequestGuardException
+XhrA.end
+----
+
+In this scenario XHR has started within waiting period but took long
+time to finish (slow Internet connection or request execution on
+server). +
+In this case `RequestGuardException` will be thrown.
+
+Scenario 2
+
+[source,java]
+----
+XhrB.start
+GuardA.start
+XhrB.end        <-Test proceeds, but test may fail if subsequent instructions depend on results of XhrA
+GuardA.end
+XhrA.start
+XhrA.end
+----
+
+Here we have interference of some other request (i.e. page is polling
+the server). We guard request that should be triggered by `controlA` but
+during waiting period some other XHR request ends.
+
+Currently guards do not have any way to tell which operation did the
+request originated from, so the guard will stop waiting and text
+execution will proceed. +
+If in next step you want to i.e. click on button that would be rendered
+by `XhrA` (that hasn't yet finished) you would get
+`ElementNotFoundException`. +
+Currently there is no way to protect against this scenario.
+
+Request start (thus end) may be delayed (i.e. by some javascript like
+a4j:queue) and request may not end within wait period. To deal with that
+you should increase wait period.
+
+[source,java]
+----
+<input id="buttonA" type="button" onclick="setTimeout(function(){jQuery.ajax("/")},3000)"/>
+---
+guardAjax(buttonA).click();
+----
+
+XHR may be triggered on slightly different event then the one fired by
+command (i.e. sendKeys does not trigger onchange)
+
+[source,java]
+----
+<input id="inputA" type="text" onchange="jQuery.ajax("/")"/>
+---
+guardAjax(inputA).sendKeys("abc"); //Wrong, sendKeys triggers keyUp, keyDown, but not "change" event.
+---
+inputA.sendKeys("abc");   //Good
+guardAjax(inputA).blur();
+----
