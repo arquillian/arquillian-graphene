@@ -1,5 +1,6 @@
 Request Guards - Graphene 2
 ===========================
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 [[request-guards]]
 Request Guards
@@ -13,14 +14,11 @@ types:
 * AJAX Request
 * HTTP Request (regular HTTP)
 
-[[53117983_RequestGuards-BasicUsage]]
 [[basic-usage]]
 Basic Usage
 ~~~~~~~~~~~
 
-Request guards are available in
-https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class[Graphene
-Utility Class]:
+Request guards are available in <<graphene-utility-class#, Graphene Utility Class>>.
 
 [source,java]
 ----
@@ -59,18 +57,17 @@ public class TestClass {
 If the given request isn't detected, the `RequestGuardException` is
 thrown.
 
-[[53117983_RequestGuards-Usecases]]
 [[use-cases]]
-Use cases
+Use Cases
 ~~~~~~~~~
 
 Guards are able to intercept the given object to verify, that request
 which occurs after a method invocation is expected.
 
-Note that the request needs to end **within the waiting period**. If the
+NOTE: The request needs to end **within the waiting period**. If the
 request is finished before waiting period then guard stops waiting and
 test execution proceeds. +
-On the other hand when request has not been ended within waiting period
+On the other hand when request has not been ended within the waiting period
 the exception is thrown.
 
 Let's examine following scenarios. `GuardA` means guard on `controlA`,
@@ -111,13 +108,13 @@ during waiting period some other XHR request ends.
 Currently guards do not have any way to tell which operation did the
 request originated from, so the guard will stop waiting and text
 execution will proceed. +
-If in next step you want to i.e. click on button that would be rendered
+If in the next step you want to i.e. click on button that would be rendered
 by `XhrA` (that hasn't yet finished) you would get
 `ElementNotFoundException`. +
 Currently there is no way to protect against this scenario.
 
 Request start (thus end) may be delayed (i.e. by some javascript like
-a4j:queue) and request may not end within wait period. To deal with that
+a4j:queue) and the request may not end within wait period. To deal with that
 you should increase wait period.
 
 [source,java]

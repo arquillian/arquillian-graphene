@@ -5,7 +5,6 @@ guardAjax(input).sendKeys("abc"); - Graphene 2
 guardAjax(input).sendKeys("abc");
 ---------------------------------
 
-[[66486914_Tips%26Tricks-Issue%3A]]
 [[issue]]
 Issue:
 ~~~~~~
@@ -14,7 +13,6 @@ Issue:
 ** it *timeouts*
 ** or it **ends prematurely** (when page is partially updated)
 
-[[66486914_Tips%26Tricks-Analysis%3A]]
 [[analysis]]
 Analysis:
 ~~~~~~~~~
@@ -26,7 +24,6 @@ fire any blur event
 * guard actually **wraps exactly one XHR request**, which is triggered
 by appropriate user interaction
 
-[[66486914_Tips%26Tricks-Solution%3A]]
 [[solution]]
 Solution:
 ~~~~~~~~~

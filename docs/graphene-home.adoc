@@ -1,25 +1,22 @@
 Graphene 2
 ==========
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 Graphene 2 project is designed as a set of extensions for Selenium
 WebDriver project focused on **rapid development** and **usability** in
 Java environment.
 
 * API is **straightforward** and enforces tester to
-write **Ajax-enabled** and **reusable** tests and test abstractions,
-* encourages to write tests in a link:Page_Abstractions.html[consistent
-level of abstraction] using link:Page_Objects.html[*Page Objects*] and
-**link:Page_Fragments.html[Page Fragments]**,
-* the code is **robust** with **improved readability**,
-** supports *link:Request_Guards.html[request guarding]* and
-*interception,*
-** improved
-*<<graphene_utility_class.adoc#waitings, Waiting API>> ,*
-
-//https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class#GrapheneUtilityClass-Waitings[Waiting
-//API],*
+write **Ajax-enabled** and **reusable** tests and test abstractions
+* encourages to write tests in a <<page-abstractions#, consistent
+level of abstraction>> using <<page-abstractions#page-objects, *Page Objects*>> and
+**<<page-abstractions#page-fragments, Page Fragments>>**
+* the code is **robust** with **improved readability**
+** supports *<<request-guards#, request guarding>>* and
+*interception*
+** improved *<<graphene-utility-class#waitings, Waiting API>>*
 * *allows* *WebDriver API interception*
-* focuses on **portability across browsers**,
+* focuses on **portability across browsers**
 * it enables *JQuery selectors as a location strategy* which is familiar
 to web development community
 * brings concepts for on-the-fly *injection of extensions to a page
@@ -29,7 +26,6 @@ code* (enabling advanced testing features)
 
 With all the concepts above, Graphene 2 brings power to space of
 enterprise Java-based testing
-
 
 [[project-info]]
 Project Info

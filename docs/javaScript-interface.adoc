@@ -1,5 +1,6 @@
 JavaScript Interface - Graphene 2
 =================================
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 [[javascript-interface]]
 JavaScript Interface
@@ -10,17 +11,15 @@ JavaScript code**. For this purposes, there is implemented JavaScript
 interface mechanism providing you a mapping of Java interfaces on
 JavaScript objects.
 
-[[53117998_JavaScriptInterface-BasicUsage]]
 [[basic-usage]]
 Basic Usage
 ~~~~~~~~~~~
 
-[[53117998_JavaScriptInterface-Preparation]]
 [[preparation]]
 Preparation
 ^^^^^^^^^^^
 
-First, you need to create a file containing a needed JavaScript code.
+First, you need to create a file containing needed JavaScript code.
 The code has to create an object and store it to a global scoped
 variable (e.g. `window` object property) and the file has to be
 available on the test classpath. Here is an example of such file:
@@ -61,7 +60,6 @@ project, you want to put those in `src/test/resources/helloworld.js`
 ** The `@Dependency` is indeed optional, you can map the objects from
 the application under test JavaScript objects.
 
-[[53117998_JavaScriptInterface-ConstructionandUsage]]
 [[construction-and-usage]]
 Construction and Usage
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -90,9 +88,8 @@ public class TestCase {
 }
 ----
 
-[[53117998_JavaScriptInterface-Defaultgettersandsetters]]
 [[default-getters-and-setters]]
-Default getters and setters
+Default Getters And Setters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 JS interfaces functionality is often used for retrieving custom values
@@ -125,7 +122,6 @@ public interface GetterAndSettersShowcase {
 No need to implement get/set in the JavaScript code. Graphene will do it
 automatically.
 
-[[53117998_JavaScriptInterface-MoreAdvancedStuff]]
 [[more-advanced-stuff]]
 More Advanced Stuff
 ~~~~~~~~~~~~~~~~~~~
@@ -186,27 +182,25 @@ public interface HelloWorld {
 }
 ----
 
-Graphene uses
-https://docs.jboss.org/author/display/ARQGRA2/Page+Extensions[Page
-Extensions] to install needed dependencies for your `@JavaScript`
+WARNING: Graphene uses <<advance-techniques#page-extensions, Page
+Extensions>> to install needed dependencies for your `@JavaScript`
 interface before each method invocation. Before the installation is
 processed, it checks whether the object used for mapping is defined. If
 so, the installation is skipped. It means if you use (for example)
 `document` object for your mapping, dependencies won't be installed
 (including sources).
 
-When a page is reloaded, all installed JavaScript code is dropped and
+WARNING: When a page is reloaded, all installed JavaScript code is dropped and
 installed again if needed. It means the state of JavaScript objects is
 not preserved.
 
-[[53117998_JavaScriptInterface-Customization]]
 [[customization]]
 Customization
 ~~~~~~~~~~~~~
 
 If you are not satisfied with installation via
-https://docs.jboss.org/author/display/ARQGRA2/Page+Extensions[Page
-Extensions], you can implement your own `ExecutionResolver` containing
+<<advance-techniques#page-extensions, Page Extensions>>,
+you can implement your own `ExecutionResolver` containing
 the following method:
 
 [source,java]

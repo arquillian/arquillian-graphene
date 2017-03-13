@@ -1,5 +1,6 @@
 Graphene Utility Class - Graphene 2
 ===================================
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 [[graphene-utility-class]]
 Graphene Utility Class
@@ -7,15 +8,6 @@ Graphene Utility Class
 
 Graphene is an entry point for the common one-line operations:
 
-* link:Graphene_Utility_Class.html#53117981_GrapheneUtilityClass-Waitings[Waitings]
-* link:Graphene_Utility_Class.html#53117981_GrapheneUtilityClass-RequestGuards[Request
-Guards]
-* link:Graphene_Utility_Class.html#53117981_GrapheneUtilityClass-CreatingPageFragmentsdynamically[Creating
-Page Fragments dynamically]
-* link:Graphene_Utility_Class.html#53117981_GrapheneUtilityClass-PageObjectlocationencapsulation[Page
-Object location encapsulation]
-
-[[53117981_GrapheneUtilityClass-StaticImportofGrapheneUtilityClass]]
 [[static-import-of-graphene-utility-class]]
 Static Import of Graphene Utility Class
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,7 +28,6 @@ http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Frefer
 Favorites] feature and include Graphene into list of utility classes -
 you will get suggestions for code-completion out of the box.
 
-[[53117981_GrapheneUtilityClass-Waitings]]
 [[waitings]]
 Waitings
 ^^^^^^^^
@@ -54,11 +45,8 @@ button.click();
 waitGui().withMessage("Popup should be opened after clicking on that button!").until().element(popupPanel).is().visible();
 ----
 
-See the
-https://docs.jboss.org/author/display/ARQGRA2/Waiting+API[Waiting API]
-documentation page for more information.
+See the <<waiting-API#, Waiting API>> documentation page for more information.
 
-[[53117981_GrapheneUtilityClass-RequestGuards]]
 [[request-guards]]
 Request Guards
 ^^^^^^^^^^^^^^
@@ -79,16 +67,13 @@ guardAjax(button).click();
 
 `waitForHttp()` is a guard as well, even when its name does not tell it.
 The difference between the `waitForHttp()` and the `guardHttp()` is that
-the first one does ignore AJAX requests during its waiting period and
+the first one ignores AJAX requests during its waiting period and
 the second one does not.
 
-See the
-https://docs.jboss.org/author/display/ARQGRA2/Request+Guards[Request
-Guards] documentation page for more information.
+See the <<request-guards#, Request Guards>> documentation page for more information.
 
-[[53117981_GrapheneUtilityClass-CreatingPageFragmentsdynamically]]
 [[creating-page-fragments-dynamically]]
-Creating Page Fragments dynamically
+Creating Page Fragments Dynamically
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Sometimes you need a way to create a Page Fragment instance not by
@@ -100,18 +85,16 @@ createPageFragment(Class<T> clazz, WebElement root);
 ----
 
 Consider a Tab Panel widget, for which you want to create a Page
-Fragment. You do not know in advance how many tabs it will have; and you
-wanna to return an initialized Page Fragment with tabs content each time
-an user switch to a particular tab. This method is suitable for this.
+Fragment. You do not know in advance how many tabs it will have and you
+want to return an initialized Page Fragment with tabs content each time
+user switches to a particular tab. This method is suitable for this.
 
-[[53117981_GrapheneUtilityClass-PageObjectlocationencapsulation]]
 [[page-object-location-encapsulation]]
-Page Object location encapsulation
+Page Object Location Encapsulation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can find more information about Page Object location encapsulation
-in https://docs.jboss.org/author/display/ARQGRA2/Page+Objects[this]
-documentation page.
+on <<page-abstractions#page-objects, this>> documentation page.
 
 Basically, you can use `Graphene.goTo()` method like this:
 

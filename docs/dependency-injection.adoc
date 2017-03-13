@@ -1,5 +1,6 @@
 Dependency Injection - Graphene 2
 =================================
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 [[dependency-injection]]
 Dependency Injection

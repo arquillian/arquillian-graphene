@@ -1,5 +1,6 @@
 Waiting API - Graphene 2
 ========================
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 [[waiting-api]]
 Waiting API
@@ -7,9 +8,8 @@ Waiting API
 
 WebDriver execution is always faster than changing the state of the
 page. This powerful API, should help you to synchronize with the tested
-page. See also Graphene
-https://docs.jboss.org/author/display/ARQGRA2/Request+Guards[Request
-Guards] as the other method of synchronizing with the page.
+page. See also Graphene <<request-guards#, Request Guards>> as the other
+method of synchronizing with the page.
 
 The starting point for Wait API is Graphene Utility class and its
 methods:
@@ -25,15 +25,13 @@ They are just aliases on the same mechanism with different timeouts.
 Their purpose is to group 3 most common operation types, that require
 waiting for them to finish.
 
-Please note that waitAjax does *not* require any XHR request to happen.
+NOTE: The waitAjax does *not* require any XHR request to happen.
 It's just about how long test should wait!
 
-Refer to
-https://docs.jboss.org/author/display/ARQGRA2/Graphene+Configuration[Graphene
-Configuration] page to see the configuration properties, in case you
+Refer to <<graphene-configuration#, Graphene Configuration>> page to see the
+configuration properties, in case you
 want to change default timeouts for those three waiting types.
 
-[[72942089_WaitingAPI-FluentAPI]]
 [[fluent-api]]
 Fluent API
 ~~~~~~~~~~
@@ -71,7 +69,6 @@ combinations.
 Use IDE autocomplete feature to work most efficiently with the fluent
 API.
 
-[[72942089_WaitingAPI-UsingPredicate]]
 [[using-predicate]]
 Using Predicate
 ~~~~~~~~~~~~~~~
@@ -89,9 +86,8 @@ waitGui().until(new Predicate<WebDriver>() {
 });
 ----
 
-[[72942089_WaitingAPI-Usingconditionsonly]]
 [[using-conditions-only]]
-Using conditions only
+Using Conditions Only
 ~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes you just need to assert that a condition is being met, you do

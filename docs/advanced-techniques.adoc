@@ -1,15 +1,11 @@
 Advanced Techniques - Graphene 2
 ================================
+ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
 [[advanced-techniques]]
 Advanced Techniques
 -------------------
 
-* link:#53118028[Graphene Context and Proxy]
-* link:#53117996[Page Extensions]
-* link:#67241483[Graphene Interceptors]
-
-[[53118028]]
 [[graphene-context-and-proxy]]
 Graphene Context and Proxy
 --------------------------
@@ -17,21 +13,19 @@ Graphene Context and Proxy
 Graphene stores WebDriver instance in the thread-local context,
 distinguished by browser qualifier.
 
-It enables to write framework-like features where context of the browser
+It enables you to write framework-like features where context of the browser
 is injected just when you need it:
 
-[[53118028_GrapheneContextandProxy-Accessing]]
 [[accessing]]
 Accessing
 ~~~~~~~~~
 
 To access a browser session, you can obtain proxy of the context,
-
 which is proxy object which delegates the methods you call on an
 instance which is at the time available in the context of current
 thread.
 
-The most generic form is obtaining instance of WebDriver:
+The most generic form is by obtaining instance of the WebDriver:
 
 [source,java]
 ----
@@ -40,9 +34,7 @@ WebDriver browser = GrapheneContext.getContextFor(Default.class).getWebDriver();
 
 The Default.class representas a browser's qualifier - in this case we
 are requesting default browser (when no qualifier is specified on Drone
-instances). Read more
-in https://docs.jboss.org/author/display/ARQGRA2/Parallel+browsers[Parallel
-browsers].
+instances). Read more <<parallel-browsers#, Parallel browsers>>.
 
 You can also use alternative methods, most notably the method which
 provides proxy object implementing given extension interfaces:
@@ -52,28 +44,22 @@ provides proxy object implementing given extension interfaces:
 JavascriptExecutor executor = (JavascriptExecutor) GrapheneContext.getContextFor(Default.class).getWebDriver(JavascriptExecutor.class)
 ----
 
-[[53117996]]
 [[page-extensions]]
 Page Extensions
 ---------------
 
-[[53117996_PageExtensions-]]
-[[the-page-extensions-spi-is-not-yet-available-for-public-use-we-discourage-to-use-it-yet]]
-The Page Extensions SPI is not yet available for public use, we
-discourage to use it yet
+NOTE: The Page Extensions SPI is not yet available for public use, we
+discourage you to use it yet.
 
 Page extensions mechanism provides a way to easily install your
 JavaScript code into the page. Page extensions are used mainly in
-cooperation with
-https://docs.jboss.org/author/display/ARQGRA2/JavaScript+Interface[JavaScript
-Interface], but they can be used independently too.
+cooperation with <<javaScript-interface#, JavaScript Interface>>,
+but they can be used independently too.
 
-[[53117996_PageExtensions-BasicUsage]]
 [[basic-usage]]
 Basic Usage
 ~~~~~~~~~~~
 
-[[53117996_PageExtensions-OwnExtensions]]
 [[own-extensions]]
 Own Extensions
 ^^^^^^^^^^^^^^
@@ -86,7 +72,6 @@ Extensions has to implement `PageExtension` interface to define:
 false otherwise,
 * dependencies.
 
-[[53117996_PageExtensions-SPI]]
 [[spi]]
 SPI
 +++
@@ -100,7 +85,6 @@ service containing the following method:
 List<PageExtension> getPageExtensions(TestClass testClass);
 ----
 
-[[53117996_PageExtensions-Registry]]
 [[registry]]
 Registry
 ++++++++
@@ -123,7 +107,6 @@ available:
 GraphenePageExtensionsContext.getRegistryProxy().getExtension("my cool extension");
 ----
 
-[[53117996_PageExtensions-Installation]]
 [[installation]]
 Installation
 ^^^^^^^^^^^^
@@ -145,29 +128,25 @@ SPI or registry.
 When a page is reloaded, all injected JavaScript code is lost, so the
 extension has to be installed again.
 
-[[67241483]]
 [[graphene-interceptors]]
 Graphene Interceptors
 ---------------------
 
-[[67241483_GrapheneInterceptors-]]
-[[interceptors-are-not-officially-part-of-2.0-and-thus-they-are-not-available-for-production-use-yet.]]
-Interceptors are not officially part of 2.0 and thus they are not
+NOTE: Interceptors are not officially part of 2.0 and thus they are not
 available for production use yet.
 
 Graphene Interceptors concept is inspired by Java EE Interceptors
 feature. It is a way how to create interceptor classes and methods that
 interpose on method invocations.
 
-[[67241483_GrapheneInterceptors-Basicusage]]
 [[basic-usage-1]]
-Basic usage
+Basic Usage
 ~~~~~~~~~~~
 
 An example of interceptor usage can be a need to take a screenshot of
 the browser window and its saving after the every method invocation on
 the injected `WebDriver` instance. Building an interceptor is simply
-matter of writing a Java class that implements
+a matter of writing a Java class that implements
 the `org.jboss.arquillian.graphene.proxy.Interceptor` interface.
 
 [source,java]

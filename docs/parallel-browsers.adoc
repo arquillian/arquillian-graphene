@@ -7,12 +7,10 @@ Parallel Browsers
 
 It is a way to use multiple `WebDriver` instances in one test.
 
-[[73138633_Parallelbrowsers-Usage]]
 [[usage]]
 Usage
 ~~~~~
 
-[[73138633_Parallelbrowsers-]]
 [[section]]
 
 Consider testing of the server push functionality. More particularly a
@@ -75,9 +73,8 @@ You can configure these browsers in `arquillian.xml`:
 </extension>
 ----
 
-[[73138633_Parallelbrowsers-UsingPageAbstractionswithMultipleBrowsers]]
 [[using-page-abstractions-with-multiple-browsers]]
-Using Page Abstractions with Multiple Browsers
+Using Page Abstractions With Multiple Browsers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you have multiple browser instances, lets say annotated with
