@@ -1,0 +1,323 @@
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+== Location Strategies
+:icons: font
+
+It is a way to wire-up your tests with the elements from the tested page.
+Graphene indeed supports a `@FindBy` mechanism, well-known from
+http://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/support/FindBy.html[WebDriver]
+project. That means support for e.g. `css`, `id`, `tagName` and other
+default location strategies. Graphene adds some goodies to this
+mechanism, check out <<findby-annotation, FindBy annotation>> for more
+info.
+
+[source,java]
+----
+@FindBy(id = "htmlIdOfTheElement")
+private WebElement yourElement;
+----
+
+However, it lacks support for custom location strategies. Graphene comes
+with ability to extend it, and at the same time provides an actual
+extension: `@FindByJQuery` <<jquery-locating-strategy, annotation>>, which brings
+JQuery selectors to your tests.
+
+[[extending-the-location-strategy]]
+=== Extending The Location Strategy
+
+To introduce our own strategy, lets say for angular.js, one needs to simply:
+
+[[extend-by-class]]
+==== Extend By Class
+
+Be inspired with
+https://github.com/arquillian/arquillian-graphene/blob/master/api/src/main/java/org/jboss/arquillian/graphene/findby/ByJQuery.java[ByJQuery]
+class.
+
+[[implement-locationstrategy-interface]]
+==== Implement LocationStrategy Interface
+
+An implementation can look like following snippet:
+
+[source,java]
+----
+public static class AngularLocationStrategy implements LocationStrategy {
+
+        @Override
+        public ByAngular fromAnnotation(Annotation annotation) {
+            FindByAngular findBy = (FindByAngular) annotation;
+            return new ByAngular(findBy.value());
+        }
+    }
+----
+
+[[introduce-e.g.-findbyangular-annotation]]
+==== Introduce e.g. @FindByAngular Annotation
+
+[source,java]
+----
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+@ImplementsLocationStrategy(ByAngular.AngularLocationStrategy.class)
+public @interface FindByAngular {
+
+    String value();
+}
+----
+
+[[use-it-in-the-tests]]
+==== Use It In The Tests
+
+[source,java]
+----
+@FindByAngular("modelProperty")
+private WebElement foo;
+----
+
+[[delegate-to-webelement]]
+=== Delegate to WebElement
+
+It is easy to add all `WebElement` methods to your custom page fragment,
+because Graphene supports delegate pattern.
+
+[[basic-usage]]
+==== Basic Usage
+
+Suppose following page fragment, which implements `WebElement`.
+
+[source,java]
+----
+import org.jboss.arquillian.graphene.fragment.Root;
+import org.openqa.selenium.WebElement;
+
+public abstract class MyInputFragment implements WebElement {
+
+    @Root
+    private WebElement input;
+
+    public String getInputText() {
+        return input.getAttribute("value");
+    }
+
+    public String getStyleClass() {
+        return input.getAttribute("class");
+    }
+}
+----
+
+Graphene will ensure that you can call on such a page fragment all
+`WebElement` and all your custom methods.
+
+[source,java]
+----
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.WebDriver;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+
+@RunWith(Arquillian.class)
+@RunAsClient
+public class Test {
+
+    @Drone
+    private WebDriver browser;
+
+    @FindBy(css = ".foo-bar")
+    private MyInputFragment input;
+
+    @Test
+    public void testPageFragmentMethodIsDelegatingCorrectly() {
+        //page loading, etc.
+        
+        //WebDriver methods
+        input.sendKeys("Graphene rulez!");
+        
+        //Custom fragment methods
+        String value = input.getInputText();
+    }
+}
+----
+
+[[findby-annotation]]
+=== FindBy annotation
+
+Graphene comes with support for Selenium 2, `@FindBy`
+http://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/support/FindBy.html[annotation],
+which can be used to locate your elements in your
+<<page-abstractions#page-objects, Page Objects>>, <<page-abstractions#page-fragments, Page
+Fragments>> and in tests as well.
+
+[[basic-usage-1]]
+==== Basic Usage
+
+[source,java]
+----
+import org.openqa.selenium.support.FindBy;
+
+public class TestClassOrPageObjectOrPageFragment {
+
+  @FindBy(id = "myButton")
+  private WebElement button;
+
+  @FindBy(className = "foo-bar")
+  private MyPageFragmentImpl myFragment;
+
+  @FindBy(css = ".blah-class")
+  private List<WebElement> myListOfWebElements;
+
+  @FindBy(css = ".foo-bar")
+  private List<MyPageFragmentImpl> myListOfPageFragments;
+
+  @FindBy(id = "select")
+  private Select select;
+}
+----
+
+As you can see, the `@FindBy` annotation usage is pretty the same as
+with the Selenium 2.
+
+Graphene allows you to annotate these fields:
+
+* `WebElement`,
+* Page Fragment,
+* list of `WebElements`,
+* list of Page Fragments,
+* and also any `WebElement` wrappers, such as
+`org.openqa.selenium.support.ui.Select`
+
+NOTE: No need to initialize those fields with any Page Factory. Graphene will
+do so for you automatically.
+
+NOTE: Graphene supports also the `@FindBy's` annotation and the `How` usage.
+
+[[default-locating-strategy-for-locating-elements-with-empty-findby]]
+==== Default Locating Strategy For Locating Elements With Empty @FindBy
+
+You can often find this pattern in your tests when locating elements
+with use of `@FindBy`:
+
+[source,java]
+----
+@FindBy(id = "loginButton")
+WebElement loginButton;
+----
+
+When using `@FindBy` annotation with Graphene, the following is equal to
+the above:
+
+[source,java]
+----
+@FindBy
+WebElement loginButton;
+----
+
+Graphene by default automatically infers the element by using
+`ByIdOrName` location strategy and the field name as the locator. +
+It can be configured with the `defaultElementLocatingStrategy` property
+in arquillian.xml. The possible values are the lowercase values of
+http://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/support/How.html[How]
+enum.
+
+[[jquery-locating-strategy]]
+=== JQuery Locating Strategy
+
+You can leverage http://api.jquery.com/category/selectors[JQuery
+Selectors] API to locate your elements.
+
+[source,java]
+----
+import org.jboss.arquillian.graphene.findby.FindByJQuery;
+
+@FindByJQuery(".foo-class:eq(0)")
+private WebElement customElement;
+----
+
+The above code will locate the the first element with the class
+__'foo-class'__.
+
+NOTE: This locating strategy requires JQuery to be installed to the page.
+Graphene installs it in a no conflict way automatically if it is needed
+(jquery locating strategy is used and it has not been installed yet).
+Note that it can have small performance impact, because the installation
+of the JQuery library can take some time. Therefore, locating by __id__,
+__css__, or _className_ is preferred if possible or when you care about
+that 1 sec which it takes usually.
+
+[[inferring-the-element-from-the-root-of-the-document]]
+==== Inferring The Element From The Root Of The Document
+
+Sometimes it is handy to locate your elements which are inferred from
+the root of the document. It can be especially used in Page Fragments,
+where all defined `@FindBy` and the `@FindByJQuery` annotations are
+inferred from the root of that Page Fragment.
+
+To infer them from the root of the document just start their locators
+with **html**, **head**, or *body* expression. For example:
+
+[source,java]
+----
+@FindByJQuery("body div:visible")
+private WebElement firstVisibleDiv;
+----
+
+[[grapheneelement]]
+=== GrapheneElement
+
+To extend `WebElement` interface with some methods, Graphene comes with
+its `GrapheneElement` implementation.
+
+It supports all `WebElement` methods, and currently adds only support
+for `boolean isPresent()` method.
+
+`GrapheneElement` can be used in the same places as `WebElement`.
+
+[source,java]
+----
+@FindBy(tagName = "input")
+private GrapheneElement button;
+----
+
+[[inframe-annotation]]
+=== InFrame Annotation
+
+To facilitate the
+https://code.google.com/p/selenium/wiki/FrequentlyAskedQuestions#Q:_How_do_I_type_into_a_contentEditable_iframe?[tedious
+process] of switching to and from a particular frame/iframe you can now
+just use the @InFrame annotation to specify in which frame the element
+should be located. The details are handled by Graphene.
+
+[[usage]]
+==== Usage
+
+[source,java]
+----
+@Page
+@InFrame(index = 0)
+private PageObject page;
+
+@FindBy(id = "foo-bar")
+@InFrame(nameOrId = "second")
+private PageFragment myFragment;
+
+@FindBy(tagName = "div")
+@InFrame(index = 1)
+private WebElement plainWebElement;
+----
+
+You can determine the iframe/frame by its index (zero based), or by
+`nameOrId` strategy. Graphene will automatically switch to a particular
+iframe/frame when a method is invoked on such annotated field.
+
+When using `@InFrame` together with Page Object, all elements declared
+in such Page Object will be treated as they are annotated with the same
+`@InFrame`.

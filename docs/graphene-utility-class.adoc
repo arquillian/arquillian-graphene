@@ -1,0 +1,128 @@
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+== Graphene Utility Class
+:icons: font
+
+Graphene is an entry point for the common one-line operations:
+
+* <<waitings, Waitings>>
+* <<request-guards, Request Guards>>
+* <<creating-page-fragments-dynamically, Creating Page Fragments Dynamically>>
+* <<page-object-location-encapsulation, Page Object Location Encapsulation>>
+
+[[static-import-of-graphene-utility-class]]
+=== Static Import of Graphene Utility Class
+
+The main advantage of the Graphene utility class is, that it includes
+set of static methods, which can be used directly from your test:
+
+[source,java]
+----
+Graphene.guardAjax(button).click();
+----
+
+This concept is much stronger when using possibilities of your IDE for
+code completion.
+
+TIP: You can use
+http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Freference%2Fpreferences%2Fjava%2Feditor%2Fref-preferences-content-assist-favorites.htm[Eclipse
+Favorites] feature and include Graphene into list of utility classes -
+you will get suggestions for code-completion out of the box.
+
+[[waitings]]
+==== Waitings
+
+Shortcut for fluent waiting API.
+
+[source,java]
+----
+waitAjax();
+waitGui();
+waitModel();
+
+//e.g.
+button.click();
+waitGui().withMessage("Popup should be opened after clicking on that button!").until().element(popupPanel).is().visible();
+----
+
+See the <<waiting-API#, Waiting API>> documentation page for more information.
+
+[[request-guards]]
+==== Request Guards
+
+It is a shortcut for the Graphene request guards, which are powerful
+tools to assert that an AJAX/HTTP or no request was done.
+
+[source,java]
+----
+guardAjax(Object);
+guardHttp(Object);
+guardNoRequest(Object);
+waitForHttp(Object);
+
+//e.g.
+guardAjax(button).click();
+----
+
+`waitForHttp()` is a guard as well, even when its name does not tell it.
+The difference between the `waitForHttp()` and the `guardHttp()` is that
+the first one ignores AJAX requests during its waiting period and
+the second one does not.
+
+See the <<request-guards#, Request Guards>> documentation page for more information.
+
+[[creating-page-fragments-dynamically]]
+==== Creating Page Fragments Dynamically
+
+Sometimes you need a way to create a Page Fragment instance not by
+injecting it via `@FindBy`, but dynamically.
+
+[source,java]
+----
+createPageFragment(Class<T> clazz, WebElement root);
+----
+
+Consider a Tab Panel widget, for which you want to create a Page
+Fragment. You do not know in advance how many tabs it will have and you
+want to return an initialized Page Fragment with tabs content each time
+user switches to a particular tab. This method is suitable for this.
+
+[[page-object-location-encapsulation]]
+==== Page Object Location Encapsulation
+
+You can find more information about Page Object location encapsulation
+on <<page-abstractions#page-objects, this>> documentation page.
+
+Basically, you can use `Graphene.goTo()` method like this:
+
+[source,java]
+----
+@Location("register.html")
+public class RegistrationPage {
+  //all the Page Objects FindBy, etc. goes here
+}
+
+public class TestSuite {
+
+  public void test() {
+    Graphene.goTo(RegistrationPage.class);
+    //testing of the page goes here;
+  }
+
+}
+----
+
+Graphene will load `http://locahost:8080/register.html` into your
+default browser.
+
+NOTE: You can specify the browser into which the page should be loaded by
+passing a browser qualifier as a
+`Graphene.goTo(Class<?> pageObject, Class<?> browserQualifier)`
+parameter.

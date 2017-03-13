@@ -1,0 +1,111 @@
+= Arquillian Graphene 2
+:asciidoctor-source: https://raw.githubusercontent.com/arquillian/arquillian-graphene/master/docs
+:numbered:
+:sectlink:
+:sectanchors:
+:sectid:
+:source-language: java
+:source-highlighter: coderay
+:sectnums:
+:icons: font
+:toc: left
+
+*'`Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API`'*
+
+include::{asciidoctor-source}/graphene-introduction.adoc[]
+include::{asciidoctor-source}/getting-started.adoc[]
+include::{asciidoctor-source}/graphene-configuration.adoc[]
+include::{asciidoctor-source}/graphene-utility-class.adoc[]
+include::{asciidoctor-source}/waiting-API.adoc[Waiting API]
+include::{asciidoctor-source}/request-guards.adoc[]
+include::{asciidoctor-source}/page-abstractions.adoc[]
+include::{asciidoctor-source}/location-strategies.adoc[]
+include::{asciidoctor-source}/dependency-injection.adoc[]
+include::{asciidoctor-source}/parallel-browsers.adoc[]
+include::{asciidoctor-source}/javaScript-interface.adoc[]
+include::{asciidoctor-source}/tips-&-tricks.adoc[]
+include::{asciidoctor-source}/advanced-techniques.adoc[]
+
+[[project-info]]
+== Project Info
+
+[cols="1,1"]
+|===
+|Type:
+|Maven
+
+|Source Code:
+|https://github.com/arquillian/arquillian-graphene
+
+|Issue tracking:
+|https://issues.jboss.org/browse/ARQGRA
+
+|Forums:
+|http://community.jboss.org/en/arquillian?view=discussions
+
+|Commiters:
+|http://community.jboss.org/people/jhuska[Juraj
+Huska], 
+https://community.jboss.org/people/jpapouse[Jan
+Papousek], 
+http://community.jboss.org/people/lfryc[Lukas Fryc]
+
+|Project Lead:
+|http://community.jboss.org/people/lfryc[Lukas Fryc]
+
+|License:
+|LGPL v2.1 or ASL v2.0 (dual-licensed)
+|===
+
+[[getting-started]]
+=== Getting Started Guide
+
+Apart from the documentation available here, there is also a
+comprehensive guide
+http://arquillian.org/guides/functional_testing_using_graphene/[Functional
+Testing using Drone and Graphene] to help you leverage the benefits of
+Graphene for writing robust functional tests.
+
+[[contributing]]
+== Contributing
+
+Community contributions are essential for maintaining the vitality of
+the Arquillian project.
+
+Contributing to the project helps to deliver functionality you need and
+allows you to share your code with other contributors and users.
+
+We want to keep it as easy as possible to contribute your changes and we
+will work hard to deliver your contributions in an upcoming release.
+
+Please refer to
+https://github.com/arquillian/arquillian-graphene/blob/master/CONTRIBUTING.md[How
+to Contribute] to find related instructions.
+
+[[building-the-project]]
+== Building the Project
+
+[[prerequisities]]
+=== Prerequisites
+
+* JDK 1.6+
+* Maven 3.0.3+
+
+[[how-to-build-project]]
+=== How-to build Project
+
+....
+mvn clean install
+....
+
+[[running-integration-tests]]
+=== Running Integration Tests
+
+....
+mvn clean install
+
+cd ftest/
+mvn clean verify -Dbrowser=firefox
+mvn clean verify -Dbrowser=chrome
+mvn clean verify -Dbrowser=phantomjs
+....

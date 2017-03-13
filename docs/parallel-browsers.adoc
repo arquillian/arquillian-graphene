@@ -1,0 +1,96 @@
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+== Parallel Browsers
+:icons: font
+
+It is a way to use multiple `WebDriver` instances in one test.
+
+[[usage]]
+=== Usage
+
+Consider testing of the server push functionality. More particularly a
+scenario where:
+
+1.  You make an update to a server from a FireFox browser.
+2.  The server will push the update to all registered listeners.
+3.  You want to check that client loaded in the Chrome will receive the
+update as well.
+
+The Graphene support for testing of the above will look like:
+
+[source,java]
+----
+@Browser1
+@Drone
+private WebDriver browser1;
+
+@Browser2
+@Drone
+private WebDriver browser2;
+
+public void testServerPushFromFirefoxToChromeAfterRegistration() {
+    browser1.get(“http://localhost:8080/myApp”);
+    browser2.get(“http://localhost:8080/myApp”);
+
+    formFragment.registerUser(new User(“John”), browser1);
+    registeredUsers.assertContains(“John”, browser2);
+}
+----
+
+`@Browser1` and `@Browser2` annotations are qualifiers, similar concept
+as in CDI. Declaration of one of them may look like:
+
+[source,java]
+----
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.jboss.arquillian.drone.api.annotation.Qualifier;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Qualifier
+public @interface Browser1 {
+
+}
+----
+
+You can configure these browsers in `arquillian.xml`:
+
+[source,xml]
+----
+<extension qualifier="webdriver-browser1">
+  <property name="browser">firefox</property>
+</extension>
+<extension qualifier="webdriver-browser2">
+  <property name="browser">chrome</property>
+</extension>
+----
+
+[[using-page-abstractions-with-multiple-browsers]]
+=== Using Page Abstractions With Multiple Browsers
+
+When you have multiple browser instances, lets say annotated with
+qualifiers @Browser1 and @Browser2, and want to inject a page
+abstraction, you have to specify against which browser instance you want
+to get it resolved:
+
+[source,java]
+----
+@Browser1 @Drone WebDriver browser1;
+@Browser2 @Drone WebDriver browser2;
+
+@Browser1 @FindBy(id = "login-box") private LoginFragment loginFragment;
+@Browser2 HomePage page;
+----
+
+Without having that fragment annotated with browser qualifier, Graphene
+will resolve it against @Default browser instance.
