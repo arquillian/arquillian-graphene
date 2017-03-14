@@ -1,6 +1,15 @@
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
 Graphene 2
 ==========
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+:icons: font
 
 Graphene 2 project is designed as a set of extensions for
 http://docs.seleniumhq.org/[Selenium WebDriver] project focused

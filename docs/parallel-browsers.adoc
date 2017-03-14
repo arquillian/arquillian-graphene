@@ -1,5 +1,14 @@
-Parallel Browsers - Graphene 2
-==============================
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+= Parallel Browsers - Graphene 2
+:icons: font
 
 It is a way to use multiple `WebDriver` instances in one test.
 

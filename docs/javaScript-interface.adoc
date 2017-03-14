@@ -1,6 +1,14 @@
-JavaScript Interface - Graphene 2
-=================================
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+= JavaScript Interface - Graphene 2
+:icons: font
 
 In testing of complex examples, it is often needed to perform **custom
 JavaScript code**. For this purposes, there is implemented JavaScript

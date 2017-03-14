@@ -1,6 +1,15 @@
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
 Getting Started - Graphene 2
 ============================
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+:icons: font
 
 Graphene strongly ties to Arquillian Core and its extensions Containers
 and Drone to manage lifecycle of the application server, selenium server

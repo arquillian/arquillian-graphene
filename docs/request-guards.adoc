@@ -1,6 +1,14 @@
-Request Guards - Graphene 2
-===========================
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+= Request Guards - Graphene 2
+:icons: font
 
 Its purpose is to guard that the interaction of the user will/will not
 raise specific request to the server. It differs between following

@@ -1,6 +1,14 @@
-Dependency Injection - Graphene 2
-=================================
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+= Dependency Injection - Graphene 2
+:icons: font
 
 Following objects can be injected using @ArquillianResource annotation
 to:

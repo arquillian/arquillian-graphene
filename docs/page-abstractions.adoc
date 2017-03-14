@@ -1,6 +1,14 @@
-Page Abstractions - Graphene 2
-==============================
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+= Page Abstractions - Graphene 2
+:icons: font
 
 *Page Abstractions enhance the way your tests are written. They make your
 tests more robust and therefore more reliable.*

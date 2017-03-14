@@ -1,6 +1,14 @@
-Graphene Configuration - Graphene 2
-===================================
-ifdef::env-github,env-browser[:outfilesuffix: .adoc]
+ifdef::env-github,env-browser[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:outfilesuffix: .adoc
+endif::[]
+
+= Graphene Configuration - Graphene 2
+:icons: font
 
 //TODO Fix Updated Link
 Graphene is configured using
