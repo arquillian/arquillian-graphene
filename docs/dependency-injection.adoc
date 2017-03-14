@@ -8,7 +8,6 @@ ifdef::env-github,env-browser[]
 endif::[]
 
 = Dependency Injection - Graphene 2
-:icons: font
 
 Following objects can be injected using @ArquillianResource annotation
 to:

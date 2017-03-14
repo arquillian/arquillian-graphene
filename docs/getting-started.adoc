@@ -7,8 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-Getting Started - Graphene 2
-============================
+= Getting Started - Graphene 2
 :icons: font
 
 Graphene strongly ties to Arquillian Core and its extensions Containers
@@ -20,21 +19,16 @@ like to deploy application into and the framework you would like to use
 for testing.
 
 [[project-setup]]
-Project Setup
--------------
+== Project Setup
 
 [[maven-project-dependencies]]
-Maven Project Dependencies
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Maven Project Dependencies
 
 In order to setup project dependencies, you need to define library
-dependencies.
-
-Refer to <<framework-integration-options, Framework Integration Options>> for more details.
+dependencies. Refer to <<framework-integration-options, Framework Integration Options>> for more details.
 
 [[starting-with-testing-from-java]]
-Starting With Testing From Java
--------------------------------
+== Starting With Testing From Java
 
 The simplest possible test would look like this:
 
@@ -58,25 +52,21 @@ public class BasicTestCase {
 ----
 
 This test uses @Drone annotation in order to bring browser to your test
-case using dependency injection. +
-You can read more about <<using-drone-1, Using Drone>>, to get
+case using dependency injection. You can read more about <<using-drone-1, Using Drone>>, to get
 information about which instances to use in which situations.
 
 The browser is represented by WebDriver class instance (or its
-implementations). +
-For more information about _what is WebDriver_ and how it relates to Graphene,
+implementations). For more information about _what is WebDriver_ and how it relates to Graphene,
 look at <<using-webdriver, Using WebDriver>>.
 
 This is a really simple case and does not really show where Graphene
 excels.
 
 [[advanced-use-cases]]
-Advanced Use Cases
-------------------
+== Advanced Use Cases
 
 [[page-abstractions]]
-Page Abstractions
-~~~~~~~~~~~~~~~~~
+=== Page Abstractions
 
 On the high level, Graphene allows you to create reusable abstractions
 in form of <<page-abstractions#page-objects, Page Objects>>
@@ -133,8 +123,7 @@ You can read more about using reusable <<page-abstractions#, Page
 Abstractions>>.
 
 [[testing-ajax]]
-Testing AJAX
-~~~~~~~~~~~~
+=== Testing AJAX
 
 Second big promise of Graphene is make testing of applications using
 asynchronous calls heavily (AJAX, WebSocket, ...) a simple task.
@@ -163,30 +152,23 @@ directly to the documentation of features, which enables
 that:
 
 [[graphene-utility-class]]
-Graphene Utility Class
-^^^^^^^^^^^^^^^^^^^^^^
+==== Graphene Utility Class
 
-<<graphene-utility-class#, Graphene
-Utility Class>> enables compact syntax for waiting and guards.
+<<graphene-utility-class#, Graphene Utility Class>> enables compact syntax for waiting and guards.
 
 [[request-guards]]
-Request Guards
-^^^^^^^^^^^^^^
-
+==== Request Guards
 <<request-guards#, Request
 Guards>> bring simplest conditions like wait for a request to finish
 (blocking test).
 
 [[under-the-hood]]
-Under the Hood
---------------
+== Under the Hood
 
-Graphene enables way more features on a low level. +
-Using following features may help you write outstanding tests:
+Graphene enables way more features on a low level. Using following features may help you write outstanding tests:
 
 [[graphene-context]]
-Graphene Context
-~~~~~~~~~~~~~~~~
+=== Graphene Context
 
 Allows you to obtain current thread-local context of the browser and
 "inject" it where you need it without reference propagation.
@@ -197,8 +179,7 @@ WebDriver browser = GrapheneContext.getContextFor(Default.class).getWebDriver();
 ----
 
 [[javascript-interface]]
-JavaScript Interface
-~~~~~~~~~~~~~~~~~~~~
+=== JavaScript Interface
 
 Allows you to call JavaScript functions from Java directly.
 
@@ -211,8 +192,7 @@ public interface Document {
 ----
 
 [[page-extensions]]
-Page Extensions
-~~~~~~~~~~~~~~~
+=== Page Extensions
 
 Allows you to bring JavaScript code to the browser.
 
@@ -226,8 +206,7 @@ public interface RequestGuard {
 ----
 
 [[using-drone]]
-Using Drone
------------
+== Using Drone
 
 Drone is an extension for Arquillian that manages lifecycle of the Selenium
 Server and Selenium clients as Selenium 1.x, Selenium 2.x and Graphene.
@@ -235,16 +214,14 @@ Server and Selenium clients as Selenium 1.x, Selenium 2.x and Graphene.
 Refer to <<using-drone-1, Using Drone>> section for more information.
 
 [[running-graphene-tests-from-an-ide]]
-Running Graphene Tests From An IDE
-----------------------------------
+== Running Graphene Tests From An IDE
 
 It is possible to run Graphene tests from any modern IDE. See
 http://arquillian.org/guides/getting_started[Arquillian Getting Started
 Guide] for more information about how to run and debug tests in Eclipse.
 
 [[framework-integration-options]]
-Framework Integration Options
------------------------------
+== Framework Integration Options
 
 In order to setup Graphene's library dependencies, you need to choose
 between components:
@@ -253,15 +230,13 @@ between components:
 * Arquillian Mode (standalone, container)
 
 [[test-framework-options]]
-Test Framework Options
-~~~~~~~~~~~~~~~~~~~~~~
+=== Test Framework Options
 
 For Graphene to fluently work with JUnit and TestNG, you need to include
 their dependencies in your POM dependencies section:
 
 [[junit]]
-JUnit
-^^^^^
+==== JUnit
 
 [source,java]
 ----
@@ -274,8 +249,7 @@ JUnit
 ----
 
 [[testng]]
-TestNG
-^^^^^^
+==== TestNG
 
 [source,java]
 ----
@@ -288,8 +262,7 @@ TestNG
 ----
 
 [[arquillian-mode-options]]
-Arquillian Mode Options
-~~~~~~~~~~~~~~~~~~~~~~~
+=== Arquillian Mode Options
 
 You can choose between following Arquillian modes
 
@@ -302,17 +275,15 @@ deployment management
 ** runs tests with container, managed lifecycle of container including
 deployment
 ** you can still use Graphene without managing lifecycle - just do not
-provide @Deployment in your test case
-
-and include those in dependencies section of your POM:
+provide @Deployment in your test case and include those in dependencies
+section of your POM.
 
 NOTE: You need to use Arquillian integration specific for your test
 framework - following dependencies are for JUnit -  for using TestNG,
 you need to replace "junit" keyword with "testng"
 
 [[standalone-mode]]
-Standalone Mode
-^^^^^^^^^^^^^^^
+==== Standalone Mode
 
 [source,java]
 ----
@@ -325,8 +296,7 @@ Standalone Mode
 ----
 
 [[container-mode]]
-Container Mode
-^^^^^^^^^^^^^^
+==== Container Mode
 
 [source,java]
 ----
@@ -339,14 +309,12 @@ Container Mode
 ----
 
 [[which-version-to-use]]
-Which Version To Use?
-+++++++++++++++++++++
+===== Which Version To Use?
 
-http://arquillian.org/modules/core-platform/
+To find out which version to use, check out http://arquillian.org/modules/core-platform/
 
 [[container-management]]
-Container Management
-~~~~~~~~~~~~~~~~~~~~
+=== Container Management
 
 Graphene uses Arquillian Containers in order to manage lifecycle of the
 application container and deployment.
@@ -358,8 +326,7 @@ https://docs.jboss.org/author/display/ARQ/Container+adapters[Container
 adapters].
 
 [[selenium-version]]
-Selenium Version
-~~~~~~~~~~~~~~~~
+=== Selenium Version
 
 *Graphene 2* covers integration with *WebDriver* (aka Selenium 2), but
 it can be used in the same project together with *Graphene 1* (based on
@@ -378,8 +345,7 @@ brought to your project as transitive dependencies, including:
 * WebDriver
 
 [[use-graphene]]
-Use Graphene:
-^^^^^^^^^^^^^
+==== Use Graphene:
 
 [source,java]
 ----
@@ -392,22 +358,19 @@ Use Graphene:
 ----
 
 [[which-version-to-use-1]]
-Which Version To Use?
-+++++++++++++++++++++
+===== Which Version To Use?
 
-http://arquillian.org/modules/graphene-extension/
+To find out which version to use, chcek out http://arquillian.org/modules/graphene-extension/
 
 NOTE: In order to rewrite dependencies transitively brought by Graphene
 (e.g. Drone), you can use BOMs (see bellow)
 
 [[bom-and-dependency-management-usage]]
-BOM and Dependency Management Usage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== BOM and Dependency Management Usage
 
 In order to manage or override dependency versions used in the project,
 it is recommended to use
 http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html[BOM]s.
-
 By importing BOM to your Maven POM, you manage versions of dependencies,
 so you don't need to define them explicitly.
 
@@ -418,8 +381,7 @@ In connection to Graphene, you may want to use these BOMs:
 * https://github.com/arquillian/arquillian-selenium-bom[selenium-bom]
 
 [[using-webdriver]]
-Using WebDriver
----------------
+== Using WebDriver
 
 Graphene builds on top of Selenium WebDriver project and brings
 extensions which helps you write robust Java-based tests simply from
@@ -429,8 +391,7 @@ Graphene is thus not a standalone project, but an extension over Arquillian
 and Selenium projects to make testing easier.
 
 [[how-to-learn-webdriver]]
-How to Learn WebDriver?
-~~~~~~~~~~~~~~~~~~~~~~~
+=== How to Learn WebDriver?
 
 You can start with resources
 http://seleniumhq.org/docs/03_webdriver.html[Introducing WebDriver] and
@@ -443,8 +404,7 @@ If you don't find resources on how to achieve something with Graphene,
 let's try to look on how to achieve that with WebDriver.
 
 [[why-i-need-graphene]]
-Why I Need Graphene?
-~~~~~~~~~~~~~~~~~~~~
+=== Why I Need Graphene?
 
 Graphene helps you to bring your test project to the world of Arquillian
 as well as it brings you very useful addons.
@@ -453,8 +413,7 @@ However you can use as much Graphene as you want, since Graphene
 integrates with WebDriver non-pervasively.
 
 [[graphene-integration-with-webdriver---under-the-hood]]
-Graphene Integration With WebDriver - Under the Hood
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Graphene Integration With WebDriver - Under the Hood
 
 The integration starts with instantiation of the WebDriver instance
 leveraging Arquillian Drone extension.
@@ -466,8 +425,7 @@ Then Graphene also wraps the WebDriver instance in order to intercept
 calls.
 
 [[using-drone-1]]
-Using Drone
------------
+== Using Drone
 
 Graphene integrates with Arquillian Drone to simplify process of
 instantiation of browser session. +
@@ -475,8 +433,8 @@ So Drone takes care of WebDriver instance creation and configuration and
 then it delegates this session to Graphene.
 
 [[configuration]]
-Configuration
-~~~~~~~~~~~~~
+=== Configuration
+
 //TODO Fix Updated Link
 Graphene shares the configuration with Drone WebDriver, so you can refer
 to https://docs.jboss.org/author/display/ARQ/Drone[Drone].
@@ -485,8 +443,7 @@ In general, configuration is driven by arquillian.xml and can be
 overriden by System properties.
 
 [[browser-instantiation]]
-Browser Instantiation
-~~~~~~~~~~~~~~~~~~~~~
+=== Browser Instantiation
 
 You can ask Drone to instantiate any *specific implementation* of
 WebDriver like FirefoxDriver, ChromeDriver or HtmlUnitDriver, e.g.:
@@ -525,8 +482,7 @@ http://seleniumhq.org/docs/03_webdriver.html#selenium-webdriver-s-drivers[browse
 driver implementations].
 
 [[drone-reusable-session]]
-Drone Reusable Session
-~~~~~~~~~~~~~~~~~~~~~~
+=== Drone Reusable Session
 
 In order to speed up development, Drone comes with Reusable Remote
 WebDriver Session feature.
@@ -538,8 +494,7 @@ Thus after running first test, browser session is still open and next
 tests can reuse it.
 
 [[speed-up-development]]
-Speed Up Development
-^^^^^^^^^^^^^^^^^^^^
+==== Speed Up Development
 
 Since browser session does not have to be opened repeatedly, Drone saves
 this time and repeating a test leads into huge time savings.
@@ -548,8 +503,7 @@ This enables browser automated test development to as close as unit tests
 execution time as possible.
 
 [[improved-browser-debugging]]
-Improved Browser Debugging
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Improved Browser Debugging
 
 Since session is not closed at the end of test, you can tweak anything
 in browser setup you want including setup of browser debuggers (Firebug,
@@ -566,8 +520,7 @@ execution - this is not recommended, since then tests can influence each
 other.
 
 [[using-selenium-server]]
-Using Selenium Server
-^^^^^^^^^^^^^^^^^^^^^
+==== Using Selenium Server
 
 This feature is available only when using remote WebDriver session. So
 you need to http://seleniumhq.org/download/[download appropriate version
@@ -582,8 +535,7 @@ Now Drone can connect to this server and share the session-id across
 several tests.
 
 [[turn-on-reusable-browser-session-session]]
-Turn on Reusable Browser Session session
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Turn on Reusable Browser Session session
 
 You can turn on Reusable Browser Session by following entry:
 
@@ -601,26 +553,21 @@ You can turn on Reusable Browser Session by following entry:
 ----
 
 [[testing-ajax-1]]
-Testing AJAX
-------------
+== Testing AJAX
 
 When testing AJAX-enabled applications, you are facing big deal
 of asynchronous behavior:
 
 [[waiting-for-the-results-of-actions]]
-Waiting for the Results of Actions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Waiting for the Results of Actions
 
 When calling any action, it takes time before browser's request is
-processed on the server. +
-Test must be written so that it counts with any time before it can
-proceed with execution. +
-This does not include only server processing, but also complex
+processed on the server. Test must be written so that it counts with any time before it can
+proceed with execution. This does not include only server processing, but also complex
 client-side computations.
 
 [[solution-waiting-for-appropriate-conditions]]
-Solution: Waiting for Appropriate Conditions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Solution: Waiting for Appropriate Conditions
 
 When writing tests, you must be aware what changes are happening on a
 page as a result of user action and design a appropriate condition to
@@ -629,8 +576,7 @@ wait for.
 Graphene offers two solution to waiting for appropriate conditions:
 
 [[waiting-conditions]]
-Waiting Conditions
-++++++++++++++++++
+===== Waiting Conditions
 
 Graphene uses `WebDriverWait` object and defines most used waiting
 conditions in <<graphene-utility-class#, Graphene Utility Class>>.
@@ -647,8 +593,7 @@ error-prone
 You can read more about <<waiting-API#, Waiting API>>.
 
 [[request-guards-1]]
-Request Guards
-++++++++++++++
+===== Request Guards
 
 More powerful mechanism than conditions -
 <<request-guards#, Request Guards>> - watches request object on the page and
@@ -661,24 +606,21 @@ is that each action must have appropriate reaction on the page,
 otherwise the UI is not designed well.
 
 [[elements-not-present]]
-Elements Not Present
-~~~~~~~~~~~~~~~~~~~~
+=== Elements Not Present
 
 Test must be aware that elements which tests depend on might not be
 present immediately, but might be shown after the asynchronous action
 is processed.
 
 [[solution-defensive-conditions]]
-Solution: Defensive Conditions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Solution: Defensive Conditions
 
 Graphene's built-in waiting conditions are coded in defensive manner, it
 means when you are waiting before the element's background becomes red,
 the condition will not fail when element is not present.
 
 [[stale-dom-elements]]
-Stale DOM Elements
-~~~~~~~~~~~~~~~~~~
+=== Stale DOM Elements
 
 AJAX-based applications often update page content by replacing a
 portion of the DOM with another one. +
@@ -686,8 +628,7 @@ Even though the rendered output might be the same, the element references
 might be different.
 
 [[solution-staleness-aware-page-abstractions]]
-Solution: Staleness Aware Page Abstractions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+==== Solution: Staleness Aware Page Abstractions
 
 <<page-abstractions#, Page abstractions>> created by Graphene are by default
 aware of stale element, so they try to re-initialize element reference when

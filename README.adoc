@@ -78,7 +78,7 @@ to Contribute] to find related instructions.
 * Maven 3.0.3+
 
 [[how-to-build-project]]
-=== How-to build project
+=== How-to build Project
 
 ....
 mvn clean install

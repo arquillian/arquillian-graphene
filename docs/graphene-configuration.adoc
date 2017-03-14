@@ -16,8 +16,7 @@ https://docs.jboss.org/author/display/ARQ/Drone#Drone-ConfiguringDroneinstances[
 or alternatively via system properties].
 
 [[webdriver-configuration]]
-WebDriver Configuration
-~~~~~~~~~~~~~~~~~~~~~~~
+== WebDriver Configuration
 
 Graphene uses WebDriver directly and thus it can be
 configured via `webdriver` extension configuration.
@@ -28,8 +27,7 @@ https://docs.jboss.org/author/display/ARQ/Drone#Drone-Selenium2configuration[Sel
 2 configuration] options in Drone guide.
 
 [[graphene-configuration-1]]
-Graphene Configuration
-~~~~~~~~~~~~~~~~~~~~~~
+== Graphene Configuration
 
 Graphene specific configurations can be setup via `arquillian.xml` as
 well:
@@ -41,7 +39,7 @@ well:
 </extension>
 ----
 
-[cols="1,8,1", options="header"]
+[cols="1,5,3", options="header"]
 |===
 |Configuration Property |Description |Default Value
 
