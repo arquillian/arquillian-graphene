@@ -2,14 +2,14 @@ Page Abstractions - Graphene 2
 ==============================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[page-abstractions]]
-Page Abstractions
------------------
+*Page Abstractions enhance the way your tests are written. They make your
+tests more robust and therefore more reliable.*
 
-[[page-abstractions-enhance-the-way-your-tests-are-written.-they-make-your-tests-more-robust-and-therefore-more-reliable.]]
+Page Abstractions included here are:
 
-Page Abstractions enhance the way your tests are written. They make your
-tests more robust and therefore more reliable.
+. <<page-objects>>
+. <<page-fragments>>
+. <<location-of-pages>>
 
 To see their power let's start with a little bit of motivation. Do you
 often see Graphene (or Selenium Webdriver) tests like this:
@@ -65,7 +65,6 @@ some element) tests are affected as well. These small changes can
 effectively break a lot of tests, in other words increase the time spent
 on the tests maintenance.
 
-[[there-comes-page-objects-pattern-to-improve-this.]]
 There Comes Page Objects Pattern To Improve This.
 -------------------------------------------------
 
@@ -159,9 +158,8 @@ that one test class, but all the tests which interact with the same
 autocomplete widget get implemented with the same UI framework. It is a huge
 DRY violation.
 
-[[therefore-graphene-introduces-a-new-concept-called-page-fragments-to-improve-this.]]
-Therefore Graphene introduces a new concept, called Page Fragments to
-improve this.
+Therefore Graphene introduces a new concept, called Page Fragments to improve this.
+------------------------------------------------------------------------------------
 
 _What are Page Fragments in short ?_
 
@@ -241,7 +239,7 @@ that root element. It makes such implementation pretty generic and
 reusable across all tests which need to interact with the encapsulated
 Page Fragment.
 
-The `@Root` annotation is optional, you typically use it when you need
+NOTE: The `@Root` annotation is optional, you typically use it when you need
 to directly invoke methods on it in your fragment's code. Therefore, you
 do not need to declare such element. Graphene will take care of it. You
 denote whether it is a Page Fragment or a Page Object in the way you use it
@@ -303,8 +301,7 @@ automatically enriches the Page Object's injection points (e.g.
 also properly initialized.
 * Page Objects can contain any injection point which Arquillian supports.
 - e.g. `@Drone WebDriver` for injecting browser instance
-//TODO check Link
-* Page Objects can <<location-strategies#location-of-pages, encapsulate
+* Page Objects can <<location-of-pages, encapsulate
 their location>>.
 
 You have already seen the default way of initializing Page Objects in
@@ -382,22 +379,24 @@ public class TestPage {
 }
 ----
 
-Page Objects can be declared also as nested classes. However, to better
+NOTE: Page Objects can be declared also as nested classes. However, to better
 decouple test logic from the structure of the tested page, it is
 recommended to declare Page Objects as standalone classes.
 
-Your are not limited just with injecting `WebElement` instances. You can
+NOTE: Your are not limited just with injecting `WebElement` instances. You can
 in the same way inject your <<page-fragments, Page Fragments>>, or even
 `java.util.List` of Page Fragments/WebElements.
 
 NOTE: You have to use private fields for all Graphene initialized
 `WebElement`/Page Fragments etc. Use their getters from tests.
 
-Page Objects in Multiple Browsers Scenario
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WARNING]
+.Page Objects in Multiple Browsers Scenario
+====
 If you use page abstractions together with parallel browsers feature, be
 sure to check <<parallel-browsers#using-page-abstractions-with-multiple-browsers,
 Using Page Abstractions with Multiple Browsers>>.
+====
 
 [[declare-it-in-the-test-and-annotate-it-with-page-annotation.]]
 Declare It In The Test And Annotate It With @Page Annotation.
@@ -502,14 +501,14 @@ The concept of Page Fragments and motivation behind them were already
 introduced in <<page-abstractions, Page Abstractions>>. Here you can find more
 detailed info about:
 
-1.  <<relation-to-page-objects, Relation to Page Objects>>
-2.  <<usage, Usage>>
-3.  <<creating-page-fragments, Creating Page Fragments>>
-4.  <<samples-of-page-fragments, Samples of Page Fragments>>
-1.  <<autocomplete, Autocomplete>>
-2.  <<calendar, Calendar>>
-3.  <<table, Table>>
-4.  <<login-component, Login component>>
+.  <<relation-to-page-objects, Relation to Page Objects>>
+.  <<usage, Usage>>
+.  <<creating-page-fragments, Creating Page Fragments>>
+.  <<samples-of-page-fragments, Samples of Page Fragments>>
+..  <<autocomplete, Autocomplete>>
+..  <<calendar, Calendar>>
+..  <<table, Table>>
+..  <<login-component, Login component>>
 
 [[relation-to-page-objects]]
 Relation to Page Objects
@@ -552,8 +551,9 @@ cells).
 These Page fragments and other `WebElement` fields are dynamically
 initialized by Graphene so no need to initialize them via factories.
 
-Handy Hints
-
+[TIP]
+.Handy Hints
+====
 * You can declare Page Fragments in the above mentioned way either
 directly in your tests or you can declare them in the same way within
 your Page Objects.
@@ -562,6 +562,7 @@ thus nice structure of your fragments (e.g. Page Fragment application
 menu -> nested menu group -> nested menu item).
 * Page Fragments can be declared as nested classes, however, to better
 reuse them across your test suites, it is not recommended.
+====
 
 There is another way to create Page Fragments. You can create them
 dynamically with use of
@@ -586,16 +587,18 @@ which will be referenced from the injected root. Annotate them with
 4.  Define the methods which are basically encapsulation of the fragment
 services (Calendar services - get date, set date, ...).
 
-If you need to access the injected root of your Page Fragment, you can do
+NOTE: If you need to access the injected root of your Page Fragment, you can do
 so by declaring a `WebElement` field with a `@Root` annotation.
 
+[NOTE]
+====
 There are two packages from where you can import `@FindBy` annotation:
 
-1.  `org.openqa.selenium.support.FindBy` - well know `@FindBy` from
-Selenium 2
-2.  `org.jboss.arquillian.graphene.enricher.findby.FindBy` -
-[Graphene FindBy annotation]
+. `org.openqa.selenium.support.FindBy` - well know `@FindBy` from
+Selenium 2 +
+.  `org.jboss.arquillian.graphene.enricher.findby.FindBy`
 which adds on top of classic `@FindBy` many useful features.
+====
 
 So the implementation can look like snippet below.
 
@@ -656,13 +659,13 @@ easily inject it with `@Drone` annotation.
 NOTE: You have to use private fields for all Graphene initialized
 WebElement/Page Fragments etc. Use their getters from tests.
 
-Page Fragments In Multiple Browsers Scenario
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WARNING]
+.Page Fragments In Multiple Browsers Scenario
+====
 If you use page abstractions together with parallel browsers feature, be
-sure to
-//TODO check link
-check https://docs.jboss.org/author/display/ARQGRA2/Parallel+browsers#Parallelbrowsers-UsingPageAbstractionswithMultipleBrowsers[Using
-Page Abstractions with Multiple Browsers].
+sure to <<parallel-browsers#using-page-abstractions-with-multiple-browsers, Using
+Page Abstractions with Multiple Browsers>>.
+====
 
 [[samples-of-page-fragments]]
 Samples of Page Fragments
@@ -681,7 +684,6 @@ or just the interface for it.
 Autocomplete
 ^^^^^^^^^^^^
 
-//TODO fix images
 image:images/author/download/attachments/53117994/autocomplete.png[images/author/download/attachments/53117994/autocomplete.png]
 
 image:images/author/download/attachments/53117994/autocompleteHTML.png[images/author/download/attachments/53117994/autocompleteHTML.png]
@@ -783,7 +785,6 @@ public class AutocompletePageFragment<T> {
 Calendar
 ^^^^^^^^
 
-// TODO fix images
 image:images/author/download/attachments/53117994/calendar.png[images/author/download/attachments/53117994/calendar.png]
 
 image:images/author/download/attachments/53117994/calendarHTML.png[images/author/download/attachments/53117994/calendarHTML.png]
@@ -997,7 +998,6 @@ public class CalendarPageFragmentImpl {
 Table
 ^^^^^
 
-// TODO fix images
 image:images/author/download/attachments/53117994/table.png[images/author/download/attachments/53117994/table.png]
 
 image:images/author/download/attachments/53117994/tableHTML.png[images/author/download/attachments/53117994/tableHTML.png]
@@ -1161,7 +1161,7 @@ public class LoginPageFragment {
 ----
 
 [[location-of-pages]]
-Location of pages
+Location of Pages
 -----------------
 
 [[location-concepts]]
@@ -1187,7 +1187,7 @@ The above location value will be treated as the relative URL to the
 value of @ArquillianResource URL contextRoot - e.g.
 http://localhost:8080/app/index.html.
 
-Use @Location("") to denote that page object's location equals to the
+NOTE: Use @Location("") to denote that page object's location equals to the
 context root of the deployed application.
 
 By putting @Location annotation at page object, when you inject this
@@ -1226,6 +1226,8 @@ parameter since by default it is HTTP
 @Location("https://www.google.com") // works with https as well, scheme is same
 ----
 
+[CAUTION]
+====
 You can not do this
 
 [source,java]
@@ -1236,6 +1238,7 @@ You can not do this
 since it is not possible to say if this location is relative (as
 index.html) or absolute. You have to use http:// scheme string
 explicitly to open regular "www" page on the net.
+====
 
 [[file-scheme]]
 File Scheme
@@ -1259,11 +1262,11 @@ Treats location as resource:// scheme
 @Location(scheme = Scheme.RESOURCE.class, value = "resource://...")
 ----
 
-The "resource://" prefix denotes that the page is not deployed to any
+NOTE: The "resource://" prefix denotes that the page is not deployed to any
 container, and will be loaded from local file-system. The same you can
 achieve with prefix "file".
 
-Check out Graphene Utility Class documentation page, to see how you can
+NOTE: Check out Graphene Utility Class documentation page, to see how you can
 use Graphene.goTo(Class<?> pageObjectClass) method to load Page Object
 location in the browser.
 

@@ -2,9 +2,11 @@ Advanced Techniques - Graphene 2
 ================================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[advanced-techniques]]
-Advanced Techniques
--------------------
+Advanced techniques covered in this section include:
+
+. <<graphene-context-and-proxy>>
+. <<page-extensions>>
+. <<graphene-interceptors>>
 
 [[graphene-context-and-proxy]]
 Graphene Context and Proxy
@@ -122,10 +124,10 @@ of all dependencies).
 GraphenePageExtensionsContext.getInstallatorProviderProxy().installator("extension name").install();
 ----
 
-The installator is available only for extensions already registered via
+WARNING: The installator is available only for extensions already registered via
 SPI or registry.
 
-When a page is reloaded, all injected JavaScript code is lost, so the
+WARNING: When a page is reloaded, all injected JavaScript code is lost, so the
 extension has to be installed again.
 
 [[graphene-interceptors]]
@@ -165,7 +167,7 @@ public class ScreenshotTakerInterceptor implements Interceptor {
 }
 ----
 
-Each implementor must satisfy, that in the `intercept` method body will
+WARNING: Each implementor must satisfy, that in the `intercept` method body will
 be called at least once method from current context:
 `InvocationContext#invoke()`.
 
@@ -183,13 +185,13 @@ public void beforeSomething() {
 }
 ----
 
-In the example above the interceptor was registered to the `WebDriver`
+NOTE: In the example above the interceptor was registered to the `WebDriver`
 instance, thus all method invocations on that object will be
 intercepted. Note that you can register the interceptor to any object
 which can be casted to `GrapheneProxyInstance`. For instance to Page
 Objects.
 
-You can use `GrapheneProxyInstance#unregisterInterceptor` method to
+NOTE: You can use `GrapheneProxyInstance#unregisterInterceptor` method to
 unregister previously registered interceptor.
 
 Have an inspiration in `StaleElementInterceptor`

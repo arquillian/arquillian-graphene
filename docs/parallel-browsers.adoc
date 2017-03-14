@@ -1,17 +1,11 @@
-Parallel browsers - Graphene 2
+Parallel Browsers - Graphene 2
 ==============================
-
-[[parallel-browsers]]
-Parallel Browsers
------------------
 
 It is a way to use multiple `WebDriver` instances in one test.
 
 [[usage]]
 Usage
 ~~~~~
-
-[[section]]
 
 Consider testing of the server push functionality. More particularly a
 scenario where:

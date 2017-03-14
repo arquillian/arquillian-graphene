@@ -2,11 +2,11 @@ Graphene 2
 ==========
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-Graphene 2 project is designed as a set of extensions for Selenium
-WebDriver project focused on **rapid development** and **usability** in
-Java environment.
+Graphene 2 project is designed as a set of extensions for
+http://docs.seleniumhq.org/[Selenium WebDriver] project focused
+on **rapid development** and **usability** in Java environment.
 
-* API is **straightforward** and enforces tester to
+* API is **straight forward** and enforces tester to
 write **Ajax-enabled** and **reusable** tests and test abstractions
 * encourages to write tests in a <<page-abstractions#, consistent
 level of abstraction>> using <<page-abstractions#page-objects, *Page Objects*>> and
@@ -14,18 +14,23 @@ level of abstraction>> using <<page-abstractions#page-objects, *Page Objects*>> 
 * the code is **robust** with **improved readability**
 ** supports *<<request-guards#, request guarding>>* and
 *interception*
-** improved *<<graphene-utility-class#waitings, Waiting API>>*
+** exposes fluent *<<graphene-utility-class#waitings, Waiting API>>*
 * *allows* *WebDriver API interception*
-* focuses on **portability across browsers**
+* focuses on test **portability across browsers**
 * it enables *JQuery selectors as a location strategy* which is familiar
 to web development community
 * brings concepts for on-the-fly *injection of extensions to a page
 code* (enabling advanced testing features)
+* can take screenshots while testing (see
+https://github.com/arquillian/arquillian-graphene/blob/master/extension/screenshooter[screenshooter extension]),
+and together with other useful info generate neat reports (see
+https://github.com/arquillian/arquillian-recorder[Arquillian Recorder extension]).
+
 * integrates with *Arquillian Core* and **Arquillian Drone** extension
 ** in order to set up browser and container integration easily
 
 With all the concepts above, Graphene 2 brings power to space of
-enterprise Java-based testing
+enterprise Java-based testing.
 
 [[project-info]]
 Project Info

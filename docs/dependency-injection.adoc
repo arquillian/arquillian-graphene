@@ -2,10 +2,6 @@ Dependency Injection - Graphene 2
 =================================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[dependency-injection]]
-Dependency Injection
---------------------
-
 Following objects can be injected using @ArquillianResource annotation
 to:
 
@@ -45,7 +41,7 @@ Here is a list of available resources that can be injected:
 |===
 |Class |Purpose
 
-|`WebDriver`
+|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/WebDriver.html[WebDriver]
 |The main interface to use for testing, which represents an idealised
 web browser.
 

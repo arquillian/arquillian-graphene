@@ -2,10 +2,6 @@ Waiting API - Graphene 2
 ========================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[waiting-api]]
-Waiting API
------------
-
 WebDriver execution is always faster than changing the state of the
 page. This powerful API, should help you to synchronize with the tested
 page. See also Graphene <<request-guards#, Request Guards>> as the other
@@ -66,7 +62,7 @@ waitGui().ignoring(StaleElementReferenceException.class);
 Refer to Graphene javadoc for complete picture of all possible
 combinations.
 
-Use IDE autocomplete feature to work most efficiently with the fluent
+TIP: Use IDE autocomplete feature to work most efficiently with the fluent
 API.
 
 [[using-predicate]]

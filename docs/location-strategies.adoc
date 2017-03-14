@@ -2,10 +2,6 @@ Location Strategies - Graphene 2
 ================================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[location-strategies]]
-Location Strategies
--------------------
-
 It is a way to wire-up your tests with the elements from the tested page.
 Graphene indeed supports a `@FindBy` mechanism, well-known from
 http://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/support/FindBy.html[WebDriver]
@@ -200,10 +196,10 @@ Graphene allows you to annotate these fields:
 * and also any `WebElement` wrappers, such as
 `org.openqa.selenium.support.ui.Select`
 
-No need to initialize those fields with any Page Factory. Graphene will
+NOTE: No need to initialize those fields with any Page Factory. Graphene will
 do so for you automatically.
 
-Graphene supports also the `@FindBy's` annotation and the `How` usage.
+NOTE: Graphene supports also the `@FindBy's` annotation and the `How` usage.
 
 [[default-locating-strategy-for-locating-elements-with-empty-findby]]
 Default Locating Strategy For Locating Elements With Empty @FindBy
@@ -252,7 +248,7 @@ private WebElement customElement;
 The above code will locate the the first element with the class
 __'foo-class'__.
 
-This locating strategy requires JQuery to be installed to the page.
+NOTE: This locating strategy requires JQuery to be installed to the page.
 Graphene installs it in a no conflict way automatically if it is needed
 (jquery locating strategy is used and it has not been installed yet).
 Note that it can have small performance impact, because the installation

@@ -3,51 +3,35 @@ Arquillian Graphene 2 [![Build Status](https://travis-ci.org/arquillian/arquilli
 
 > Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API
 
+Documentation
+=============
 
 Graphene 2 project is designed as set of extensions for [Selenium WebDriver](http://docs.seleniumhq.org/) project focused on rapid development and usability in Java environment.
 
-* API is **straightforward** and enforces tester to write **Ajax-enabled** and **reusable tests**,
-* encourages to write tests in a [appropriate level of abstraction](https://docs.jboss.org/author/display/ARQGRA2/Page+Abstractions) using [**Page Objects**](https://docs.jboss.org/author/display/ARQGRA2/Page+Objects) and [**Page Fragments**](https://docs.jboss.org/author/display/ARQGRA2/Page+Fragments),
-* the code is robust with improved readability,
-  * supports [**request guarding**](https://docs.jboss.org/author/display/ARQGRA2/Request+Guards) and request interception,
-  * exposes fluent [**Waiting API**](https://docs.jboss.org/author/display/ARQGRA2/Graphene+Utility+Class#GrapheneUtilityClass-Waitings),
-* helps to write **tests portable across browsers**,
-* it enables **JQuery selectors as a location strategy** for advanced locators
-* brings concepts for on-the-fly **injection of extensions to a page code** (enabling advanced testing features)
-* can take screenshots while testing (see [screenshooter extension](https://github.com/arquillian/arquillian-graphene/blob/master/extension/screenshooter)), and together with other useful info generate neat reports (see [Arquillian Recorder extension](https://github.com/arquillian/arquillian-recorder))
+Extensive documentation is available in the docs section.
 
-With all the concepts above, Graphene brings new power to space of Java-based testing.
-
-Project Info
-------------
-
-<table>
-    <tr>
-        <td>License:</td>
-        <td>LGPL v2.1 or ASL v2.0 (dual-licensed)</td>
-    </tr>
-    <tr>
-        <td>Build:</td>
-        <td>Maven</td>
-    </tr>
-    <tr>
-        <td>Documentation:</td>
-        <td><a href="https://docs.jboss.org/author/display/ARQGRA2">https://docs.jboss.org/author/display/ARQGRA2</a></td>
-    </tr>
-    <tr>
-        <td>Issue tracker:</td>
-        <td><a href="https://issues.jboss.org/browse/ARQGRA">https://issues.jboss.org/browse/ARQGRA</a></td>
-    </tr>
-</table>
-
-
+* [Graphene Introduction]() walks you through the project information, elaborating what it is about and why use it. 
+* If you want to quickly get started with sample tests and use-cases, have a look at [Getting Started Guide]() to see how to setup 
+project and use it to write robust tests.
+* Have a look at [Graphene Configuration]() for all your configuration needs and details of different properties available at your disposal.
+* [Graphene Utility Class]() enlists the library of static methods that can be directly used from tests.
+* For detailed reading of the different features available to you out of the box, don't forget to have a look at:
+   * [Waiting API]()
+   * [Request Guards]()
+   * [Page Abstractions]()
+   * [Location Strategies]()
+   * [Dependency Injection]()
+   * [Parallel Browsers]()
+   * [JavaScript Interface]()
+   * [Tips and Tricks]()
+   * [Advanced Techniques]()    
+   
 Getting Started
 ---------------
 
-There is comprehensive guide [Functional Testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/).
-
-You can also use [Getting Started guide](https://docs.jboss.org/author/display/ARQGRA2/Getting+Started) in the [Documentation](https://docs.jboss.org/author/display/ARQGRA2/Home).
-
+Apart from the documentation available here, there is also a comprehensive guide 
+[Functional Testing using Drone and Graphene](http://arquillian.org/guides/functional_testing_using_graphene/) to 
+help you leverage the benefits of Graphene for writing robust functional tests.
 
 Contributing
 ============
@@ -60,7 +44,6 @@ We want to keep it as easy as possible to contribute your changes and we will wo
 
 Please refer to [How to Contribute](https://github.com/arquillian/arquillian-graphene/blob/master/CONTRIBUTING.md) to find related instructions.
 
-
 Building the Project
 ====================
 
@@ -69,7 +52,6 @@ Prerequisities
 
 * JDK 1.6+
 * Maven 3.0.3+
-
 
 How-to build project
 --------------------

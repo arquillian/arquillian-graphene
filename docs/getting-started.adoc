@@ -2,10 +2,6 @@ Getting Started - Graphene 2
 ============================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[getting-started]]
-Getting Started
----------------
-
 Graphene strongly ties to Arquillian Core and its extensions Containers
 and Drone to manage lifecycle of the application server, selenium server
 and Graphene.
@@ -155,7 +151,7 @@ public void testRegistrationForm() {
 
 You can read more about <<testing-ajax-1, Testing AJAX>>, or can go
 directly to the documentation of features, which enables
-that.
+that:
 
 [[graphene-utility-class]]
 Graphene Utility Class

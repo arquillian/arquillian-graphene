@@ -2,11 +2,12 @@ Graphene Utility Class - Graphene 2
 ===================================
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-[[graphene-utility-class]]
-Graphene Utility Class
-----------------------
-
 Graphene is an entry point for the common one-line operations:
+
+* <<waitings>>
+* <<request-guards>>
+* <<creating-page-fragments-dynamically>>
+* <<page-object-location-encapsulation>>
 
 [[static-import-of-graphene-utility-class]]
 Static Import of Graphene Utility Class
@@ -23,7 +24,7 @@ Graphene.guardAjax(button).click();
 This concept is much stronger when using possibilities of your IDE for
 code completion.
 
-You can use
+TIP: You can use
 http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.jdt.doc.user%2Freference%2Fpreferences%2Fjava%2Feditor%2Fref-preferences-content-assist-favorites.htm[Eclipse
 Favorites] feature and include Graphene into list of utility classes -
 you will get suggestions for code-completion out of the box.
@@ -118,7 +119,7 @@ public class TestSuite {
 Graphene will load `http://locahost:8080/register.html` into your
 default browser.
 
-You can specify the browser into which the page should be loaded by
+NOTE: You can specify the browser into which the page should be loaded by
 passing a browser qualifier as a
 `Graphene.goTo(Class<?> pageObject, Class<?> browserQualifier)`
 parameter.

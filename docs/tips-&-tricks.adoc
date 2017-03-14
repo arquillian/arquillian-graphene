@@ -1,10 +1,6 @@
 guardAjax(input).sendKeys("abc"); - Graphene 2
 ==============================================
 
-[[guardajaxinput.sendkeysabc]]
-guardAjax(input).sendKeys("abc");
----------------------------------
-
 [[issue]]
 Issue:
 ~~~~~~
