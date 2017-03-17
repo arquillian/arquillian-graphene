@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Request Guards - Graphene 2
+== Request Guards
 :icons: font
 
 Its purpose is to guard that the interaction of the user will/will not
@@ -19,7 +19,7 @@ types:
 * HTTP Request (regular HTTP)
 
 [[basic-usage]]
-== Basic Usage
+=== Basic Usage
 
 Request guards are available in <<graphene-utility-class#, Graphene Utility Class>>.
 
@@ -61,7 +61,7 @@ NOTE: If the given request isn't detected, the `RequestGuardException` is
 thrown.
 
 [[use-cases]]
-== Use Cases
+=== Use Cases
 
 Guards are able to intercept the given object to verify, that request
 which occurs after a method invocation is expected.

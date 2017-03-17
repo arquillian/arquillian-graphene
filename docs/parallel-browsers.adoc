@@ -7,13 +7,13 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Parallel Browsers - Graphene 2
+== Parallel Browsers
 :icons: font
 
 It is a way to use multiple `WebDriver` instances in one test.
 
 [[usage]]
-== Usage
+=== Usage
 
 Consider testing of the server push functionality. More particularly a
 scenario where:
@@ -76,7 +76,7 @@ You can configure these browsers in `arquillian.xml`:
 ----
 
 [[using-page-abstractions-with-multiple-browsers]]
-== Using Page Abstractions With Multiple Browsers
+=== Using Page Abstractions With Multiple Browsers
 
 When you have multiple browser instances, lets say annotated with
 qualifiers @Browser1 and @Browser2, and want to inject a page

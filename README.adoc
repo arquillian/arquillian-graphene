@@ -1,5 +1,5 @@
 = Arquillian Graphene 2
-:asciidoctor-source: https://raw.githubusercontent.com/arquillian/arquillian-cube/master/docs
+:asciidoctor-source: https://raw.githubusercontent.com/arquillian/arquillian-graphene/master/docs
 :numbered:
 :sectlink:
 :sectanchors:
@@ -12,39 +12,53 @@
 
 *'`Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API`'*
 
-[[documentation]]
-== Documentation
+include::{asciidoctor-source}/graphene-introduction.adoc[]
+include::{asciidoctor-source}/getting-started.adoc[]
+include::{asciidoctor-source}/graphene-configuration.adoc[]
+include::{asciidoctor-source}/graphene-utility-class.adoc[]
+include::{asciidoctor-source}/waiting-API.adoc[Waiting API]
+include::{asciidoctor-source}/request-guards.adoc[]
+include::{asciidoctor-source}/page-abstractions.adoc[]
+include::{asciidoctor-source}/location-strategies.adoc[]
+include::{asciidoctor-source}/dependency-injection.adoc[]
+include::{asciidoctor-source}/parallel-browsers.adoc[]
+include::{asciidoctor-source}/javaScript-interface.adoc[]
+include::{asciidoctor-source}/tips-&-tricks.adoc[]
+include::{asciidoctor-source}/advanced-techniques.adoc[]
 
-Graphene 2 project is designed as a set of extensions for
-http://docs.seleniumhq.org/[Selenium WebDriver] project focused on rapid
-development and usability in Java environment.
+[[project-info]]
+== Project Info
 
-Extensive documentation is available in the docs section.
+[cols="1,1"]
+|===
+|Type:
+|Maven
 
-* link:{asciidoctor-source}/graphene-introduction.adoc[Graphene Introduction] walks you through the project
-information, elaborating what it is about and why use it.
-* If you want to quickly get started with sample tests and use-cases,
-have a look at link:{asciidoctor-source}/getting-started-guide.adoc[Getting Started Guide] to see how to setup project
-and use it to write robust tests.
-* Have a look at link:{asciidoctor-source}/graphene-configuration.adoc[Graphene Configuration]
-for all your configuration needs and details of different properties available at
-your disposal.
-* link:{asciidoctor-source}/graphene-utility-class.adoc[Graphene Utility Class] enlists the library of static methods
-that can be directly used from tests.
-* For detailed reading of the different features available to you out of
-the box, don't forget to have a look at:
-** link:{asciidoctor-source}/waiting-API.adoc[Waiting API]
-** link:{asciidoctor-source}/request-guards.adoc[Request Guards]
-** link:{asciidoctor-source}/page-abstractions.adoc[Page Abstractions]
-** link:{asciidoctor-source}/location-strategies.adoc[Location Strategies]
-** link:{asciidoctor-source}/dependency-injection.adoc[Dependency Injection]
-** link:{asciidoctor-source}/parallel-browsers.adoc[Parallel Browsers]
-** link:{asciidoctor-source}/javaScript-interface.adoc[JavaScript Interface]
-** link:{asciidoctor-source}/tips-&-tricks.adoc[Tips and Tricks]
-** link:{asciidoctor-source}/advanced-techniques.adoc[Advanced Techniques]
+|Source Code:
+|https://github.com/arquillian/arquillian-graphene
+
+|Issue tracking:
+|https://issues.jboss.org/browse/ARQGRA
+
+|Forums:
+|http://community.jboss.org/en/arquillian?view=discussions
+
+|Commiters:
+|http://community.jboss.org/people/jhuska[Juraj
+Huska], 
+https://community.jboss.org/people/jpapouse[Jan
+Papousek], 
+http://community.jboss.org/people/lfryc[Lukas Fryc]
+
+|Project Lead:
+|http://community.jboss.org/people/lfryc[Lukas Fryc]
+
+|License:
+|LGPL v2.1 or ASL v2.0 (dual-licensed)
+|===
 
 [[getting-started]]
-=== Getting Started
+=== Getting Started Guide
 
 Apart from the documentation available here, there is also a
 comprehensive guide

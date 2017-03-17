@@ -7,27 +7,27 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Graphene Configuration - Graphene 2
+== Graphene Configuration
 :icons: font
 
-//TODO Fix Updated Link
+//TODO Check Updated Link
 Graphene is configured using
-https://docs.jboss.org/author/display/ARQ/Drone#Drone-ConfiguringDroneinstances[arquillian.xml
+https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs/configuring-drone-instances.adoc[arquillian.xml
 or alternatively via system properties].
 
 [[webdriver-configuration]]
-== WebDriver Configuration
+=== WebDriver Configuration
 
 Graphene uses WebDriver directly and thus it can be
 configured via `webdriver` extension configuration.
 
-//TODO Fix Updated Link
+//TODO Check Updated Link
 Refer to 
-https://docs.jboss.org/author/display/ARQ/Drone#Drone-Selenium2configuration[Selenium
+https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs/configuring-drone-instances.adoc[Selenium
 2 configuration] options in Drone guide.
 
 [[graphene-configuration-1]]
-== Graphene Configuration
+=== Graphene Configuration
 
 Graphene specific configurations can be setup via `arquillian.xml` as
 well:

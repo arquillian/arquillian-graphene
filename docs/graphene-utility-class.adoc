@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Graphene Utility Class - Graphene 2
+== Graphene Utility Class
 :icons: font
 
 Graphene is an entry point for the common one-line operations:
@@ -18,7 +18,7 @@ Graphene is an entry point for the common one-line operations:
 * <<page-object-location-encapsulation, Page Object Location Encapsulation>>
 
 [[static-import-of-graphene-utility-class]]
-== Static Import of Graphene Utility Class
+=== Static Import of Graphene Utility Class
 
 The main advantage of the Graphene utility class is, that it includes
 set of static methods, which can be used directly from your test:
@@ -37,7 +37,7 @@ Favorites] feature and include Graphene into list of utility classes -
 you will get suggestions for code-completion out of the box.
 
 [[waitings]]
-=== Waitings
+==== Waitings
 
 Shortcut for fluent waiting API.
 
@@ -55,7 +55,7 @@ waitGui().withMessage("Popup should be opened after clicking on that button!").u
 See the <<waiting-API#, Waiting API>> documentation page for more information.
 
 [[request-guards]]
-=== Request Guards
+==== Request Guards
 
 It is a shortcut for the Graphene request guards, which are powerful
 tools to assert that an AJAX/HTTP or no request was done.
@@ -79,7 +79,7 @@ the second one does not.
 See the <<request-guards#, Request Guards>> documentation page for more information.
 
 [[creating-page-fragments-dynamically]]
-=== Creating Page Fragments Dynamically
+==== Creating Page Fragments Dynamically
 
 Sometimes you need a way to create a Page Fragment instance not by
 injecting it via `@FindBy`, but dynamically.
@@ -95,7 +95,7 @@ want to return an initialized Page Fragment with tabs content each time
 user switches to a particular tab. This method is suitable for this.
 
 [[page-object-location-encapsulation]]
-=== Page Object Location Encapsulation
+==== Page Object Location Encapsulation
 
 You can find more information about Page Object location encapsulation
 on <<page-abstractions#page-objects, this>> documentation page.

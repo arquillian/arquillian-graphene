@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= JavaScript Interface - Graphene 2
+== JavaScript Interface
 :icons: font
 
 In testing of complex examples, it is often needed to perform **custom
@@ -16,10 +16,10 @@ interface mechanism providing you a mapping of Java interfaces on
 JavaScript objects.
 
 [[basic-usage]]
-== Basic Usage
+=== Basic Usage
 
 [[preparation]]
-=== Preparation
+==== Preparation
 
 First, you need to create a file containing needed JavaScript code.
 The code has to create an object and store it to a global scoped
@@ -61,7 +61,7 @@ project, you want to put those in `src/test/resources/helloworld.js`
 the application under test JavaScript objects.
 
 [[construction-and-usage]]
-=== Construction and Usage
+==== Construction and Usage
 
 To use your JavaScript interface put an attribute annotated by
 @JavaScript annotation to your test class:
@@ -88,7 +88,7 @@ public class TestCase {
 ----
 
 [[default-getters-and-setters]]
-=== Default Getters And Setters
+==== Default Getters And Setters
 
 JS interfaces functionality is often used for retrieving custom values
 of custom JavaScript objects. Therefore, there is a reasonable default
@@ -119,7 +119,7 @@ No need to implement get/set in the JavaScript code. Graphene will do it
 automatically.
 
 [[more-advanced-stuff]]
-== More Advanced Stuff
+=== More Advanced Stuff
 
 You may need to execute some code after the JavaScript file is loaded to
 the page. Just place it into the `install()` method of your JavaScript
@@ -186,7 +186,7 @@ installed again if needed. It means the state of JavaScript objects is
 not preserved.
 
 [[customization]]
-== Customization
+=== Customization
 
 If you are not satisfied with installation via
 <<advance-techniques#page-extensions, Page Extensions>>,

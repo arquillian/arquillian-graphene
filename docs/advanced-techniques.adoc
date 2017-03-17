@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Advanced Techniques - Graphene 2
+== Advanced Techniques
 :icons: font
 
 Advanced techniques covered in this section include:
@@ -17,7 +17,7 @@ Advanced techniques covered in this section include:
 . <<graphene-interceptors, Graphene Interceptors>>
 
 [[graphene-context-and-proxy]]
-== Graphene Context And Proxy
+=== Graphene Context And Proxy
 
 Graphene stores WebDriver instance in the thread-local context,
 distinguished by browser qualifier.
@@ -26,7 +26,7 @@ It enables you to write framework-like features where context of the browser
 is injected just when you need it:
 
 [[accessing]]
-=== Accessing
+==== Accessing
 
 To access a browser session, you can obtain proxy of the context,
 which is proxy object which delegates the methods you call on an
@@ -53,7 +53,7 @@ JavascriptExecutor executor = (JavascriptExecutor) GrapheneContext.getContextFor
 ----
 
 [[page-extensions]]
-== Page Extensions
+=== Page Extensions
 
 NOTE: The Page Extensions SPI is not yet available for public use, we
 discourage you to use it yet.
@@ -64,10 +64,10 @@ cooperation with <<javaScript-interface#, JavaScript Interface>>,
 but they can be used independently too.
 
 [[basic-usage]]
-=== Basic Usage
+==== Basic Usage
 
 [[own-extensions]]
-==== Own Extensions
+===== Own Extensions
 
 Extensions has to implement `PageExtension` interface to define:
 
@@ -78,7 +78,7 @@ false otherwise,
 * dependencies.
 
 [[spi]]
-===== SPI
+====== SPI
 
 To provide your own extensions you can use `PageExtensionProvider`
 service containing the following method:
@@ -90,7 +90,7 @@ List<PageExtension> getPageExtensions(TestClass testClass);
 ----
 
 [[registry]]
-===== Registry
+====== Registry
 
 The second way to provide your own extension is to use
 `PageExtensionRegistry`:
@@ -111,7 +111,7 @@ GraphenePageExtensionsContext.getRegistryProxy().getExtension("my cool extension
 ----
 
 [[installation]]
-==== Installation
+===== Installation
 
 Each extensions is defined with its name. When you want to install the
 extension just ask for its installator and install it. All defined
@@ -131,7 +131,7 @@ WARNING: When a page is reloaded, all injected JavaScript code is lost, so the
 extension has to be installed again.
 
 [[graphene-interceptors]]
-== Graphene Interceptors
+=== Graphene Interceptors
 
 NOTE: Interceptors are not officially part of 2.0 and thus they are not
 available for production use yet.
@@ -141,7 +141,7 @@ feature. It is a way how to create interceptor classes and methods that
 interpose on method invocations.
 
 [[basic-usage-1]]
-=== Basic Usage
+==== Basic Usage
 
 An example of interceptor usage can be a need to take a screenshot of
 the browser window and its saving after the every method invocation on

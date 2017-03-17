@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Graphene 2
+== Overview
 
 Graphene 2 project is designed as a set of extensions for
 http://docs.seleniumhq.org/[Selenium WebDriver] project focused
@@ -38,34 +38,3 @@ https://github.com/arquillian/arquillian-recorder[Arquillian Recorder extension]
 
 With all the concepts above, Graphene 2 brings power to space of
 enterprise Java-based testing.
-
-[[project-info]]
-== Project Info
-
-[cols="1,1"]
-|===
-|Type:
-|Maven
-
-|Source Code:
-|https://github.com/arquillian/arquillian-graphene
-
-|Issue tracking:
-|https://issues.jboss.org/browse/ARQGRA
-
-|Forums:
-|http://community.jboss.org/en/arquillian?view=discussions
-
-|Commiters:
-|http://community.jboss.org/people/jhuska[Juraj
-Huska], 
-https://community.jboss.org/people/jpapouse[Jan
-Papousek], 
-http://community.jboss.org/people/lfryc[Lukas Fryc]
-
-|Project Lead:
-|http://community.jboss.org/people/lfryc[Lukas Fryc]
-
-|License:
-|LGPL v2.1 or ASL v2.0 (dual-licensed)
-|===

@@ -1,0 +1,44 @@
+
+== Which Graphene To Use
+
+Graphene 1 (GrapheneSelenium) is derived from Selenium 1 (DefaultSelenium) and its base API is type-safe version of Selenium 1.
+
+Graphene 2 is built on top of Selenium WebDriver (WebDriver) and it adds more functionality over basic WebDriver API.
+
+Summary
+|===
+|Name |Class |Features
+|Selenium 1
+|DefaultSelenium
+|-
+
+|Graphene 1
+|GrapheneSelenium
+|type-safe version of DefaultSelenium + extensions
+
+|Selenium 2
+|WebDriver and DefaultSelenium
+|-
+
+|Graphene 2
+|WebDriver
+|extensions for WebDriver
+|===
+
+=== FAQ
+
+*_What are differences between Graphene 1 and Graphene 2?_*
+
+The differences are same like http://stackoverflow.com/questions/5692173/selenium-1-to-selenium-2-migration/6025228#6025228[between Selenium 1 and Selenium 2].
+
+*_Do I need to migrate tests from Graphene 1 to Graphene 2?_*
+
+No, you can use them side by side - Selenium 2 comes with both APIs bundled in one library (DefaultSelenium and WebDriver),
+and Graphene 1 and Graphene 2 follows that pattern. +
+Drone will make sure it instantiates right version for you.
+
+*_What version is recommended?_*
+
+Graphene 2 is the one which we focus development on - it is planned to have all features of Graphene 1 migrated to Graphene 2. +
+In the future, Graphene 2 will likely get functions which aren't available for Graphene1, e.g.:
+<<page-abstractions#, page abstractions.>>

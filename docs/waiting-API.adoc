@@ -7,7 +7,7 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Waiting API - Graphene 2
+== Waiting API
 :icons: font
 
 WebDriver execution is always faster than changing the state of the
@@ -37,7 +37,7 @@ configuration properties, in case you
 want to change default timeouts for those three waiting types.
 
 [[fluent-api]]
-== Fluent API
+=== Fluent API
 
 One of the ways to go with waiting API, is to use its fluent version.
 The tree of the possible method calls is:
@@ -73,7 +73,7 @@ TIP: Use IDE autocomplete feature to work most efficiently with the fluent
 API.
 
 [[using-predicate]]
-== Using Predicate
+=== Using Predicate
 
 Using the fluent builder is the preferred way to keep your tests
 readable. Indeed there are cases where you need something more. Use
@@ -89,7 +89,7 @@ waitGui().until(new Predicate<WebDriver>() {
 ----
 
 [[using-conditions-only]]
-== Using Conditions Only
+=== Using Conditions Only
 
 Sometimes you just need to assert that a condition is being met, you do
 not need to wait for something. Following code will return a `boolean`

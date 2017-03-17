@@ -7,8 +7,9 @@ ifdef::env-github,env-browser[]
 :outfilesuffix: .adoc
 endif::[]
 
-= Page Abstractions - Graphene 2
+== Page Abstractions
 :icons: font
+:imagesdir: /images
 
 *Page Abstractions enhance the way your tests are written. They make your
 tests more robust and therefore more reliable.*
@@ -72,7 +73,7 @@ some element) tests are affected as well. These small changes can
 effectively break a lot of tests, in other words increase the time spent
 on the tests maintenance.
 
-== There Comes Page Objects Pattern To Improve This.
+=== There Comes Page Objects Pattern To Improve This.
 
 Basically it is an encapsulation of the tested page structure into one
 class, which will contain all the page fragments (parts, components,
@@ -162,7 +163,7 @@ that one test class, but all the tests which interact with the same
 autocomplete widget get implemented with the same UI framework. It is a huge
 DRY violation.
 
-== Therefore Graphene introduces a new concept, called Page Fragments to improve this.
+=== Therefore Graphene introduces a new concept, called Page Fragments to improve this.
 
 _What are Page Fragments in short ?_
 
@@ -287,7 +288,7 @@ For more information about how Page Fragments are declared, initialized
 and more, please continue with <<page-fragments, Page Fragments>>.
 
 [[page-objects]]
-== Page Objects
+=== Page Objects
 
 Page Objects pattern is very well described
 http://code.google.com/p/selenium/wiki/PageObjects[here].
@@ -321,7 +322,7 @@ demonstrate testing of a simple web page with progress bar and two
 buttons.
 
 [[implement-page-object]]
-=== Implement Page Object
+==== Implement Page Object
 
 [source,java]
 .TestingPage.java
@@ -397,7 +398,7 @@ Using Page Abstractions with Multiple Browsers>>.
 ====
 
 [[declare-it-in-the-test-and-annotate-it-with-page-annotation.]]
-=== Declare It In The Test And Annotate It With @Page Annotation.
+==== Declare It In The Test And Annotate It With @Page Annotation.
 
 [source,java]
 .Test.java
@@ -432,7 +433,7 @@ public class TestClass {
 ----
 
 [[deployment-and-browser-determination]]
-=== Deployment and Browser Determination
+==== Deployment and Browser Determination
 
 The deployment according to which the `@Location` value will be
 resolved, and the browser into which the page will be loaded can be
@@ -483,13 +484,13 @@ public class TestLocation {
 ----
 
 You can read more about multiple deployments Arquillian feature
-// TODO fix link
-https://docs.jboss.org/author/display/ARQ/Multiple+Deployments[here].
+// TODO verify link
+https://raw.githubusercontent.com/arquillian/arquillian-core/gh-pages/docs/multiple-deployments.adoc[here].
 Graphene support for <<parallel-browsers#, parallel browsers>> for
 more information about this subject.
 
 [[page-fragments]]
-== Page Fragments
+=== Page Fragments
 
 The concept of Page Fragments and motivation behind them were already
 introduced in <<page-abstractions, Page Abstractions>>. Here you can find more
@@ -505,7 +506,7 @@ detailed info about:
 ..  <<login-component, Login component>>
 
 [[relation-to-page-objects]]
-=== Relation to Page Objects
+==== Relation to Page Objects
 
 Page Fragments and Page Objects are similar concepts. They both
 decouple HTML structure of the tested application from the tests. They
@@ -519,7 +520,7 @@ which are reusable across the whole web UI framework in which the
 application under test is written.
 
 [[usage]]
-=== Usage
+==== Usage
 
 To use Page Fragment in your tests only thing you need to do is use an
 implementation class of the Page Fragment together with `@FindBy`
@@ -562,7 +563,7 @@ be particularly useful when implementing Page Fragment for e.g. Tab
 Panel widget.
 
 [[creating-page-fragments]]
-=== Creating Page Fragments
+==== Creating Page Fragments
 
 To define own Page Fragment one needs to:
 
@@ -657,7 +658,7 @@ Page Abstractions with Multiple Browsers>>.
 ====
 
 [[samples-of-page-fragments]]
-=== Samples of Page Fragments
+==== Samples of Page Fragments
 
 Let's consider following code snippets, which are reflecting some
 examples of the Page Fragments to start with. In each example you can
@@ -669,11 +670,11 @@ find:
 or just the interface for it.
 
 [[autocomplete]]
-==== Autocomplete
+===== Autocomplete
 
-image:images/author/download/attachments/53117994/autocomplete.png[images/author/download/attachments/53117994/autocomplete.png]
+image::{imagesdir}/autocomplete.png[]
 
-image:images/author/download/attachments/53117994/autocompleteHTML.png[images/author/download/attachments/53117994/autocompleteHTML.png]
+image::{imagesdir}/autocompleteHTML.png[]
 
 [source,java]
 .AutocompletePageFragment.java
@@ -768,11 +769,11 @@ public class AutocompletePageFragment<T> {
 ----
 
 [[calendar]]
-==== Calendar
+===== Calendar
 
-image:images/author/download/attachments/53117994/calendar.png[images/author/download/attachments/53117994/calendar.png]
+image::{imagesdir}/calendar.png[]
 
-image:images/author/download/attachments/53117994/calendarHTML.png[images/author/download/attachments/53117994/calendarHTML.png]
+image::{imagesdir}/calendarHTML.png[]
 
 [source,java]
 .CalendarPageFragmentImpl.java
@@ -979,11 +980,11 @@ public class CalendarPageFragmentImpl {
 ----
 
 [[table]]
-==== Table
+===== Table
 
-image:images/author/download/attachments/53117994/table.png[images/author/download/attachments/53117994/table.png]
+image::{imagesdir}/table.png[]
 
-image:images/author/download/attachments/53117994/tableHTML.png[images/author/download/attachments/53117994/tableHTML.png]
+image::{imagesdir}/tableHTML.png[]
 
 [source,java]
 .Table.java
@@ -1100,7 +1101,7 @@ public interface TableComponent {
 ----
 
 [[login-component]]
-==== Login Component
+===== Login Component
 
 [source,java]
 .LoginPageFragment.java
@@ -1141,10 +1142,10 @@ public class LoginPageFragment {
 ----
 
 [[location-of-pages]]
-== Location of Pages
+=== Location of Pages
 
 [[location-concepts]]
-=== Location concepts
+==== Location concepts
 
 Page object encapsulates some page. This page has its location. We can
 see the location of a page as some kind of metadata logically related to
@@ -1185,13 +1186,13 @@ public void testMethod(@InitialPage SomePage page)
 ----
 
 [[location-schemes]]
-=== Location schemes
+==== Location schemes
 
 Every location has some scheme. In the previous example, HTTP scheme
 is used by default. There are multiple schemes as:
 
 [[http-scheme]]
-==== HTTP Scheme
+===== HTTP Scheme
 
 Treats location as http:// scheme. You do not have to specify _scheme_
 parameter since by default it is HTTP
@@ -1217,7 +1218,7 @@ explicitly to open regular "www" page on the net.
 ====
 
 [[file-scheme]]
-==== File Scheme
+===== File Scheme
 
 Treats location as file:// scheme
 
@@ -1227,7 +1228,7 @@ Treats location as file:// scheme
 ----
 
 [[resource-scheme]]
-==== Resource Scheme
+===== Resource Scheme
 
 Treats location as resource:// scheme
 
@@ -1245,7 +1246,7 @@ use Graphene.goTo(Class<?> pageObjectClass) method to load Page Object
 location in the browser.
 
 [[how-do-i-implement-my-own-scheme]]
-=== How Do I Implement My Own Scheme?
+==== How Do I Implement My Own Scheme?
 
 Custom scheme is implemented e.g. in Droidium so you can open your
 activities as pages. You have to extend
@@ -1295,7 +1296,7 @@ public void testMyActivity(@InitialPage SomeActivityPage myActivity)
 ----
 
 [[how-to-set-default-scheme-per-project]]
-=== How To Set Default Scheme Per Project?
+==== How To Set Default Scheme Per Project?
 
 Imagining you are dealing only with Android activities so specifying
 _scheme = DroidiumScheme.class_ is not needed. You can set default
