@@ -154,7 +154,7 @@ public class Test {
 Graphene comes with support for Selenium 2, `@FindBy`
 http://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/support/FindBy.html[annotation],
 which can be used to locate your elements in your
-<<page-abstractions#page-objects, Page Objects>>, <<page-abstractions#page-fragments, Page
+<<page-objects, Page Objects>>, <<page-fragments, Page
 Fragments>> and in tests as well.
 
 [[basic-usage-1]]

@@ -41,4 +41,4 @@ Drone will make sure it instantiates right version for you.
 
 Graphene 2 is the one which we focus development on - it is planned to have all features of Graphene 1 migrated to Graphene 2. +
 In the future, Graphene 2 will likely get functions which aren't available for Graphene1, e.g.:
-<<page-abstractions#, page abstractions.>>
+<<page-abstractions, page abstractions.>>

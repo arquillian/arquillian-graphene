@@ -10,9 +10,8 @@ endif::[]
 == Graphene Configuration
 :icons: font
 
-//TODO Check Updated Link
 Graphene is configured using
-https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs/configuring-drone-instances.adoc[arquillian.xml
+http://arquillian.org/arquillian-extension-drone/#configuring-drone-instances[arquillian.xml
 or alternatively via system properties].
 
 [[webdriver-configuration]]
@@ -21,9 +20,8 @@ or alternatively via system properties].
 Graphene uses WebDriver directly and thus it can be
 configured via `webdriver` extension configuration.
 
-//TODO Check Updated Link
 Refer to 
-https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs/configuring-drone-instances.adoc[Selenium
+http://arquillian.org/arquillian-extension-drone/#configuring-drone-instances[Selenium
 2 configuration] options in Drone guide.
 
 [[graphene-configuration-1]]

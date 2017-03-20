@@ -52,7 +52,7 @@ button.click();
 waitGui().withMessage("Popup should be opened after clicking on that button!").until().element(popupPanel).is().visible();
 ----
 
-See the <<waiting-API#, Waiting API>> documentation page for more information.
+See the <<waiting-API, Waiting API>> documentation page for more information.
 
 [[request-guards]]
 ==== Request Guards
@@ -76,7 +76,7 @@ The difference between the `waitForHttp()` and the `guardHttp()` is that
 the first one ignores AJAX requests during its waiting period and
 the second one does not.
 
-See the <<request-guards#, Request Guards>> documentation page for more information.
+See the <<request-guards, Request Guards>> documentation page for more information.
 
 [[creating-page-fragments-dynamically]]
 ==== Creating Page Fragments Dynamically

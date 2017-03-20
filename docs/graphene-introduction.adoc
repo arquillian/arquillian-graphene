@@ -15,13 +15,16 @@ on **rapid development** and **usability** in Java environment.
 
 * API is **straight forward** and enforces tester to
 write **Ajax-enabled** and **reusable** tests and test abstractions
+<<<<<<< Updated upstream
 * encourages to write tests in a <<page-abstractions#, consistent
 level of abstraction>> using <<page-objects, *Page Objects*>> and
-**<<page-abstractions#page-fragments, Page Fragments>>**
+* encourages to write tests in a <<page-abstractions, consistent
+level of abstraction>> using <<page-objects, *Page Objects*>> and
+**<<page-fragments, Page Fragments>>**
 * the code is **robust** with **improved readability**
 ** supports *<<request-guards#, request guarding>>* and
 *interception*
-** exposes fluent *<<graphene-utility-class#waitings, Waiting API>>*
+** exposes fluent *<<waitings, Waiting API>>*
 * *allows* *WebDriver API interception*
 * focuses on test **portability across browsers**
 * it enables *JQuery selectors as a location strategy* which is familiar

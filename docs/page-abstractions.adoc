@@ -393,7 +393,7 @@ NOTE: You have to use private fields for all Graphene initialized
 .Page Objects in Multiple Browsers Scenario
 ====
 If you use page abstractions together with parallel browsers feature, be
-sure to check <<parallel-browsers#using-page-abstractions-with-multiple-browsers,
+sure to check <<using-page-abstractions-with-multiple-browsers,
 Using Page Abstractions with Multiple Browsers>>.
 ====
 
@@ -484,9 +484,9 @@ public class TestLocation {
 ----
 
 You can read more about multiple deployments Arquillian feature
-// TODO verify link
-https://raw.githubusercontent.com/arquillian/arquillian-core/gh-pages/docs/multiple-deployments.adoc[here].
-Graphene support for <<parallel-browsers#, parallel browsers>> for
+http://arquillian.org/arquillian-core/#multiple-deployments[here].
+
+Graphene support for <<parallel-browsers, parallel browsers>> for
 more information about this subject.
 
 [[page-fragments]]
@@ -653,7 +653,7 @@ WebElement/Page Fragments etc. Use their getters from tests.
 .Page Fragments In Multiple Browsers Scenario
 ====
 If you use page abstractions together with parallel browsers feature, be
-sure to <<parallel-browsers#using-page-abstractions-with-multiple-browsers, Using
+sure to <<using-page-abstractions-with-multiple-browsers, Using
 Page Abstractions with Multiple Browsers>>.
 ====
 

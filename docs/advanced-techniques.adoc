@@ -42,7 +42,7 @@ WebDriver browser = GrapheneContext.getContextFor(Default.class).getWebDriver();
 
 The Default.class representas a browser's qualifier - in this case we
 are requesting default browser (when no qualifier is specified on Drone
-instances). Read more <<parallel-browsers#, Parallel browsers>>.
+instances). Read more <<parallel-browsers, Parallel browsers>>.
 
 You can also use alternative methods, most notably the method which
 provides proxy object implementing given extension interfaces:
@@ -60,7 +60,7 @@ discourage you to use it yet.
 
 Page extensions mechanism provides a way to easily install your
 JavaScript code into the page. Page extensions are used mainly in
-cooperation with <<javaScript-interface#, JavaScript Interface>>,
+cooperation with <<javaScript-interface, JavaScript Interface>>,
 but they can be used independently too.
 
 [[basic-usage]]
