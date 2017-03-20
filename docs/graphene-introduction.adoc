@@ -16,7 +16,7 @@ on **rapid development** and **usability** in Java environment.
 * API is **straight forward** and enforces tester to
 write **Ajax-enabled** and **reusable** tests and test abstractions
 * encourages to write tests in a <<page-abstractions#, consistent
-level of abstraction>> using <<page-abstractions#page-objects, *Page Objects*>> and
+level of abstraction>> using <<page-objects, *Page Objects*>> and
 **<<page-abstractions#page-fragments, Page Fragments>>**
 * the code is **robust** with **improved readability**
 ** supports *<<request-guards#, request guarding>>* and
