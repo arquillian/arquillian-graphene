@@ -15,7 +15,6 @@ on **rapid development** and **usability** in Java environment.
 
 * API is **straight forward** and enforces tester to
 write **Ajax-enabled** and **reusable** tests and test abstractions
-<<<<<<< Updated upstream
 * encourages to write tests in a <<page-abstractions#, consistent
 level of abstraction>> using <<page-objects, *Page Objects*>> and
 * encourages to write tests in a <<page-abstractions, consistent
