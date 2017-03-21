@@ -1,3 +1,5 @@
+:imagesdir: docs/images
+
 ifdef::env-github,env-browser[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -5,11 +7,11 @@ ifdef::env-github,env-browser[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 :outfilesuffix: .adoc
+:imagesdir: images
 endif::[]
 
 == Page Abstractions
 :icons: font
-:imagesdir: docs/images
 
 *Page Abstractions enhance the way your tests are written. They make your
 tests more robust and therefore more reliable.*
