@@ -642,8 +642,12 @@ write <strong>Ajax-enabled</strong> and <strong>reusable</strong> tests and te
 </li>
 <li>
 <p>encourages to write tests in a <a href="page-abstractions.html">consistent
+level of abstraction</a> using <a href="#page-objects"><strong>Page Objects</strong></a> and</p>
+</li>
+<li>
+<p>encourages to write tests in a <a href="#page-abstractions">consistent
 level of abstraction</a> using <a href="#page-objects"><strong>Page Objects</strong></a> and
-<strong><a href="page-abstractions.html#page-fragments">Page Fragments</a></strong></p>
+<strong><a href="#page-fragments">Page Fragments</a></strong></p>
 </li>
 <li>
 <p>the code is <strong>robust</strong> with <strong>improved readability</strong></p>
@@ -654,7 +658,7 @@ level of abstraction</a> using <a href="#page-objects"><strong>Page Objects</str
 <strong>interception</strong></p>
 </li>
 <li>
-<p>exposes fluent <strong><a href="graphene-utility-class.html#waitings">Waiting API</a></strong></p>
+<p>exposes fluent <strong><a href="#waitings">Waiting API</a></strong></p>
 </li>
 </ul>
 </div>
@@ -765,9 +769,9 @@ excels.</p>
 <h4 id="page-abstractions"><a class="anchor" href="#page-abstractions"></a>2.3.1. Page Abstractions</h4>
 <div class="paragraph">
 <p>On the high level, Graphene allows you to create reusable abstractions
-in form of <a href="page-abstractions.html#page-objects">Page Objects</a>
+in form of <a href="#page-objects">Page Objects</a>
 (the pattern widely known in Selenium community)
-and <a href="page-abstractions.html#page-fragments">Page
+and <a href="#page-fragments">Page
 Fragments</a>, which allows you to encapsulate smaller pieces of your page
 like JavaScript widgets, UI components or simply forms.</p>
 </div>
@@ -816,7 +820,7 @@ like JavaScript widgets, UI components or simply forms.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>You can read more about using reusable <a href="page-abstractions.html">Page
+<p>You can read more about using reusable <a href="#page-abstractions">Page
 Abstractions</a>.</p>
 </div>
 </div>
@@ -854,13 +858,13 @@ that:</p>
 <div class="sect4">
 <h5 id="graphene-utility-class"><a class="anchor" href="#graphene-utility-class"></a>Graphene Utility Class</h5>
 <div class="paragraph">
-<p><a href="graphene-utility-class.html">Graphene Utility Class</a> enables compact syntax for waiting and guards.</p>
+<p><a href="#graphene-utility-class">Graphene Utility Class</a> enables compact syntax for waiting and guards.</p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="request-guards"><a class="anchor" href="#request-guards"></a>Request Guards</h5>
 <div class="paragraph">
-<p><a href="request-guards.html">Request
+<p><a href="#request-guards">Request
 Guards</a> bring simplest conditions like wait for a request to finish
 (blocking test).</p>
 </div>
@@ -1090,7 +1094,7 @@ it can be used in the same project together with <strong>Graphene 1</strong> (ba
 </div>
 <div class="paragraph">
 <p>For more detailed summary of differences, refer
-to <a href="which-graphene-to-use.html">which Graphene to use?</a></p>
+to <a href="#which-graphene-to-use">which Graphene to use?</a></p>
 </div>
 <div class="paragraph">
 <p>When adding following dependencies, all required dependencies should be
@@ -1121,7 +1125,7 @@ brought to your project as transitive dependencies, including:</p>
 <div class="sect5">
 <h6 id="which-version-to-use-1"><a class="anchor" href="#which-version-to-use-1"></a>Which Version To Use?</h6>
 <div class="paragraph">
-<p>To find out which version to use, chcek out <a href="http://arquillian.org/modules/graphene-extension/" class="bare">http://arquillian.org/modules/graphene-extension/</a></p>
+<p>To find out which version to use, check out <a href="http://arquillian.org/modules/graphene-extension/" class="bare">http://arquillian.org/modules/graphene-extension/</a></p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1231,7 +1235,7 @@ then it delegates this session to Graphene.</p>
 <h4 id="configuration"><a class="anchor" href="#configuration"></a>2.9.1. Configuration</h4>
 <div class="paragraph">
 <p>Graphene shares the configuration with Drone WebDriver, so you can refer
-to <a href="https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs">Drone</a>.</p>
+to <a href="http://arquillian.org/arquillian-extension-drone">Drone</a>.</p>
 </div>
 <div class="paragraph">
 <p>In general, configuration is driven by arquillian.xml and can be
@@ -1274,7 +1278,7 @@ WebDriver browser;</code></pre>
 </div>
 <div class="paragraph">
 <p>For more configuration options, refer to
-<a href="https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs">Drone</a> and
+<a href="http://arquillian.org/arquillian-extension-drone/">Drone</a> and
 <a href="http://seleniumhq.org/docs/03_webdriver.html#selenium-webdriver-s-drivers">browser
 driver implementations</a>.</p>
 </div>
@@ -1408,7 +1412,7 @@ wait for.</p>
 <h6 id="waiting-conditions"><a class="anchor" href="#waiting-conditions"></a>Waiting Conditions</h6>
 <div class="paragraph">
 <p>Graphene uses <code>WebDriverWait</code> object and defines most used waiting
-conditions in <a href="graphene-utility-class.html">Graphene Utility Class</a>.</p>
+conditions in <a href="#graphene-utility-class">Graphene Utility Class</a>.</p>
 </div>
 <div class="paragraph">
 <p>When defining waiting conditions, you might use exact or benevolent
@@ -1428,14 +1432,14 @@ error-prone</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>You can read more about <a href="waiting-API.html">Waiting API</a>.</p>
+<p>You can read more about <a href="#waiting-API">Waiting API</a>.</p>
 </div>
 </div>
 <div class="sect5">
 <h6 id="request-guards-1"><a class="anchor" href="#request-guards-1"></a>Request Guards</h6>
 <div class="paragraph">
 <p>More powerful mechanism than conditions -
-<a href="request-guards.html">Request Guards</a> - watches request object on the page and
+<a href="#request-guards">Request Guards</a> - watches request object on the page and
 waits for the given browser communication (HTTP, AJAX) to happen.</p>
 </div>
 <div class="admonitionblock warning">
@@ -1484,7 +1488,7 @@ might be different.</p>
 <div class="sect4">
 <h5 id="solution-staleness-aware-page-abstractions"><a class="anchor" href="#solution-staleness-aware-page-abstractions"></a>Solution: Staleness Aware Page Abstractions</h5>
 <div class="paragraph">
-<p><a href="page-abstractions.html">Page abstractions</a> created by Graphene are by default
+<p><a href="#page-abstractions">Page abstractions</a> created by Graphene are by default
 aware of stale element, so they try to re-initialize element reference when
 they find out the reference is stale.</p>
 </div>
@@ -1498,7 +1502,7 @@ they find out the reference is stale.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Graphene is configured using
-<a href="https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs/configuring-drone-instances.adoc">arquillian.xml
+<a href="http://arquillian.org/arquillian-extension-drone/#configuring-drone-instances">arquillian.xml
 or alternatively via system properties</a>.</p>
 </div>
 <div class="sect2">
@@ -1509,7 +1513,7 @@ configured via <code>webdriver</code> extension configuration.</p>
 </div>
 <div class="paragraph">
 <p>Refer to 
-<a href="https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs/configuring-drone-instances.adoc">Selenium
+<a href="http://arquillian.org/arquillian-extension-drone/#configuring-drone-instances">Selenium
 2 configuration</a> options in Drone guide.</p>
 </div>
 </div>
@@ -1673,7 +1677,7 @@ waitGui().withMessage(<span class="string"><span class="delimiter">&quot;</span>
 </div>
 </div>
 <div class="paragraph">
-<p>See the <a href="waiting-API.html">Waiting API</a> documentation page for more information.</p>
+<p>See the <a href="#waiting-API">Waiting API</a> documentation page for more information.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1700,7 +1704,7 @@ the first one ignores AJAX requests during its waiting period and
 the second one does not.</p>
 </div>
 <div class="paragraph">
-<p>See the <a href="request-guards.html">Request Guards</a> documentation page for more information.</p>
+<p>See the <a href="#request-guards">Request Guards</a> documentation page for more information.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1776,7 +1780,7 @@ parameter.
 <div class="paragraph">
 <p>WebDriver execution is always faster than changing the state of the
 page. This powerful API, should help you to synchronize with the tested
-page. See also Graphene <a href="request-guards.html">Request Guards</a> as the other
+page. See also Graphene <a href="#request-guards">Request Guards</a> as the other
 method of synchronizing with the page.</p>
 </div>
 <div class="paragraph">
@@ -1809,7 +1813,7 @@ It&#8217;s just about how long test should wait!
 </table>
 </div>
 <div class="paragraph">
-<p>Refer to <a href="graphene-configuration.html">Graphene Configuration</a> page to see the
+<p>Refer to <a href="#graphene-configuration">Graphene Configuration</a> page to see the
 configuration properties, in case you
 want to change default timeouts for those three waiting types.</p>
 </div>
@@ -1918,7 +1922,7 @@ types:</p>
 <div class="sect2">
 <h3 id="basic-usage"><a class="anchor" href="#basic-usage"></a>6.1. Basic Usage</h3>
 <div class="paragraph">
-<p>Request guards are available in <a href="graphene-utility-class.html">Graphene Utility Class</a>.</p>
+<p>Request guards are available in <a href="#graphene-utility-class">Graphene Utility Class</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2599,7 +2603,7 @@ You have to use private fields for all Graphene initialized
 <div class="title">Page Objects in Multiple Browsers Scenario</div>
 <div class="paragraph">
 <p>If you use page abstractions together with parallel browsers feature, be
-sure to check <a href="parallel-browsers.html#using-page-abstractions-with-multiple-browsers">Using Page Abstractions with Multiple Browsers</a>.</p>
+sure to check <a href="#using-page-abstractions-with-multiple-browsers">Using Page Abstractions with Multiple Browsers</a>.</p>
 </div>
 </td>
 </tr>
@@ -2694,8 +2698,10 @@ determined in the following way:</p>
 </div>
 <div class="paragraph">
 <p>You can read more about multiple deployments Arquillian feature
-<a href="https://raw.githubusercontent.com/arquillian/arquillian-core/gh-pages/docs/multiple-deployments.adoc">here</a>.
-Graphene support for <a href="parallel-browsers.html">parallel browsers</a> for
+<a href="http://arquillian.org/arquillian-core/#multiple-deployments">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Graphene support for <a href="#parallel-browsers">parallel browsers</a> for
 more information about this subject.</p>
 </div>
 </div>
@@ -2984,7 +2990,7 @@ WebElement/Page Fragments etc. Use their getters from tests.
 <div class="title">Page Fragments In Multiple Browsers Scenario</div>
 <div class="paragraph">
 <p>If you use page abstractions together with parallel browsers feature, be
-sure to <a href="parallel-browsers.html#using-page-abstractions-with-multiple-browsers">Using
+sure to <a href="#using-page-abstractions-with-multiple-browsers">Using
 Page Abstractions with Multiple Browsers</a>.</p>
 </div>
 </td>
@@ -3017,12 +3023,12 @@ or just the interface for it.</p>
 <h5 id="autocomplete"><a class="anchor" href="#autocomplete"></a>Autocomplete</h5>
 <div class="imageblock">
 <div class="content">
-<img src="/images/autocomplete.png" alt="autocomplete">
+<img src="docs/images/autocomplete.png" alt="autocomplete">
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="/images/autocompleteHTML.png" alt="autocompleteHTML">
+<img src="docs/images/autocompleteHTML.png" alt="autocompleteHTML">
 </div>
 </div>
 <div class="listingblock">
@@ -3122,12 +3128,12 @@ or just the interface for it.</p>
 <h5 id="calendar"><a class="anchor" href="#calendar"></a>Calendar</h5>
 <div class="imageblock">
 <div class="content">
-<img src="/images/calendar.png" alt="calendar">
+<img src="docs/images/calendar.png" alt="calendar">
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="/images/calendarHTML.png" alt="calendarHTML">
+<img src="docs/images/calendarHTML.png" alt="calendarHTML">
 </div>
 </div>
 <div class="listingblock">
@@ -3339,12 +3345,12 @@ or just the interface for it.</p>
 <h5 id="table"><a class="anchor" href="#table"></a>Table</h5>
 <div class="imageblock">
 <div class="content">
-<img src="/images/table.png" alt="table">
+<img src="docs/images/table.png" alt="table">
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="/images/tableHTML.png" alt="tableHTML">
+<img src="docs/images/tableHTML.png" alt="tableHTML">
 </div>
 </div>
 <div class="listingblock">
@@ -3891,7 +3897,7 @@ because Graphene supports delegate pattern.</p>
 <p>Graphene comes with support for Selenium 2, <code>@FindBy</code>
 <a href="http://selenium.googlecode.com/git/docs/api/java/org/openqa/selenium/support/FindBy.html">annotation</a>,
 which can be used to locate your elements in your
-<a href="page-abstractions.html#page-objects">Page Objects</a>, <a href="page-abstractions.html#page-fragments">Page
+<a href="#page-objects">Page Objects</a>, <a href="#page-fragments">Page
 Fragments</a> and in tests as well.</p>
 </div>
 <div class="sect3">
@@ -4562,7 +4568,7 @@ public interface HelloWorld {
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Graphene uses <a href="advance-techniques.html#page-extensions">Page
+Graphene uses <a href="#page-extensions">Page
 Extensions</a> to install needed dependencies for your <code>@JavaScript</code>
 interface before each method invocation. Before the installation is
 processed, it checks whether the object used for mapping is defined. If
@@ -4592,7 +4598,7 @@ not preserved.
 <h3 id="customization"><a class="anchor" href="#customization"></a>11.3. Customization</h3>
 <div class="paragraph">
 <p>If you are not satisfied with installation via
-<a href="advance-techniques.html#page-extensions">Page Extensions</a>,
+<a href="#page-extensions">Page Extensions</a>,
 you can implement your own <code>ExecutionResolver</code> containing
 the following method:</p>
 </div>
@@ -4733,7 +4739,7 @@ thread.</p>
 <div class="paragraph">
 <p>The Default.class representas a browser&#8217;s qualifier - in this case we
 are requesting default browser (when no qualifier is specified on Drone
-instances). Read more <a href="parallel-browsers.html">Parallel browsers</a>.</p>
+instances). Read more <a href="#parallel-browsers">Parallel browsers</a>.</p>
 </div>
 <div class="paragraph">
 <p>You can also use alternative methods, most notably the method which
@@ -4764,7 +4770,7 @@ discourage you to use it yet.
 <div class="paragraph">
 <p>Page extensions mechanism provides a way to easily install your
 JavaScript code into the page. Page extensions are used mainly in
-cooperation with <a href="javaScript-interface.html">JavaScript Interface</a>,
+cooperation with <a href="#javaScript-interface">JavaScript Interface</a>,
 but they can be used independently too.</p>
 </div>
 <div class="sect3">
@@ -5091,7 +5097,7 @@ mvn clean verify -Dbrowser=phantomjs</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-03-21 15:21:08 UTC
+Last updated 2017-03-21 17:34:09 UTC
 </div>
 </div>
 </body>
