@@ -1,5 +1,54 @@
+sudo: required
+services:
+  - docker
+addons:
+   apt:
+     sources:
+       - git-core
+     packages:
+       - git
+
 language: java
-script:
-        mvn clean test
 jdk:
-        - oraclejdk8
+  - oraclejdk8
+cache:
+  directories:
+    - $HOME/.m2
+
+before_install:
+  - BUILD_DOCS=$(git diff --name-only $TRAVIS_COMMIT_RANGE | grep -E 'README.adoc|^docs/.*.adoc$' | wc -l)
+  - 'if [ $BUILD_DOCS -ge 1 ]; then
+      git config user.name "${GH_USER}";
+      git config user.email "${GH_EMAIL}";
+      git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*;
+      git fetch --unshallow origin gh-pages;
+      git worktree add -b gh-pages gh-pages origin/gh-pages;
+      GH_REF=$(git remote get-url origin | awk "{sub(/https:\/\//,\"https://${GH_TOKEN}@\")}; 1" | awk "{sub(/\.git/, \"\")} 1");
+      docker pull asciidoctor/docker-asciidoctor;
+    fi'
+
+before_script: travis_wait 45 ./mvnw install -q -U -DskipTests=true
+
+script:
+  - ./mvnw clean test
+  - 'if [ $BUILD_DOCS -ge 1 ]; then
+      docker run -v $TRAVIS_BUILD_DIR:/docs/ --name adoc-to-html asciidoctor/docker-asciidoctor asciidoctor /docs/README.adoc -a asciidoctor-source=/docs/docs -o /docs/gh-pages/index.html;
+    fi'
+
+after_success:
+  - 'if [ $BUILD_DOCS -ge 1 ]; then
+      cd gh-pages;
+      git add .;
+      git commit -m"Publishes new documentation";
+      git push "${GH_REF}" gh-pages;
+    fi'
+
+after_error:
+  - 'if [ $BUILD_DOCS -ge 1 ]; then
+      docker logs adoc-to-html;
+    fi'
+
+after_failure:
+  - 'if [ $BUILD_DOCS -ge 1 ]; then
+      docker logs adoc-to-html;
+    fi'
