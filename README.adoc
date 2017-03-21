@@ -10,7 +10,7 @@
 :icons: font
 :toc: left
 
-*'`Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API`'*
+*'`Robust Functional Tests leveraging WebDriver with flavour of neat AJAX-ready API`'*
 
 include::{asciidoctor-source}/graphene-introduction.adoc[]
 include::{asciidoctor-source}/getting-started.adoc[]
