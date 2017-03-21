@@ -16,8 +16,10 @@ cache:
     - $HOME/.m2
 
 before_install:
+  - BRANCH=$(git rev-parse --abbrev-ref HEAD)
   - BUILD_DOCS=$(git diff --name-only $TRAVIS_COMMIT_RANGE | grep -E 'README.adoc|^docs/.*.adoc$' | wc -l)
-  - 'if [ $BUILD_DOCS -ge 1 ]; then
+  - '[ $BRANCH == "master" ] && [ $BUILD_DOCS -ge 1 ] && GENERATE_DOC=0|| GENERATE_DOC=1'
+  - 'if [ $GENERATE_DOC == 0 ]; then
       git config user.name "${GH_USER}";
       git config user.email "${GH_EMAIL}";
       git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*;
@@ -31,12 +33,12 @@ before_script: travis_wait 45 ./mvnw install -q -U -DskipTests=true
 
 script:
   - ./mvnw clean test
-  - 'if [ $BUILD_DOCS -ge 1 ]; then
+  - 'if [ $GENERATE_DOC == 0 ]; then
       docker run -v $TRAVIS_BUILD_DIR:/docs/ --name adoc-to-html asciidoctor/docker-asciidoctor asciidoctor /docs/README.adoc -a asciidoctor-source=/docs/docs -o /docs/gh-pages/index.html;
     fi'
 
 after_success:
-  - 'if [ $BUILD_DOCS -ge 1 ]; then
+  - 'if [ $GENERATE_DOC == 0 ]; then
       cd gh-pages;
       git add .;
       git commit -m"Publishes new documentation";
@@ -44,11 +46,11 @@ after_success:
     fi'
 
 after_error:
-  - 'if [ $BUILD_DOCS -ge 1 ]; then
+  - 'if [ $GENERATE_DOC == 0 ]; then
       docker logs adoc-to-html;
     fi'
 
 after_failure:
-  - 'if [ $BUILD_DOCS -ge 1 ]; then
+  - 'if [ $GENERATE_DOC == 0 ]; then
       docker logs adoc-to-html;
     fi'
