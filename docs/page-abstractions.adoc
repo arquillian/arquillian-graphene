@@ -1,3 +1,5 @@
+:imagesdir: docs/images
+
 ifdef::env-github,env-browser[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -5,11 +7,11 @@ ifdef::env-github,env-browser[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 :outfilesuffix: .adoc
+:imagesdir: images
 endif::[]
 
 == Page Abstractions
 :icons: font
-:imagesdir: /images
 
 *Page Abstractions enhance the way your tests are written. They make your
 tests more robust and therefore more reliable.*
@@ -393,7 +395,7 @@ NOTE: You have to use private fields for all Graphene initialized
 .Page Objects in Multiple Browsers Scenario
 ====
 If you use page abstractions together with parallel browsers feature, be
-sure to check <<parallel-browsers#using-page-abstractions-with-multiple-browsers,
+sure to check <<using-page-abstractions-with-multiple-browsers,
 Using Page Abstractions with Multiple Browsers>>.
 ====
 
@@ -484,9 +486,9 @@ public class TestLocation {
 ----
 
 You can read more about multiple deployments Arquillian feature
-// TODO verify link
-https://raw.githubusercontent.com/arquillian/arquillian-core/gh-pages/docs/multiple-deployments.adoc[here].
-Graphene support for <<parallel-browsers#, parallel browsers>> for
+http://arquillian.org/arquillian-core/#multiple-deployments[here].
+
+Graphene support for <<parallel-browsers, parallel browsers>> for
 more information about this subject.
 
 [[page-fragments]]
@@ -653,7 +655,7 @@ WebElement/Page Fragments etc. Use their getters from tests.
 .Page Fragments In Multiple Browsers Scenario
 ====
 If you use page abstractions together with parallel browsers feature, be
-sure to <<parallel-browsers#using-page-abstractions-with-multiple-browsers, Using
+sure to <<using-page-abstractions-with-multiple-browsers, Using
 Page Abstractions with Multiple Browsers>>.
 ====
 
@@ -672,9 +674,9 @@ or just the interface for it.
 [[autocomplete]]
 ===== Autocomplete
 
-image::{imagesdir}/autocomplete.png[]
+image::autocomplete.png[]
 
-image::{imagesdir}/autocompleteHTML.png[]
+image::autocompleteHTML.png[]
 
 [source,java]
 .AutocompletePageFragment.java
@@ -771,9 +773,9 @@ public class AutocompletePageFragment<T> {
 [[calendar]]
 ===== Calendar
 
-image::{imagesdir}/calendar.png[]
+image::calendar.png[]
 
-image::{imagesdir}/calendarHTML.png[]
+image::calendarHTML.png[]
 
 [source,java]
 .CalendarPageFragmentImpl.java
@@ -982,9 +984,9 @@ public class CalendarPageFragmentImpl {
 [[table]]
 ===== Table
 
-image::{imagesdir}/table.png[]
+image::table.png[]
 
-image::{imagesdir}/tableHTML.png[]
+image::tableHTML.png[]
 
 [source,java]
 .Table.java

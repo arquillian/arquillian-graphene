@@ -69,9 +69,9 @@ excels.
 ==== Page Abstractions
 
 On the high level, Graphene allows you to create reusable abstractions
-in form of <<page-abstractions#page-objects, Page Objects>>
+in form of <<page-objects, Page Objects>>
 (the pattern widely known in Selenium community)
-and <<page-abstractions#page-fragments, Page
+and <<page-fragments, Page
 Fragments>>, which allows you to encapsulate smaller pieces of your page
 like JavaScript widgets, UI components or simply forms.
 
@@ -119,7 +119,7 @@ public class HomePage {
 }
 ----
 
-You can read more about using reusable <<page-abstractions#, Page
+You can read more about using reusable <<page-abstractions, Page
 Abstractions>>.
 
 [[testing-ajax]]
@@ -154,11 +154,11 @@ that:
 [[graphene-utility-class]]
 ===== Graphene Utility Class
 
-<<graphene-utility-class#, Graphene Utility Class>> enables compact syntax for waiting and guards.
+<<graphene-utility-class, Graphene Utility Class>> enables compact syntax for waiting and guards.
 
 [[request-guards]]
 ===== Request Guards
-<<request-guards#, Request
+<<request-guards, Request
 Guards>> bring simplest conditions like wait for a request to finish
 (blocking test).
 
@@ -333,7 +333,7 @@ it can be used in the same project together with *Graphene 1* (based on
 **Selenium 1**).
 
 For more detailed summary of differences, refer
-to <<which-graphene-to-use#, which Graphene to use?>>
+to <<which-graphene-to-use, which Graphene to use?>>
 
 When adding following dependencies, all required dependencies should be
 brought to your project as transitive dependencies, including:
@@ -357,7 +357,7 @@ brought to your project as transitive dependencies, including:
 [[which-version-to-use-1]]
 ====== Which Version To Use?
 
-To find out which version to use, chcek out http://arquillian.org/modules/graphene-extension/
+To find out which version to use, check out http://arquillian.org/modules/graphene-extension/
 
 NOTE: In order to rewrite dependencies transitively brought by Graphene
 (e.g. Drone), you can use BOMs (see bellow)
@@ -432,9 +432,8 @@ then it delegates this session to Graphene.
 [[configuration]]
 ==== Configuration
 
-//TODO Check Updated Link
 Graphene shares the configuration with Drone WebDriver, so you can refer
-to https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs[Drone].
+to http://arquillian.org/arquillian-extension-drone[Drone].
 
 In general, configuration is driven by arquillian.xml and can be
 overriden by System properties.
@@ -472,9 +471,8 @@ WebDriver browser;
 </arquillian>
 ----
 
-//TODO check Updated Drone Link
 For more configuration options, refer to
-https://raw.githubusercontent.com/arquillian/arquillian-extension-drone/gh-pages/docs[Drone] and
+http://arquillian.org/arquillian-extension-drone/[Drone] and
 http://seleniumhq.org/docs/03_webdriver.html#selenium-webdriver-s-drivers[browser
 driver implementations].
 
@@ -576,7 +574,7 @@ Graphene offers two solution to waiting for appropriate conditions:
 ====== Waiting Conditions
 
 Graphene uses `WebDriverWait` object and defines most used waiting
-conditions in <<graphene-utility-class#, Graphene Utility Class>>.
+conditions in <<graphene-utility-class, Graphene Utility Class>>.
 
 When defining waiting conditions, you might use exact or benevolent
 conditions:
@@ -587,13 +585,13 @@ more robust, but does not test exact page conditions
 equal to) tests application behavior more closely, but they are more
 error-prone
 
-You can read more about <<waiting-API#, Waiting API>>.
+You can read more about <<waiting-API, Waiting API>>.
 
 [[request-guards-1]]
 ====== Request Guards
 
 More powerful mechanism than conditions -
-<<request-guards#, Request Guards>> - watches request object on the page and
+<<request-guards, Request Guards>> - watches request object on the page and
 waits for the given browser communication (HTTP, AJAX) to happen.
 
 WARNING: It is not sufficient to use any mechanism for pausing the
@@ -627,6 +625,6 @@ might be different.
 [[solution-staleness-aware-page-abstractions]]
 ===== Solution: Staleness Aware Page Abstractions
 
-<<page-abstractions#, Page abstractions>> created by Graphene are by default
+<<page-abstractions, Page abstractions>> created by Graphene are by default
 aware of stale element, so they try to re-initialize element reference when
 they find out the reference is stale.

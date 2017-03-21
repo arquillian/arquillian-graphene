@@ -21,7 +21,7 @@ types:
 [[basic-usage]]
 === Basic Usage
 
-Request guards are available in <<graphene-utility-class#, Graphene Utility Class>>.
+Request guards are available in <<graphene-utility-class, Graphene Utility Class>>.
 
 [source,java]
 ----

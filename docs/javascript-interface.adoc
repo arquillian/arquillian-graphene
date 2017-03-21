@@ -173,7 +173,7 @@ public interface HelloWorld {
 }
 ----
 
-WARNING: Graphene uses <<advance-techniques#page-extensions, Page
+WARNING: Graphene uses <<page-extensions, Page
 Extensions>> to install needed dependencies for your `@JavaScript`
 interface before each method invocation. Before the installation is
 processed, it checks whether the object used for mapping is defined. If
@@ -189,7 +189,7 @@ not preserved.
 === Customization
 
 If you are not satisfied with installation via
-<<advance-techniques#page-extensions, Page Extensions>>,
+<<page-extensions, Page Extensions>>,
 you can implement your own `ExecutionResolver` containing
 the following method:
 
