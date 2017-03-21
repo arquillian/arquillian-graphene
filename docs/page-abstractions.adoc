@@ -9,7 +9,7 @@ endif::[]
 
 == Page Abstractions
 :icons: font
-:imagesdir: /images
+:imagesdir: docs/images
 
 *Page Abstractions enhance the way your tests are written. They make your
 tests more robust and therefore more reliable.*
@@ -672,9 +672,9 @@ or just the interface for it.
 [[autocomplete]]
 ===== Autocomplete
 
-image::{imagesdir}/autocomplete.png[]
+image::autocomplete.png[]
 
-image::{imagesdir}/autocompleteHTML.png[]
+image::autocompleteHTML.png[]
 
 [source,java]
 .AutocompletePageFragment.java
@@ -771,9 +771,9 @@ public class AutocompletePageFragment<T> {
 [[calendar]]
 ===== Calendar
 
-image::{imagesdir}/calendar.png[]
+image::calendar.png[]
 
-image::{imagesdir}/calendarHTML.png[]
+image::calendarHTML.png[]
 
 [source,java]
 .CalendarPageFragmentImpl.java
@@ -982,9 +982,9 @@ public class CalendarPageFragmentImpl {
 [[table]]
 ===== Table
 
-image::{imagesdir}/table.png[]
+image::table.png[]
 
-image::{imagesdir}/tableHTML.png[]
+image::tableHTML.png[]
 
 [source,java]
 .Table.java
