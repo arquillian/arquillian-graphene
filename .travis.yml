@@ -16,10 +16,11 @@ cache:
     - $HOME/.m2
 
 before_install:
-  - BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  - BUILD_DOCS=$(git diff --name-only $TRAVIS_COMMIT_RANGE | grep -E 'README.adoc|^docs/.*.adoc$' | wc -l)
-  - '[ $BRANCH == "master" ] && [ $BUILD_DOCS -ge 1 ] && GENERATE_DOC=0|| GENERATE_DOC=1'
-  - 'if [ $GENERATE_DOC == 0 ]; then
+  - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+  - '[ $(git log --format=%B  $TRAVIS_COMMIT_RANGE | grep -i "#doc" | wc -l) -gt 0 ] && FORCE_DOC_GEN=0 || FORCE_DOC_GEN=1'
+  - MODIFIED_DOCS=$(git diff --name-only $TRAVIS_COMMIT_RANGE | grep -E 'README.adoc|^docs/.*.adoc$' | wc -l)
+  - '[ $BRANCH == "master" ] && [ $MODIFIED_DOCS -ge 1 ] && GENERATE_DOC=0 || GENERATE_DOC=1'
+  - 'if [ $FORCE_DOC_GEN == 0 ] || [ $GENERATE_DOC == 0 ]; then
       git config user.name "${GH_USER}";
       git config user.email "${GH_EMAIL}";
       git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*;
@@ -29,28 +30,28 @@ before_install:
       docker pull asciidoctor/docker-asciidoctor;
     fi'
 
-before_script: travis_wait 45 ./mvnw install -q -U -DskipTests=true
+before_script: ./mvnw install -q -U -DskipTests=true
 
 script:
   - ./mvnw clean test
-  - 'if [ $GENERATE_DOC == 0 ]; then
+  - 'if [ $FORCE_DOC_GEN == 0 ] || [ $GENERATE_DOC == 0 ]; then
       docker run -v $TRAVIS_BUILD_DIR:/docs/ --name adoc-to-html asciidoctor/docker-asciidoctor asciidoctor /docs/README.adoc -a asciidoctor-source=/docs/docs -o /docs/gh-pages/index.html;
     fi'
 
 after_success:
-  - 'if [ $GENERATE_DOC == 0 ]; then
+  - 'if [ $FORCE_DOC_GEN == 0 ] || [ $GENERATE_DOC == 0 ]; then
       cd gh-pages;
       git add .;
       git commit -m"Publishes new documentation";
-      git push "${GH_REF}" gh-pages;
+      git push --quiet "${GH_REF}" gh-pages > /dev/null 2>&1;
     fi'
 
 after_error:
-  - 'if [ $GENERATE_DOC == 0 ]; then
+  - 'if [ $FORCE_DOC_GEN == 0 ] || [ $GENERATE_DOC == 0 ]; then
       docker logs adoc-to-html;
     fi'
 
 after_failure:
-  - 'if [ $GENERATE_DOC == 0 ]; then
+  - 'if [ $FORCE_DOC_GEN == 0 ] || [ $GENERATE_DOC == 0 ]; then
       docker logs adoc-to-html;
     fi'
