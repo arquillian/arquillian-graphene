@@ -15,15 +15,13 @@ on **rapid development** and **usability** in Java environment.
 
 * API is **straight forward** and enforces tester to
 write **Ajax-enabled** and **reusable** tests and test abstractions
-* encourages to write tests in a <<page-abstractions#, consistent
-level of abstraction>> using <<page-objects, *Page Objects*>> and
-* encourages to write tests in a <<page-abstractions, consistent
+* encourages to write tests in a <<_page_abstractions, consistent
 level of abstraction>> using <<page-objects, *Page Objects*>> and
 **<<page-fragments, Page Fragments>>**
 * the code is **robust** with **improved readability**
-** supports *<<request-guards#, request guarding>>* and
+** supports *<<_request_guards, request guarding>>* and
 *interception*
-** exposes fluent *<<waitings, Waiting API>>*
+** exposes fluent *<<_waiting_api, Waiting API>>*
 * *allows* *WebDriver API interception*
 * focuses on test **portability across browsers**
 * it enables *JQuery selectors as a location strategy* which is familiar

@@ -56,7 +56,7 @@ web browser.
 |Represents the local storage for the site currently opened in the
 browser. Each site has its own separate storage area.
 
-|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/WebStorage.html[SessionStorage]
+|https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/SessionStorage.html[SessionStorage]
 |Represents the session storage in the browser for the site currently
 opened in the browser. The session storage areas is specific to the
 current top level browsing context. Each context has a unique set of
@@ -67,16 +67,13 @@ in that window.
 |http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/ApplicationCache.html[ApplicationCache]
 |Represents the application cache status.
 
-|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/TouchScreen.html[TouchScreen]
+|https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/interactions/TouchScreen.html[TouchScreen]
 |Represents basic touch screen operations.
 
 |http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Rotatable.html[Rotatable]
 |Represents rotation of the browser view for orientation-sensitive
 devices. When using this with a real device, the device should not be
 moved so that the built-in sensors do not interfere.
-
-|http://seleniumhq.github.io/selenium/docs/api//java/org/openqa/selenium/html5/BrowserConnection.html[BrowserConnection]
-|Represents the connection state of the application.
 
 |http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/html5/LocationContext.html[LocationContext]
 |Represents the physical location of the browser.
@@ -87,10 +84,10 @@ rather than using the Keyboard or Mouse directly. Implements the builder
 pattern: Builds a CompositeAction containing all actions specified by
 the method calls.
 
-|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Keyboard.html[Keyboard]
+|https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/interactions/Keyboard.html[Keyboard]
 |Represents  basic keyboard operations.
 
-|http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/Mouse.html[Mouse]
+|https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/interactions/Mouse.html[Mouse]
 |Represents  basic mouse operations.
 
 |http://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/JavascriptExecutor.html[JavascriptExecutor]

@@ -119,7 +119,7 @@ public class HomePage {
 }
 ----
 
-You can read more about using reusable <<page-abstractions, Page
+You can read more about using reusable <<_page_abstractions, Page
 Abstractions>>.
 
 [[testing-ajax]]
@@ -154,11 +154,11 @@ that:
 [[graphene-utility-class]]
 ===== Graphene Utility Class
 
-<<graphene-utility-class, Graphene Utility Class>> enables compact syntax for waiting and guards.
+<<_graphene_utility_class, Graphene Utility Class>> enables compact syntax for waiting and guards.
 
 [[request-guards]]
 ===== Request Guards
-<<request-guards, Request
+<<_request_guards, Request
 Guards>> bring simplest conditions like wait for a request to finish
 (blocking test).
 
@@ -362,6 +362,51 @@ To find out which version to use, check out http://arquillian.org/modules/graphe
 NOTE: In order to rewrite dependencies transitively brought by Graphene
 (e.g. Drone), you can use BOMs (see bellow)
 
+[[which-graphene-to-use]]
+==== Which Graphene To Use ?
+
+Graphene 1 (GrapheneSelenium) is derived from Selenium 1 (DefaultSelenium) and its base API is type-safe version of Selenium 1.
+
+Graphene 2 is built on top of Selenium WebDriver (WebDriver) and it adds more functionality over basic WebDriver API.
+
+Summary
+|===
+|Name |Class |Features
+|Selenium 1
+|DefaultSelenium
+|-
+
+|Graphene 1
+|GrapheneSelenium
+|type-safe version of DefaultSelenium + extensions
+
+|Selenium 2
+|WebDriver and DefaultSelenium
+|-
+
+|Graphene 2
+|WebDriver
+|extensions for WebDriver
+|===
+
+===== FAQ
+
+*_What are differences between Graphene 1 and Graphene 2?_*
+
+The differences are same like http://stackoverflow.com/questions/5692173/selenium-1-to-selenium-2-migration/6025228#6025228[between Selenium 1 and Selenium 2].
+
+*_Do I need to migrate tests from Graphene 1 to Graphene 2?_*
+
+No, you can use them side by side - Selenium 2 comes with both APIs bundled in one library (DefaultSelenium and WebDriver),
+and Graphene 1 and Graphene 2 follows that pattern. +
+Drone will make sure it instantiates right version for you.
+
+*_What version is recommended?_*
+
+Graphene 2 is the one which we focus development on - it is planned to have all features of Graphene 1 migrated to Graphene 2. +
+In the future, Graphene 2 will likely get functions which aren't available for Graphene1, e.g.:
+<<_page_abstractions, page abstractions.>>
+
 [[bom-and-dependency-management-usage]]
 ==== BOM and Dependency Management Usage
 
@@ -472,7 +517,7 @@ WebDriver browser;
 ----
 
 For more configuration options, refer to
-http://arquillian.org/arquillian-extension-drone/[Drone] and
+http://arquillian.org/arquillian-extension-drone[Drone] and
 http://seleniumhq.org/docs/03_webdriver.html#selenium-webdriver-s-drivers[browser
 driver implementations].
 
@@ -574,7 +619,7 @@ Graphene offers two solution to waiting for appropriate conditions:
 ====== Waiting Conditions
 
 Graphene uses `WebDriverWait` object and defines most used waiting
-conditions in <<graphene-utility-class, Graphene Utility Class>>.
+conditions in <<_graphene_utility_class, Graphene Utility Class>>.
 
 When defining waiting conditions, you might use exact or benevolent
 conditions:
@@ -585,13 +630,13 @@ more robust, but does not test exact page conditions
 equal to) tests application behavior more closely, but they are more
 error-prone
 
-You can read more about <<waiting-API, Waiting API>>.
+You can read more about <<_waiting_api, Waiting API>>.
 
 [[request-guards-1]]
 ====== Request Guards
 
 More powerful mechanism than conditions -
-<<request-guards, Request Guards>> - watches request object on the page and
+<<_request_guards, Request Guards>> - watches request object on the page and
 waits for the given browser communication (HTTP, AJAX) to happen.
 
 WARNING: It is not sufficient to use any mechanism for pausing the
@@ -625,6 +670,6 @@ might be different.
 [[solution-staleness-aware-page-abstractions]]
 ===== Solution: Staleness Aware Page Abstractions
 
-<<page-abstractions, Page abstractions>> created by Graphene are by default
+<<_page_abstractions, Page abstractions>> created by Graphene are by default
 aware of stale element, so they try to re-initialize element reference when
 they find out the reference is stale.

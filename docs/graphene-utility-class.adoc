@@ -13,7 +13,7 @@ endif::[]
 Graphene is an entry point for the common one-line operations:
 
 * <<waitings, Waitings>>
-* <<request-guards, Request Guards>>
+* <<utility-class-request-guards, Request Guards>>
 * <<creating-page-fragments-dynamically, Creating Page Fragments Dynamically>>
 * <<page-object-location-encapsulation, Page Object Location Encapsulation>>
 
@@ -52,9 +52,9 @@ button.click();
 waitGui().withMessage("Popup should be opened after clicking on that button!").until().element(popupPanel).is().visible();
 ----
 
-See the <<waiting-API, Waiting API>> documentation page for more information.
+See the <<_waiting_api, Waiting API>> documentation page for more information.
 
-[[request-guards]]
+[[utility-class-request-guards]]
 ==== Request Guards
 
 It is a shortcut for the Graphene request guards, which are powerful
@@ -76,7 +76,7 @@ The difference between the `waitForHttp()` and the `guardHttp()` is that
 the first one ignores AJAX requests during its waiting period and
 the second one does not.
 
-See the <<request-guards, Request Guards>> documentation page for more information.
+See the <<_request_guards, Request Guards>> documentation page for more information.
 
 [[creating-page-fragments-dynamically]]
 ==== Creating Page Fragments Dynamically
@@ -98,7 +98,7 @@ user switches to a particular tab. This method is suitable for this.
 ==== Page Object Location Encapsulation
 
 You can find more information about Page Object location encapsulation
-on <<page-abstractions#page-objects, this>> documentation page.
+on <<page-objects, this>> documentation page.
 
 Basically, you can use `Graphene.goTo()` method like this:
 
