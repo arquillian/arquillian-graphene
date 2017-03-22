@@ -13,7 +13,7 @@ endif::[]
 Advanced techniques covered in this section include:
 
 . <<graphene-context-and-proxy, Graphene Context And Proxy>>
-. <<page-extensions, Page Extensions>>
+. <<page-extensions-technique, Page Extensions>>
 . <<graphene-interceptors, Graphene Interceptors>>
 
 [[graphene-context-and-proxy]]
@@ -42,7 +42,7 @@ WebDriver browser = GrapheneContext.getContextFor(Default.class).getWebDriver();
 
 The Default.class representas a browser's qualifier - in this case we
 are requesting default browser (when no qualifier is specified on Drone
-instances). Read more <<parallel-browsers, Parallel browsers>>.
+instances). Read more <<_parallel_browsers, Parallel browsers>>.
 
 You can also use alternative methods, most notably the method which
 provides proxy object implementing given extension interfaces:
@@ -52,7 +52,7 @@ provides proxy object implementing given extension interfaces:
 JavascriptExecutor executor = (JavascriptExecutor) GrapheneContext.getContextFor(Default.class).getWebDriver(JavascriptExecutor.class)
 ----
 
-[[page-extensions]]
+[[page-extensions-technique]]
 === Page Extensions
 
 NOTE: The Page Extensions SPI is not yet available for public use, we
@@ -60,7 +60,7 @@ discourage you to use it yet.
 
 Page extensions mechanism provides a way to easily install your
 JavaScript code into the page. Page extensions are used mainly in
-cooperation with <<javaScript-interface, JavaScript Interface>>,
+cooperation with <<_javascript_interface, JavaScript Interface>>,
 but they can be used independently too.
 
 [[basic-usage]]

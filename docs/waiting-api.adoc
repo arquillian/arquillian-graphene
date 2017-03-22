@@ -12,7 +12,7 @@ endif::[]
 
 WebDriver execution is always faster than changing the state of the
 page. This powerful API, should help you to synchronize with the tested
-page. See also Graphene <<request-guards, Request Guards>> as the other
+page. See also Graphene <<_request_guards, Request Guards>> as the other
 method of synchronizing with the page.
 
 The starting point for Wait API is Graphene Utility class and its
@@ -32,7 +32,7 @@ waiting for them to finish.
 NOTE: The waitAjax does *not* require any XHR request to happen.
 It's just about how long test should wait!
 
-Refer to <<graphene-configuration, Graphene Configuration>> page to see the
+Refer to <<_graphene_configuration, Graphene Configuration>> page to see the
 configuration properties, in case you
 want to change default timeouts for those three waiting types.
 
