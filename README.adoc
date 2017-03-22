@@ -10,7 +10,7 @@
 :icons: font
 :toc: left
 
-*'`Robust Functional Tests leveraging WebDriver with flavour of sexy AJAX-ready API`'*
+*'`Robust Functional Tests leveraging WebDriver with flavour of neat AJAX-ready API`'*
 
 include::{asciidoctor-source}/graphene-introduction.adoc[]
 include::{asciidoctor-source}/getting-started.adoc[]
@@ -42,16 +42,6 @@ include::{asciidoctor-source}/advanced-techniques.adoc[]
 
 |Forums:
 |http://community.jboss.org/en/arquillian?view=discussions
-
-|Commiters:
-|http://community.jboss.org/people/jhuska[Juraj
-Huska], 
-https://community.jboss.org/people/jpapouse[Jan
-Papousek], 
-http://community.jboss.org/people/lfryc[Lukas Fryc]
-
-|Project Lead:
-|http://community.jboss.org/people/lfryc[Lukas Fryc]
 
 |License:
 |LGPL v2.1 or ASL v2.0 (dual-licensed)
