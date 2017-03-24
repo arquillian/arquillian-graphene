@@ -10,8 +10,13 @@
 :icons: font
 :toc: left
 
+ifndef::generated-doc[]
+To read complete documentation visit http://arquillian.org/arquillian-graphene/
+endif::generated-doc[]
+
 *'`Robust Functional Tests leveraging WebDriver with flavour of neat AJAX-ready API`'*
 
+ifdef::generated-doc[]
 include::{asciidoctor-source}/graphene-introduction.adoc[]
 include::{asciidoctor-source}/getting-started.adoc[]
 include::{asciidoctor-source}/graphene-configuration.adoc[]
@@ -25,6 +30,7 @@ include::{asciidoctor-source}/parallel-browsers.adoc[]
 include::{asciidoctor-source}/javascript-interface.adoc[]
 include::{asciidoctor-source}/tips-and-tricks.adoc[]
 include::{asciidoctor-source}/advanced-techniques.adoc[]
+endif::generated-doc[]
 
 [[project-info]]
 == Project Info
