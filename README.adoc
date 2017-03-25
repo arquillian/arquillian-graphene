@@ -10,6 +10,8 @@
 :icons: font
 :toc: left
 
+image:https://travis-ci.org/arquillian/arquillian-graphene.svg?branch=master["Build Status", link="https://travis-ci.org/arquillian/arquillian-graphene"]
+
 ifndef::generated-doc[]
 To read complete documentation visit http://arquillian.org/arquillian-graphene/
 endif::generated-doc[]
