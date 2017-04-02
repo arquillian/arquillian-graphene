@@ -51,8 +51,8 @@ import org.openqa.selenium.internal.Locatable;
  *
  * <p>
  * <b>Important</b>: {@link GrapheneElementImpl} <i>is not intended for extension</i>, do not subclass it. The
- * {@link GrapheneElementImpl} might become abstract class or interface in the future. It can't be final because then it couldn't be
- * proxied by Graphene.
+ * {@link GrapheneElementImpl} might become abstract class or interface in the future. It can't be final because then it
+ * couldn't be proxied by Graphene.
  * </p>
  *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -271,17 +271,17 @@ public class GrapheneElementImpl implements GrapheneElement {
 
     @Override
     public int hashCode() {
+        // see #equals
         return element.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
         }
-        if (obj instanceof GrapheneElementImpl) {
-            obj = ((GrapheneElementImpl) obj).element;
-        }
+        // equals requires symmetry, so this equals implementation must conform to Selenium's unwrapping equals (see
+        // org.openqa.selenium.remote.RemoteWebElement.equals(Object)) - it's enough to just delegate further
         return element.equals(obj);
     }
 
