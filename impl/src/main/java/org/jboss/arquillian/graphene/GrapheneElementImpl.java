@@ -271,12 +271,20 @@ public class GrapheneElementImpl implements GrapheneElement {
 
     @Override
     public int hashCode() {
-        // see #equals
+        if (element == null) {
+            // shouldn't ever happen
+            return super.hashCode();
+        }
+        // see #equals for explanation
         return element.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (element == null) {
+            // shouldn't ever happen
+            return super.equals(obj);
+        }
         if (this == obj) {
             return true;
         }
