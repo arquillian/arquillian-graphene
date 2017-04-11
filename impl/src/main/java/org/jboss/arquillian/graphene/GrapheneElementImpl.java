@@ -51,8 +51,8 @@ import org.openqa.selenium.internal.Locatable;
  *
  * <p>
  * <b>Important</b>: {@link GrapheneElementImpl} <i>is not intended for extension</i>, do not subclass it. The
- * {@link GrapheneElementImpl} might become abstract class or interface in the future. It can't be final because then it couldn't be
- * proxied by Graphene.
+ * {@link GrapheneElementImpl} might become abstract class or interface in the future. It can't be final because then it
+ * couldn't be proxied by Graphene.
  * </p>
  *
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -269,39 +269,28 @@ public class GrapheneElementImpl implements GrapheneElement {
         return element.getScreenshotAs(outputType);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((element == null) ? 0 : element.hashCode());
-        return result;
+        if (element == null) {
+            // shouldn't ever happen
+            return super.hashCode();
+        }
+        // see #equals for explanation
+        return element.hashCode();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        GrapheneElementImpl other = (GrapheneElementImpl) obj;
         if (element == null) {
-            if (other.element != null)
-                return false;
-        } else if (!element.equals(other.element))
-            return false;
-        return true;
+            // shouldn't ever happen
+            return super.equals(obj);
+        }
+        if (this == obj) {
+            return true;
+        }
+        // equals requires symmetry, so this equals implementation must conform to Selenium's unwrapping equals (see
+        // org.openqa.selenium.remote.RemoteWebElement.equals(Object)) - it's enough to just delegate further
+        return element.equals(obj);
     }
 
     /*

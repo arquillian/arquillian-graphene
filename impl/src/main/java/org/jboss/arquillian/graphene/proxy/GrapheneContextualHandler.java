@@ -23,18 +23,25 @@ package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GrapheneContextImpl;
+import org.jboss.arquillian.graphene.enricher.WrapsElementInterceptor;
+import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.intercept.InterceptorPrecedenceComparator;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.WrapsElement;
+
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * <p>
@@ -165,9 +172,31 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
                 }
                 if (isProxyable(method, args) && !(result instanceof GrapheneProxyInstance)) {
                     Class<?>[] interfaces = GrapheneProxyUtil.getInterfaces(result.getClass());
+
+                    // ARQGRA-484 hack: Selenium must be able to unwrap WebElement
+                    // this is a hack in a sense that WebElement-specific logic shouldn't be in such a general place
+                    // but it's not a hack in principle - proxying WebElement means wrapping it, so we do need to do this
+                    // a proper fix is probably dependant on ARQGRA-317
+                    if (result instanceof WebElement && !(result instanceof GrapheneElement)) {
+                        int len = interfaces.length;
+                        interfaces = Arrays.copyOf(interfaces, len + 1);
+                        interfaces[len] = WrapsElement.class;
+                    }
+
                     Object newProxy = GrapheneProxy.getProxyForTargetWithInterfaces(context, result, interfaces);
 
-//                    List<Interceptor> inheritingInterceptors = ((GrapheneProxyInstance)proxy).getInheritingInterceptors();
+                    // ARQGRA-484 hack continues
+                    if (result instanceof WebElement && !(result instanceof GrapheneElement)) {
+                        final GrapheneProxyInstance elementProxy = (GrapheneProxyInstance) newProxy;
+
+                        InterceptorBuilder b = new InterceptorBuilder();
+                        b.interceptInvocation(WrapsElement.class, new WrapsElementInterceptor(elementProxy))
+                            .getWrappedElement();
+
+                        elementProxy.registerInterceptor(b.build());
+                    }
+
+                    // List<Interceptor> inheritingInterceptors = ((GrapheneProxyInstance)proxy).getInheritingInterceptors();
 
                     return newProxy;
                 }
@@ -217,8 +246,8 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
                             throw (AssertionError) e;
                         } else {
                             throw new IllegalStateException("Can't invoke method " + method.getName() + ".", e);
+                        }
                     }
-                }
                 }
             });
         } else {
