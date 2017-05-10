@@ -322,4 +322,36 @@ public class Graphene {
     private static GrapheneRuntime instance() {
         return GrapheneRuntime.getInstance();
     }
+
+    /**
+     * Clicks in the middle of the given element. Equivalent to:
+     * <i>Actions.moveToElement(onElement).click().perform()</i>
+     *
+     * @param element Element to click.
+     */
+    public static void click(WebElement element){
+        instance().click(element);
+    }
+
+    /**
+     * Performs a double-click at middle of the given element. Equivalent to:
+     * <i>Actions.moveToElement(element).doubleClick().perform()</i>
+     *
+     * @param element Element to move to.
+     */
+    public static void doubleClick(WebElement element) {
+        instance().doubleClick(element);
+    }
+
+    /**
+     * Writes into the given element the given string. Equivalent to:
+     * <i>Actions.moveToElement(element).click().sendKeys(text).perform()</i>
+     *
+     * @param element Element to move to.
+     * @param text Text to write
+     */
+    public static void writeIntoElement(WebElement element, String text) {
+       instance().writeIntoElement(element, text);
+    }
+
 }

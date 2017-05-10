@@ -39,6 +39,7 @@ import org.jboss.arquillian.graphene.wait.WebDriverWait;
 import org.jboss.arquillian.graphene.wait.WebDriverWaitImpl;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 public class DefaultGrapheneRuntime extends GrapheneRuntime {
 
@@ -123,6 +124,21 @@ public class DefaultGrapheneRuntime extends GrapheneRuntime {
     public <T> T goTo(Class<T> pageObject, Class<?> browserQualifier) {
         LocationEnricher locationEnricher = serviceLoader.get().onlyOne(LocationEnricher.class);
         return locationEnricher.goTo(pageObject, browserQualifier);
+    }
+
+    @Override
+    public void doubleClick(WebElement element) {
+        new Actions(context().getWebDriver()).doubleClick(element).perform();
+    }
+
+    @Override
+    public void click(WebElement element) {
+        new Actions(context().getWebDriver()).click(element).perform();
+    }
+
+    @Override
+    protected void writeIntoElement(WebElement element, String text) {
+        new Actions(context().getWebDriver()).moveToElement(element).click().sendKeys(text).perform();
     }
 
     private RequestGuardFactory getRequestGuardFactoryFor(Object target) {
