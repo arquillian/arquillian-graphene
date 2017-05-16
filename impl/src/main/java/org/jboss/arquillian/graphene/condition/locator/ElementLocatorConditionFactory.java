@@ -23,7 +23,6 @@ package org.jboss.arquillian.graphene.condition.locator;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.jboss.arquillian.graphene.condition.AbstractBooleanConditionFactory;
 import org.jboss.arquillian.graphene.condition.AttributeConditionFactory;
 import org.jboss.arquillian.graphene.condition.BooleanConditionWrapper;
@@ -80,6 +79,21 @@ public class ElementLocatorConditionFactory extends AbstractBooleanConditionFact
                     locator);
             }
 
+        }, getNegation());
+    }
+
+    @Override
+    public ExpectedCondition<Boolean> isClickable() {
+        return new BooleanConditionWrapper(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+
+                WebElement element = findElement(locator, driver);
+                return element.isDisplayed() && element.isEnabled();
+            }
+
+            public String toString() {
+                return String.format("element %s to be clickable", locator);
+            }
         }, getNegation());
     }
 
