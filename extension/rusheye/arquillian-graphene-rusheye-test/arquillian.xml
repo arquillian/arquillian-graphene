@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+   <extension qualifier="webdriver">
+      	<property name="browser">firefox</property>
+      	<property name="dimensions">1280x1024</property>
+   </extension>
+   <extension qualifier="graphene">
+   <property name="waitAjaxInterval">10</property>
+</extension>
+   <extension qualifier="rusheye">
+   		<property name="snapshotPath">src/test/resources/snapshot</property>
+   	    <property name="resultPath">src/test/resources/result</property>
+   	    <!-- <property name="similarityCutOff">100</property> -->	    
+   </extension>   
+</arquillian>
