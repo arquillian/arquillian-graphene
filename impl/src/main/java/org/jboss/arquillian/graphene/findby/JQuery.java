@@ -28,7 +28,7 @@ import org.jboss.arquillian.graphene.javascript.JavaScript;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @JavaScript(value="Graphene.jQuery")
-@Dependency(sources= "com/jquery/jquery-1.7.2.min.js")
+@Dependency(sources= {"com/jquery/jquery-3.2.1.min.js", "com/jquery/jquery.regex.js"})
 public interface JQuery {
 
 }
