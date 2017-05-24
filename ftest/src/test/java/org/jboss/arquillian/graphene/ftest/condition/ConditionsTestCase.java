@@ -53,6 +53,9 @@ public class ConditionsTestCase {
 
     private static final By BY_HEADER = By.id("header");
     private static final By BY_OPTION1 = By.id("option1");
+    private static final By BY_HIDE_BUTTON = By.id("hide");
+    private static final By BY_APPEAR_BUTTON = By.id("appear");
+
 
     @FindBy(id="appear")
     private WebElement appearButton;
@@ -181,6 +184,26 @@ public class ConditionsTestCase {
         Graphene.waitModel().until().element(BY_HEADER).is().not().visible();
         appearButton.click();
         Graphene.waitModel().until().element(BY_HEADER).is().visible();
+    }
+
+    @Test
+    public void testElementIsClickable() {
+        Graphene.waitModel().until().element(hideButton).is().clickable();
+        hideButton.click();
+        Graphene.waitModel().until().element(hideButton).is().not().clickable();
+        Graphene.waitModel().until().element(appearButton).is().clickable();
+        appearButton.click();
+        Graphene.waitModel().until().element(appearButton).is().not().clickable();
+    }
+
+    @Test
+    public void testElementIsClickableWithBy() {
+        Graphene.waitModel().until().element(BY_HIDE_BUTTON).is().clickable();
+        hideButton.click();
+        Graphene.waitModel().until().element(BY_HIDE_BUTTON).is().not().clickable();
+        Graphene.waitModel().until().element(BY_APPEAR_BUTTON).is().clickable();
+        appearButton.click();
+        Graphene.waitModel().until().element(BY_APPEAR_BUTTON).is().not().clickable();
     }
 
     @Test

@@ -43,4 +43,9 @@ public interface IsElementBuilder<FLUENT> {
      */
     FLUENT visible();
 
+    /**
+     * Checks whether the element is clickable.
+     */
+    FLUENT clickable();
+
 }

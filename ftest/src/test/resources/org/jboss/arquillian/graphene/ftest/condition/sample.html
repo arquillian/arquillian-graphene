@@ -37,10 +37,18 @@
             function hideHeader() {
                 var header = document.getElementById(previousId);
                 header.setAttribute("style", "display: none");
+                var hide = document.getElementById("hide");
+                hide.setAttribute("disabled", "disabled");
+                var appear = document.getElementById("appear");
+                appear.removeAttribute("disabled");
             }
             function appearHeader() {
                 var header = document.getElementById(previousId);
                 header.removeAttribute("style");
+                var appear = document.getElementById("appear");
+                appear.setAttribute("disabled", "disabled");
+                var hide = document.getElementById("hide");
+                hide.removeAttribute("disabled");
             }
         </script>
     </head>

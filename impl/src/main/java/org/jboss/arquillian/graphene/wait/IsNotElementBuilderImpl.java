@@ -58,6 +58,11 @@ public class IsNotElementBuilderImpl<FLUENT> extends AbstractNegatable<IsElement
     }
 
     @Override
+    public FLUENT clickable() {
+        return fluentBase.commit(getNegation() ? factory.not().isClickable() : factory.isClickable());
+    }
+
+    @Override
     protected IsElementBuilder<FLUENT> copy() {
         return new IsNotElementBuilderImpl<FLUENT>(factory, fluentBase);
     }

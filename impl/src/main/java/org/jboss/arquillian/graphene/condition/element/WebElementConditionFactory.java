@@ -67,6 +67,11 @@ public class WebElementConditionFactory extends AbstractBooleanConditionFactory<
     }
 
     @Override
+    public ExpectedCondition<Boolean> isClickable() {
+        return new BooleanConditionWrapper(ExpectedConditions.elementToBeClickable(element), getNegation(), NoSuchElementException.class);
+    }
+
+    @Override
     public StringConditionFactory text() {
         return new WebElementTextConditionFactory(element, getNegation());
     }

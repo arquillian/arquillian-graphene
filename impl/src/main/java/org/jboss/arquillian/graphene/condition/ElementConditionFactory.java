@@ -55,6 +55,14 @@ public interface ElementConditionFactory extends BasicConditionFactory<ElementCo
     ExpectedCondition<Boolean> isVisible();
 
     /**
+     * Returns a condition holding if and only if the element is clickable (visible and enabled).
+     *
+     * @return
+     */
+    ExpectedCondition<Boolean> isClickable();
+
+
+    /**
      * Returns a String condition factory for inner text of the element.
      *
      * @return
