@@ -302,4 +302,14 @@ public class GrapheneElementImpl implements GrapheneElement {
     public String toString() {
         return "GrapheneElement -> " + element;
     }
+
+    @Override
+    public void doubleClick() {
+        Graphene.doubleClick(element);
+    }
+
+    @Override
+    public void writeIntoElement(String text) {
+        Graphene.writeIntoElement(element, text);
+    }
 }

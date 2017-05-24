@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -30,36 +31,33 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestGrapheneActionOperations extends TestAbstractGrapheneActionOperations {
+public class TestGrapheneElementActionOperations extends TestAbstractGrapheneActionOperations{
+
+    private GrapheneElement grapheneElement;
+
+    @Before
+    public void createGrapheneElement() {
+        grapheneElement = new GrapheneElementImpl(webElement);
+    }
 
     @Test
-    public void testGrapheneActionClick() {
+    public void testGrapheneElementActionDoubleClick() {
         // when
-        Graphene.click(webElement);
+        grapheneElement.doubleClick();
 
         // then
-        verify(mouse).click(((Locatable) webElement).getCoordinates());
+        verify(mouse).doubleClick(((Locatable) grapheneElement).getCoordinates());
         verifyNoMoreInteractions(mouse, keyboard);
     }
 
     @Test
-    public void testGrapheneActionDoubleClick() {
+    public void testGrapheneElementActionWriteIntoElement() {
         // when
-        Graphene.doubleClick(webElement);
+        grapheneElement.writeIntoElement("hi");
 
         // then
-        verify(mouse).doubleClick(((Locatable) webElement).getCoordinates());
-        verifyNoMoreInteractions(mouse, keyboard);
-    }
-
-    @Test
-    public void testGrapheneActionWriteIntoElement() {
-        // when
-        Graphene.writeIntoElement(webElement, "hi");
-
-        // then
-        verify(mouse).mouseMove(((Locatable) webElement).getCoordinates());
-        verify(mouse).click(((Locatable) webElement).getCoordinates());
+        verify(mouse).mouseMove(((Locatable) grapheneElement).getCoordinates());
+        verify(mouse).click(((Locatable) grapheneElement).getCoordinates());
         verify(keyboard).sendKeys("hi");
         verifyNoMoreInteractions(mouse, keyboard);
     }
