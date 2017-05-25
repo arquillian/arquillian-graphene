@@ -26,34 +26,30 @@ import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
-@RunWith(MockitoJUnitRunner.class)
 public abstract class GrapheneActionOperationsBootstrap {
 
-    @Mock(extraInterfaces = HasInputDevices.class)
     HtmlUnitDriver driver;
-
-    @Mock
     Mouse mouse;
-
-    @Mock
     Keyboard keyboard;
-
-    @Mock
     HtmlUnitWebElement webElement;
 
     @Before
     public final void setUp() {
+        driver = mock(HtmlUnitDriver.class, withSettings().extraInterfaces(HasInputDevices.class));
+        mouse = mock(Mouse.class);
+        keyboard = mock(Keyboard.class);
+        webElement = mock(HtmlUnitWebElement.class);
+
         GrapheneContext.setContextFor(new GrapheneConfiguration(), driver, Default.class);
         GrapheneRuntime.pushInstance(new DefaultGrapheneRuntime());
 

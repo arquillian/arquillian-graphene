@@ -23,14 +23,11 @@ package org.jboss.arquillian.graphene;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.openqa.selenium.internal.Locatable;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-@RunWith(MockitoJUnitRunner.class)
 public class TestGrapheneElementActionOperations extends GrapheneActionOperationsBootstrap {
 
     private GrapheneElement grapheneElement;
