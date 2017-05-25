@@ -203,45 +203,6 @@
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>com.mycila.maven-license-plugin</groupId>
-                    <artifactId>maven-license-plugin</artifactId>
-                    <version>1.9.0</version>
-                    <configuration>
-                        <basedir>${basedir}</basedir>
-                        <header>licences/graphene-license-header.txt</header>
-                        <quiet>false</quiet>
-                        <failIfMissing>true</failIfMissing>
-                        <strictCheck>true</strictCheck>
-                        <aggregate>false</aggregate>
-                        <includes>
-                            <include>src/**</include>
-                            <include>**/test/**</include>
-                        </includes>
-                        <excludes>
-                            <exclude>.gitignore</exclude>
-                        </excludes>
-                        <properties>
-                            <year>2013</year>
-                        </properties>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>graphene-license-check</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.jboss.arquillian.graphene</groupId>
-                            <artifactId>graphene-build-resources</artifactId>
-                            <version>${project.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>animal-sniffer-maven-plugin</artifactId>
                     <executions>
