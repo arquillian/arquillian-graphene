@@ -54,7 +54,7 @@ import org.openqa.selenium.internal.WrapsElement;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @ImplementedBy(className = "org.jboss.arquillian.graphene.GrapheneElementImpl")
-public interface GrapheneElement extends WebElement, Locatable, WrapsElement {
+public interface GrapheneElement extends WebElement, Locatable, WrapsElement, GrapheneElementAction {
 
     /**
      * <p>

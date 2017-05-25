@@ -136,4 +136,19 @@ public abstract class GrapheneRuntime {
         }
         return RUNTIMES_STACK.get().pop();
     }
+
+    /**
+     * @see Graphene#doubleClick(WebElement)
+     */
+    public abstract void doubleClick(WebElement element);
+
+    /**
+     * @see Graphene#click(WebElement)
+     */
+    public abstract void click(WebElement element);
+
+    /**
+     * @see Graphene#writeIntoElement(WebElement)
+     */
+    protected abstract void writeIntoElement(WebElement element, String text);
 }
