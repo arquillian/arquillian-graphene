@@ -38,7 +38,7 @@ import org.openqa.selenium.interactions.Mouse;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public abstract class TestAbstractGrapheneActionOperations {
+public abstract class GrapheneActionOperationsBootstrap {
 
     @Mock(extraInterfaces = HasInputDevices.class)
     HtmlUnitDriver driver;

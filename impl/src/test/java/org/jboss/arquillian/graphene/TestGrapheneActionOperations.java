@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestGrapheneActionOperations extends TestAbstractGrapheneActionOperations {
+public class TestGrapheneActionOperations extends GrapheneActionOperationsBootstrap {
 
     @Test
     public void testGrapheneActionClick() {
