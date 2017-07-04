@@ -40,7 +40,7 @@
         <version.arquillian.drone>2.1.1</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.cglib>2.2.2</version.cglib>
+        <version.cglib>3.2.5</version.cglib>
         <version.objenesis>1.2</version.objenesis>
 
         <!-- Tests -->
