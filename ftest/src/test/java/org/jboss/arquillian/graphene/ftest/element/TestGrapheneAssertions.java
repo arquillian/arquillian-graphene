@@ -43,6 +43,7 @@ import static org.jboss.arquillian.graphene.assertions.GrapheneAssert.assertThat
 @RunAsClient
 public class TestGrapheneAssertions {
 
+    // this will be used to look up html files in src/test/resources folder, translating package name to directory structure
     private static final String SAMPLE_PACKAGE = "org.jboss.arquillian.graphene.ftest.assertions";
 
     @ArquillianResource
