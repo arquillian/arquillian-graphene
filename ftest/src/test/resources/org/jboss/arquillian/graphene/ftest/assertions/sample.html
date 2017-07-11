@@ -22,11 +22,14 @@
 
 -->
 <!DOCTYPE html>
-<html>
+<html xmlns:display="http://www.w3.org/1999/xhtml">
     <head>
         <title>Sample Page</title>
     </head>
     <body>
+        <div id="invisible" display:none>
+            <span id="unseen" style="display:none">unseen element</span>
+        </div>
         <span>not correct</span>
         <div id="root">
             <span>correct</span>
@@ -36,9 +39,12 @@
 
         <select id="select">
             <option value="1">option one</option>
-            <option value="2">option two</option>
+            <option id="option two" value="2">option two</option>
             <option value="3">option three</option>
         </select>
+
+        <input type="text" id ='form'> text input </input>
+
 
     </body>
 </html>

@@ -22,6 +22,7 @@
 package org.jboss.arquillian.graphene.ftest.element;
 
 import java.net.URL;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -33,9 +34,11 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 import static org.jboss.arquillian.graphene.assertions.GrapheneAssert.assertThat;
 
@@ -55,6 +58,21 @@ public class TestGrapheneAssertions {
     @FindBy(id = "pseudoroot")
     private WebElement div;
 
+    @FindBy(id = "root")
+    private WebElement divHead;
+
+    @FindBy(id="option two")
+    private WebElement selection;
+
+    @FindBy(id="form")
+    private WebElement input_form;
+
+    @FindBy(id="unseen")
+    private WebElement invisible;
+
+    @FindBy(id="invisible")
+    private WebElement top;
+
     @Deployment
     public static WebArchive createTestArchive() {
         return Resources.inPackage(SAMPLE_PACKAGE).all().buildWar("test.war");
@@ -69,5 +87,47 @@ public class TestGrapheneAssertions {
     public void should_be_able_to_assert_text_on_web_element() {
         assertThat(div).hasText("pseudo root");
     }
+
+    @Test
+    public void should_confirm_element_has_child_web_element(){
+        assertThat(divHead).hasChild();}
+
+    @Test
+    public void should_confirm_element_has_parent_web_element(){
+        assertThat(div).hasParent();}
+
+    @Test
+    public void should_confirm_that_web_element_is_displayed_on_page(){
+        assertThat(div).isVisible();}
+
+    @Test
+    public void should_confirm_that_element_is_selected(){
+        Select dropdown = new Select(browser.findElement(By.id("select")));
+        dropdown.selectByVisibleText("option one");
+        assertThat(selection).isChosen();
+    }
+
+    @Test
+    public void should_assert_text_in_input_form(){
+        input_form.sendKeys("should assert correct");
+        assertThat(input_form).containsValue("should assert correct");
+    }
+
+    @Test
+    public void should_assert_input_is_empty(){
+        assertThat(input_form).isEmpty();
+    }
+
+    @Test
+    public void combining_assertions(){
+        assertThat(div).hasText("pseudo root").isVisible();
+    }
+
+    @Test
+    public void should_assert_item_is_not_visible(){
+        assertThat(invisible).isNotVisible();
+    }
+
+
 
 }
