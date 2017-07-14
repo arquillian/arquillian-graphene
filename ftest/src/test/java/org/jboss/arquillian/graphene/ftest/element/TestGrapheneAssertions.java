@@ -37,9 +37,11 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.jboss.arquillian.graphene.assertions.GrapheneAssert.assertThat;
 
 @RunWith(Arquillian.class)
@@ -62,16 +64,22 @@ public class TestGrapheneAssertions {
     private WebElement divHead;
 
     @FindBy(id="option two")
-    private WebElement selection;
+    private WebElement secondOption;
 
     @FindBy(id="form")
-    private WebElement input_form;
+    private WebElement inputForm;
 
     @FindBy(id="unseen")
     private WebElement invisible;
 
     @FindBy(id="invisible")
-    private WebElement top;
+    private WebElement aboveInvisible;
+
+    @FindBy(id="select")
+    private WebElement selected;
+
+    @FindBy(id="inactive")
+    private WebElement inactiveInputForm;
 
     @Deployment
     public static WebArchive createTestArchive() {
@@ -88,10 +96,10 @@ public class TestGrapheneAssertions {
         assertThat(div).hasText("pseudo root");
     }
 
-    @Test
+    /*@Test
     public void should_confirm_element_has_child_web_element(){
-        assertThat(divHead).hasChild();}
-
+        assertThat(divHead).hasChild(browser);}
+*/
     @Test
     public void should_confirm_element_has_parent_web_element(){
         assertThat(div).hasParent();}
@@ -104,30 +112,59 @@ public class TestGrapheneAssertions {
     public void should_confirm_that_element_is_selected(){
         Select dropdown = new Select(browser.findElement(By.id("select")));
         dropdown.selectByVisibleText("option one");
-        assertThat(selection).isChosen();
+        assertThat(secondOption).isChosen();
     }
 
     @Test
     public void should_assert_text_in_input_form(){
-        input_form.sendKeys("should assert correct");
-        assertThat(input_form).containsValue("should assert correct");
+        inputForm.sendKeys("should assert correct");
+        assertThat(inputForm).containsValue("should assert correct");
     }
 
     @Test
     public void should_assert_input_is_empty(){
-        assertThat(input_form).isEmpty();
+        assertThat(inputForm).isEmpty();
     }
 
-    @Test
+    //not working as expected, not haveing any effect on error message
+    /*@Test
     public void combining_assertions(){
-        assertThat(div).hasText("pseudo root").isVisible();
-    }
+        assertThat(invisible).hasText("unseen element").isVisible().withFailMessage("Expected <%s> to be visible but was <%s>", invisible, assertThat(invisible).isVisible());
+    }*/
 
     @Test
     public void should_assert_item_is_not_visible(){
         assertThat(invisible).isNotVisible();
     }
 
+    @Test
+    public void should_assert_type_attribute_of_WebElement(){
+        assertThat(inputForm).typeIs("text");
+    }
 
+    @Test
+    public void should_assert_css_class_of_element(){
+        assertThat(aboveInvisible).hasCssClass("opague");
+    }
 
+    @Test
+    public void confirm_the_element_is_in_focus(){
+        new Actions(browser).moveToElement(selected).click().perform();
+        assertThat(selected).isFocused(browser);
+    }
+
+    @Test
+    public void confirm_the_element_is_enabled(){
+        assertThat(inputForm).typeIs("text").isVisible().isEnabled();
+    }
+
+    @Test
+    public void confirm_the_element_isnt_enabled(){
+        assertThat(inactiveInputForm).isntEnabled();
+    }
+
+    @Test
+    public void confirm_element_text_matches_regex(){
+        assertThat(invisible).textMatchesRegex("([a-z])\\w+");
+    }
 }
