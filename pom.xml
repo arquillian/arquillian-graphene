@@ -106,7 +106,7 @@
             <!-- runtime dependencies -->
             <dependency>
                 <groupId>cglib</groupId>
-                <artifactId>cglib</artifactId>
+                <artifactId>cglib-nodep</artifactId>
                 <version>${version.cglib}</version>
             </dependency>
             <dependency>
