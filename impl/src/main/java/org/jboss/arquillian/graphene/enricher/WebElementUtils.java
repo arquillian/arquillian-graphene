@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.GrapheneElementImpl;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
@@ -56,7 +55,7 @@ public final class WebElementUtils {
 
     private static final Logger LOGGER = Logger.getLogger(WebElementUtils.class.getName());
     private static final String EMPTY_FIND_BY_WARNING = " Be aware of the fact that fields anotated with empty "
-            + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
+        + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
 
     private static final Class<?>[] INTERFACES_PROXY_SHOULD_IMPLEMENT = {Locatable.class,
         WrapsElement.class, FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class,
@@ -87,7 +86,10 @@ public final class WebElementUtils {
                     LOGGER.log(Level.WARNING, EMPTY_FIND_BY_WARNING);
                 }
                 for (int i = 0; i < elements.size(); i++) {
-                    result.add(findElementLazily(context, by, searchContextFuture, i));
+                    WebElement foundElement = findElementLazily(context, by, searchContextFuture, i);
+                    if (foundElement != null) {
+                        result.add(foundElement);
+                    }
                 }
                 return result;
             }
@@ -101,7 +103,11 @@ public final class WebElementUtils {
         return findElement(context, new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                return dropProxyAndFindElements(by, (SearchContext) searchContextFuture.getTarget()).get(indexInList);
+                List<WebElement> elements = dropProxyAndFindElements(by, (SearchContext) searchContextFuture.getTarget());
+                if (elements.size() > indexInList) {
+                    return elements.get(indexInList);
+                }
+                return null;
             }
         });
     }
@@ -110,7 +116,11 @@ public final class WebElementUtils {
         return findElement(getContext(searchContext), new GrapheneProxy.FutureTarget() {
             @Override
             public Object getTarget() {
-                return dropProxyAndFindElements(by, searchContext).get(indexInList);
+                List<WebElement> elements = dropProxyAndFindElements(by, searchContext);
+                if (elements.size() > indexInList) {
+                    return elements.get(indexInList);
+                }
+                return null;
             }
         });
     }
@@ -123,7 +133,7 @@ public final class WebElementUtils {
                     return dropProxyAndFindElement(by, searchContext);
                 } catch (NoSuchElementException ex) {
                     throw new NoSuchElementException((by instanceof ByIdOrName ? EMPTY_FIND_BY_WARNING : "") + ex.getMessage(),
-                            ex);
+                        ex);
                 }
             }
         });
