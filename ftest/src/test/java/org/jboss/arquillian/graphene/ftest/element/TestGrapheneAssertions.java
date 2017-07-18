@@ -22,7 +22,6 @@
 package org.jboss.arquillian.graphene.ftest.element;
 
 import java.net.URL;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -41,7 +40,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.jboss.arquillian.graphene.assertions.GrapheneAssert.assertThat;
 
 @RunWith(Arquillian.class)
@@ -81,6 +79,21 @@ public class TestGrapheneAssertions {
     @FindBy(id="inactive")
     private WebElement inactiveInputForm;
 
+    @FindBy(id="disabled button")
+    private WebElement disabledButton;
+
+    @FindBy(id = "java1")
+    private WebElement javaRadioButton;
+
+    @FindBy(id = "php1")
+    private WebElement phpRadioButton;
+
+    @FindBy(id = "seleniumbox")
+    private WebElement seleniumCheckBox;
+
+    @FindBy(id = "restapibox")
+    private WebElement restApiCheckBox;
+
     @Deployment
     public static WebArchive createTestArchive() {
         return Resources.inPackage(SAMPLE_PACKAGE).all().buildWar("test.war");
@@ -98,27 +111,27 @@ public class TestGrapheneAssertions {
 
     /*@Test
     public void should_confirm_element_has_child_web_element(){
-        assertThat(divHead).hasChild(browser);}
-*/
-    @Test
+        assertThat(divHead).hasChild(browser);}*/
+
+    /*@Test
     public void should_confirm_element_has_parent_web_element(){
-        assertThat(div).hasParent();}
+        assertThat(div).hasParent();}*/
 
     @Test
     public void should_confirm_that_web_element_is_displayed_on_page(){
-        assertThat(div).isVisible();}
+        assertThat(invisible).isVisible();}
 
     @Test
-    public void should_confirm_that_element_is_selected(){
+    public void should_confirm_that_dropdown_element_is_Chosen(){
         Select dropdown = new Select(browser.findElement(By.id("select")));
-        dropdown.selectByVisibleText("option one");
-        assertThat(secondOption).isChosen();
+        dropdown.selectByVisibleText("option two");
+        assertThat(secondOption).isChosenD(dropdown);
     }
 
     @Test
     public void should_assert_text_in_input_form(){
         inputForm.sendKeys("should assert correct");
-        assertThat(inputForm).containsValue("should assert correct");
+        assertThat(inputForm).containsText("should assert correct");
     }
 
     @Test
@@ -126,20 +139,9 @@ public class TestGrapheneAssertions {
         assertThat(inputForm).isEmpty();
     }
 
-    //not working as expected, not haveing any effect on error message
-    /*@Test
-    public void combining_assertions(){
-        assertThat(invisible).hasText("unseen element").isVisible().withFailMessage("Expected <%s> to be visible but was <%s>", invisible, assertThat(invisible).isVisible());
-    }*/
-
-    @Test
-    public void should_assert_item_is_not_visible(){
-        assertThat(invisible).isNotVisible();
-    }
-
     @Test
     public void should_assert_type_attribute_of_WebElement(){
-        assertThat(inputForm).typeIs("text");
+        assertThat(inputForm).isTypeOf("text");
     }
 
     @Test
@@ -149,22 +151,44 @@ public class TestGrapheneAssertions {
 
     @Test
     public void confirm_the_element_is_in_focus(){
-        new Actions(browser).moveToElement(selected).click().perform();
-        assertThat(selected).isFocused(browser);
+        new Actions(browser).moveToElement(inputForm).click().perform();
+        assertThat(inputForm).isFocused(browser);
     }
 
     @Test
     public void confirm_the_element_is_enabled(){
-        assertThat(inputForm).typeIs("text").isVisible().isEnabled();
-    }
-
-    @Test
-    public void confirm_the_element_isnt_enabled(){
-        assertThat(inactiveInputForm).isntEnabled();
+        System.out.println(disabledButton.isEnabled());
+        assertThat(disabledButton.isEnabled());
     }
 
     @Test
     public void confirm_element_text_matches_regex(){
-        assertThat(invisible).textMatchesRegex("([a-z])\\w+");
+        System.out.println(invisible.getText().matches("([A-Z])\\w+"));
+        assertThat(invisible).textMatchesRegex("([A-Z])\\w+");
     }
+
+    /*@Test
+    public void softly_assert_conditions(){
+        (assertThat(invisible).hasText("unseen")).softly();
+        (assertThat(inputForm).typeIs("int")).softly();
+        (assertThat(inactiveInputForm).isntEnabled()).softly();
+
+    }*/
+
+
+    @Test
+    public void asserts_that_the_correct_radio_button_is_chosen(){
+        new Actions(browser).moveToElement(phpRadioButton).click();
+        assertThat(phpRadioButton).isChosen();
+    }
+
+
+    @Test
+    public void should_assert_the_correct_checkbox_is_chosen(){
+        new Actions(browser).moveToElement(restApiCheckBox).click();
+        assertThat(restApiCheckBox).isChosen();
+
+    }
+
+
 }

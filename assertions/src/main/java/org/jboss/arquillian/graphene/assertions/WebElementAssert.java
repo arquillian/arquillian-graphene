@@ -2,10 +2,12 @@ package org.jboss.arquillian.graphene.assertions;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.JUnitSoftAssertions;
+import org.junit.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.Select;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,22 +29,31 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
         return this;
     }*/
 
-    public WebElementAssert hasParent(){
+    /*public WebElementAssert hasParent(){
         assertThat(this.actual.findElement(By.xpath("..")));
         return this;
-    }
+    }*/
+
 
     public WebElementAssert isVisible(){
-        assertThat(this.actual.isDisplayed());
+        assertThat(this.actual.isDisplayed()).isTrue();
         return this;
     }
 
+    //doesn't work for dropboxes
     public WebElementAssert isChosen(){
-        assertThat(this.actual.isSelected());
+        assertThat(this.actual.isSelected()).isTrue();
         return this;
     }
 
-    public WebElementAssert containsValue(String expectedText){
+    //support's dropboxes, supply dropbox and text of chosen option to assert it's chosen
+    public WebElementAssert isChosenD(Select dropdown){
+        assertThat(dropdown.getFirstSelectedOption()).isEqualTo(this.actual);
+        return this;
+    }
+
+
+    public WebElementAssert containsText(String expectedText){
         String text = this.actual.getAttribute("value");
         assertThat(text).isEqualTo(expectedText);
         return this;
@@ -55,7 +66,7 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     }
 
     public WebElementAssert isNotVisible(){
-        assertThat(BooleanUtils.isFalse(this.actual.isDisplayed()));
+        assertThat(Boolean.valueOf(this.actual.isDisplayed()));
         return this;
     }
 
@@ -64,7 +75,7 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
         return this;
     }
 
-    public WebElementAssert typeIs(String expectedType){
+    public WebElementAssert isTypeOf(String expectedType){
         assertThat(this.actual.getAttribute("type")).isEqualTo(expectedType);
         return this;
     }
@@ -80,17 +91,28 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     }
 
     public WebElementAssert isEnabled(){
-        assertThat(this.actual.isEnabled());
+        assertThat(this.actual.isEnabled()).isTrue();
         return this;
     }
 
     public WebElementAssert isntEnabled(){
-        assertThat(BooleanUtils.isFalse(this.actual.isEnabled()));
+        assertThat(Boolean.valueOf(this.actual.isEnabled()));
         return this;
     }
 
     public WebElementAssert textMatchesRegex(String regex){
-        assertThat(this.actual.getText().matches(regex));
+        assertThat(this.actual.getText().matches(regex)).isTrue();
         return this;
     }
+
+    /*public WebElementAssert softly(){
+        JUnitSoftAssertions softly = new JUnitSoftAssertions();
+        softly.assertThat(this.actual);
+        return this;
+    }*/
+
+    /*public WebElementAssert isNot(){
+        assertThat(this.actual);
+        return this;
+    }*/
 }
