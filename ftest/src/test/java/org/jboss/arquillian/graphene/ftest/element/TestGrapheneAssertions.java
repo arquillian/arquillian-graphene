@@ -109,17 +109,17 @@ public class TestGrapheneAssertions {
         assertThat(div).hasText("pseudo root");
     }
 
-    /*@Test
+    @Test
     public void should_confirm_element_has_child_web_element(){
-        assertThat(divHead).hasChild(browser);}*/
+        assertThat(div).hasChild();}
 
-    /*@Test
+    @Test
     public void should_confirm_element_has_parent_web_element(){
-        assertThat(div).hasParent();}*/
+        assertThat(div).hasParent();}
 
     @Test
     public void should_confirm_that_web_element_is_displayed_on_page(){
-        assertThat(invisible).isVisible();}
+        assertThat(div).isNot().isDisplayed();}
 
     @Test
     public void should_confirm_that_dropdown_element_is_Chosen(){
@@ -136,7 +136,8 @@ public class TestGrapheneAssertions {
 
     @Test
     public void should_assert_input_is_empty(){
-        assertThat(inputForm).isEmpty();
+        inputForm.sendKeys("not empty");
+        assertThat(inputForm).isNot().isEmpty();
     }
 
     @Test
@@ -164,31 +165,27 @@ public class TestGrapheneAssertions {
     @Test
     public void confirm_element_text_matches_regex(){
         System.out.println(invisible.getText().matches("([A-Z])\\w+"));
-        assertThat(invisible).textMatchesRegex("([A-Z])\\w+");
+        assertThat(invisible).isNot().textMatchesRegex("([A-Z])\\w+");
     }
+
 
     /*@Test
-    public void softly_assert_conditions(){
-        (assertThat(invisible).hasText("unseen")).softly();
-        (assertThat(inputForm).typeIs("int")).softly();
-        (assertThat(inactiveInputForm).isntEnabled()).softly();
-
-    }*/
-
-
-    @Test
     public void asserts_that_the_correct_radio_button_is_chosen(){
         new Actions(browser).moveToElement(phpRadioButton).click();
-        assertThat(phpRadioButton).isChosen();
-    }
+        assertThat(phpRadioButton).isDisplayed();
+    }*/
 
 
     @Test
     public void should_assert_the_correct_checkbox_is_chosen(){
         new Actions(browser).moveToElement(restApiCheckBox).click();
-        assertThat(restApiCheckBox).isChosen();
+        assertThat(restApiCheckBox).isSelected();
 
     }
 
+    /*@Test
+    public void should_assert_the_element_has_no_children(){
+        assertThat(div).isNot().hasChild();
+    }*/
 
 }
