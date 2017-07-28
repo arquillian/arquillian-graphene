@@ -47,7 +47,8 @@ public class FieldAccessValidatorEnricher implements SearchContextTestEnricher {
     }
 
     protected void checkFieldValidity(final SearchContext searchContext, final Object target, final Field field) {
-        if (!Modifier.isStatic(field.getModifiers()) || !Modifier.isFinal(field.getModifiers())) {
+        if (field.getAnnotations().length > 0 // ARQGRA-510 cglib adds one variable that is public static but not final - check only fields with some annotation
+            && (!Modifier.isStatic(field.getModifiers()) || !Modifier.isFinal(field.getModifiers()))) {
             // public field
             if (searchContext != null && field.isAccessible() || Modifier.isPublic(field.getModifiers())) {
                 final String message = "Public field '" + field.getName() + "' found in " + target.getClass().getName() + ". Direct access to fields outside of the declaring class is not allowed.";
