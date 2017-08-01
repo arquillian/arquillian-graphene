@@ -21,14 +21,14 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
+import org.openqa.selenium.SearchContext;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
-import org.openqa.selenium.SearchContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -47,8 +47,8 @@ public class FieldAccessValidatorEnricher implements SearchContextTestEnricher {
     }
 
     protected void checkFieldValidity(final SearchContext searchContext, final Object target, final Field field) {
-        if ((!Modifier.isStatic(field.getModifiers()) || !Modifier.isFinal(field.getModifiers()))
-            && !field.getName().startsWith("CGLIB")) { // ARQGRA-510 cglib adds one variable that is public static but not final
+        if (field.getAnnotations().length > 0 // ARQGRA-510 cglib adds one variable that is public static but not final - check only fields with some annotation
+            && (!Modifier.isStatic(field.getModifiers()) || !Modifier.isFinal(field.getModifiers()))) {
             // public field
             if (searchContext != null && field.isAccessible() || Modifier.isPublic(field.getModifiers())) {
                 final String message = "Public field '" + field.getName() + "' found in " + target.getClass().getName() + ". Direct access to fields outside of the declaring class is not allowed.";
