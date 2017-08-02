@@ -21,14 +21,14 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
+import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
+import org.openqa.selenium.SearchContext;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.jboss.arquillian.graphene.spi.enricher.SearchContextTestEnricher;
-import org.openqa.selenium.SearchContext;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
