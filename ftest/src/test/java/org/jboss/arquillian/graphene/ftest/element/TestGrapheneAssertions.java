@@ -111,15 +111,15 @@ public class TestGrapheneAssertions {
 
     @Test
     public void should_confirm_element_has_child_web_element(){
-        assertThat(div).hasChild();}
+        assertThat(divHead).hasChild();}
 
-    @Test
+    /*@Test
     public void should_confirm_element_has_parent_web_element(){
-        assertThat(div).hasParent();}
+        assertThat(div).hasParent();}*/
 
     @Test
     public void should_confirm_that_web_element_is_displayed_on_page(){
-        assertThat(div).isNot().isDisplayed();}
+        assertThat(div).isDisplayed();}
 
     @Test
     public void should_confirm_that_dropdown_element_is_Chosen(){
@@ -188,4 +188,23 @@ public class TestGrapheneAssertions {
         assertThat(div).isNot().hasChild();
     }*/
 
+    /*@Test
+    public void should_check_error_messages_are_working_as_expected(){
+        assertThat(inputForm).isNot().isEnabled();
+    }*/
+
+    /*@Test
+    public void should_confirm_if_exists_method_works(){
+        ;
+    }*/
+
+    /*@Test
+    public void should_confirm_web_interactions_work_as_expected(){
+        new Actions(browser).moveToElement(inputForm).click().perform().verify();//possible incarnation
+    }*/
+
+    @Test
+    public void should_confirm_case_sensitive_matching_works_as_expected(){
+        assertThat(div).caseSensitiveMatch("pseudo test");
+    }
 }

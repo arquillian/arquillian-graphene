@@ -1,6 +1,7 @@
 package org.jboss.arquillian.graphene.assertions;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.xpath.operations.Bool;
 import org.assertj.core.api.AbstractAssert;
 import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.openqa.selenium.By;
@@ -51,12 +52,12 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
 
     public WebElementAssert isDisplayed(){
         if(this.negated){
-            assertThat(this.actual.isDisplayed()).as("checking element is not displayed").overridingErrorMessage("element is displayed").isFalse();
+            assertThat(Boolean.valueOf(this.actual.isDisplayed())).as("checking element is not displayed").overridingErrorMessage("element is displayed").isFalse();
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.isDisplayed()).as("checking element is displayed").overridingErrorMessage("element is not displayed").isTrue();
+            assertThat(Boolean.valueOf(this.actual.isDisplayed())).as("checking element is displayed").overridingErrorMessage("element is not displayed").isTrue();
             return this;
         }
     }
@@ -64,12 +65,12 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     //doesn't work for dropboxes
     public WebElementAssert isSelected(){
         if(this.negated){
-            assertThat(this.actual.isSelected()).as("checking element is not selected").overridingErrorMessage("element is selected").isFalse();
+            assertThat(Boolean.valueOf(this.actual.isSelected())).as("checking element is not selected").overridingErrorMessage("element is selected").isFalse();
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.isSelected()).as("checking element is selected").overridingErrorMessage("element is not selected").isTrue();
+            assertThat(Boolean.valueOf(this.actual.isSelected())).as("checking element is selected").overridingErrorMessage("element is not selected").isTrue();
             return this;
         }
     }
@@ -152,24 +153,24 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
 
     public WebElementAssert isEnabled(){
         if(this.negated){
-            assertThat(this.actual.isEnabled()).as("checking element is not enabled").overridingErrorMessage("element is enabled").isFalse();
+            assertThat(Boolean.valueOf(this.actual.isEnabled())).as("checking element is not enabled").overridingErrorMessage("element is enabled").isFalse();
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.isEnabled()).as("checking element is enabled").overridingErrorMessage("element is not enabled").isTrue();
+            assertThat(Boolean.valueOf(this.actual.isEnabled())).as("checking element is enabled").overridingErrorMessage("element is not enabled").isTrue();
             return this;
         }
     }
 
     public WebElementAssert textMatchesRegex(String regex){
         if(this.negated){
-            assertThat(this.actual.getText().matches(regex)).as("checking regex does not match text").overridingErrorMessage("regex matches text").isFalse();
+            assertThat(Boolean.valueOf(this.actual.getText().matches(regex))).as("checking regex does not match text").overridingErrorMessage("regex matches text").isFalse();
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.getText().matches(regex)).as("checking regex matches text").overridingErrorMessage("regex does not match text").isTrue();
+            assertThat(Boolean.valueOf(this.actual.getText().matches(regex))).as("checking regex matches text").overridingErrorMessage("regex does not match text").isTrue();
             return this;
         }
     }
@@ -178,4 +179,11 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
         this.negated = true;
         return this;
     }
+
+    public WebElementAssert find(String locator, WebDriver browser){
+        WebElement possible = browser.findElement(By.id(locator));
+        assertThat(possible);
+        return (WebElementAssert) possible;
+    }
+
 }
