@@ -1,11 +1,8 @@
 package org.jboss.arquillian.graphene.assertions;
 
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.xpath.operations.Bool;
 import org.assertj.core.api.AbstractAssert;
 import org.jboss.arquillian.graphene.findby.ByJQuery;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -22,12 +19,12 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
 
     public WebElementAssert hasText(String expectedText) {
         if(this.negated){
-            assertThat(this.actual.getText()).as("checking strings are not equal").overridingErrorMessage("contains expected string").isNotEqualTo(expectedText);
+            assertThat(this.actual.getText()).as("checking strings are not equal").overridingErrorMessage("The content of the element should not be equal to " + expectedText +", but it is").isNotEqualTo(expectedText);
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.getText()).as("checking equality").overridingErrorMessage("contains other string").isEqualTo(expectedText);
+            assertThat(this.actual.getText()).as("checking equality").overridingErrorMessage("The content of the element should be equal to" + expectedText + "but it is not").isEqualTo(expectedText);
             return this;
         }
     }
@@ -48,7 +45,6 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
         assertThat(this.actual.findElement(ByJQuery.selector("")));
         return this;
     }
-
 
     public WebElementAssert isDisplayed(){
         if(this.negated){
@@ -92,12 +88,12 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     public WebElementAssert containsText(String expectedText){
         String text = this.actual.getAttribute("value");
         if(this.negated){
-            assertThat(text).as("checking text value is not the same as the supplied string").overridingErrorMessage("contains the supplied string").isNotEqualTo(expectedText);
+            assertThat(text).as("checking text value is not the same as the supplied string").overridingErrorMessage("The element contains " + expectedText +", the supplied string").isNotEqualTo(expectedText);
             this.negated = false;
             return this;
         }
         else {
-            assertThat(text).as("checking text value is the same as the supplied string").overridingErrorMessage("contains other string").isEqualTo(expectedText);
+            assertThat(text).as("checking text value is the same as the supplied string").overridingErrorMessage("The element does not contain " + expectedText + ", it contains some other string").isEqualTo(expectedText);
             return this;
         }
     }
@@ -117,24 +113,24 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
 
     public WebElementAssert isTypeOf(String expectedType){
         if(this.negated){
-            assertThat(this.actual.getAttribute("type")).as("checking not supplied type").overridingErrorMessage("contains supplied type").isNotEqualTo(expectedType);
+            assertThat(this.actual.getAttribute("type")).as("checking not supplied type").overridingErrorMessage("The element contains" + expectedType + ", the supplied type").isNotEqualTo(expectedType);
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.getAttribute("type")).as("checking is supplied type").overridingErrorMessage("contains other type").isEqualTo(expectedType);
+            assertThat(this.actual.getAttribute("type")).as("checking is supplied type").overridingErrorMessage("The element does not contain" + expectedType + ", it is some other type").isEqualTo(expectedType);
             return this;
         }
     }
 
     public WebElementAssert hasCssClass(String expectedClass){
         if(this.negated){
-            assertThat(this.actual.getAttribute("class")).as("checking css class does not match supplied css class").overridingErrorMessage("is supplied css class").isNotEqualTo(expectedClass);
+            assertThat(this.actual.getAttribute("class")).as("checking css class does not match supplied css class").overridingErrorMessage("The element has " + expectedClass + ", the supplied css class").isNotEqualTo(expectedClass);
             this.negated = false;
             return this;
         }
         else {
-            assertThat(this.actual.getAttribute("class")).as("checking css class matches supplied class").overridingErrorMessage("is not supplied css class").isEqualTo(expectedClass);
+            assertThat(this.actual.getAttribute("class")).as("checking css class matches supplied class").overridingErrorMessage("The element has not the " + expectedClass + ", it contains another css class").isEqualTo(expectedClass);
             return this;
         }
     }
@@ -165,25 +161,30 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
 
     public WebElementAssert textMatchesRegex(String regex){
         if(this.negated){
-            assertThat(Boolean.valueOf(this.actual.getText().matches(regex))).as("checking regex does not match text").overridingErrorMessage("regex matches text").isFalse();
+            assertThat(Boolean.valueOf(this.actual.getText().matches(regex))).as("checking regex does not match text").overridingErrorMessage("The regex " + regex + " matches the text").isFalse();
             this.negated = false;
             return this;
         }
         else {
-            assertThat(Boolean.valueOf(this.actual.getText().matches(regex))).as("checking regex matches text").overridingErrorMessage("regex does not match text").isTrue();
+            assertThat(Boolean.valueOf(this.actual.getText().matches(regex))).as("checking regex matches text").overridingErrorMessage("The regex " + regex + " does not match text").isTrue();
             return this;
         }
     }
 
+    /*public WebElementAssert caseInsensitiveMatching(String match){
+        assertThat(this.actual.getText().contains(match));
+        return this;
+    }*/
+
+    /*public WebElementAssert subStringMatching(String match){
+        CharSequence sequence = (CharSequence) match;
+        assertThat(this.actual.getText().contains(sequence));
+        return this;
+    }*/
+
     public WebElementAssert isNot(){
         this.negated = true;
         return this;
-    }
-
-    public WebElementAssert find(String locator, WebDriver browser){
-        WebElement possible = browser.findElement(By.id(locator));
-        assertThat(possible);
-        return (WebElementAssert) possible;
     }
 
 }

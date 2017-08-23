@@ -38,6 +38,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import static org.jboss.arquillian.graphene.assertions.GrapheneAssert.assertThat;
@@ -54,6 +55,9 @@ public class TestGrapheneAssertions {
 
     @Drone
     private WebDriver browser;
+    /*EventFiringWebDriver eventDriver = new EventFiringWebDriver(browser);
+    EventHandler handler = new EventHandler();
+    eventDriver.register(handler);*/
 
     @FindBy(id = "pseudoroot")
     private WebElement div;
@@ -195,7 +199,7 @@ public class TestGrapheneAssertions {
 
     /*@Test
     public void should_confirm_if_exists_method_works(){
-        ;
+        find("pseudoroot", browser);
     }*/
 
     /*@Test
@@ -203,8 +207,13 @@ public class TestGrapheneAssertions {
         new Actions(browser).moveToElement(inputForm).click().perform().verify();//possible incarnation
     }*/
 
-    @Test
+    /*@Test
     public void should_confirm_case_sensitive_matching_works_as_expected(){
         assertThat(div).caseSensitiveMatch("pseudo test");
-    }
+    }*/
+
+    /*@Test
+    public void should_confirm_that_case_insensitive_matching_works_as_expected(){
+        assertThat(inactiveInputForm).subStringMatching("zz");
+    }*/
 }
