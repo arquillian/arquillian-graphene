@@ -38,7 +38,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import static org.jboss.arquillian.graphene.assertions.GrapheneAssert.assertThat;
@@ -55,9 +54,6 @@ public class TestGrapheneAssertions {
 
     @Drone
     private WebDriver browser;
-    /*EventFiringWebDriver eventDriver = new EventFiringWebDriver(browser);
-    EventHandler handler = new EventHandler();
-    eventDriver.register(handler);*/
 
     @FindBy(id = "pseudoroot")
     private WebElement div;
@@ -98,6 +94,12 @@ public class TestGrapheneAssertions {
     @FindBy(id = "restapibox")
     private WebElement restApiCheckBox;
 
+    @FindBy(id ="kid")
+    private WebElement testChild;
+
+    @FindBy(id ="noParent")
+    private WebElement title;
+
     @Deployment
     public static WebArchive createTestArchive() {
         return Resources.inPackage(SAMPLE_PACKAGE).all().buildWar("test.war");
@@ -117,9 +119,9 @@ public class TestGrapheneAssertions {
     public void should_confirm_element_has_child_web_element(){
         assertThat(divHead).hasChild();}
 
-    /*@Test
+    @Test
     public void should_confirm_element_has_parent_web_element(){
-        assertThat(div).hasParent();}*/
+        assertThat(title).hasParent();}
 
     @Test
     public void should_confirm_that_web_element_is_displayed_on_page(){
@@ -173,11 +175,11 @@ public class TestGrapheneAssertions {
     }
 
 
-    /*@Test
+    @Test
     public void asserts_that_the_correct_radio_button_is_chosen(){
         new Actions(browser).moveToElement(phpRadioButton).click();
         assertThat(phpRadioButton).isDisplayed();
-    }*/
+    }
 
 
     @Test
@@ -187,15 +189,15 @@ public class TestGrapheneAssertions {
 
     }
 
-    /*@Test
+    @Test
     public void should_assert_the_element_has_no_children(){
-        assertThat(div).isNot().hasChild();
-    }*/
+        assertThat(testChild).isNot().hasChild();
+    }
 
-    /*@Test
+    @Test
     public void should_check_error_messages_are_working_as_expected(){
         assertThat(inputForm).isNot().isEnabled();
-    }*/
+    }
 
     /*@Test
     public void should_confirm_if_exists_method_works(){
@@ -207,13 +209,13 @@ public class TestGrapheneAssertions {
         new Actions(browser).moveToElement(inputForm).click().perform().verify();//possible incarnation
     }*/
 
-    /*@Test
+    @Test
     public void should_confirm_case_sensitive_matching_works_as_expected(){
-        assertThat(div).caseSensitiveMatch("pseudo test");
-    }*/
+        assertThat(div).subStringMatching("seudo");
+    }
 
-    /*@Test
+    @Test
     public void should_confirm_that_case_insensitive_matching_works_as_expected(){
-        assertThat(inactiveInputForm).subStringMatching("zz");
-    }*/
+        assertThat(div).caseInsensitiveMatching("PSEUDO ROOT");
+    }
 }
