@@ -24,7 +24,7 @@
 <!DOCTYPE html>
 <html xmlns:display="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Sample Page</title>
+        <title id="noParent">Sample Page</title>
     </head>
     <body>
         <div id="invisible" class="opague">
@@ -34,7 +34,9 @@
         <div id="root">
             <span>correct</span>
 
-            <div id="pseudoroot">pseudo root</div>
+            <div id="pseudoroot">pseudo root
+                <p id="kid">test kid</p>
+            </div>
         </div>
 
         <select id="select">
