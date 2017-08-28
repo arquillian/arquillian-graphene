@@ -112,7 +112,7 @@ public class TestGrapheneAssertions {
 
     @Test
     public void should_be_able_to_assert_text_on_web_element() {
-        assertThat(div).hasText("pseudo root");
+        assertThat(testChild).hasText("test kid");
     }
 
     @Test
@@ -196,7 +196,7 @@ public class TestGrapheneAssertions {
 
     @Test
     public void should_check_error_messages_are_working_as_expected(){
-        assertThat(inputForm).isNot().isEnabled();
+        assertThat(inactiveInputForm).isNot().isEnabled();
     }
 
     /*@Test
@@ -216,6 +216,6 @@ public class TestGrapheneAssertions {
 
     @Test
     public void should_confirm_that_case_insensitive_matching_works_as_expected(){
-        assertThat(div).caseInsensitiveMatching("PSEUDO ROOT");
+        assertThat(testChild).caseInsensitiveMatching("TEST KID");
     }
 }

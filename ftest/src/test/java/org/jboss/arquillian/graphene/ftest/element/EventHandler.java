@@ -1,5 +1,4 @@
-/*
-package org.jboss.arquillian.graphene.ftest.element;
+/*package org.jboss.arquillian.graphene.ftest.element;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,17 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import org.jboss.arquillian.graphene.guard.RequestGuardFactory;
+
 public class EventHandler implements WebDriverEventListener {
 
     public void beforeClick(WebElement element, WebDriver browser){
-        try {
-            PrintWriter writer = new PrintWriter("log.txt", "UTF-8");
-            writer.println("before click " + element);
-            writer.close();
-        }
-        catch (FileNotFoundException, UnsupportedEncodingException e){
-            System.out.println("logs not here");
-        }
+        guard();
     }
 
     public void afterClick(WebDriver browser, WebElement element){
@@ -34,5 +28,6 @@ public class EventHandler implements WebDriverEventListener {
             System.out.println("logs not here");
         }
     }
-}
-*/
+
+    public void
+}*/
