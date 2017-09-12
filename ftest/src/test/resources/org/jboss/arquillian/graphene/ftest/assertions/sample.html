@@ -22,23 +22,59 @@
 
 -->
 <!DOCTYPE html>
-<html>
+<html xmlns:display="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Sample Page</title>
+        <title id="noParent">Sample Page</title>
     </head>
     <body>
+        <div id="invisible" class="opague">
+            <span id="unseen" type="unknown" style="display:none">unseen element</span>
+        </div>
         <span>not correct</span>
         <div id="root">
             <span>correct</span>
 
-            <div id="pseudoroot">pseudo root</div>
+            <div id="pseudoroot">pseudo root
+                <p id="kid">test kid</p>
+            </div>
         </div>
 
         <select id="select">
             <option value="1">option one</option>
-            <option value="2">option two</option>
+            <option id="option two" value="2">option two</option>
             <option value="3">option three</option>
         </select>
+
+        <input type="text" id ='form'> text input </input>
+        <form>
+            <input type="text" id="inactive" class="test" disabled> disabled input </input>
+        </form>
+
+        <button id="disabled button" type="button" disabled>Click Me!</button>
+
+        <div class="alert blue">Check Boxes &amp; Radio Buttons</div>
+        <p><span class="" style="display:block;clear:both;height: 0px;border-top-width:0px;border-bottom-width:0px;"></span></p>
+        <table id="testtable" style="height: 92px;" width="266">
+            <thead>
+            <tr>
+                <td><input id="seleniumbox" name="selenium" type="checkbox" value="1&quot;"> Selenium<br>
+                    <input id="restapibox" checked="checked" name="restapi" type="checkbox" value="1"> Rest Api&nbsp;
+                    <span class="" style="display:block;clear:both;height: 0px;border-top-width:0px;border-bottom-width:0px;"></span>
+                </td>
+                <td>
+                    <input id="java1" name="checks" type="radio" value="Java"> Java &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input id="php1" name="checks" type="radio" value="PHP"> PHP
+                    <span class="" style="display:block;clear:both;height: 0px;border-top-width:0px;border-bottom-width:0px;"></span>
+                    <p>
+
+                    </p>
+                    <p>
+                        <button id="demo" disabled="disabled" type="button">Save</button>
+                    </p>
+                </td>
+            </tr>
+            </thead>
+        </table>
 
     </body>
 </html>
