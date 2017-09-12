@@ -1,4 +1,4 @@
-package org.jboss.arquillian.graphene.assertions;
+/*package org.jboss.arquillian.graphene.assertions;
 
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.page.document.Document;
@@ -22,3 +22,4 @@ import org.apache.commons.io.input.ReversedLinesFileReader;
 
 public class GrapheneVerify extends Actions {
 }
+*/
