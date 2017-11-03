@@ -33,7 +33,7 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.internal.Coordinates;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.internal.Locatable;
 
 /**
  * <p>
@@ -252,7 +252,7 @@ public class GrapheneElementImpl implements GrapheneElement {
     /*
      * (non-Javadoc)
      *
-     * @see org.openqa.selenium.internal.Locatable#getCoordinates()
+     * @see org.openqa.selenium.interactions.internal.Locatable#getCoordinates()
      */
     @Override
     public Coordinates getCoordinates() {

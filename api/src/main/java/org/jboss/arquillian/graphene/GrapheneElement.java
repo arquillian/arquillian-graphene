@@ -22,13 +22,12 @@
 package org.jboss.arquillian.graphene;
 
 import java.util.List;
-
 import org.jboss.arquillian.graphene.spi.ImplementedBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 
 /**

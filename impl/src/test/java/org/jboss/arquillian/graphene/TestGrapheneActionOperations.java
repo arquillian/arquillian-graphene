@@ -22,7 +22,7 @@
 package org.jboss.arquillian.graphene;
 
 import org.junit.Test;
-import org.openqa.selenium.internal.Locatable;
+import org.openqa.selenium.interactions.internal.Locatable;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
