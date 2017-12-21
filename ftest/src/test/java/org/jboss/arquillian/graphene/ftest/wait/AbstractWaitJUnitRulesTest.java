@@ -32,8 +32,8 @@ import org.jboss.arquillian.graphene.wait.AttributeBuilder;
 import org.jboss.arquillian.graphene.wait.ElementBuilder;
 import org.jboss.arquillian.graphene.wait.IsNotElementBuilder;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.ArquillianClassRule;
-import org.jboss.arquillian.junit.ArquillianRule;
+import org.jboss.arquillian.junit.ArquillianTestClass;
+import org.jboss.arquillian.junit.ArquillianTest;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
@@ -53,10 +53,10 @@ import org.openqa.selenium.support.ui.Select;
 public abstract class AbstractWaitJUnitRulesTest {
 
     @ClassRule
-    public static ArquillianClassRule classRule = new ArquillianClassRule();
+    public static ArquillianTestClass arquillianTestClass = new ArquillianTestClass();
 
     @Rule
-    public ArquillianRule rule = new ArquillianRule();
+    public ArquillianTest arquillianTest = new ArquillianTest();
 
     @Drone
     protected WebDriver browser;

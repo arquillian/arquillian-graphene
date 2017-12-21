@@ -32,8 +32,8 @@ import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.javascript.Dependency;
 import org.jboss.arquillian.graphene.javascript.JavaScript;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.ArquillianClassRule;
-import org.jboss.arquillian.junit.ArquillianRule;
+import org.jboss.arquillian.junit.ArquillianTestClass;
+import org.jboss.arquillian.junit.ArquillianTest;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
@@ -57,10 +57,10 @@ import org.openqa.selenium.support.FindBy;
 public class FindElementJUnitRulesTestCase {
 
     @ClassRule
-    public static ArquillianClassRule classRule = new ArquillianClassRule();
+    public static ArquillianTestClass arquillianTestClass = new ArquillianTestClass();
 
     @Rule
-    public ArquillianRule rule = new ArquillianRule();
+    public ArquillianTest arquillianTest = new ArquillianTest();
 
     @Drone
     private WebDriver browser;

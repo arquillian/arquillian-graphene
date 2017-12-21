@@ -29,8 +29,8 @@ import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.junit.ArquillianClassRule;
-import org.jboss.arquillian.junit.ArquillianRule;
+import org.jboss.arquillian.junit.ArquillianTestClass;
+import org.jboss.arquillian.junit.ArquillianTest;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
@@ -49,10 +49,10 @@ import qualifier.Browser2;
 public abstract class AbstractParallelJUnitRulesTest {
 
     @ClassRule
-    public static ArquillianClassRule classRule = new ArquillianClassRule();
+    public static ArquillianTestClass arquillianTestClass = new ArquillianTestClass();
 
     @Rule
-    public ArquillianRule rule = new ArquillianRule();
+    public ArquillianTest arquillianTest = new ArquillianTest();
 
     @ArquillianResource
     private URL contextRoot;
