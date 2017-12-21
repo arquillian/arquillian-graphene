@@ -44,7 +44,7 @@
         <version.objenesis>1.2</version.objenesis>
 
         <!-- Tests -->
-        <version.junit>4.11</version.junit>
+        <version.junit>4.12</version.junit>
         <version.hamcrest>1.3</version.hamcrest>
         <version.mockito>1.9.5</version.mockito>
     </properties>
