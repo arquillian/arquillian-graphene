@@ -41,7 +41,7 @@
 
         <!-- Runtime dependencies -->
         <version.cglib>3.2.5</version.cglib>
-        <version.objenesis>1.2</version.objenesis>
+        <version.objenesis>3.0</version.objenesis>
 
         <!-- Tests -->
         <version.junit>4.12</version.junit>
