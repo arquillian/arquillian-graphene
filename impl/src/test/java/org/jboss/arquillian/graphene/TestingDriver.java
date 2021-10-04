@@ -27,22 +27,12 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.HasInputDevices;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByName;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
 
 /**
  * @author Lukas Fryc
  */
-public interface TestingDriver extends WebDriver, HasCapabilities, HasInputDevices, FindsByClassName, FindsByCssSelector,
-        FindsById, FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, JavascriptExecutor, SearchContext,
+public interface TestingDriver extends WebDriver, HasCapabilities, HasInputDevices, JavascriptExecutor, SearchContext,
         TakesScreenshot {
 
-    Class<?>[] INTERFACES = new Class<?>[] { WebDriver.class, HasCapabilities.class, HasInputDevices.class,
-            FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class, FindsByName.class,
-            FindsByTagName.class, FindsByXPath.class, JavascriptExecutor.class, SearchContext.class, TakesScreenshot.class };
+    Class<?>[] INTERFACES = new Class<?>[] { WebDriver.class, HasCapabilities.class, HasInputDevices.class, JavascriptExecutor.class, SearchContext.class, TakesScreenshot.class };
 }
