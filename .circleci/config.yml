@@ -1,0 +1,35 @@
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.2.3
+jobs:
+  build:
+    parameters:
+      jdk-version:
+        type: string
+    working_directory: ~/circleci-arquillian
+    docker:
+      - image: cimg/openjdk:<< parameters.jdk-version >>-browsers
+    steps:
+      - browser-tools/install-browser-tools
+      - checkout
+      - restore_cache:
+          key: circleci-arquillian-graphene-{{ checksum "pom.xml" }}
+      - run: ./mvnw verify -q -U -DskipTests
+      - run: ./mvnw verify
+      - store_test_results:
+          path: target/surefire-reports
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: circleci-arquillian-graphene-{{ checksum "pom.xml" }}
+
+workflows:
+  version: 2.1
+  circleci_build:
+    jobs:
+      - build:
+          name: build-jdk-<< matrix.jdk-version >>
+          matrix:
+            parameters:
+              jdk-version: ["8.0"]
+
