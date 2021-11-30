@@ -30,6 +30,7 @@ import java.util.List;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.elements.GrapheneSelect;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.page.Page;
@@ -42,7 +43,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>

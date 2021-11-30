@@ -1,6 +1,6 @@
-/**
+/*
  * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and individual contributors
+ * Copyright 2021, Red Hat, Inc. and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -19,34 +19,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.arquillian.graphene.ftest.enricher.page;
 
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.elements.GrapheneSelect;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+package org.jboss.arquillian.graphene.elements;
 
-public class PageWithIFrames2 {
+import org.jboss.arquillian.graphene.spi.ImplementedBy;
+import org.openqa.selenium.WrapsElement;
+import org.openqa.selenium.support.ui.ISelect;
 
-    @FindBy(tagName = "select")
-    private GrapheneSelect select;
+/**
+ * Temporary class for GrapheneSelect elements
+ * Replace with <code>{@link org.openqa.selenium.support.ui.Select}</code> after resolving issues with getDomProperty() and getDomAttribute() methods on WebDrivers
+ * <p>
+ * Models a SELECT tag, providing helper methods to select and deselect options.
+ */
+@ImplementedBy(className = "org.jboss.arquillian.graphene.elements.GrapheneSelectImpl")
+public interface GrapheneSelect extends ISelect, WrapsElement {
 
-    @FindBy(tagName = "span")
-    private WebElement span;
-
-    @Drone
-    private WebDriver browser;
-
-    public GrapheneSelect getSelect() {
-        return select;
-    }
-
-    public String getTextFromSpan() {
-        return span.getText();
-    }
-
-    public WebElement getSpan() {
-        return span;
-    }
+    void setIsMulti(boolean isMulti);
 }

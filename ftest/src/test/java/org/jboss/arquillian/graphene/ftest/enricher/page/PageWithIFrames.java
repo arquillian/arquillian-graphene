@@ -22,12 +22,12 @@
 package org.jboss.arquillian.graphene.ftest.enricher.page;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.elements.GrapheneSelect;
 import org.jboss.arquillian.graphene.ftest.enricher.page.fragment.PageFragmentWithSpan;
 import org.jboss.arquillian.graphene.page.InFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 public class PageWithIFrames {
 

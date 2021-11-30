@@ -20,12 +20,11 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.arquillian.graphene.ftest.utils;
+package org.jboss.arquillian.graphene.elements;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WrapsElement;
 import org.openqa.selenium.support.ui.ISelect;
 import org.openqa.selenium.support.ui.Quotes;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
@@ -41,7 +40,7 @@ import java.util.stream.Collectors;
  * <p>
  * Models a SELECT tag, providing helper methods to select and deselect options.
  */
-public class GrapheneSelect implements ISelect, WrapsElement {
+public class GrapheneSelectImpl implements GrapheneSelect {
 
     private final WebElement element;
     private boolean isMulti = false;
@@ -53,7 +52,7 @@ public class GrapheneSelect implements ISelect, WrapsElement {
      * @param element SELECT element to wrap
      * @throws UnexpectedTagNameException when element is not a SELECT
      */
-    public GrapheneSelect(WebElement element) {
+    public GrapheneSelectImpl(WebElement element) {
         String tagName = element.getTagName();
 
         if (!"select".equalsIgnoreCase(tagName)) {
@@ -63,6 +62,7 @@ public class GrapheneSelect implements ISelect, WrapsElement {
         this.element = element;
     }
 
+    @Override
     public void setIsMulti(boolean isMulti) {
         this.isMulti = isMulti;
     }
@@ -330,7 +330,7 @@ public class GrapheneSelect implements ISelect, WrapsElement {
             return false;
         }
         GrapheneSelect select = (GrapheneSelect) o;
-        return Objects.equals(element, select.element);
+        return Objects.equals(element, select.getWrappedElement());
     }
 
     @Override

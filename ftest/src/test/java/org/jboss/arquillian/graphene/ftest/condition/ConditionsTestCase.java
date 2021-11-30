@@ -27,6 +27,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.elements.GrapheneSelectImpl;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.junit.Arquillian;
@@ -39,7 +40,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -156,17 +156,17 @@ public class ConditionsTestCase {
 
     @Test
     public void testElementIsSelected() {
-        new GrapheneSelect(select).selectByIndex(0);
+        new GrapheneSelectImpl(select).selectByIndex(0);
         Graphene.waitModel().until().element(option1).is().selected();
-        new GrapheneSelect(select).selectByIndex(1);
+        new GrapheneSelectImpl(select).selectByIndex(1);
         Graphene.waitModel().until().element(option1).is().not().selected();
     }
 
     @Test
     public void testElementIsSelectedWithBy() {
-        new GrapheneSelect(select).selectByIndex(0);
+        new GrapheneSelectImpl(select).selectByIndex(0);
         Graphene.waitModel().until().element(BY_OPTION1).is().selected();
-        new GrapheneSelect(select).selectByIndex(1);
+        new GrapheneSelectImpl(select).selectByIndex(1);
         Graphene.waitModel().until().element(BY_OPTION1).is().not().selected();
     }
 
