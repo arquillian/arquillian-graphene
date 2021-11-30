@@ -24,9 +24,11 @@ package org.jboss.arquillian.graphene.ftest.enricher;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.Graphene;
+import org.jboss.arquillian.graphene.ftest.StubbedHttpServerRule;
 import org.jboss.arquillian.graphene.page.Location;
 import org.jboss.arquillian.graphene.spi.location.Scheme;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -35,7 +37,10 @@ import org.openqa.selenium.WebDriver;
 @RunAsClient
 public class TestPageObjectsLocationWithoutDeployment {
 
-    private static final String seleniumHub = "http://127.0.0.1:4444/";
+    @ClassRule
+    public static final StubbedHttpServerRule httpServer = new StubbedHttpServerRule(4321);
+
+    private static final String seleniumHub = "http://127.0.0.1:4321/";
 
     @Drone
     private WebDriver browser;

@@ -48,6 +48,12 @@
             <groupId>org.arquillian.extension</groupId>
             <artifactId>arquillian-recorder-screenshooter-impl-base</artifactId>
             <version>${version.recorder.screenshooter}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.arquillian.extension</groupId>

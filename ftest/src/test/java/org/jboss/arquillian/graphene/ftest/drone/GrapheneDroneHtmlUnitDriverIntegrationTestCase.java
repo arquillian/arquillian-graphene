@@ -22,15 +22,16 @@
 package org.jboss.arquillian.graphene.ftest.drone;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-
-import static org.junit.Assert.assertTrue;
-
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.ftest.StubbedHttpServerRule;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Fryc
@@ -39,6 +40,9 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 @RunWith(Arquillian.class)
 @RunAsClient
 public class GrapheneDroneHtmlUnitDriverIntegrationTestCase {
+
+    @ClassRule
+    public static final StubbedHttpServerRule httpServer = new StubbedHttpServerRule(4321);
 
     @Drone
     PhantomJSDriver browser;
@@ -55,7 +59,7 @@ public class GrapheneDroneHtmlUnitDriverIntegrationTestCase {
 
     @Test
     public void created_instance_should_be_able_to_navigate_to_some_page() {
-        browser.navigate().to("http://127.0.0.1:14444");
+        browser.navigate().to("http://127.0.0.1:" + httpServer.getPort());
     }
 
     @Test
