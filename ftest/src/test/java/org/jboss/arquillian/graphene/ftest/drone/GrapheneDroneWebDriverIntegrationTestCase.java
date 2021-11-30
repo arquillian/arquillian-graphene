@@ -21,24 +21,30 @@
  */
 package org.jboss.arquillian.graphene.ftest.drone;
 
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Default;
-
-import static org.junit.Assert.assertTrue;
-
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.ftest.StubbedHttpServerRule;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.junit.Arquillian;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Lukas Fryc
  * @author Jan Papousek
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class GrapheneDroneWebDriverIntegrationTestCase {
+
+    @ClassRule
+    public static final StubbedHttpServerRule httpServer = new StubbedHttpServerRule(4321);
 
     @Drone
     WebDriver browser;
@@ -54,11 +60,6 @@ public class GrapheneDroneWebDriverIntegrationTestCase {
     }
 
     @Test
-    public void created_instance_should_be_able_to_navigate_to_some_page() {
-        browser.navigate().to("http://127.0.0.1:4444");
-    }
-
-    @Test
     public void context_instance_should_be_instance_of_requested_driver() {
         assertTrue("context browser must be WebDriver", GrapheneContext.getContextFor(Default.class).getWebDriver() instanceof WebDriver);
     }
@@ -69,7 +70,12 @@ public class GrapheneDroneWebDriverIntegrationTestCase {
     }
 
     @Test
+    public void created_instance_should_be_able_to_navigate_to_some_page() {
+        browser.navigate().to("http://127.0.0.1:" + httpServer.getPort());
+    }
+
+    @Test
     public void context_instance_should_be_able_to_navigate_to_some_page() {
-        GrapheneContext.getContextFor(Default.class).getWebDriver().navigate().to("http://127.0.0.1:4444");
+        GrapheneContext.getContextFor(Default.class).getWebDriver().navigate().to("http://127.0.0.1:" + httpServer.getPort());
     }
 }

@@ -41,7 +41,6 @@
         <property name="remoteReusable">${remoteReusable}</property>
         <property name="remoteAddress">${remoteAddress}</property>
         <property name="javascriptEnabled">true</property>
-        <property name="chromeDriverBinary">/opt/google/chrome/chromedriver</property>
     </extension>
 
     <extension qualifier="webdriver-browser1">
