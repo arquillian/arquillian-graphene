@@ -34,5 +34,5 @@ workflows:
           matrix:
             parameters:
               jdk-version: ["8.0"]
-              browser: [ "phantomjs", "firefox", "chrome" ]
+              browser: [ "firefox", "chrome" ]
 
