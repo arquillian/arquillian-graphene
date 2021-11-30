@@ -91,8 +91,8 @@ public class TestHandlingOfStaleElements {
     @Test
     public void testDeletion() {
         rootElement.isDisplayed();
-        executor.executeScript("return arguments[0].parentNode.removeChild(arguments[0])", rootElement);
         try {
+            executor.executeScript("return arguments[0].parentNode.removeChild(arguments[0])", rootElement);
             rootElement.isDisplayed();
             fail("rootElement should not be found");
         } catch (NoSuchElementException e) {
@@ -102,9 +102,9 @@ public class TestHandlingOfStaleElements {
     @Test
     public void testReplacement() {
         rootElement.isDisplayed();
-        executor.executeScript("return arguments[1].parentNode.replaceChild(arguments[0],arguments[1])",
-                               staleElement, rootElement);
         try {
+            executor.executeScript("return arguments[1].parentNode.replaceChild(arguments[0],arguments[1])",
+                                   staleElement, rootElement);
             rootElement.isDisplayed();
             fail("rootElement should not be found");
         } catch (NoSuchElementException e) {
