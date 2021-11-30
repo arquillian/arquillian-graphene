@@ -179,7 +179,7 @@ public class TestClassOrPageObjectOrPageFragment {
   private List<MyPageFragmentImpl> myListOfPageFragments;
 
   @FindBy(id = "select")
-  private Select select;
+  private GrapheneSelect select;
 }
 ----
 

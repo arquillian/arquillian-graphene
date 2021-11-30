@@ -19,7 +19,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
+import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 @RunAsClient
 public class ConditionsJUnitRulesTestCase {
@@ -138,17 +138,17 @@ public class ConditionsJUnitRulesTestCase {
 
    @Test
    public void testElementIsSelected() {
-      new Select(select).selectByIndex(0);
+      new GrapheneSelect(select).selectByIndex(0);
       Graphene.waitModel().until().element(option1).is().selected();
-      new Select(select).selectByIndex(1);
+      new GrapheneSelect(select).selectByIndex(1);
       Graphene.waitModel().until().element(option1).is().not().selected();
    }
 
    @Test
    public void testElementIsSelectedWithBy() {
-      new Select(select).selectByIndex(0);
+      new GrapheneSelect(select).selectByIndex(0);
       Graphene.waitModel().until().element(BY_OPTION1).is().selected();
-      new Select(select).selectByIndex(1);
+      new GrapheneSelect(select).selectByIndex(1);
       Graphene.waitModel().until().element(BY_OPTION1).is().not().selected();
    }
 

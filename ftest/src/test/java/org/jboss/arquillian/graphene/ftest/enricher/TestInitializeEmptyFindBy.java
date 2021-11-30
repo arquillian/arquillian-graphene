@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
+import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
@@ -61,7 +61,7 @@ public class TestInitializeEmptyFindBy {
     private SpanFragment spanFragment;
 
     @FindBy
-    private Select selectElement;
+    private GrapheneSelect selectElement;
 
     @FindBy
     private WebElement nameOfInputElement;
@@ -127,7 +127,7 @@ public class TestInitializeEmptyFindBy {
         private SpanFragment spanFragment;
 
         @org.openqa.selenium.support.FindBy
-        private Select selectElement;
+        private GrapheneSelect selectElement;
 
         @org.openqa.selenium.support.FindBy
         private WebElement nameOfInputElement;
@@ -140,7 +140,7 @@ public class TestInitializeEmptyFindBy {
             return nameOfInputElement;
         }
 
-        public Select getSelectElement() {
+        public GrapheneSelect getSelectElement() {
             return selectElement;
         }
 
@@ -178,7 +178,7 @@ public class TestInitializeEmptyFindBy {
         assertEquals("1", fragment.getSpan().get(0).getText());
     }
 
-    private void checkSelectById(Select select) {
+    private void checkSelectById(GrapheneSelect select) {
         assertNotNull(select);
         select.selectByIndex(1);
         assertEquals("two", select.getFirstSelectedOption().getText());

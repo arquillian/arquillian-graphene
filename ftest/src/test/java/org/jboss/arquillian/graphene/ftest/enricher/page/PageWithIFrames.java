@@ -27,13 +27,13 @@ import org.jboss.arquillian.graphene.page.InFrame;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
+import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 public class PageWithIFrames {
 
     @InFrame(nameOrId = "first")
     @FindBy(tagName = "select")
-    private Select select;
+    private GrapheneSelect select;
 
     @InFrame(nameOrId = "second")
     @FindBy(id = "root")
@@ -49,7 +49,7 @@ public class PageWithIFrames {
     @Drone
     private WebDriver browser;
 
-    public Select getSelect() {
+    public GrapheneSelect getSelect() {
         return select;
     }
 

@@ -40,7 +40,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
+import org.jboss.arquillian.graphene.ftest.utils.GrapheneSelect;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -136,10 +136,10 @@ public abstract class AbstractWaitTest {
     }
 
     protected void checkElementIsSelected(ElementBuilder<?> option1) {
-        new Select(select).selectByIndex(0);
+        new GrapheneSelect(select).selectByIndex(0);
         IsNotElementBuilder aa;
         option1.is().selected();
-        new Select(select).selectByIndex(1);
+        new GrapheneSelect(select).selectByIndex(1);
         option1.is().not().selected();
     }
 
