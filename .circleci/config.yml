@@ -6,6 +6,8 @@ jobs:
     parameters:
       jdk-version:
         type: string
+      browser:
+        type: string
     working_directory: ~/circleci-arquillian
     docker:
       - image: cimg/openjdk:<< parameters.jdk-version >>-browsers
@@ -15,7 +17,7 @@ jobs:
       - restore_cache:
           key: circleci-arquillian-graphene-{{ checksum "pom.xml" }}
       - run: ./mvnw verify -q -U -DskipTests
-      - run: ./mvnw verify
+      - run: ./mvnw verify -Dbrowser=<< parameters.browser >>
       - store_test_results:
           path: target/surefire-reports
       - save_cache:
@@ -28,8 +30,9 @@ workflows:
   circleci_build:
     jobs:
       - build:
-          name: build-jdk-<< matrix.jdk-version >>
+          name: build-jdk-<< matrix.jdk-version >>-<< matrix.browser >>
           matrix:
             parameters:
               jdk-version: ["8.0"]
+              browser: [ "phantomjs", "firefox", "chrome" ]
 
