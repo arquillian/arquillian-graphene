@@ -187,7 +187,7 @@ As you can see, the `@FindBy` annotation usage is pretty the same as
 with the Selenium 2.
 
 WARNING: Be aware that we use `GrapheneSelect` element instead of default `Select` element.
-The reason behind it is that particular web drivers must implement method `getDomAttribute()`, which was added to the constructor of the `Select` element since Selenium 4.
+The reason behind it is that particular web drivers must implement the method `getDomAttribute()`, which was added to the constructor of the `Select` element since Selenium 4. See the Selenium issues https://github.com/SeleniumHQ/selenium/issues/9895[#9895], https://github.com/SeleniumHQ/selenium/issues/9381[#9381].
 At this moment, several web drivers don't implement it and our custom `GrapheneSelect` solves the problem.
 
 Graphene allows you to annotate these fields:
