@@ -13,7 +13,7 @@
     <properties>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
 
-        <browser>phantomjs</browser>
+        <browser>chromeHeadless</browser>
         <remote>false</remote>
         <remoteReusable>false</remoteReusable>
         <remoteAddress>http://localhost:4444/wd/hub/</remoteAddress>

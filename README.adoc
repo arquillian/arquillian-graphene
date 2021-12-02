@@ -104,6 +104,5 @@ mvn clean install
 
 cd ftest/
 mvn clean verify -Dbrowser=firefox
-mvn clean verify -Dbrowser=chrome
-mvn clean verify -Dbrowser=phantomjs
+mvn clean verify -Dbrowser=chromeHeadless
 ....

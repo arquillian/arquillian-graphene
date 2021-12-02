@@ -44,12 +44,12 @@
     </extension>
 
     <extension qualifier="webdriver-browser1">
-        <property name="browser">phantomjs</property>
+        <property name="browser">${browser}</property>
         <property name="remote">false</property>
     </extension>
 
     <extension qualifier="webdriver-browser2">
-        <property name="browser">phantomjs</property>
+        <property name="browser">chromeHeadless</property>
         <property name="remote">false</property>
     </extension>
 
