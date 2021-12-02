@@ -319,12 +319,12 @@ public class TestInFrameFunctionality {
 
     @Test
     public void testPageFragmenInFrameMoreComplexInteractions() {
-        checkPageFragmenInFrameMoreComplexInteractions(page);
+        checkPageFragmentInFrameMoreComplexInteractions(page);
     }
 
     @Test
     public void testPageFragmenInFrameMoreComplexInteractionsMethodParam(@Page PageWithIFrames pageParam) {
-        checkPageFragmenInFrameMoreComplexInteractions(pageParam);
+        checkPageFragmentInFrameMoreComplexInteractions(pageParam);
     }
 
     @Test
@@ -347,7 +347,7 @@ public class TestInFrameFunctionality {
         checkPageFragmentInFrame(pageToCheck.getMyFragment());
     }
 
-    private void checkPageFragmenInFrameMoreComplexInteractions(PageWithIFrames pageToCheck) {
+    private void checkPageFragmentInFrameMoreComplexInteractions(PageWithIFrames pageToCheck) {
         List<WebElement> spans = pageToCheck.getMyFragment().getSpans();
         WebElement span = pageToCheck.getMyFragment().getSpan();
         checkPageFragmentInFrame(pageToCheck.getMyFragment());

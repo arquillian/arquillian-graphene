@@ -35,6 +35,7 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.elements.GrapheneSelect;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
@@ -165,7 +166,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
     protected final boolean isValidClass(Class<?> clazz) {
         Class<?> outerClass = clazz.getDeclaringClass();
         if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
-            if (clazz.equals(GrapheneElement.class)) {
+            if (clazz.equals(GrapheneElement.class) || clazz.equals(GrapheneSelect.class)) {
                 return true;
             } else {
                 return ReflectionHelper.hasConstructor(clazz, WebElement.class);

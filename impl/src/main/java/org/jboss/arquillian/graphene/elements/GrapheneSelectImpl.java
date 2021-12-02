@@ -22,17 +22,17 @@
 
 package org.jboss.arquillian.graphene.elements;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ISelect;
 import org.openqa.selenium.support.ui.Quotes;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
 /**
  * Temporary class for GrapheneSelect elements
@@ -46,19 +46,12 @@ public class GrapheneSelectImpl implements GrapheneSelect {
     private boolean isMulti = false;
 
     /**
-     * Constructor. A check is made that the given element is, indeed, a SELECT tag. If it is not,
+     * Constructor. Each time this object is accessed a check is made that the wrapped element is, indeed, a SELECT tag. If it is not,
      * then an UnexpectedTagNameException is thrown.
      *
      * @param element SELECT element to wrap
-     * @throws UnexpectedTagNameException when element is not a SELECT
      */
     public GrapheneSelectImpl(WebElement element) {
-        String tagName = element.getTagName();
-
-        if (!"select".equalsIgnoreCase(tagName)) {
-            throw new UnexpectedTagNameException("select", tagName);
-        }
-
         this.element = element;
     }
 
@@ -69,6 +62,7 @@ public class GrapheneSelectImpl implements GrapheneSelect {
 
     @Override
     public WebElement getWrappedElement() {
+        checkSelect();
         return element;
     }
 
@@ -86,7 +80,7 @@ public class GrapheneSelectImpl implements GrapheneSelect {
      */
     @Override
     public List<WebElement> getOptions() {
-        return element.findElements(By.tagName("option"));
+        return getWrappedElement().findElements(By.tagName("option"));
     }
 
     /**
@@ -121,7 +115,7 @@ public class GrapheneSelectImpl implements GrapheneSelect {
     public void selectByVisibleText(String text) {
         // try to find the option via XPATH ...
         List<WebElement> options =
-                element.findElements(By.xpath(".//option[normalize-space(.) = " + Quotes.escape(text) + "]"));
+                getWrappedElement().findElements(By.xpath(".//option[normalize-space(.) = " + Quotes.escape(text) + "]"));
 
         for (WebElement option : options) {
             setSelected(option, true);
@@ -136,11 +130,11 @@ public class GrapheneSelectImpl implements GrapheneSelect {
             List<WebElement> candidates;
             if ("".equals(subStringWithoutSpace)) {
                 // hmm, text is either empty or contains only spaces - get all options ...
-                candidates = element.findElements(By.tagName("option"));
+                candidates = getWrappedElement().findElements(By.tagName("option"));
             } else {
                 // get candidates via XPATH ...
                 candidates =
-                        element.findElements(By.xpath(".//option[contains(., " +
+                        getWrappedElement().findElements(By.xpath(".//option[contains(., " +
                                 Quotes.escape(subStringWithoutSpace) + ")]"));
             }
 
@@ -279,7 +273,7 @@ public class GrapheneSelectImpl implements GrapheneSelect {
                     "You may only deselect options of a multi-select");
         }
 
-        List<WebElement> options = element.findElements(By.xpath(
+        List<WebElement> options = getWrappedElement().findElements(By.xpath(
                 ".//option[normalize-space(.) = " + Quotes.escape(text) + "]"));
         if (options.isEmpty()) {
             throw new NoSuchElementException("Cannot locate option with text: " + text);
@@ -291,7 +285,7 @@ public class GrapheneSelectImpl implements GrapheneSelect {
     }
 
     private List<WebElement> findOptionsByValue(String value) {
-        List<WebElement> options = element.findElements(By.xpath(
+        List<WebElement> options = getWrappedElement().findElements(By.xpath(
                 ".//option[@value = " + Quotes.escape(value) + "]"));
         if (options.isEmpty()) {
             throw new NoSuchElementException("Cannot locate option with value: " + value);
@@ -336,5 +330,12 @@ public class GrapheneSelectImpl implements GrapheneSelect {
     @Override
     public int hashCode() {
         return Objects.hash(element);
+    }
+
+    private void checkSelect() {
+        final String tagName = element.getTagName();
+        if (!"select".equalsIgnoreCase(tagName)) {
+            throw new UnexpectedTagNameException("select", tagName);
+        }
     }
 }
