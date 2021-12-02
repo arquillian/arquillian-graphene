@@ -34,7 +34,7 @@
     </extension>
 
     <extension qualifier="webdriver">
-        <property name="browser">${browser}</property>
+        <property name="browser">${browser:chromeHeadless}</property>
         <property name="remote">${remote}</property>
         <property name="platform">${platform}</property>
         <property name="version">${browser.version}</property>
@@ -44,7 +44,7 @@
     </extension>
 
     <extension qualifier="webdriver-browser1">
-        <property name="browser">${browser}</property>
+        <property name="browser">${browser:chromeHeadless}</property>
         <property name="remote">false</property>
     </extension>
 
