@@ -68,7 +68,6 @@ public class InFrameEnricher extends AbstractSearchContextEnricher {
 
     @Override
     public Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams) {
-        StringBuffer errorMsgBegin = new StringBuffer("");
         List<Object[]> paramCouple = new LinkedList<Object[]>();
         paramCouple.addAll(ReflectionHelper.getParametersWithAnnotation(method, InFrame.class));
 
@@ -97,7 +96,7 @@ public class InFrameEnricher extends AbstractSearchContextEnricher {
     }
 
     private void registerInFrameInterceptor(Object objectToEnrich, Field field, int index, String nameOrId)
-        throws IllegalAccessException, ClassNotFoundException {
+        throws IllegalAccessException {
         GrapheneProxyInstance proxy = (GrapheneProxyInstance) field.get(objectToEnrich);
 
         registerInFrameInterceptor(proxy, index, nameOrId);

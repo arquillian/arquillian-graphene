@@ -57,11 +57,6 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
     public WebElementWrapperEnricher() {
     }
 
-    // because of testing
-    public WebElementWrapperEnricher(Instance<GrapheneConfiguration> configuration) {
-        this.configuration = configuration;
-    }
-
     @Override
     public void enrich(final SearchContext searchContext, Object target) {
         List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
@@ -127,28 +122,22 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
         return resolvedParams;
     }
 
-    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element)
-        throws Exception {
+    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element) {
         T wrapper = GrapheneProxy.getProxyForHandler(
-            GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
-                @Override
-                public Object getTarget() {
+                GrapheneContextualHandler.forFuture(grapheneContext, () -> {
                     try {
                         return instantiate(type, element);
                     } catch (Exception e) {
                         throw new IllegalStateException("Can't instantiate the " + type, e);
                     }
-                }
-            }), type);
+                }), type);
         return wrapper;
     }
 
     @SuppressWarnings("unchecked")
     protected <T> List<T> createWrappers(GrapheneContext grapheneContext, final Class<T> type, final List<WebElement> elements) {
         List<T> wrapper = GrapheneProxy.getProxyForHandler(
-            GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
-                @Override
-                public Object getTarget() {
+                GrapheneContextualHandler.forFuture(grapheneContext, () -> {
                     try {
                         List<T> target = new ArrayList<T>();
                         for (WebElement element : elements) {
@@ -158,8 +147,7 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                     } catch (Exception e) {
                         throw new IllegalStateException("Can't instantiate the " + type, e);
                     }
-                }
-            }), List.class);
+                }), List.class);
         return wrapper;
     }
 

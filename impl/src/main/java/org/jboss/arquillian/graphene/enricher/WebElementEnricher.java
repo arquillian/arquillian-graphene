@@ -65,7 +65,7 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
                 } else {
                     localSearchContext = searchContext;
                 }
-                //by should never by null, by default it is ByIdOrName using field name
+                //by should never be null, by default it is ByIdOrName using field name
                 By by = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
                 // WebElement
                 if (field.getType().isAssignableFrom(WebElement.class)) {

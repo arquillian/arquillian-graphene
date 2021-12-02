@@ -21,9 +21,6 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.net.URL;
 import java.util.List;
 
@@ -50,6 +47,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import qualifier.Browser1;
 import qualifier.Browser2;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
