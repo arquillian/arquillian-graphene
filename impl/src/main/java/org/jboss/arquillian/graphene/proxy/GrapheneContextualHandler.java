@@ -38,10 +38,10 @@ import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.intercept.InterceptorPrecedenceComparator;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.WrapsElement;
 
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
+import org.openqa.selenium.WrapsElement;
 
 /**
  * <p>

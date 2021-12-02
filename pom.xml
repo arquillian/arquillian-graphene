@@ -37,7 +37,7 @@
 
         <!-- Arquillian -->
         <version.arquillian.core>1.6.0.Final</version.arquillian.core>
-        <version.arquillian.drone>2.5.4</version.arquillian.drone>
+        <version.arquillian.drone>3.0.0-alpha.1</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
         <version.cglib>3.2.5</version.cglib>
@@ -284,7 +284,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.0</version>
+                    <version>3.2.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

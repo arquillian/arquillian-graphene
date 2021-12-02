@@ -35,6 +35,7 @@ import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.GrapheneElement;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.elements.GrapheneSelect;
 import org.jboss.arquillian.graphene.enricher.exception.GrapheneTestEnricherException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
 import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
@@ -54,11 +55,6 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
     private Instance<GrapheneConfiguration> configuration;
 
     public WebElementWrapperEnricher() {
-    }
-
-    // because of testing
-    public WebElementWrapperEnricher(Instance<GrapheneConfiguration> configuration) {
-        this.configuration = configuration;
     }
 
     @Override
@@ -126,28 +122,22 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
         return resolvedParams;
     }
 
-    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element)
-        throws Exception {
+    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element) {
         T wrapper = GrapheneProxy.getProxyForHandler(
-            GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
-                @Override
-                public Object getTarget() {
+                GrapheneContextualHandler.forFuture(grapheneContext, () -> {
                     try {
                         return instantiate(type, element);
                     } catch (Exception e) {
                         throw new IllegalStateException("Can't instantiate the " + type, e);
                     }
-                }
-            }), type);
+                }), type);
         return wrapper;
     }
 
     @SuppressWarnings("unchecked")
     protected <T> List<T> createWrappers(GrapheneContext grapheneContext, final Class<T> type, final List<WebElement> elements) {
         List<T> wrapper = GrapheneProxy.getProxyForHandler(
-            GrapheneContextualHandler.forFuture(grapheneContext, new GrapheneProxy.FutureTarget() {
-                @Override
-                public Object getTarget() {
+                GrapheneContextualHandler.forFuture(grapheneContext, () -> {
                     try {
                         List<T> target = new ArrayList<T>();
                         for (WebElement element : elements) {
@@ -157,15 +147,14 @@ public class WebElementWrapperEnricher extends AbstractSearchContextEnricher {
                     } catch (Exception e) {
                         throw new IllegalStateException("Can't instantiate the " + type, e);
                     }
-                }
-            }), List.class);
+                }), List.class);
         return wrapper;
     }
 
     protected final boolean isValidClass(Class<?> clazz) {
         Class<?> outerClass = clazz.getDeclaringClass();
         if (outerClass == null || Modifier.isStatic(clazz.getModifiers())) {
-            if (clazz.equals(GrapheneElement.class)) {
+            if (clazz.equals(GrapheneElement.class) || clazz.equals(GrapheneSelect.class)) {
                 return true;
             } else {
                 return ReflectionHelper.hasConstructor(clazz, WebElement.class);

@@ -59,7 +59,6 @@ public class PageObjectEnricher extends AbstractSearchContextEnricher {
 
     @Override
     public Object[] resolve(SearchContext searchContext, Method method, Object[] resolvedParams) {
-        StringBuffer errorMsgBegin = new StringBuffer("");
         List<Object[]> paramCouple = new LinkedList<Object[]>();
         paramCouple.addAll(ReflectionHelper.getParametersWithAnnotation(method, Page.class));
 

@@ -139,7 +139,6 @@ public class OnEveryActionScreenshotTestCase extends AbstractScreenshotTestCase 
             getBrowser().getPageSource();
             getBrowser().getWindowHandles();
             getBrowser().switchTo();
-            getBrowser().close();
             getBrowser().quit();
         }
     }

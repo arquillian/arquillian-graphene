@@ -28,7 +28,11 @@ import java.util.List;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
+import org.jboss.arquillian.graphene.elements.GrapheneSelect;
+import org.jboss.arquillian.graphene.elements.GrapheneSelectImpl;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
+import org.jboss.arquillian.graphene.proxy.GrapheneContextualHandler;
+import org.jboss.arquillian.graphene.proxy.GrapheneProxy;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxyInstance;
 import org.jboss.arquillian.graphene.spi.configuration.GrapheneConfiguration;
 import org.openqa.selenium.By;
@@ -39,22 +43,13 @@ import org.openqa.selenium.WebElement;
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
-public class WebElementEnricher extends AbstractSearchContextEnricher {
+public class GrapheneSelectEnricher extends AbstractSearchContextEnricher {
 
     @Inject
     private Instance<GrapheneConfiguration> configuration;
 
-    public WebElementEnricher() {
-    }
-
-    // because of testing
-    public WebElementEnricher(Instance<GrapheneConfiguration> configuration) {
-        this.configuration = configuration;
-    }
-
     @Override
     public void enrich(final SearchContext searchContext, Object target) {
-        try {
             List<Field> fields = FindByUtilities.getListOfFieldsAnnotatedWithFindBys(target);
             for (Field field : fields) {
                 GrapheneContext grapheneContext = searchContext == null ? null : ((GrapheneProxyInstance) searchContext).getGrapheneContext();
@@ -67,20 +62,13 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
                 }
                 //by should never be null, by default it is ByIdOrName using field name
                 By by = FindByUtilities.getCorrectBy(field, configuration.get().getDefaultElementLocatingStrategy());
-                // WebElement
-                if (field.getType().isAssignableFrom(WebElement.class)) {
+                // GrapheneSelect
+                if (field.getType().isAssignableFrom(GrapheneSelect.class)) {
                     WebElement element = WebElementUtils.findElementLazily(by, localSearchContext);
-                    setValue(field, target, element);
-                    // List<WebElement>
-                } else if (field.getType().isAssignableFrom(List.class)
-                    && getListType(field).isAssignableFrom(WebElement.class)) {
-                    List<WebElement> elements = WebElementUtils.findElementsLazily(by, localSearchContext);
-                    setValue(field, target, elements);
+                    setValue(field, target, new GrapheneSelectImpl(element));
+                    System.out.println(">>> HELLO");
                 }
             }
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e.getMessage(), e);
-        }
     }
 
     @Override
@@ -91,5 +79,18 @@ public class WebElementEnricher extends AbstractSearchContextEnricher {
     @Override
     public int getPrecedence() {
         return 1;
+    }
+
+    protected <T> T createWrapper(GrapheneContext grapheneContext, final Class<T> type, final WebElement element)
+            throws Exception {
+        T wrapper = GrapheneProxy.getProxyForHandler(
+                GrapheneContextualHandler.forFuture(grapheneContext, () -> {
+                    try {
+                        return instantiate(type, element);
+                    } catch (Exception e) {
+                        throw new IllegalStateException("Can't instantiate the " + type, e);
+                    }
+                }), type);
+        return wrapper;
     }
 }

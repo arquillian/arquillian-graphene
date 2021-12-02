@@ -37,15 +37,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByClassName;
-import org.openqa.selenium.internal.FindsByCssSelector;
-import org.openqa.selenium.internal.FindsById;
-import org.openqa.selenium.internal.FindsByLinkText;
-import org.openqa.selenium.internal.FindsByName;
-import org.openqa.selenium.internal.FindsByTagName;
-import org.openqa.selenium.internal.FindsByXPath;
-import org.openqa.selenium.interactions.internal.Locatable;
-import org.openqa.selenium.internal.WrapsElement;
+import org.openqa.selenium.WrapsElement;
+import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.support.ByIdOrName;
 
 /**
@@ -58,8 +51,7 @@ public final class WebElementUtils {
         + "@FindBy were located by default strategy, which is ByIdOrName with field name as locator! ";
 
     private static final Class<?>[] INTERFACES_PROXY_SHOULD_IMPLEMENT = {Locatable.class,
-        WrapsElement.class, FindsByClassName.class, FindsByCssSelector.class, FindsById.class, FindsByLinkText.class,
-        FindsByName.class, FindsByTagName.class, FindsByXPath.class, GrapheneElement.class};
+        WrapsElement.class, GrapheneElement.class};
 
     private WebElementUtils() {
     }

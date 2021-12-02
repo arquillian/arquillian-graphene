@@ -82,7 +82,7 @@ public class GrapheneExtension implements LoadableExtension {
         /* Resource Providers */
         builder.service(ResourceProvider.class, GrapheneContextProvider.class);
         builder.service(ResourceProvider.class, GrapheneConfigurationResourceProvider.class);
-        // ARQGRA-468 make usage of Graphen custom URL possible without container test dependency
+        // ARQGRA-468 make usage of Graphene custom URL possible without container test dependency
         if (SecurityActions.isClassPresent("org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider")) {
             builder.override(ResourceProvider.class, URLResourceProvider.class, ContainerCustomizableURLResourceProvider.class);
         } else {

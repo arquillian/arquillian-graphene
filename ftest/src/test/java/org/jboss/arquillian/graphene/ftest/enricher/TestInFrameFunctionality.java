@@ -21,9 +21,6 @@
  */
 package org.jboss.arquillian.graphene.ftest.enricher;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.net.URL;
 import java.util.List;
 
@@ -50,6 +47,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import qualifier.Browser1;
 import qualifier.Browser2;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author <a href="mailto:jhuska@redhat.com">Juraj Huska</a>
@@ -319,12 +319,12 @@ public class TestInFrameFunctionality {
 
     @Test
     public void testPageFragmenInFrameMoreComplexInteractions() {
-        checkPageFragmenInFrameMoreComplexInteractions(page);
+        checkPageFragmentInFrameMoreComplexInteractions(page);
     }
 
     @Test
     public void testPageFragmenInFrameMoreComplexInteractionsMethodParam(@Page PageWithIFrames pageParam) {
-        checkPageFragmenInFrameMoreComplexInteractions(pageParam);
+        checkPageFragmentInFrameMoreComplexInteractions(pageParam);
     }
 
     @Test
@@ -347,7 +347,7 @@ public class TestInFrameFunctionality {
         checkPageFragmentInFrame(pageToCheck.getMyFragment());
     }
 
-    private void checkPageFragmenInFrameMoreComplexInteractions(PageWithIFrames pageToCheck) {
+    private void checkPageFragmentInFrameMoreComplexInteractions(PageWithIFrames pageToCheck) {
         List<WebElement> spans = pageToCheck.getMyFragment().getSpans();
         WebElement span = pageToCheck.getMyFragment().getSpan();
         checkPageFragmentInFrame(pageToCheck.getMyFragment());

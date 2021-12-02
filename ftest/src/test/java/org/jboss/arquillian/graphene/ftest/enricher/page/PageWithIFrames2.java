@@ -22,15 +22,15 @@
 package org.jboss.arquillian.graphene.ftest.enricher.page;
 
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.elements.GrapheneSelect;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 public class PageWithIFrames2 {
 
     @FindBy(tagName = "select")
-    private Select select;
+    private GrapheneSelect select;
 
     @FindBy(tagName = "span")
     private WebElement span;
@@ -38,7 +38,7 @@ public class PageWithIFrames2 {
     @Drone
     private WebDriver browser;
 
-    public Select getSelect() {
+    public GrapheneSelect getSelect() {
         return select;
     }
 

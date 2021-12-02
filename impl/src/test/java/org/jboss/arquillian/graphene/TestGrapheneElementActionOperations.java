@@ -23,7 +23,7 @@ package org.jboss.arquillian.graphene;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.interactions.internal.Locatable;
+import org.openqa.selenium.interactions.Locatable;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -43,7 +43,7 @@ public class TestGrapheneElementActionOperations extends GrapheneActionOperation
         grapheneElement.doubleClick();
 
         // then
-        verify(mouse).doubleClick(((Locatable) grapheneElement).getCoordinates());
+        verify(mouse).doubleClick(grapheneElement.getCoordinates());
         verifyNoMoreInteractions(mouse, keyboard);
     }
 
@@ -53,8 +53,8 @@ public class TestGrapheneElementActionOperations extends GrapheneActionOperation
         grapheneElement.writeIntoElement("hi");
 
         // then
-        verify(mouse).mouseMove(((Locatable) grapheneElement).getCoordinates());
-        verify(mouse).click(((Locatable) grapheneElement).getCoordinates());
+        verify(mouse).mouseMove(grapheneElement.getCoordinates());
+        verify(mouse).click(grapheneElement.getCoordinates());
         verify(keyboard).sendKeys("hi");
         verifyNoMoreInteractions(mouse, keyboard);
     }

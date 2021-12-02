@@ -26,12 +26,12 @@ import java.net.URL;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.graphene.elements.GrapheneSelectImpl;
 import org.jboss.arquillian.graphene.ftest.Resource;
 import org.jboss.arquillian.graphene.ftest.Resources;
 import org.jboss.arquillian.graphene.wait.AttributeBuilder;
 import org.jboss.arquillian.graphene.wait.ElementBuilder;
 import org.jboss.arquillian.graphene.wait.IsNotElementBuilder;
-import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.ArquillianTestClass;
 import org.jboss.arquillian.junit.ArquillianTest;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -39,12 +39,10 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -145,10 +143,10 @@ public abstract class AbstractWaitJUnitRulesTest {
     }
 
     protected void checkElementIsSelected(ElementBuilder<?> option1) {
-        new Select(select).selectByIndex(0);
+        new GrapheneSelectImpl(select).selectByIndex(0);
         IsNotElementBuilder aa;
         option1.is().selected();
-        new Select(select).selectByIndex(1);
+        new GrapheneSelectImpl(select).selectByIndex(1);
         option1.is().not().selected();
     }
 

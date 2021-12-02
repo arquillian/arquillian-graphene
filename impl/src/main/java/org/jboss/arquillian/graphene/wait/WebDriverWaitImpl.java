@@ -21,11 +21,12 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
+import org.openqa.selenium.WebDriver;
+
+import java.time.Duration;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
-import org.openqa.selenium.WebDriver;
 
 /**
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
@@ -52,13 +53,13 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
 
     @Override
     public FluentWait<WebDriver, FLUENT> withTimeout(long duration, TimeUnit unit) {
-        wait.withTimeout(duration, unit);
+        wait.withTimeout(Duration.ofMillis(unit.toMillis(duration)));
         return this;
     }
 
     @Override
     public FluentWait<WebDriver, FLUENT> pollingEvery(long duration, TimeUnit unit) {
-        wait.pollingEvery(duration, unit);
+        wait.pollingEvery(Duration.ofMillis(unit.toMillis(duration)));
         return this;
     }
 
