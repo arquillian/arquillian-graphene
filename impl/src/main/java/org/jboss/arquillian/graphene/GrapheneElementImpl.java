@@ -30,6 +30,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Coordinates;
@@ -268,6 +269,31 @@ public class GrapheneElementImpl implements GrapheneElement {
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
         return element.getScreenshotAs(outputType);
     }
+
+	@Override
+	public String getAccessibleName() {
+		return element.getAccessibleName();
+	}
+
+	@Override
+	public String getAriaRole() {
+		return element.getAriaRole();
+	}
+
+	@Override
+	public String getDomAttribute(String name) {
+		return element.getDomAttribute(name);
+	}
+
+	@Override
+	public String getDomProperty(String name) {
+		return element.getDomProperty(name);
+	}
+
+	@Override
+	public SearchContext getShadowRoot() {
+		return element.getShadowRoot();
+	}
 
     @Override
     public int hashCode() {
