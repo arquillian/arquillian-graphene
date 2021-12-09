@@ -270,30 +270,30 @@ public class GrapheneElementImpl implements GrapheneElement {
         return element.getScreenshotAs(outputType);
     }
 
-	@Override
-	public String getAccessibleName() {
-		return element.getAccessibleName();
-	}
+    @Override
+    public String getAccessibleName() {
+        return element.getAccessibleName();
+    }
 
-	@Override
-	public String getAriaRole() {
-		return element.getAriaRole();
-	}
+    @Override
+    public String getAriaRole() {
+        return element.getAriaRole();
+    }
 
-	@Override
-	public String getDomAttribute(String name) {
-		return element.getDomAttribute(name);
-	}
+    @Override
+    public String getDomAttribute(String name) {
+        return element.getDomAttribute(name);
+    }
 
-	@Override
-	public String getDomProperty(String name) {
-		return element.getDomProperty(name);
-	}
+    @Override
+    public String getDomProperty(String name) {
+        return element.getDomProperty(name);
+    }
 
-	@Override
-	public SearchContext getShadowRoot() {
-		return element.getShadowRoot();
-	}
+    @Override
+    public SearchContext getShadowRoot() {
+        return element.getShadowRoot();
+    }
 
     @Override
     public int hashCode() {
