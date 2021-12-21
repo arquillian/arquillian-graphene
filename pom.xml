@@ -37,7 +37,7 @@
 
         <!-- Arquillian -->
         <version.arquillian.core>1.6.0.Final</version.arquillian.core>
-        <version.arquillian.drone>3.0.0-alpha.1</version.arquillian.drone>
+        <version.arquillian.drone>3.0.0-alpha.2</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
         <version.cglib>3.3.0</version.cglib>
