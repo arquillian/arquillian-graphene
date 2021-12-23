@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.ftest.wait;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import junit.framework.Assert;
@@ -100,6 +101,27 @@ public class WebDriverWaitTest extends AbstractWaitTest {
                     was < unit.toMillis(duration + duration / 2));
             Assert.assertTrue("The waiting time shouldn't lower than " + duration + " " + unit + ", but was " + was + " ms.",
                     was >= unit.toMillis(duration));
+        }
+    }
+
+    @Test
+    public void testWithTimeoutDuration() {
+        Duration duration = Duration.ofMillis(2000);
+        long started = System.currentTimeMillis();
+        try {
+            Graphene.waitModel()
+                    .withTimeout(duration)
+                    .until()
+                    .element(BY_HEADER)
+                    .text()
+                    .equalTo("sjkldhkdjfgjlkfg");
+            Assert.fail(TimeoutException.class.getName() + " should be thrown.");
+        } catch(TimeoutException e) {
+            long was = System.currentTimeMillis() - started;
+            Assert.assertTrue("The waiting time shouldn't be much bigger than " + duration.toMillis() + " ms, but was " + was + " ms.",
+                              was < 3000);
+            Assert.assertTrue("The waiting time shouldn't lower than " + duration.toMillis() + " ms, but was " + was + " ms.",
+                              was >= 2000);
         }
     }
 

@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +48,11 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
     FluentWait<ARG, FLUENT> withMessage(String message);
 
     /**
+     *
+     * This method will be removed in future releases.
+     * With Selenium 4 there is no more need for using value and units separately.
+     * Use {@link FluentWait#withTimeout(duration)} instead.
+     *
      * Sets how long to wait for the evaluated condition to be true. The default
      * timeout is 500ms.
      *
@@ -54,9 +60,17 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
      * @param unit The unit of time.
      * @return A self reference.
      */
+    @Deprecated
     FluentWait<ARG, FLUENT> withTimeout(long duration, TimeUnit unit);
 
+    FluentWait<ARG, FLUENT> withTimeout(Duration duration);
+
     /**
+     *
+     * This method will be removed in future releases.
+     * With Selenium 4 there is no more need for using value and units separately.
+     * Use {@link FluentWait#pollingEvery(duration)} instead.
+     *
      * Sets how often the condition should be evaluated.
      *
      * <p> In reality, the interval may be greater as the cost of actually
@@ -67,7 +81,10 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
      * @param unit The unit of time.
      * @return A self reference.
      */
+    @Deprecated
     FluentWait<ARG, FLUENT> pollingEvery(long duration, TimeUnit unit);
+
+    FluentWait<ARG, FLUENT> pollingEvery(Duration duration);
 
     /**
      * Configures this instance to ignore specific types of exceptions while

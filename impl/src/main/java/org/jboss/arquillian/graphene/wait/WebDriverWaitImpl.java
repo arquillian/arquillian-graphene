@@ -58,8 +58,20 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
     }
 
     @Override
+    public FluentWait<WebDriver, FLUENT> withTimeout(Duration duration) {
+        wait.withTimeout(duration);
+        return this;
+    }
+
+    @Override
     public FluentWait<WebDriver, FLUENT> pollingEvery(long duration, TimeUnit unit) {
         wait.pollingEvery(Duration.ofMillis(unit.toMillis(duration)));
+        return this;
+    }
+
+    @Override
+    public FluentWait<WebDriver, FLUENT> pollingEvery(Duration duration) {
+        wait.pollingEvery(duration);
         return this;
     }
 

@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -34,9 +35,27 @@ public interface WebDriverWait<FLUENT> extends FluentWait<WebDriver, FLUENT> {
 
     FluentWait<WebDriver, FLUENT> withMessage(String message);
 
+    /**
+     * This method will be removed in future releases.
+     * With Selenium 4 there is no more need for using value and units separately.
+     * Use {@link WebDriverWait#withTimeout(duration)} instead.
+     *
+     */
+    @Deprecated
     FluentWait<WebDriver, FLUENT> withTimeout(long duration, TimeUnit unit);
 
+    FluentWait<WebDriver, FLUENT> withTimeout(Duration duration);
+
+    /**
+     * This method will be removed in future releases.
+     * With Selenium 4 there is no more need for using value and units separately.
+     * Use {@link WebDriverWait#pollingEvery(duration)} instead.
+     *
+     */
+    @Deprecated
     FluentWait<WebDriver, FLUENT> pollingEvery(long duration, TimeUnit unit);
+
+    FluentWait<WebDriver, FLUENT> pollingEvery(Duration duration);
 
     <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoreAll(Collection<Class<? extends K>> types);
 
