@@ -48,11 +48,6 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
     FluentWait<ARG, FLUENT> withMessage(String message);
 
     /**
-     *
-     * This method will be removed in future releases.
-     * With Selenium 4 there is no more need for using value and units separately.
-     * Use {@link FluentWait#withTimeout(duration)} instead.
-     *
      * Sets how long to wait for the evaluated condition to be true. The default
      * timeout is 500ms.
      *
@@ -60,17 +55,17 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
      * @param unit The unit of time.
      * @return A self reference.
      */
-    @Deprecated
     FluentWait<ARG, FLUENT> withTimeout(long duration, TimeUnit unit);
 
+    /**
+     * Sets how long to wait for the evaluated condition to be true. The default
+     * timeout is 500ms.
+     *
+     * It is an alternative for {@link #withTimeout(long, TimeUnit)}
+     */
     FluentWait<ARG, FLUENT> withTimeout(Duration duration);
 
     /**
-     *
-     * This method will be removed in future releases.
-     * With Selenium 4 there is no more need for using value and units separately.
-     * Use {@link FluentWait#pollingEvery(duration)} instead.
-     *
      * Sets how often the condition should be evaluated.
      *
      * <p> In reality, the interval may be greater as the cost of actually
@@ -81,9 +76,13 @@ public interface FluentWait<ARG, FLUENT> extends Wait<ARG>, FluentBase<FLUENT> {
      * @param unit The unit of time.
      * @return A self reference.
      */
-    @Deprecated
     FluentWait<ARG, FLUENT> pollingEvery(long duration, TimeUnit unit);
 
+    /**
+     * Sets how often the condition should be evaluated.
+     *
+     * It is an alternative for {@link #pollingEvery(long, TimeUnit)}
+     */
     FluentWait<ARG, FLUENT> pollingEvery(Duration duration);
 
     /**
