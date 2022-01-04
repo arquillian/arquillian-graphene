@@ -21,6 +21,7 @@
  */
 package org.jboss.arquillian.graphene.wait;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -36,7 +37,11 @@ public interface WebDriverWait<FLUENT> extends FluentWait<WebDriver, FLUENT> {
 
     FluentWait<WebDriver, FLUENT> withTimeout(long duration, TimeUnit unit);
 
+    FluentWait<WebDriver, FLUENT> withTimeout(Duration duration);
+
     FluentWait<WebDriver, FLUENT> pollingEvery(long duration, TimeUnit unit);
+
+    FluentWait<WebDriver, FLUENT> pollingEvery(Duration duration);
 
     <K extends Throwable> FluentWait<WebDriver, FLUENT> ignoreAll(Collection<Class<? extends K>> types);
 
