@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.jboss.arquillian.graphene</groupId>
         <artifactId>graphene-parent</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.0-alpha.3</version>
     </parent>
 
     <artifactId>graphene-webdriver-impl</artifactId>
