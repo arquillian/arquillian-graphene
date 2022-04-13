@@ -42,7 +42,7 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
     }
 
     public WebDriverWaitImpl(FLUENT fluent, WebDriver driver, long timeOutInSeconds) {
-        this(new org.openqa.selenium.support.ui.WebDriverWait(driver, timeOutInSeconds), fluent);
+        this(new org.openqa.selenium.support.ui.WebDriverWait(driver, Duration.ofSeconds(timeOutInSeconds)), fluent);
     }
 
     @Override
