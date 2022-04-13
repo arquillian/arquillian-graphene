@@ -66,17 +66,14 @@
             <artifactId>arquillian-drone-configuration</artifactId>
         </dependency>
 
-        <!-- cglib and objenesis are implementation details required for proxying -->
-        <!-- both artifacts are shaded via shade plugin -->
         <dependency>
             <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
+            <artifactId>cglib</artifactId>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
         </dependency>
-        <!-- end of shaded artifacts -->
 
         <dependency>
             <groupId>org.jboss.arquillian.core</groupId>
@@ -178,45 +175,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-            </plugin>
-            <!-- we need to shade cglib so it does not interfere with other cglib implementation on classpath -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>shade-proxying-implementation</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>asm</include>
-                                    <include>cglib</include>
-                                    <include>org.objenesis</include>
-                                </includes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.objectweb.asm</pattern>
-                                    <shadedPattern>org.jboss.arquillian.graphene.shaded.org.objectweb.asm</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.sf.cglib</pattern>
-                                    <shadedPattern>org.jboss.arquillian.graphene.shaded.net.sf.cglib</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.objenesis</pattern>
-                                    <shadedPattern>org.jboss.arquillian.graphene.shaded.org.objenesis</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <createSourcesJar>true</createSourcesJar>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
