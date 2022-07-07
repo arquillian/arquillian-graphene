@@ -30,7 +30,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <useReleaseProfile>true</useReleaseProfile>
-        
+
         <!-- jboss-parent override -->
         <maven.compiler.argument.target>1.8</maven.compiler.argument.target>
         <maven.compiler.argument.source>1.8</maven.compiler.argument.source>
@@ -104,7 +104,7 @@
                 <scope>import</scope>
             </dependency>
 
-			<!-- runtime dependencies -->
+            <!-- runtime dependencies -->
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
