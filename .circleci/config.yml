@@ -11,6 +11,7 @@ jobs:
     working_directory: ~/circleci-arquillian
     docker:
       - image: cimg/openjdk:<< parameters.jdk-version >>-browsers
+    resource_class: large
     steps:
       - browser-tools/install-browser-tools
       - checkout

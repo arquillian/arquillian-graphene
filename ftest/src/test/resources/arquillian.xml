@@ -49,12 +49,12 @@
     </extension>
 
     <extension qualifier="webdriver-browser2">
-        <property name="browser">chromeHeadless</property>
+        <property name="browser">${browser:chromeHeadless}</property>
         <property name="remote">false</property>
     </extension>
 
     <extension qualifier="webdriver-browser2">
-        <property name="browser">firefox</property>
+        <property name="browser">${browser:chromeHeadless}</property>
         <property name="remote">false</property>
     </extension>
 
