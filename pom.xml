@@ -37,7 +37,7 @@
 
         <!-- Arquillian -->
         <version.arquillian.core>1.6.0.Final</version.arquillian.core>
-        <version.arquillian.drone>3.0.0-alpha.5</version.arquillian.drone>
+        <version.arquillian.drone>3.0.0-alpha.6</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
         <version.asm>9.3</version.asm>
