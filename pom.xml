@@ -42,7 +42,7 @@
         <!-- Runtime dependencies -->
         <version.asm>9.4</version.asm>
         <version.cglib>3.3.0</version.cglib>
-        <version.objenesis>1.2</version.objenesis>
+        <version.objenesis>3.3</version.objenesis>
 
         <!-- Tests -->
         <version.junit>4.13.2</version.junit>
