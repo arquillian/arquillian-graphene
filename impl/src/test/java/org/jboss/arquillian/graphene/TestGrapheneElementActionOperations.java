@@ -43,7 +43,7 @@ public class TestGrapheneElementActionOperations extends GrapheneActionOperation
         grapheneElement.doubleClick();
 
         // then
-        verify(mouse).doubleClick(grapheneElement.getCoordinates());
+        verify(mouse).doubleClick(grapheneElement);
         verifyNoMoreInteractions(mouse, keyboard);
     }
 
@@ -53,8 +53,8 @@ public class TestGrapheneElementActionOperations extends GrapheneActionOperation
         grapheneElement.writeIntoElement("hi");
 
         // then
-        verify(mouse).mouseMove(grapheneElement.getCoordinates());
-        verify(mouse).click(grapheneElement.getCoordinates());
+        verify(mouse).moveToElement(grapheneElement);
+        verify(mouse).click(grapheneElement);
         verify(keyboard).sendKeys("hi");
         verifyNoMoreInteractions(mouse, keyboard);
     }

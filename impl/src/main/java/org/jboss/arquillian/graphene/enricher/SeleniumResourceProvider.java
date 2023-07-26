@@ -37,10 +37,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.HasInputDevices;
-import org.openqa.selenium.interactions.HasTouchScreen;
-import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.interactions.Keyboard;
+import org.openqa.selenium.interactions.KeyInput;
+import org.openqa.selenium.interactions.PointerInput;
 
 /**
  * Provides common Selenium objects as Arquillian resources
@@ -144,15 +142,15 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
         }
     }
 
-    public static class KeyboardProvider extends IndirectProvider<HasInputDevices> {
+    public static class KeyboardProvider extends IndirectProvider<Actions> {
         @Override
-        public Object generateProxy(HasInputDevices base) {
-            return base.getKeyboard();
+        public Object generateProxy(Actions base) {
+            return base.getActiveKeyboard();
         }
 
         @Override
         protected String getReturnType() {
-            return Keyboard.class.getName();
+            return KeyInput.class.getName();
         }
     }
 
@@ -160,15 +158,15 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
      * This is a resource provider for Mouse interface.
      * It is used in an internal code.
      */
-    public static class MouseProvider extends IndirectProvider<HasInputDevices> {
+    public static class MouseProvider extends IndirectProvider<Actions> {
         @Override
-        public Object generateProxy(HasInputDevices base) {
-            return base.getMouse();
+        public Object generateProxy(Actions base) {
+            return base.getActivePointer();
         }
 
         @Override
         protected String getReturnType() {
-            return Mouse.class.getName();
+            return PointerInput.class.getName();
         }
     }
 
@@ -184,15 +182,15 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
         }
     }
 
-    public static class TouchScreenProvider extends IndirectProvider<HasTouchScreen> {
+    public static class TouchScreenProvider extends IndirectProvider<Actions> {
         @Override
-        public Object generateProxy(HasTouchScreen base) {
-            return base.getTouch();
+        public Object generateProxy(Actions base) {
+            return base.getActivePointer();
         }
 
         @Override
         protected String getReturnType() {
-            return "org.openqa.selenium.interactions.TouchScreen";
+            return PointerInput.class.getName();
         }
     }
 
@@ -200,10 +198,10 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
      * This is a resource provider for Action interface.
      * It is used in an internal code.
      */
-    public static class ActionsProvider extends IndirectProvider<HasInputDevices> {
+    public static class ActionsProvider extends IndirectProvider<Actions> {
         @Override
-        public Object generateProxy(HasInputDevices base) {
-            return new Actions ((WebDriver) base);
+        public Object generateProxy(Actions base) {
+            return new Actions((WebDriver) base);
         }
 
         @Override
