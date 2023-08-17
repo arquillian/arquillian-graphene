@@ -29,25 +29,22 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maxPermSizeArg/>
+        <surefire.argLine/>
         <useReleaseProfile>true</useReleaseProfile>
 
-        <!-- jboss-parent override -->
-        <maven.compiler.argument.target>1.8</maven.compiler.argument.target>
-        <maven.compiler.argument.source>1.8</maven.compiler.argument.source>
-
         <!-- Arquillian -->
-        <version.arquillian.core>1.6.0.Final</version.arquillian.core>
-        <version.arquillian.drone>3.0.0-alpha.5</version.arquillian.drone>
+        <version.arquillian.core>1.7.1.Final</version.arquillian.core>
+        <version.arquillian.drone>3.0.0-SNAPSHOT</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.asm>9.4</version.asm>
-        <version.cglib>3.3.0</version.cglib>
+        <version.asm>9.5</version.asm>
         <version.objenesis>3.3</version.objenesis>
 
         <!-- Tests -->
         <version.junit>4.13.2</version.junit>
         <version.hamcrest>1.3</version.hamcrest>
-        <version.mockito>1.9.5</version.mockito>
+        <version.mockito>5.4.0</version.mockito>
     </properties>
 
     <licenses>
@@ -111,9 +108,9 @@
                 <version>${version.asm}</version>
             </dependency>
             <dependency>
-                <groupId>cglib</groupId>
-                <artifactId>cglib</artifactId>
-                <version>${version.cglib}</version>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>1.14.5</version>
             </dependency>
             <dependency>
                 <groupId>org.objenesis</groupId>
@@ -134,8 +131,13 @@
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
+                <artifactId>mockito-core</artifactId>
                 <version>${version.mockito}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-inline</artifactId>
+                <version>5.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -156,19 +158,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                        <compilerVersion>1.8</compilerVersion>
-                        <showDeprecation>false</showDeprecation>
-                        <showWarnings>true</showWarnings>
-                        <optimize>true</optimize>
-                        <fork>true</fork>
-                        <compilerArguments>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                        </compilerArguments>
-                    </configuration>
+                    <version>3.11.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -211,6 +201,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>animal-sniffer-maven-plugin</artifactId>
+                    <version>1.23</version>
                     <executions>
                         <execution>
                             <id>signature-check</id>
@@ -231,7 +222,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.2</version>
+                    <version>3.1.2</version>
+                    <configuration>
+                        <argLine>${surefire.argLine}</argLine>
+                        <systemPropertyVariables>
+                            <maxPermSizeArg>${maxPermSizeArg}</maxPermSizeArg>
+                        </systemPropertyVariables>
+                    </configuration>
                 </plugin>
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
                 <plugin>
@@ -274,7 +271,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>2.22.1</version>
+                    <version>3.1.2</version>
                     <configuration>
                         <outputDirectory>${project.build.directory}/surefire-reports</outputDirectory>
                     </configuration>
@@ -305,8 +302,11 @@
                         <version>true</version>
                         <author>true</author>
                         <keywords>true</keywords>
-                        <additionalparam>-sourceclasspath
-                            ${project.build.outputDirectory}</additionalparam>
+                        <additionalJOptions>
+                            <additionalJOption>
+                                -sourceclasspath ${project.build.outputDirectory}
+                            </additionalJOption>
+                        </additionalJOptions>
                         <javadocDirectory>${project.parent.parent.basedir}/javadoc</javadocDirectory>
                     </configuration>
                     <executions>
@@ -321,4 +321,69 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>jdk8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <maxPermSizeArg>-XX:MaxPermSize=512m</maxPermSizeArg>
+                <!-- jboss-parent override -->
+                <maven.compiler.argument.target>1.8</maven.compiler.argument.target>
+                <maven.compiler.argument.source>1.8</maven.compiler.argument.source>
+
+<!--            Last mockito that supports Java 8 -->
+                <version.mockito>4.11.0</version.mockito>
+            </properties>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <version>3.11.0</version>
+                            <configuration>
+                                <showDeprecation>false</showDeprecation>
+                                <showWarnings>true</showWarnings>
+                                <compilerArgs>
+                                    <arg>-Xlint:unchecked</arg>
+                                    <arg>-Xlint:deprecation</arg>
+                                </compilerArgs>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jdk9plus</id>
+            <activation>
+                <jdk>[9,)</jdk>
+            </activation>
+            <properties>
+                <!-- Prevent warnings from surefire plugin every time tests are executed -->
+                <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration combine.self="override">
+                            <release>8</release>
+                            <showDeprecation>false</showDeprecation>
+                            <showWarnings>true</showWarnings>
+                            <compilerArgs>
+                                <arg>-Xlint:unchecked</arg>
+                                <arg>-Xlint:deprecation</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

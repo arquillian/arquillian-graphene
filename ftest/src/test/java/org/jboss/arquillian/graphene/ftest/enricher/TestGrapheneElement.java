@@ -78,9 +78,6 @@ public class TestGrapheneElement {
     private TestJavascript testJavascript;
 
     @ArquillianResource
-    private Actions actions;
-
-    @ArquillianResource
     private URL contextRoot;
 
     @Deployment
@@ -116,7 +113,7 @@ public class TestGrapheneElement {
 
     @Test
     public void testOneWithActions() {
-        actions.moveToElement(root).doubleClick().build().perform();
+        new Actions(browser).moveToElement(root).doubleClick().build().perform();
     }
 
     @Test

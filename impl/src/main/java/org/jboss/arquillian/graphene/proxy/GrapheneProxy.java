@@ -23,9 +23,6 @@ package org.jboss.arquillian.graphene.proxy;
 
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
-
-import net.sf.cglib.proxy.Enhancer;
-
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 /**
@@ -34,7 +31,6 @@ import org.jboss.arquillian.graphene.context.GrapheneContext;
  * @author Lukas Fryc
  */
 public final class GrapheneProxy {
-
     /**
      * Returns whether given <code>object</code> is instance of context proxy.
      *
@@ -140,8 +136,6 @@ public final class GrapheneProxy {
      * <p>
      * The returned proxy implements {@link GrapheneProxyInstance} by default.
      *
-     * @param factory the {@link ProxyFactory} which will be used to create proxy
-     * @param interceptor the {@link MethodHandler} for handling invocation
      * @param baseType the class or interface used as base type or null if additionalInterfaces list should be used instead
      * @param additionalInterfaces additional interfaces which should a created proxy implement
      * @return the proxy for given implementation class or interfaces with the given method handler.
@@ -150,7 +144,7 @@ public final class GrapheneProxy {
     static <T> T createProxy(GrapheneProxyHandler interceptor, Class<T> baseType, Class<?>... additionalInterfaces) {
 
         if (baseType != null) {
-            while (Enhancer.isEnhanced(baseType)) {
+            while (GrapheneProxyUtil.isProxy(baseType)) {
                 baseType = (Class<T>) baseType.getSuperclass();
             }
         }
@@ -191,6 +185,5 @@ public final class GrapheneProxy {
         public Object getTarget() {
             return target;
         }
-
     }
 }

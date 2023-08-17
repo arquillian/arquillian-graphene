@@ -24,9 +24,13 @@ package org.jboss.arquillian.graphene.javascript;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperMethod;
+import net.bytebuddy.implementation.bind.annotation.This;
+import org.jboss.arquillian.graphene.bytebuddy.MethodInterceptor;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 
 public class JSInterfaceHandler implements MethodInterceptor {
@@ -43,18 +47,26 @@ public class JSInterfaceHandler implements MethodInterceptor {
         return target;
     }
 
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        if (!target.getInterface().isInterface()) {
+    @RuntimeType
+    public static Object intercept(@This Object self,
+                                   @FieldValue("__interceptor") MethodInterceptor interceptor,
+                                   @Origin Method method,
+                                   @AllArguments Object[] args,
+                                   @SuperMethod(nullIfImpossible = true) Method superMethod) throws Throwable {
+        JSInterfaceHandler handler = (JSInterfaceHandler) interceptor;
+        if (!handler.target.getInterface().isInterface()) {
             if (!Modifier.isAbstract(method.getModifiers())) {
-                return methodProxy.invokeSuper(obj, args);
+                return superMethod.invoke(self, args);
             }
         }
         if (method.getName().equals("finalize") && method.getParameterTypes().length == 0) {
             return null;
         }
+        if (method.getName().equals("unwrap")) {
+            return handler.getTarget();
+        }
         args = (args != null) ? args : new Object[]{};
-        JSCall call = new JSCall(new JSMethod(target, method), args);
-        return target.getResolver().execute(context, call);
+        JSCall call = new JSCall(new JSMethod(handler.target, method), args);
+        return handler.target.getResolver().execute(handler.context, call);
     }
 }

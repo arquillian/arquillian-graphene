@@ -39,9 +39,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -79,21 +76,5 @@ public class TestSeleniumResourceProvider {
     public void testJavaScriptExecutor(@ArquillianResource JavascriptExecutor executor) {
         executor.executeScript("document.title = arguments[0]", "New Title");
         assertEquals("New Title", browser.getTitle());
-    }
-
-    @Test
-    public void testMouse(@ArquillianResource Mouse mouse) {
-        // when
-        mouse.click(((Locatable) button).getCoordinates());
-        // then
-        assertEquals("Clicked", button.getAttribute("value"));
-    }
-
-    @Test
-    public void testActions(@ArquillianResource Actions actions) {
-        // when
-        actions.click(button).perform();
-        // then
-        assertEquals("Clicked", button.getAttribute("value"));
     }
 }

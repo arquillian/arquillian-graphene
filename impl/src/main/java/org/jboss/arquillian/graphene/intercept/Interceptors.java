@@ -21,10 +21,9 @@
  */
 package org.jboss.arquillian.graphene.intercept;
 
-import java.lang.reflect.Method;
-
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.bytebuddy.implementation.bind.annotation.Empty;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import org.jboss.arquillian.graphene.bytebuddy.MethodInterceptor;
 
 /**
  * Utility class with helper methods for building interceptors using {@link InterceptorBuilder}.
@@ -32,13 +31,14 @@ import net.sf.cglib.proxy.MethodProxy;
  * @author Lukas Fryc
  */
 public final class Interceptors {
+    public static class Interceptor implements MethodInterceptor {
+        @RuntimeType
+        public static Object intercept(@Empty Object defaultValue) throws Throwable {
+            return defaultValue;
+        }
+    }
 
     public static <T> T any(Class<T> type) {
-        return (T) ClassImposterizer.INSTANCE.imposterise(new MethodInterceptor() {
-            @Override
-            public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-                return null;
-            }
-        }, type);
+        return (T) ClassImposterizer.INSTANCE.imposterise(new Interceptor(), type);
     }
 }

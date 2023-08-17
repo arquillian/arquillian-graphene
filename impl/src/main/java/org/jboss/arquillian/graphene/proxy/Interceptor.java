@@ -57,5 +57,4 @@ public interface Interceptor {
      * @return
      */
     int getPrecedence();
-
 }

@@ -29,9 +29,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
+import net.bytebuddy.implementation.bind.annotation.Empty;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import org.jboss.arquillian.graphene.bytebuddy.MethodInterceptor;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
@@ -43,7 +45,26 @@ import org.jboss.arquillian.graphene.proxy.InvocationContext;
  */
 public class InterceptorBuilder {
 
-    private Map<Method, List<Interceptor>> interceptors = new HashMap<Method, List<Interceptor>>();
+    private Map<Method, List<Interceptor>> interceptors = new HashMap<>();
+
+    public static class InterceptorImpl implements MethodInterceptor {
+        private final InterceptorBuilder builder;
+        private final Interceptor interceptor;
+
+        public InterceptorImpl(InterceptorBuilder builder, Interceptor interceptor) {
+            this.builder = builder;
+            this.interceptor = interceptor;
+        }
+
+        @RuntimeType
+        public static Object intercept(@Origin Method method,
+                                       @FieldValue("__interceptor") MethodInterceptor interceptor,
+                                       @Empty Object defaultValue) throws Throwable {
+            InterceptorImpl impl = (InterceptorImpl) interceptor;
+            impl.builder.registerMethodInterceptor(method, impl.interceptor);
+            return defaultValue;
+        }
+    }
 
     public InterceptorBuilder() {
     }
@@ -56,19 +77,13 @@ public class InterceptorBuilder {
      * @return proxy for executing methods which shoyld be intercepted by given interceptor
      */
     public <T> T interceptInvocation(Class<T> type, final Interceptor interceptor) {
-        return (T) ClassImposterizer.INSTANCE.imposterise(new MethodInterceptor() {
-            @Override
-            public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-                registerMethodInterceptor(method, interceptor);
-                return null;
-            }
-        }, type);
+        return (T) ClassImposterizer.INSTANCE.imposterise(new InterceptorImpl(this, interceptor), type);
     }
 
     private void registerMethodInterceptor(Method method, Interceptor interceptor) {
         List<Interceptor> list = this.interceptors.get(method);
         if (list == null) {
-            list = new LinkedList<Interceptor>();
+            list = new LinkedList<>();
             this.interceptors.put(method, list);
         }
         list.add(interceptor);
