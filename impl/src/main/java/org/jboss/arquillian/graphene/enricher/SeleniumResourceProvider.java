@@ -36,6 +36,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.html5.WebStorage;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * Provides common Selenium objects as Arquillian resources
@@ -148,6 +149,19 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
         @Override
         protected String getReturnType() {
             return "org.openqa.selenium.Capabilities";
+        }
+    }
+
+    public static class ActionsProvider extends SeleniumResourceProvider {
+        @Override
+        public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
+            GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(qualifiers));
+            return new Actions(context.getWebDriver());
+        }
+
+        @Override
+        protected String getReturnType() {
+            return Actions.class.getName();
         }
     }
 
