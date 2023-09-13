@@ -47,6 +47,9 @@
         <version.mockito>5.4.0</version.mockito>
         <version.mockito.inline>5.2.0</version.mockito.inline>
         <version.bytebuddy>1.14.5</version.bytebuddy>
+
+        <!-- Plugins -->
+        <version.compiler.plugin>3.11.0</version.compiler.plugin>
     </properties>
 
     <licenses>
@@ -158,10 +161,6 @@
 
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -339,25 +338,6 @@
 <!--            Last mockito that supports Java 8 -->
                 <version.mockito>4.11.0</version.mockito>
             </properties>
-
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <version>3.11.0</version>
-                            <configuration>
-                                <showDeprecation>false</showDeprecation>
-                                <showWarnings>true</showWarnings>
-                                <compilerArgs>
-                                    <arg>-Xlint:unchecked</arg>
-                                    <arg>-Xlint:deprecation</arg>
-                                </compilerArgs>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
         </profile>
 
         <profile>
@@ -369,23 +349,6 @@
                 <!-- Prevent warnings from surefire plugin every time tests are executed -->
                 <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
             </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration combine.self="override">
-                            <release>8</release>
-                            <showDeprecation>false</showDeprecation>
-                            <showWarnings>true</showWarnings>
-                            <compilerArgs>
-                                <arg>-Xlint:unchecked</arg>
-                                <arg>-Xlint:deprecation</arg>
-                            </compilerArgs>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 </project>
