@@ -110,7 +110,7 @@
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
-                <version>1.14.5</version>
+                <version>${version.bytebuddy}</version>
             </dependency>
             <dependency>
                 <groupId>org.objenesis</groupId>
