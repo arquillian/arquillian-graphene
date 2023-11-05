@@ -26,13 +26,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.HasInputDevices;
 
 /**
  * @author Lukas Fryc
  */
-public interface TestingDriver extends WebDriver, HasCapabilities, HasInputDevices, JavascriptExecutor, SearchContext,
+public interface TestingDriver extends WebDriver, HasCapabilities, JavascriptExecutor, SearchContext,
         TakesScreenshot {
 
-    Class<?>[] INTERFACES = new Class<?>[] { WebDriver.class, HasCapabilities.class, HasInputDevices.class, JavascriptExecutor.class, SearchContext.class, TakesScreenshot.class };
+    Class<?>[] INTERFACES = new Class<?>[] { WebDriver.class, HasCapabilities.class, JavascriptExecutor.class, SearchContext.class, TakesScreenshot.class };
 }

@@ -30,11 +30,16 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperMethod;
+import net.bytebuddy.implementation.bind.annotation.This;
 import org.jboss.arquillian.core.api.Instance;
 import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.graphene.GrapheneElement;
+import org.jboss.arquillian.graphene.bytebuddy.MethodInterceptor;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.enricher.exception.PageFragmentInitializationException;
 import org.jboss.arquillian.graphene.findby.FindByUtilities;
@@ -56,6 +61,41 @@ import org.openqa.selenium.support.FindBy;
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 public class PageFragmentEnricher extends AbstractSearchContextEnricher {
+    public static class Interceptor implements MethodInterceptor {
+        private final WebElement root;
+        private final Class<?> webElementType;
+
+        public Interceptor(WebElement root, Class<?> webElementType) {
+            this.root = root;
+            this.webElementType = webElementType;
+        }
+
+        @RuntimeType
+        public static Object intercept(@This Object self,
+                                       @Origin Method method,
+                                       @FieldValue("__interceptor") MethodInterceptor methodInterceptor,
+                                       @AllArguments Object[] args,
+                                       @SuperMethod(nullIfImpossible = true) Method superMethod) throws Throwable {
+            if (methodInterceptor instanceof GrapheneContextualHandler) {
+                return GrapheneContextualHandler.intercept(self, methodInterceptor, method, args);
+            }
+            Interceptor interceptor = (Interceptor) methodInterceptor;
+            if (method.getName().equals("unwrap")) {
+                return interceptor.root;
+            }
+            List<Method> webElementMethods = Arrays.asList(interceptor.webElementType.getMethods());
+            if (webElementMethods.contains(method)) {
+                try {
+                    return method.invoke(interceptor.root, args);
+                } catch (InvocationTargetException e) {
+                    // unwrap original exception
+                    throw e.getCause();
+                }
+            } else {
+                return superMethod.invoke(self, args);
+            }
+        }
+    }
 
     @Inject
     private Instance<GrapheneConfiguration> configuration;
@@ -195,23 +235,7 @@ public class PageFragmentEnricher extends AbstractSearchContextEnricher {
     }
 
     private static <T> T createProxyDelegatingToRoot(final WebElement root, Class<T> clazz, final Class<?> webElementType) {
-        return ClassImposterizer.INSTANCE.imposterise(new MethodInterceptor() {
-
-            @Override
-            public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-                List<Method> webElementMethods = Arrays.asList(webElementType.getMethods());
-                if (webElementMethods.contains(method)) {
-                    try {
-                        return method.invoke(root, args);
-                    } catch (InvocationTargetException e) {
-                        // unwrap original exception
-                        throw e.getCause();
-                    }
-                } else {
-                    return proxy.invokeSuper(obj, args);
-                }
-            }
-        }, clazz, webElementType);
+        return ClassImposterizer.INSTANCE.imposterise(new Interceptor(root, webElementType), clazz, webElementType);
     }
 
     protected final void setupPageFragmentList(SearchContext searchContext, Object target, Field field)

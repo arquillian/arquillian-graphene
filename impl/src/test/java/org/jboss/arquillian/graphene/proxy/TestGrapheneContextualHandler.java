@@ -42,7 +42,6 @@ import org.mockito.stubbing.Answer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriver.ImeHandler;
 import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebDriver.TargetLocator;
@@ -106,7 +105,6 @@ public class TestGrapheneContextualHandler {
         WebDriver driver = Mockito.mock(WebDriver.class, isNotProxyable);
         Options options = mock(Options.class, isNotProxyable);
         Navigation navigation = mock(Navigation.class, isNotProxyable);
-        ImeHandler ime = mock(ImeHandler.class, isNotProxyable);
         Logs logs = mock(Logs.class, isNotProxyable);
 
         // then
@@ -135,11 +133,6 @@ public class TestGrapheneContextualHandler {
             navigation.to("");
             navigation.to(new URL("http://localhost/"));
 
-            ime.activateEngine("");
-            ime.deactivate();
-            ime.getActiveEngine();
-            ime.isActivated();
-
             logs.get("");
 
         } catch (Exception e) {
@@ -157,7 +150,6 @@ public class TestGrapheneContextualHandler {
         WebDriver driver = Mockito.mock(WebDriver.class, isProxyable);
         Options options = mock(Options.class, isProxyable);
         TargetLocator targetLocator = mock(TargetLocator.class, isProxyable);
-        ImeHandler ime = mock(ImeHandler.class, isProxyable);
         Timeouts timeouts = mock(Timeouts.class, isProxyable);
 
         // then
@@ -169,7 +161,6 @@ public class TestGrapheneContextualHandler {
             driver.findElements(By.className(""));
             driver.getWindowHandles();
 
-            options.ime();
             options.logs();
             options.timeouts();
             options.window();
@@ -182,8 +173,6 @@ public class TestGrapheneContextualHandler {
             targetLocator.frame("name");
             targetLocator.frame(mock(WebElement.class));
             targetLocator.window("name");
-
-            ime.getAvailableEngines();
 
             timeouts.implicitlyWait(1L, TimeUnit.MICROSECONDS);
             timeouts.setScriptTimeout(1L, TimeUnit.MICROSECONDS);

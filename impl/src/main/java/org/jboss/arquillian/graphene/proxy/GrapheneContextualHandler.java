@@ -30,7 +30,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.FieldValue;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.This;
 import org.jboss.arquillian.graphene.GrapheneElement;
+import org.jboss.arquillian.graphene.bytebuddy.MethodInterceptor;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
 import org.jboss.arquillian.graphene.context.GrapheneContextImpl;
 import org.jboss.arquillian.graphene.enricher.WrapsElementInterceptor;
@@ -38,9 +44,6 @@ import org.jboss.arquillian.graphene.intercept.InterceptorBuilder;
 import org.jboss.arquillian.graphene.intercept.InterceptorPrecedenceComparator;
 import org.jboss.arquillian.graphene.proxy.GrapheneProxy.FutureTarget;
 import org.openqa.selenium.WebElement;
-
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 import org.openqa.selenium.WrapsElement;
 
 /**
@@ -79,6 +82,14 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
     public static GrapheneContextualHandler forTarget(GrapheneContext context, Object target) {
         GrapheneContextualHandler handler = new GrapheneContextualHandler(context, target);
         return handler;
+    }
+
+    @RuntimeType
+    public static Object intercept(@This Object self,
+                                   @FieldValue("__interceptor") MethodInterceptor interceptor,
+                                   @Origin Method method,
+                                   @AllArguments Object[] args) throws Throwable {
+        return GrapheneProxyHandler.intercept(self, interceptor, method, args);
     }
 
     /**
@@ -253,14 +264,6 @@ public class GrapheneContextualHandler extends GrapheneProxyHandler {
         } else {
             return finalInvocationContext.invoke();
         }
-    }
-
-    /**
-     * Delegates to {@link #invoke(Object, Method, Object[])} to serve as {@link MethodInterceptor}.
-     */
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        return invoke(obj, method, args);
     }
 
     /**
