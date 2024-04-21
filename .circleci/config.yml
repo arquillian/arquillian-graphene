@@ -34,6 +34,6 @@ workflows:
           name: build-jdk-<< matrix.jdk-version >>-<< matrix.browser >>
           matrix:
             parameters:
-              jdk-version: ["8.0"]
+              jdk-version: ["17.0"]
               browser: [ "firefox", "chrome" ]
 
