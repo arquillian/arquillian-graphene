@@ -13,8 +13,6 @@ jobs:
       - image: cimg/openjdk:<< parameters.jdk-version >>-browsers
     resource_class: large
     steps:
-      - run: cd /tmp
-      - browser-tools/install-browser-tools
       - run: cd "${CIRCLE_WORKING_DIRECTORY}"
       - checkout
       - restore_cache:
