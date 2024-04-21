@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  browser-tools: circleci/browser-tools@1.4.1
 jobs:
   build:
     parameters:
@@ -31,7 +29,7 @@ workflows:
   circleci_build:
     jobs:
       - build:
-          name: build-jdk-<< matrix.jdk-version >>-<< matrix.browser >>
+          name: build-jdk-8.0-<< matrix.browser >>
           matrix:
             parameters:
               jdk-version: ["17.0"]
