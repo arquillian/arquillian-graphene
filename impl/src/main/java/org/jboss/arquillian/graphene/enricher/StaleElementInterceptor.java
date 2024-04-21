@@ -26,6 +26,7 @@ import java.util.function.Function;
 
 import org.jboss.arquillian.graphene.proxy.Interceptor;
 import org.jboss.arquillian.graphene.proxy.InvocationContext;
+import org.openqa.selenium.JavascriptException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -49,6 +50,14 @@ public class StaleElementInterceptor implements Interceptor {
                     } catch (StaleElementReferenceException e) {
                         staleness.set(e);
                         return false;
+                    } catch (JavascriptException e) {
+                        if (e.getMessage() != null && e.getMessage().contains("stale element not found")) {
+                            staleness.set(e);
+                            return false;
+                        } else {
+                            failure.set(e);
+                            return true;
+                        }
                     } catch (Throwable e) {
                         failure.set(e);
                         return true;
