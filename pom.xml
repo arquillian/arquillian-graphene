@@ -34,11 +34,11 @@
         <useReleaseProfile>true</useReleaseProfile>
 
         <!-- Arquillian -->
-        <version.arquillian.core>1.7.1.Final</version.arquillian.core>
-        <version.arquillian.drone>3.0.0-SNAPSHOT</version.arquillian.drone>
+        <version.arquillian.core>1.8.0.Final</version.arquillian.core>
+        <version.arquillian.drone>3.0.0-alpha-8</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.asm>9.5</version.asm>
+        <version.asm>9.7</version.asm>
         <version.objenesis>3.3</version.objenesis>
 
         <!-- Tests -->
