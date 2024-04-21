@@ -35,7 +35,6 @@ import java.util.Set;
  * @author Lukas Fryc
  */
 public final class GrapheneProxyUtil {
-
     /**
      * Transitively obtains the interfaces which are implemented by given classes.
      *
@@ -106,11 +105,11 @@ public final class GrapheneProxyUtil {
         if (clazz.equals(Object.class)) {
             return false;
         }
-        if (net.sf.cglib.proxy.Proxy.isProxyClass(clazz) || Proxy.isProxyClass(clazz)) {
+        if (clazz.getName().endsWith(ClassImposterizer.TAG) || Proxy.isProxyClass(clazz)) {
             return true;
         } else {
             for (Class<?> interfaze: clazz.getInterfaces()) {
-                if (interfaze.getName().endsWith(".cglib.proxy.Factory")) {
+                if (interfaze.getName().endsWith(ClassImposterizer.TAG)) {
                     return true;
                 }
             }
@@ -119,7 +118,6 @@ public final class GrapheneProxyUtil {
     }
 
     public static boolean isProxy(Object target) {
-        return isProxy(target.getClass());
-
+        return target != null && isProxy(target.getClass());
     }
 }

@@ -21,12 +21,12 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class TestWebElementLazyEvaluation extends AbstractGrapheneEnricherTest {
         TPageFragment fragment = new TPageFragment();
         getGrapheneEnricher().enrich(fragment);
 
-        verifyZeroInteractions(browser, element);
+        verifyNoInteractions(browser, element);
 
         fragment.getElement().click();
         fragment.getElement().click();
@@ -66,7 +66,7 @@ public class TestWebElementLazyEvaluation extends AbstractGrapheneEnricherTest {
         TPage page = new TPage();
         getGrapheneEnricher().enrich(page);
 
-        verifyZeroInteractions(browser, element);
+        verifyNoInteractions(browser, element);
 
         page.getFragment().getElement().click();
         page.getFragment().getElement().click();

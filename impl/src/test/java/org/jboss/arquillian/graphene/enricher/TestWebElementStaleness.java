@@ -21,7 +21,7 @@
  */
 package org.jboss.arquillian.graphene.enricher;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,7 +36,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -134,7 +134,7 @@ public class TestWebElementStaleness extends AbstractGrapheneEnricherTest {
             if (isStale((WebElement) invocation.getMock())) {
                 throw new StaleElementReferenceException("");
             }
-            return Answers.RETURNS_SMART_NULLS.get().answer(invocation);
+            return Answers.RETURNS_SMART_NULLS.answer(invocation);
         }
     }
 }

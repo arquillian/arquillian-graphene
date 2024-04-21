@@ -39,7 +39,7 @@
         <tomcat.version>7.0.55</tomcat.version>
         <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
         <arquillian.tomcat.version>1.1.0.Final</arquillian.tomcat.version>
-
+        <version.jakarta.xml.bind>2.3.3</version.jakarta.xml.bind>
         <version.fest-assert>1.4</version.fest-assert>
     </properties>
 
@@ -97,6 +97,12 @@
             <artifactId>arquillian-tomcat-managed-7</artifactId>
             <version>${arquillian.tomcat.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>${version.jakarta.xml.bind}</version>
         </dependency>
     </dependencies>
 

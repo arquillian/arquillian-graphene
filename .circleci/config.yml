@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  browser-tools: circleci/browser-tools@1.4.1
 jobs:
   build:
     parameters:
@@ -13,8 +11,6 @@ jobs:
       - image: cimg/openjdk:<< parameters.jdk-version >>-browsers
     resource_class: large
     steps:
-      - run: cd /tmp
-      - browser-tools/install-browser-tools
       - run: cd "${CIRCLE_WORKING_DIRECTORY}"
       - checkout
       - restore_cache:
@@ -33,9 +29,9 @@ workflows:
   circleci_build:
     jobs:
       - build:
-          name: build-jdk-<< matrix.jdk-version >>-<< matrix.browser >>
+          name: build-jdk-8.0-<< matrix.browser >>
           matrix:
             parameters:
-              jdk-version: ["8.0"]
+              jdk-version: ["17.0"]
               browser: [ "firefox", "chrome" ]
 

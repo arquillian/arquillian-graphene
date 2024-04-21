@@ -37,10 +37,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * @author Lukas Fryc
@@ -49,7 +50,7 @@ import org.openqa.selenium.WebDriver;
 public class TestInterceptorBuilder {
 
     @Mock
-    WebDriver driver;
+    RemoteWebDriver driver;
 
     @Mock
     Interceptor interceptor1;

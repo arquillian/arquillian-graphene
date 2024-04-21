@@ -1,8 +1,8 @@
 package org.jboss.arquillian.graphene.enricher;
 
-import net.sf.cglib.proxy.MethodInterceptor;
+import org.jboss.arquillian.graphene.bytebuddy.MethodInterceptor;
 
-class ClassImposterizer extends org.jboss.arquillian.graphene.cglib.ClassImposterizer {
+class ClassImposterizer extends org.jboss.arquillian.graphene.bytebuddy.ClassImposterizer {
 
     static final ClassImposterizer INSTANCE = new ClassImposterizer();
 

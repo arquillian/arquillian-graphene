@@ -37,10 +37,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.HasCapabilities;
 import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.HasInputDevices;
-import org.openqa.selenium.interactions.HasTouchScreen;
-import org.openqa.selenium.interactions.Mouse;
-import org.openqa.selenium.interactions.Keyboard;
 
 /**
  * Provides common Selenium objects as Arquillian resources
@@ -144,34 +140,6 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
         }
     }
 
-    public static class KeyboardProvider extends IndirectProvider<HasInputDevices> {
-        @Override
-        public Object generateProxy(HasInputDevices base) {
-            return base.getKeyboard();
-        }
-
-        @Override
-        protected String getReturnType() {
-            return Keyboard.class.getName();
-        }
-    }
-
-    /**
-     * This is a resource provider for Mouse interface.
-     * It is used in an internal code.
-     */
-    public static class MouseProvider extends IndirectProvider<HasInputDevices> {
-        @Override
-        public Object generateProxy(HasInputDevices base) {
-            return base.getMouse();
-        }
-
-        @Override
-        protected String getReturnType() {
-            return Mouse.class.getName();
-        }
-    }
-
     public static class CapabilitiesProvider extends IndirectProvider<HasCapabilities> {
         @Override
         public Object generateProxy(HasCapabilities base) {
@@ -184,26 +152,10 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
         }
     }
 
-    public static class TouchScreenProvider extends IndirectProvider<HasTouchScreen> {
+    public static class ActionsProvider extends SeleniumResourceProvider {
         @Override
-        public Object generateProxy(HasTouchScreen base) {
-            return base.getTouch();
-        }
-
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.interactions.TouchScreen";
-        }
-    }
-
-    /**
-     * This is a resource provider for Action interface.
-     * It is used in an internal code.
-     */
-    public static class ActionsProvider extends IndirectProvider<HasInputDevices> {
-        @Override
-        public Object generateProxy(HasInputDevices base) {
-            return new Actions ((WebDriver) base);
+        public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
+            return new Actions(DirectProvider.lookupWebDriver(new Class<?>[0], qualifiers));
         }
 
         @Override
@@ -227,15 +179,12 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
 
     /**
      * Provides a given object type directly by casting WebDriver base instance
-     *
-     * @param <T> type of the returned object
      */
     private abstract static class DirectProvider extends SeleniumResourceProvider {
         @Override
-        public Object lookup(ArquillianResource resource, Annotation... qualifiers) {
-            GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(qualifiers));
+        public WebDriver lookup(ArquillianResource resource, Annotation... qualifiers) {
             try {
-                return context.getWebDriver(Class.forName(getReturnType()));
+                return lookupWebDriver(new Class<?>[] { Class.forName(getReturnType()) }, qualifiers);
             } catch (ClassNotFoundException ex) {
                 //the external users:
                 //  - does not have any chance to build a test with classes which are not added on classpath
@@ -244,6 +193,11 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
                 //  - problem with internal use of Actions, Javascript, Mouse
                 throw new IllegalStateException("The class of the provider is not on the class path.", ex);
             }
+        }
+
+        static WebDriver lookupWebDriver(Class<?>[] interfaces, Annotation... qualifiers) {
+            GrapheneContext context = GrapheneContext.getContextFor(ReflectionHelper.getQualifier(qualifiers));
+            return context.getWebDriver(interfaces);
         }
     }
 
