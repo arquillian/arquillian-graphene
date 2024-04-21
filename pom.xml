@@ -40,7 +40,7 @@
         <version.arquillian.drone>3.0.0-alpha.5</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.asm>9.4</version.asm>
+        <version.asm>9.7</version.asm>
         <version.cglib>3.3.0</version.cglib>
         <version.objenesis>3.3</version.objenesis>
 
