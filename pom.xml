@@ -278,12 +278,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
-                        <doclet>org.jboss.apiviz.APIviz</doclet>
-                        <docletArtifact>
-                            <groupId>org.jboss.apiviz</groupId>
-                            <artifactId>apiviz</artifactId>
-                            <version>1.3.2.GA</version>
-                        </docletArtifact>
                         <useStandardDocletOptions>true</useStandardDocletOptions>
                         <charset>UTF-8</charset>
                         <encoding>UTF-8</encoding>
@@ -292,11 +286,6 @@
                         <version>true</version>
                         <author>true</author>
                         <keywords>true</keywords>
-                        <additionalJOptions>
-                            <additionalJOption>
-                                -sourceclasspath ${project.build.outputDirectory}
-                            </additionalJOption>
-                        </additionalJOptions>
                         <javadocDirectory>${project.parent.parent.basedir}/javadoc</javadocDirectory>
                     </configuration>
                     <executions>
