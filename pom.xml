@@ -29,8 +29,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maxPermSizeArg/>
-        <surefire.argLine/>
+        <maxPermSizeArg />
+        <surefire.argLine />
         <useReleaseProfile>true</useReleaseProfile>
 
         <!-- Arquillian -->
