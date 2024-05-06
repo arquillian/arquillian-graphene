@@ -39,7 +39,7 @@
 
         <!-- Runtime dependencies -->
         <version.asm>9.7</version.asm>
-        <version.objenesis>3.3</version.objenesis>
+        <version.objenesis>3.4</version.objenesis>
 
         <!-- Tests -->
         <version.junit>4.13.2</version.junit>
