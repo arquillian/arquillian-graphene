@@ -34,7 +34,7 @@
         <useReleaseProfile>true</useReleaseProfile>
 
         <!-- Arquillian -->
-        <version.arquillian.core>1.8.0.Final</version.arquillian.core>
+        <version.arquillian.core>1.8.1.Final</version.arquillian.core>
         <version.arquillian.drone>3.0.0-alpha.8</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
