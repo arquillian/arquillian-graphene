@@ -38,7 +38,7 @@
         <version.arquillian.drone>3.0.0-alpha.8</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.asm>9.7.1</version.asm>
+        <version.asm>9.8</version.asm>
         <version.objenesis>3.4</version.objenesis>
 
         <!-- Tests -->
