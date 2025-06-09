@@ -36,7 +36,7 @@
         <platform>ANY</platform>
         <browser.version>undefined</browser.version>
 
-        <tomcat.version>7.0.55</tomcat.version>
+        <tomcat.version>11.0.8</tomcat.version>
         <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
         <arquillian.tomcat.version>1.1.0.Final</arquillian.tomcat.version>
         <version.jakarta.xml.bind>2.3.3</version.jakarta.xml.bind>
