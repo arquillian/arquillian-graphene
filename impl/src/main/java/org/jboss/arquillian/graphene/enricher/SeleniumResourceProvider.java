@@ -35,7 +35,6 @@ import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.Actions;
 
 /**
@@ -78,65 +77,6 @@ public abstract class SeleniumResourceProvider implements ResourceProvider {
         @Override
         protected String getReturnType() {
             return "org.openqa.selenium.Rotatable";
-        }
-    }
-
-    public static class LocationContextProvider extends DirectProvider {
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.LocationContext";
-        }
-    }
-
-    public static class ApplicationCacheProvider extends DirectProvider {
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.ApplicationCache";
-        }
-    }
-
-    public static class BrowserConnectionProvider extends DirectProvider {
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.BrowserConnection";
-        }
-    }
-
-    public static class WebStorageProvider extends DirectProvider {
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.WebStorage";
-        }
-    }
-
-    public static class DatabaseStorageProvider extends DirectProvider {
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.DatabaseStorage";
-        }
-    }
-
-    public static class LocalStorageProvider extends IndirectProvider<WebStorage> {
-        @Override
-        public Object generateProxy(WebStorage base) {
-            return base.getLocalStorage();
-        }
-
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.LocalStorage";
-        }
-    }
-
-    public static class SessionStorageProvider extends IndirectProvider<WebStorage> {
-        @Override
-        public Object generateProxy(WebStorage base) {
-            return base.getSessionStorage();
-        }
-
-        @Override
-        protected String getReturnType() {
-            return "org.openqa.selenium.html5.SessionStorage";
         }
     }
 
