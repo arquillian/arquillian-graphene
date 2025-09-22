@@ -26,11 +26,12 @@ import static org.mockito.Mockito.mock;
 
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.drone.api.annotation.Default;
 import org.jboss.arquillian.graphene.context.GrapheneContext;
@@ -174,8 +175,8 @@ public class TestGrapheneContextualHandler {
             targetLocator.frame(mock(WebElement.class));
             targetLocator.window("name");
 
-            timeouts.implicitlyWait(1L, TimeUnit.MICROSECONDS);
-            timeouts.setScriptTimeout(1L, TimeUnit.MICROSECONDS);
+            timeouts.implicitlyWait(Duration.of(1, ChronoUnit.MICROS));
+            timeouts.scriptTimeout(Duration.of(1, ChronoUnit.MICROS));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
