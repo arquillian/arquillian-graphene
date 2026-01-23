@@ -25,6 +25,7 @@
         <module>impl</module>
         <module>ftest</module>
         <module>extension/screenshooter</module>
+		<module>extension/rusheye</module>
     </modules>
 
     <properties>
