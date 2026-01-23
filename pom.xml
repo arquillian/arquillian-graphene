@@ -35,11 +35,12 @@
 
         <!-- Arquillian -->
         <version.arquillian.core>1.10.0.Final</version.arquillian.core>
-        <version.arquillian.drone>3.0.0-alpha.8</version.arquillian.drone>
+        <version.arquillian.drone>3.0.0.Final</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
         <version.asm>9.9.1</version.asm>
         <version.objenesis>3.4</version.objenesis>
+        <version.selenium>4.19.1</version.selenium>
 
         <!-- Tests -->
         <version.junit>4.13.2</version.junit>
@@ -100,6 +101,22 @@
                 <version>${version.arquillian.drone}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Selenium dependencies -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-bom</artifactId>
+                <version>${version.selenium}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- HtmlUnit is kept externally from Selenium BOM -->
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>htmlunit3-driver</artifactId>
+                <version>${version.selenium}</version>
             </dependency>
 
             <!-- runtime dependencies -->
