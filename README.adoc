@@ -1,4 +1,4 @@
-= Arquillian Graphene 2
+= Arquillian Graphene
 :asciidoctor-source: https://raw.githubusercontent.com/arquillian/arquillian-graphene/main/docs
 :numbered:
 :sectlink:
@@ -9,8 +9,6 @@
 :sectnums:
 :icons: font
 :toc: left
-
-image:https://travis-ci.org/arquillian/arquillian-graphene.svg?branch=main["Build Status", link="https://travis-ci.org/arquillian/arquillian-graphene"]
 
 ifndef::generated-doc[]
 To read complete documentation visit http://arquillian.org/arquillian-graphene/
