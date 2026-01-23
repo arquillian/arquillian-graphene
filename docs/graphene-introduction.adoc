@@ -29,7 +29,7 @@ to web development community
 * brings concepts for on-the-fly *injection of extensions to a page
 code* (enabling advanced testing features)
 * can take screenshots while testing (see
-https://github.com/arquillian/arquillian-graphene/blob/master/extension/screenshooter[screenshooter extension]),
+https://github.com/arquillian/arquillian-graphene/blob/main/extension/screenshooter[screenshooter extension]),
 and together with other useful info generate neat reports (see
 https://github.com/arquillian/arquillian-recorder[Arquillian Recorder extension]).
 

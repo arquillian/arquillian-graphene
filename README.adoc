@@ -1,5 +1,5 @@
 = Arquillian Graphene 2
-:asciidoctor-source: https://raw.githubusercontent.com/arquillian/arquillian-graphene/master/docs
+:asciidoctor-source: https://raw.githubusercontent.com/arquillian/arquillian-graphene/main/docs
 :numbered:
 :sectlink:
 :sectanchors:
@@ -10,7 +10,7 @@
 :icons: font
 :toc: left
 
-image:https://travis-ci.org/arquillian/arquillian-graphene.svg?branch=master["Build Status", link="https://travis-ci.org/arquillian/arquillian-graphene"]
+image:https://travis-ci.org/arquillian/arquillian-graphene.svg?branch=main["Build Status", link="https://travis-ci.org/arquillian/arquillian-graphene"]
 
 ifndef::generated-doc[]
 To read complete documentation visit http://arquillian.org/arquillian-graphene/
@@ -77,7 +77,7 @@ We want to keep it as easy as possible to contribute your changes and we
 will work hard to deliver your contributions in an upcoming release.
 
 Please refer to
-https://github.com/arquillian/arquillian-graphene/blob/master/CONTRIBUTING.md[How
+https://github.com/arquillian/arquillian-graphene/blob/main/CONTRIBUTING.md[How
 to Contribute] to find related instructions.
 
 [[building-the-project]]

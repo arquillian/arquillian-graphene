@@ -38,7 +38,7 @@ To introduce our own strategy, lets say for angular.js, one needs to simply:
 ==== Extend By Class
 
 Be inspired with
-https://github.com/arquillian/arquillian-graphene/blob/master/api/src/main/java/org/jboss/arquillian/graphene/findby/ByJQuery.java[ByJQuery]
+https://github.com/arquillian/arquillian-graphene/blob/main/api/src/main/java/org/jboss/arquillian/graphene/findby/ByJQuery.java[ByJQuery]
 class.
 
 [[implement-locationstrategy-interface]]

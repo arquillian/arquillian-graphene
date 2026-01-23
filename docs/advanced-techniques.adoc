@@ -193,6 +193,6 @@ NOTE: You can use `GrapheneProxyInstance#unregisterInterceptor` method to
 unregister previously registered interceptor.
 
 Have an inspiration in `StaleElementInterceptor`
-(https://github.com/arquillian/arquillian-graphene/blob/master/impl/src/main/java/org/jboss/arquillian/graphene/enricher/StaleElementInterceptor.java[here]),
+(https://github.com/arquillian/arquillian-graphene/blob/main/impl/src/main/java/org/jboss/arquillian/graphene/enricher/StaleElementInterceptor.java[here]),
 Graphene way of protecting the elements from
 `StaleElementReferenceException`.

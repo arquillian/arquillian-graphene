@@ -1,4 +1,4 @@
-:imagesdir: https://raw.githubusercontent.com/arquillian/arquillian-graphene/master/docs/images
+:imagesdir: https://raw.githubusercontent.com/arquillian/arquillian-graphene/main/docs/images
 
 ifdef::env-github,env-browser[]
 :tip-caption: :bulb:
@@ -1252,7 +1252,7 @@ location in the browser.
 
 Custom scheme is implemented e.g. in Droidium so you can open your
 activities as pages. You have to extend
-https://github.com/arquillian/arquillian-graphene/blob/master/spi/src/main/java/org/jboss/arquillian/graphene/spi/location/Scheme.java[org.jboss.arquillian.graphene.spi.location.Scheme]
+https://github.com/arquillian/arquillian-graphene/blob/main/spi/src/main/java/org/jboss/arquillian/graphene/spi/location/Scheme.java[org.jboss.arquillian.graphene.spi.location.Scheme]
 and add your own scheme like this:
 
 [source,java]
@@ -1271,7 +1271,7 @@ public DroidiumScheme extends Scheme
 ----
 
 Then you have to implement your own
-https://github.com/arquillian/arquillian-graphene/blob/master/spi/src/main/java/org/jboss/arquillian/graphene/spi/location/LocationDecider.java[org.jboss.arquillian.graphene.location.decider.LocationDecider]
+https://github.com/arquillian/arquillian-graphene/blob/main/spi/src/main/java/org/jboss/arquillian/graphene/spi/location/LocationDecider.java[org.jboss.arquillian.graphene.location.decider.LocationDecider]
 which is in Graphene SPI as well. This decider resolves scheme value
 to which WebDriver instance will subsequently open via get() method.
 
