@@ -37,9 +37,9 @@
     </extension>
 
     <!-- The reason why the mode is set to manual - this container won't be started ever -->
-    <container qualifier="tomcat7" default="true" mode="manual">
+    <container qualifier="tomcat9" default="true" mode="manual">
         <configuration>
-            <property name="catalinaHome">target/apache-tomcat-7.0.55</property>
+            <property name="catalinaHome">${tomcat.home}</property>
         </configuration>
     </container>
 

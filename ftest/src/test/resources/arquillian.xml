@@ -71,12 +71,12 @@
         <property name="takeWhenTestFailed">true</property>
     </extension>
 
-    <container qualifier="tomcat7" default="true">
+    <container qualifier="tomcat9" default="true">
         <configuration>
-            <property name="javaVmArguments">-Xms1024m -Xmx1024m ${maxPermSizeArg} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Djava.rmi.server.hostname=localhost</property>
+            <property name="javaVmArguments">-Xms1024m -Xmx1024m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Djava.rmi.server.hostname=localhost</property>
             <property name="user">tomcat</property>
             <property name="pass">tomcat</property>
-            <property name="catalinaHome">target/apache-tomcat-7.0.55</property>
+            <property name="catalinaHome">${tomcat.home}</property>
             <property name="allowConnectingToRunningServer">true</property>
         </configuration>
     </container>
