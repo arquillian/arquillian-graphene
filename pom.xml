@@ -49,7 +49,7 @@
         <version.bytebuddy>1.18.4</version.bytebuddy>
 
         <!-- Downgrade to last compatible JDK 11 version -->
-        <version.com.puppycrawl.checkstyle>9.3</version.com.puppycrawl.checkstyle>
+        <version.com.puppycrawl.checkstyle>13.0.0</version.com.puppycrawl.checkstyle>
     </properties>
 
     <licenses>
