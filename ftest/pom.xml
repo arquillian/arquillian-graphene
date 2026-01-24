@@ -9,8 +9,10 @@
 
     <artifactId>graphene-webdriver-ftest</artifactId>
     <name>Graphene: Functional Test</name>
+    <description>Functional tests for Arquillian Graphene WebDriver</description>
 
     <properties>
+        <skipPublishing>true</skipPublishing>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>
 
         <browser>chromeHeadless</browser>

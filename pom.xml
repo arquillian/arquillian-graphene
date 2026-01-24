@@ -13,8 +13,8 @@
     <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Graphene: Parent</name>
-    <description>Testing Ajax with flavour of sexy type-safe API</description>
-    <url>http://community.jboss.org/en/arquillian/dev</url>
+    <description>Testing Ajax with flavor of neat type-safe API</description>
+    <url>https://arquillian.org/</url>
 
     <modules>
         <module>build/resources</module>
@@ -31,7 +31,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maxPermSizeArg />
         <surefire.argLine />
-        <useReleaseProfile>true</useReleaseProfile>
 
         <!-- Arquillian -->
         <version.arquillian.core>1.10.0.Final</version.arquillian.core>
@@ -50,6 +49,27 @@
 
         <!-- Downgrade to last compatible JDK 11 version -->
         <version.com.puppycrawl.checkstyle>9.3</version.com.puppycrawl.checkstyle>
+
+        <!-- Plugin versions -->
+        <version.central.publishing.maven.plugin>0.10.0</version.central.publishing.maven.plugin>
+
+        <!-- maven-release-plugin configuration -->
+        <autoVersionSubmodules>true</autoVersionSubmodules>
+        <releaseProfiles>release,gpg-sign</releaseProfiles>
+        <signTag>true</signTag>
+        <tagNameFormat>@{project.version}</tagNameFormat>
+        <arguments>-DskipTests</arguments>
+        <!-- Temporarily until we stabilize the release keep SCM pushes manual -->
+        <pushChanges>false</pushChanges>
+        <localCheckout>true</localCheckout>
+
+        <!-- Maven Central properties -->
+        <repo.sonatype.url>https://central.sonatype.com</repo.sonatype.url>
+        <sonatype.server.id>central</sonatype.server.id>
+        <!-- Temporarily until we stabilize the release keep central publishing manual -->
+        <autoPublish>false</autoPublish>
+        <waitUntil>validated</waitUntil>
+        <deploymentName>arquillian-graphene-${project.version}</deploymentName>
     </properties>
 
     <licenses>
@@ -61,14 +81,14 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:arquillian/arquillian-graphene.git</connection>
+        <connection>scm:git:https://github.com/arquillian/arquillian-graphene.git</connection>
         <developerConnection>scm:git:git@github.com:arquillian/arquillian-graphene.git</developerConnection>
         <url>https://github.com/arquillian/arquillian-graphene</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
-        <system>jira</system>
+        <system>Jira</system>
         <url>https://issues.redhat.com/browse/ARQGRA</url>
     </issueManagement>
 
@@ -159,17 +179,6 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <pushChanges>false</pushChanges>
-                    <localCheckout>true</localCheckout>
-                </configuration>
-            </plugin>
-        </plugins>
-
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -289,6 +298,71 @@
     </build>
 
     <profiles>
+        <!-- release profile for maven central -->
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>${sonatype.server.id}</id>
+                    <url>${repo.sonatype.url}</url>
+                </snapshotRepository>
+                <repository>
+                    <id>${sonatype.server.id}</id>
+                    <url>${repo.sonatype.url}</url>
+                </repository>
+            </distributionManagement>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <doclint>none</doclint>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${version.central.publishing.maven.plugin}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>${sonatype.server.id}</publishingServerId>
+                            <autoPublish>${autoPublish}</autoPublish>
+                            <waitUntil>${waitUntil}</waitUntil>
+                            <deploymentName>${deploymentName}</deploymentName>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>jdk8</id>
             <activation>
