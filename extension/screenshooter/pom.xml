@@ -139,6 +139,9 @@
                             <excludes>
                                 <exclude>**/when/*.java</exclude>
                             </excludes>
+                            <systemPropertyVariables>
+                                <tomcat.version>${tomcat.version}</tomcat.version>
+                            </systemPropertyVariables>
                         </configuration>
                     </execution>
                     <execution>
@@ -149,6 +152,7 @@
                             </excludes>
                             <systemPropertyVariables>
                                 <browser>${browser}</browser>
+                                <tomcat.version>${tomcat.version}</tomcat.version>
                             </systemPropertyVariables>
                         </configuration>
                         <goals>

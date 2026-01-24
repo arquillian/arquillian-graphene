@@ -78,7 +78,7 @@
             <property name="javaVmArguments">-Xms1024m -Xmx1024m -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Djava.rmi.server.hostname=localhost</property>
             <property name="user">tomcat</property>
             <property name="pass">tomcat</property>
-            <property name="catalinaHome">${tomcat.home}</property>
+            <property name="catalinaHome">target/apache-tomcat-${tomcat.version}</property>
             <property name="allowConnectingToRunningServer">true</property>
         </configuration>
     </container>
