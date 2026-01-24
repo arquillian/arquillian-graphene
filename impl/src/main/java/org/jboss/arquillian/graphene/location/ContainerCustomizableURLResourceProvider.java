@@ -35,7 +35,7 @@ import org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider;
 
 /**
  * This resource provider is used if the Arquillian (core) resource provider for URLs is present on the classpath at
- * extension load time, i.e. you use the container integration option (see see https://docs.jboss.org/author/display/ARQGRA2/Framework+Integration+Options).
+ * extension load time, i.e. you use the container integration option.
  * It will be used to ask the core resource provider first and only if the URL remains unknown, it
  * will fallback to the custom URL configured in Graphene configuration.
  */

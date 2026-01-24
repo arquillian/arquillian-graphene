@@ -32,10 +32,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * The CustomizableURLResourceProvider is used in the context of Graphene, if you use
- * the standalone framework integration option (see https://docs.jboss.org/author/display/ARQGRA2/Framework+Integration+Options)
- * and thus the Arquillian {@link org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider} is not on
- * on the classpath.
+ * The CustomizableURLResourceProvider is used in the context of Graphene, if you use the standalone framework
+ * integration option and thus the Arquillian
+ * {@link org.jboss.arquillian.container.test.impl.enricher.resource.URLResourceProvider} is not on the classpath.
  *
  * @see org.jboss.arquillian.test.spi.enricher.resource.ResourceProvider
  * @see ContainerCustomizableURLResourceProvider

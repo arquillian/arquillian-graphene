@@ -320,10 +320,7 @@ Graphene uses Arquillian Containers in order to manage lifecycle of the
 application container and deployment.
 
 //TODO Fix Container Adapter Link
-To setup Arquillian to use your favorite container, refer
-to 
-https://docs.jboss.org/author/display/ARQ/Container+adapters[Container
-adapters].
+To setup Arquillian to use your favorite container.
 
 [[selenium-version]]
 ==== Selenium Version
