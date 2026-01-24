@@ -69,7 +69,7 @@
 
     <issueManagement>
         <system>jira</system>
-        <url>https://issues.jboss.org/browse/ARQGRA</url>
+        <url>https://issues.redhat.com/browse/ARQGRA</url>
     </issueManagement>
 
     <dependencyManagement>
