@@ -36,9 +36,9 @@
         <platform>ANY</platform>
         <browser.version>undefined</browser.version>
 
-        <tomcat.version>7.0.55</tomcat.version>
+        <tomcat.version>9.0.98</tomcat.version>
         <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
-        <arquillian.tomcat.version>1.1.0.Final</arquillian.tomcat.version>
+        <arquillian.tomcat.version>1.2.1.Final</arquillian.tomcat.version>
         <version.jakarta.xml.bind>2.3.3</version.jakarta.xml.bind>
         <version.fest-assert>1.4</version.fest-assert>
     </properties>
@@ -94,8 +94,20 @@
 
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-tomcat-managed-7</artifactId>
+            <artifactId>arquillian-tomcat-managed-10</artifactId>
             <version>${arquillian.tomcat.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -127,6 +139,9 @@
                             <excludes>
                                 <exclude>**/when/*.java</exclude>
                             </excludes>
+                            <systemPropertyVariables>
+                                <tomcat.version>${tomcat.version}</tomcat.version>
+                            </systemPropertyVariables>
                         </configuration>
                     </execution>
                     <execution>
@@ -137,6 +152,7 @@
                             </excludes>
                             <systemPropertyVariables>
                                 <browser>${browser}</browser>
+                                <tomcat.version>${tomcat.version}</tomcat.version>
                             </systemPropertyVariables>
                         </configuration>
                         <goals>

@@ -25,6 +25,8 @@
 <arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
+    <defaultProtocol type="Servlet 3.0"/>
+
     <extension qualifier="screenshooter">
         <property name="takeBeforeTest">${screenshot.take.before.test}</property>
         <property name="takeAfterTest">${screenshot.take.after.test}</property>
@@ -37,9 +39,9 @@
     </extension>
 
     <!-- The reason why the mode is set to manual - this container won't be started ever -->
-    <container qualifier="tomcat7" default="true" mode="manual">
+    <container qualifier="tomcat9" default="true" mode="manual">
         <configuration>
-            <property name="catalinaHome">target/apache-tomcat-7.0.55</property>
+            <property name="catalinaHome">target/apache-tomcat-${tomcat.version}</property>
         </configuration>
     </container>
 
