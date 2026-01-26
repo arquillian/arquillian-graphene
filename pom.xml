@@ -39,7 +39,7 @@
 
         <!-- Runtime dependencies -->
         <version.asm>9.9.1</version.asm>
-        <version.objenesis>3.4</version.objenesis>
+        <version.objenesis>3.5</version.objenesis>
         <version.selenium>4.40.0</version.selenium>
 
         <!-- Tests -->
