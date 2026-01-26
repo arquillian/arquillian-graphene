@@ -38,7 +38,7 @@
 
         <tomcat.version>9.0.98</tomcat.version>
         <tomcat.home>target/apache-tomcat-${tomcat.version}</tomcat.home>
-        <arquillian.tomcat.version>1.2.1.Final</arquillian.tomcat.version>
+        <arquillian.tomcat.version>1.2.4.Final</arquillian.tomcat.version>
         <version.jakarta.xml.bind>2.3.3</version.jakarta.xml.bind>
         <version.fest-assert>1.4</version.fest-assert>
     </properties>
