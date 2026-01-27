@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 
 /**
  *
- * https://issues.jboss.org/browse/ARQGRA-374
+ * https://issues.redhat.com/browse/ARQGRA-374
  *
  * @author <a href="mailto:smikloso@redhat.com">Stefan Miklosovic</a>
  *

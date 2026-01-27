@@ -31,7 +31,7 @@ import org.junit.Test;
 public class SomeTest extends SomeTestBase {
 
 
-    /* Fix for the https://issues.jboss.org/browse/ARQGRA-424, test would fail on
+    /* Fix for the https://issues.redhat.com/browse/ARQGRA-424, test would fail on
     * java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType without the fix.
     */
     @Test

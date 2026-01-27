@@ -42,7 +42,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 /**
- * Test for https://issues.jboss.org/browse/ARQGRA-269
+ * Test for https://issues.redhat.com/browse/ARQGRA-269
  * @author <a href="mailto:jpapouse@redhat.com">Jan Papousek</a>
  */
 @RunWith(Arquillian.class)

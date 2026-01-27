@@ -10,6 +10,7 @@
 
     <artifactId>graphene-webdriver-api</artifactId>
     <name>Graphene: API</name>
+    <description>API for Arquillian Graphene WebDriver</description>
 
     <dependencies>
         <dependency>

@@ -8,8 +8,8 @@
     </parent>
 
     <artifactId>graphene-webdriver-spi</artifactId>
-
     <name>Graphene: SPI</name>
+    <description>SPI for Arquillian Graphene WebDriver</description>
 
     <dependencies>
         <!-- Runtime dependencies-->

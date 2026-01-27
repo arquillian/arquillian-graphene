@@ -11,6 +11,7 @@
 
     <artifactId>graphene-webdriver-impl</artifactId>
     <name>Graphene: Implementation</name>
+    <description>Implementation of Arquillian Graphene WebDriver</description>
 
     <dependencies>
         <!-- Provided dependencies -->

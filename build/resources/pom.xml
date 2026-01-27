@@ -10,6 +10,7 @@
 
     <artifactId>graphene-build-resources</artifactId>
     <name>Graphene: Build Resources</name>
+    <description>Build resources for Arquillian Graphene</description>
 
     <properties>
         <testsuite.basedir>${project.parent.basedir}/..</testsuite.basedir>

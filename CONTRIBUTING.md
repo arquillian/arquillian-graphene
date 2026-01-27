@@ -13,7 +13,7 @@ There are a few guidelines that we need contributors to follow to enable us to m
 * Check-list:
     * Make sure you have a [JBoss account](http://community.jboss.org/)
     * Make sure you have a [GitHub account](http://github.com/)
-    * Submit an [issue report](https://issues.jboss.org/browse/ARQGRA), assuming one does not already exist.
+    * Submit an [issue report](https://issues.redhat.com/browse/ARQGRA), assuming one does not already exist.
         * Clearly describe the issue including steps to reproduce and environment (Selenium version, browser version).
         * Make sure you fill in the earliest version that you know has the issue.
 * Fork the `arquillian-graphene` repository on GitHub
@@ -34,7 +34,7 @@ Make sure the patch can be cleanly applied (particular line changes are clearly 
 
 # Additional Resources
 
-* [Bug tracker (JIRA)](https://issues.jboss.org/browse/ARQGRA)
+* [Bug tracker (JIRA)](https://issues.redhat.com/browse/ARQGRA)
 * [Contributor License Agreement](http://cla.jboss.org/)
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)

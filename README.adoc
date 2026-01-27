@@ -44,7 +44,7 @@ endif::generated-doc[]
 |https://github.com/arquillian/arquillian-graphene
 
 |Issue tracking:
-|https://issues.jboss.org/browse/ARQGRA
+|https://issues.redhat.com/browse/ARQGRA
 
 |Forums:
 |http://community.jboss.org/en/arquillian?view=discussions
