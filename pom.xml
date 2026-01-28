@@ -29,8 +29,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maxPermSizeArg />
-        <surefire.argLine />
+
+        <!-- jboss-parent overrides; make release target explicit -->
+        <maven.compiler.release>11</maven.compiler.release>
 
         <!-- Arquillian -->
         <version.arquillian.core>1.10.0.Final</version.arquillian.core>
@@ -49,6 +50,9 @@
 
         <!-- Downgrade to last compatible JDK 11 version -->
         <version.com.puppycrawl.checkstyle>9.3</version.com.puppycrawl.checkstyle>
+
+        <!-- Prevent warnings from surefire plugin every time tests are executed -->
+        <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
 
         <!-- Plugin versions -->
         <version.central.publishing.maven.plugin>0.10.0</version.central.publishing.maven.plugin>
@@ -225,35 +229,8 @@
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>animal-sniffer-maven-plugin</artifactId>
-                    <version>1.27</version>
-                    <executions>
-                        <execution>
-                            <id>signature-check</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <signature>
-                            <groupId>org.codehaus.mojo.signature</groupId>
-                            <artifactId>java18</artifactId>
-                            <version>1.0</version>
-                        </signature>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <argLine>${surefire.argLine}</argLine>
-                        <systemPropertyVariables>
-                            <maxPermSizeArg>${maxPermSizeArg}</maxPermSizeArg>
-                        </systemPropertyVariables>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -361,33 +338,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>1.8</jdk>
-            </activation>
-            <properties>
-                <maxPermSizeArg>-XX:MaxPermSize=512m</maxPermSizeArg>
-                <!-- jboss-parent override -->
-                <maven.compiler.argument.target>1.8</maven.compiler.argument.target>
-                <maven.compiler.argument.source>1.8</maven.compiler.argument.source>
-
-                <!-- Last mockito that supports Java 8 -->
-                <version.mockito>4.11.0</version.mockito>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>jdk9plus</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <properties>
-                <!-- Prevent warnings from surefire plugin every time tests are executed -->
-                <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
-            </properties>
         </profile>
     </profiles>
 </project>
