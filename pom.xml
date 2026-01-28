@@ -48,7 +48,7 @@
         <version.bytebuddy>1.18.4</version.bytebuddy>
 
         <!-- Downgrade to last compatible JDK 11 version -->
-        <version.com.puppycrawl.checkstyle>9.3</version.com.puppycrawl.checkstyle>
+        <version.com.puppycrawl.checkstyle>10.26.1</version.com.puppycrawl.checkstyle>
 
         <!-- Plugin versions -->
         <version.central.publishing.maven.plugin>0.10.0</version.central.publishing.maven.plugin>
