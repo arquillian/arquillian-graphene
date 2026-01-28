@@ -49,7 +49,7 @@
         <version.bytebuddy>1.18.4</version.bytebuddy>
 
         <!-- Downgrade to last compatible JDK 11 version -->
-        <version.com.puppycrawl.checkstyle>9.3</version.com.puppycrawl.checkstyle>
+        <version.com.puppycrawl.checkstyle>10.26.1</version.com.puppycrawl.checkstyle>
 
         <!-- Prevent warnings from surefire plugin every time tests are executed -->
         <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
