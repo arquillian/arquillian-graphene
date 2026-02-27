@@ -50,7 +50,7 @@ jobs:
         run: xvfb-run ./mvnw --batch-mode --no-transfer-progress verify --define browser=${{ matrix.browser }}
 
       - name: Upload Test Reports
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: ${{ matrix.os }}-${{ matrix.java }}-${{ matrix.browser }}-test-reports
