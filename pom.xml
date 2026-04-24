@@ -58,20 +58,13 @@
         <version.central.publishing.maven.plugin>0.10.0</version.central.publishing.maven.plugin>
 
         <!-- maven-release-plugin configuration -->
-        <autoVersionSubmodules>true</autoVersionSubmodules>
         <releaseProfiles>release,gpg-sign</releaseProfiles>
-        <signTag>true</signTag>
-        <tagNameFormat>@{project.version}</tagNameFormat>
         <arguments>-DskipTests</arguments>
-        <!-- Temporarily until we stabilize the release keep SCM pushes manual -->
-        <pushChanges>false</pushChanges>
-        <localCheckout>true</localCheckout>
 
         <!-- Maven Central properties -->
         <repo.sonatype.url>https://central.sonatype.com</repo.sonatype.url>
         <sonatype.server.id>central</sonatype.server.id>
-        <!-- Temporarily until we stabilize the release keep central publishing manual -->
-        <autoPublish>false</autoPublish>
+        <autoPublish>true</autoPublish>
         <waitUntil>validated</waitUntil>
         <deploymentName>arquillian-graphene-${project.version}</deploymentName>
     </properties>
@@ -92,9 +85,14 @@
     </scm>
 
     <issueManagement>
-        <system>Jira</system>
-        <url>https://issues.redhat.com/browse/ARQGRA</url>
+        <system>GitHub Issues</system>
+        <url>https://github.com/arquillian/arquillian-graphene/issues</url>
     </issueManagement>
+
+    <ciManagement>
+        <system>GitHub Actions</system>
+        <url>https://github.com/arquillian/arquillian-graphene/actions</url>
+    </ciManagement>
 
     <dependencyManagement>
         <dependencies>
