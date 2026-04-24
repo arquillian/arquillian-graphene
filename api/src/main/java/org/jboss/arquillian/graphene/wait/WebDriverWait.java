@@ -53,7 +53,7 @@ public interface WebDriverWait<FLUENT> extends FluentWait<WebDriver, FLUENT> {
 
     FluentBuilder<FLUENT> until(String failMessage);
 
-    <T> T until(Function<? super WebDriver, T> isTrue);
+    <T> T until(Function<? super WebDriver, ? extends T> isTrue);
 
     <ACTION> FLUENT commit(ACTION action);
 }
