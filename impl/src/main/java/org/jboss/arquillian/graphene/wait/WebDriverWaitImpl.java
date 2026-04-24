@@ -105,7 +105,7 @@ public class WebDriverWaitImpl<FLUENT> implements WebDriverWait<FLUENT> {
     }
 
     @Override
-    public <T> T until(Function<? super WebDriver, T> isTrue) {
+    public <T> T until(Function<? super WebDriver, ? extends T> isTrue) {
         return wait.until(isTrue);
     }
 
