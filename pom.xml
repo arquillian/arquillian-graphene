@@ -55,7 +55,7 @@
         <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
 
         <!-- Plugin versions -->
-        <version.central.publishing.maven.plugin>0.10.0</version.central.publishing.maven.plugin>
+        <version.central.publishing.maven.plugin>0.11.0</version.central.publishing.maven.plugin>
 
         <!-- maven-release-plugin configuration -->
         <releaseProfiles>release,gpg-sign</releaseProfiles>
