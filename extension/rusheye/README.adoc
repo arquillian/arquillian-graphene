@@ -1,0 +1,182 @@
+= Arquillian Graphene RushEye Extension
+
+*rusheye* is an extension to Arquillian Graphene platform which provides the possibility to add the visual validation in your page objects/tests. In order to use it, please place this artifact configuration into Maven dependencies:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.jboss.arquillian.graphene</groupId>
+    <artifactId>arquillian-graphene-rusheye</artifactId>
+</dependency>
+----
+
+# Basic settings
+
+Following +arquillian.xml+ properties should be included within *rusheye* qualifier:
+
+[source,xml]
+----
+<extension qualifier="rusheye">
+    <property ... />
+</extension>
+----
+
+|===
+|Configuration Property|Description|Default Value
+
+|+snapshotPath+
+|location of the basleine images for compare
+|/snapshot
+|+resultPath+
+|location where the results with differences highlighted should be stored 
+|/result
+|+similarityCutOff+
+|% of pixels should match for the visual validation
+|100
+
+|===
+
+== Code example
+
+[source,java]
+----
+
+@Snap("RichFaces.png")  		-- (1)
+public class RichFaces {
+
+    @Drone
+    private WebDriver driver;
+    
+    @FindBy(css="div.left-menu")
+    private RichFaceLeftMenu leftmenu;
+
+    @RushEye              		-- (2)
+    private Ocular ocular;            	-- (3)
+
+    public void goTo(String demo, String skin){
+        driver.get("http://showcase.richfaces.org/richfaces/component-sample.jsf?demo=" + demo + "&skin=" + skin);
+    }
+       
+    public RichFaceLeftMenu getLeftMenu(){
+        return leftmenu;
+    }
+    
+    public OcularResult compare() {
+        return this.ocular.compare();	-- (4)
+    }
+}
+----
+
+* Using ```@Snap```, Page objects / Page abstractions are mapped to the baseline(snapshot) images for the visual validation.
+* The baseline images are expected to be available in the snapshotPath
+* When there are no baseline images, a screenshot of the page object / page fragment is created and stored in the snapshotPath
+* ```@RushEye``` injects an instance of ```Ocular``` - an utility which does the visual validation. 
+* ```ocular.compare``` compares the baseline against actual page object / page fragment and returns the result.
+
+[source,java]
+----
+
+@Snap("RichFaceLeftMenu.png")
+public class RichFaceLeftMenu {
+    
+    @Root                               -- (1)
+    private GrapheneElement root;
+    
+    @RushEye
+    private Ocular ocular;
+    
+    public OcularResult compare(){
+        return this.ocular.element(root)
+                   .compare();
+    }
+	
+}
+
+----
+
+*  ```ocular.element(root).compare``` compares the baseline against actual the page fragment / given element and returns the result.
+
+== Excluding Elements
+
+Sometimes, the page object / fragment might contain an element which could contain some non-deterministic values. For example, some random number like order conformation number, date and time etc. So, We might want to exclude those elements before doing visual validation. 
+It can be achieved as shown here.
+
+[source,java]
+----
+   ocular.exclude(element)
+         .compare();	 
+----
+
+
+If we need to exclude a list of elements,
+
+[source,java]
+----
+   List<WebElement> elements = getElementsToBeExcluded();
+   
+   ocular.exclude(elements)
+         .compare();	 
+----
+
+or 
+
+[source,java]
+----
+   ocular.exclude(element1)
+	.exclude(element2)
+	.exclude(element3)
+         .compare();
+----
+
+== Using Dynamic Snapshots
+
+Ocular can use the snapshot names stored in a variable at run time as shown in this example.
+
+[source,java]
+----
+ocular.useSnapshot(snapshot)
+            .element(root)
+            .compare()
+----
+
+Below ```EmployeeInfo``` page fragment is used for multiple Employee instances. So, Ocular should use the corresponding baseline specific to the current instance for isual validation.
+
+[source,java]
+----
+@Snap("Employee-#{ID}.png")
+public class ExmployeeInfo {
+    
+    @Root
+    private GrapheneElement root;
+    
+    @RushEye
+    private Ocular ocular;
+    
+    public OcularResult compare(String id){
+    
+        return this.ocular
+                    .replaceParameter("ID", id)
+                    .element(root)
+                    .compare();
+    
+    }
+}
+----
+
+== Similarity
+
+Sometimes we might not be interested in 100% match. We could use ```similarityCutOff``` to define the % of match. For the below example, If 85% percent of the pixels match, then ```Ocular``` will pass the visual validation. This will override the arquillian.xml config settings for this paeg object / fragment.
+
+[source,java]
+----
+@Snap(
+    value = "Employee-#{ID}.png", 
+    similarityCutOff = 85
+    )
+public class ExmployeeInfo {
+
+//
+
+}
+----
+
