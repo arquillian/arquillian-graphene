@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>51</version>
+        <version>53</version>
         <relativePath />
     </parent>
 
@@ -32,6 +32,8 @@
 
         <!-- jboss-parent overrides; make release target explicit -->
         <maven.compiler.release>11</maven.compiler.release>
+        <!-- Since jboss-parent:52 jdk.min.version defaults to the latest LTS (25) -->
+        <jdk.min.version>${maven.compiler.release}</jdk.min.version>
 
         <!-- Arquillian -->
         <version.arquillian.core>1.10.2.Final</version.arquillian.core>
@@ -55,18 +57,15 @@
         <surefire.argLine>-XX:+IgnoreUnrecognizedVMOptions -Xshare:off</surefire.argLine>
 
         <!-- Plugin versions -->
-        <version.central.publishing.maven.plugin>0.11.0</version.central.publishing.maven.plugin>
+        <!-- Newer than jboss-parent:53's 0.10.0; drop this once the parent catches up -->
+        <version.central-publishing.plugin>0.11.0</version.central-publishing.plugin>
 
         <!-- maven-release-plugin configuration -->
-        <releaseProfiles>release,gpg-sign</releaseProfiles>
+        <releaseProfiles>central-release</releaseProfiles>
         <arguments>-DskipTests</arguments>
 
-        <!-- Maven Central properties -->
-        <repo.sonatype.url>https://central.sonatype.com</repo.sonatype.url>
-        <sonatype.server.id>central</sonatype.server.id>
-        <autoPublish>true</autoPublish>
-        <waitUntil>validated</waitUntil>
-        <deploymentName>arquillian-graphene-${project.version}</deploymentName>
+        <!-- Maven Central properties; everything else matches jboss-parent's central-release defaults -->
+        <central.deploymentName>arquillian-graphene-${project.version}</central.deploymentName>
     </properties>
 
     <licenses>
@@ -272,70 +271,4 @@
         </pluginManagement>
     </build>
 
-    <profiles>
-        <!-- release profile for maven central -->
-        <profile>
-            <id>release</id>
-            <activation>
-                <property>
-                    <name>release</name>
-                </property>
-            </activation>
-
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>${sonatype.server.id}</id>
-                    <url>${repo.sonatype.url}</url>
-                </snapshotRepository>
-                <repository>
-                    <id>${sonatype.server.id}</id>
-                    <url>${repo.sonatype.url}</url>
-                </repository>
-            </distributionManagement>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <doclint>none</doclint>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.central</groupId>
-                        <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>${version.central.publishing.maven.plugin}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <publishingServerId>${sonatype.server.id}</publishingServerId>
-                            <autoPublish>${autoPublish}</autoPublish>
-                            <waitUntil>${waitUntil}</waitUntil>
-                            <deploymentName>${deploymentName}</deploymentName>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
