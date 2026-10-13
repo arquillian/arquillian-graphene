@@ -273,13 +273,22 @@
 
     <profiles>
         <profile>
-            <!-- htmlunit3-driver requires Java 17+, and Drone fails to start if it finds it on the classpath of an older JDK -->
+            <!-- htmlunit3-driver requires Java 17+, so on older JDKs HtmlUnit tests can't be compiled,
+                 and Drone fails to start if it finds the driver on the classpath -->
             <id>skip-htmlunit-tests</id>
             <activation>
                 <jdk>(,17)</jdk>
             </activation>
             <build>
                 <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <testExcludes>
+                                <testExclude>**/GrapheneDroneHtmlUnitDriverIntegrationTestCase.java</testExclude>
+                            </testExcludes>
+                        </configuration>
+                    </plugin>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
