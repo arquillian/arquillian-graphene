@@ -271,4 +271,26 @@
         </pluginManagement>
     </build>
 
+    <profiles>
+        <profile>
+            <!-- htmlunit3-driver requires Java 17+, and Drone fails to start if it finds it on the classpath of an older JDK -->
+            <id>skip-htmlunit-tests</id>
+            <activation>
+                <jdk>(,17)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <classpathDependencyExcludes>
+                                <classpathDependencyExclude>org.seleniumhq.selenium:htmlunit3-driver</classpathDependencyExclude>
+                            </classpathDependencyExcludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>
