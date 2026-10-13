@@ -239,5 +239,25 @@
             </dependencies>
         </profile>
 
+        <profile>
+            <!-- htmlunit3-driver requires Java 17+, so HtmlUnit tests can't be compiled on older JDKs -->
+            <id>skip-htmlunit-tests</id>
+            <activation>
+                <jdk>(,17)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <testExcludes>
+                                <testExclude>**/GrapheneDroneHtmlUnitDriverIntegrationTestCase.java</testExclude>
+                            </testExcludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 </project>
