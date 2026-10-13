@@ -42,7 +42,7 @@
         <!-- Runtime dependencies -->
         <version.asm>9.11</version.asm>
         <version.objenesis>3.6</version.objenesis>
-        <version.selenium>4.43.0</version.selenium>
+        <version.selenium>4.51.0</version.selenium>
 
         <!-- Tests -->
         <version.junit>4.13.2</version.junit>
@@ -270,5 +270,36 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- htmlunit3-driver requires Java 17+, so on older JDKs HtmlUnit tests can't be compiled,
+                 and Drone fails to start if it finds the driver on the classpath -->
+            <id>skip-htmlunit-tests</id>
+            <activation>
+                <jdk>(,17)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <testExcludes>
+                                <testExclude>**/GrapheneDroneHtmlUnitDriverIntegrationTestCase.java</testExclude>
+                            </testExcludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <classpathDependencyExcludes>
+                                <classpathDependencyExclude>org.seleniumhq.selenium:htmlunit3-driver</classpathDependencyExclude>
+                            </classpathDependencyExcludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
