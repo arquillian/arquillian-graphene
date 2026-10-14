@@ -34,6 +34,8 @@
         <maven.compiler.release>11</maven.compiler.release>
         <!-- Since jboss-parent:52 jdk.min.version defaults to the latest LTS (25) -->
         <jdk.min.version>${maven.compiler.release}</jdk.min.version>
+        <!-- Releases must be built with this JDK or newer, see the central-release profile -->
+        <release.jdk.min.version>17</release.jdk.min.version>
 
         <!-- Arquillian -->
         <version.arquillian.core>1.10.2.Final</version.arquillian.core>
@@ -62,7 +64,7 @@
 
         <!-- maven-release-plugin configuration -->
         <releaseProfiles>central-release</releaseProfiles>
-        <arguments>-DskipTests</arguments>
+        <arguments>-DskipTests -Djdk.min.version=${release.jdk.min.version}</arguments>
 
         <!-- Maven Central properties; everything else matches jboss-parent's central-release defaults -->
         <central.deploymentName>arquillian-graphene-${project.version}</central.deploymentName>
@@ -272,6 +274,15 @@
     </build>
 
     <profiles>
+        <profile>
+            <!-- Complements jboss-parent's central-release profile: releases can't be done on JDKs
+                 that skip the HtmlUnit tests. maven-release-plugin also gets this via <arguments>,
+                 so that release:prepare fails before anything is tagged -->
+            <id>central-release</id>
+            <properties>
+                <jdk.min.version>${release.jdk.min.version}</jdk.min.version>
+            </properties>
+        </profile>
         <profile>
             <!-- htmlunit3-driver requires Java 17+, so on older JDKs HtmlUnit tests can't be compiled,
                  and Drone fails to start if it finds the driver on the classpath -->
