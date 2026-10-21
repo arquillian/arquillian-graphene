@@ -42,7 +42,7 @@
         <version.arquillian.drone>3.0.1.Final</version.arquillian.drone>
 
         <!-- Runtime dependencies -->
-        <version.asm>9.11</version.asm>
+        <version.asm>9.11.1</version.asm>
         <version.objenesis>3.6</version.objenesis>
         <version.selenium>4.51.0</version.selenium>
 
